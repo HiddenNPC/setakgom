@@ -83,8 +83,28 @@
 		table-layout: fixed; 
 		cursor: pointer;
 		border-color: e1e4e4;
+		font-family: 'Nanum Gothic';
+		display: none;
 	}
 	
+	.show{
+		display: table;
+	}
+	/* 가격 테이블 */
+	#pricediv{
+		position:relative;
+    	left:17%; 
+    	top: 35%;
+	}
+	.pricemenu{
+		background-color: #3498db;
+		color: #fff;
+	}
+	#pricetable{
+		width : 66%;
+		height: 32px;
+		border-spacing: 0px;
+	}
 </style>
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -95,6 +115,12 @@ $(document).ready(function($) {
 		$(".menulist").removeClass("show");
 		$(this).addClass("active");
 		$($(this).attr("id")).addClass("show");
+	});
+	
+	$(".downlist").on("click", function() {
+		var str = "";
+		var td = $(this);
+		console.log(td.text());
 	});
 
 });
@@ -129,8 +155,8 @@ $(document).ready(function($) {
 		<div id = menudiv>
 			<table border ="1" id="list1" class = "menulist show">
 			<tr>
-				<td>셔츠<p align="right">2000원</p></td>
-				<td>티셔츠<p align="right">2500원</p></td>
+				<td class = "downlist">셔츠<p align="right"><span>\2000원</span></p></td>
+				<td class = "downlist">티셔츠<p align="right">2500원</p></td>
 				<td>블라우스<p align="right">4000원</p></td>
 				<td>후드티,맨투맨티<p align="right">3500원</p></td>
 			</tr>
@@ -144,18 +170,120 @@ $(document).ready(function($) {
 			
 			<table border ="1" id="list2" class = "menulist">
 			<tr>
-				<td>셔츠<p align="right">2000원</p></td>
-				<td>티셔츠<p align="right">2500원</p></td>
-				<td>블라우스<p align="right">4000원</p></td>
-				<td>후드티,맨투맨티<p align="right">3500원</p></td>
+				<td>바지<p align="right">3500원</p></td>
+				<td>바지(니트,레자,패딩)<p align="right">5000원</p></td>
+				<td>스커트<p align="right">3500원</p></td>
+				<td>스커트(니트,레자,패딩)<p align="right">5000원</p></td>
+			</tr>
+			</table>
+			
+			<table border ="1" id="list3" class = "menulist">
+			<tr>
+				<td>가디건<p align="right">5000원</p></td>
+				<td>롱가디건<p align="right">6000원</p></td>
+				<td>점퍼(야상,청자켓,항공점퍼,집업)<p align="right">5000원</p></td>
+				<td>자켓<p align="right">6000원</p></td>
 			</tr>
 			<tr>
-				<td>니트,스웨터<p align="right">4000원</p></td>
-				<td>원피스/점프수트<p align="right">5000원</p></td>
-				<td>원피스(니트,실크,레자)<p align="right">6000원</p></td>
-				<td>후리스<p align="right">5000원</p></td>
+				<td>패딩<p align="right">10000원</p></td>
+				<td>롱패딩<p align="right">15000원</p></td>
+				<td>프리미엄패딩<p align="right">20000원</p></td>
+				<td>코트<p align="right">20000원</p></td>
+			</tr>
+			<tr>
+				<td>기능성의류(등산용,바람막이)<p align="right">20000원</p></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			</table>
+			
+			<table border ="1" id="list4" class = "menulist">
+			<tr>
+				<td>아동 상의<p align="right">2000원</p></td>
+				<td>아동 바지/치마<p align="right">2500원</p></td>
+				<td>아동 자켓/점퍼<p align="right">3500원</p></td>
+				<td>아동 코트<p align="right">8000원</p></td>
+			</tr>
+			<tr>
+				<td>아동 패딩<p align="right">10000원</p></td>
+				<td>아동 원피스<p align="right">4000원</p></td>
+				<td>아동 운동화<p align="right">4000원</p></td>
+				<td>아동 부츠<p align="right">5000원</p></td>
+			</tr>
+			</table>
+			
+			<table border ="1" id="list5" class = "menulist">
+			<tr>
+				<td>베개,쿠션 커버<p align="right">3000원</p></td>
+				<td>침대,매트리스,이불커버,홑이불<p align="right">8000원</p></td>
+				<td>일반 이불<p align="right">10000원</p></td>
+				<td>극세사,일반 토퍼<p align="right">15000원</p></td>
+			</tr>
+			<tr>
+				<td>구스이불,양모이불<p align="right">20000원</p></td>
+				<td>실크이불<p align="right">33000원</p></td>
+				<td></td>
+				<td></td>
+			</tr>
+			</table>
+			
+			<table border ="1" id="list6" class = "menulist">
+			<tr>
+				<td>발매트<p align="right">4000원</p></td>
+				<td>원룸커튼<p align="right">15000원</p></td>
+				<td>일반커튼<p align="right">20000원</p></td>
+				<td>벨벳커튼<p align="right">25000원</p></td>
+			</tr>
+			<tr>
+				<td>러그,카펫<p align="right">15000원</p></td>
+				<td>식탁보<p align="right">10000원</p></td>
+				<td></td>
+				<td></td>
+			</tr>
+			</table>
+			
+			<table border ="1" id="list7" class = "menulist">
+			<tr>
+				<td>운동화,스니커즈<p align="right">5000원</p></td>
+				<td>캐주얼샌들/슬리퍼<p align="right">4500원</p></td>
+				<td>구두,로퍼<p align="right">7000원</p></td>
+				<td>등산화<p align="right">7000원</p></td>
+			</tr>
+			<tr>
+				<td>부츠화<p align="right">10000원</p></td>
+				<td>롱부츠<p align="right">15000원</p></td>
+				<td>가죽부츠(발목)<p align="right">20000원</p></td>
+				<td>어그부츠<p align="right">25000원</p></td>
+			</tr>
+			</table>
+			
+			<table border ="1" id="list8" class = "menulist">
+			<tr>
+				<td>니트모자<p align="right">3000원</p></td>
+				<td>스카프,장갑<p align="right">3000원</p></td>
+				<td>숄<p align="right">6000원</p></td>
+				<td>넥타이<p align="right">1000원</p></td>
+			</tr>
+			<tr>
+				<td>에코백<p align="right">3000원</p></td>
+				<td>목도리<p align="right">15000원</p></td>
+				<td></td>
+				<td></td>
 			</tr>
 			</table>		
+		</div>
+		
+		<div id = "pricediv">
+			<table border="1" id = "pricetable">
+				<tr class= "pricemenu">
+					<th></th>
+					<th>세탁물</th>
+					<th>세탁방법</th>
+					<th>수량</th>
+					<th>합계</th>
+				</tr>
+			</table>
 		</div>
 	</div>
 </body>
