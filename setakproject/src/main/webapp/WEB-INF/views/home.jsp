@@ -53,6 +53,7 @@
 		height: 130px;
 		border-spacing: 0px;  
 		table-layout: fixed; 
+		cursor: pointer;
 	}
 	
 	#cate td{
@@ -61,8 +62,20 @@
 		font-size: 13pt;
 		font-family: 'Nanum Gothic';
 	}
+	
+	.catelist.active{
+		background-color: blue;
+	}
 </style>
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
+<script type="text/javascript">
+	$(".catelist").on("click", function() {
+		$(".tab").removeClass("active");
+		//$(".tab-content").removeClass("show");
+		$(this).addClass("active");
+		//$($(this).attr("href")).addClass("show");
+	});
+</script>
 <body>
 	<div class = content>
 		<div class = title-text>
@@ -75,10 +88,10 @@
 			<p><sub>&nbsp;※본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</sub></p>
 			<table border="1" id = "cate">
 			<tr>
-				<td>상의</td>
-				<td>하의</td>
-				<td>아우터</td>
-				<td>아동</td>
+				<td class = "catelist active">상의</td>
+				<td class = "catelist">하의</td>
+				<td class = "catelist">아우터</td>
+				<td class = "catelist">아동</td>
 			</tr>
 			<tr>
 				<td>침구</td>
