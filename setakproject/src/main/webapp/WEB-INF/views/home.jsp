@@ -81,7 +81,6 @@
 		height: 130px;
 		border-spacing: 0px;  
 		table-layout: fixed; 
-		cursor: pointer;
 		border-color: e1e4e4;
 		font-family: 'Nanum Gothic';
 		display: none;
@@ -105,10 +104,18 @@
 		height: 32px;
 		border-spacing: 0px;
 	}
+	.hidetext{
+		display: none;
+	}
+	.downlist{
+		cursor: pointer;
+	}
 </style>
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
+var num = 0;
+
 $(document).ready(function($) {	
 	$(".catelist").on("click", function() {
 		$(".catelist").removeClass("active");
@@ -118,13 +125,39 @@ $(document).ready(function($) {
 	});
 	
 	$(".downlist").on("click", function() {
-		var str = "";
 		var td = $(this);
-		console.log(td.text());
+		var tdtext = td.text().split('!');
+		var str = ""
+		num++;
+		str += '<tr>';
+		str += '<td><input type="checkbox" value="'+tdtext[0]+'" checked></td>';
+		str += '<td align="center">'+tdtext[0]+'</td>';
+		str += '<td align="center"><select class = "#'+num+'_'+tdtext[1]+'" name="세탁방법">';
+		str += '<option value="물세탁">물세탁</option>';
+		str += '<option value="드라이">드라이(+2000)</option>';
+		str += '<option value="삶음">삶음(+1500)</option></td>';
+		str += '<td align="center"><input type="number" id="#'+num+'_'+tdtext[1]+'" class="qnum" name="quantity" min="1" max="1000" value="1"></td>';
+		str += '<td id="'+num+'_'+tdtext[1]+'" align="center">'+tdtext[1]+'</td>';
+		$(".pricemenu").after(str);
 	});
-
+	
+	/* $(".qnum").on("propertychange change keyup paste input", function() {
+		var test = $(this).text();
+		console.log(test);
+	}); */
+	
+	$(document).on("propertychange change keyup paste input",".qnum", function(event){	
+		var price = $(this).attr("id");
+		var price2 = price.split('_');
+		var tr = $(this).attr("id"); 
+		$($(this).attr("id")).html(price2[1]*$(this).val());
+	});
+	
 });
 
+$(".qnum").bind('keyup mouseup', function () {
+    alert("changed");            
+});
 
 </script>
 <body>
@@ -155,43 +188,43 @@ $(document).ready(function($) {
 		<div id = menudiv>
 			<table border ="1" id="list1" class = "menulist show">
 			<tr>
-				<td class = "downlist">셔츠<p align="right"><span>\2000원</span></p></td>
-				<td class = "downlist">티셔츠<p align="right">2500원</p></td>
-				<td>블라우스<p align="right">4000원</p></td>
-				<td>후드티,맨투맨티<p align="right">3500원</p></td>
+				<td class = "downlist">셔츠<p align="right"><span class = "hidetext">!</span>2000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">티셔츠<p align="right"><span class = "hidetext">!</span>2500<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">블라우스<p align="right"><span class = "hidetext">!</span>4000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">후드티,맨투맨티<p align="right"><span class = "hidetext">!</span>3500<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>니트,스웨터<p align="right">4000원</p></td>
-				<td>원피스/점프수트<p align="right">5000원</p></td>
-				<td>원피스(니트,실크,레자)<p align="right">6000원</p></td>
-				<td>후리스<p align="right">5000원</p></td>
+				<td class = "downlist">니트,스웨터<p align="right"><span class = "hidetext">!</span>4000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">원피스/점프수트<p align="right"><span class = "hidetext">!</span>5000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">원피스(니트,실크,레자)<p align="right"><span class = "hidetext">!</span>6000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">후리스<p align="right"><span class = "hidetext">!</span>5000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			</table>
 			
 			<table border ="1" id="list2" class = "menulist">
 			<tr>
-				<td>바지<p align="right">3500원</p></td>
-				<td>바지(니트,레자,패딩)<p align="right">5000원</p></td>
-				<td>스커트<p align="right">3500원</p></td>
-				<td>스커트(니트,레자,패딩)<p align="right">5000원</p></td>
+				<td class = "downlist">바지<span class = "hidetext">!</span><p align="right">3500<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">바지(니트,레자,패딩)<span class = "hidetext">!</span><p align="right">5000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">스커트<span class = "hidetext">!</span><p align="right">3500<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">스커트(니트,레자,패딩)<span class = "hidetext">!</span><p align="right">5000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			</table>
 			
 			<table border ="1" id="list3" class = "menulist">
 			<tr>
-				<td>가디건<p align="right">5000원</p></td>
-				<td>롱가디건<p align="right">6000원</p></td>
-				<td>점퍼(야상,청자켓,항공점퍼,집업)<p align="right">5000원</p></td>
-				<td>자켓<p align="right">6000원</p></td>
+				<td class = "downlist">가디건<span class = "hidetext">!</span><p align="right">5000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">롱가디건<span class = "hidetext">!</span><p align="right">6000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">점퍼(야상,청자켓,항공점퍼,집업)<span class = "hidetext">!</span><p align="right">5000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">자켓<span class = "hidetext">!</span><p align="right">6000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>패딩<p align="right">10000원</p></td>
-				<td>롱패딩<p align="right">15000원</p></td>
-				<td>프리미엄패딩<p align="right">20000원</p></td>
-				<td>코트<p align="right">20000원</p></td>
+				<td class = "downlist">패딩<span class = "hidetext">!</span><p align="right">10000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">롱패딩<span class = "hidetext">!</span><p align="right">15000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">프리미엄패딩<span class = "hidetext">!</span><p align="right">20000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">코트<span class = "hidetext">!</span><p align="right">20000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>기능성의류(등산용,바람막이)<p align="right">20000원</p></td>
+				<td class = "downlist">기능성의류(등산용,바람막이)<span class = "hidetext">!</span><p align="right">20000<span class = "hidetext">!</span>원</p></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -200,29 +233,29 @@ $(document).ready(function($) {
 			
 			<table border ="1" id="list4" class = "menulist">
 			<tr>
-				<td>아동 상의<p align="right">2000원</p></td>
-				<td>아동 바지/치마<p align="right">2500원</p></td>
-				<td>아동 자켓/점퍼<p align="right">3500원</p></td>
-				<td>아동 코트<p align="right">8000원</p></td>
+				<td class = "downlist">아동 상의<span class = "hidetext">!</span><p align="right">2000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">아동 바지/치마<span class = "hidetext">!</span><p align="right">2500<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">아동 자켓/점퍼<span class = "hidetext">!</span><p align="right">3500<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">아동 코트<span class = "hidetext">!</span><p align="right">8000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>아동 패딩<p align="right">10000원</p></td>
-				<td>아동 원피스<p align="right">4000원</p></td>
-				<td>아동 운동화<p align="right">4000원</p></td>
-				<td>아동 부츠<p align="right">5000원</p></td>
+				<td class = "downlist">아동 패딩<span class = "hidetext">!</span><p align="right">10000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">아동 원피스<span class = "hidetext">!</span><p align="right">4000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">아동 운동화<span class = "hidetext">!</span><p align="right">4000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">아동 부츠<span class = "hidetext">!</span><p align="right">5000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			</table>
 			
 			<table border ="1" id="list5" class = "menulist">
 			<tr>
-				<td>베개,쿠션 커버<p align="right">3000원</p></td>
-				<td>침대,매트리스,이불커버,홑이불<p align="right">8000원</p></td>
-				<td>일반 이불<p align="right">10000원</p></td>
-				<td>극세사,일반 토퍼<p align="right">15000원</p></td>
+				<td class = "downlist">베개,쿠션 커버<span class = "hidetext">!</span><p align="right">3000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">침대,매트리스,이불커버,홑이불<span class = "hidetext">!</span><p align="right">8000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">일반 이불<span class = "hidetext">!</span><p align="right">10000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">극세사,일반 토퍼<span class = "hidetext">!</span><p align="right">15000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>구스이불,양모이불<p align="right">20000원</p></td>
-				<td>실크이불<p align="right">33000원</p></td>
+				<td class = "downlist">구스이불,양모이불<span class = "hidetext">!</span><p align="right">20000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">실크이불<span class = "hidetext">!</span><p align="right">33000<span class = "hidetext">!</span>원</p></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -230,14 +263,14 @@ $(document).ready(function($) {
 			
 			<table border ="1" id="list6" class = "menulist">
 			<tr>
-				<td>발매트<p align="right">4000원</p></td>
-				<td>원룸커튼<p align="right">15000원</p></td>
-				<td>일반커튼<p align="right">20000원</p></td>
-				<td>벨벳커튼<p align="right">25000원</p></td>
+				<td class = "downlist">발매트<span class = "hidetext">!</span><p align="right">4000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">원룸커튼<span class = "hidetext">!</span><p align="right">15000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">일반커튼<span class = "hidetext">!</span><p align="right">20000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">벨벳커튼<span class = "hidetext">!</span><p align="right">25000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>러그,카펫<p align="right">15000원</p></td>
-				<td>식탁보<p align="right">10000원</p></td>
+				<td class = "downlist">러그,카펫<span class = "hidetext">!</span><p align="right">15000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">식탁보<span class = "hidetext">!</span><p align="right">10000<span class = "hidetext">!</span>원</p></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -245,29 +278,29 @@ $(document).ready(function($) {
 			
 			<table border ="1" id="list7" class = "menulist">
 			<tr>
-				<td>운동화,스니커즈<p align="right">5000원</p></td>
-				<td>캐주얼샌들/슬리퍼<p align="right">4500원</p></td>
-				<td>구두,로퍼<p align="right">7000원</p></td>
-				<td>등산화<p align="right">7000원</p></td>
+				<td class = "downlist">운동화,스니커즈<span class = "hidetext">!</span><p align="right">5000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">캐주얼샌들/슬리퍼<span class = "hidetext">!</span><p align="right">4500<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">구두,로퍼<span class = "hidetext">!</span><p align="right">7000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">등산화<span class = "hidetext">!</span><p align="right">7000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>부츠화<p align="right">10000원</p></td>
-				<td>롱부츠<p align="right">15000원</p></td>
-				<td>가죽부츠(발목)<p align="right">20000원</p></td>
-				<td>어그부츠<p align="right">25000원</p></td>
+				<td class = "downlist">부츠화<span class = "hidetext">!</span><p align="right">10000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">롱부츠<span class = "hidetext">!</span><p align="right">15000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">가죽부츠(발목)<span class = "hidetext">!</span><p align="right">20000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">어그부츠<span class = "hidetext">!</span><p align="right">25000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			</table>
 			
 			<table border ="1" id="list8" class = "menulist">
 			<tr>
-				<td>니트모자<p align="right">3000원</p></td>
-				<td>스카프,장갑<p align="right">3000원</p></td>
-				<td>숄<p align="right">6000원</p></td>
-				<td>넥타이<p align="right">1000원</p></td>
+				<td class = "downlist">니트모자<span class = "hidetext">!</span><p align="right">3000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">스카프,장갑<span class = "hidetext">!</span><p align="right">3000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">숄<span class = "hidetext">!</span><p align="right">6000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">넥타이<span class = "hidetext">!</span><p align="right">1000<span class = "hidetext">!</span>원</p></td>
 			</tr>
 			<tr>
-				<td>에코백<p align="right">3000원</p></td>
-				<td>목도리<p align="right">15000원</p></td>
+				<td class = "downlist">에코백<span class = "hidetext">!</span><p align="right">3000<span class = "hidetext">!</span>원</p></td>
+				<td class = "downlist">목도리<span class = "hidetext">!</span><p align="right">15000<span class = "hidetext">!</span>원</p></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -277,7 +310,7 @@ $(document).ready(function($) {
 		<div id = "pricediv">
 			<table border="1" id = "pricetable">
 				<tr class= "pricemenu">
-					<th></th>
+					<th><input type="number" class="qnum" name="quantity" min="1" value="1"></th>
 					<th>세탁물</th>
 					<th>세탁방법</th>
 					<th>수량</th>
