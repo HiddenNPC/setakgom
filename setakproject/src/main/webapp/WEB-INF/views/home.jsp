@@ -45,13 +45,13 @@
 	}
 	#catediv{
 		position:relative;
-    	left:17%; 
+    	left:0%; 
     	top: 23%;
 	}
 	
 	#cate{
-		width : 66%;
-		height: 130px;
+		width : 100%;
+		height: 90px;
 		border-spacing: 0px;  
 		table-layout: fixed; 
 		cursor: pointer;
@@ -73,12 +73,12 @@
 	/* 메뉴 테이블 */
 	#menudiv{
 		position:relative;
-    	left:17%; 
+    	left:0%; 
     	top: 25% ;
 	}
 	.menulist{
-		width : 66%;
-		height: 130px;
+		width : 100%;
+		height:  85px;
 		border-spacing: 0px;  
 		table-layout: fixed; 
 		border-color: e1e4e4;
@@ -92,7 +92,7 @@
 	/* 가격 테이블 */
 	#pricediv{
 		position:relative;
-    	left:17%; 
+    	left:0%; 
     	top: 35%;
 	}
 	.pricemenu{
@@ -100,7 +100,7 @@
 		color: #fff;
 	}
 	#pricetable{
-		width : 66%;
+		width : 100%;
 		height: 32px;
 		border-spacing: 0px;
 	}
@@ -109,6 +109,7 @@
 	}
 	.downlist{
 		cursor: pointer;
+		padding: 20px;
 	}
 </style>
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
@@ -117,6 +118,8 @@
 var num = 0;
 
 $(document).ready(function($) {	
+	
+	/* 카테고리선택하면 메뉴리스트 변경함수 */
 	$(".catelist").on("click", function() {
 		$(".catelist").removeClass("active");
 		$(".menulist").removeClass("show");
@@ -124,34 +127,45 @@ $(document).ready(function($) {
 		$($(this).attr("id")).addClass("show");
 	});
 	
+	/* 메뉴리스트 눌렀을때 가격테이블 생성 */
 	$(".downlist").on("click", function() {
 		var td = $(this);
 		var tdtext = td.text().split('!');
 		var str = ""
 		num++;
-		str += '<tr>';
-		str += '<td><input type="checkbox" value="'+tdtext[0]+'" checked></td>';
+		str += '<tr id="'+num+'">';
+		str += '<td align="center"><input type="checkbox" value="'+tdtext[0]+'" checked></td>';
 		str += '<td align="center">'+tdtext[0]+'</td>';
-		str += '<td align="center"><select class = "#'+num+'_'+tdtext[1]+'" name="세탁방법">';
+		str += '<td align="center"><select class = "howsetak" name="세탁방법">';
 		str += '<option value="물세탁">물세탁</option>';
 		str += '<option value="드라이">드라이(+2000)</option>';
 		str += '<option value="삶음">삶음(+1500)</option></td>';
-		str += '<td align="center"><input type="number" id="#'+num+'_'+tdtext[1]+'" class="qnum" name="quantity" min="1" max="1000" value="1"></td>';
-		str += '<td id="'+num+'_'+tdtext[1]+'" align="center">'+tdtext[1]+'</td>';
+		str += '<td align="center"><input type="number" class="qnum" name="quantity" min="1" max="1000" value="1"></td>';
+		str += '<td name="'+tdtext[1]+'" align="center">'+tdtext[1]+'</td>';
 		$(".pricemenu").after(str);
 	});
 	
-	/* $(".qnum").on("propertychange change keyup paste input", function() {
-		var test = $(this).text();
-		console.log(test);
-	}); */
+	/* 가격바뀌는 함수 */
+	$.pricefun = function(){
+		var td = $('#'+num).children();
+		var price = parseInt(td.eq(4).attr('name'));
+		var quan = td.eq(3).children().val();
+		
+		if(td.eq(2).children().val()=="드라이"){
+			td.eq(4).html((price+2000)*quan);
+		}else if(td.eq(2).children().val()=="삶음"){
+			td.eq(4).html((price+1500)*quan);
+		}else{
+			td.eq(4).html(price*quan);
+		}
+	};
 	
-	$(document).on("propertychange change keyup paste input",".qnum", function(event){	
-		var price = $(this).attr("id");
-		var price2 = price.split('_');
-		var tr = $(this).attr("id"); 
-		$($(this).attr("id")).html(price2[1]*$(this).val());
-	});
+	/* 수량바뀔때 가격 바뀌는 함수호출 */
+	$(document).on("propertychange change keyup paste",".qnum", $.pricefun);
+	
+	/* 세탁방법 변경했을때 가격바뀌는 함수호출 */
+	$(document).on("change",".howsetak", $.pricefun);
+	
 	
 });
 
@@ -310,7 +324,7 @@ $(".qnum").bind('keyup mouseup', function () {
 		<div id = "pricediv">
 			<table border="1" id = "pricetable">
 				<tr class= "pricemenu">
-					<th><input type="number" class="qnum" name="quantity" min="1" value="1"></th>
+					<th><input type="checkbox"></th>
 					<th>세탁물</th>
 					<th>세탁방법</th>
 					<th>수량</th>
