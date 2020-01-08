@@ -56,6 +56,7 @@
 		table-layout: fixed; 
 		cursor: pointer;
 		border-color: e1e4e4;
+		
 	}
 	
 	#cate td{
@@ -64,7 +65,10 @@
 		font-size: 13pt;
 		font-family: 'Nanum Gothic';
 	}
-	
+	.catelist{
+		border:2px solid #e1e4e4;
+		
+	}
 	.catelist.active{
 		background-color: #3498db;
 		color: #fff;
@@ -111,6 +115,44 @@
 		cursor: pointer;
 		padding: 20px;
 	}
+	
+	
+	.total {
+		padding:50px 0 0 0;
+		position: relative;
+    	top: 36%;
+	}
+	.total p{
+		background-color:#e1e4e4;
+		height:40px;
+		line-height:40px;
+		color:#444;
+		text-align:right;
+		padding-right:15px;
+	}
+	.total-button{
+		padding:40px 0;
+		position: relative;
+    	top: 35%;
+	}
+	.total-button a{
+		font-size:0.95rem;
+		display:block;
+		width:90px;
+		background-color:#e1e4e4;
+		color:#444;
+		border-radius:30px;
+		height:40px;
+		line-height:40px;
+		text-align:center;
+		float:right;
+		margin: 0 5px;
+	}
+	.total-button a:hover{
+		background-color:#3498db;
+		color:#fff;
+		transition:all .4s;
+	}
 </style>
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -147,7 +189,7 @@ $(document).ready(function($) {
 	
 	/* 가격바뀌는 함수 */
 	$.pricefun = function(){
-		var td = $('#'+num).children();
+		var td = $(this).parent().parent().children();
 		var price = parseInt(td.eq(4).attr('name'));
 		var quan = td.eq(3).children().val();
 		
@@ -166,6 +208,7 @@ $(document).ready(function($) {
 	/* 세탁방법 변경했을때 가격바뀌는 함수호출 */
 	$(document).on("change",".howsetak", $.pricefun);
 	
+	/* 체크박스 전체선택 */
 	$("#allcheck").click(function(){
         //클릭되었으면
         if($("#allcheck").prop("checked")){
@@ -177,7 +220,15 @@ $(document).ready(function($) {
             $("input[name=chk]").prop("checked",false);
         }
     })
-
+	
+    /* 체크박스 삭제 */
+	$(".total-button a").click(function(){
+		var checkbox = $("input[name=chk]:checked");
+		checkbox.each(function(){
+			var tr = checkbox.parent().parent();
+			tr.remove();
+		}) 
+	});
 	
 });
 
@@ -196,7 +247,7 @@ $(".qnum").bind('keyup mouseup', function () {
 		</div>
 		<div id = catediv>
 			<p><sub>&nbsp;※본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</sub></p>
-			<table border="1" id = "cate">
+			<table id = "cate">
 			<tr>
 				<td id="#list1" class = "catelist active">상의</td>
 				<td id="#list2" class = "catelist">하의</td>
@@ -212,7 +263,7 @@ $(".qnum").bind('keyup mouseup', function () {
 			</table>
 		</div>
 		<div id = menudiv>
-			<table border ="1" id="list1" class = "menulist show">
+			<table border="1" id="list1" class = "menulist show">
 			<tr>
 				<td class = "downlist">셔츠<p align="right"><span class = "hidetext">!</span>2000<span class = "hidetext">!</span>원</p></td>
 				<td class = "downlist">티셔츠<p align="right"><span class = "hidetext">!</span>2500<span class = "hidetext">!</span>원</p></td>
@@ -343,6 +394,15 @@ $(".qnum").bind('keyup mouseup', function () {
 					<th>합계</th>
 				</tr>
 			</table>
+		</div>
+		
+		<div class="total">
+			<p>총 금액 : 수선비 10,000원 + 배송비 2,000원 = 합계 : 12,000원</p>
+		</div>
+		
+		<div class="total-button">
+			<a href="javascript:">다음</a>
+			<a href="javascript:">선택삭제</a>
 		</div>
 	</div>
 </body>
