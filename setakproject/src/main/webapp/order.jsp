@@ -91,11 +91,10 @@
 							<tr>
 								<td class = "left_col">배송지 선택</td>
 								<td class = "right_col">
-									<select name = "">
-										<option>배송지를 선택해주세요.</option>
-									</select>
+									<input type = "radio" name = "delivery_info" checked = "checked" value = "" /> 기본배송지 
+									<input type = "radio" name = "delivery_info " value = "" /> 직접입력  
 									
-									<button>+ 새로운 주소</button>
+									<button class = "delivery-btn">나의 배송주소록</button>
 								</td>
 							</tr>
 							
@@ -183,15 +182,15 @@
 								<tr>
 								<tr>
 									<td class = "left_col">쿠폰할인</td>
-									<td class = "td_final">0원</td>
+									<td class = "txtBlue">0원</td>
 								</tr>
 								<tr>
 									<td class = "left_col">적립금</td>
-									<td class = "td_final">0원</td>
+									<td class = "txtBlue">0원</td>
 								<tr>
 								<tr>
 									<td class = "left_col td_final">최종 결제액</td>
-									<td id = "final_price" class = "td_final">39000원</td>
+									<td id = "final_price" class = "txtBlue">39000원</td>
 								</tr>
 							</tbody>
 						</table>
@@ -204,22 +203,50 @@
    </section>
 
 	<!-- 쿠폰 팝업 레이어 -->
-	<div id = "layer-div" class="layer-card">
-		<div id = "popup-div">
-			<div class="popup-title">
-				<h2>쿠폰적용</h2>
-				<button class = "popup-close" onclick = "layerPopup('close')">X</button>
-			</div>
-			<div class="popup-content">
-				<h3>쿠폰할인</h3>
-				<ul>
-					<li><input type="checkbox" name="" />보관 1개월 무료</li>
-					<li><input type="checkbox" name="" />보관 1개월 무료</li>
-					<li><input type="checkbox" name="" />보관 1개월 무료</li>
-				</ul>
+	<section id = "coupon">
+		<div id = "layer-div" class="layer-card">
+			<div id = "popup-div">
+				<div class="popup-title">
+					<h2>쿠폰적용</h2>
+					<button class = "popup-close" onclick = "layerPopup('close')">X</button>
+				</div>
+				<div class="popup-content1">
+					<h3>쿠폰할인</h3>
+					<ul>
+						<li><input type="checkbox" name="" />보관 1개월 무료</li>
+						<li><input type="checkbox" name="" />보관 1개월 무료</li>
+						<li><input type="checkbox" name="" />보관 1개월 무료</li>
+					</ul>
+				</div>
+				
+				<div class="popup-content2">
+					<div class = "popup-table-div">
+						<table class = "popup-table">
+							<tr>
+								<td class = "pLeft_col">상품금액</td>
+								<td class = "pRight_col">39,000원</td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col">쿠폰 할인금액</td>
+								<td class = "pRight_col txtBlue">0원</td>
+							</tr>
+							<tr>
+								<td colspan = "2">
+								<hr/>
+								</td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col pFinal">할인적용금액</td>
+								<td class = "pRight_col pFinal txtBlue">39,000원</td>
+							</tr>
+						</table>
+					</div>
+					
+					<button>쿠폰적용</button>				
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 	
 	<div id="footer"></div>
 </body>

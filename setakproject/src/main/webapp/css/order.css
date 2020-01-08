@@ -58,6 +58,11 @@
 	margin-left: 50px
 }
 
+/*공통*/
+.txtBlue {
+	color : #3498db;
+}
+
 /*주문리스트 테이블 : order_list_table */
 .order-div {
 	margin-bottom : 70px; 
@@ -184,8 +189,11 @@
 	font-weight : bold; 
 }
 
-.td_final {
-	color : #3498db;
+/*나의 배송주소록 레이어*/
+
+.delivery-btn {
+	float : right; 
+	margin-right : 20px; 
 }
 
 /*쿠폰 팝업 레이어*/
@@ -218,22 +226,71 @@
 	padding-bottom: 20px; 
 }
 
-.popup-content {
+.popup-content1 {
     float: left;
     width: 50%;
     border: 1.5px solid #D8D8D8;
     margin-top: 30px;
     padding: 20px;
-    height: 50%;
 }
 
-.popup-content h3 {
+.popup-content1 h3 {
 	margin-bottom : 20px;
 }
-.popup-content ul li {
+.popup-content1 ul li {
 
 	display: block;
 	padding-bottom: 5px;
+}
+
+.popup-content2 {
+	position: absolute;
+	display: inline-block;
+	width: 40%;
+	margin-left: 20px;
+	margin-top: 30px;
+}
+
+.popup-content2 button {
+	width: 100%;
+    background-color: #3498db;
+    color: #ffffff;
+    text-align: center;
+    height: 50px;
+    font-size: 1.2rem;
+    box-shadow: none;
+    border: 0;
+    padding: 12px 0;
+}
+
+.popup-table-div {
+	border: 1.5px solid #D8D8D8;
+	padding: 20px;
+	margin-bottom : 10px; 
+}
+
+.popup-table {
+	width : 100%; 
+}
+
+.popup-table tr td hr {
+	color : #eeefef;
+	margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pLeft_col {
+	text-align : left;
+	height : 30px; 
+}
+
+.pRight_col {
+	text-align : right;
+}
+
+.pFinal {
+	font-weight : bold; 
+	font-size : 1.2rem;
 }
 
 .popup-close {
