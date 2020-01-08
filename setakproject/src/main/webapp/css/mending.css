@@ -111,8 +111,9 @@
 		justify-content: space-between;
 		border:2px solid #e1e4e4;
 		border-top:0;
-		padding:120px 20px;
+		padding:140px 20px;
 		margin-bottom:10px;
+		position:relative;
 	}
 	.details li{
 		width:100%;
@@ -153,6 +154,24 @@
 		line-height:40px;
 		text-align:center;
 		color:#fff;
+	}
+	.hash{
+        position:absolute;
+        top:14px;
+        left:12px;
+	}
+	.details form .hash p{
+		background-color:#ffac15;
+		padding:4px 15px 4px 20px;
+		color:#fff;
+		font-size:0.8rem;
+		border-radius:50px;
+		display:inline;
+		margin-left:3px;
+	}
+	.details form .hash p span{
+		margin-left:15px;
+		cursor:pointer;
 	}
 	.mending_order{
 		margin:10px 0;

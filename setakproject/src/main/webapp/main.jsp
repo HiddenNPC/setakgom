@@ -7,7 +7,6 @@
 	<title>wash</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/index.css"/>
-	<script src="js/jquery.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript" src="dist/jquery.sliderPro.min.js"></script>
 	<script type="text/javascript">
@@ -44,33 +43,35 @@
 <body>
 	<div id="container">
 		<nav>
-			<ul class="logo">
-				<li><img src="images/logo.png" alt="로고"></li>
-			</ul>
-			<ul class="main-nav">
-				<li><a href="#">로그인</a></li>
-				<!--<li><a href="#">로그아웃</a></li>-->
-				<li><a href="#">회원가입</a></li>
-				<!--<li><a href="#">마이페이지</a></li>-->
-				<!--<li><a href="#">장바구니</a></li>-->
-			</ul>
-			<ul class="sub-nav">
-				<li><a href="#">회사소개</a></li>
-				<li><a href="#">정기구독</a></li>
-				<li><a href="#">세탁서비스</a></li>
-				<li><a href="#">수선서비스</a></li>
-				<li><a href="#">보관서비스</a></li>
-				<li><a href="#">커뮤니티</a>
-					<div>
-						<ul class="sub-nav-sub">
-							<li><a href="#">공지사항</a></li>
-							<li><a href="#">리뷰</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Q&amp;A</a></li>
-						</ul>
-					</div>
-				</li>
-			</ul>
+			<div class="content">
+				<ul class="logo">
+					<li><img src="images/logo.png" alt="로고"></li>
+				</ul>
+				<ul class="main-nav">
+					<li><a href="#">로그인</a></li>
+					<!--<li><a href="#">로그아웃</a></li>-->
+					<li><a href="#">회원가입</a></li>
+					<!--<li><a href="#">마이페이지</a></li>-->
+					<!--<li><a href="#">장바구니</a></li>-->
+				</ul>
+				<ul class="sub-nav">
+					<li><a href="#">회사소개</a></li>
+					<li><a href="#">정기구독</a></li>
+					<li><a href="#">세탁서비스</a></li>
+					<li><a href="#">수선서비스</a></li>
+					<li><a href="#">보관서비스</a></li>
+					<li><a href="#">커뮤니티</a>
+						<div>
+							<ul class="sub-nav-sub">
+								<li><a href="#">공지사항</a></li>
+								<li><a href="#">리뷰</a></li>
+								<li><a href="#">FAQ</a></li>
+								<li><a href="#">Q&amp;A</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</nav>
 		<header>
 		</header>
@@ -185,18 +186,18 @@
 		$(function() {
 			$(window).scroll(function() {
 				if ($(window).scrollTop() >= $("#use-area").position().top) {
-					$(".main-nav a, .sub-nav a").css('display', 'none');
+					$("nav").css('display', 'none');
 				}
 				if ($(window).scrollTop() <= $("#use-area").position().top) {
-					$(".main-nav a, .sub-nav a").css('display', 'block');
+					$("nav").css('display', 'block');
 				}
 			});
 
 			$(".sub-nav > li").hover(function () {
-	            $(".sub-nav-sub", this).slideDown("500");
+	            $(".sub-nav-sub", this).slideDown(500);
 	        },
 	        function() {
-	            $(".sub-nav-sub", this).slideUp("500");
+	            $(".sub-nav-sub", this).slideUp(500);
 	        });
 			
 			var windowWidth = $(window).width();

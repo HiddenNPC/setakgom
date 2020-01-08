@@ -21,42 +21,67 @@
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
 			});
-	
+			
+			var windowWidth = $(window).width();
+			if (windowWidth > 769) {
+				$('a').click(function() {
+					$('html, body').animate({
+						scrollTop : $($.attr(this, 'href')).offset().top - 200
+					}, 500);
+					return false;
+				});
+			}
+			
+			var maxAppend = 0;			
+			$(".mending-list").click(function() {
+				if (maxAppend >= 10){
+					alert("최대 10개 선택 가능합니다.");
+					return;
+				}
+				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
+				maxAppend++;
+			});
+			$(document).on('click','.hashvl',function(event) {
+				$(this).remove();
+				maxAppend--;
+			});
+
 			$('.bt_up').click(function() {
 				var n = $('.bt_up').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				num = $(".count:eq(" + n + ")").val(num * 1 + 1);
-				
+
 			});
 			$('.bt_down').click(function() {
 				var n = $('.bt_down').index(this);
 				var num = $(".count:eq(" + n + ")").val();
-				if(num==1){
+				if (num == 1) {
 					alert("최저 수량은 1개입니다.");
 				} else {
-				num = $(".count:eq(" + n + ")").val(num * 1 - 1);
+					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
 			});
 			$("input:text[numberOnly]").on("keyup", function() {
-			    $(this).val($(this).val().replace(/[^0-9]/g,""));
+				$(this).val($(this).val().replace(/[^0-9]/g, ""));
 			});
 		});
-		function onlyNumber(event){
-		    event = event || window.event;
-		    var keyID = (event.which) ? event.which : event.keyCode;
-		    if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
-		        return;
-		    else
-		        return false;
+		function onlyNumber(event) {
+			event = event || window.event;
+			var keyID = (event.which) ? event.which : event.keyCode;
+			if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+					|| keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
+				return;
+			else
+				return false;
 		}
-		 
+
 		function removeChar(event) {
-		    event = event || window.event;
-		    var keyID = (event.which) ? event.which : event.keyCode;
-		    if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
-		        return;
-		    else
-		        event.target.value = event.target.value.replace(/[^0-9]/g, "");
+			event = event || window.event;
+			var keyID = (event.which) ? event.which : event.keyCode;
+			if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
+				return;
+			else
+				event.target.value = event.target.value.replace(/[^0-9]/g, "");
 		}
 	</script>
 </head>
@@ -80,13 +105,13 @@
 				
 				<div id="one" class="tab-content show">
 					<ul class="top">
-						<li class="mending-list">소매줄임<br><span>2,000원</span></li>
-						<li class="mending-list">기장줄임<br><span>2,000원</span></li>
-						<li class="mending-list">단추수선<br><span>2,000원</span></li>
-						<li class="mending-list">튿어짐<br><span>2,000원</span></li>
+						<li class="mending-list" value="소매줄임">소매줄임<br><span>2,000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>2,000원</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>2,000원</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list">지퍼수선<br><span>2,000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>2,000원</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -95,18 +120,47 @@
 						<li><img src="images/top.png" alt="상의"></li>
 						<li>
 							<form>
-								<p>※ 소매줄임 : - <input type="text" value="5">cm</p>
+								<div class="hash">
+								</div>
+								<p>※ 왼쪽 소매 줄임 : - <input type="text" value="5">cm</p>
+								<p>※ 오른쪽 소매 줄임 : - <input type="text" value="5">cm</p>
 								<p>※ 총기장 : - <input type="text" value="">cm</p>
 								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a href="javascript:">추가</a>
 							</form>
 						</li>
 					</ul>
-					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다.<br><br><br></p>
+					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다. 수선할 단추 수량만큼 눌러주세요.<br><br><br></p>
 				</div>
 				
 				<div id="two" class="tab-content">
-					가나다라마바사아자차카타ㅠㅏ
+						<ul class="top">
+						<li class="mending-list" value="허리줄임">허리줄임<br><span>2,000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>2,000원</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>2,000원</span></li>
+					</ul>
+					<ul class="top">
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>2,000원</span></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+					<ul class="details">
+						<li><img src="images/bottom.png" alt="하의"></li>
+						<li>
+							<form>
+								<div class="hash">
+								</div>
+								<p>※ 왼쪽 기장 줄임 : - <input type="text" value="5">cm</p>
+								<p>※ 오른쪽 기장 줄임 : - <input type="text" value="5">cm</p>
+								<p>※ 허리 줄임 : - <input type="text" value="">cm</p>
+								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<a href="javascript:">추가</a>
+							</form>
+						</li>
+					</ul>
+					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다. 수선할 단추 수량만큼 눌러주세요.<br><br><br></p>
 				</div>
 				
 				<div id="three" class="tab-content">
@@ -135,7 +189,7 @@
 									<option value="F">F</option>
 									<option value="G">G</option>
 									<option value="H">H</option>
-									<option value="Y">Y</option>
+									<option value="I">I</option>
 									<option value="J">J</option>
 									<option value="K">K</option>
 									<option value="L">L</option>
