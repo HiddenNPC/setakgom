@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+	
    .title-text {
       position: absolute;
       right: 0;
@@ -34,24 +34,55 @@
       margin-bottom: 6px;
       vertical-align: middle;
    }
-   
-   /*
-   default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
-   content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
-   폰트사이즈는 무조건 rem으로 작업해주세요.
-   */ 
-   
-   
-   /*변경된 클래스와 아이디로 작업하세요*/
-   #test {
-      height:1200px;
-   }
-   .test2{
-      padding-top:150px;
-   }
-   .test2 p{
-      color:#3498db;
-      font-size:0.9rem;
+
+	/* div-1000 */
+    .div-1000 {
+		width : 1000px;
+		margin : auto;  
+	}   
+	
+	/*정기구독*/
+	.p_subtitle {
+		color : #444;
+		margin-bottom: 30px; 
    }
    
-   
+   .sub-div {
+      margin-top : 50px; 
+   }
+    
+    /* 정기구독 테이블 : sub_table */
+    table.sub_table {
+    	border-collapse : collapse;
+    	border : 1px solid #eeefef;
+		border-spacing: 0px;
+		margin: 0 auto; 
+    	width : 1000px; 
+    	color : #444; 
+    }
+    
+    table.sub_table thead {
+    	background-color : #3498db;
+    	opacity : 0.95; 
+    	color : #eeefef; 
+    }
+    
+    table.sub_table thead tr td {
+    	height : 50px; 
+    }
+    
+    table.sub_table tbody {
+    	font-size : 10pt; 
+    }
+    
+    table.sub_table tbody tr td {
+    	height : 60px; 
+    }
+    
+    p.sub_title {
+		color : #eeefef;
+		margin-top : 50px; 
+    	margin-bottom : 2px; 
+	}
+	
+	
