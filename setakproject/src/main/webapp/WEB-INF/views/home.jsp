@@ -134,7 +134,7 @@ $(document).ready(function($) {
 		var str = ""
 		num++;
 		str += '<tr id="'+num+'">';
-		str += '<td align="center"><input type="checkbox" value="'+tdtext[0]+'" checked></td>';
+		str += '<td align="center"><input type="checkbox" name="chk" value="'+tdtext[0]+'" checked></td>';
 		str += '<td align="center">'+tdtext[0]+'</td>';
 		str += '<td align="center"><select class = "howsetak" name="세탁방법">';
 		str += '<option value="물세탁">물세탁</option>';
@@ -166,6 +166,18 @@ $(document).ready(function($) {
 	/* 세탁방법 변경했을때 가격바뀌는 함수호출 */
 	$(document).on("change",".howsetak", $.pricefun);
 	
+	$("#allcheck").click(function(){
+        //클릭되었으면
+        if($("#allcheck").prop("checked")){
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+            $("input[name=chk]").prop("checked",true);
+            //클릭이 안되있으면
+        }else{
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
+            $("input[name=chk]").prop("checked",false);
+        }
+    })
+
 	
 });
 
@@ -324,7 +336,7 @@ $(".qnum").bind('keyup mouseup', function () {
 		<div id = "pricediv">
 			<table border="1" id = "pricetable">
 				<tr class= "pricemenu">
-					<th><input type="checkbox"></th>
+					<th><input type="checkbox" id = "allcheck" checked></th>
 					<th>세탁물</th>
 					<th>세탁방법</th>
 					<th>수량</th>
