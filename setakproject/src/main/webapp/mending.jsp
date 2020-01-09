@@ -14,7 +14,6 @@
 		$(document).ready(function() {
 			$("#header").load("header.jsp")
 			$("#footer").load("footer.jsp")
-	
 			$(".tab").on("click", function() {
 				$(".tab").removeClass("active");
 				$(".hash").empty();
@@ -27,10 +26,10 @@
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
 			});
-			
+		
 			var windowWidth = $(window).width();
 			if (windowWidth > 769) {
-				$('a').click(function() {
+				$('.tab-list a').click(function() {
 					$('html, body').animate({
 						scrollTop : $($.attr(this, 'href')).offset().top - 200
 					}, 500);
@@ -49,48 +48,79 @@
 		    });
 		    
 			
-			var maxAppend = 0;			
-			$(".mending-list").click(function() {
+			var maxAppend = 0;
+			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
 					alert("최대 10개 선택 가능합니다.");
 					return;
 				}
 				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
 				maxAppend++;
+				
+				$(".price").removeClass("each");
+				$(this,".price").addClass("each");
+				var abc =  document.getElementsByClassName('each');
+				alert(abc[0].innerHTML);
 			});
+
 			$(document).on('click','.hashvl',function(event) {
 				$(this).remove();
 				maxAppend--;
 			});
-			
-			
-			
-			
-			$(".mending-list").click(function() {
-				if (maxAppend >= 10){
-					alert("최대 10개 선택 가능합니다.");
-					return;
-				}
-				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
-				maxAppend++;
-			});
-			$(document).on('click','.hashvl',function(event) {
-				$(this).remove();
-				maxAppend--;
-			});
-			
-			
-			
-			
 			
 
-			$('.bt_up').click(function() {
+			$(".add_button").on("click", function() {
+				var sortation = document.getElementsByClassName('active');
+				var str = "";
+				
+				str += '<tr>';
+				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
+				str += '<td style="text-align:left; padding-left:59px;">'+sortation[0].innerHTML+'</td>';
+				str += '<td>';
+				str += '<select name="list">';
+				str += '<option value="A">A</option>';
+				str += '<option value="B">B</option>';
+				str += '<option value="C">C</option>';
+				str += '<option value="D">D</option>';
+				str += '<option value="E">E</option>';
+				str += '<option value="F">F</option>';
+				str += '<option value="G">G</option>';
+				str += '<option value="H">H</option>';
+				str += '<option value="I">I</option>';
+				str += '<option value="J">J</option>';
+				str += '<option value="K">K</option>';
+				str += '<option value="L">L</option>';
+				str += '<option value="N">N</option>';
+				str += '<option value="M">M</option>';
+				str += '<option value="O">O</option>';
+				str += '<option value="P">P</option>';
+				str += '<option value="Q">Q</option>';
+				str += '<option value="R">R</option>';
+				str += '<option value="S">S</option>';
+				str += '<option value="T">T</option>';
+				str += '<option value="U">U</option>';
+				str += '<option value="V">V</option>';
+				str += '<option value="W">W</option>';
+				str += '<option value="X">X</option>';
+				str += '<option value="Y">Y</option>';
+				str += '<option value="Z">Z</option>';
+				str += '</select>';
+				str += '</td>';
+				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
+				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
+				str += '</td>';
+				str += '<td>5000원</td>';
+				str += '</tr>';				
+				$(".mending_order_title").after(str);
+			});
+				
+			$(document).on('click','.bt_up',function(event) {
 				var n = $('.bt_up').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				num = $(".count:eq(" + n + ")").val(num * 1 + 1);
 
 			});
-			$('.bt_down').click(function() {
+			$(document).on('click','.bt_down',function(event) {
 				var n = $('.bt_down').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				if (num == 1) {
@@ -138,21 +168,21 @@
 				<p>※ 수선만 가능한 페이지입니다. 수선할 옷에 세탁 서비스도 이용하실 예정이시면 세탁 페이지를 이용해주세요.</p>
 				<div class="tabs">
 					<div class="tab-list">
-						<a href="#one" class="tab active">상의</a>
-						<a href="#two" class="tab">하의</a>
-						<a href="#three" class="tab">아우터</a>
+						<a href="#one" id="tab" class="tab active">상의</a>
+						<a href="#two" id="tab" class="tab">하의</a>
+						<a href="#three" id="tab" class="tab">아우터</a>
 					</div>
 				</div>
 				
 				<div id="one" class="tab-content show">
 					<ul class="top">
-						<li class="mending-list" value="소매줄임">소매줄임<br><span>5,000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>5,000원</span></li>
-						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>7,000원</span></li>
+						<li class="mending-list" value="소매줄임">소매줄임<br><span>원</span><span class="price">5000</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>원</span><span class="price">5000</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>원</span><span class="price">2000</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>원</span><span class="price">7000</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>16,000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>16000원</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -175,7 +205,7 @@
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
-								<a href="javascript:">추가</a>
+								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
 					</ul>
@@ -184,13 +214,13 @@
 				
 				<div id="two" class="tab-content">
 					<ul class="top">
-						<li class="mending-list" value="허리줄임">허리줄임<br><span>5,000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>5,000원</span></li>
-						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>7,000원</span></li>
+						<li class="mending-list" value="허리줄임">허리줄임<br><span>5000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>5000원</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>2000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>7000원</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>12,000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>12000원</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -213,7 +243,7 @@
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
-								<a href="javascript:">추가</a>
+								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
 					</ul>
@@ -222,13 +252,13 @@
 				
 				<div id="three" class="tab-content">
 					<ul class="top">
-						<li class="mending-list" value="소매줄임">소매줄임<br><span>5,000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>5,000원</span></li>
-						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>10,000원</span></li>
+						<li class="mending-list" value="소매줄임">소매줄임<br><span>5000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>5000원</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>2000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>10000원</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>20,000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>20000원</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -251,7 +281,7 @@
 								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
-								<a href="javascript:">추가</a>
+								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
 					</ul>
@@ -267,82 +297,6 @@
 							<td>수량</td>
 							<td>합계</td>
 						</tr>
-						<tr>
-							<td><input type="checkbox" name="check" value="yes" checked></td>
-							<td style="text-align:left; padding-left:59px;">상의</td>
-							<td>
-								<select name="list">
-									<option value="A">A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="E">E</option>
-									<option value="F">F</option>
-									<option value="G">G</option>
-									<option value="H">H</option>
-									<option value="I">I</option>
-									<option value="J">J</option>
-									<option value="K">K</option>
-									<option value="L">L</option>
-									<option value="N">N</option>
-									<option value="M">M</option>
-									<option value="O">O</option>
-									<option value="P">P</option>
-									<option value="Q">Q</option>
-									<option value="R">R</option>
-									<option value="S">S</option>
-									<option value="T">T</option>
-									<option value="U">U</option>
-									<option value="V">V</option>
-									<option value="W">W</option>
-									<option value="X">X</option>
-									<option value="Y">Y</option>
-									<option value="Z">Z</option>
-								</select>
-							</td>
-							<td><input type="text" maxlength="3" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' name="count" value="1" id="" class="count">
-									<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>
-							</td>
-							<td>5000원</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" name="check" value="yes" checked></td>
-							<td style="text-align:left; padding-left:59px;">상의</td>
-							<td>
-								<select name="list">
-									<option value="A">A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="E">E</option>
-									<option value="F">F</option>
-									<option value="G">G</option>
-									<option value="H">H</option>
-									<option value="Y">Y</option>
-									<option value="J">J</option>
-									<option value="K">K</option>
-									<option value="L">L</option>
-									<option value="N">N</option>
-									<option value="M">M</option>
-									<option value="O">O</option>
-									<option value="P">P</option>
-									<option value="Q">Q</option>
-									<option value="R">R</option>
-									<option value="S">S</option>
-									<option value="T">T</option>
-									<option value="U">U</option>
-									<option value="V">V</option>
-									<option value="W">W</option>
-									<option value="X">X</option>
-									<option value="Y">Y</option>
-									<option value="Z">Z</option>
-								</select>
-							</td>
-							<td><input type="text" name="count" value="1" id="" class="count">
-									<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>
-							</td>
-							<td>5000원</td>
-						</tr>							
 					</table>
 					
 					<div class="total_price">
