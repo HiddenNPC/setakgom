@@ -166,10 +166,8 @@
 								<label for="img-6" class="nav-dot"id="img-dot-6"></label>
 								</li>
 							</ul>
-							<div data-text-content="true"
-								style="background-color: rgb(52, 152, 219); color: rgb(255, 255, 255); text-align: center; width: 329px; height: 30px; display: inline; float: left" class="">보관 기간 연장</div>
-							<div data-text-content="true"
-								style="background-color: rgb(224, 224, 224); color: rgb(94, 94, 94); text-align: center; width: 329px; height: 30px; display: inline; float: left" class="">반환 신청</div>
+							<div class="keepbox" style="border-right:1px solid rgb(255, 255, 255);">보관 기간 연장</div>
+							<div class="keepbox">반환 신청</div>
 						</div>
 						<br><br><br>
 						

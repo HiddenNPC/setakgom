@@ -47,10 +47,11 @@
 		height:1200px;
 	}
 	.test2{
-		padding-top:150px;
+		padding-top:110px;
 	}
 	.test2 p{
 		color:#3498db;
+		padding-left:125px;
 		font-size:0.9rem;
 	}
 
@@ -89,15 +90,16 @@
 
 	/*하단 슬라이드*/
 	.accordion {
-            width:600px;
+            width:660px;
             background-color:#fff;
-            margin:0 auto;
+            
+            margin-left:130px;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
         }
         
         .accordion-header {
             font-weight:bold;
-            padding:20px;
+            padding:15px;
             border:2px solid #ccc;
             color:#2a313a;
             cursor: pointer;
@@ -422,3 +424,19 @@
 			height: 50px;
 		}
 
+		.keepbox{
+			width:49.92%;
+			height:30px;
+			padding-top:10px;
+			background-color: #ccc;
+			color: rgb(0,0,0);
+            text-align: center;
+            float: left;
+            font-weight:bold;
+		}
+
+		.keepbox:hover{
+			cursor:pointer;
+			background-color: #3498db;
+			color: rgb(255, 255, 255);
+		}

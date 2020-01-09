@@ -64,7 +64,7 @@
 				<div class="test2">
 					<!-- class 변경해서 사용하세요. -->
 					<p>
-						&nbsp;&nbsp;&nbsp;&nbsp;<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
+						<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
 					</p>
 				</div>
 				<br>
@@ -94,12 +94,23 @@
 </body>
 <script>
     $(function () {
-       $(".accordion-header").on("click", function () {
+       $(".button").on("click", function () {
            $(this)
-               .toggleClass("active")
-               .next()
-               .slideToggle(200);
+           	if (confirm("주문을 취소하시겠습니까??") == true){
+              	document.write("확인")
+           	}else{
+           		document.write("아니오")
+           	}
        });
     });
+    
+    $(function () {
+        $(".accordion-header").on("click", function () {
+            $(this)
+                .toggleClass("active")
+                .next()
+                .slideToggle(200);
+        });
+     });
 </script>
 </html>
