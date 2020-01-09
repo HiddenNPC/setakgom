@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+	.title-text {
+		position: absolute;
+		right: 0;
+		left: 0;
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		-webkit-align-items: center;
+		-webkit-justify-content: center;
+		-webkit-box-pack: center;
+		-webkit-box-align: center;
+		-moz-box-pack: center;
+		-moz-box-align: center;
+		-ms-box-pack: center;
+		-ms-box-align: center;
+	}
+	.title-text h2 {
+		font-size: 2rem;
+		color: #444;
+	}
+	/*아래의 width로 파란 줄 길이 조절 가능*/
+	.title-text h2:before {
+		content: '';
+		display: block;
+		width: 40%;
+		height: 6px;
+		background-color: #3498db;
+		margin-bottom: 6px;
+		vertical-align: middle;
+	}
+	
+	/*
+	default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
+	content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
+	폰트사이즈는 무조건 rem으로 작업해주세요.
+	*/ 
+	
+	
+	/*변경된 클래스와 아이디로 작업하세요*/
+	#cart {
+		margin-bottom : 300px; 
+	}
+	.test2{
+		padding-top:150px;
+	}
+	.test2 p{
+		color:#3498db;
+		font-size:0.9rem;
+	}
+	
+
+	.cart-div {
+    	width : 1000px; 
+    	margin : 0 auto; 
+		text-align : center; 
+		position : relative;
+		top : 100px; 
+	}
+	
+	.arrow-img {
+		margin-bottom: 50px; 
+
+	}
+    
+    
+    /* 1000px 버튼 */
+    .bt_1000 {
+    	width : 1000px; 
+ 		background-color : #3498db;
+ 		color : #eeefef;
+ 		text-align : center;
+ 		text-decoration : none;
+ 		border-radius : 9px; 
+ 		padding : 8px;
+ 		font-size : 1.0rem;  
+ 		border : none; 
+    }
+ 
+    .title-text {
+      margin-bottom: 100px; 
+    }
+    
+    .title-text h1{
+      font-size:2rem;
+      color:#444;
+    }
+    
+    .title-text h1:before{
+      content:'';
+      display:block;
+      width:5%;
+      height:6px;
+      background-color: #3498db;
+      margin-bottom:6px;
+      margin : auto;	 
+      
+   }
+   
+   /* 장바구니 테이블 */
+   table.cart_list, 
+   table.cart_price  {
+    	border-collapse : collapse;
+    	border : 1px solid #e1e4e4;
+    	margin: 0 auto; 
+    	width : 1000px;
+    	color:#444;
+    	margin-bottom : 50px; 
+    }
+    
+    table.cart_list thead, 
+    table.cart_price thead {
+    	color :  #eeefef;
+    	background-color : #3498db;
+    }
+    
+    table.cart_list thead tr th, 
+    table.cart_price thead tr th {
+    	height : 50px; 
+    }
+    
+    table.cart_list tbody tr td {
+    	height : 40px;
+    }
+    
+    
+    /*td 글씨 크게*/
+    .td_big {
+    	font-size : 4em;
+    	font-weight : 500; 
+    }
+    
+    /*td 글씨 파랑*/
+    .td_blue {
+    	color : #3498db;
+	}
+	
+	
