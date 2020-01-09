@@ -20,4 +20,10 @@ public class HomeController {
 		return "main";
 	}
 	
+	@RequestMapping(value = "/setak.st")
+	public String washing() {
+		
+		return "washing";
+	}
+	
 }

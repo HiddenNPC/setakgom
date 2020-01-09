@@ -3,164 +3,24 @@
 <%@ page session="false" %>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Home</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
+	<link rel="stylesheet" type="text/css" href="./css/washing.css"/>
 </head>
-<style>
-	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800');
-	
-	.content{
-      width:1200px;
-      height: 100%;
-      margin:0 auto;   
-   }
-   /*test*/
-   /* 타이틀 부분 */
-	.title-text{
-		position:absolute;
-    	left:50%;
-    	transform: translate(-50%);
-	}
-	.title-text h2{
-		font-size:2rem;
-		color:#444;
-		margin: 0;
-	}
-	.title-text h2:before{
-		content:'';
-		display:block;
-		width:60px;
-		height:5px;
-		background-color:#3498db;
-	}
-	/* 화살표 이미지 */
-	#setakimg{
-		position:absolute;
-    	left:50%;
-    	transform: translate(-50%);
-    	top: 17%;
-	}
-	/* 카테고리 테이블 */
-	#catediv p{
-		color:#3498db;
-		
-	}
-	#catediv{
-		position:relative;
-    	left:0%; 
-    	top: 23%;
-	}
-	
-	#cate{
-		width : 100%;
-		height: 90px;
-		border-spacing: 0px;  
-		table-layout: fixed; 
-		cursor: pointer;
-		border-color: e1e4e4;
-		
-	}
-	
-	#cate td{
-		padding: 10px 30px;
-		text-align: center;
-		font-size: 13pt;
-		font-family: 'Nanum Gothic';
-	}
-	.catelist{
-		border:2px solid #e1e4e4;
-		
-	}
-	.catelist.active{
-		background-color: #3498db;
-		color: #fff;
-		font-weight: bold; 
-	}
-	/* 메뉴 테이블 */
-	#menudiv{
-		position:relative;
-    	left:0%; 
-    	top: 25% ;
-	}
-	.menulist{
-		width : 100%;
-		height:  85px;
-		border-spacing: 0px;  
-		table-layout: fixed; 
-		border-color: e1e4e4;
-		font-family: 'Nanum Gothic';
-		display: none;
-	}
-	
-	.show{
-		display: table;
-	}
-	/* 가격 테이블 */
-	#pricediv{
-		position:relative;
-    	left:0%; 
-    	top: 35%;
-	}
-	.pricemenu{
-		background-color: #3498db;
-		color: #fff;
-	}
-	#pricetable{
-		width : 100%;
-		height: 32px;
-		border-spacing: 0px;
-	}
-	.hidetext{
-		display: none;
-	}
-	.downlist{
-		cursor: pointer;
-		padding: 20px;
-	}
-	
-	
-	.total {
-		padding:50px 0 0 0;
-		position: relative;
-    	top: 36%;
-	}
-	.total p{
-		background-color:#e1e4e4;
-		height:40px;
-		line-height:40px;
-		color:#444;
-		text-align:right;
-		padding-right:15px;
-	}
-	.total-button{
-		padding:40px 0;
-		position: relative;
-    	top: 35%;
-	}
-	.total-button a{
-		font-size:0.95rem;
-		display:block;
-		width:90px;
-		background-color:#e1e4e4;
-		color:#444;
-		border-radius:30px;
-		height:40px;
-		line-height:40px;
-		text-align:center;
-		float:right;
-		margin: 0 5px;
-	}
-	.total-button a:hover{
-		background-color:#3498db;
-		color:#fff;
-		transition:all .4s;
-	}
-</style>
+
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 var num = 0;
 
 $(document).ready(function($) {	
+	
+	/* 헤더풋터 생성 */
+	$("#header").load("header.jsp")
+    $("#footer").load("footer.jsp")
 	
 	/* 카테고리선택하면 메뉴리스트 변경함수 */
 	$(".catelist").on("click", function() {
@@ -186,11 +46,40 @@ $(document).ready(function($) {
 		str += '<td align="center"><input type="number" class="qnum" name="quantity" min="1" max="1000" value="1"></td>';
 		str += '<td name="'+tdtext[1]+'" align="center">'+tdtext[1]+'</td>';
 		$(".pricemenu").after(str);
+		
+		sumprice();
+		/* console.log(tr.eq(2).children().eq(4).text()); */
+		
+		
 	});
+	
+	sumprice = function() {
+		var hap = 0;
+		var fee = 0;
+		var tr = $("#pricetable").children().children();
+		var pricearr = new Array();
+		
+		tr.each(function(i) {
+			pricearr.push(tr.eq(i).children().eq(4).text())
+		});
+		
+		for(var i = 1; i<pricearr.length;i++){
+			hap += parseInt(pricearr[i]);
+		}
+		
+		$("#repairfee").html(numberFormat(hap));
+		if(hap < 30000)
+			fee = parseInt(2500);
+		$("#shipfee").html(numberFormat(fee));
+		
+		$("#sumprice").html(numberFormat(hap+fee));
+		
+	}
 	
 	/* 가격바뀌는 함수 */
 	$.pricefun = function(){
 		var td = $(this).parent().parent().children();
+		console.log(td.eq(4));
 		var price = parseInt(td.eq(4).attr('name'));
 		var quan = td.eq(3).children().val();
 		
@@ -201,6 +90,8 @@ $(document).ready(function($) {
 		}else{
 			td.eq(4).html(price*quan);
 		}
+		
+		sumprice();
 	};
 	
 	/* 수량바뀔때 가격 바뀌는 함수호출 */
@@ -229,25 +120,36 @@ $(document).ready(function($) {
 			var tr = checkbox.parent().parent();
 			tr.remove();
 		}) 
+		
+		sumprice();
 	});
+	
+	numberFormat = function(inputNumber) {
+		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+	
+	//$('#repairfee').html(numberFormat(test));
+	
+	
 	
 });
 
-$(".qnum").bind('keyup mouseup', function () {
-    alert("changed");            
-});
+
 
 </script>
 <body>
+	<div id="header"></div>
+
 	<div class = content>
 		<div class = title-text>
 			<h2>세탁 서비스</h2>
 		</div>
-		<div id = setakimg>
+		<div class="setakmain">
+		<%-- <div id = setakimg>
 			<img src ="${pageContext.request.contextPath}/resources/image/화살표.PNG" border="0">
-		</div>
-		<div id = catediv>
-			<p><sub>&nbsp;※본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</sub></p>
+		</div> --%>
+			<p>※본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</p>
+			
 			<table id = "cate">
 			<tr>
 				<td id="#list1" class = "catelist active">상의</td>
@@ -262,7 +164,6 @@ $(".qnum").bind('keyup mouseup', function () {
 				<td id="#list8" class = "catelist">신발</td>
 			</tr>		
 			</table>
-		</div>
 		<div id = menudiv>
 			<table border="1" id="list1" class = "menulist show">
 			<tr>
@@ -385,20 +286,21 @@ $(".qnum").bind('keyup mouseup', function () {
 			</table>		
 		</div>
 		
+		
 		<div id = "pricediv">
 			<table border="1" id = "pricetable">
 				<tr class= "pricemenu">
-					<th><input type="checkbox" id = "allcheck" checked></th>
-					<th>세탁물</th>
-					<th>세탁방법</th>
-					<th>수량</th>
-					<th>합계</th>
+					<th width="10px"><input type="checkbox" id = "allcheck" checked></th>
+					<th width="580px">세탁물</th>
+					<th width="250px">세탁방법</th>
+					<th width="140px">수량</th>
+					<th width="200px">합계</th>
 				</tr>
 			</table>
 		</div>
 		
 		<div class="total">
-			<p>총 금액 : 수선비 10,000원 + 배송비 2,000원 = 합계 : 12,000원</p>
+			<p>총 금액 : 수선비 <span id = "repairfee">0</span>원 + 배송비 <span id = "shipfee">2,500</span>원 = 합계 : <span id = "sumprice">0</span>원</p>
 		</div>
 		
 		<div class="total-button">
@@ -406,5 +308,10 @@ $(".qnum").bind('keyup mouseup', function () {
 			<a href="javascript:">선택삭제</a>
 		</div>
 	</div>
+	
+	</div>
+	
+	
+	<div id="footer"></div>
 </body>
 </html>
