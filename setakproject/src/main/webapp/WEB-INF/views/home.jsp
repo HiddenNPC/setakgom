@@ -13,6 +13,7 @@
       height: 100%;
       margin:0 auto;   
    }
+   /*test*/
    /* 타이틀 부분 */
 	.title-text{
 		position:absolute;
