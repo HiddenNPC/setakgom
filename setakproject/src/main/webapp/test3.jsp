@@ -58,31 +58,37 @@
 			<div style="width: 85%; float: right;">
 				<div class="title-text">
 					<!-- 변경하시면 안됩니다. -->
-					<h2>주문/배송 현황</h2>
+					<h2>Q&A 문의내역</h2>
 				</div>
 				<br>
 				<div class="test2">
 					<!-- class 변경해서 사용하세요. -->
-					<p>
-						&nbsp;&nbsp;&nbsp;&nbsp;<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
-					</p>
 				</div>
 				<br>
-				<div class="accordion">
-					<div class="accordion-header">주문일자 : 2020/01/18 03:42</div>
-					<div class="accordion-content">
-						<!--snb -->
-						<div class="snb">
-							<p>.snb</p>
-							<br><br><br><br><br><br><br><br>
-							<a href="#" class="button">주문 취소</a>
-						</div>
-						<!--//snb -->
-						<!--content -->
-						<div id="row_content">
-							<p>#content</p>
-						</div>
+				<div class="qna-title">
+					<div>
+						<table class="qna" style="width:660px;">
+							<thead align="center">
+								<tr>
+									<th width="15">문의유형</th>
+									<th width="40">제목</th>
+									<th width="20">문의날짜</th>
+									<th width="15">답변상태</th>
+								</tr>
+							</thead>
+							<%for (int i=0; i<10; i++){ %>
+							<tbody align="center">
+								<tr>
+									<td>배송</td>
+									<td>내 택배 언제와</td>
+									<td>2020.01.05</td>
+									<td>답변완료</td>
+								</tr>
+							</tbody>					
+							<%} %>	
+						</table>
 					</div>
+						
 				</div>
 			</div>
 		</div>
