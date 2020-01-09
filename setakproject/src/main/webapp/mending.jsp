@@ -17,6 +17,12 @@
 	
 			$(".tab").on("click", function() {
 				$(".tab").removeClass("active");
+				$(".hash").empty();
+				$(".size_input p input").val('');
+				$(".details form")[0].reset();
+				$(".details form")[1].reset();
+				$(".details form")[2].reset();
+				maxAppend = 0;
 				$(".tab-content").removeClass("show");
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
@@ -32,6 +38,17 @@
 				});
 			}
 			
+			$("#left input").keyup(function(){
+		        $('.left_length').val($(this).val());
+		    });
+			$("#right input").keyup(function(){
+		        $('.right_length').val($(this).val());
+		    });
+			$("#length input").keyup(function(){
+		        $('.total_length').val($(this).val());
+		    });
+		    
+			
 			var maxAppend = 0;			
 			$(".mending-list").click(function() {
 				if (maxAppend >= 10){
@@ -45,6 +62,27 @@
 				$(this).remove();
 				maxAppend--;
 			});
+			
+			
+			
+			
+			$(".mending-list").click(function() {
+				if (maxAppend >= 10){
+					alert("최대 10개 선택 가능합니다.");
+					return;
+				}
+				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
+				maxAppend++;
+			});
+			$(document).on('click','.hashvl',function(event) {
+				$(this).remove();
+				maxAppend--;
+			});
+			
+			
+			
+			
+			
 
 			$('.bt_up').click(function() {
 				var n = $('.bt_up').index(this);
@@ -61,9 +99,12 @@
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
 			});
+			
 			$("input:text[numberOnly]").on("keyup", function() {
 				$(this).val($(this).val().replace(/[^0-9]/g, ""));
 			});
+			
+			
 		});
 		function onlyNumber(event) {
 			event = event || window.event;
@@ -105,13 +146,13 @@
 				
 				<div id="one" class="tab-content show">
 					<ul class="top">
-						<li class="mending-list" value="소매줄임">소매줄임<br><span>2,000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>2,000원</span></li>
+						<li class="mending-list" value="소매줄임">소매줄임<br><span>5,000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>5,000원</span></li>
 						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>2,000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>7,000원</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>2,000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>16,000원</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -119,29 +160,37 @@
 					<ul class="details">
 						<li><img src="images/top.png" alt="상의"></li>
 						<li>
+							<div class="top_size_input">
+								<div class="size_input">
+									<p id="left">- <input type="text" maxlength="2"></p>
+									<p id="right">- <input type="text" maxlength="2"></p>
+									<p id="length">- <input type="text" maxlength="2"></p>
+								</div>
+							</div>
 							<form>
 								<div class="hash">
 								</div>
-								<p>※ 왼쪽 소매 줄임 : - <input type="text" value="5">cm</p>
-								<p>※ 오른쪽 소매 줄임 : - <input type="text" value="5">cm</p>
-								<p>※ 총기장 : - <input type="text" value="">cm</p>
+								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
+								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
+								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
+								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a href="javascript:">추가</a>
 							</form>
 						</li>
 					</ul>
-					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다. 수선할 단추 수량만큼 눌러주세요.<br><br><br></p>
+					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다. 수선하실 단추 수량만큼 추가해 주세요.<br><br><br></p>
 				</div>
 				
 				<div id="two" class="tab-content">
-						<ul class="top">
-						<li class="mending-list" value="허리줄임">허리줄임<br><span>2,000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>2,000원</span></li>
+					<ul class="top">
+						<li class="mending-list" value="허리줄임">허리줄임<br><span>5,000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>5,000원</span></li>
 						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>2,000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>7,000원</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>2,000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>12,000원</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -149,12 +198,20 @@
 					<ul class="details">
 						<li><img src="images/bottom.png" alt="하의"></li>
 						<li>
+							<div class="bottom_size_input">
+								<div class="size_input">
+									<p id="left">- <input type="text" maxlength="2"></p>
+									<p id="right">- <input type="text" maxlength="2"></p>
+									<p id="length">- <input type="text" maxlength="2"></p>
+								</div>
+							</div>
 							<form>
 								<div class="hash">
 								</div>
-								<p>※ 왼쪽 기장 줄임 : - <input type="text" value="5">cm</p>
-								<p>※ 오른쪽 기장 줄임 : - <input type="text" value="5">cm</p>
-								<p>※ 허리 줄임 : - <input type="text" value="">cm</p>
+								<p>※ 왼쪽 기장 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
+								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
+								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
+								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a href="javascript:">추가</a>
 							</form>
@@ -164,7 +221,41 @@
 				</div>
 				
 				<div id="three" class="tab-content">
-					ABCDEFGHIJK
+					<ul class="top">
+						<li class="mending-list" value="소매줄임">소매줄임<br><span>5,000원</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>5,000원</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>2,000원</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>10,000원</span></li>
+					</ul>
+					<ul class="top">
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>20,000원</span></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+					<ul class="details">
+						<li><img src="images/outer.png" alt="아우터"></li>
+						<li>
+							<div class="outer_size_input">
+								<div class="size_input">
+									<p id="left">- <input type="text" maxlength="2"></p>
+									<p id="right">- <input type="text" maxlength="2"></p>
+									<p id="length">- <input type="text" maxlength="2"></p>
+								</div>
+							</div>
+							<form>
+								<div class="hash">
+								</div>
+								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
+								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
+								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
+								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<a href="javascript:">추가</a>
+							</form>
+						</li>
+					</ul>
+					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다. 수선하실 단추 수량만큼 추가해 주세요.<br><br><br></p>
 				</div>
 				
 				<p>※ 받으신 웰컴키트 안 '택'에  선택하신 택 코드를 동일하게 적어서 보내주세요.</p>
@@ -254,7 +345,7 @@
 						</tr>							
 					</table>
 					
-					<div class="total">
+					<div class="total_price">
 						<p>총 금액 : 수선비 10,000원 + 배송비 2,000원 = 합계 : 12,000원</p>
 					</div>
 					<div class="total-button">
