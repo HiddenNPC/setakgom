@@ -189,18 +189,10 @@
 	font-weight : bold; 
 }
 
-/*나의 배송주소록 레이어*/
-
-.delivery-btn {
-	float : right; 
-	margin-right : 20px; 
-}
-
-/*쿠폰 팝업 레이어*/
-
-#layer-div {
+/*팝업 레이어 공통*/
+.layer-card {
 	display : none; 
-	z-index : 10;
+	z-index : 10000;
 	position : absolute;
 	top : 0;
 	left : 0;
@@ -221,6 +213,134 @@
 	padding : 30px; 
 }
 
+#popup-div2 {
+	display : none;
+	z-index : 100;
+	position : fixed;
+	width : 60%;
+	height : 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	background-color : #ffffff; 
+	padding : 30px; 
+	overflow : scroll; 
+
+}
+
+
+/*나의 배송주소록 레이어*/
+
+.addr-btn {
+	float : right; 
+	margin-right : 20px; 
+}
+
+.addr-notice {
+	padding : 20px; 
+}
+
+.addr-notice p {
+	color: #3498db;
+	font-size: 0.9rem;
+	margin-bottom : 3px; 
+}
+
+
+.btnBlue {
+	float : right; 
+	background-color: #3498db;
+    color: #ffffff;
+	text-align: center;
+	box-shadow : none;
+	border : 0; 
+	height : 30px;
+	width : 80px;
+	font-size : 0.75rem;
+}
+
+.btnBlue:hover {
+	opacity : 0.8; 
+}
+
+
+#new-addr-div {
+	margin-top: 30px;
+	display : none;
+    background-color : #eeefef;
+    padding : 20px;
+    margin-bottom : 15px; 
+}
+
+.new-addr-table {
+	margin-top : 20px; 
+}
+
+.new-addr-table tr {
+	height : 30px; 
+}
+
+.new-addr-table tr td .txtInp {
+	margin-top : 0;
+	margin-bottom : 3px; 
+}
+
+.new-left {
+    color: #444;
+    font-size: 0.9rem;
+    width: 20%;
+    text-align: left;
+	font-weight: bold;
+	padding-left : 35px; 
+}
+
+
+#new-addr-close {
+	float : right;
+	position : relative;
+	top :0;
+	right :0;
+	border : 0px;
+	font-size : 1.1rem;
+}
+
+.addr-content {
+	margin-top : 50px; 
+}
+
+.addr-table {
+    text-align: center;
+    width: 100%;
+    font-size: 0.8rem;
+    color: #444;
+    border-spacing : 0; 
+    margin-bottom : 30px; 
+}
+
+.addr-table thead th {
+	height : 35px;
+	border-top : 2px solid #D8D8D8;
+	border-bottom : 1px solid #D8D8D8;
+	background-color : #eeefef;
+}
+
+.addr-table tbody tr td {
+	height : 60px; 
+	border-bottom : 1px solid #d8d8d8;
+}
+
+
+.modiDiv {
+	border-bottom: 1px solid #ccc;
+	background-color: #f7f7f7;
+	padding: 20px;
+	color: #4a5666;
+	display: none;
+}
+
+	
+
+/*쿠폰 팝업 레이어*/
 .popup-title {
 	border-bottom : 2px solid #eeefef; 
 	padding-bottom: 20px; 
@@ -274,9 +394,9 @@
 }
 
 .popup-table tr td hr {
-	color : #eeefef;
 	margin-top: 20px;
-    margin-bottom: 20px;
+	margin-bottom: 20px;
+	border : 1px solid #eeefef; 
 }
 
 .pLeft_col {
