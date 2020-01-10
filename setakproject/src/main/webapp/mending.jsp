@@ -130,7 +130,24 @@
 				$(".details form")[2].reset();
 				maxAppend = 0;
 				tprice = parseInt(0);
+				sumprice();
 			});
+			
+			sumprice = function() {
+				var hap = 0;
+				var fee = 0;
+				var tr = $(".mending_order").children().children();
+				var pricearr = new Array();
+				tr.each(function(i) {
+					pricearr.push(tr.eq(i).children().eq(4).text())
+				});
+				
+				for(var i = 1; i<pricearr.length;i++){
+					hap += parseInt(pricearr[i].split('원')[0]);
+				}
+				$(".tot_price").html(hap);
+			}
+			
 			
 			//수량
 			$(document).on('click','.bt_up',function(event) {
@@ -157,6 +174,7 @@
 				var num = parseInt($(".count:eq(" + n + ")").val());
 				var price = parseInt($(".tprice:eq(" + n + ")").attr('name'));
 				$(".tprice:eq(" + n + ")").html((num*price) + "원");
+				sumprice();
 			};
 			$(document).on("propertychange change keyup paste",".count", function(){
 				var n = $('.count').index(this);
@@ -327,7 +345,7 @@
 					</table>
 					
 					<div class="total_price">
-						<p>수선비 총 금액 : 수선비 10,000원 + 배송비 2,000원 = 합계 : 12,000원</p>
+						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
 						<a href="javascript:">장바구니</a>
