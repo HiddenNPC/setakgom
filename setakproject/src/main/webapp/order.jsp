@@ -158,9 +158,9 @@
 									<tr>
 										<td class = "left_col">적립금</td>
 										<td class = "right_col">
-											<input class = "txtInp" type = "text" name = "" style = "width : 75px;"/> <span style = "font-size : 0.85rem;">Point</span>
+											<input id = "usePoint" class = "txtInp usePoint" type = "text" name = "" style = "width : 75px;"/> <span style = "font-size : 0.85rem;">Point</span>
 											&nbsp;
-											<span class = "myPoint"> (보유 적립금 : <b>500</b>원)  </span> 
+											<p class = "myPoint"> (보유 적립금 : <b><span id = "havePoint">500</span></b>원)  </p> 
 											
 										</td>
 									</tr>
@@ -177,7 +177,7 @@
 							<tbody>
 								<tr>
 									<td class = "left_col first_row">총 주문금액</td>
-									<td class = "first_row">39000원</td>
+									<td id = "total_price" class = "first_row">39000 원</td>
 								</tr>
 								<tr>
 									<td class = "left_col">배송비</td>
@@ -189,11 +189,15 @@
 								</tr>
 								<tr>
 									<td class = "left_col">적립금</td>
-									<td class = "txtBlue">0원</td>
+									<td class = "txtBlue">
+										<span id = "point_price">0원</span>
+									</td>
 								<tr>
 								<tr>
 									<td class = "left_col td_final">최종 결제액</td>
-									<td id = "final_price" class = "txtBlue">39000원</td>
+									<td class = "txtBlue">										
+										<span id = "final_price">39000</span>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -402,9 +406,9 @@
 				<div class="popup-content1">
 					<h3>쿠폰할인</h3>
 					<ul>
-						<li><input type="checkbox" name="" />보관 1개월 무료</li>
-						<li><input type="checkbox" name="" />보관 1개월 무료</li>
-						<li><input type="checkbox" name="" />보관 1개월 무료</li>
+						<li><input type="checkbox" class = "checkCoupon" name="coupon1" value = "9500" />보관 1개월 무료 (보관세탁)</li>
+						<li><input type="checkbox" class = "checkCoupon" name="coupon2" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" class = "checkCoupon" name="coupon3" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
 					</ul>
 				</div>
 				
@@ -413,11 +417,11 @@
 						<table class = "popup-table">
 							<tr>
 								<td class = "pLeft_col">상품금액</td>
-								<td class = "pRight_col">39,000원</td>
+								<td class = "pRight_col"><span id = "product_price"></span></td>
 							</tr>
 							<tr>
 								<td class = "pLeft_col">쿠폰 할인금액</td>
-								<td class = "pRight_col txtBlue">0원</td>
+								<td class = "pRight_col txtBlue"><span id = "coupon_price"></span></td>
 							</tr>
 							<tr>
 								<td colspan = "2">
@@ -426,7 +430,7 @@
 							</tr>
 							<tr>
 								<td class = "pLeft_col pFinal">할인적용금액</td>
-								<td class = "pRight_col pFinal txtBlue">39,000원</td>
+								<td class = "pRight_col pFinal txtBlue"><span id = "discount_price"></span></td>
 							</tr>
 						</table>
 					</div>
@@ -466,18 +470,89 @@ $(document).ready(function() {
 	});
 	
 	
+	// 나의 주소록 > 주소 수정
     $(".accordion-btn").on("click", function () {
     	var select_btn = $(this);
         $(".modiDiv")
             .toggleClass("active")
             .slideToggle(200);
     });
+	
+	// 나의 주소록 > 주소 삭제
+    $(".delAddrBtn").on("click", function () {
+    	var select_btn = $(this);
+        alert("이 주소를 삭제하시겠습니까?")
+    });
     
+	// 적립금 사용
+	$('input#usePoint').on('keyup',function(){
+  
+	    var usePoint = parseInt($("#usePoint").val() || 0 ); 
+	    var havePoint = parseInt($("#havePoint").text());
+	    var totalPrice = $("#total_price").text().slice(0,-1);
 	
+	    var finalPrice = totalPrice - usePoint;
+		
+	    $("#point_price").text('-'+usePoint+'원');    
+		$("#final_price").text(finalPrice+'원');
+		
+		if($("input#usePoint").val() == ''  || $("input#usePoint").val() == '0') {
+			$("#point_price").text('0원');
+		}   
+		
+		if(usePoint > havePoint) {
+			finalPrice += usePoint; 
+			alert("사용 가능한 최대 포인트는 " + havePoint + "Point 입니다.");
+			$("#usePoint").val(havePoint);
+			$("#final_price").text(finalPrice+'원');
+			$("#point_price").text('-'+havePoint+'원');
+		}
+     
+	});
 	
+	// 쿠폰 레이아웃 > 쿠폰 선택
+	$(':checkbox[class="checkCoupon"]').on({
+	    click: function(e) {
+	    	
+	        var select_btn = $(this);
+	        var productPrice = parseInt($("#discount_price").text().slice(0,-1));
+	        var salePrice = parseInt(select_btn.val());
+	        
+	        
+	    	if($(":checkbox[class='checkCoupon']").is(":checked") == true) {
+	    		
+				var totalSale = 0;
+				totalSale += salePrice; 
+				
+		        var discountPrice = productPrice-salePrice;
+		        
+		        $("#coupon_price").text(totalSale+'원');	
+		        $("#discount_price").text(discountPrice+'원');	
+		        
+	    	}
+	    	
+	    	else {
+	    	
+				var totalSale = parseInt($("#coupon_price").text().slice(0, -1));
+				alert(salePrice + ' : salePrice ' + productPrice + ' : productPrice');
+				totalSale -= salePrice;
+				var discountPrice = productPrice + salePrice;
+	
+		        $("#coupon_price").text(totalSale+'원');	
+		        $("#discount_price").text(discountPrice+'원');
+	    	
+	    	}
+	        
+	    }	
+	});
 	
 	// 결제 : 아임포트 스크립트
 	$(".pay_btn").on("click", function(){
+		
+		// 결제 금액 받아오기 
+		var final_price = $('#final_price').text().slice(0,-1);
+		alert(final_price);
+		
 		
         var IMP = window.IMP; // 생략가능
         IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -488,7 +563,7 @@ $(document).ready(function() {
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : '세탁곰 결제',
-            amount : 5000,
+            amount : final_price,
             buyer_email : 'minchoi9509@gmail.com',
             buyer_name : '민경',
             buyer_tel : '010-8848-2996',
@@ -610,9 +685,7 @@ $(document).ready(function() {
 
         if(type == 'open') {
            
-            // 팝업창을 연다.
-
-            
+            // 팝업창을 연다.            
             jQuery('#layer-div2').attr('style','display:block');
             jQuery('#popup-div2').attr('style','display:block');
             
@@ -682,6 +755,14 @@ $(document).ready(function() {
             
             // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
             jQuery('#layer-div').height(jQuery(document).height());
+            
+            var finalPrice = parseInt($('#final_price').text());
+            $('#product_price').text(finalPrice+'원');
+            
+            $('#coupon_price').text('0원');
+            
+            var discountPrice = $('#discount_price').text();
+            $('#discount_price').text(finalPrice+'원');
         }
        
         else if(type == 'close') {
@@ -690,6 +771,7 @@ $(document).ready(function() {
             jQuery('#layer-div').attr('style','display:none');
             $("body").css("overflow","scroll");
             
+
         }
     }
 	
