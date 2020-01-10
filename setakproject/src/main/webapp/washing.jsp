@@ -140,12 +140,7 @@ $(document).ready(function($) {
 		}
 	
 	//$('#repairfee').html(numberFormat(test));
-	
-	
-	
 });
-
-
 
 </script>
 <body>
@@ -160,7 +155,7 @@ $(document).ready(function($) {
 		<%-- <div id = setakimg>
 			<	img src ="${pageContext.request.contextPath}/resources/image/화살표.PNG" border="0">
 			</div> --%>
-			<p>※본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</p>
+			<p>※ 본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</p>
 			
 			<!-- 카테고리 테이블 -->
 			<div class="tabs">
@@ -298,20 +293,18 @@ $(document).ready(function($) {
 					</ul>
 				</div>
 			</div>
-			
-			<div id = "pricediv">
-				<table border="1" id = "pricetable">
+			<form id="pricediv">
+				<table id = "pricetable">
 					<tr class= "pricemenu">
-						<th width="10px"><input type="checkbox" id = "allcheck" checked></th>
-						<th width="580px">세탁물</th>
-						<th width="250px">세탁방법</th>
-						<th width="140px">수량</th>
-						<th width="200px">합계</th>
+						<td width="10px"><input type="checkbox" id = "allcheck" checked></td>
+						<td width="580px">세탁물</td>
+						<td width="250px">세탁방법</td>
+						<td width="140px">수량</td>
+						<td width="200px">합계</td>
 					</tr>
 				</table>
-			</div>
-			
-			<p>※3만원 이상 .</p>
+			</form>
+			<p>※3만원 이상</p>
 			
 			<div class="total">
 				<p>총 금액 : 수선비 <span id = "repairfee">0</span>원 + 배송비 <span id = "shipfee">2,500</span>원 = 합계 : <span id = "sumprice">0</span>원</p>
