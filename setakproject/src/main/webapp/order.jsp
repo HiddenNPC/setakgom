@@ -18,6 +18,9 @@
    <!-- 우편번호 api -->
    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>   
    
+   <!-- 아코디언 -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+       
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
@@ -91,11 +94,10 @@
 							<tr>
 								<td class = "left_col">배송지 선택</td>
 								<td class = "right_col">
-									<select name = "">
-										<option>배송지를 선택해주세요.</option>
-									</select>
+									<input type = "radio" name = "delivery_info" checked = "checked" value = "" /> 기본배송지 
+									<input type = "radio" name = "delivery_info " value = "" /> 직접입력  
 									
-									<button>+ 새로운 주소</button>
+									<input type = "button" class = "addr-btn btnBlue" onclick = "layerDeliPopup('open')" value = "나의 주소록" />
 								</td>
 							</tr>
 							
@@ -119,7 +121,7 @@
 								<td class = "left_col">배송지 주소</td>
 								<td class = "right_col">
 									<input id = "postcode" class = "txtInp" type = "text" name = "" style = "width : 60px;"/> 
-									<input type = "button" onclick="execDaumPostcode()" value = "우편번호 찾기">
+									<input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
 									<br/>
 									<input id = "address" class = "txtInp" type = "text" name = "" style = "width : 270px;" readonly/> &nbsp;
 									<input id= "detailAddress" class = "txtInp" type = "text" name = "" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;"/>
@@ -156,9 +158,9 @@
 									<tr>
 										<td class = "left_col">적립금</td>
 										<td class = "right_col">
-											<input class = "txtInp" type = "text" name = "" style = "width : 75px;"/> <span style = "font-size : 0.85rem;">Point</span>
+											<input id = "usePoint" class = "txtInp usePoint" type = "text" name = "" style = "width : 75px;"/> <span style = "font-size : 0.85rem;">Point</span>
 											&nbsp;
-											<span class = "myPoint"> (보유 적립금 : <b>500</b>원) </span> 
+											<p class = "myPoint"> (보유 적립금 : <b><span id = "havePoint">500</span></b>원)  </p> 
 											
 										</td>
 									</tr>
@@ -175,7 +177,7 @@
 							<tbody>
 								<tr>
 									<td class = "left_col first_row">총 주문금액</td>
-									<td class = "first_row">39000원</td>
+									<td id = "total_price" class = "first_row">39000 원</td>
 								</tr>
 								<tr>
 									<td class = "left_col">배송비</td>
@@ -183,15 +185,19 @@
 								<tr>
 								<tr>
 									<td class = "left_col">쿠폰할인</td>
-									<td class = "td_final">0원</td>
+									<td class = "txtBlue">0원</td>
 								</tr>
 								<tr>
 									<td class = "left_col">적립금</td>
-									<td class = "td_final">0원</td>
+									<td class = "txtBlue">
+										<span id = "point_price">0원</span>
+									</td>
 								<tr>
 								<tr>
 									<td class = "left_col td_final">최종 결제액</td>
-									<td id = "final_price" class = "td_final">39000원</td>
+									<td class = "txtBlue">										
+										<span id = "final_price">39000</span>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -202,24 +208,238 @@
 					
       </div>
    </section>
+   
+   <!-- 나의 주소록 레이어 -->
+   <section id = "address">
+   	<div id = "layer-div2" class = "layer-card">
+   		<div id = "popup-div2">
+   			<div class = "popup-title">
+   				<h2>나의 주소록</h2>
+   				<button class = "popup-close" onclick = "layerDeliPopup('close')">X</button>
+   			</div>
+   			
+   			<div class = "addr-notice">
+   				<p>※ 해당 주소를 클릭하면 주문서에 자동입력 됩니다.</p>
+   				<p>※ 신규등록을 원하시면 신규등록 버튼을 클릭하여 주세요.</p>
+   				<p>※ 주소록에는 최대 5개의 주소등록이 가능합니다. </p>
+   				<button id = "new-addr-btn" class = "btnBlue">신규등록</button> 				
+   			</div>
+   			
+	   			<div id = "new-addr-div">
+	   				<h3>신규등록 <button id = "new-addr-close">X</button> </h3>
+	   				
+	   				<hr>
+	   				<form id = "new-addr-form" action = "">
+		   				<table class = "new-addr-table">
+		   					<tr>
+		   						<td class = "new-left">배송지</td>
+		   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "" /></td>
+		   					</tr>
+		   					<tr>
+		   						<td class = "new-left">이름</td>
+		   						<td><input id = "newName" type = "text" class = "txtInp" name = "" /></td>
+		   					</tr>
+		   					<tr>
+		   						<td class = "new-left">주소</td>
+								<td>
+									<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
+									<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
+									<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
+									<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+									<input id="extraAddress2" type="hidden" placeholder="참고항목">
+								</td>
+							</tr>
+							<tr>
+								<td class = "new-left">연락처</td>
+								<td>
+									<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+									-
+									<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+									-
+									<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+								</td>
+							</tr>
+							<tr>
+								<td colspan = "2">
+									<button class = "btnBlue">확인</button>
+								</td>
+							</tr>						
+						</table>
+					</form>
+	   			</div>
+   			
+   			<div class = "addr-content">
+   				<table class = "addr-table">
+   					<thead>
+   						<tr>
+   							<th>배송지</th>
+   							<th>이름</th>
+   							<th>주소</th>
+   							<th>연락처</th>
+   							<th>관리</th>
+   						</tr>
+   					</thead>
+   					<tbody>
+   						<tr>
+   							<td>신림</td>
+   							<td>최민경</td>
+   							<td id = "seoul">서울특별시 관악구 어짜구</td>
+   							<td>010-8848-2996</td>
+   							<td>
+	   							<input type = "button" class = "modiAddrBtn accordion-btn" value = "수정"/>
+	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
+	   						</td>
+	   					</tr>
+	   					<tr class="modiDiv">
+	   						<td colspan = "5">
+				   				<h3>수정하기</h3>
+				   				<form id = "new-addr-form" action = "">
+					   				<table class = "new-addr-table">
+					   					<tr>
+					   						<td class = "new-left">배송지</td>
+					   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "" /></td>
+					   					</tr>
+					   					<tr>
+					   						<td class = "new-left">이름</td>
+					   						<td><input id = "newName" type = "text" class = "txtInp" name = "" /></td>
+					   					</tr>
+					   					<tr>
+					   						<td class = "new-left">주소</td>
+											<td>
+												<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
+												<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
+												<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
+												<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+												<input id="extraAddress2" type="hidden" placeholder="참고항목">
+											</td>
+										</tr>
+										<tr>
+											<td class = "new-left">연락처</td>
+											<td>
+												<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+												-
+												<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+												-
+												<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td colspan = "2">
+												<button class = "btnBlue">확인</button>
+											</td>
+										</tr>						
+									</table>
+								</form>
+	   						</td>
+	   					</tr>
+	   					
+   						<tr>
+   							<td>신림</td>
+   							<td>최민경</td>
+   							<td id = "seoul">서울특별시 관악구 어짜구</td>
+   							<td>010-8848-2996</td>
+   							<td>
+	   							<input type = "button" class = "modiAddrBtn accordion-btn" value = "수정"/>
+	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
+	   						</td>
+	   					</tr>
+	   					<tr class="modiDiv">
+	   						<td colspan = "5">
+				   				<h3>수정하기</h3>
+				   				<form id = "new-addr-form" action = "">
+					   				<table class = "new-addr-table">
+					   					<tr>
+					   						<td class = "new-left">배송지</td>
+					   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "" /></td>
+					   					</tr>
+					   					<tr>
+					   						<td class = "new-left">이름</td>
+					   						<td><input id = "newName" type = "text" class = "txtInp" name = "" /></td>
+					   					</tr>
+					   					<tr>
+					   						<td class = "new-left">주소</td>
+											<td>
+												<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
+												<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
+												<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
+												<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+												<input id="extraAddress2" type="hidden" placeholder="참고항목">
+											</td>
+										</tr>
+										<tr>
+											<td class = "new-left">연락처</td>
+											<td>
+												<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+												-
+												<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+												-
+												<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+											</td>
+										</tr>
+										<tr>
+											<td colspan = "2">
+												<button class = "btnBlue">확인</button>
+											</td>
+										</tr>						
+									</table>
+								</form>
+	   						</td>
+	   					</tr>
+	   					
+   					</tbody>
+   				</table>
+   			</div>
+   			
+   			
+   		</div>
+   	</div>
+   </section>
 
 	<!-- 쿠폰 팝업 레이어 -->
-	<div id = "layer-div" class="layer-card">
-		<div id = "popup-div">
-			<div class="popup-title">
-				<h2>쿠폰적용</h2>
-				<button class = "popup-close" onclick = "layerPopup('close')">X</button>
-			</div>
-			<div class="popup-content">
-				<h3>쿠폰할인</h3>
-				<ul>
-					<li><input type="checkbox" name="" />보관 1개월 무료</li>
-					<li><input type="checkbox" name="" />보관 1개월 무료</li>
-					<li><input type="checkbox" name="" />보관 1개월 무료</li>
-				</ul>
+	<section id = "coupon">
+		<div id = "layer-div" class="layer-card">
+			<div id = "popup-div">
+				<div class="popup-title">
+					<h2>쿠폰적용</h2>
+					<button class = "popup-close" onclick = "layerPopup('close')">X</button>
+				</div>
+				<div class="popup-content1">
+					<h3>쿠폰할인</h3>
+					<ul>
+						<li><input type="checkbox" class = "checkCoupon" name="coupon1" value = "9500" />보관 1개월 무료 (보관세탁)</li>
+						<li><input type="checkbox" class = "checkCoupon" name="coupon2" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" class = "checkCoupon" name="coupon3" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
+					</ul>
+				</div>
+				
+				<div class="popup-content2">
+					<div class = "popup-table-div">
+						<table class = "popup-table">
+							<tr>
+								<td class = "pLeft_col">상품금액</td>
+								<td class = "pRight_col"><span id = "product_price"></span></td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col">쿠폰 할인금액</td>
+								<td class = "pRight_col txtBlue"><span id = "coupon_price"></span></td>
+							</tr>
+							<tr>
+								<td colspan = "2">
+								<hr/>
+								</td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col pFinal">할인적용금액</td>
+								<td class = "pRight_col pFinal txtBlue"><span id = "discount_price"></span></td>
+							</tr>
+						</table>
+					</div>
+					
+					<button>쿠폰적용</button>				
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 	
 	<div id="footer"></div>
 </body>
@@ -229,8 +449,110 @@
 
 $(document).ready(function() {
 	
+	// 나의 주소록 > 신규등록 
+	$("#new-addr-btn").on("click", function() {
+		$('#new-addr-div').css('display', 'block'); 	
+	});
+	
+	$("#new-addr-close").on("click", function() {
+		newAddrInit();
+	});
+	
+	$("#seoul").on("click", function() {
+		var select_button = $(this);
+		var tr = select_button.parent().parent();
+		var td = tr.children();
+		
+		var price = td.eq(0).text();
+	
+		alert(price);
+		
+	});
+	
+	
+	// 나의 주소록 > 주소 수정
+    $(".accordion-btn").on("click", function () {
+    	var select_btn = $(this);
+        $(".modiDiv")
+            .toggleClass("active")
+            .slideToggle(200);
+    });
+	
+	// 나의 주소록 > 주소 삭제
+    $(".delAddrBtn").on("click", function () {
+    	var select_btn = $(this);
+        alert("이 주소를 삭제하시겠습니까?")
+    });
+    
+	// 적립금 사용
+	$('input#usePoint').on('keyup',function(){
+  
+	    var usePoint = parseInt($("#usePoint").val() || 0 ); 
+	    var havePoint = parseInt($("#havePoint").text());
+	    var totalPrice = $("#total_price").text().slice(0,-1);
+	
+	    var finalPrice = totalPrice - usePoint;
+		
+	    $("#point_price").text('-'+usePoint+'원');    
+		$("#final_price").text(finalPrice+'원');
+		
+		if($("input#usePoint").val() == ''  || $("input#usePoint").val() == '0') {
+			$("#point_price").text('0원');
+		}   
+		
+		if(usePoint > havePoint) {
+			finalPrice += usePoint; 
+			alert("사용 가능한 최대 포인트는 " + havePoint + "Point 입니다.");
+			$("#usePoint").val(havePoint);
+			$("#final_price").text(finalPrice+'원');
+			$("#point_price").text('-'+havePoint+'원');
+		}
+     
+	});
+	
+	// 쿠폰 레이아웃 > 쿠폰 선택
+	$(':checkbox[class="checkCoupon"]').on({
+	    click: function(e) {
+	    	
+	        var select_btn = $(this);
+	        var productPrice = parseInt($("#discount_price").text().slice(0,-1));
+	        var salePrice = parseInt(select_btn.val());
+	        
+	        
+	    	if($(":checkbox[class='checkCoupon']").is(":checked") == true) {
+	    		
+				var totalSale = 0;
+				totalSale += salePrice; 
+				
+		        var discountPrice = productPrice-salePrice;
+		        
+		        $("#coupon_price").text(totalSale+'원');	
+		        $("#discount_price").text(discountPrice+'원');	
+		        
+	    	}
+	    	
+	    	else {
+	    	
+				var totalSale = parseInt($("#coupon_price").text().slice(0, -1));
+				alert(salePrice + ' : salePrice ' + productPrice + ' : productPrice');
+				totalSale -= salePrice;
+				var discountPrice = productPrice + salePrice;
+	
+		        $("#coupon_price").text(totalSale+'원');	
+		        $("#discount_price").text(discountPrice+'원');
+	    	
+	    	}
+	        
+	    }	
+	});
+	
 	// 결제 : 아임포트 스크립트
 	$(".pay_btn").on("click", function(){
+		
+		// 결제 금액 받아오기 
+		var final_price = $('#final_price').text().slice(0,-1);
+		alert(final_price);
+		
 		
         var IMP = window.IMP; // 생략가능
         IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -241,7 +563,7 @@ $(document).ready(function() {
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : '세탁곰 결제',
-            amount : 5000,
+            amount : final_price,
             buyer_email : 'minchoi9509@gmail.com',
             buyer_name : '민경',
             buyer_tel : '010-8848-2996',
@@ -289,8 +611,11 @@ $(document).ready(function() {
 	
 });
 
+	// 함수
+
 	//우편번호 api
-    function execDaumPostcode() {
+    function execDaumPostcode(type) {
+
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -300,18 +625,6 @@ $(document).ready(function() {
                 var addr = ''; // 주소 변수
                 var extraAddr = ''; // 참고항목 변수
                 
-                var themeObj = {
-                		   //bgColor: "", //바탕 배경색
-                		   searchBgColor: "#3498DB", //검색창 배경색
-                		   //contentBgColor: "", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
-                		   //pageBgColor: "", //페이지 배경색
-                		   //textColor: "", //기본 글자색
-                		   queryTextColor: "#FFFFFF" //검색창 글자색
-                		   //postcodeTextColor: "", //우편번호 글자색
-                		   //emphTextColor: "", //강조 글자색
-                		   //outlineColor: "", //테두리
-                };
-
                 //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
@@ -335,29 +648,105 @@ $(document).ready(function() {
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("extraAddress").value = extraAddr;
+                    if(type == 'origin') {
+                    	document.getElementById("extraAddress").value = extraAddr;	
+                    } else {
+                    	document.getElementById("extraAddress2").value = extraAddr;
+                    }
                 
                 } else {
-                    document.getElementById("extraAddress").value = '';
+                	if(type == 'origin') {
+                		document.getElementById("extraAddress").value = '';	
+                	} else {
+                		document.getElementById("extraAddress2").value = '';
+                	}
+                    
+                }
+                
+                if(type == 'origin') {
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById("address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress").focus();                	
+                } else {
+                    document.getElementById('postcode2').value = data.zonecode;
+                    document.getElementById("address2").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress2").focus();                     	
                 }
 
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postcode').value = data.zonecode;
-                document.getElementById("address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("detailAddress").focus();
             }
         }).open();
     }
 	
-	// 쿠폰적용 
+	// 나의주소록 레이어 스크립트
+	 function layerDeliPopup(type) {
+
+        if(type == 'open') {
+           
+            // 팝업창을 연다.            
+            jQuery('#layer-div2').attr('style','display:block');
+            jQuery('#popup-div2').attr('style','display:block');
+            
+            // 스크롤 없애기
+            $("body").css("overflow","hidden");
+            
+            // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+            jQuery('#layer-div2').height(jQuery(document).height());
+        }
+       
+        else if(type == 'close') {
+           
+            // 팝업창을 닫는다.
+            jQuery('#layer-div2').attr('style','display:none');
+            newAddrInit();
+            $("body").css("overflow","scroll");
+            
+        }
+    }
+	
+	// 신규배송 초기화 함수 
+	function newAddrInit() {
+		
+        jQuery('#new-addr-div').attr('style','display:none');
+        
+		$('#newAddrName').val('');
+		$('#newName').val('');
+		$('#postcode2').val('');
+		$('#address2').val('');
+		$('#detailAddress2').val('');
+		$('#extraAddress2').val('');
+		$('#newPhone1').val('');
+		$('#newPhone2').val('');
+		$('#newPhone3').val('');
+	}
+
+	
+	// 나의 주소록 클릭 이벤트
+	function callFunction(){
+		
+		var select_addr = $(this).attr('id');
+		alert(select_addr); 
+		var tr = select_addr.parent().parent();
+		var td = tr.children();
+		
+		var newAddrName = td.eq(0).text();
+		alert(newAddrName); 
+		
+		jQuery('#layer-div2').attr('style','display:none');
+		newAddrInit();
+        $("body").css("overflow","scroll");
+	}
+	
+	
+	// 쿠폰적용 레이어 스크립트
     function layerPopup(type) {
 
         if(type == 'open') {
            
             // 팝업창을 연다.
 
-            
             jQuery('#layer-div').attr('style','display:block');
             jQuery('#popup-div').attr('style','display:block');
             
@@ -366,6 +755,14 @@ $(document).ready(function() {
             
             // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
             jQuery('#layer-div').height(jQuery(document).height());
+            
+            var finalPrice = parseInt($('#final_price').text());
+            $('#product_price').text(finalPrice+'원');
+            
+            $('#coupon_price').text('0원');
+            
+            var discountPrice = $('#discount_price').text();
+            $('#discount_price').text(finalPrice+'원');
         }
        
         else if(type == 'close') {
@@ -374,17 +771,9 @@ $(document).ready(function() {
             jQuery('#layer-div').attr('style','display:none');
             $("body").css("overflow","scroll");
             
+
         }
     }
-	
-	function popupCenter() {
-		var width = $('#popup-div').width();
-		var height = $('#popup-div').height();
-		
-		$('#popup-div').css({'left' : ($(window).width() - width) / 2, 
-			'top' : ($(window).height() - height) / 2});
-	}
-
 	
 </script>
 </html>
