@@ -12,8 +12,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			//헤더, 푸터연결
 			$("#header").load("header.jsp")
 			$("#footer").load("footer.jsp")
+			
+			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
 				$(".tab").removeClass("active");
 				$(".hash").empty();
@@ -26,7 +29,8 @@
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
 			});
-		
+			
+			//세탁, 수선, 보관 탭 눌렀을 때 위로 올라가는 제이쿼리
 			var windowWidth = $(window).width();
 			if (windowWidth > 769) {
 				$('.tab-list a').click(function() {
@@ -37,6 +41,7 @@
 				});
 			}
 			
+			//치수 입력 시 폼에도 값 넘기기
 			$("#left input").keyup(function(){
 		        $('.left_length').val($(this).val());
 		    });
@@ -46,9 +51,10 @@
 			$("#length input").keyup(function(){
 		        $('.total_length').val($(this).val());
 		    });
-		    
 			
+			//태그 기능, 계산기능
 			var maxAppend = 0;
+			var tprice = parseInt(0);
 			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
 					alert("최대 10개 선택 가능합니다.");
@@ -58,21 +64,25 @@
 				maxAppend++;
 				
 				$(".price").removeClass("each");
-				$(this,".price").addClass("each");
+				$($(this).children('.price')).addClass("each");
 				var abc =  document.getElementsByClassName('each');
-				alert(abc[0].innerHTML);
+				tprice += parseInt(abc[0].innerHTML);
 			});
-
 			$(document).on('click','.hashvl',function(event) {
 				$(this).remove();
 				maxAppend--;
 			});
 			
-
+			//추가 버튼 눌렀을 때
 			$(".add_button").on("click", function() {
 				var sortation = document.getElementsByClassName('active');
 				var str = "";
 				
+				if(maxAppend==0){
+					alert('선택 된 수선내용이 없습니다.');
+					return;
+				}
+
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td style="text-align:left; padding-left:59px;">'+sortation[0].innerHTML+'</td>';
@@ -109,16 +119,26 @@
 				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
-				str += '<td>5000원</td>';
-				str += '</tr>';				
-				$(".mending_order_title").after(str);
-			});
+				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원</td>';
+				str += '</tr>';		
 				
+				$(".mending_order_title").after(str);
+				$(".hash").empty();
+				$(".size_input p input").val('');
+				$(".details form")[0].reset();
+				$(".details form")[1].reset();
+				$(".details form")[2].reset();
+				maxAppend = 0;
+				tprice = parseInt(0);
+			});
+			
+			//수량
 			$(document).on('click','.bt_up',function(event) {
 				var n = $('.bt_up').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				num = $(".count:eq(" + n + ")").val(num * 1 + 1);
-
+				
+				$.pricefun(n);
 			});
 			$(document).on('click','.bt_down',function(event) {
 				var n = $('.bt_down').index(this);
@@ -128,14 +148,22 @@
 				} else {
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
+				
+				$.pricefun(n);
 			});
 			
-			$("input:text[numberOnly]").on("keyup", function() {
-				$(this).val($(this).val().replace(/[^0-9]/g, ""));
+			//수량에 따른 값변경
+			$.pricefun = function(n){
+				var num = parseInt($(".count:eq(" + n + ")").val());
+				var price = parseInt($(".tprice:eq(" + n + ")").attr('name'));
+				$(".tprice:eq(" + n + ")").html((num*price) + "원");
+			};
+			$(document).on("propertychange change keyup paste",".count", function(){
+				var n = $('.count').index(this);
+				$.pricefun(n);
 			});
-			
-			
 		});
+		//한글, 영어 금지
 		function onlyNumber(event) {
 			event = event || window.event;
 			var keyID = (event.which) ? event.which : event.keyCode;
@@ -145,7 +173,6 @@
 			else
 				return false;
 		}
-
 		function removeChar(event) {
 			event = event || window.event;
 			var keyID = (event.which) ? event.which : event.keyCode;
@@ -173,7 +200,7 @@
 						<a href="#three" id="tab" class="tab">아우터</a>
 					</div>
 				</div>
-				
+
 				<div id="one" class="tab-content show">
 					<ul class="top">
 						<li class="mending-list" value="소매줄임">소매줄임<br><span>원</span><span class="price">5000</span></li>
@@ -182,7 +209,7 @@
 						<li class="mending-list" value="튿어짐">튿어짐<br><span>원</span><span class="price">7000</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>16000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>원</span><span class="price">16000</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -192,9 +219,9 @@
 						<li>
 							<div class="top_size_input">
 								<div class="size_input">
-									<p id="left">- <input type="text" maxlength="2"></p>
-									<p id="right">- <input type="text" maxlength="2"></p>
-									<p id="length">- <input type="text" maxlength="2"></p>
+									<p id="left">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
+									<p id="right">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
+									<p id="length">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
 								</div>
 							</div>
 							<form>
@@ -214,13 +241,13 @@
 				
 				<div id="two" class="tab-content">
 					<ul class="top">
-						<li class="mending-list" value="허리줄임">허리줄임<br><span>5000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>5000원</span></li>
-						<li class="mending-list" value="단추수선">단추수선<br><span>2000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>7000원</span></li>
+						<li class="mending-list" value="허리줄임">허리줄임<br><span>원</span><span class="price">5000</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>원</span><span class="price">5000</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>원</span><span class="price">2000</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>원</span><span class="price">7000</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>12000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>원</span><span class="price">12000</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -230,9 +257,9 @@
 						<li>
 							<div class="bottom_size_input">
 								<div class="size_input">
-									<p id="left">- <input type="text" maxlength="2"></p>
-									<p id="right">- <input type="text" maxlength="2"></p>
-									<p id="length">- <input type="text" maxlength="2"></p>
+									<p id="left">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
+									<p id="right">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
+									<p id="length">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
 								</div>
 							</div>
 							<form>
@@ -252,13 +279,13 @@
 				
 				<div id="three" class="tab-content">
 					<ul class="top">
-						<li class="mending-list" value="소매줄임">소매줄임<br><span>5000원</span></li>
-						<li class="mending-list" value="기장줄임">기장줄임<br><span>5000원</span></li>
-						<li class="mending-list" value="단추수선">단추수선<br><span>2000원</span></li>
-						<li class="mending-list" value="튿어짐">튿어짐<br><span>10000원</span></li>
+						<li class="mending-list" value="소매줄임">소매줄임<br><span>원</span><span class="price">5000</span></li>
+						<li class="mending-list" value="기장줄임">기장줄임<br><span>원</span><span class="price">5000</span></li>
+						<li class="mending-list" value="단추수선">단추수선<br><span>원</span><span class="price">2000</span></li>
+						<li class="mending-list" value="튿어짐">튿어짐<br><span>원</span><span class="price">10000</span></li>
 					</ul>
 					<ul class="top">
-						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>20000원</span></li>
+						<li class="mending-list" value="지퍼수선">지퍼수선<br><span>원</span><span class="price">20000</span></li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -268,9 +295,9 @@
 						<li>
 							<div class="outer_size_input">
 								<div class="size_input">
-									<p id="left">- <input type="text" maxlength="2"></p>
-									<p id="right">- <input type="text" maxlength="2"></p>
-									<p id="length">- <input type="text" maxlength="2"></p>
+									<p id="left">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
+									<p id="right">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
+									<p id="length">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
 								</div>
 							</div>
 							<form>
@@ -292,15 +319,15 @@
 				<form>
 					<table class="mending_order">
 						<tr class="mending_order_title">
-							<td colspan="2">구분</td>
-							<td>택코드</td>
-							<td>수량</td>
-							<td>합계</td>
+							<td colspan="2" style="width:25%;">구분</td>
+							<td style="width:25%;">택코드</td>
+							<td style="width:25%;">수량</td>
+							<td style="width:25%;">합계</td>
 						</tr>
 					</table>
 					
 					<div class="total_price">
-						<p>총 금액 : 수선비 10,000원 + 배송비 2,000원 = 합계 : 12,000원</p>
+						<p>수선비 총 금액 : 수선비 10,000원 + 배송비 2,000원 = 합계 : 12,000원</p>
 					</div>
 					<div class="total-button">
 						<a href="javascript:">장바구니</a>

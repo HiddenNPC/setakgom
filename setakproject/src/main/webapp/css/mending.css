@@ -236,13 +236,13 @@
 	.mending_order tr td{
 		box-sizing:border-box;
 		border-bottom:2px solid #e1e4e4;
-		width:20%;
+		width:25%;
 	}
 	.mending_order tr td:first-child{
-		width:5%;
+		width:7%;
 	}
 	.mending_order tr td:nth-child(2){
-		width:15%;
+		width:18%;
 	}
 	.mending_order .mending_order_title{
 		background-color:#3498db;
