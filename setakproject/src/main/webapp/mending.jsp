@@ -85,7 +85,7 @@
 
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
-				str += '<td style="text-align:left; padding-left:59px;">'+sortation[0].innerHTML+'</td>';
+				str += '<td>'+sortation[0].innerHTML+'</td>';
 				str += '<td>';
 				str += '<select name="list">';
 				str += '<option value="A">A</option>';
@@ -133,21 +133,20 @@
 				sumprice();
 			});
 			
+			//총 합계
 			sumprice = function() {
-				var hap = 0;
-				var fee = 0;
+				var sum = 0;
 				var tr = $(".mending_order").children().children();
 				var pricearr = new Array();
 				tr.each(function(i) {
 					pricearr.push(tr.eq(i).children().eq(4).text())
 				});
-				
+				//tr이 지금 두개라 구분창 말고 값가진 애들만 받기위해 한번 더 돌림 i를 1로.
 				for(var i = 1; i<pricearr.length;i++){
-					hap += parseInt(pricearr[i].split('원')[0]);
+					sum += parseInt(pricearr[i].split('원')[0]);
 				}
-				$(".tot_price").html(hap);
+				$(".tot_price").html(sum);
 			}
-			
 			
 			//수량
 			$(document).on('click','.bt_up',function(event) {
@@ -179,6 +178,24 @@
 			$(document).on("propertychange change keyup paste",".count", function(){
 				var n = $('.count').index(this);
 				$.pricefun(n);
+			});
+
+			//전체선택, 전체선택해제
+			$("#allcheck").click(function(){
+		        if($("#allcheck").prop("checked")){
+		            $("input[name=check]").prop("checked",true);
+		        }else{
+		            $("input[name=check]").prop("checked",false);
+		        }
+		    })
+		    //선택 삭제
+		    $(".chkdelete").click(function(){
+				var checkbox = $("input[name=check]:checked");
+				checkbox.each(function(){
+					var tr = checkbox.parent().parent();
+					tr.remove();
+				}) 
+				sumprice();
 			});
 		});
 		//한글, 영어 금지
@@ -337,7 +354,8 @@
 				<form>
 					<table class="mending_order">
 						<tr class="mending_order_title">
-							<td colspan="2" style="width:25%;">구분</td>
+							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
+							<td style="width:20%;">구분</td>
 							<td style="width:25%;">택코드</td>
 							<td style="width:25%;">수량</td>
 							<td style="width:25%;">합계</td>
@@ -349,7 +367,7 @@
 					</div>
 					<div class="total-button">
 						<a href="javascript:">장바구니</a>
-						<a href="javascript:">선택삭제</a>
+						<a class="chkdelete" href="javascript:">선택삭제</a>
 					</div>
 				</form>
 			</div>

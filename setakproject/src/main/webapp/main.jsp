@@ -158,12 +158,12 @@
 					<li>
 						<h3>수선</h3>
 						<h4>design your life</h4>
-						<p>세탁곰은 여러분의 하루가 편하고 깨끗해져 삶이 풍요로워 지길 바랍니다. 항상 새 옷을 입는 듯한 상쾌함과 디테일한 세탁 서비스를 제공해 드리고 있으며, 고객님의 더 나은 삶과 만족을 위해 오늘도 연구하고 있습니다.</p>
+						<p>세탁곰은 한 땀 한 땀 핏을 살려주는 전문 수선사들의 감각적인 디자인을 통해 옷의 가치는 그대로, 퀄리티는 한층 더 업그레이드해 드립니다. 고객님의 옷에 '날개'를 달아보세요.</p>
 					</li>
 					<li>
 						<h3>보관</h3>
 						<h4>save your time</h4>
-						<p>세탁곰은 여러분의 하루가 편하고 깨끗해져 삶이 풍요로워 지길 바랍니다. 항상 새 옷을 입는 듯한 상쾌함과 디테일한 세탁 서비스를 제공해 드리고 있으며, 고객님의 더 나은 삶과 만족을 위해 오늘도 연구하고 있습니다.</p>
+						<p>세탁곰의 보관 서비스는 의류보관에 최적화된 환경과 차별화된 시스템을 보유하고 있습니다. 한쪽 구석에 쌓아두었던 소중한 옷들 저희 세탁곰이 안전하게 보관하겠습니다. 고객님의 공간에 여유를 가져보세요.</p>
 					</li>
 				</ul>
 			</div>
@@ -184,6 +184,7 @@
 	</div>
 	<script>
 		$(function() {
+			//스크롤에따라 네비게이션 보이고 안보이고 
 			$(window).scroll(function() {
 				if ($(window).scrollTop() >= $("#use-area").position().top) {
 					$("nav").css('display', 'none');
@@ -192,7 +193,8 @@
 					$("nav").css('display', 'block');
 				}
 			});
-
+			
+			//커뮤니티 메뉴 hover시.
 			$(".sub-nav > li").hover(function () {
 	            $(".sub-nav-sub", this).slideDown(500);
 	        },
@@ -200,6 +202,7 @@
 	            $(".sub-nav-sub", this).slideUp(500);
 	        });
 			
+			//화면 너비 769초과일 때 세탁,수선,보관 탭 누르면 탭 위로 위치 자동으로 가게 해줌.
 			var windowWidth = $(window).width();
 			if (windowWidth > 769) {
 				$('a').click(function() {
@@ -209,7 +212,8 @@
 					return false;
 				});
 			}
-
+			
+			//스크롤 한칸이라도 내리면 오른쪽 아래 top 버튼 생성
 			$(window).scroll(function() {
 				if ($(window).scrollTop() > 10) {
 					$("#go-top").fadeIn(100)
@@ -217,7 +221,8 @@
 					$("#go-top").fadeOut(100);
 				}
 			});
-
+			
+			//top버튼 누르면 맨 위로 올라가게.
 			$("#go-top").on("click", function() {
 				$("html, body").animate({
 					scrollTop : 0
