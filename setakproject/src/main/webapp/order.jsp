@@ -94,8 +94,8 @@
 							<tr>
 								<td class = "left_col">배송지 선택</td>
 								<td class = "right_col">
-									<input type = "radio" name = "delivery_info" checked = "checked" value = "" /> 기본배송지 
-									<input type = "radio" name = "delivery_info " value = "" /> 직접입력  
+									<input id = "default_addr" type = "radio" name = "delivery_info" checked value = "" /> <label for = "default_addr">기본배송지</label>
+									<input id = "init_addr" type = "radio" name = "delivery_info" value = "" /> <label for = "init_addr">직접입력</label>  
 									
 									<input type = "button" class = "addr-btn btnBlue" onclick = "layerDeliPopup('open')" value = "나의 주소록" />
 								</td>
@@ -141,73 +141,78 @@
 				</form>
 			</div>
 			
-			<div class = "pay-div">
-				<div class = "discount-div">
-					<div class = "pay_title"><h3>할인 정보</h3></div>
+			<!-- 결게 관련 div -->
+				<div class="pay-div">
+					<div class="discount-div">
+						<div class="pay_title">
+							<h3>할인 정보</h3>
+						</div>
 
-						<form action = "">
-							<table class = "discount_table">
+						<form action="">
+							<table class="discount_table">
 								<tbody>
 									<tr>
-										<td class = "left_col first_row">쿠폰</td>
-										<td class = "first_row right_col">
-											<input type = "button" onclick = "layerPopup('open')" value = "쿠폰적용" />
-										</td>
+										<td class="left_col first_row">쿠폰</td>
+										<td class="first_row right_col"><input type="button"
+											onclick="layerPopup('open')" value="쿠폰적용" /></td>
 									</tr>
-									
+
 									<tr>
-										<td class = "left_col">적립금</td>
-										<td class = "right_col">
-											<input id = "usePoint" class = "txtInp usePoint" type = "text" name = "" style = "width : 75px;"/> <span style = "font-size : 0.85rem;">Point</span>
+										<td class="left_col">적립금</td>
+										<td class="right_col"><input id="usePoint"
+											class="txtInp usePoint" type="text" name=""
+											style="width: 75px;" /> <span style="font-size: 0.85rem;">Point</span>
 											&nbsp;
-											<p class = "myPoint"> (보유 적립금 : <b><span id = "havePoint">500</span></b>원)  </p> 
-											
-										</td>
+											<p class="myPoint">
+												(보유 적립금 : <b><span id="havePoint">500</span></b>원)
+											</p></td>
 									</tr>
 								</tbody>
 							</table>
 						</form>
 
-				</div>
-				
-				<div class = "price-div">
-					<div class = "pay_title"><h3>결제 금액</h3></div>
-					<div class = "pay_content">
-						<table id = "price_table" class = "price_table">
-							<tbody>
-								<tr>
-									<td class = "left_col first_row">총 주문금액</td>
-									<td id = "total_price" class = "first_row">39000 원</td>
-								</tr>
-								<tr>
-									<td class = "left_col">배송비</td>
-									<td>0원</td>
-								<tr>
-								<tr>
-									<td class = "left_col">쿠폰할인</td>
-									<td class = "txtBlue">0원</td>
-								</tr>
-								<tr>
-									<td class = "left_col">적립금</td>
-									<td class = "txtBlue">
-										<span id = "point_price">0원</span>
-									</td>
-								<tr>
-								<tr>
-									<td class = "left_col td_final">최종 결제액</td>
-									<td class = "txtBlue">										
-										<span id = "final_price">39000</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						
-						<button class = "pay_btn">결제하기</button>
 					</div>
-			</div>
-					
-      </div>
-   </section>
+
+					<div class="price-div">
+						<div class="pay_title">
+							<h3>결제 금액</h3>
+						</div>
+						<div class="pay_content">
+							<table id="price_table" class="price_table">
+								<tbody>
+									<tr>
+										<td class="left_col first_row">총 주문금액</td>
+										<td id="total_price" class="first_row">39000원</td>
+									</tr>
+									<tr>
+										<td class="left_col">배송비</td>
+										<td>0원</td>
+									<tr>
+									<tr>
+										<td class="left_col">쿠폰할인</td>
+										<td class="txtBlue"><span id="coupon_sale_price">0원</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="left_col">적립금</td>
+										<td class="txtBlue"><span id="point_price">0원</span></td>
+									<tr>
+									<tr>
+										<td class="left_col td_final">최종 결제액</td>
+										<td class="txtBlue"><span id="final_price">39000</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="pay_btnDiv">
+					<button class="pay_btn">결제하기</button>
+				</div>
+
+</section>
    
    <!-- 나의 주소록 레이어 -->
    <section id = "address">
@@ -406,9 +411,11 @@
 				<div class="popup-content1">
 					<h3>쿠폰할인</h3>
 					<ul>
-						<li><input type="checkbox" class = "checkCoupon" name="coupon1" value = "9500" />보관 1개월 무료 (보관세탁)</li>
-						<li><input type="checkbox" class = "checkCoupon" name="coupon2" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" class = "checkCoupon" name="coupon3" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
+						<li><input type="checkbox" name="checkCoupon" value = "9500" />보관 1개월 무료 (보관세탁)</li>
+						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" name="checkCoupon" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
 					</ul>
 				</div>
 				
@@ -435,7 +442,8 @@
 						</table>
 					</div>
 					
-					<button>쿠폰적용</button>				
+					<input type = "button" id = "coupon-btn" value = "쿠폰적용" /> 
+					<!--  <button id = "coupon-btn" onclick = "couponApply()">쿠폰적용</button> -->				
 				</div>
 			</div>
 		</div>
@@ -469,6 +477,7 @@ $(document).ready(function() {
 		
 	});
 	
+	// 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
 	
 	// 나의 주소록 > 주소 수정
     $(".accordion-btn").on("click", function () {
@@ -511,40 +520,79 @@ $(document).ready(function() {
 	});
 	
 	// 쿠폰 레이아웃 > 쿠폰 선택
-	$(':checkbox[class="checkCoupon"]').on({
-	    click: function(e) {
-	    	
-	        var select_btn = $(this);
-	        var productPrice = parseInt($("#discount_price").text().slice(0,-1));
-	        var salePrice = parseInt(select_btn.val());
-	        
-	        
-	    	if($(":checkbox[class='checkCoupon']").is(":checked") == true) {
-	    		
-				var totalSale = 0;
-				totalSale += salePrice; 
-				
-		        var discountPrice = productPrice-salePrice;
-		        
-		        $("#coupon_price").text(totalSale+'원');	
-		        $("#discount_price").text(discountPrice+'원');	
-		        
-	    	}
-	    	
-	    	else {
-	    	
-				var totalSale = parseInt($("#coupon_price").text().slice(0, -1));
-				alert(salePrice + ' : salePrice ' + productPrice + ' : productPrice');
-				totalSale -= salePrice;
-				var discountPrice = productPrice + salePrice;
+	$("input:checkbox[name='checkCoupon']").change(function() {
+		
+    	// 쿠폰 레이아웃
+    	// product_price : 상품금액
+    	// coupon_price : 쿠폰 할인 금액
+    	// discount_price : 할인 적용 금액
+    	
+    	// 결제 금액
+    	// total_price : 총 주문금액
+    	// point_price : 적립금 사용 금액
+    	// final_price : 결제 금액 
+    	
+        var select_btn = $(this);
+        var salePrice = parseInt(select_btn.val());
+        var discountPrice = parseInt($("#discount_price").text().slice(0,-1));
+        var couponPrice = parseInt($("#coupon_price").text().slice(0,-1));
+        var productPrice =  parseInt($("#product_price").text().slice(0,-1));
+        
+        // salePrice : 할인 될 금액
+        // productPrice : 할인 적용 금액 값 
+		
+		var select_btn = $(this);
+		if(select_btn.is(":checked")) {
+			
+			// 체크
+    		couponPrice += salePrice; 
+    		
+			if(couponPrice > productPrice) {
+				alert("결제 금액보다 할인 금액이 더 큰 경우");
+				select_btn.attr('checked', false);
+				return; 					
+			} 
+		
+
+		} else {
+
+			couponPrice -= salePrice;			
+		}
+		
+        var dp = productPrice-couponPrice;
+        
+        $("#coupon_price").text(couponPrice+'원');	
+        $("#discount_price").text(dp+'원');	
+		
+	}); 
 	
-		        $("#coupon_price").text(totalSale+'원');	
-		        $("#discount_price").text(discountPrice+'원');
-	    	
-	    	}
-	        
-	    }	
+	// 쿠폰 레이아웃 > 쿠폰 적용 선택
+	$("#coupon-btn").on("click", function (){
+		
+		if(confirm("쿠폰을 적용하시겠습니까?")) {
+			
+
+			if($('input:checkbox[name="checkCoupon"]:checked').length == 0) {
+				alert("쿠폰을 선택해주세요.");
+				return; 
+			}
+
+			
+			var discountPrice = $("#discount_price").text().slice(0,-1);	
+			var couponPrice = $("#coupon_price").text().slice(0,-1);	
+			
+			layerPopup('close');
+			
+			$("#final_price").text(discountPrice + '원');
+			$("#coupon_sale_price").text('-' + couponPrice + '원');
+		
+			
+		} else {
+			return; 
+		}
 	});
+	
+	
 	
 	// 결제 : 아임포트 스크립트
 	$(".pay_btn").on("click", function(){
@@ -739,8 +787,7 @@ $(document).ready(function() {
         $("body").css("overflow","scroll");
 	}
 	
-	
-	// 쿠폰적용 레이어 스크립트
+	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 
         if(type == 'open') {
@@ -771,9 +818,17 @@ $(document).ready(function() {
             jQuery('#layer-div').attr('style','display:none');
             $("body").css("overflow","scroll");
             
+            $('input:checkbox[name="checkCoupon"]').each(function() {
+            	if(this.checked) {
+            		this.checked = false; 
+            	}
+            })         
 
         }
     }
+	
+	
+	
 	
 </script>
 </html>
