@@ -19,12 +19,6 @@
 			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
 				$(".tab").removeClass("active");
-				$(".hash").empty();
-				$(".size_input p input").val('');
-				$(".details form")[0].reset();
-				$(".details form")[1].reset();
-				$(".details form")[2].reset();
-				maxAppend = 0;
 				$(".tab-content").removeClass("show");
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
@@ -41,115 +35,44 @@
 				});
 			}
 			
-			//치수 입력 시 폼에도 값 넘기기
-			$("#left input").keyup(function(){
-		        $('.left_length').val($(this).val());
-		    });
-			$("#right input").keyup(function(){
-		        $('.right_length').val($(this).val());
-		    });
-			$("#length input").keyup(function(){
-		        $('.total_length').val($(this).val());
-		    });
-			
-			//태그 기능, 계산기능
-			var maxAppend = 0;
-			var tprice = parseInt(0);
-			$(".mending-list").on("click", function() {
-				if (maxAppend >= 10){
-					alert("최대 10개 선택 가능합니다.");
-					return;
-				}
-				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
-				maxAppend++;
-				
-				$(".price").removeClass("each");
-				$($(this).children('.price')).addClass("each");
-				var abc =  document.getElementsByClassName('each');
-				tprice += parseInt(abc[0].innerHTML);
-			});
-			$(document).on('click','.hashvl',function(event) {
-				$(this).remove();
-				maxAppend--;
-			});
-			
-			//추가 버튼 눌렀을 때
-			$(".add_button").on("click", function() {
-				var sortation = document.getElementsByClassName('active');
+			//옷 종류 눌렀을 때
+			$(".keep-list").on("click", function() {
 				var str = "";
 				
-				if(maxAppend==0){
-					alert('선택 된 수선내용이 없습니다.');
-					return;
-				}
-
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
-				str += '<td>'+sortation[0].innerHTML+'</td>';
-				str += '<td>';
-				str += '<select name="list">';
-				str += '<option value="A">A</option>';
-				str += '<option value="B">B</option>';
-				str += '<option value="C">C</option>';
-				str += '<option value="D">D</option>';
-				str += '<option value="E">E</option>';
-				str += '<option value="F">F</option>';
-				str += '<option value="G">G</option>';
-				str += '<option value="H">H</option>';
-				str += '<option value="I">I</option>';
-				str += '<option value="J">J</option>';
-				str += '<option value="K">K</option>';
-				str += '<option value="L">L</option>';
-				str += '<option value="N">N</option>';
-				str += '<option value="M">M</option>';
-				str += '<option value="O">O</option>';
-				str += '<option value="P">P</option>';
-				str += '<option value="Q">Q</option>';
-				str += '<option value="R">R</option>';
-				str += '<option value="S">S</option>';
-				str += '<option value="T">T</option>';
-				str += '<option value="U">U</option>';
-				str += '<option value="V">V</option>';
-				str += '<option value="W">W</option>';
-				str += '<option value="X">X</option>';
-				str += '<option value="Y">Y</option>';
-				str += '<option value="Z">Z</option>';
-				str += '</select>';
-				str += '</td>';
+				str += '<td>'+$.attr(this, 'value')+'</td>';
 				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
-				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원</td>';
 				str += '</tr>';		
 				
-				$(".mending_order_title").after(str);
-				$(".hash").empty();
-				$(".size_input p input").val('');
-				$(".details form")[0].reset();
-				$(".details form")[1].reset();
-				$(".details form")[2].reset();
-				maxAppend = 0;
-				tprice = parseInt(0);
-				sumprice();
+				$(".keep_sortation_title").after(str);
 			});
 			
-			//총 합계
-			sumprice = function() {
-				var sum = 0;
-				var tr = $(".mending_order").children().children();
-				var pricearr = new Array();
-				tr.each(function(i) {
-					pricearr.push(tr.eq(i).children().eq(4).text())
-				});
-				//tr이 지금 두개라 구분창 말고 값가진 애들만 받기위해 한번 더 돌림 i를 1로.
-				for(var i = 1; i<pricearr.length;i++){
-					sum += parseInt(pricearr[i].split('원')[0]);
-				}
-				$(".tot_price").html(sum);
-			}
+			//보관기간 선택 시 css효과
+			$(".month").on("click", function(){
+				$(".month").removeClass("month_click");
+				$(this).addClass("month_click");
+			});
 			
 			//수량
 			$(document).on('click','.bt_up',function(event) {
+				
+				
+				
+				var test = document.getElementsByClassName('month_click')
+				alert(test[0].innerHTML);
+				if(document.getElementsByClassName('month_click')==''){
+					alert('안됩니다');
+				}
+				
+				
+				
+				
+				
+				
+				
 				var n = $('.bt_up').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				num = $(".count:eq(" + n + ")").val(num * 1 + 1);
@@ -167,6 +90,21 @@
 				
 				$.pricefun(n);
 			});
+			
+			//총 합계
+			sumprice = function() {
+				var sum = 0;
+				var tr = $(".mending_order").children().children();
+				var pricearr = new Array();
+				tr.each(function(i) {
+					pricearr.push(tr.eq(i).children().eq(4).text())
+				});
+				//tr이 지금 두개라 구분창 말고 값가진 애들만 받기위해 한번 더 돌림 i를 1로.
+				for(var i = 1; i<pricearr.length;i++){
+					sum += parseInt(pricearr[i].split('원')[0]);
+				}
+				$(".tot_price").html(sum);
+			}
 			
 			//수량에 따른 값변경
 			$.pricefun = function(n){
@@ -226,7 +164,7 @@
 			<div class="title-text">
 				<h2>보관 서비스</h2>
 			</div>
-			<div class="kepp">
+			<div class="keep">
 				<p>※ 보관만 가능한 페이지입니다. 보관할 옷에 세탁 서비스도 이용하실 예정이시면 세탁 페이지를 이용해주세요.</p>
 				<div class="tabs">
 					<div class="tab-list">
@@ -245,16 +183,16 @@
 
 				<div id="one" class="tab-content show">
 					<ul class="top">
-						<li class="keep-list" value="셔츠">셔츠<br><span>원</span><span class="price">5000</span></li>
-						<li class="keep-list" value="티셔츠">티셔츠<br><span>원</span><span class="price">5000</span></li>
-						<li class="keep-list" value="블라우스">블라우스<br><span>원</span><span class="price">2000</span></li>
-						<li class="keep-list" value="후드티,맨투맨티">후드티,맨투맨티<br><span>원</span><span class="price">7000</span></li>
+						<li class="keep-list" value="셔츠">셔츠</li>
+						<li class="keep-list" value="티셔츠">티셔츠</li>
+						<li class="keep-list" value="블라우스">블라우스</li>
+						<li class="keep-list" value="후드티,맨투맨티">후드티,맨투맨티</li>
 					</ul>
 					<ul class="top">
-						<li class="keep-list" value="니트,스웨터">니트,스웨터<br><span>원</span><span class="price">16000</span></li>
-						<li class="keep-list" value="니트,스웨터">원피스,점프수트<br><span>원</span><span class="price">16000</span></li>
-						<li class="keep-list" value="니트,스웨터">원피스(니트,실크,레자)<br><span>원</span><span class="price">16000</span></li>
-						<li class="keep-list" value="니트,스웨터">후리스<br><span>원</span><span class="price">16000</span></li>
+						<li class="keep-list" value="니트,스웨터">니트,스웨터</li>
+						<li class="keep-list" value="원피스/점프수트">원피스/점프수트</li>
+						<li class="keep-list" value="원피스(니트,실크,레자)">원피스(니트,실크,레자)</li>
+						<li class="keep-list" value="후리스">후리스</li>
 					</ul>
 				</div>
 				
@@ -265,20 +203,52 @@
 				</div>
 				
 				<form>
-					<table class="mending_order">
-						<tr class="mending_order_title">
+					<table class="keep_sortation">
+						<tr class="keep_sortation_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
 							<td style="width:47.5%;">구분</td>
 							<td style="width:47.5%;">수량</td>
 						</tr>
 					</table>
 					
+					<div class="delete-button">
+						<a class="chkdelete" href="javascript:">선택삭제</a>
+					</div>
+					
+					<div class="keep_month">
+						<ul>
+							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h1>10000원</h1>
+							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h1>28000원</h1>
+							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h1>55000원</h1>
+						</ul>
+						<div class="keep_caution">
+							<p>※ 규격 안내 : - 월컴키트 안 세탁곰 규격 리빙박스(30L)가 기준입니다.</p>
+							<p>- 웰컴키트에 포함된 리빙박스에 세탁물을 담으시면 정확히 몇 박스가 필요하신지 알기 쉽습니다.<br>
+								- 세탁곰 리빙박스는 한 박스에 여름 티셔츠 50벌이 들어갑니다.<br>
+								- 세탁곰 리빙박스는 한 박스에 겨울 니트류 10~30벌이 들어갑니다.<br>
+								- 세탁곰 리빙박스는 한 박스에 외투 15벌이 들어갑니다.<br>
+								- 세탁곰 리빙박스는 한 박스에 겨울 코트 10벌이 들어갑니다.
+							</p>
+							<p>※ 배송은 만료 기준 1회 무료이며, 도중 개별 반환도 가능합니다.  도중 개별 반환 시 배송비가 청구됩니다.</p>
+							<p>※ 기간 만료 2주 전 카카오톡 알람 서비스가 제공됩니다. 연장을 원하신다면 마이페이지 > 보관현황에서 연장 신청을 이용해주세요.</p>
+							<p>※ 기간이 만료되면 입력하신 주소로 바로 배송됩니다. 배송 완료 후 알람을 드리며 이후 분실에 대해 책임을 지지 않습니다. 보관 중 배송지가 변경된다면 미리 정보를 수정해주세요.</p>
+						</div>
+					</div>
+					
+					<div class="box_quantity">
+						<p>박스 수량을 선택 해 주세요</p>
+						<div>
+							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">
+							<a class="bt_up">+</a>
+							<a class="bt_down">-</a>
+						</div>
+					</div>
+					
 					<div class="total_price">
-						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
+						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
 						<a href="javascript:">장바구니</a>
-						<a class="chkdelete" href="javascript:">선택삭제</a>
 					</div>
 				</form>
 			</div>

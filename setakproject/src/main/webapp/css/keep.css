@@ -33,23 +33,25 @@
 		margin-bottom: 6px;
 		vertical-align: middle;
 	}	
-	.kepp{
+	.keep{
 		padding-top:150px;
 	}
-	.kepp p{
-		color:#3498db;
+	.keep p{
 		font-size:0.9rem;
 		font-weight:bold;
 	}
-	.kepp .tabs{
+	.keep>p{
+		color:#3498db;
+	}
+	.keep .tabs{
 		width:1200px;
 	}
-	.kepp .tabs .tab-list{
+	.keep .tabs .tab-list{
 		margin:20px 0 0;
 		display:flex;
 		justify-content: space-between;
 	}
-	.kepp .tabs .tab-list .tab{
+	.keep .tabs .tab-list .tab{
 		width:100%;
 		border:2px solid #e1e4e4;
 		height:50px;
@@ -58,20 +60,20 @@
 		color:#444;
 		font-size:1rem;
 	}
-	.kepp .tabs .tab-list:nth-child(2){
+	.keep .tabs .tab-list:nth-child(2){
 		margin:0 0 20px;
 	}
-	.kepp .tabs .tab-list:nth-child(2) .tab{
+	.keep .tabs .tab-list:nth-child(2) .tab{
 		border-top:0px;
 	}
-	.kepp .tabs .tab-list .tab:nth-child(2){
+	.keep .tabs .tab-list .tab:nth-child(2){
 		border-left:0px;
 		border-right:0px;
 	}
-	.kepp .tabs .tab-list .tab:nth-child(3){
+	.keep .tabs .tab-list .tab:nth-child(3){
 		border-right:0px;
 	}
-	.kepp .tabs .tab-list .tab.active{
+	.keep .tabs .tab-list .tab.active{
 		background-color: #3498db;
 		color:#fff;
 	}
@@ -104,63 +106,161 @@
 	.top:nth-child(2) li{
 		border-top:0px solid;
 	}
-	.top li span{
-		float:right;
-		font-size:0.9rem;
-	}
 	.keep-list:hover{
 		background-color: #3498db;
 		color:#fff;
 		cursor:pointer;
 		transition: all .3s;
 	}
-	.mending_order{
-		margin:10px 0;
+	.keep_sortation{
+		margin:40px 0 20px;
 		width:100%;
 		text-align:center;
 		border-collapse: collapse;
 	}
-	.mending_order tr{
+	.keep_sortation tr{
 		height:70px;
 	}
-	.mending_order tr td{
+	.keep_sortation tr td{
 		box-sizing:border-box;
 		border-bottom:2px solid #e1e4e4;
-		width:25%;
 	}
-	.mending_order tr td:first-child{
+	.keep_sortation tr td:first-child{
 		width:7%;
 	}
-	.mending_order tr td:nth-child(2){
-		width:18%;
-	}
-	.mending_order .mending_order_title{
+	.keep_sortation .keep_sortation_title{
 		background-color:#3498db;
 		color:#fff;
 		height:40px;
 	}
-	.mending_order .mending_order_title td{
+	.keep_sortation .keep_sortation_title td{
 		border:1px solid;
 	}
-	.mending_order select {
-		width:90px;
-		padding-left:27px;
-	}
-	.mending_order .count{
+	.keep_sortation .count{
 		width:70px;
 		position:relative;
 		padding-left:10px;
 	}
-	.mending_order div{
+	.keep_sortation div{
 		display:inline;
 		position:absolute;
 	}
-	.mending_order div a{
+	.keep_sortation div a{
 		display:block;
 		font-size:0.6rem;
 		margin:-0.8px 0 0 -14px;
 		cursor:pointer;
 	}
+	.delete-button{
+		padding-bottom:80px;
+	}
+	.delete-button a{
+		font-size:0.95rem;
+		display:block;
+		width:90px;
+		background-color:#e1e4e4;
+		color:#444;
+		border-radius:30px;
+		height:40px;
+		line-height:40px;
+		text-align:center;
+		float:right;
+		margin: 0 5px;
+	}
+	.keep_month ul{
+		display:flex;
+		justify-content:space-between;
+	}
+	.keep_month ul li{
+		width:100%;
+		border:2px solid #3498db;
+		margin:0 5px;
+		text-align:center;
+		color:#444;
+	}
+	.keep_month ul li:first-child{
+        margin-left:0px;
+	}
+	.keep_month ul li:last-child{
+		margin-right:0;
+	}
+	.keep_month ul li:hover{
+		background-color:#3498db;
+		cursor:pointer;
+		color:#fff;
+		transition:all .3s;
+	}
+	.month_click{
+		background-color:#3498db;
+		cursor:pointer;
+		color:#fff !important;
+		transition:all .3s;
+	}
+	.month_click h1{
+		color:#fff !important;
+	}
+	.keep_month ul li h2{
+		padding:60px 0 40px;;
+	}
+	.keep_month ul li h1{
+		font-size:1.9rem;
+		padding:160px 0 50px;
+		color:#3498db;
+	}
+	.keep_month ul li:hover>h1{
+		color:#fff;
+	}
+	.keep_month .keep_caution{
+	    margin:30px 0;
+	}
+	.keep_month .keep_caution p{
+		color:#3498db;
+		line-height:1.4rem;
+	}
+	.keep_month .keep_caution p:nth-child(2){
+		padding:0 0 20px 88px;
+	}
+	.box_quantity{
+		margin:50px 0;
+	}
+    .box_quantity p{
+    	background-color:#3498db;
+    	text-align:center;
+    	color:#fff;
+    	line-height:40px;
+    	font-size:1rem;
+    }
+    .box_quantity div{
+    	text-align:center;
+    	position:relative;
+    	margin:30px 0;
+    }
+    .box_quantity input{
+    	width:40px;
+    	height:40px;
+    	text-align:center;
+    	background-color:#3498db;
+    	border:0px;
+    	color:#fff;
+    	font-size:1.4rem;
+    	border-radius:10px;
+    }
+    .box_quantity div a{
+    	font-size:2rem;
+    	color:#444;
+    	cursor:pointer;
+    }
+    .box_quantity div .bt_up{
+    	position:absolute;
+    	top:2px;
+    	right:550px;
+    }
+    .box_quantity div .bt_down{
+    	position:absolute;
+    	top:-5px;
+    	right:635px;
+    	font-size:2.7rem;
+    }
 	.total_price {
 		padding:50px 0 0 0;
 	}
