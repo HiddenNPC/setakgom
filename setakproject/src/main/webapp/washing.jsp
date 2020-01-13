@@ -59,14 +59,12 @@ $(document).ready(function($) {
 		$(".pricemenu").after(str);
 		
 		sumprice();
-		/* console.log(tr.eq(2).children().eq(4).text()); */
-		
 		
 	});
 	
+	/* 가격 합계 구하는 합수 */
 	sumprice = function() {
 		var hap = 0;
-		var fee = 0;
 		var tr = $("#pricetable").children().children();
 		var pricearr = new Array();
 		
@@ -78,12 +76,7 @@ $(document).ready(function($) {
 			hap += parseInt(pricearr[i]);
 		}
 		
-		$("#repairfee").html(numberFormat(hap));
-		if(hap < 30000)
-			fee = parseInt(2500);
-		$("#shipfee").html(numberFormat(fee));
-		
-		$("#sumprice").html(numberFormat(hap+fee));
+		$("#sumprice").html(numberFormat(hap));
 		
 	}
 	
@@ -95,11 +88,11 @@ $(document).ready(function($) {
 		var quan = td.eq(3).children().val();
 		
 		if(td.eq(2).children().val()=="드라이"){
-			td.eq(4).html((price+2000)*quan);
+			td.eq(4).html((price+2000)*quan+'원');
 		}else if(td.eq(2).children().val()=="삶음"){
-			td.eq(4).html((price+1500)*quan);
+			td.eq(4).html((price+1500)*quan+'원');
 		}else{
-			td.eq(4).html(price*quan);
+			td.eq(4).html(price*quan+'원');
 		}
 		
 		sumprice();
@@ -135,11 +128,11 @@ $(document).ready(function($) {
 		sumprice();
 	});
 	
+	/* 숫자 3자리마다 쉼표 넣어줌 */
 	numberFormat = function(inputNumber) {
 		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 	
-	//$('#repairfee').html(numberFormat(test));
 });
 
 </script>
@@ -167,9 +160,9 @@ $(document).ready(function($) {
 				</div>
 				<div class="tab-list" id = "tab-two">
 					<a href="#five" class="tab">침구</a>
-					<a href="#six" class="tab">가죽/기타</a>
-					<a href="#seven" class="tab">스포츠웨어</a>
-					<a href="#eight" class="tab">신발</a>
+					<a href="#six" class="tab">리빙</a>
+					<a href="#seven" class="tab">신발</a>
+					<a href="#eight" class="tab">잡화</a>
 				</div>
 			</div>
 			
@@ -306,8 +299,8 @@ $(document).ready(function($) {
 			</form>
 			<p>※3만원 이상</p>
 			
-			<div class="total">
-				<p>총 금액 : 수선비 <span id = "repairfee">0</span>원 + 배송비 <span id = "shipfee">2,500</span>원 = 합계 : <span id = "sumprice">0</span>원</p>
+			<div class="total"> 
+				<p>총 금액 : 수선비 : <span id = "sumprice">0</span>원</p>
 			</div>
 			
 			<div class="total-button">
