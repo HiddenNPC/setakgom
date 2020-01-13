@@ -33,7 +33,7 @@ $(document).ready(function($) {
 	
 	var windowWidth = $(window).width();
 	if (windowWidth > 769) {
-		$('a').click(function() {
+		$('.tab').click(function() {
 			$('html, body').animate({
 				scrollTop : 300
 			}, 500);
@@ -118,7 +118,7 @@ $(document).ready(function($) {
     })
 	
     /* 체크박스 삭제 */
-	$(".total-button a").click(function(){
+	$("#checkdel").click(function(){
 		var checkbox = $("input[name=chk]:checked");
 		checkbox.each(function(){
 			var tr = checkbox.parent().parent();
@@ -145,9 +145,7 @@ $(document).ready(function($) {
 		</div>
 		
 		<div class="setakmain">
-		<%-- <div id = setakimg>
-			<	img src ="${pageContext.request.contextPath}/resources/image/화살표.PNG" border="0">
-			</div> --%>
+			<div class="step"><img src="images/s1.png" alt="step1_세탁"></div>
 			<p>※ 본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</p>
 			
 			<!-- 카테고리 테이블 -->
@@ -297,15 +295,13 @@ $(document).ready(function($) {
 					</tr>
 				</table>
 			</form>
-			<p>※3만원 이상</p>
-			
 			<div class="total"> 
 				<p>총 금액 : 수선비 : <span id = "sumprice">0</span>원</p>
 			</div>
 			
 			<div class="total-button">
-				<a href="javascript:">다음</a>
-				<a href="javascript:">선택삭제</a>
+				<a href= "./washingMending.jsp">다음</a>
+				<a id ="checkdel" href= "javascript: ">선택삭제</a>
 			</div>
 		</div>
 	</div>
