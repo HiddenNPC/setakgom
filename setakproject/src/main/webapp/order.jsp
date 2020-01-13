@@ -297,99 +297,10 @@
 	   					</tr>
 	   					<tr class="modiDiv">
 	   						<td colspan = "5">
-				   				<h3>수정하기</h3>
-				   				<form id = "new-addr-form" action = "">
-					   				<table class = "new-addr-table">
-					   					<tr>
-					   						<td class = "new-left">배송지</td>
-					   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "" /></td>
-					   					</tr>
-					   					<tr>
-					   						<td class = "new-left">이름</td>
-					   						<td><input id = "newName" type = "text" class = "txtInp" name = "" /></td>
-					   					</tr>
-					   					<tr>
-					   						<td class = "new-left">주소</td>
-											<td>
-												<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
-												<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
-												<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
-												<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
-												<input id="extraAddress2" type="hidden" placeholder="참고항목">
-											</td>
-										</tr>
-										<tr>
-											<td class = "new-left">연락처</td>
-											<td>
-												<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
-												-
-												<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-												-
-												<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-											</td>
-										</tr>
-										<tr>
-											<td colspan = "2">
-												<button class = "btnBlue">확인</button>
-											</td>
-										</tr>						
-									</table>
-								</form>
+				   				
 	   						</td>
 	   					</tr>
 	   					
-   						<tr>
-   							<td>신림</td>
-   							<td>최민경</td>
-   							<td id = "seoul">서울특별시 관악구 어짜구</td>
-   							<td>010-8848-2996</td>
-   							<td>
-	   							<input type = "button" class = "modiAddrBtn accordion-btn" value = "수정"/>
-	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
-	   						</td>
-	   					</tr>
-	   					<tr class="modiDiv">
-	   						<td colspan = "5">
-				   				<h3>수정하기</h3>
-				   				<form id = "new-addr-form" action = "">
-					   				<table class = "new-addr-table">
-					   					<tr>
-					   						<td class = "new-left">배송지</td>
-					   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "" /></td>
-					   					</tr>
-					   					<tr>
-					   						<td class = "new-left">이름</td>
-					   						<td><input id = "newName" type = "text" class = "txtInp" name = "" /></td>
-					   					</tr>
-					   					<tr>
-					   						<td class = "new-left">주소</td>
-											<td>
-												<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
-												<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
-												<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
-												<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
-												<input id="extraAddress2" type="hidden" placeholder="참고항목">
-											</td>
-										</tr>
-										<tr>
-											<td class = "new-left">연락처</td>
-											<td>
-												<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
-												-
-												<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-												-
-												<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-											</td>
-										</tr>
-										<tr>
-											<td colspan = "2">
-												<button class = "btnBlue">확인</button>
-											</td>
-										</tr>						
-									</table>
-								</form>
-	   						</td>
-	   					</tr>
 	   					
    					</tbody>
    				</table>
@@ -499,11 +410,12 @@ $(document).ready(function() {
 	    var usePoint = parseInt($("#usePoint").val() || 0 ); 
 	    var havePoint = parseInt($("#havePoint").text());
 	    var totalPrice = $("#total_price").text().slice(0,-1);
-	
-	    var finalPrice = totalPrice - usePoint;
+		var finalPrice = parseInt($("#final_price").text()); 
+	    
+	    var anw = finalPrice - usePoint;
 		
 	    $("#point_price").text('-'+usePoint+'원');    
-		$("#final_price").text(finalPrice+'원');
+		$("#final_price").text(anw+'원');
 		
 		if($("input#usePoint").val() == ''  || $("input#usePoint").val() == '0') {
 			$("#point_price").text('0원');
@@ -568,7 +480,7 @@ $(document).ready(function() {
 	
 	// 쿠폰 레이아웃 > 쿠폰 적용 선택
 	$("#coupon-btn").on("click", function (){
-		
+		3
 		if(confirm("쿠폰을 적용하시겠습니까?")) {
 			
 
@@ -650,7 +562,7 @@ $(document).ready(function() {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="/springlaundry/";
+                location.href="/setak/order.jsp";
                 alert(msg);
             }
         });
@@ -806,7 +718,8 @@ $(document).ready(function() {
             var finalPrice = parseInt($('#final_price').text());
             $('#product_price').text(finalPrice+'원');
             
-            $('#coupon_price').text('0원');
+            var couponSalePrice = parseInt($('#coupon_sale_price').text()) * (-1);
+            $('#coupon_price').text(couponSalePrice+'원');
             
             var discountPrice = $('#discount_price').text();
             $('#discount_price').text(finalPrice+'원');
