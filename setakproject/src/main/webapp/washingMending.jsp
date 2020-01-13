@@ -88,32 +88,32 @@
 				str += '<td>'+sortation[0].innerHTML+'</td>';
 				str += '<td>';
 				str += '<select name="list">';
-				str += '<option value="A">A</option>';
-				str += '<option value="B">B</option>';
-				str += '<option value="C">C</option>';
-				str += '<option value="D">D</option>';
-				str += '<option value="E">E</option>';
-				str += '<option value="F">F</option>';
-				str += '<option value="G">G</option>';
-				str += '<option value="H">H</option>';
-				str += '<option value="I">I</option>';
-				str += '<option value="J">J</option>';
-				str += '<option value="K">K</option>';
-				str += '<option value="L">L</option>';
-				str += '<option value="N">N</option>';
-				str += '<option value="M">M</option>';
-				str += '<option value="O">O</option>';
-				str += '<option value="P">P</option>';
-				str += '<option value="Q">Q</option>';
-				str += '<option value="R">R</option>';
-				str += '<option value="S">S</option>';
-				str += '<option value="T">T</option>';
-				str += '<option value="U">U</option>';
-				str += '<option value="V">V</option>';
-				str += '<option value="W">W</option>';
-				str += '<option value="X">X</option>';
-				str += '<option value="Y">Y</option>';
-				str += '<option value="Z">Z</option>';
+				str += '<option value="가">가</option>';
+				str += '<option value="나">나</option>';
+				str += '<option value="다">다</option>';
+				str += '<option value="라">라</option>';
+				str += '<option value="마">마</option>';
+				str += '<option value="바">바</option>';
+				str += '<option value="사">사</option>';
+				str += '<option value="아">아</option>';
+				str += '<option value="자">자</option>';
+				str += '<option value="차">차</option>';
+				str += '<option value="카">카</option>';
+				str += '<option value="타">타</option>';
+				str += '<option value="파">파</option>';
+				str += '<option value="하">하</option>';
+				str += '<option value="고">고</option>';
+				str += '<option value="노">노</option>';
+				str += '<option value="도">도</option>';
+				str += '<option value="로">로</option>';
+				str += '<option value="모">모</option>';
+				str += '<option value="보">보</option>';
+				str += '<option value="소">소</option>';
+				str += '<option value="오">오</option>';
+				str += '<option value="조">조</option>';
+				str += '<option value="초">초</option>';
+				str += '<option value="코">코</option>';
+				str += '<option value="토">토</option>';
 				str += '</select>';
 				str += '</td>';
 				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
@@ -224,10 +224,11 @@
 	<section id="mending">
 		<div class="content">
 			<div class="title-text">
-				<h2>수선 서비스</h2>
+				<h2>세탁 서비스</h2>
 			</div>
 			<div class="mending">
-				<p>※ 수선만 가능한 페이지입니다. 수선할 옷에 세탁 서비스도 이용하실 예정이시면 세탁 페이지를 이용해주세요.</p>
+				<div class="step"><img src="images/s2.png" alt="step2_수선"></div>
+				<p>※ 세탁 신청이 들어간 세탁물에 대해서만 수선이 가능한 페이지입니다. 수선만 맡기실 옷들은 수선서비스 페이지를 이용해주세요.</p>
 				<div class="tabs">
 					<div class="tab-list">
 						<a href="#one" id="tab" class="tab active">상의</a>
@@ -363,10 +364,11 @@
 					</table>
 					
 					<div class="total_price">
-						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
+						<p>총 금액	: 세탁비 0원 + 수선비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">장바구니</a>
+						<a href="javascript:">다음</a>
+						<a href="javascript:">이전</a>
 						<a class="chkdelete" href="javascript:">선택삭제</a>
 					</div>
 				</form>
