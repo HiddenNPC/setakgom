@@ -199,6 +199,23 @@ input#point_price {
 	text-align: center;
 }
 
+.pay_btnDiv {
+    height: 100px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+
+.pay_btn {
+	border: 0;
+	background-color: #3498db;
+	color: #eeefef;
+	height: 45px;
+	text-align: center;
+	margin: 0 5px;
+	width: 130px;
+	cursor : pointer;
+}
+
 /*팝업 레이어 공통*/
 .layer-card {
 	display : none; 
@@ -379,7 +396,7 @@ input#point_price {
 	margin-top: 30px;
 }
 
-.popup-content2 button {
+#coupon-btn {
 	width: 100%;
     background-color: #3498db;
     color: #ffffff;
