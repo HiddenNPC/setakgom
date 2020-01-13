@@ -29,7 +29,7 @@
 			if (windowWidth > 769) {
 				$('.tab-list a').click(function() {
 					$('html, body').animate({
-						scrollTop : $($.attr(this, 'href')).offset().top - 200
+						scrollTop : $($.attr(this, 'href')).offset().top - 250
 					}, 500);
 					return false;
 				});
@@ -50,34 +50,23 @@
 				$(".keep_sortation_title").after(str);
 			});
 			
-			//보관기간 선택 시 css효과
+			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
+			var monthclick = 0;
+			var price = parseInt(0);
 			$(".month").on("click", function(){
 				$(".month").removeClass("month_click");
 				$(this).addClass("month_click");
+				monthclick = 1;
+				price = parseInt($($(this).children().children('.price')).html());
+				var n = $('.count').index(this);
+				$.pricefun(n);
 			});
 			
 			//수량
 			$(document).on('click','.bt_up',function(event) {
-				
-				
-				
-				var test = document.getElementsByClassName('month_click')
-				alert(test[0].innerHTML);
-				if(document.getElementsByClassName('month_click')==''){
-					alert('안됩니다');
-				}
-				
-				
-				
-				
-				
-				
-				
 				var n = $('.bt_up').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				num = $(".count:eq(" + n + ")").val(num * 1 + 1);
-				
-				$.pricefun(n);
 			});
 			$(document).on('click','.bt_down',function(event) {
 				var n = $('.bt_down').index(this);
@@ -87,34 +76,40 @@
 				} else {
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
+			});
+			
+			//박스 수량
+			$(document).on('click','.box_up',function(event) {
+				if(monthclick==0){
+					alert('보관하실 기간을 먼저 선택해주세요.');
+					return;
+				}
+				var n = $('.box_up').index(this);
+				var num = $(".box_count:eq(" + n + ")").val();
+				num = $(".box_count:eq(" + n + ")").val(num * 1 + 1);
 				
 				$.pricefun(n);
 			});
-			
-			//총 합계
-			sumprice = function() {
-				var sum = 0;
-				var tr = $(".mending_order").children().children();
-				var pricearr = new Array();
-				tr.each(function(i) {
-					pricearr.push(tr.eq(i).children().eq(4).text())
-				});
-				//tr이 지금 두개라 구분창 말고 값가진 애들만 받기위해 한번 더 돌림 i를 1로.
-				for(var i = 1; i<pricearr.length;i++){
-					sum += parseInt(pricearr[i].split('원')[0]);
+			$(document).on('click','.box_down',function(event) {
+				var n = $('.bt_down').index(this);
+				var num = $(".box_count:eq(" + n + ")").val();
+				if (num == 1) {
+					alert("최저 수량은 1박스입니다.");
+				} else {
+					num = $(".box_count:eq(" + n + ")").val(num * 1 - 1);
 				}
-				$(".tot_price").html(sum);
-			}
-			
+				
+				$.pricefun(n);
+			});
+
 			//수량에 따른 값변경
 			$.pricefun = function(n){
-				var num = parseInt($(".count:eq(" + n + ")").val());
-				var price = parseInt($(".tprice:eq(" + n + ")").attr('name'));
-				$(".tprice:eq(" + n + ")").html((num*price) + "원");
-				sumprice();
+				var num = parseInt($(".box_count:eq(" + n + ")").val());
+				$('.tot_price').html(num*price);
 			};
-			$(document).on("propertychange change keyup paste",".count", function(){
-				var n = $('.count').index(this);
+			//버튼안누르고 직접 수량 입력했을 때
+			$(document).on("propertychange change keyup paste",".box_count", function(){
+				var n = $('.box_count').index(this);
 				$.pricefun(n);
 			});
 
@@ -175,9 +170,9 @@
 					</div>
 					<div class="tab-list">
 						<a href="#five" id="tab" class="tab">침구</a>
-						<a href="#six" id="tab" class="tab">가죽/기타</a>
-						<a href="#seven" id="tab" class="tab">스포츠웨어</a>
-						<a href="#eight" id="tab" class="tab">신발</a>
+						<a href="#six" id="tab" class="tab">리빙</a>
+						<a href="#seven" id="tab" class="tab">신발</a>
+						<a href="#eight" id="tab" class="tab">잡화</a>
 					</div>
 				</div>
 
@@ -197,11 +192,109 @@
 				</div>
 				
 				<div id="two" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="바지">바지</li>
+						<li class="keep-list" value="바지(니트,레자,패딩)">바지(니트,레자,패딩)</li>
+						<li class="keep-list" value="스커트">스커트</li>
+						<li class="keep-list" value="스커트(니트,레자,패딩)">스커트(니트,레자,패딩)</li>
+					</ul>
 				</div>
 				
 				<div id="three" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="가디건">가디건</li>
+						<li class="keep-list" value="롱가디건">롱가디건</li>
+						<li class="keep-list" value="점퍼(야상,청자켓,항공점퍼,집업)">점퍼(야상,청자켓,항공점퍼,집업)</li>
+						<li class="keep-list" value="자켓">자켓</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="패딩">패딩</li>
+						<li class="keep-list" value="롱패딩">롱패딩</li>
+						<li class="keep-list" value="프리미엄패딩">프리미엄패딩</li>
+						<li class="keep-list" value="코트">코트</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="기능성의류(등산용,바람막이)">기능성의류(등산용,바람막이)</li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
 				</div>
 				
+				<div id="four" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="아동">아동</li>
+						<li class="keep-list" value="아동 바지/치마">아동 바지/치마</li>
+						<li class="keep-list" value="아동 자켓/점퍼">아동 자켓/점퍼</li>
+						<li class="keep-list" value="아동 코트">아동 코트</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="아동 패딩">아동 패딩</li>
+						<li class="keep-list" value="아동 원피스">아동 원피스</li>
+						<li class="keep-list" value="아동 운동화">아동 운동화</li>
+						<li class="keep-list" value="아동 부츠">아동 부츠</li>
+					</ul>
+				</div>
+				
+				<div id="five" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="베개,쿠션 커버">베개,쿠션 커버</li>
+						<li class="keep-list" value="침대,매트리스,이불커버,홑이불">침대,매트리스,이불커버,홑이불</li>
+						<li class="keep-list" value="일반 이불">일반 이불</li>
+						<li class="keep-list" value="극세사,일반 토퍼">극세사,일반 토퍼</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="구스이불,양모이불">구스이불,양모이불</li>
+						<li class="keep-list" value="실크이불">실크이불</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				
+				<div id="six" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="발매트">발매트</li>
+						<li class="keep-list" value="원룸커튼">원룸커튼</li>
+						<li class="keep-list" value="일반커튼">일반커튼</li>
+						<li class="keep-list" value="벨벳커튼">벨벳커튼</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="러그,카펫">러그,카펫</li>
+						<li class="keep-list" value="식탁보">식탁보</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				
+				<div id="seven" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="운동화,스니커즈">운동화,스니커즈</li>
+						<li class="keep-list" value="캐주얼샌들/슬리퍼">캐주얼샌들/슬리퍼</li>
+						<li class="keep-list" value="구두,로퍼">구두,로퍼</li>
+						<li class="keep-list" value="등산화">등산화</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="부츠화">부츠화</li>
+						<li class="keep-list" value="롱부츠">롱부츠</li>
+						<li class="keep-list" value="가죽부츠(발목)">가죽부츠(발목)</li>
+						<li class="keep-list" value="어그부츠">어그부츠</li>
+					</ul>
+				</div>
+				
+				<div id="eight" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="니트모자">니트모자</li>
+						<li class="keep-list" value="스카프,장갑">스카프,장갑</li>
+						<li class="keep-list" value="숄">숄</li>
+						<li class="keep-list" value="넥타이">넥타이</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="에코백">에코백</li>
+						<li class="keep-list" value="목도리">목도리</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
 				<form>
 					<table class="keep_sortation">
 						<tr class="keep_sortation_title">
@@ -217,9 +310,9 @@
 					
 					<div class="keep_month">
 						<ul>
-							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h1>10000원</h1>
-							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h1>28000원</h1>
-							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h1>55000원</h1>
+							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h1><span class="price">10000</span>원</h1></li>
+							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h1><span class="price">28000</span>원</h1></li>
+							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h1><span class="price">55000</span>원</h1></li>
 						</ul>
 						<div class="keep_caution">
 							<p>※ 규격 안내 : - 월컴키트 안 세탁곰 규격 리빙박스(30L)가 기준입니다.</p>
@@ -238,9 +331,9 @@
 					<div class="box_quantity">
 						<p>박스 수량을 선택 해 주세요</p>
 						<div>
-							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">
-							<a class="bt_up">+</a>
-							<a class="bt_down">-</a>
+							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="box_count" value="1" id="" class="box_count">
+							<a class="box_up">+</a>
+							<a class="box_down">-</a>
 						</div>
 					</div>
 					

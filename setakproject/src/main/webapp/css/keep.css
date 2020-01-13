@@ -36,6 +36,10 @@
 	.keep{
 		padding-top:150px;
 	}
+	.step img{
+		width:100%;
+		margin-bottom:60px;
+	}
 	.keep p{
 		font-size:0.9rem;
 		font-weight:bold;
@@ -103,7 +107,7 @@
 	.top li:nth-child(3){
 		border-right:0px solid;
 	}
-	.top:nth-child(2) li{
+	.top:nth-child(2) li, .top:nth-child(3) li{
 		border-top:0px solid;
 	}
 	.keep-list:hover{
@@ -152,7 +156,7 @@
 		cursor:pointer;
 	}
 	.delete-button{
-		padding-bottom:80px;
+		padding-bottom:60px;
 	}
 	.delete-button a{
 		font-size:0.95rem;
@@ -170,6 +174,7 @@
 	.keep_month ul{
 		display:flex;
 		justify-content:space-between;
+		margin-top:20px;
 	}
 	.keep_month ul li{
 		width:100%;
@@ -207,6 +212,24 @@
 		padding:160px 0 50px;
 		color:#3498db;
 	}
+	.keep_month .s_keep li{
+		position:relative;
+	}
+	.keep_month .s_keep li h5{
+		padding:133px 130px 15px 30px;
+		font-size:1.2rem;
+		display:inline-block;
+	}
+	.keep_month .s_keep li h1{
+		padding:10px 0px 50px 60px;
+		display:inline-block;
+	}
+	.keep_month .s_keep li img{
+		width:160px;
+		position:absolute;
+		top:286px;
+		left:40px;
+	}
 	.keep_month ul li:hover>h1{
 		color:#fff;
 	}
@@ -219,6 +242,24 @@
 	}
 	.keep_month .keep_caution p:nth-child(2){
 		padding:0 0 20px 88px;
+	}
+	.keep_list{
+		margin-top:50px;
+	}
+	.keep_list p:first-child{
+		background-color:#3498db;
+    	text-align:center;
+    	color:#fff;
+    	line-height:40px;
+    	font-size:1rem;
+    	border:0px;
+	}
+	.keep_list p{
+		text-align:center;
+    	color:#444;
+    	line-height:40px;
+    	border:2px solid #e1e4e4;
+    	border-top:0px;    	
 	}
 	.box_quantity{
 		margin:50px 0;
@@ -250,12 +291,12 @@
     	color:#444;
     	cursor:pointer;
     }
-    .box_quantity div .bt_up{
+    .box_quantity div .box_up{
     	position:absolute;
     	top:2px;
     	right:550px;
     }
-    .box_quantity div .bt_down{
+    .box_quantity div .box_down{
     	position:absolute;
     	top:-5px;
     	right:635px;

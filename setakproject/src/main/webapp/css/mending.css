@@ -36,6 +36,10 @@
 	.mending{
 		padding-top:150px;
 	}
+	.step img{
+		width:100%;
+		margin-bottom:60px;
+	}
 	.mending p{
 		color:#3498db;
 		font-size:0.9rem;
@@ -259,6 +263,7 @@
 	.mending_order select {
 		width:90px;
 		padding-left:27px;
+		height:22px;
 	}
 	.mending_order .count{
 		width:70px;
