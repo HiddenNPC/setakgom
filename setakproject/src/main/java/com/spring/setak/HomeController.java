@@ -15,10 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 	
-	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		return "mending";
+		return "main";
 	}
 	
 	@RequestMapping(value = "/setak.st")
@@ -33,6 +32,12 @@ public class HomeController {
 		
 		
 		return mav;
+	}
+	
+	@RequestMapping("/mending.st")
+	public String mending() {
+		
+		return "mending";
 	}
 	
 }
