@@ -179,16 +179,11 @@
 	border:1px solid;
 }
 
-
-/* .pricemenu{
-	background-color: #3498db;
-	color: #fff;
+.howsetak{
+	height:22px;
 }
-#pricetable{
-	width : 100%;
-	height: 25px;
-	border-spacing: 0px;
-} */
+
+
 .hidetext{
 	display: none;
 }
