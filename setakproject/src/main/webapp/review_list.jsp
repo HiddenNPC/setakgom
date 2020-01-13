@@ -77,6 +77,7 @@ $(document).ready(function () {
 </div>
 
 </div>
+</div>
 </section>
 <div id="footer"></div>    
 </body>
