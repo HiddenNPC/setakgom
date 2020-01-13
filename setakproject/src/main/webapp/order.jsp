@@ -30,7 +30,7 @@
 </head>
 <body>
    <div id="header"></div>
-   
+    
    <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
    <section id="order"> <!-- id 변경해서 사용하세요. -->
       <div class="content"> <!-- 변경하시면 안됩니다. -->
