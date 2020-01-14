@@ -1,0 +1,163 @@
+@charset "UTF-8";
+	.title-text { position: absolute; right: 0; left: 0; align-items: center; justify-content: center;
+      display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;      
+      -webkit-align-items: center; -webkit-justify-content: center; -webkit-box-pack: center; -webkit-box-align: center;
+      -moz-box-pack: center; -moz-box-align: center; -ms-box-pack: center; -ms-box-align: center;
+   	}
+    .title-text h2 { font-size: 2rem; color: #444; letter-spacing:1px ; }
+   /*아래의 width로 파란 줄 길이 조절 가능*/
+    .title-text h2:before { content: ''; display: block; width:80%; height: 6px; right:10px;
+      background-color: #3498db; margin-bottom: 3px; vertical-align: middle; position: relative; left:6px; }
+    
+    a{ text-decoration:none; }
+	a:link { color: #444; text-decoration: none;}
+	a:visited { color: #444; text-decoration: none;}  
+	
+	.qna { font-size:0.9rem; font-weight:bold; padding-top:150px; }
+	
+	.qlt1 { width:1000px; background-color:#3498db; align-content: center;
+		margin: auto;  border: none; color:#fff; }
+	
+	.qlt1 tr { vertical-align:middle; height: 30px; }
+	
+	.qlt2 { width:1000px; margin: auto;  color:#444;border-style:solid;
+   	 	border-width: 0.5px 1px;/*상하 ,좌우*/ }
+	
+	.qlt3 { width:1000px; margin: auto; color:#444; border:none; }
+		
+	.qlt4 { width:1000px; margin:auto;  border:none; }
+	button { margin-right:10px;color:#fff; background-color:#3498db; WIDTH: 45pt; HEIGHT: 25pt;
+		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
+		border-top-right-radius: 5px;  border-bottom-right-radius: 5px; border: none;
+		outline: none; font-weight: bold; }
+	
+	.qwt1 { width:800px; margin:auto; border:1px solid #e1e4e4; border-top: 3px solid #3498db; border-collapse: collapse;}	
+	.qwt1 tr td { border: 2px solid #e1e4e4; padding:8px; }	
+	.qwt1h { display:none; }
+	
+ 	.qvt1 { width:800px; margin: auto; color:#444; 
+ 		 border-top: 3px solid #3498db; border-collapse: collapse;}
+	.qvt1 tr td { border:2px solid #e1e4e4; border-left: 0px; border-right: 0px}
+	
+	#td1 { color:#3498db; border: none; padding-top:15px; }
+	#td2 { border: none; padding:15px; letter-spacing: 1px; }
+	
+	.qvt2 { width:800px; margin: auto; color:#444; 
+	border: 2px solid #e1e4e4; border-left: 0px; border-right: 0px; 
+	border-bottom: 3px solid #3498db;
+	}
+	
+	
+	
+  	.qvt3 /* 오직 버튼  */
+	{
+		width:800px;				
+		margin: auto; /* align="center" */
+		border: none;
+		margin-top: 10px;
+		color:#444;		
+	}
+	
+	
+	 #btn1 
+	{
+		font-weight: bold;
+		font-size: 13px;
+		font-family:Tahoma;
+		color:white;	
+		background-color:#3498db; 
+		WIDTH: 43pt; 
+		HEIGHT: 22pt;
+		border-top-left-radius: 5px; 
+		border-bottom-left-radius: 5px; 
+		margin-right:-4px;
+		border-top-right-radius: 5px; 
+		border-bottom-right-radius: 5px;
+		border: none;
+		outline: none;
+		margin: 3px;
+		float: right;
+		
+	}
+	 #btn2 
+	{
+		font-weight: bold; font-size: 13px; font-family:Tahoma;
+		color:white; background-color:#3498db; 
+		WIDTH: 43pt; 
+		HEIGHT: 22pt;
+		border-top-left-radius: 5px; 
+		border-bottom-left-radius: 5px; 
+		margin-right:-4px;
+		border-top-right-radius: 5px; 
+		border-bottom-right-radius: 5px;
+		border: none;
+		outline: none;
+		margin: 3px;
+		
+	}
+			
+	#comment_form{	
+		width:800px; text-align:left; margin: auto;
+		font-family:Tahoma; color:#444;		
+	}
+	#cf_label{
+		font-weight: bold;
+		font-size: 13pt;
+	}
+	#cf_insertbtn {
+		
+		color:#fff; background-color:#3498db; WIDTH: 43pt; HEIGHT: 22pt;
+		border-top-left-radius: 5px; border-bottom-left-radius: 5px; 
+		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+		border: none; outline: none; float:right; margin-left: 10px;
+	}
+		
+	.comment_list /* 댓글리스트 */ 
+	{ width:800px; margin: auto;  text-align:left; color:#444;	
+	  border:2px solid #e1e4e4;  border-collapse: collapse;	
+	}
+	
+	.comment_list tr td
+	{
+		margin:5px;
+	}
+	
+	#td3
+	{
+		color:#3498db;
+		border: none;
+		text-align: right;
+		padding-right:14px ;
+		
+	}
+	
+	.cdbtn{
+		color:#fff; background-color:#3498db; WIDTH: 35pt; HEIGHT: 19pt;
+		border-top-left-radius: 5px; border-bottom-left-radius: 5px; 
+		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+		border: none; outline: none; align-content: right; float: right;
+	}
+     
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      

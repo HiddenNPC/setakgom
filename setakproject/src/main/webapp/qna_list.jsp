@@ -14,115 +14,33 @@
 	//String id = (String)session.getAttribute("MEMBER_ID");	
 	//System.out.println("id=" + id);
 	 Object id = qnalist.get(0).getMEMBER_ID();
-	 System.out.println("id=" + id);
-	
+	 System.out.println("id=" + id);	
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
 <title>세탁곰 Q&A</title>
-<style type="text/css">	
-	a { text-decoration:none; }
-	a:link { color: #444; text-decoration: none;}
-	a:visited { color: #444; text-decoration: none;}
-		
-   	.about-text p:before
-  	 {
-  	 	content:'';
-      	display:block;     
-      	width:3.8%;
-      	height:6px;
-      	background-color: #3498db;
-      	margin-bottom:6px;
-      	margin:auto;
-          
-  	 }	
-	.about-text p
-	{	
-		letter-spacing:1px ;/* 글자간의 간격 조절 */
-		font-size:2rem;
-      	color:#444;
-     	font-weight:900;
-	  	text-align: center;
-	  	word-spacing: normal;
-	  	
-  	}
-	.table1
-	{
-		width:1000px;
-		background-color:#3498db;
-		align-content: center;
-		margin: auto; /* align="center" */
-		border: none;
-		font-size: 15px;
-		font-family:Tahoma;
-		color: white;
-	}
-	.table1 tr
-	{		
-		vertical-align:middle;
-		height: 30px;		
-	}
-	
-	.table2
-	{			
-		width:1000px;
-		margin: auto; 		
-		font-size: 15px;
-		font-family:Tahoma;
-		color:#444;	
-		border-style:solid;
-   	 	border-width: 0.5px 1px;/*상하 ,좌우*/
-	 		
-	}
-	
-	.table3
-	{			
-		width:1000px;
-		margin: auto; 		
-		font-size: 15px;
-		font-family:Tahoma;
-		color:#444;	
-		border:none;
-	 	font-size: 15px; 	
-	}
-	
-	
-	.table4
-	{			
-		width:1000px;
-		margin:auto; 				
-		border:none;
-	 		
-	}
-	.table4 button 
-	{
-		font-size: 14px;
-		font-family:Tahoma;
-		color:white;	
-		background-color:#3498db; 
-		WIDTH: 45pt; 
-		HEIGHT: 25pt;
-		border-top-left-radius: 5px; 
-		border-bottom-left-radius: 5px; 
-		margin-right:-4px;
-		border-top-right-radius: 5px; 
-		border-bottom-right-radius: 5px;
-		border: none;
-		outline: none;
-		font-weight: bold;
-	}
-		
-}
-	
-</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="./css/default.css"/>
+<link rel="stylesheet" type="text/css" href="./css/qna.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#header").load("header.jsp")
+    $("#footer").load("footer.jsp")     
+ });
+</script>
 </head>
 <body>
-<section>
-<div class="about-text"><p>Q&A</p></div>&nbsp;
+<div id="header"></div>
+<section id="qna">
+<div class="content">
+<div class="title-text"><h2>Q&A</h2></div>
+<div class="qna">
 
-<table class="table1">	
+
+<table class="qlt1">	
 	<tr>
 		<td width="7%">	<div align="center">번호</div></td>
 		<td width="18%"><div align="center">문의유형</div></td>
@@ -134,7 +52,7 @@
 
 		
 <%if (listcount > 0) {%>
-<table class="table2" border="1" cellpadding="0" cellspacing="0" bordercolor="#e1e4e4">		
+<table class="qlt2" border="1" cellpadding="0" cellspacing="0" bordercolor="#e1e4e4">		
 <%for(int i=0; i<qnalist.size(); i++){ QnaVO bl = (QnaVO)qnalist.get(i); %>
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#F8F8F8'" onmouseout="this.style.backgroundColor=''" >
 		<td height="30px" width="7%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
@@ -154,7 +72,7 @@ else
 <% } %>
 </table> 
 	
-<table class="table3">		
+<table class="qlt3">		
 	<tr align=center height="30px">
 		<td colspan=7 >
 		<% if(nowpage<=1) { %>
@@ -177,19 +95,14 @@ else
 		</td>
 	</tr>
 </table>		
-
-
-
-
-
-
-<table class="table4">		
+<table class="qlt4">		
 <tr align="right">
 <td colspan="5">
 <button type="button" onclick="location.href='./qnaWrite.co?MEMBER_ID=<%=id %>'">글 작성 </button></td>
 </tr> 		
 </table>
-
+</div></div>
 </section>
+<div id="footer"></div> 
 </body>
 </html>
