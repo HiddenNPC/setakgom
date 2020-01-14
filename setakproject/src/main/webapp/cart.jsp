@@ -45,33 +45,7 @@
      		}) 
      		
      	});
-         
-         /* 수정버튼 누르면 새로운 창 뜨게 함 */
-		  $(".updateBtn").click(function(){
-			  var select_btn = $(this);
-			  var tr = select_btn.parent().parent();
-			  var td = tr.children(); 
-			  
-			  var cate = td.eq(1).text(); 
-
-			  var windowObj;
-			  var settings = "";
-			  
-			  switch(cate) {
-			  	case "세탁" :
-			  		
-			  		windowObj = window.open("washingUpdate.jsp","세탁 수정", 'height='+ screen.height*0.9 +',width=' + screen.width + 'top=0,left=0');
-			  		break;
-			  		
-			  	case "세탁-수선" :
-			  		alert("세탁-수선sdfsdf");
-			  		break; 
-			  		
-			  	default :
-			  		alert("뭐야");
-			  }
-		  });
-             
+                      
       });
       
       // 합계 구하는 함수
@@ -179,7 +153,7 @@
 					</tbody>
 				</table>
 				
-				<button class = "bt_1000">주문결제</button>
+				<button class="bt_1000" onclick="location.href='/setak/order.st'">주문결제</button>
 		</div>
 		
 

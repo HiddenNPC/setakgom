@@ -72,9 +72,6 @@ table.sub_table thead tr td {
    height: 50px;
 }
 
-table.sub_table tbody {
-   font-size: 10pt;
-}
 
 table.sub_table tbody tr td {
    height: 60px;
@@ -90,14 +87,32 @@ p.sub_title {
 }
 
 .pay_button {
-   font-size: 0.9rem;
-   display: block;
-   width: 60px;
-   background-color: #3498db;
-   color: #ffffff;
-   height: 40px;
-   line-height: 40px;
-   border: 0;
+    font-size: 0.9rem;
+    display: block;
+    width: 70px;
+    background-color: #eeefef;
+    color: #444;
+    height: 40px;
+    line-height: 40px;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
+.pay_button:hover {
+   background-color : #e0e2e2; 
+}
+
+.origin_price {
+    float: left;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    margin-left: 40px;
+    color : #6E6E6E;
+}
+
+.sale_price {
+   font-size : 1.2rem;
+   font-weight: bold;
+}
 

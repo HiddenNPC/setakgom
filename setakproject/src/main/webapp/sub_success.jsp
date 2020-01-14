@@ -31,11 +31,11 @@
 	 
 	 		<hr/>
 			
-			<h1 style = "margin-bottom : 100px;">구독해 주셔서 감사합니다.</h1>
+			<h1 style = "margin-bottom : 100px;">xx님 구독 신청을 감사합니다.</h1>
 
 			<table class = "sub_success_table">
 				<thead>
-					<th colspan = "7" align = "left" style = "height : 50px; background-color : #3498db"> &nbsp; &nbsp; 구독 상품 확인 ()</th>
+					<th colspan = "7" align = "left" style = "height : 50px; background-color : #3498db"> &nbsp; &nbsp; 구독 상품 확인 (올인원59)</th>
 				</thead>
 				<tbody align = "center">
 					<tr>
@@ -62,11 +62,10 @@
 				</tbody>
 			</table>
 			
-			<div class="notice">
+			<div class="notice" style = "padding-top : 100px;">
 	            <p>※ 구독관련 내용 확인은 마이페이지 > 나의 정기구독에서 확인 가능합니다.</p>
 	      	</div>
-	      	        
-		
+	      	        		
 			<button class = "service_btn">서비스 둘러보기</button>
 	      	        
 	      </div>
