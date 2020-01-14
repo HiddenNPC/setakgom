@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	
-	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "main";
@@ -24,6 +23,12 @@ public class HomeController {
 	public String washing() {
 		
 		return "washing";
+	}
+	
+	@RequestMapping("/mendingform.st")
+	public String mending() {
+		
+		return "mending";
 	}
 	
 }
