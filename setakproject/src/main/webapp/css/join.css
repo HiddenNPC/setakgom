@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+#modalpop {
+	z-index:10000;	
+}
+
+.btn_clause{
+	margin:10px;
+	width:100px;
+	height:25px;
+}
