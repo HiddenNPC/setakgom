@@ -366,8 +366,8 @@
 						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">장바구니</a>
-						<a class="chkdelete" href="javascript:">선택삭제</a>
+						<input type="submit" value="장바구니">
+						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>
 			</div>

@@ -294,7 +294,7 @@
 	.total-button{
 		padding:40px 0;
 	}
-	.total-button a{
+	.total-button input{
 		font-size:0.95rem;
 		display:block;
 		width:90px;
@@ -306,8 +306,9 @@
 		text-align:center;
 		float:right;
 		margin: 0 5px;
+		border:0px;
 	}
-	.total-button a:hover{
+	.total-button input:hover{
 		background-color:#3498db;
 		color:#fff;
 		transition:all .4s;
