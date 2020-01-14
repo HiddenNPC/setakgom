@@ -28,7 +28,7 @@
          </div>
          
          <div class = "div-1000">
-	         <img class = "arrow-img" src = "images/arrow.PNG" />
+	         <img class = "arrow-img" src = "images/order3.png" />
 	 
 	 		<hr/>
 			
