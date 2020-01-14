@@ -79,9 +79,10 @@
     }
     
 	.arrow-img {
-		margin-bottom: 50px; 
-
+		width : 100%;
+		margin-bottom:60px;
 	}
+    
     
    .service_btn {
 		margin : auto; 

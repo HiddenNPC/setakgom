@@ -40,6 +40,10 @@
 #order {
 }
 
+.arrow-img {
+	width : 100%;
+	margin-bottom:60px;
+}
 
 /* div-1000 */
 .div-1000 {
@@ -288,6 +292,19 @@ input#point_price {
 	opacity : 0.8; 
 }
 
+.modiCloseBtn {
+    width: 65px;
+    float: right;
+    background-color: #F7F7F6;
+    border: 0;
+    font-size: 1.5rem;
+    margin-top: 30p;
+    height: 65px;
+}
+
+.modi-form-div {
+    margin-top: 50px;
+}
 
 #new-addr-div {
 	margin-top: 30px;
@@ -299,6 +316,8 @@ input#point_price {
 
 .new-addr-table {
 	margin-top : 20px; 
+	margin : auto;
+	text-align : left; 
 }
 
 .new-addr-table tr {
@@ -313,10 +332,9 @@ input#point_price {
 .new-left {
     color: #444;
     font-size: 0.9rem;
-    width: 20%;
-    text-align: left;
+    text-align: center;
 	font-weight: bold;
-	padding-left : 35px; 
+	width: 20%;
 }
 
 
@@ -355,15 +373,25 @@ input#point_price {
 }
 
 
-.modiDiv {
-	border-bottom: 1px solid #ccc;
+#modiDiv {
 	background-color: #f7f7f7;
 	padding: 20px;
 	color: #4a5666;
 	display: none;
 }
 
-	
+#modiDiv td h3 {
+	float : left;
+	padding-top : 30px;
+	padding-left : 100px; 
+}
+
+.addr-choice:hover {
+	text-decoration : underline;
+	cursor : pointer;
+}
+
+
 
 /*쿠폰 팝업 레이어*/
 .popup-title {
@@ -449,4 +477,8 @@ input#point_price {
 	padding-top: 15px;
 	padding-right: 15px;
 	font-weight: bold;
+}
+
+.popup-close:active {
+	border : 0px; 
 }
