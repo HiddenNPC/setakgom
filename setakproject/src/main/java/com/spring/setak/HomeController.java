@@ -35,8 +35,68 @@ public class HomeController {
 			System.out.println(b[i]);
 		}
 		
+		mav.setViewName("washingMending");
 		
 		return mav;
 	}
 	
+	@RequestMapping(value = "/washkeep.st")
+	public String washkeep() {
+		
+		return "washingKeep";
+	}
+	
+	@RequestMapping(value = "/mending.st")
+	public String mending() {
+		
+		return "mending";
+	}
+	
+	@RequestMapping(value = "/keep.st")
+	public String keep() {
+		
+		return "keep";
+	}
+	
+	@RequestMapping(value = "/subscribe.st")
+	public String subs() {
+		
+		return "subscribe";
+	}
+	
+	@RequestMapping(value = "/hist.st")
+	public String hist() {
+		
+		return "history";
+	}
+	
+	@RequestMapping(value = "/review.st")
+	public String review() {
+		
+		return "review_list";
+	}
+	
+	@RequestMapping(value = "/faq.st")
+	public String faq() {
+		
+		return "faq_list";
+	}
+	
+	@RequestMapping(value = "/login.st")
+	public String login() {
+		
+		return "loginform";
+	}
+	
+	@RequestMapping(value = "/join.st")
+	public String join() {
+		
+		return "joinform";
+	}
+	
+	@RequestMapping(value = "/cart.st")
+	public String cart() {
+		
+		return "cart";
+	}
 }
