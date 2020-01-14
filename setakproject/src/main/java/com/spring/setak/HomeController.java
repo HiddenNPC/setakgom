@@ -25,7 +25,7 @@ public class HomeController {
 		return "washing";
 	}
 	
-	@RequestMapping("/mending.st")
+	@RequestMapping("/mendingform.st")
 	public String mending() {
 		
 		return "mending";

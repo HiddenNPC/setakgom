@@ -80,7 +80,7 @@
 					<li><a href="#">회사소개</a></li>
 					<li><a href="#">정기구독</a></li>
 					<li><a href="./setak.st">세탁서비스</a></li>
-					<li><a href="#">수선서비스</a></li>
+					<li><a href="./mendingform.st">수선서비스</a></li>
 					<li><a href="#">보관서비스</a></li>
 					<li><a href="#">커뮤니티</a>
 						<div>
