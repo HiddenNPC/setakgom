@@ -37,9 +37,7 @@
 	vertical-align: middle;
 }
 
-#order {
-}
-
+/*이미지*/
 .arrow-img {
 	width : 100%;
 	margin-bottom:60px;
@@ -47,7 +45,6 @@
 
 /* div-1000 */
 .div-1000 {
-	width: 1000px;
 	margin: 0 auto;
 	text-align: center;
 	position: relative;
@@ -83,7 +80,7 @@
 
 .order_list_table,
 .delivery_info_table {
-	width: 1000px;
+	width : 1200px; 
 	margin-top: 10px;
 	border-spacing: 0;
 }
@@ -257,9 +254,7 @@ input#point_price {
 
 }
 
-
 /*나의 배송주소록 레이어*/
-
 .addr-btn {
 	float : right; 
 	margin-right : 20px; 
@@ -390,7 +385,6 @@ input#point_price {
 	text-decoration : underline;
 	cursor : pointer;
 }
-
 
 
 /*쿠폰 팝업 레이어*/

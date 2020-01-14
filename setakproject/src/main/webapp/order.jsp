@@ -182,7 +182,7 @@
 								<tbody>
 									<tr>
 										<td class="left_col first_row">총 주문금액</td>
-										<td id="total_price" class="first_row">39000원</td>
+										<td id="total_price" class="first_row"><span id = "order_price">39000원</span></td>
 									</tr>
 									<tr>
 										<td class="left_col">배송비</td>
@@ -812,13 +812,13 @@ $(document).ready(function() {
             // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
             jQuery('#layer-div').height(jQuery(document).height());
             
-            var finalPrice = parseInt($('#final_price').text());
-            $('#product_price').text(finalPrice+'원');
+            var orderPrice = parseInt($('#order_price').text());
+            $('#product_price').text(orderPrice+'원');
             
             var couponSalePrice = parseInt($('#coupon_sale_price').text());
             $('#coupon_price').text(couponSalePrice+'원');
             
-            var discountPrice = $('#discount_price').text();
+            var finalPrice = parseInt($('#final_price').text());
             $('#discount_price').text(finalPrice+'원');
         }
        

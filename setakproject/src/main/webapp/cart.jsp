@@ -46,6 +46,31 @@
      		
      	});
          
+         /* 수정버튼 누르면 새로운 창 뜨게 함 */
+		  $(".updateBtn").click(function(){
+			  var select_btn = $(this);
+			  var tr = select_btn.parent().parent();
+			  var td = tr.children(); 
+			  
+			  var cate = td.eq(1).text(); 
+
+			  var windowObj;
+			  var settings = "";
+			  
+			  switch(cate) {
+			  	case "세탁" :
+			  		
+			  		windowObj = window.open("washingUpdate.jsp","세탁 수정", 'height='+ screen.height*0.9 +',width=' + screen.width + 'top=0,left=0');
+			  		break;
+			  		
+			  	case "세탁-수선" :
+			  		alert("세탁-수선sdfsdf");
+			  		break; 
+			  		
+			  	default :
+			  		alert("뭐야");
+			  }
+		  });
              
       });
       
@@ -88,49 +113,44 @@
 							<th>수량</th>
 							<th>가격</th>
 							<th>비고</th>
+							<th>변경</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
+							<td rowspan = "2">세탁</td>
 							<td>셔츠</td>
-							<td>20장</td>
+							<td>2장</td>
+							<td class = "product_price">50000원</td>
+							<td>물세탁</td>
+							<td rowspan = "2"><input class = "updateBtn" type = "button" value = "수정" /></td>
+						</tr>			
+						<tr>
+							<td><input type = "checkbox" name = "check" /></td>
+							<td>셔츠</td>
+							<td>2장</td>
 							<td class = "product_price">50000원</td>
 							<td>물세탁</td>
 						</tr>			
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
+							<td>세탁-수선</td>
+							<td>상의</td>
+							<td>3장</td>
 							<td class = "product_price">40000원</td>
-							<td>물세탁</td>
+							<td>소매줄임</td>
+							<td><input class = "updateBtn" type = "button" value = "수정" /></td>
 						</tr>			
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
+							<td>세탁-보관</td>
+							<td></td>
+							<td>3박스</td>
 							<td class = "product_price">5000원</td>
-							<td>물세탁</td>
-						</tr>			
-						<tr>
-							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
-							<td class = "product_price">500원</td>
-							<td>물세탁</td>
-						</tr>			
-						<tr>
-							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
-							<td class = "product_price">10000원</td>
-							<td>물세탁</td>
-						</tr>			
+							<td>6개월</td>
+							<td><input class = "updateBtn" type = "button" value = "수정" /></td>
+						</tr>						
 					</tbody>
 				</table>
 				
