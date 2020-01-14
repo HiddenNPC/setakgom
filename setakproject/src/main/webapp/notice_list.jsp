@@ -20,7 +20,7 @@
 <title>세탁곰 공지사항</title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
-<link rel="stylesheet" type="text/css" href="./css/notice_list.css"/>
+<link rel="stylesheet" type="text/css" href="./css/notice.css"/>
 <style type="text/css">		
 	
 </style>
@@ -41,7 +41,7 @@ $(document).ready(function(){
 <div class="title-text"><h2> 공지사항</h2></div>
 <div class="notice">
 
-<table class="table1" align="center" border="0" cellpadding="0" cellspacing="0">	
+<table class="nlt1" align="center" border="0" cellpadding="0" cellspacing="0">	
 	<tr align="center" valign="middle"  height="40">
 		<td width="10%">
 			<div align="center">번 호</div>
@@ -62,7 +62,7 @@ $(document).ready(function(){
 		for (int i=0; i<noticeList.size(); i++) {
 			NoticeVO bl = (NoticeVO)noticeList.get(i);
 	%>
-<table class="table2" align="center"  cellpadding="0" cellspacing="0"  >		
+<table class="nlt2" align="center"  cellpadding="0" cellspacing="0"  >		
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#F8F8F8'" onmouseout="this.style.backgroundColor=''" >
 		<td height="35"  width="10%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 		<td width="50%"> 
@@ -79,7 +79,7 @@ $(document).ready(function(){
 		
 	<% } %>
 &nbsp;
-<table class="table3" align="center">	
+<table class="nlt3" align="center">	
 	<tr align=center height=35  >
 		<td colspan=7 >
 		<% if(nowpage<=1) { %>
@@ -108,7 +108,7 @@ $(document).ready(function(){
 	} else {
 	%>
 	
-<table class="table2" border="1" cellpadding="0" cellspacing="0" align="center" >	
+<table class="nlt2" border="1" cellpadding="0" cellspacing="0" align="center" >	
 		<tr align="center" valign="middle">
 			<td colspan="4"> 공 지 사 항  </td>
 			<td align=right>
