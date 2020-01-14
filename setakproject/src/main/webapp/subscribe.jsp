@@ -61,7 +61,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -73,7 +73,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="fas fa-money-check"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -85,7 +85,7 @@
 							<td>-</td>
 							<td>1장</td>
 							<td>6회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="fas fa-won-sign"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -409,7 +409,8 @@
 		$(document).ready(function() {
 	
 		// 아이엠포트 관련 스크립트
-    	$(".pay_button").on("click", function(){
+    	/*
+		$(".pay_button").on("click", function(){
     		var select_button = $(this);
     		var tr = select_button.parent().parent();
     		var td = tr.children();
@@ -449,6 +450,7 @@
                         //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
                         if ( everythings_fine ) {
                             msg = '결제가 완료되었습니다.';
+                            
                             msg += '\n고유ID : ' + rsp.imp_uid;
                             msg += '\n상점 거래ID : ' + rsp.merchant_uid;
                             msg += '\결제 금액 : ' + rsp.paid_amount;
@@ -472,6 +474,7 @@
             });
             
         });
+		*/
     	
 		});
 		

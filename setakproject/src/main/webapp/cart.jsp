@@ -26,7 +26,7 @@
 		$("#allcheck").click(function(){
 	        //클릭되었으면
 	        if($("#allcheck").prop("checked")){
-	            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+	            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의 
 	            $("input[name=check]").prop("checked",true);
 	            //클릭이 안되있으면
 	        }else{
@@ -113,21 +113,20 @@
 							<th>수량</th>
 							<th>가격</th>
 							<th>비고</th>
-							<th>변경</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
-							<td rowspan = "2">세탁</td>
+							<td>세탁</td>
 							<td>셔츠</td>
 							<td>2장</td>
 							<td class = "product_price">50000원</td>
 							<td>물세탁</td>
-							<td rowspan = "2"><input class = "updateBtn" type = "button" value = "수정" /></td>
 						</tr>			
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
+							<td>세탁</td>
 							<td>셔츠</td>
 							<td>2장</td>
 							<td class = "product_price">50000원</td>
@@ -140,7 +139,6 @@
 							<td>3장</td>
 							<td class = "product_price">40000원</td>
 							<td>소매줄임</td>
-							<td><input class = "updateBtn" type = "button" value = "수정" /></td>
 						</tr>			
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
@@ -149,7 +147,7 @@
 							<td>3박스</td>
 							<td class = "product_price">5000원</td>
 							<td>6개월</td>
-							<td><input class = "updateBtn" type = "button" value = "수정" /></td>
+
 						</tr>						
 					</tbody>
 				</table>
