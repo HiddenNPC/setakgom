@@ -47,9 +47,9 @@ $(document).ready(function($) {
 		var tdtext = td.text().split('!');
 		var str = ""
 		num++;
-		str += '<tr id="'+num+'">';
+		str += '<tr id="'+num+'"><input type = "hidden" name="test" value="111">';
 		str += '<td align="center"><input type="checkbox" name="chk" value="'+tdtext[0]+'" checked></td>';
-		str += '<td align="center">'+tdtext[0]+'</td>';
+		str += '<td align="center"><input type="hidden" value="'+tdtext[0]+'" name = "category">'+tdtext[0]+'</td>';
 		str += '<td align="center"><select class = "howsetak" name="세탁방법">';
 		str += '<option value="물세탁">물세탁</option>';
 		str += '<option value="드라이">드라이(+2000)</option>';
@@ -88,11 +88,11 @@ $(document).ready(function($) {
 		var quan = td.eq(3).children().val();
 		
 		if(td.eq(2).children().val()=="드라이"){
-			td.eq(4).html((price+2000)*quan+'원');
+			td.eq(5).html((price+2000)*quan);
 		}else if(td.eq(2).children().val()=="삶음"){
-			td.eq(4).html((price+1500)*quan+'원');
+			td.eq(5).html((price+1500)*quan);
 		}else{
-			td.eq(4).html(price*quan+'원');
+			td.eq(5).html(price*quan);
 		}
 		
 		sumprice();
@@ -284,7 +284,7 @@ $(document).ready(function($) {
 					</ul>
 				</div>
 			</div>
-			<form id="pricediv">
+			<form id="pricediv" action="./washmending.st" method="post">
 				<table id = "pricetable">
 					<tr class= "pricemenu">
 						<td width="10px"><input type="checkbox" id = "allcheck" checked></td>
@@ -294,15 +294,16 @@ $(document).ready(function($) {
 						<td width="200px">합계</td>
 					</tr>
 				</table>
-			</form>
+			
 			<div class="total"> 
 				<p>총 금액 : 수선비 : <span id = "sumprice">0</span>원</p>
 			</div>
-			
 			<div class="total-button">
 				<a href= "./washingMending.jsp">다음</a>
+				<input type="submit" value="넘기기">
 				<a id ="checkdel" href= "javascript: ">선택삭제</a>
 			</div>
+			</form>
 		</div>
 	</div>
 	
