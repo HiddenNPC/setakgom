@@ -30,15 +30,15 @@
 
 /*header*/
 	header{
-		height:280px;
+		width:100%;
+		position:fixed;
+		z-index:999;
 	}
 	nav{
-		position:fixed;
 		background-color:#fff;
 		height:135px;
 		width:100%;
 		box-shadow: 4px 4px 4px rgba(85, 85, 85, 0.2);
-		z-index:9999;
 		transition: all .2s;
 	}
 	nav a{
@@ -60,33 +60,27 @@
 		width: 0%;
 	}
 	.shrink{
-		height:105px;
+		height:110px;
 	}
 	.logo{
-		position:fixed;
-		left:5%;
-		top:10px;
-		z-index:9999;
+		padding-top:10px;
 	}
 	.logo li img{
 		width :105px;
 	}
 	.logo2{
-		position:fixed;
-		left:5%;
-		top:10px;
-		z-index:9999;
-		display:none;
+		padding-top:15px;
 	}
 	.logo2 li img{
 		width :105px;
+		display:none;
 	}
 	.main-nav{
-		position:fixed;
+        float:right;
+		margin-right:20px;
+		margin-top:15px;
 		height:50px;
 		line-height:50px;
-		right:50px;
-		top:15px;
 	}
 	.main-nav li{
 		padding-left:20px;
@@ -94,11 +88,11 @@
 		font-weight:bold;
 	}
 	.sub-nav{
-		position:fixed;
+		float:right;
+		margin-top:60px;
+		margin-right:-150px;
 		height:50px;
 		line-height:50px;
-		right:50px;
-		top:60px;
 	}
 	.sub-nav li{
 		padding-left:30px;
@@ -149,6 +143,9 @@
  		width:100%;
         transition: all .8s;
     }
+    .header_space{
+		height:280px;
+	}
     
 /* footer */
 	footer{

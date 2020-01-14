@@ -8,7 +8,7 @@
 	<title>세탁곰</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
-	<link rel="stylesheet" type="text/css" href="./css/test.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="stylesheet" type="text/css" href="./css/qnainquiry.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -56,33 +56,46 @@
 				</ul>
 			</div>
 			<div style="width: 85%; float: right;">
-				<div class="title-text">
-					<!-- 변경하시면 안됩니다. -->
-					<h2>주문/배송 현황</h2>
-				</div>
-				<br>
-				<div class="test2">
-					<!-- class 변경해서 사용하세요. -->
-					<p>
-						<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
-					</p>
-				</div>
-				<br>
-				<div class="accordion">
-					<div class="accordion-header">주문일자 : 2020/01/18 03:42</div>
-					<div class="accordion-content">
-						<!--snb -->
-						<div class="snb">
-							<p>.snb</p>
-							<br><br><br><br><br><br><br><br>
-							<a href="#" class="button">주문 취소</a>
-						</div>
-						<!--//snb -->
-						<!--content -->
-						<div id="row_content">
-							<p>#content</p>
-						</div>
+				<div class="mypage_content">
+				<h2>Q&A 문의내역</h2>
+				<div class="mypage_content_cover">
+				<div class="qna-title">
+					<div>
+						<table class="qna">
+							<thead align="center">
+								<tr>
+									<th width="15">문의유형</th>
+									<th width="40">제목</th>
+									<th width="20">문의날짜</th>
+									<th width="15">답변상태</th>
+								</tr>
+							</thead>
+							<%for (int i=0; i<10; i++){ %>
+							<tbody align="center">
+								<tr>
+									<td>배송</td>
+									<td><a href="#" style="color:#3498db; font-weiht:bold;">내 택배 언제와</a></td>
+									<td>2020.01.05</td>
+									<td>답변완료</td>
+								</tr>
+							</tbody>					
+							<%} %>	
+						</table>
 					</div>
+					</div>
+					<div class="page1">
+						<table class="page">
+							<tr align = center height = 20>
+              				<td>
+              					<div class="page_a"><a href = "#">&#60;</a></div>
+                  				<div class="page_a"><a>1</a></div>
+                  				<div class="page_a"><a>2</a></div>
+                  				<div class="page_a"><a>3</a></div>
+                  				<div class="page_a"><a href = "">&#62;</a></div>
+                  			</td>
+               			</tr>
+					</table>
+					</div>	
 				</div>
 			</div>
 		</div>
@@ -94,23 +107,12 @@
 </body>
 <script>
     $(function () {
-       $(".button").on("click", function () {
+       $(".accordion-header").on("click", function () {
            $(this)
-           	if (confirm("주문을 취소하시겠습니까??") == true){
-              	document.write("확인")
-           	}else{
-           		document.write("아니오")
-           	}
+               .toggleClass("active")
+               .next()
+               .slideToggle(200);
        });
     });
-    
-    $(function () {
-        $(".accordion-header").on("click", function () {
-            $(this)
-                .toggleClass("active")
-                .next()
-                .slideToggle(200);
-        });
-     });
 </script>
 </html>

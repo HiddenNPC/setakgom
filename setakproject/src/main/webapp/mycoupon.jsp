@@ -8,7 +8,7 @@
 	<title>세탁곰</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
-	<link rel="stylesheet" type="text/css" href="./css/test.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="stylesheet" type="text/css" href="./css/mycoupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -56,39 +56,46 @@
 				</ul>
 			</div>
 			<div style="width: 85%; float: right;">
-				<div class="title-text">
-					<!-- 변경하시면 안됩니다. -->
-					<h2>Q&A 문의내역</h2>
-				</div>
-				<br>
-				<div class="test2">
-					<!-- class 변경해서 사용하세요. -->
-				</div>
-				<br>
+				<div class="mypage_content">
+				<h2>쿠폰 조회</h2>
+				<div class="mypage_content_cover">
 				<div class="qna-title">
 					<div>
-						<table class="qna" style="width:660px;">
+						<table class="qna">
 							<thead align="center">
 								<tr>
-									<th width="15">문의유형</th>
-									<th width="40">제목</th>
-									<th width="20">문의날짜</th>
-									<th width="15">답변상태</th>
+									<th width="20">쿠폰명</th>
+									<th width="40">쿠폰 혜택</th>
+									<th width="20">쿠폰 발행일</th>
+									<th width="20">사용가능 기간</th>
 								</tr>
 							</thead>
 							<%for (int i=0; i<10; i++){ %>
 							<tbody align="center">
 								<tr>
-									<td>배송</td>
-									<td>내 택배 언제와</td>
+									<td>zljkks</td>
+									<td><a href="#" style="color:#3498db; font-weiht:bold;">보관 1개월 무료</a></td>
 									<td>2020.01.05</td>
-									<td>답변완료</td>
+									<td>2020.01.05~2020.07.05</td>
 								</tr>
 							</tbody>					
 							<%} %>	
 						</table>
 					</div>
-						
+					</div>
+					<div class="page1">
+						<table class="page">
+							<tr align = center height = 20>
+              				<td>
+              					<div class="page_a"><a href = "#">&#60;</a></div>
+                  				<div class="page_a"><a>1</a></div>
+                  				<div class="page_a"><a>2</a></div>
+                  				<div class="page_a"><a>3</a></div>
+                  				<div class="page_a"><a href = "">&#62;</a></div>
+                  			</td>
+               			</tr>
+					</table>
+					</div>	
 				</div>
 			</div>
 		</div>
