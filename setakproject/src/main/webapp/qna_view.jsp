@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ page import="com.spring.setak.*" %>
-<%@ page import="com.spring.setak.*" %>
+
 <%
 	QnaVO vo = (QnaVO)request.getAttribute("qnadata");
 	int qna_num = vo.getQNA_NUM();
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		$.ajax({
 			/* url:'/setak_qna/commentList.re?qna_num='+para+'', 
 			type:'GET',*/
-			url:'/setak_qna/commentList.re', 
+			url:'/setak/commentList.re', 
 			type:'POST', 
 			data:para,
 			dataType:"json", //서버에서 보내줄 데이터 타입
@@ -249,7 +249,7 @@ $(document).ready(function() {
 		var params=$("#comment_form").serialize();
 		console.log("comment_form="+params);
 		jQuery.ajax({
-			url:'/setak_qna/commentInsert.re',
+			url:'/setak/commentInsert.re',
 			type:'POST',
 			data:params,
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
@@ -279,7 +279,7 @@ $(document).ready(function() {
 		console.log("id(qna_seq)="+dpara);
 		
 			$.ajax({
-			url:'/setak_qna/commentDelete.re',
+			url:'/setak/commentDelete.re',
 			type:'POST',
 			data:dpara,
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
