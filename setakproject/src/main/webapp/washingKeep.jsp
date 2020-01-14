@@ -13,8 +13,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./frame/header.jsp")
+			$("#footer").load("./frame/footer.jsp")
 						
 			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 			var monthclick = 0;

@@ -13,8 +13,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./frame/header.jsp")
+			$("#footer").load("./frame/footer.jsp")
 		});
 	</script>
 </head>

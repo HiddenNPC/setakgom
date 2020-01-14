@@ -21,8 +21,8 @@
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#header").load("header.jsp")
-		$("#footer").load("footer.jsp")
+		$("#header").load("./frame/header.jsp")
+		$("#footer").load("./frame/footer.jsp")
 	});
 </script>
 
