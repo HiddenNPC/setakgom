@@ -27,8 +27,7 @@ public class OrderController {
 		
 		return "order_success";
 		
-	}	
-
+	}
 	
 	
 }

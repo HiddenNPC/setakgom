@@ -22,402 +22,14 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
        
     <script type="text/javascript">
-      $(document).ready(function(){
-         $("#header").load("header.jsp")
-         $("#footer").load("footer.jsp")     
-      });
-    </script>
-</head>
-<body>
-   <div id="header"></div>
+
+	$(document).ready(function() {
+	
+	// 헤더, 푸터 
+    $("#header").load("header.jsp")
+    $("#footer").load("footer.jsp")     
+
     
-   <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
-   <section id="order"> <!-- id 변경해서 사용하세요. -->
-      <div class="content"> <!-- 변경하시면 안됩니다. -->
-         <div class="title-text"> <!-- 변경하시면 안됩니다. -->
-            <h2>주문결제</h2>
-         </div>
-         
-         <div class = "div-1000">
-	        <img class = "arrow-img" src = "images/order2.png" />
-	        
-			<div class = "order-div">
-				<p class = "notice">※ 취소는 마이페이지 > 주문/배송 현황에서 신청 당일 밤 10시 전까지만 가능합니다.</p>
-				
-				<h3>주문리스트 확인</h3>
-				<table class = "order_list_table">
-					<thead>
-						<tr>
-							<th>구분</th>
-							<th>종류</th>
-							<th>수량</th>
-							<th>비고</th>
-							<th>금액</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
-							<td>물세탁</td>
-							<td>50000원</td>
-						</tr>
-						<tr>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
-							<td>물세탁</td>
-							<td>50000원</td>
-						</tr>
-						<tr>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>20장</td>
-							<td>물세탁</td>
-							<td>50000원</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class = "delivery-div">
-				<form action="">
-					<table class = "delivery_info_table">
-						<thead>
-							<tr>
-								<th colspan = "2"><h3>배송지 정보</h3></th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<tr>
-								<td class = "left_col">배송지 선택</td>
-								<td class = "right_col">
-									<input id = "default_addr" type = "radio" name = "delivery_info" checked value = "" /> <label for = "default_addr">기본배송지</label>
-									<input id = "init_addr" type = "radio" name = "delivery_info" value = "" /> <label for = "init_addr">직접입력</label>  
-									
-									<input type = "button" class = "addr-btn btnBlue" onclick = "layerDeliPopup('open')" value = "나의 주소록" />
-								</td>
-							</tr>
-							
-							<tr>
-								<td class = "left_col">받는 사람</td>
-								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" name = ""/></td>
-							</tr>
-							
-							<tr>
-								<td class = "left_col">휴대폰 번호</td>
-								<td class = "right_col">
-									<input id = "order_phone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
-									-
-									<input id = "order_phone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-									-
-									<input id = "order_phone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-								</td>
-							</tr>
-							
-							<tr>
-								<td class = "left_col">배송지 주소</td>
-								<td class = "right_col">
-									<input id = "postcode" class = "txtInp" type = "text" name = "" style = "width : 60px;"/> 
-									<input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
-									<br/>
-									<input id = "address" class = "txtInp" type = "text" name = "" style = "width : 270px;" readonly/> &nbsp;
-									<input id= "detailAddress" class = "txtInp" type = "text" name = "" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;"/>
-									<input id="extraAddress" type="hidden" placeholder="참고항목">
-									
-								</td>
-							</tr>
-							
-							<tr>
-								<td class = "left_col">배송 요청 사항</td>
-								<td class = "right_col">
-									<input class = "txtInp" type = "text" name = "" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
-								</td>
-							</tr>						
-						</tbody>
-					</table>
-				</form>
-			</div>
-			
-			<!-- 결게 관련 div -->
-				<div class="pay-div">
-					<div class="discount-div">
-						<div class="pay_title">
-							<h3>할인 정보</h3>
-						</div>
-
-						<form action="">
-							<table class="discount_table">
-								<tbody>
-									<tr>
-										<td class="left_col first_row">쿠폰</td>
-										<td class="first_row right_col"><input type="button"
-											onclick="layerPopup('open')" value="쿠폰적용" /></td>
-									</tr>
-
-									<tr>
-										<td class="left_col">적립금</td>
-										<td class="right_col"><input id="usePoint"
-											class="txtInp usePoint" type="text" name=""
-											style="width: 75px;" /> <span style="font-size: 0.85rem;">Point</span>
-											&nbsp;
-											<p class="myPoint">
-												(보유 적립금 : <b><span id="havePoint">500</span></b>원)
-											</p></td>
-									</tr>
-								</tbody>
-							</table>
-						</form>
-
-					</div>
-
-					<div class="price-div">
-						<div class="pay_title">
-							<h3>결제 금액</h3>
-						</div>
-						<div class="pay_content">
-							<table id="price_table" class="price_table">
-								<tbody>
-									<tr>
-										<td class="left_col first_row">총 주문금액</td>
-										<td id="total_price" class="first_row"><span id = "order_price">39000원</span></td>
-									</tr>
-									<tr>
-										<td class="left_col">배송비</td>
-										<td>0원</td>
-									<tr>
-									<tr>
-										<td class="left_col">쿠폰할인</td>
-										<td class="txtBlue"><span id="coupon_sale_price">0원</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="left_col">적립금</td>
-										<td class="txtBlue"><span id="point_price">0원</span></td>
-									<tr>
-									<tr>
-										<td class="left_col td_final">최종 결제액</td>
-										<td class="txtBlue"><span id="final_price">39000원</span></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="pay_btnDiv">
-					<button class="pay_btn">결제하기</button>
-				</div>
-
-</section>
-   
-   <!-- 나의 주소록 레이어 -->
-   <section id = "address">
-   	<div id = "layer-div2" class = "layer-card">
-   		<div id = "popup-div2">
-   			<div class = "popup-title">
-   				<h2>나의 주소록</h2>
-   				<button class = "popup-close" onclick = "layerDeliPopup('close')">X</button>
-   			</div>
-   			
-   			<div class = "addr-notice">
-   				<p>※ 해당 주소를 클릭하면 주문서에 자동입력 됩니다.</p>
-   				<p>※ 신규등록을 원하시면 신규등록 버튼을 클릭하여 주세요.</p>
-   				<p>※ 주소록에는 최대 5개의 주소등록이 가능합니다. </p>
-   				<button id = "new-addr-btn" class = "btnBlue">신규등록</button> 				
-   			</div>
-   			
-	   			<div id = "new-addr-div">
-	   				<h3>신규등록 <button id = "new-addr-close">X</button> </h3>
-	   				
-	   				<hr>
-	   				<form id = "new-addr-form" action = "">
-		   				<table class = "new-addr-table">
-		   					<tr>
-		   						<td class = "new-left">배송지</td>
-		   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "" /></td>
-		   					</tr>
-		   					<tr>
-		   						<td class = "new-left">이름</td>
-		   						<td><input id = "newName" type = "text" class = "txtInp" name = "" /></td>
-		   					</tr>
-		   					<tr>
-		   						<td class = "new-left">주소</td>
-								<td>
-									<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
-									<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
-									<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
-									<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
-									<input id="extraAddress2" type="hidden" placeholder="참고항목">
-								</td>
-							</tr>
-							<tr>
-								<td class = "new-left">연락처</td>
-								<td>
-									<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
-									-
-									<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-									-
-									<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-								</td>
-							</tr>
-							<tr>
-								<td colspan = "2">
-									<button class = "btnBlue">확인</button>
-								</td>
-							</tr>						
-						</table>
-					</form>
-	   			</div>
-   			
-   			<div class = "addr-content">
-   				<table class = "addr-table">
-   					<thead>
-   						<tr>
-   							<th>배송지</th>
-   							<th>이름</th>
-   							<th>주소</th>
-   							<th>연락처</th>
-   							<th>관리</th>
-   						</tr>
-   					</thead>
-   					<tbody>
-   						<tr class = "addrRow">
-   							<td>신림</td>
-   							<td>최민경</td>
-   							<td class = "addr-choice">서울특별시 관악구 문성로 218-5 302호 (08842)</td>
-   							<td>010-8848-2996</td>
-   							<td>
-	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
-	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
-	   						</td>
-	   					</tr>
-   						<tr class = "addrRow">
-   							<td>배고파</td>
-   							<td>확인중</td>
-   							<td class = "addr-choice">서울특별시 관악구 어짜구</td>
-   							<td>010-8848-2996</td>
-   							<td>
-	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
-	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
-	   						</td>
-	   					</tr>
-	   					<tr id="modiDiv">
-	   						<td colspan= "5">
-								<h3>수정하기</h3>
-								<button class = "modiCloseBtn" onclick = "modiClose()">X</button>
-								<div class = "modi-form-div">
-					   				<form id = "new-addr-form" action = "">
-						   				<table class = "new-addr-table">
-						   					<tr>
-					   							<td class = "new-left">배송지</td>
-						   						<td><input id = "modiAddrName" type = "text" class = "txtInp" name = "" /></td>
-						   					</tr>
-						   					<tr>
-						   						<td class = "new-left">이름</td>
-						   						<td><input id = "modiName" type = "text" class = "txtInp" name = "" /></td>
-						   					</tr>
-						   					<tr>
-						   						<td class = "new-left">주소</td>
-												<td>
-													<input id="postcode3" class="txtInp" type="text" name="" style="width: 60px;" /> 
-													<input type="button" onclick="execDaumPostcode('modi')" value="우편번호 찾기"> <br /> 
-													<input id="address3" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
-													<input id="detailAddress3" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
-													<input id="extraAddress3" type="hidden" placeholder="참고항목">
-												</td>
-											</tr>
-											<tr>
-												<td class = "new-left">연락처</td>
-												<td>
-													<input id = "modiPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
-													-
-													<input id = "modihone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-													-
-													<input id = "modihone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
-												</td>
-											</tr>
-											<tr>
-												<td colspan = "2">
-													<button class = "btnBlue">확인</button>
-												</td>
-											</tr>						
-										</table>
-									</form>
-								</div>
-							</td>
-	   					</tr>
-	   					
-	   					
-   					</tbody>
-   				</table>
-   			</div>
-   			
-   			
-   		</div>
-   	</div>
-   </section>
-
-	<!-- 쿠폰 팝업 레이어 -->
-	<section id = "coupon">
-		<div id = "layer-div" class="layer-card">
-			<div id = "popup-div">
-				<div class="popup-title">
-					<h2>쿠폰적용</h2>
-					<button class = "popup-close" onclick = "layerPopup('close')">X</button>
-				</div>
-				<div class="popup-content1">
-					<h3>쿠폰할인</h3>
-					<ul>
-						<li><input type="checkbox" name="checkCoupon" value = "9500" />보관 1개월 무료 (보관세탁)</li>
-						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" name="checkCoupon" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
-					</ul>
-				</div>
-				
-				<div class="popup-content2">
-					<div class = "popup-table-div">
-						<table class = "popup-table">
-							<tr>
-								<td class = "pLeft_col">상품금액</td>
-								<td class = "pRight_col"><span id = "product_price"></span></td>
-							</tr>
-							<tr>
-								<td class = "pLeft_col">쿠폰 할인금액</td>
-								<td class = "pRight_col txtBlue"><span id = "coupon_price"></span></td>
-							</tr>
-							<tr>
-								<td colspan = "2">
-								<hr/>
-								</td>
-							</tr>
-							<tr>
-								<td class = "pLeft_col pFinal">할인적용금액</td>
-								<td class = "pRight_col pFinal txtBlue"><span id = "discount_price"></span></td>
-							</tr>
-						</table>
-					</div>
-					
-					<input type = "button" id = "coupon-btn" value = "쿠폰적용" /> 
-					<!--  <button id = "coupon-btn" onclick = "couponApply()">쿠폰적용</button> -->				
-				</div>
-			</div>
-		</div>
-	</section>
-	
-	<div id="footer"></div>
-</body>
-
-
-<script>
-
-$(document).ready(function() {
-	
 	// 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
 	$("#init_addr").on("click", function() {
 		$("#address_human").val('');
@@ -535,7 +147,7 @@ $(document).ready(function() {
 			couponPrice -= salePrice;			
 		}
 		
-        var dp = productPrice + couponPrice;
+        var dp = discountPrice + couponPrice;
         
         if(dp < 0) {
 			alert("결제 금액보다 할인 금액이 더 큰 경우");
@@ -746,6 +358,87 @@ $(document).ready(function() {
         }
     }
 	
+	// 나의주소록 목록
+	function selectAddress() {
+		
+		$('#addrTable').empty();
+		
+
+        $.ajax({
+            url : '/setak/getAddrList.st', // url 
+            type : 'POST', // url로 보낼 때 전송 방식 
+            data : 'minchoi',  
+            dataType : 'json', 
+            contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+
+            success:function(data) {
+            	
+            	$.each(data, function(index, item) {
+            		var output = '';
+            		
+            		var phone = item.address_phone;
+            		var newPhone1 = phone.substr(0, 3);
+            		var newPhone2 = ''; 
+            		var newPhone3 = phone.substr(phone.length-4, 4);
+            		
+            		if(phone.length == 11) {
+            			newPhone2 = phone.substr(3, 4);
+            		} else {
+            			newPhone2 = phone.substr(3, 3);
+            		}
+					
+            		var zipcode = item.address_zipcode;
+            		var loc = item.address_loc; 
+            		
+            		// 우편번호 받아야해요
+            		
+            		output += '<tr class = "addrRow">';
+            		output += '<td>'+item.address_name+'</td>';
+            		output += '<td>'+item.address_human+'</td>';
+            		output += '<td class = "addr-choice">'+'</td>';
+            		output += '<td>'+newPhone1+'-'+newPhone2+'-'+newPhone3+'</td>';
+            		output += '<td> <input type = "button" class = "modiAddrBtn" value = "수정"/>';
+            		output += '<input type = "button" class = "delAddrBtn" value = "삭제"/></td>';
+            		output += '</tr>';
+            		
+            		
+            	});
+            },
+            // 문제 발생한 경우
+            error:function() {
+               // ajax를 통한 작업 송신 실패 
+               alert("select ajax 통신 실패");
+            }
+        });
+        
+	}
+	
+	// 나의주소록 추가
+	/*
+		var addrName = $("#newAddrName").val();
+		var name = $("#newName").val();
+		
+		var newPhone1 = $("#newPhone1").val();
+		var newPhone2 = $("#newPhone2").val();
+		var newPhone3 = $("#newPhone3").val();
+		var phone = newPhone1 + newPhone2 + newPhone3;
+		
+		var postcode = $("#postcode2").val();
+
+		var address = $("#address2").val();
+		var detailAddress = $("#detailAddress2").val();
+		var addr = address + '!' + detailAddress;
+		
+		var params = {
+				'member_id' : 'minchoi',
+				'address_name' : addrName,
+				'address_human' : name, 
+				'address_phone' : phone,
+				'address_zipcode' : postcode,
+				'address_loc' : addr
+		};
+	*/
+	
 	// 신규배송 초기화 함수 
 	function newAddrInit() {
 		
@@ -841,4 +534,390 @@ $(document).ready(function() {
 	
 	
 </script>
+</head>
+<body>
+   <div id="header"></div>
+    
+   <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
+   <section id="order"> <!-- id 변경해서 사용하세요. -->
+      <div class="content"> <!-- 변경하시면 안됩니다. -->
+         <div class="title-text"> <!-- 변경하시면 안됩니다. -->
+            <h2>주문결제</h2>
+         </div>
+         
+         <div class = "div-1000">
+	        <img class = "arrow-img" src = "images/order2.png" />
+	        
+			<div class = "order-div">
+				<p class = "notice">※ 취소는 마이페이지 > 주문/배송 현황에서 신청 당일 밤 10시 전까지만 가능합니다.</p>
+				
+				<h3>주문리스트 확인</h3>
+				<table class = "order_list_table">
+					<thead>
+						<tr>
+							<th>구분</th>
+							<th>종류</th>
+							<th>수량</th>
+							<th>비고</th>
+							<th>금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>세탁</td>
+							<td>셔츠</td>
+							<td>20장</td>
+							<td>물세탁</td>
+							<td>50000원</td>
+						</tr>
+						<tr>
+							<td>세탁</td>
+							<td>셔츠</td>
+							<td>20장</td>
+							<td>물세탁</td>
+							<td>50000원</td>
+						</tr>
+						<tr>
+							<td>세탁</td>
+							<td>셔츠</td>
+							<td>20장</td>
+							<td>물세탁</td>
+							<td>50000원</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class = "delivery-div">
+				<form action="">
+					<table class = "delivery_info_table">
+						<thead>
+							<tr>
+								<th colspan = "2"><h3>배송지 정보</h3></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr>
+								<td class = "left_col">배송지 선택</td>
+								<td class = "right_col">
+									<input id = "default_addr" type = "radio" name = "delivery_info" checked value = "" /> <label for = "default_addr">기본배송지</label>
+									<input id = "init_addr" type = "radio" name = "delivery_info" value = "" /> <label for = "init_addr">직접입력</label>  
+									
+									<input type = "button" class = "addr-btn btnBlue" onclick = "layerDeliPopup('open')" value = "나의 주소록" />
+								</td>
+							</tr>
+							
+							<tr>
+								<td class = "left_col">받는 사람</td>
+								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" name = ""/></td>
+							</tr>
+							
+							<tr>
+								<td class = "left_col">휴대폰 번호</td>
+								<td class = "right_col">
+									<input id = "order_phone1" class = "txtInp" type = "text" size = "3" name = "" style = "width : 30px;"/> 
+									-
+									<input id = "order_phone2" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>
+									-
+									<input id = "order_phone3" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class = "left_col">배송지 주소</td>
+								<td class = "right_col">
+									<input id = "postcode" class = "txtInp" type = "text" name = "" style = "width : 60px;"/> 
+									<input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
+									<br/>
+									<input id = "address" class = "txtInp" type = "text" name = "" style = "width : 270px;" readonly/> &nbsp;
+									<input id= "detailAddress" class = "txtInp" type = "text" name = "" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;"/>
+									<input id="extraAddress" type="hidden" placeholder="참고항목">
+									
+								</td>
+							</tr>
+							
+							<tr>
+								<td class = "left_col">배송 요청 사항</td>
+								<td class = "right_col">
+									<input class = "txtInp" type = "text" name = "" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
+								</td>
+							</tr>						
+						</tbody>
+					</table>
+				</form>
+			</div>
+			
+			<!-- 결게 관련 div -->
+				<div class="pay-div">
+					<div class="discount-div">
+						<div class="pay_title">
+							<h3>할인 정보</h3>
+						</div>
+
+						<form action="">
+							<table class="discount_table">
+								<tbody>
+									<tr>
+										<td class="left_col first_row">쿠폰</td>
+										<td class="first_row right_col"><input type="button"
+											onclick="layerPopup('open')" value="쿠폰적용" /></td>
+									</tr>
+
+									<tr>
+										<td class="left_col">적립금</td>
+										<td class="right_col"><input id="usePoint"
+											class="txtInp usePoint" type="text" name=""
+											style="width: 75px;" /> <span style="font-size: 0.85rem;">Point</span>
+											&nbsp;
+											<p class="myPoint">
+												(보유 적립금 : <b><span id="havePoint">500</span></b>원)
+											</p></td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+
+					</div>
+
+					<div class="price-div">
+						<div class="pay_title">
+							<h3>결제 금액</h3>
+						</div>
+						<div class="pay_content">
+							<table id="price_table" class="price_table">
+								<tbody>
+									<tr>
+										<td class="left_col first_row">총 주문금액</td>
+										<td id="total_price" class="first_row"><span id = "order_price">39000원</span></td>
+									</tr>
+									<tr>
+										<td class="left_col">배송비</td>
+										<td>0원</td>
+									<tr>
+									<tr>
+										<td class="left_col">쿠폰할인</td>
+										<td class="txtBlue"><span id="coupon_sale_price">0원</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="left_col">적립금</td>
+										<td class="txtBlue"><span id="point_price">0원</span></td>
+									<tr>
+									<tr>
+										<td class="left_col td_final">최종 결제액</td>
+										<td class="txtBlue"><span id="final_price">39000원</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="pay_btnDiv">
+					<button class="pay_btn">결제하기</button>
+				</div>
+
+</section>
+   
+   <!-- 나의 주소록 레이어 -->
+   <section id = "address">
+   	<div id = "layer-div2" class = "layer-card">
+   		<div id = "popup-div2">
+   			<div class = "popup-title">
+   				<h2>나의 주소록</h2>
+   				<button class = "popup-close" onclick = "layerDeliPopup('close')">X</button>
+   			</div>
+   			
+   			<div class = "addr-notice">
+   				<p>※ 해당 주소를 클릭하면 주문서에 자동입력 됩니다.</p>
+   				<p>※ 신규등록을 원하시면 신규등록 버튼을 클릭하여 주세요.</p>
+   				<p>※ 주소록에는 최대 5개의 주소등록이 가능합니다. </p>
+   				<button id = "new-addr-btn" class = "btnBlue">신규등록</button> 				
+   			</div>
+   			
+	   			<div id = "new-addr-div">
+	   				<h3>신규등록 <button id = "new-addr-close">X</button> </h3>
+	   				
+	   				<hr>
+	   				<form id = "new-addr-form" method = "post">
+		   				<table class = "new-addr-table">
+		   					<tr>
+		   						<td class = "new-left">배송지</td>
+		   						<td><input id = "newAddrName" type = "text" class = "txtInp" name = "address_name" /></td>
+		   					</tr>
+		   					<tr>
+		   						<td class = "new-left">이름</td>
+		   						<td><input id = "newName" type = "text" class = "txtInp" name = "address_human" /></td>
+		   					</tr>
+		   					<tr>
+		   						<td class = "new-left">주소</td>
+								<td>
+									<input id="postcode2" class="txtInp" type="text" name="" style="width: 60px;" /> 
+									<input type="button" onclick="execDaumPostcode('new')" value="우편번호 찾기"> <br /> 
+									<input id="address2" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
+									<input id="detailAddress2" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+									<input id="extraAddress2" type="hidden" placeholder="참고항목">
+								</td>
+							</tr>
+							<tr>
+								<td class = "new-left">연락처</td>
+								<td>
+									<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+									-
+									<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+									-
+									<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+								</td>
+							</tr>
+							<tr>
+								<td colspan = "2">
+									<button id = "addrInputBtn" class = "btnBlue" onclick = "selectAddress();">확인</button>
+								</td>
+							</tr>						
+						</table>
+					</form>
+	   			</div>
+   			
+   			<div class = "addr-content">
+   				<table id = "addrTable" class = "addr-table">
+   					<thead>
+   						<tr>
+   							<th>배송지</th>
+   							<th>이름</th>
+   							<th>주소</th>
+   							<th>연락처</th>
+   							<th>관리</th>
+   						</tr>
+   					</thead>
+   					<tbody>
+   						<tr class = "addrRow">
+   							<td>신림</td>
+   							<td>최민경</td>
+   							<td class = "addr-choice">서울특별시 관악구 문성로 218-5 302호 (08842)</td>
+   							<td>010-8848-2996</td>
+   							<td>
+	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
+	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
+	   						</td>
+	   					</tr>
+   						<tr class = "addrRow">
+   							<td>배고파</td>
+   							<td>확인중</td>
+   							<td class = "addr-choice">서울특별시 관악구 어짜구</td>
+   							<td>010-8848-2996</td>
+   							<td>
+	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
+	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
+	   						</td>
+	   					</tr>
+	   					<tr id="modiDiv">
+	   						<td colspan= "5">
+								<h3>수정하기</h3>
+								<button class = "modiCloseBtn" onclick = "modiClose()">X</button>
+								<div class = "modi-form-div">
+					   				<form id = "new-addr-form" action = "">
+						   				<table class = "new-addr-table">
+						   					<tr>
+					   							<td class = "new-left">배송지</td>
+						   						<td><input id = "modiAddrName" type = "text" class = "txtInp" name = "" /></td>
+						   					</tr>
+						   					<tr>
+						   						<td class = "new-left">이름</td>
+						   						<td><input id = "modiName" type = "text" class = "txtInp" name = "" /></td>
+						   					</tr>
+						   					<tr>
+						   						<td class = "new-left">주소</td>
+												<td>
+													<input id="postcode3" class="txtInp" type="text" name="" style="width: 60px;" /> 
+													<input type="button" onclick="execDaumPostcode('modi')" value="우편번호 찾기"> <br /> 
+													<input id="address3" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
+													<input id="detailAddress3" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+													<input id="extraAddress3" type="hidden" placeholder="참고항목">
+												</td>
+											</tr>
+											<tr>
+												<td class = "new-left">연락처</td>
+												<td>
+													<input id = "modiPhone1" class = "txtInp" type = "text" size = "3" name = "" style = "width : 30px;"/> 
+													-
+													<input id = "modihone2" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>
+													-
+													<input id = "modihone3" class = "txtInp" type = "text" size = "3" name = "" style = "width : 40px;"/>
+												</td>
+											</tr>
+											<tr>
+												<td colspan = "2">
+													<button class = "btnBlue">확인</button>
+												</td>
+											</tr>						
+										</table>
+									</form>
+								</div>
+							</td>
+	   					</tr>
+	   					
+	   					
+   					</tbody>
+   				</table>
+   			</div>
+   			
+   			
+   		</div>
+   	</div>
+   </section>
+
+	<!-- 쿠폰 팝업 레이어 -->
+	<section id = "coupon">
+		<div id = "layer-div" class="layer-card">
+			<div id = "popup-div">
+				<div class="popup-title">
+					<h2>쿠폰적용</h2>
+					<button class = "popup-close" onclick = "layerPopup('close')">X</button>
+				</div>
+				<div class="popup-content1">
+					<h3>쿠폰할인</h3>
+					<ul>
+						<li><input type="checkbox" name="checkCoupon" value = "9500" />보관 1개월 무료 (보관세탁)</li>
+						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
+						<li><input type="checkbox" name="checkCoupon" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
+					</ul>
+				</div>
+				
+				<div class="popup-content2">
+					<div class = "popup-table-div">
+						<table class = "popup-table">
+							<tr>
+								<td class = "pLeft_col">상품금액</td>
+								<td class = "pRight_col"><span id = "product_price"></span></td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col">쿠폰 할인금액</td>
+								<td class = "pRight_col txtBlue"><span id = "coupon_price"></span></td>
+							</tr>
+							<tr>
+								<td colspan = "2">
+								<hr/>
+								</td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col pFinal">할인적용금액</td>
+								<td class = "pRight_col pFinal txtBlue"><span id = "discount_price"></span></td>
+							</tr>
+						</table>
+					</div>
+					
+					<input type = "button" id = "coupon-btn" value = "쿠폰적용" /> 
+					<!--  <button id = "coupon-btn" onclick = "couponApply()">쿠폰적용</button> -->				
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<div id="footer"></div>
+</body>
+
 </html>

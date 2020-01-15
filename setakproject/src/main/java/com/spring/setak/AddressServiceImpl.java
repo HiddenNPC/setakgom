@@ -1,0 +1,44 @@
+package com.spring.setak;
+
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.spring.mapper.AddressMapper;
+
+@Service
+public class AddressServiceImpl implements AddressService {
+
+	@Autowired
+	private SqlSession sqlSession;
+
+	@Override
+	public ArrayList<AddressVO> getAddressList(String member_id) {
+		ArrayList<AddressVO> addressList = null;
+		try {
+			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
+			addressList = addressMapper.getAddressList(member_id);
+		} catch(Exception e) {
+			System.out.println("주소 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return addressList;
+	}
+
+	@Override
+	public int insertAddress(AddressVO avo) {
+		int res = 0;
+		try {
+			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
+			res = addressMapper.insertAddress(avo);
+		} catch(Exception e) {
+			System.out.println("신규 배송지 입력 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+	
+
+}

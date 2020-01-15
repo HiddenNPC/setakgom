@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+      
+<mapper namespace="com.spring.mapper.AddressMapper">
+      
+	<resultMap type="com.spring.setak.AddressVO" id="AddressResultMap">
+		<result property="address_num" column="address_num" />
+		<result property="member_id" column="member_id" />
+		<result property="address_name" column="address_name" />
+		<result property="address_human" column="address_human" />
+		<result property="address_phone" column="address_phone" />
+		<result property="address_zipcode" column="address_zipcode" />
+		<result property="address_loc" column="address_loc" />
+	</resultMap>
+	
+	<select id = "getAddressList" parameterType = "com.spring.setak.AddressVO" resultMap = "AddressResultMap">
+		select * from address where member_id = #{member_id}
+	</select>
+	
+	<insert id = "insertAddress" parameterType = "com.spring.setak.AddressVO">
+		insert into address values(#{address_num}, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
+	</insert>
+</mapper>

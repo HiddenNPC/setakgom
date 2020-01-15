@@ -18,5 +18,8 @@ public class OrderVO {
 	private String order_cancel;
 	private String order_status;
 	private Timestamp order_pickup;
+	private String order_name;
+	private String order_address;
+	private String order_request;
 	
 }
