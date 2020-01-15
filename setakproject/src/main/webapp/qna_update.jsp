@@ -56,15 +56,16 @@ $(document).ready(function(){
 			</div></td>
 	</tr>
 	<tr><td height="30px"><div align="center"> 제 목 </div></td>
-		<td><input name="QNA_TITLE" type="text" size="50" maxlength="100" value="<%=vo.getQNA_TITLE()%>" /></td>
+		<td><input name="QNA_TITLE" type="text" size="50" maxlength="100" value="<%=vo.getQNA_TITLE()%>"></td>
 	</tr>
 	<tr><td><div align="center">내 용</div></td>
 		<td><textarea name="QNA_CONTENT" cols="67" rows="15"><%=vo.getQNA_CONTENT() %></textarea></td>
 	</tr>
 	<tr><td><div align="center">파일 첨부&nbsp;</div></td>	
-		<td id="btn"><input id="QNA_FILE" name="QNA_FILE" type="file" value="<%=vo.getQNA_FILE().split("/")[0]%>"/>
-		<%if (!(vo.getQNA_FILE()==null)){ %> <%=vo.getQNA_FILE().split("/")[0]%>
-		<%}else{%> 파일이 존재하지 않습니다 .<%}%></td>
+		<td><input type="hidden" name="exist_file" value="<%=vo.getQNA_FILE()%>" style="display:none;">
+			<input id="QNA_FILE" name="QNA_FILE" type="file">
+			<%if(!(vo.getQNA_FILE()==null)){%><%=vo.getQNA_FILE().split("/")[0]%>
+			<%}else{%>파일이 존재하지 않습니다<%}%></td>
 	</tr>
 	<tr><td style="display:none;"><div>
 			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">

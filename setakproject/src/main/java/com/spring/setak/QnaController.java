@@ -179,13 +179,14 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setQNA_KIND(request.getParameter("QNA_KIND"));
 		vo.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		vo.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
+		System.out.println("기존에 DB에 저장되어있던 파일의 이름  ="+request.getParameter("exist_file"));
 		
-		
-		
+						
 		ModelAndView mav = new ModelAndView();
 		MultipartFile mf = request.getFile("QNA_FILE"); //파일		
 		System.out.println("너의 QNA_FILE은=" + mf);
 		String uploadPath="C:\\Project138\\upload\\";			
+		
 		if(mf.getSize() != 0)//용량
 		{	
 		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
@@ -198,26 +199,22 @@ import org.springframework.web.servlet.ModelAndView;
 		mav.addObject("fileSize", mf.getSize());
 		mav.addObject("storedFileName",storedFileName);	
 		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
-		
+		mav.addObject("downlink", downlink);		
 		System.out.println("paramName=" + mf.getName());
 		System.out.println("fileName=" + mf.getOriginalFilename());
 		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
+		System.out.println("storedFileName=" + storedFileName);					
 		vo.setQNA_FILE(mf.getOriginalFilename().concat("/"+storedFileName));	
 		
 		}
 		else
 		{
-			vo.setQNA_FILE(null);
+			vo.setQNA_FILE(request.getParameter("exist_file"));
 			
 		}
 
-		vo.setQNA_CHECK(request.getParameter("QNA_CHECK"));
-		
+		vo.setQNA_CHECK(request.getParameter("QNA_CHECK"));		
 		result = qnaService.qnaModify(vo);
-
 		if(result== 0)
 		{
 			writer.write("<script>alert('수정 실패');location.href='./updateform.co';</script>");
@@ -243,12 +240,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return null;
 	
 	}
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping("fileDownload.co") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");

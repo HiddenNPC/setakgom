@@ -69,7 +69,6 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td height="25px"><div align="center">파일 첨부</div></td>
-		<!-- <td><input name="BOARD_FILE" type="button" value="선택"/></td>  -->
 		<td><input id="QNA_FILE" name="QNA_FILE" type="file" /></td>				
 	</tr>
 	<tr class="qwt1h">
