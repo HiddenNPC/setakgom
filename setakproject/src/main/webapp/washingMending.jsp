@@ -367,9 +367,9 @@
 						<p>총 금액	: 세탁비 0원 + 수선비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
 					</div>
 					<div class="total-button">
-						<a href="./washkeep.st">다음</a>
-						<a href="javascript:">이전</a>
-						<a class="chkdelete" href="javascript:">선택삭제</a>
+						<input type="button" value="다음">
+						<input type="button" value="이전">
+						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>
 			</div>
