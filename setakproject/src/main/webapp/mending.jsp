@@ -52,15 +52,22 @@
 		        $('.total_length').val($(this).val());
 		    });
 			
+			//textarea입력시 폼 안의 textarea에도 입력되게
+			$(".details_text").keyup(function(){
+		        $('.details_text2').val($(this).val());
+		    });
+			
 			//태그 기능, 계산기능
 			var maxAppend = 0;
 			var tprice = parseInt(0);
+			var kind;
 			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
 					alert("최대 10개 선택 가능합니다.");
 					return;
 				}
-				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
+				kind = $.attr(this, 'value');
+				$(".hash").append("<p class='hashvl'>"+kind+"<span>X</span></p>");
 				maxAppend++;
 				
 				$(".price").removeClass("each");
@@ -85,9 +92,16 @@
 
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
-				str += '<td>'+sortation[0].innerHTML+'</td>';
+				str += '<td><input type="text" name="repair_cate" value="'+sortation[0].innerHTML+'" disabled>';
+				str += '<input type="hidden" name="repair_kind" value="'+kind+'">';
+				str += '<input type="hidden" name="repair_var1" class="left_length" value="">';
+				str += '<input type="hidden" name="repair_var2" class="right_length" value="">';
+				str += '<input type="hidden" name="repair_var3" class="total_length" value="">';
+				str += '<input type="file" name="repair_file" class="details_text2">';
+				str += '<textarea class="details_text2" name="repair_content"></textarea>';
+				str += '</td>';
 				str += '<td>';
-				str += '<select name="list">';
+				str += '<select name="repair_code">';
 				str += '<option value="A">A</option>';
 				str += '<option value="B">B</option>';
 				str += '<option value="C">C</option>';
@@ -116,10 +130,12 @@
 				str += '<option value="Z">Z</option>';
 				str += '</select>';
 				str += '</td>';
-				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
+				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="repair_count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
-				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원</td>';
+				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
+				str += '<input type="hidden" name="repair_price" value="'+tprice+'">';
+				str += '</td>';
 				str += '</tr>';		
 				
 				$(".mending_order_title").after(str);
@@ -266,7 +282,7 @@
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -304,7 +320,7 @@
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -342,7 +358,7 @@
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -351,7 +367,7 @@
 				</div>
 				
 				<p>※ 받으신 웰컴키트 안 '택'에  선택하신 택 코드를 동일하게 적어서 보내주세요.</p>
-				<form name="mendingform" action="./mending.st" method="post">
+				<form name="mendingform" action="./mending.st" method="post" enctype="multipart/form-data">
 					<table class="mending_order">
 						<tr class="mending_order_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>

@@ -219,7 +219,7 @@
         top:14px;
         left:12px;
 	}
-	.details form .hash p{
+	.details .hash p{
 		background-color:#ffac15;
 		padding:4px 15px 4px 20px;
 		color:#fff;
@@ -228,9 +228,12 @@
 		display:inline;
 		margin-left:3px;
 	}
-	.details form .hash p span{
+	.details .hash p span{
 		margin-left:15px;
 		cursor:pointer;
+	}
+	.details_text2{
+		display:none;
 	}
 	.mending_order{
 		margin:10px 0;
@@ -259,6 +262,14 @@
 	}
 	.mending_order .mending_order_title td{
 		border:1px solid;
+	}
+	.mending_order td:nth-child(2) input{
+		background-color:#fff;
+		width:70px;
+		text-align:center;
+		color:#444;
+		border:0px;
+		font-size:0.9rem;
 	}
 	.mending_order select {
 		width:90px;
@@ -307,6 +318,7 @@
 		float:right;
 		margin: 0 5px;
 		border:0px;
+		cursor:pointer;
 	}
 	.total-button input:hover{
 		background-color:#3498db;

@@ -218,10 +218,10 @@
 			
 			//커뮤니티 메뉴 hover시.
 			$(".sub-nav > li").hover(function () {
-	            $(".sub-nav-sub", this).slideDown(500);
+	            $(".sub-nav-sub").css('display', 'block');
 	        },
 	        function() {
-	            $(".sub-nav-sub", this).slideUp(500);
+	            $(".sub-nav-sub").css('display', 'none');
 	        });
 			
 			//화면 너비 769초과일 때 세탁,수선,보관 탭 누르면 탭 위로 위치 자동으로 가게 해줌.

@@ -54,10 +54,10 @@
 				}
 			});
 			$(".sub-nav > li").hover(function () {
-	            $(".sub-nav-sub", this).slideDown(500);
+	            $(".sub-nav-sub").css('display', 'block');
 	        },
 	        function() {
-	            $(".sub-nav-sub", this).slideUp(500);
+	            $(".sub-nav-sub").css('display', 'none');
 	        });
 		});
 	</script>
