@@ -6,31 +6,31 @@
 		<nav>
 			<div class="content">
 				<ul class="logo">
-					<li><img src="images/logo.png" alt="로고"></li>
+					<li><a href="./" class ="logo_a"><img src="images/logo.png" alt="로고"></a></li>
 				</ul>
 				<ul class="logo2">
-					<li><img src="images/logo2.png" alt="로고"></li>
+					<li><a href="./" class ="logo_a"><img src="images/logo2.png" alt="로고"></a></li>
 				</ul>
 				<ul class="main-nav">
-					<li><a href="#">로그인</a></li>
+					<li><a href="./login.st">로그인</a></li>
 					<!--<li><a href="#">로그아웃</a></li>-->
-					<li><a href="#">회원가입</a></li>
+					<li><a href="./join.st">회원가입</a></li>
 					<!--<li><a href="#">마이페이지</a></li>-->
 					<!--<li><a href="#">장바구니</a></li>-->
 				</ul>
 				<ul class="sub-nav">
-					<li><a href="#">회사소개</a></li>
-					<li><a href="#">정기구독</a></li>
-					<li><a href="#">세탁서비스</a></li>
-					<li><a href="#">수선서비스</a></li>
-					<li><a href="#">보관서비스</a></li>
+					<li><a href="./hist.st">회사소개</a></li>
+					<li><a href="./subscribe.st">정기구독</a></li>
+					<li><a href="./setak.st">세탁서비스</a></li>
+					<li><a href="./mending.st">수선서비스</a></li>
+					<li><a href="./keep.st">보관서비스</a></li>
 					<li><a href="#">커뮤니티</a>
 						<div>
 							<ul class="sub-nav-sub">
-								<li><a href="#">공지사항</a></li>
-								<li><a href="#">리뷰</a></li>
-								<li><a href="#">FAQ</a></li>
-								<li><a href="#">Q&amp;A</a></li>
+								<li><a href="./noticeList.st">공지사항</a></li>
+								<li><a href="./review.st">리뷰</a></li>
+								<li><a href="./qnaList.co">FAQ</a></li>
+								<li><a href="./faq.st">Q&amp;A</a></li>
 							</ul>
 						</div>
 					</li>
@@ -53,11 +53,11 @@
 					$(".logo2 li img").css('display', 'none');
 				}
 			});
-			$(".sub-nav > li").hover(function () {
-	            $(".sub-nav-sub", this).slideDown(500);
+			$(".sub-nav > li:last-child").hover(function () {
+	            $(".sub-nav-sub").css('display', 'block');
 	        },
 	        function() {
-	            $(".sub-nav-sub", this).slideUp(500);
+	            $(".sub-nav-sub").css('display', 'none');
 	        });
 		});
 	</script>

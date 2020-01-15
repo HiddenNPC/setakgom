@@ -13,8 +13,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./header.jsp")
+			$("#footer").load("./footer.jsp")
 						
 			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 			var monthclick = 0;
@@ -168,8 +168,8 @@
 						<p>총 금액	: 세탁비 0원 + 수선비 0원 + 보관비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">다음</a>
-						<a href="javascript:">이전</a>
+						<a href="./cart.st">다음</a>
+						<a href="javascript:history.back()">이전</a>
 					</div>
 				</form>
 			</div>

@@ -23,14 +23,14 @@
        
     <script type="text/javascript">
       $(document).ready(function(){
-         $("#header").load("header.jsp")
-         $("#footer").load("footer.jsp")     
+         $("#header").load("./header.jsp")
+         $("#footer").load("./footer.jsp")     
       });
     </script>
 </head>
 <body>
    <div id="header"></div>
-   
+    
    <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
    <section id="order"> <!-- id 변경해서 사용하세요. -->
       <div class="content"> <!-- 변경하시면 안됩니다. -->
@@ -39,7 +39,7 @@
          </div>
          
          <div class = "div-1000">
-	        <img class = "arrow-img" src = "images/arrow.PNG" />
+	        <img class = "arrow-img" src = "images/order2.png" />
 	        
 			<div class = "order-div">
 				<p class = "notice">※ 취소는 마이페이지 > 주문/배송 현황에서 신청 당일 밤 10시 전까지만 가능합니다.</p>
@@ -103,17 +103,17 @@
 							
 							<tr>
 								<td class = "left_col">받는 사람</td>
-								<td class = "right_col"><input class = "txtInp" type = "text" name = ""/></td>
+								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" name = ""/></td>
 							</tr>
 							
 							<tr>
 								<td class = "left_col">휴대폰 번호</td>
 								<td class = "right_col">
-									<input class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+									<input id = "order_phone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
 									-
-									<input class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+									<input id = "order_phone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
 									-
-									<input class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+									<input id = "order_phone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
 								</td>
 							</tr>
 							
@@ -182,7 +182,7 @@
 								<tbody>
 									<tr>
 										<td class="left_col first_row">총 주문금액</td>
-										<td id="total_price" class="first_row">39000원</td>
+										<td id="total_price" class="first_row"><span id = "order_price">39000원</span></td>
 									</tr>
 									<tr>
 										<td class="left_col">배송비</td>
@@ -199,7 +199,7 @@
 									<tr>
 									<tr>
 										<td class="left_col td_final">최종 결제액</td>
-										<td class="txtBlue"><span id="final_price">39000</span></td>
+										<td class="txtBlue"><span id="final_price">39000원</span></td>
 									</tr>
 								</tbody>
 							</table>
@@ -285,20 +285,70 @@
    						</tr>
    					</thead>
    					<tbody>
-   						<tr>
+   						<tr class = "addrRow">
    							<td>신림</td>
    							<td>최민경</td>
-   							<td id = "seoul">서울특별시 관악구 어짜구</td>
+   							<td class = "addr-choice">서울특별시 관악구 문성로 218-5 302호 (08842)</td>
    							<td>010-8848-2996</td>
    							<td>
-	   							<input type = "button" class = "modiAddrBtn accordion-btn" value = "수정"/>
+	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
 	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
 	   						</td>
 	   					</tr>
-	   					<tr class="modiDiv">
-	   						<td colspan = "5">
-				   				
+   						<tr class = "addrRow">
+   							<td>배고파</td>
+   							<td>확인중</td>
+   							<td class = "addr-choice">서울특별시 관악구 어짜구</td>
+   							<td>010-8848-2996</td>
+   							<td>
+	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
+	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
 	   						</td>
+	   					</tr>
+	   					<tr id="modiDiv">
+	   						<td colspan= "5">
+								<h3>수정하기</h3>
+								<button class = "modiCloseBtn" onclick = "modiClose()">X</button>
+								<div class = "modi-form-div">
+					   				<form id = "new-addr-form" action = "">
+						   				<table class = "new-addr-table">
+						   					<tr>
+					   							<td class = "new-left">배송지</td>
+						   						<td><input id = "modiAddrName" type = "text" class = "txtInp" name = "" /></td>
+						   					</tr>
+						   					<tr>
+						   						<td class = "new-left">이름</td>
+						   						<td><input id = "modiName" type = "text" class = "txtInp" name = "" /></td>
+						   					</tr>
+						   					<tr>
+						   						<td class = "new-left">주소</td>
+												<td>
+													<input id="postcode3" class="txtInp" type="text" name="" style="width: 60px;" /> 
+													<input type="button" onclick="execDaumPostcode('modi')" value="우편번호 찾기"> <br /> 
+													<input id="address3" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
+													<input id="detailAddress3" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+													<input id="extraAddress3" type="hidden" placeholder="참고항목">
+												</td>
+											</tr>
+											<tr>
+												<td class = "new-left">연락처</td>
+												<td>
+													<input id = "modiPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+													-
+													<input id = "modihone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+													-
+													<input id = "modihone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+												</td>
+											</tr>
+											<tr>
+												<td colspan = "2">
+													<button class = "btnBlue">확인</button>
+												</td>
+											</tr>						
+										</table>
+									</form>
+								</div>
+							</td>
 	   					</tr>
 	   					
 	   					
@@ -368,6 +418,14 @@
 
 $(document).ready(function() {
 	
+	// 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
+	$("#init_addr").on("click", function() {
+		$("#address_human").val('');
+		$("#order_phone1").val('');
+		$("#order_phone2").val('');
+		$("#order_phone3").val('');
+	});
+	
 	// 나의 주소록 > 신규등록 
 	$("#new-addr-btn").on("click", function() {
 		$('#new-addr-div').css('display', 'block'); 	
@@ -377,26 +435,31 @@ $(document).ready(function() {
 		newAddrInit();
 	});
 	
-	$("#seoul").on("click", function() {
-		var select_button = $(this);
-		var tr = select_button.parent().parent();
+
+	// 나의 주소록 > 주소 클릭
+	$(".addr-choice").on("click", function() {
+		var select_btn = $(this);
+		var tr = select_btn.parent();
 		var td = tr.children();
 		
-		var price = td.eq(0).text();
-	
-		alert(price);
+		var name = td.eq(1).text();
+		
+		$("#address_human").val(name); 
+		layerDeliPopup('close');
+		
 		
 	});
-	
-	// 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
-	
+		
 	// 나의 주소록 > 주소 수정
-    $(".accordion-btn").on("click", function () {
+    $(".modiAddrBtn").on("click", function () {
     	var select_btn = $(this);
-        $(".modiDiv")
-            .toggleClass("active")
-            .slideToggle(200);
+        var tr = select_btn.parent().parent(); 
+        var modiDiv = $("#modiDiv");
+        
+        modiDiv.css('display', 'table-row');
+        modiDiv.insertAfter(tr); 
     });
+	
 	
 	// 나의 주소록 > 주소 삭제
     $(".delAddrBtn").on("click", function () {
@@ -406,29 +469,36 @@ $(document).ready(function() {
     
 	// 적립금 사용
 	$('input#usePoint').on('keyup',function(){
-  
-	    var usePoint = parseInt($("#usePoint").val() || 0 ); 
-	    var havePoint = parseInt($("#havePoint").text());
-	    var totalPrice = $("#total_price").text().slice(0,-1);
-		var finalPrice = parseInt($("#final_price").text()); 
-	    
-	    var anw = finalPrice - usePoint;
+		var usePoint = parseInt($("#usePoint").val());
+		var havePoint = parseInt($("#havePoint").text());
 		
-	    $("#point_price").text('-'+usePoint+'원');    
-		$("#final_price").text(anw+'원');
+		var totalPrice = parseInt($("#total_price").text().slice(0,-1));
+		var couponSalePrice = parseInt($("#coupon_sale_price").text().slice(0,-1));
+		var finalPrice = parseInt($("#final_price").text().slice(0,-1));
 		
-		if($("input#usePoint").val() == ''  || $("input#usePoint").val() == '0') {
-			$("#point_price").text('0원');
-		}   
-		
+		if($("input#usePoint").val() == '') {
+			usePoint = 0; 
+		}
+
 		if(usePoint > havePoint) {
 			finalPrice += usePoint; 
 			alert("사용 가능한 최대 포인트는 " + havePoint + "Point 입니다.");
+			usePoint = havePoint; 
 			$("#usePoint").val(havePoint);
-			$("#final_price").text(finalPrice+'원');
-			$("#point_price").text('-'+havePoint+'원');
 		}
-     
+		
+		if(usePoint != 0) {
+			$("#point_price").text('-'+usePoint+'원');	
+		} else {
+			$("#point_price").text('0원');
+		}
+		
+		var pointPirice = parseInt($("#point_price").text().slice(0,-1));
+		
+		var asw = totalPrice + couponSalePrice + pointPirice;
+		$("#final_price").text(asw+'원');	
+		
+		
 	});
 	
 	// 쿠폰 레이아웃 > 쿠폰 선택
@@ -445,25 +515,19 @@ $(document).ready(function() {
     	// final_price : 결제 금액 
     	
         var select_btn = $(this);
-        var salePrice = parseInt(select_btn.val());
+        var salePrice = parseInt(select_btn.val()) * (-1);
         var discountPrice = parseInt($("#discount_price").text().slice(0,-1));
         var couponPrice = parseInt($("#coupon_price").text().slice(0,-1));
         var productPrice =  parseInt($("#product_price").text().slice(0,-1));
         
         // salePrice : 할인 될 금액
         // productPrice : 할인 적용 금액 값 
-		
+		        
 		var select_btn = $(this);
 		if(select_btn.is(":checked")) {
 			
 			// 체크
-    		couponPrice += salePrice; 
-    		
-			if(couponPrice > productPrice) {
-				alert("결제 금액보다 할인 금액이 더 큰 경우");
-				select_btn.attr('checked', false);
-				return; 					
-			} 
+    		couponPrice += salePrice;     		
 		
 
 		} else {
@@ -471,10 +535,17 @@ $(document).ready(function() {
 			couponPrice -= salePrice;			
 		}
 		
-        var dp = productPrice-couponPrice;
+        var dp = productPrice + couponPrice;
+        
+        if(dp < 0) {
+			alert("결제 금액보다 할인 금액이 더 큰 경우");
+			select_btn.attr('checked', false);
+			return; 	
+        }
         
         $("#coupon_price").text(couponPrice+'원');	
         $("#discount_price").text(dp+'원');	
+
 		
 	}); 
 	
@@ -493,10 +564,11 @@ $(document).ready(function() {
 			var discountPrice = $("#discount_price").text().slice(0,-1);	
 			var couponPrice = $("#coupon_price").text().slice(0,-1);	
 			
-			layerPopup('close');
+            jQuery('#layer-div').attr('style','display:none');
+            $("body").css("overflow","scroll");
 			
 			$("#final_price").text(discountPrice + '원');
-			$("#coupon_sale_price").text('-' + couponPrice + '원');
+			$("#coupon_sale_price").text(couponPrice + '원');
 		
 			
 		} else {
@@ -511,8 +583,6 @@ $(document).ready(function() {
 		
 		// 결제 금액 받아오기 
 		var final_price = $('#final_price').text().slice(0,-1);
-		alert(final_price);
-		
 		
         var IMP = window.IMP; // 생략가능
         IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -610,16 +680,20 @@ $(document).ready(function() {
                     // 조합된 참고항목을 해당 필드에 넣는다.
                     if(type == 'origin') {
                     	document.getElementById("extraAddress").value = extraAddr;	
-                    } else {
+                    } else if(type == 'new') {
                     	document.getElementById("extraAddress2").value = extraAddr;
+                    } else {
+                    	document.getElementById("extraAddress3").value = extraAddr;
                     }
                 
                 } else {
                 	if(type == 'origin') {
                 		document.getElementById("extraAddress").value = '';	
-                	} else {
+                	} else if(type == 'new') {
                 		document.getElementById("extraAddress2").value = '';
-                	}
+                	} else {
+                    	document.getElementById("extraAddress3").value = extraAddr;
+                    }
                     
                 }
                 
@@ -629,11 +703,16 @@ $(document).ready(function() {
                     document.getElementById("address").value = addr;
                     // 커서를 상세주소 필드로 이동한다.
                     document.getElementById("detailAddress").focus();                	
-                } else {
+                } else if(type == 'new') {
                     document.getElementById('postcode2').value = data.zonecode;
                     document.getElementById("address2").value = addr;
                     // 커서를 상세주소 필드로 이동한다.
                     document.getElementById("detailAddress2").focus();                     	
+                } else {
+                    document.getElementById('postcode3').value = data.zonecode;
+                    document.getElementById("address3").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress3").focus();                    	
                 }
 
             }
@@ -661,6 +740,7 @@ $(document).ready(function() {
             // 팝업창을 닫는다.
             jQuery('#layer-div2').attr('style','display:none');
             newAddrInit();
+            modiClose(); 
             $("body").css("overflow","scroll");
             
         }
@@ -699,6 +779,23 @@ $(document).ready(function() {
         $("body").css("overflow","scroll");
 	}
 	
+	// 주소록 수정창 닫기 
+	function modiClose() {
+        var modiDiv = $("#modiDiv");
+        
+		$('#modiAddrName').val('');
+		$('#modiName').val('');
+		$('#postcode3').val('');
+		$('#address3').val('');
+		$('#detailAddress3').val('');
+		$('#extraAddress3').val('');
+		$('#modiPhone1').val('');
+		$('#modihone2').val('');
+		$('#modihone3').val('');
+		
+        modiDiv.css('display', 'none'); 		
+	}
+	
 	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 
@@ -715,13 +812,13 @@ $(document).ready(function() {
             // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
             jQuery('#layer-div').height(jQuery(document).height());
             
-            var finalPrice = parseInt($('#final_price').text());
-            $('#product_price').text(finalPrice+'원');
+            var orderPrice = parseInt($('#order_price').text());
+            $('#product_price').text(orderPrice+'원');
             
-            var couponSalePrice = parseInt($('#coupon_sale_price').text()) * (-1);
+            var couponSalePrice = parseInt($('#coupon_sale_price').text());
             $('#coupon_price').text(couponSalePrice+'원');
             
-            var discountPrice = $('#discount_price').text();
+            var finalPrice = parseInt($('#final_price').text());
             $('#discount_price').text(finalPrice+'원');
         }
        

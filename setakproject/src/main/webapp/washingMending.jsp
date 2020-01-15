@@ -13,8 +13,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./header.jsp")
+			$("#footer").load("./footer.jsp")
 			
 			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
@@ -367,9 +367,9 @@
 						<p>총 금액	: 세탁비 0원 + 수선비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">다음</a>
-						<a href="javascript:">이전</a>
-						<a class="chkdelete" href="javascript:">선택삭제</a>
+						<a href="./washkeep.st"><input type="button" value="다음"></a>
+						<a href="./setak.st"><input type="button" value="이전"></a>
+						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>
 			</div>

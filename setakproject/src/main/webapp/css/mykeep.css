@@ -1,0 +1,509 @@
+@charset "UTF-8";
+
+.title-text {
+	position: absolute;
+	right: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+}
+
+.title-text h2 {
+	font-size: 2rem;
+	color: #444;
+}
+
+/*????? width?? ??? ?? ???? ???? ????*/
+.title-text h2:before {
+	content: '';
+	display: block;
+	width: 40%;
+	height: 6px;
+	background-color: #3498db;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
+
+/*
+	default.css?? body?? a?? ?? ?????? ????? ???? ??????????? ?????????????
+	content?? ??? ????????? ??????? 1200px??? ????????? ???????. ???? >_-(????)
+	?????????? ?????? rem???? ??????????.
+	*/
+
+/* 나는 포기...*/
+/*????? ??????? ?????? ????????*/
+#test {
+	height: 1300px;
+}
+
+.mypage_content {
+	width: 1035px;
+	float: right;
+}
+
+.mypage_content h2 {
+	height: 130px;
+	line-height: 130px;
+	text-align: center;
+	font-size: 1.7rem;
+	border: 3px solid #e1e4e4;
+	box-sizing: border-box;
+}
+
+.mypage_content .mypage_content_cover {
+	padding-top: 15px;
+	height: 500px;
+}
+
+.mypage_content .mypage_content_cover p {
+	color: #3498db;
+	font-size: 0.9rem;
+}
+
+.mypage_head {
+	width: 150px;
+	box-sizing: border-box;
+	float: left;
+}
+
+.mypage_head>ul>li:nth-child(2) {
+	border: 2px solid #e1e4e4;
+	border-top: 0px;
+	padding-bottom: 60px;
+}
+
+.mypage-title {
+	height: 130px;
+	background-color: #3498db;
+	width: 100%;
+	color: #fff;
+	line-height: 130px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+.mypage_list {
+	padding: 20px 0 0 15px;
+	color: #444;
+}
+
+.mypage_list li {
+	font-size: 0.9rem;
+	padding-top: 5px;
+	display: block;
+}
+
+.mypage_list li:first-child {
+	font-weight: bold;
+	font-size: 0.95rem;
+}
+
+/*??????? ????????? */
+.accordion2 {
+	display: inline-block;
+	margin-top: 20px;
+	width: 1035px;
+	height: 100px;
+	background-color: #fff;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+table.header {
+	border-spacing: 0px;
+	border: 2px solid #e1e4e4;
+}
+
+table.header th,
+td {
+	border: 1px solid #e1e4e4;
+	width: 1035px;
+	height: 36px;
+	border-collapse: collapse;
+	padding: 5px;
+	text-align: center;
+}
+
+.up {
+	width: 50px;
+	height: 30px;
+	background-color: #3498db;
+	border: 1px solid #3498db;
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.accordion-content2 {
+	border-bottom: 1px solid #e1e4e4;
+	background-color: #fff;
+	width: auto;
+	height: auto;
+	color: #4a5666;
+	display: none;
+}
+
+
+/*??????? ?????*/
+.slides {
+	padding: 0;
+	width: 660px;
+	height: 350px;
+	display: block;
+	margin: 0 auto;
+	position: relative;
+}
+
+.slides * {
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+.slides input {
+	display: none;
+}
+
+.slide-container {
+	display: block;
+}
+
+.slide {
+	top: 0;
+	opacity: 0;
+	width: 660px;
+	height: 350px;
+	display: block;
+	position: absolute;
+
+	transform: scale(0);
+
+	transition: all .7s ease-in-out;
+}
+
+.slide img {
+	width: 100%;
+	height: 100%;
+}
+
+.nav label {
+	width: 100px;
+	height: 100%;
+	display: none;
+	position: absolute;
+
+	opacity: 0;
+	z-index: 9;
+	cursor: pointer;
+
+	transition: opacity .2s;
+
+	color: #FFF;
+	font-size: 60pt;
+	text-align: center;
+	line-height: 350px;
+	font-family: "Varela Round", sans-serif;
+	text-shadow: 0px 0px 15px rgb(119, 119, 119);
+}
+
+.slide:hover+.nav label {
+	opacity: 0.5;
+}
+
+.nav label:hover {
+	opacity: 1;
+}
+
+.nav .next {
+	right: 0;
+}
+
+input:checked+.slide-container .slide {
+	opacity: 1;
+
+	transform: scale(1);
+
+	transition: opacity 1s ease-in-out;
+}
+
+input:checked+.slide-container .nav label {
+	display: block;
+}
+
+.nav-dots {
+	width: 100%;
+	bottom: 9px;
+	height: 11px;
+	display: block;
+	position: absolute;
+	text-align: center;
+}
+
+.nav-dots .nav-dot {
+	top: -5px;
+	width: 11px;
+	height: 11px;
+	margin: 0 4px;
+	position: relative;
+	border-radius: 100%;
+	display: inline-block;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.nav-dots .nav-dot:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+input#img-1:checked~.nav-dots label#img-dot-1,
+input#img-2:checked~.nav-dots label#img-dot-2,
+input#img-3:checked~.nav-dots label#img-dot-3,
+input#img-4:checked~.nav-dots label#img-dot-4,
+input#img-5:checked~.nav-dots label#img-dot-5,
+input#img-6:checked~.nav-dots label#img-dot-6 {
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.keep_month ul{
+		display:flex;
+		justify-content:space-between;
+		margin-top:20px;
+	}
+	.keep_month ul li{
+		width:100%;
+		height:300px;
+		border:2px solid #3498db;
+		margin:0 5px;
+		text-align:center;
+		color:#444;
+	}
+	.keep_month ul li:first-child{
+        margin-left:0px;
+	}
+	.keep_month ul li:last-child{
+		margin-right:0;
+	}
+	.keep_month ul li:hover{
+		background-color:#3498db;
+		cursor:pointer;
+		color:#fff;
+		transition:all .3s;
+	}
+	.month_click{
+		background-color:#3498db;
+		cursor:pointer;
+		color:#fff !important;
+		transition:all .3s;
+	}
+	.month_click h1{
+		color:#fff !important;
+	}
+	.keep_month ul li h3{
+		padding:40px 0 30px;;
+		font-size:1.7rem;
+	}
+	.keep_month ul li p{
+		font-size:1rem;
+	}
+	.keep_month ul li h1{
+		font-size:1.9rem;
+		padding:90px 0 50px;
+		color:#3498db;
+	}
+	.keep_month .s_keep li{
+		position:relative;
+	}
+	.keep_month .s_keep li h5{
+		padding:130px 130px 15px 15px;
+		font-size:1.2rem;
+		display:inline-block;
+	}
+	.keep_month .s_keep li h1{
+		padding:15px 0px 50px 90px;
+		display:inline-block;
+	}
+	.keep_month ul li:hover>h1{
+		color:#fff;
+	}
+	.keep_month .keep_caution{
+	    margin:30px 0;
+	}
+	.keep_month .keep_caution p{
+		color:#3498db;
+		line-height:1.4rem;
+	}
+	.keep_month .keep_caution p:nth-child(2){
+		padding:0 0 20px 88px;
+	}
+
+.keepbox {
+	width: 49.92%;
+	height: 30px;
+	margin-top:3px;
+	padding-top: 10px;
+	background-color: #e1e4e4;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	float: left;
+	font-weight: bold;
+}
+
+.keepbox:hover {
+	cursor: pointer;
+	background-color: #3498db;
+	color: rgb(255, 255, 255);
+}
+
+.keepbox2 {
+	width: 49.92%;
+	height: 30px;
+	margin-top:3px;
+	padding-top: 10px;
+	background-color: #e1e4e4;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	float: left;
+	font-weight: bold;
+}
+
+.keepbox2:hover {
+	cursor: pointer;
+	background-color: #3498db;
+	color: rgb(255, 255, 255);
+}
+
+
+.ordernumber {
+	padding-top: 20px;
+	padding-left: 20px;
+	height: 30%;
+
+
+}
+
+.addr {
+
+	padding-left: 20px;
+	height: 40%;
+}
+
+
+
+
+
+.page_a {
+	text-align: center;
+
+	font-size: 15px;
+	border: 1px solid #eeefef;
+	margin: 5px;
+	padding: 5px;
+	background-color: #eeefef;
+	font-weight: bold;
+	color: #3498db;
+}
+
+/*
+		.page1{
+		    padding-left:45%;
+			display: inline-block;
+			margin-bottom : 50px; 
+		}
+		*/
+.page1 {
+	width: 100%;
+	position: absolute;
+	top: 75rem;
+}
+
+.page1 table {
+	width: 100%;
+}
+
+.page1 * {
+	text-align: center;
+}
+
+.page1 table tr td div {
+	display: inline-block;
+}
+
+table.page td a {
+	text-decoration: none;
+	color: #3498db;
+}
+
+.accordion-content2 table {
+	width: 1035px;
+	height: 15px;
+	border-bottom: 1px solid #eeefef;
+}
+
+    .total_price {
+		padding:50px 0 0 0;
+	}
+	.total_price p{
+		background-color:#e1e4e4;
+		height:40px;
+		line-height:40px;
+		color:#444;
+		text-align:right;
+		padding-right:15px;
+	}
+
+.pay_btn {
+	border: 0;
+	background-color: #3498db;
+	color: #eeefef;
+	height: 35px;
+	text-align: center;
+	margin: 0 5px;
+	margin-top: 20px;
+	width: 100px;
+	cursor: pointer;
+	float:right;
+}
+
+.rt-service table{
+	border:2px solid #ccc;
+	border-spacing:0;
+
+}
+
+.rt-service table th{
+    border: 1px solid #ccc;
+    padding:15px;
+    border-collapse:collapse;
+}
+
+.rt-service table td{
+	border: 1px solid #ccc;
+}
+
+.rt-service table td textarea{
+	width:80%;
+	height:40px;
+	float:left;
+	margin-left:20px;
+}
+.rt-service table select{
+	height:40px;
+    width:80%;	
+}
