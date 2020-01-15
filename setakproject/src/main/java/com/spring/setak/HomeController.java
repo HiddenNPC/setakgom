@@ -1,5 +1,6 @@
 package com.spring.setak;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +28,25 @@ public class HomeController {
 	@RequestMapping(value = "/washmending.st")
 	public ModelAndView washmending(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
-		String a[] = request.getParameterValues("category");
-		String b[] = request.getParameterValues("test");
+		ArrayList<WashingVO> list = new ArrayList<WashingVO>();
 		
-		for(int i = 0; i <a.length; i++) {
-			System.out.println(a[i]);
-			System.out.println(b[i]);
+		String cate[] = request.getParameterValues("wash_cate");
+		String kind[] = request.getParameterValues("wash_kind");
+		String method[] = request.getParameterValues("wash_method");
+		String count[] = request.getParameterValues("wash_count");
+		
+		for(int i = 0; i <cate.length; i++) {
+			WashingVO wvo = new WashingVO();
+			wvo.setWash_cate(cate[i]);
+			wvo.setWash_kind(kind[i]);
+			wvo.setWash_method(method[i]);
+			int count2[] = new int[cate.length];
+			count2[i] = Integer.parseInt(count[i]);
+			wvo.setWash_count(count2[i]);
+			list.add(wvo);
 		}
 		
+		mav.addObject("list", list);
 		mav.setViewName("washingMending");
 		
 		return mav;
