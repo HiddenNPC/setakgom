@@ -38,14 +38,16 @@ $(document).ready(function() {
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
-					var output = '';							
-					output += '<tr><td><style="display:none;" input type="hidden" value="'+item.qna_seq+'"></tr>';							
-					output += '<tr><td><style="display:none;" input type="hidden" value="'+item.qna_num+'"></tr>';							
-					output += '<tr><td colspan="2">관리자</td></tr>';							
-					output += '<tr><td id="td3" width="8%" valign="top"> A :&nbsp;</td>';														
+					var output = '';
+							
+					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_seq+'"></tr>';							
+					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></tr>';							
+					output += '<tr><td id="cl_td1" colspan="2">세탁곰</td></tr>';							
+					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
-					output += '<tr><td colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';
-					output += '<tr><td colspan="2"></td></tr>';	
+					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';
+					output += '<tr height="15px"><div></div></tr>';	
+					
 					console.log("para="+para);
 					$('#output').append(output);
 				});
@@ -163,12 +165,11 @@ selectData();
 </table><br>
 <!-- 게시판 내용 끝 ,  댓글 작성 폼  시작-->	
 <form id="comment_form" method="post" >
-<table border="0"  bordercolor="#e1e4e4" cellpadding="0" cellspacing="0">
+<table class="cf_t1">
 <tr><th id="cf_label">&nbsp;댓 글</th></tr>
-<tr><td>&nbsp;</td></tr>
 <tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQNA_NUM()%>"></td></tr>
-<tr><td><textarea id="cf_content" name="qna_content" maxlength="300px" cols="95" rows="6" style="resize:none" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
-	<td valign="bottom" width="15%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
+<tr><td><textarea class="textarea" name="qna_content" maxlength="300px" cols="130" rows="6" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
+	<td valign="bottom" width="10%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
 </tr>	
 </table>
 </form>

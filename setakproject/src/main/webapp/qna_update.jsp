@@ -193,8 +193,9 @@ function modifyqna() {
 	</tr>
 	<tr>
 		<td ><div align="center">파일 첨부&nbsp;</div></td>	
-		<td id="btn"><input id="QNA_FILE" name="QNA_FILE" type="file"/>
-		<%if (!(vo.getQNA_FILE()==null)){ %><%=vo.getQNA_FILE().split("/")[0]%>
+		<td id="btn"><input id="QNA_FILE" name="QNA_FILE" type="file" value="<%=vo.getQNA_FILE().split("/")[0]%>"/>
+		<%if (!(vo.getQNA_FILE()==null)){ %>
+		<%=vo.getQNA_FILE().split("/")[0]%>
 		<%}else{ %>파일이 존재하지 않습니다 .<%}%></td>
 	</tr>
 	<tr>

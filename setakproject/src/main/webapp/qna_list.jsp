@@ -98,7 +98,7 @@ else
 <table class="qlt4">		
 <tr align="right">
 <td colspan="5">
-<button type="button" onclick="location.href='./qnaWrite.co?MEMBER_ID=<%=id %>'">글 작성 </button></td>
+<button class="qlt4_btn" type="button" onclick="location.href='./qnaWrite.co?MEMBER_ID=<%=id %>'">글 작성 </button></td>
 </tr> 		
 </table>
 </div></div>
