@@ -169,7 +169,7 @@
 					</div>
 					<div class="total-button">
 						<a href="./cart.st">다음</a>
-						<a href="javascript:">이전</a>
+						<a href="javascript:history.back()">이전</a>
 					</div>
 				</form>
 			</div>

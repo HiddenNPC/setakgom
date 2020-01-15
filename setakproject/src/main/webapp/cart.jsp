@@ -181,7 +181,7 @@
 					</tbody>
 				</table>
 				
-				<button class = "bt_1000">주문결제</button>
+				<a href="./order.st"><button class = "bt_1000">주문결제</button></a>
 		</div>
 		
 

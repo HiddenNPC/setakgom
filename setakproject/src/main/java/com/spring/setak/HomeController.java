@@ -99,4 +99,11 @@ public class HomeController {
 		
 		return "cart";
 	}
+	
+	@RequestMapping(value = "/order.st")
+	public String order() {
+		
+		return "order";
+	}
+	
 }
