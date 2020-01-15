@@ -28,25 +28,26 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="notice">
 <div class="content">
-<div class="title-text"><h2> 공지사항</h2></div>
+<div class="title-text"><h2><a href="./noticeList.st">공지사항</a> </h2></div>
 <div class="notice">
 
-<table class="nvt0"></table><!-- 파란 줄  -->
-<table class="nvt1" border="1" cellpadding="0" cellspacing="0">
+
+<table class="nvt1">
 	<tr height="40" >
-		<td width="110px" align="center">제  목</td>	
-		<td>&nbsp;&nbsp;<%=vo.getNOTICE_TITLE() %></td>
+		<td width="20%" align="center">제  목</td>	
+		<td>&nbsp;<%=vo.getNOTICE_TITLE() %></td>
+		<td width="20%" align="right" ><%=vo.getNOTICE_DATE() %>&nbsp;&nbsp;</td>
+	</tr>	
+	<tr><td align="center">내 용</td>
+		<td height="200px" style="letter-spacing:2px; word-spacing:1px;"><div><%=vo.getNOTICE_CONTENT()%></div></td>
 	</tr>
-	<tr><td colspan="2"></td></tr>
-	<tr><td align="center">내용</td>
-		<td><table border=0 width=900 height=250>
-				<tr><td valign=top>&nbsp;&nbsp;<%=vo.getNOTICE_CONTENT() %></td></tr>
-			</table>
-		</td>
-	<tr><td colspan="5"><table class="nvt0"></table><!-- 파란 줄  --></td></tr>		
+</table>
+
+<table class="nvt2">						
 	<tr align="right" ><td colspan="5">
 		<a href="./updateForm.st?NOTICE_NUM=<%=vo.getNOTICE_NUM() %>">[수정]</a>&nbsp;&nbsp;
 		<a href="./noticeDelete.st?NOTICE_NUM=<%=vo.getNOTICE_NUM() %>">[삭제]</a>&nbsp;&nbsp;
+		
 		<a href="./noticeList.st">[목록]</a>&nbsp;&nbsp;</td>
 	</tr>		
 </table><br>
