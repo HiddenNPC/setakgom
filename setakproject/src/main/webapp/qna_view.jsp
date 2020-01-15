@@ -175,7 +175,7 @@ selectData();
 </form>
 <!-- 댓글 작성 폼 끝 -->
 <!-- 댓글리스트  id="output" -->
-<br><br><br>
+<br>
 <form><table id="output" class="comment_list"></table></form>
 <!-- 댓글리스트 끝-->
 </div></div>

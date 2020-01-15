@@ -154,8 +154,7 @@ import org.springframework.web.servlet.ModelAndView;
 	@RequestMapping("getDetail.co") public String getDetail(QnaVO qnavo, Model model) throws Exception 
 	{
 		QnaVO vo = qnaService.getDetail(qnavo);
-		model.addAttribute("qnadata", vo);
-		
+		model.addAttribute("qnadata", vo);		
 		return "qna_view";
 	}
 	
