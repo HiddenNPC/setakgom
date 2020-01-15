@@ -356,6 +356,7 @@ input#img-6:checked~.nav-dots label#img-dot-6 {
 .keepbox {
 	width: 49.92%;
 	height: 30px;
+	margin-top:3px;
 	padding-top: 10px;
 	background-color: #e1e4e4;
 	color: rgb(0, 0, 0);
@@ -373,6 +374,7 @@ input#img-6:checked~.nav-dots label#img-dot-6 {
 .keepbox2 {
 	width: 49.92%;
 	height: 30px;
+	margin-top:3px;
 	padding-top: 10px;
 	background-color: #e1e4e4;
 	color: rgb(0, 0, 0);
@@ -477,4 +479,31 @@ table.page td a {
 	width: 100px;
 	cursor: pointer;
 	float:right;
+}
+
+.rt-service table{
+	border:2px solid #ccc;
+	border-spacing:0;
+
+}
+
+.rt-service table th{
+    border: 1px solid #ccc;
+    padding:15px;
+    border-collapse:collapse;
+}
+
+.rt-service table td{
+	border: 1px solid #ccc;
+}
+
+.rt-service table td textarea{
+	width:80%;
+	height:40px;
+	float:left;
+	margin-left:20px;
+}
+.rt-service table select{
+	height:40px;
+    width:80%;	
 }

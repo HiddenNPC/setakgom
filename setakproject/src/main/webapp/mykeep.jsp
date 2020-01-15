@@ -180,7 +180,9 @@
 								</li>
 							</ul>
 							<div class="keepbox" style="border-right:1px solid rgb(255, 255, 255);">보관 기간 연장</div>
-							<div class="keepbox2">반환 신청</div>
+							<div class="keepbox2">
+								반환 신청
+							</div>
 						</div>
 						<br><br><br>
 						<div class="keep_month">
@@ -194,6 +196,26 @@
 						</div>
 						<button class="pay_btn">결제하기</button> 	
 						</div>
+						<div class="rt-service">
+							<table>
+								<tr>
+									<th width="20%">종류</th>
+									<th width="80%">옷의 특징을 상세히 입력해주세요.</th>
+								</tr>
+								<tr>
+									<td>
+										<select name="rt-list">
+											<option value="셔츠">셔츠</option>
+											<option value="가디건">가디건</option>
+											<option value="바지">바지</option>
+										</select>
+									</td>
+									<td>
+									<textarea rows="2" cols="30" placeholder="상세내용"></textarea>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div> 
 					<br>
 					</div>
@@ -203,12 +225,11 @@
 		</div><!-- content -->
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
-
+	   <!-- 나의 주소록 레이어 -->
 	<div id="footer"></div>
 </body>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;
@@ -243,8 +264,19 @@ $.pricefun = function(n){
 	    	.not($(this).next(".accordion-content2").slideToggle(500)).slideUp();
 	    $('.mypage_content_cover2').find('.accordion2>.accordion-header2').not($except).removeClass("active");
 	  });
-
 	});
+</script>
+<script>
+$(document).ready(function() {
+	jQuery(".rt-service").hide();
+	$(".keepbox2").click(function() {
+		$except = $(this);
+		$except.toggleClass("active");
+		$(".rt-service").slideToggle(300);
+		$(".keep_month").slideUp(0);
+	});
+});
+
 </script>
 <script>
 $(document).ready(function() {
@@ -254,8 +286,8 @@ $(document).ready(function() {
  		$except = $(this);
 		$except.toggleClass("active");
 		$(".keep_month").slideToggle(200);
+		$(".rt-service").slideUp(0);
  	  });
- 	
  	// 결제 : 아임포트 스크립트
  	 $(".pay_btn").on("click", function(){
  	    
@@ -315,10 +347,7 @@ $(document).ready(function() {
                 alert(msg);
             }
         });
- 	   
- 	      
  	  });
- 	
  	});
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>
@@ -334,6 +363,6 @@ $(document).ready(function() {
 		}
 	});
 });
+ 
 </script>
-
 </html>
