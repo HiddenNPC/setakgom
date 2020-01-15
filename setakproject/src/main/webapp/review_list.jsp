@@ -14,8 +14,8 @@
 <script>
 $(document).ready(function () {
 	//헤더, 푸터연결
-	$("#header").load("./frame/header.jsp")
-    $("#footer").load("./frame/footer.jsp") 
+	$("#header").load("./header.jsp")
+    $("#footer").load("./footer.jsp") 
     //별점 구동
 	$('.starRev span').click(function () {
 		$(this).parent().children('span').removeClass('on');

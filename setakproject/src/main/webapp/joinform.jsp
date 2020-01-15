@@ -26,8 +26,8 @@ integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQ
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#header").load("./frame/header.jsp")
-		$("#footer").load("./frame/footer.jsp")
+		$("#header").load("./header.jsp")
+		$("#footer").load("./footer.jsp")
 		
 		//생년월일
 		$("#birthday").datepicker ({

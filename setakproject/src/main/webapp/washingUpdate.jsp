@@ -20,8 +20,8 @@ var num = 0;
 $(document).ready(function($) {	
 	
 	/* 헤더풋터 생성 */
-	$("#header").load("./frame/header.jsp")
-    $("#footer").load("./frame/footer.jsp")
+	$("#header").load("./header.jsp")
+    $("#footer").load("./footer.jsp")
 	
 	/* 카테고리선택하면 메뉴리스트 변경함수 */
 	$(".tab").on("click", function() {

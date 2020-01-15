@@ -17,8 +17,8 @@
     <script type="text/javascript">
       $(document).ready(function(){
     	  
-         $("#header").load("./frame/header.jsp")
-         $("#footer").load("./frame/footer.jsp")   
+         $("#header").load("./header.jsp")
+         $("#footer").load("./footer.jsp")   
          
          getTotal(); 
          
