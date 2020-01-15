@@ -53,7 +53,7 @@
 					$(".logo2 li img").css('display', 'none');
 				}
 			});
-			$(".sub-nav > li").hover(function () {
+			$(".sub-nav > li:last-child").hover(function () {
 	            $(".sub-nav-sub").css('display', 'block');
 	        },
 	        function() {

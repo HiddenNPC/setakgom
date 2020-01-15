@@ -217,7 +217,7 @@
 			});
 			
 			//커뮤니티 메뉴 hover시.
-			$(".sub-nav > li").hover(function () {
+			$(".sub-nav > li:last-child").hover(function () {
 	            $(".sub-nav-sub").css('display', 'block');
 	        },
 	        function() {
