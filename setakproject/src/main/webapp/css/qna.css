@@ -33,7 +33,7 @@
 		border-top-right-radius: 5px;  border-bottom-right-radius: 5px; border: none;
 		outline: none; margin-right:10px;  }
 	
-	.qwt1 { width:800px; margin:auto; border:1px solid #e1e4e4; border-top: 3px solid #3498db; border-collapse: collapse;}	
+	.qwt1 { width:1000px; margin:auto; border:1px solid #e1e4e4; border-top: 3px solid #3498db; border-collapse: collapse;}	
 	.qwt1 tr td { border: 2px solid #e1e4e4; padding:8px; }	
 	.qwt1h { display:none; }
 	
@@ -77,12 +77,14 @@
 	.comment_list td{ line-height:21px; padding-left: 0px;}
 	#cl_td1{ padding:8px; border-top:3px solid #e1e4e4; }
 	#cl_td2{ border-bottom:3px solid #e1e4e4; }	
-	#td3{ color:#3498db; text-align:right; padding-left:15px;}	
-	
+	#td3{ color:#3498db; text-align:right; padding-left:15px;}		
 	.cdbtn{ float: right; }
-     
-      
-      
+        
+	.qut1{ width:1000px; margin:auto; color:#444; }
+  	.qut2{ width:1000px; margin:auto; color:#444; 
+  	text-align: end;}
+	
+	
       
       
       
