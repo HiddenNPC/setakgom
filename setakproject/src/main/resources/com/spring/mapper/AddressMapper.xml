@@ -15,7 +15,7 @@
 		<result property="address_loc" column="address_loc" />
 	</resultMap>
 	
-	<select id = "getAddressList" parameterType = "com.spring.setak.AddressVO" resultMap = "AddressResultMap">
+	<select id = "getAddressList" parameterType = "String" resultMap = "AddressResultMap">
 		select * from address where member_id = #{member_id}
 	</select>
 	

@@ -19,26 +19,35 @@ public class AddressController {
 	private AddressService addressService; 
 	
 	// 배송지 리스트
-	@RequestMapping(value = "/getAddrList.st", method = RequestMethod.POST, produces = "application/json; charset = UTF-8")
+	@RequestMapping(value = "/getAddrList.st", method=RequestMethod.GET, produces="application/json; charset=UTF-8")
 	@ResponseBody 
-	public String getAddrList() {
-		String member_id = "minchoi";
+	public List<AddressVO> getAddrList(AddressVO avo) {
+		String member_id = avo.getMember_id();
+		
+		System.out.println(member_id);
+		System.out.println(avo.getAddress_human());
 		List<AddressVO> list = addressService.getAddressList(member_id);
 		
+		System.out.println(list.get(0).getAddress_loc());
+
 		String str = "";
 		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			str = mapper.writeValueAsString(list);
+			System.out.println(str);
 		} catch(Exception e) {
 			System.out.println("배송지 리스트 컨트롤러 오류 : " + e.getMessage());
 		}
-		
-		return str; 
+
+		//return str;
+		return list;
 	}
 	
+
+	
 	// 신규 배송지 저장 
-	@RequestMapping(value = "/AddrAddAction.st", produces = "application/json; charset = UTF-8")
+	@RequestMapping(value = "/AddrAddAction.st", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> addressAdd(AddressVO avo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();

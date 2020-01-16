@@ -17,6 +17,7 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public ArrayList<AddressVO> getAddressList(String member_id) {
 		ArrayList<AddressVO> addressList = null;
+		System.out.println("service 들어옴");
 		try {
 			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
 			addressList = addressMapper.getAddressList(member_id);

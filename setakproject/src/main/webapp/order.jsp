@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java"   contentType = "text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -345,6 +347,9 @@
             
             // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
             jQuery('#layer-div2').height(jQuery(document).height());
+   			
+        	selectAddress();
+        	
         }
        
         else if(type == 'close') {
@@ -361,53 +366,29 @@
 	// 나의주소록 목록
 	function selectAddress() {
 		
-		$('#addrTable').empty();
+		$('#addrTable tbody').empty();
+		
+		var parmas = {'member_id': 'A001', 'address_human' : '가나다'}; 
 		
 
         $.ajax({
-            url : '/setak/getAddrList.st', // url 
-            type : 'POST', // url로 보낼 때 전송 방식 
-            data : 'minchoi',  
-            dataType : 'json', 
-            contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+            url : '/setak/getAddrList.st', // url
+            type:'GET',
+            data : parmas,
+            dataType:'json', 
+            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 
             success:function(data) {
-            	
-            	$.each(data, function(index, item) {
-            		var output = '';
-            		
-            		var phone = item.address_phone;
-            		var newPhone1 = phone.substr(0, 3);
-            		var newPhone2 = ''; 
-            		var newPhone3 = phone.substr(phone.length-4, 4);
-            		
-            		if(phone.length == 11) {
-            			newPhone2 = phone.substr(3, 4);
-            		} else {
-            			newPhone2 = phone.substr(3, 3);
-            		}
-					
-            		var zipcode = item.address_zipcode;
-            		var loc = item.address_loc; 
-            		
-            		// 우편번호 받아야해요
-            		
-            		output += '<tr class = "addrRow">';
-            		output += '<td>'+item.address_name+'</td>';
-            		output += '<td>'+item.address_human+'</td>';
-            		output += '<td class = "addr-choice">'+'</td>';
-            		output += '<td>'+newPhone1+'-'+newPhone2+'-'+newPhone3+'</td>';
-            		output += '<td> <input type = "button" class = "modiAddrBtn" value = "수정"/>';
-            		output += '<input type = "button" class = "delAddrBtn" value = "삭제"/></td>';
-            		output += '</tr>';
-            		
-            		
-            	});
+            	 $.each(data, function(index, item) {
+            		 console.log(item.address_loc);
+            	 });
             },
+            
             // 문제 발생한 경우
-            error:function() {
+            error:function(request,status,error) {
                // ajax를 통한 작업 송신 실패 
-               alert("select ajax 통신 실패");
+               alert("ajax 통신 실패  ");
+               alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
         
