@@ -10,7 +10,7 @@
 		<result property="faq_date" column="faq_date"/>			
 	</resultMap>
 
-	<select id="getFaqList" parameterType="com.spring.setak.FnaVO" resultMap="faqMap">
+	<select id="getFaqList" parameterType="com.spring.setak.FaqVO" resultMap="faqMap">
 		SELECT * FROM (SELECT faq_num, faq_cate, faq_title, faq_content,faq_date FROM 
 		(SELECT * FROM FAQ ORDER BY faq_num ASC ))		 
 	</select>
