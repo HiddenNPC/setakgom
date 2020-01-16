@@ -1,4 +1,4 @@
-<%@ page language="java"   contentType = "text/html; charset=UTF-8"%>
+<%@ page language="java" contentType = "text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
@@ -29,7 +29,34 @@
 	
 	// 헤더, 푸터 
     $("#header").load("header.jsp")
-    $("#footer").load("footer.jsp")     
+    $("#footer").load("footer.jsp") 
+    
+    $(document).on("click",".addr-btn",function(){
+		$('#addrTable tbody').empty();
+		
+		var parmas = {'member_id': 'A001', 'address_human' : '가나다'}; 
+		
+
+        $.ajax({
+            url : '/setak/getAddrList.st', // url
+            type:'post',
+            data : parmas,
+            enctype: "application/x-www-form-urlencoded",
+
+            success:function(data) {
+            	 $.each(data, function(index, item) {
+            		 console.log(item.address_loc);
+            	 });
+            },
+            
+            // 문제 발생한 경우
+            error:function(request,status,error) {
+               // ajax를 통한 작업 송신 실패 
+               alert("ajax 통신 실패  ");
+               alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
 
     
 	// 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
@@ -366,14 +393,14 @@
 	// 나의주소록 목록
 	function selectAddress() {
 		
-		$('#addrTable tbody').empty();
+		/* $('#addrTable tbody').empty();
 		
 		var parmas = {'member_id': 'A001', 'address_human' : '가나다'}; 
 		
 
         $.ajax({
             url : '/setak/getAddrList.st', // url
-            type:'GET',
+            type:'post',
             data : parmas,
             dataType:'json', 
             contentType : 'application/x-www-form-urlencoded;charset=utf-8',
@@ -390,7 +417,7 @@
                alert("ajax 통신 실패  ");
                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
-        });
+        }); */
         
 	}
 	

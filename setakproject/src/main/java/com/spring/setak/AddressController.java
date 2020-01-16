@@ -19,7 +19,7 @@ public class AddressController {
 	private AddressService addressService; 
 	
 	// 배송지 리스트
-	@RequestMapping(value = "/getAddrList.st", method=RequestMethod.GET, produces="application/json; charset=UTF-8")
+	@RequestMapping(value = "/getAddrList.st", method=RequestMethod.POST, produces="application/json; charset=UTF-8")
 	@ResponseBody 
 	public List<AddressVO> getAddrList(AddressVO avo) {
 		String member_id = avo.getMember_id();
