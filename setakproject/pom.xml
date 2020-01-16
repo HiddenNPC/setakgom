@@ -206,6 +206,20 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- file upload 끝 -->
+		
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk</artifactId>
+		    <version>1.11.707</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.java.dev.jets3t/jets3t -->
+		<dependency>
+		    <groupId>net.java.dev.jets3t</groupId>
+		    <artifactId>jets3t</artifactId>
+		    <version>0.9.4</version>
+		</dependency>
 		 
 	</dependencies>
     <build>

@@ -14,7 +14,52 @@
       $(document).ready(function(){
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")     
+         
+         $("#btnSubmit").click(function (event) {
+             //stop submit the form, we will post it manually.
+             event.preventDefault();
+
+             // Get form
+             var form = $('#fileUploadForm')[0];
+
+             // Create an FormData object
+             var data = new FormData(form);
+
+             data.append("frst_nm", "${frst_nm}");
+             data.set("last_nm", "${last_nm}");
+
+             // disabled the submit button
+             $("#btnSubmit").prop("disabled", true);
+
+             $.ajax({
+                 type: "POST",
+                 enctype: 'multipart/form-data',
+                 url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}", 
+                 data: data,
+                 processData: false,
+                 contentType: false,
+                 cache: false,
+                 timeout: 600000,
+                 success: function (data) {
+
+                     $("#result").text(data);
+                     console.log("SUCCESS : ", data);
+                     $("#btnSubmit").prop("disabled", false);
+
+                 },
+                 error: function (e) {
+
+                     $("#result").text(e.responseText);
+                     console.log("ERROR : ", e);
+                     $("#btnSubmit").prop("disabled", false);
+
+                 }
+             });
+
+         });
       });
+      
+      
     </script>
 </head>
 <body>
@@ -28,6 +73,11 @@
          </div>
          <div class="test2"> <!-- class 변경해서 사용하세요. -->
             <p>※ 수선만 가능한 페이지입니다. 수선할 옷에 세탁 서비스도 이용하실 예정이시면 세탁 페이지를 이용해주세요.</p>
+            <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+		        <input type="file" name="files" multiple/><br/><br/>
+		        <input type="hidden" name="ssn_num" id="ssn_num" value="testnum"/>
+		        <input type="submit" value="Submit" id="btnSubmit"/>
+		    </form>
          </div>
       </div>
    </section>
