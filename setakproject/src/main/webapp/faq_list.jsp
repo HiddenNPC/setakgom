@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.spring.setak.*" %>    
+    
+    
+<%
+	FaqVO vo = (FaqVO)request.getAttribute("faqdata");
+%>    
+    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>

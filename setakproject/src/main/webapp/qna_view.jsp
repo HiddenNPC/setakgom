@@ -38,16 +38,14 @@ $(document).ready(function() {
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
-					var output = '';
-							
+					var output = '';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_seq+'"></tr>';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></tr>';							
 					output += '<tr><td id="cl_td1" colspan="2">세탁곰</td></tr>';							
 					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
 					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';
-					output += '<tr height="15px"><div></div></tr>';	
-					
+					output += '<tr height="15px"><div></div></tr>';						
 					console.log("para="+para);
 					$('#output').append(output);
 				});
