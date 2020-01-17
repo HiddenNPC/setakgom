@@ -28,15 +28,14 @@
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
 		<div class="content"> <!-- 변경하시면 안됩니다. -->
-			<div class = "mypage-div">
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
 						<ul class="mypage_list">
 							<li>주문관리</li>
-							<li>주문/배송현황</li>
-							<li>보관현황</li>
+							<li><a href="orderview.jsp">주문/배송현황</a></li>
+							<li><a href="mykeep.jsp">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
@@ -44,18 +43,19 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li>Q&amp;A 문의내역</li>
+							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
 							<li>개인정보수정</li>
-							<li>쿠폰조회</li>
-							<li>적립금 조회</li>
+							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
+							<li><a href="mysavings.jsp">적립금 조회</a></li>
 							<li>회원탈퇴</li>
 						</ul>
 					</li>
 				</ul>
 			</div>
+			
 			<div class="mypage_content">
 				<h2>주문/배송현황</h2>
 				<div class="mypage_content_cover">
@@ -85,8 +85,7 @@
 					</div>
 					<%} %>
 				</div>
-			</div>
-			<div class="page1">
+				<div class="page1">
 				<table class="page">
 					<tr align = center height = 20>
               			<td>
@@ -99,6 +98,8 @@
                		</tr>
 				</table>
 				</div>
+			</div>
+			
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
@@ -129,5 +130,9 @@
     	    $('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
     	  });
     	});
+    
+   setTimeout(function() {
+	
+}, 10000); 
 </script>
 </html>

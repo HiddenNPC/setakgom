@@ -8,7 +8,7 @@
 	<title>세탁곰</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
-	<link rel="stylesheet" type="text/css" href="./css/mycoupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="stylesheet" type="text/css" href="./css/mysavings.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -39,7 +39,7 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
-							<li>나의 정기구독</li>
+							<li><a href="mysub.jsp">나의 정기구독</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
@@ -47,7 +47,7 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
-							<li>개인정보수정</li>
+							<li><a href="profile.jsp">개인정보수정</a></li>
 							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
 							<li><a href="mysavings.jsp">적립금 조회</a></li>
 							<li>회원탈퇴</li>
@@ -57,26 +57,42 @@
 			</div>
 			<div style="width: 85%; float: right;">
 				<div class="mypage_content">
-				<h2>쿠폰 조회</h2>
+				<h2>적립금 조회</h2>
 				<div class="mypage_content_cover">
-				<div class="qna-title">
+				<div class="savings_point">
+					<table>
+						<tr>
+							<td class="point1">-&nbsp;총 적립금</td>
+							<td class="point2">25,000</td>
+						</tr>
+						<tr>
+							<td class="point1">-&nbsp;사용된 적립금</td>
+							<td class="point2">22,000</td>
+						</tr>
+						<tr>
+							<td class="point1">-&nbsp;사용가능 적립금</td>
+							<td class="point2">3,000</td>
+						</tr>	
+					</table>
+					<table id="jqGrid"></table>
+					<div id="jqGridPager"></div>
+				</div>
+				<div class="savings-title">
 					<div>
-						<table class="qna">
+						<table class="savings">
 							<thead align="center">
 								<tr>
-									<th width="20">쿠폰명</th>
-									<th width="40">쿠폰 혜택</th>
-									<th width="20">쿠폰 발행일</th>
-									<th width="20">사용가능 기간</th>
+									<th width="28%">적립 날짜</th>
+									<th width="28%">적립금</th>
+									<th width="44%">적립내용</th>
 								</tr>
 							</thead>
 							<%for (int i=0; i<10; i++){ %>
 							<tbody align="center">
 								<tr>
-									<td>zljkks</td>
-									<td><a href="#" style="color:#3498db; font-weiht:bold;">보관 1개월 무료</a></td>
-									<td>2020.01.05</td>
-									<td>2020.01.05~2020.07.05</td>
+									<td>2020-01-18</td>
+									<td>2,000원</td>
+									<td>리뷰이벤트</td>
 								</tr>
 							</tbody>					
 							<%} %>	
@@ -97,6 +113,7 @@
 					</table>
 					</div>	
 				</div>
+			</div>
 			</div>
 		</div>
 	</section>

@@ -24,7 +24,7 @@
 		font-size: 2rem;
 		color: #444;
 	}
-	/*�Ʒ��� width�� �Ķ� �� ���� ���� ����*/
+	/*????? width?? ??? ?? ???? ???? ????*/
 	.title-text h2:before {
 		content: '';
 		display: block;
@@ -36,13 +36,13 @@
 	}
 	
 	/*
-	default.css�� body�� a�� �� ��Ÿ��� �Ӽ��� �⺻�� �����س����� �ѹ�Ȯ�����ּ���
-	content�� �̸� �س��⶧���� �ڵ����� 1200px�ȿ� �߾����ĵż� ��µɰ̴ϴ�. ���� >_-(����)
-	��Ʈ������� ������ rem���� �۾����ּ���.
+	default.css?? body?? a?? ?? ?????? ????? ???? ??????????? ?????????????
+	content?? ??? ????????? ??????? 1200px??? ????????? ???????. ???? >_-(????)
+	?????????? ?????? rem???? ??????????.
 	*/ 
 	
 	
-	/*����� Ŭ������ ���̵�� �۾��ϼ���*/
+	/*????? ??????? ?????? ????????*/
 	#test > .content{
 		display:flex;
 	}
@@ -63,7 +63,7 @@
 	.mypage_head{
 		width:150px;
 		box-sizing:border-box;
-		float:left;
+		display:inline-block;
 	}
 	.mypage_head > ul > li:nth-child(2){
 		border:2px solid #e1e4e4;
@@ -102,36 +102,66 @@
 	 }
 
 
-	/*Q&A���� ����*/
-		table.qna{
+	/*Q&A???? ????*/
+		.savings_point{
+			border-top:4px solid #3498db;
+			border-left:2px solid #e1e4e4;
+			border-right:2px solid #e1e4e4;
+			border-bottom:2px solid #e1e4e4;
+		    margin-bottom:10px;
+		    margin-top:10px;
+		    height:100px;
+		    padding: 30px 100px 10px 100px;
+		       
+		}
+
+		.savings_point table{
+			margin: auto;
+			width:100%;
+		}
+
+		.point1{
+            color:#3498db;
+            height: 22px;
+            font-weight:bold;
+  }
+        
+        .point2{
+        	color:#444;
+        	font-weight:bold;
+            text-align:right;
+		}
+
+		table.savings{
 			border-collapse: collapse;
 			border: 2px solid #e1e4e4;
 			border-spacing: 0px;
-			margin-top:10px;
+			margin: 0 auto;
 			width:1035px;
 			color: #444;
 		}
 		
-		table.qna thead{
+		table.savings thead{
 			background-color: #3498db;
 			color:#eeefef;
 		}
 
-		table.qna thead th{
+		table.savings thead th{
 			border:1px solid;
 			height: 60px;
 		}
 
-		table.qna tbody{
+		table.savings tbody{
 			font-size: 0.9rem;
 		}
 
-		table.qna tbody tr td{
+		table.savings tbody tr td{
 			border:1px solid #e1e4e4;
 			height: 50px;
 		}
 		.page_a{
 			text-align: center;
+			
 			font-size:15px;
 			border: 1px solid #eeefef;
 			margin:5px;
@@ -140,7 +170,6 @@
 			font-weight:bold;
 			color:#3498db;
 		}
-
 		/*
 		.page1{
 		    padding-left:45%;
@@ -149,12 +178,14 @@
 		}
 		*/
 		.page1{
-			margin-top: 100px;
-			text-align: center;	
+			margin-top:100px;
+			text-align: center;
+			
 		}
 		.page1 table {
 			width: 100%;
 		}
+		
 		.page1 table tr td div{
 			display: inline-block;
 		}

@@ -34,8 +34,8 @@
 					<li>
 						<ul class="mypage_list">
 							<li>주문관리</li>
-							<li>주문/배송현황</li>
-							<li>보관현황</li>
+							<li><a href="orderview.jsp">주문/배송현황</a></li>
+							<li><a href="mykeep.jsp">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
@@ -43,13 +43,13 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li>Q&amp;A 문의내역</li>
+							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
 							<li>개인정보수정</li>
-							<li>쿠폰조회</li>
-							<li>적립금 조회</li>
+							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
+							<li><a href="mysavings.jsp">적립금 조회</a></li>
 							<li>회원탈퇴</li>
 						</ul>
 					</li>
@@ -97,6 +97,7 @@
 					</table>
 					</div>	
 				</div>
+			</div>
 			</div>
 		</div>
 	</section>
