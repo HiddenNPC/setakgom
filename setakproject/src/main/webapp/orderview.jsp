@@ -69,17 +69,37 @@
 						<div class="accordion-content">
 							<!--snb -->
 							<div class="snb">
-								<div class="ordernumber"><p>주문 번호 :</p></div>
-								<div class="addr"><p>주소 :</p></div>
+								<div class="ordernumber">
+									<p>주문 번호 :</p>
+									<p>987654-124567</p>
+								</div>
+								<div class="addr">
+									<p>주소 :</p>
+									<p>나는 누구? 여긴 어디?</p>
+								</div>
 								<br><br><br><br><br>
 								<a href="#" class="button">주문 취소</a>
 							</div>
 							<!--//snb -->
 							<!--content -->
 							<div class="row_content">
-								<div><p>#content</p></div>
-								<div><p>#content</p></div>
-								<div><p>#content</p></div>
+								<div class="row_content2">
+								<div class="my_laundry">
+									<p>세탁 :</p>
+									<p>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타하아야여어오요우유으이123456789
+								</div>
+								<div class="my_mending">
+									<p>수선 :</p>
+									<p>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타하아야여어오요우유으이123456789
+								</div>
+								<div class="my_keep">
+									<p>보관 :</p>
+									<p>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타하아야여어오요우유으이123456789
+								</div>
+								</div>
+								<div class="price">
+									<p>합계 : 0원</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -93,7 +113,7 @@
                   			<div class="page_a"><a>1</a></div>
                   			<div class="page_a"><a>2</a></div>
                   			<div class="page_a"><a>3</a></div>
-                  			<div class="page_a"><a href = "">&#62;</a></div>
+                  			<div class="page_a"><a href = "#">&#62;</a></div>
                   		</td>
                		</tr>
 				</table>
@@ -107,6 +127,7 @@
 	<div id="footer"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </body>
+
 <script>
     $(function () {
        $(".button").on("click", function () {
