@@ -19,16 +19,13 @@ public class AddressController {
 	private AddressService addressService; 
 	
 	// 배송지 리스트
-	@RequestMapping(value = "/getAddrList.st", method=RequestMethod.POST, produces="application/json; charset=UTF-8")
+	@RequestMapping(value = "/getAddrList.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
 	public List<AddressVO> getAddrList(AddressVO avo) {
 		String member_id = avo.getMember_id();
 		
-		System.out.println(member_id);
-		System.out.println(avo.getAddress_human());
 		List<AddressVO> list = addressService.getAddressList(member_id);
 		
-		System.out.println(list.get(0).getAddress_loc());
 
 		String str = "";
 		
@@ -47,9 +44,10 @@ public class AddressController {
 
 	
 	// 신규 배송지 저장 
-	@RequestMapping(value = "/AddrAddAction.st", produces="application/json;charset=UTF-8")
+	@RequestMapping(value = "/AddrAddAction.do", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> addressAdd(AddressVO avo) {
+		System.out.println("추가 컨트롤러");
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		try {
 			int res = addressService.insertAddress(avo);

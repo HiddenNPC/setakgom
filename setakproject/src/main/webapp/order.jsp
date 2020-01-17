@@ -1,5 +1,4 @@
-<%@ page language="java" contentType = "text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language = "java" contentType = "text/html; charset = UTF-8" pageEncoding = "UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <!DOCTYPE html>
@@ -30,35 +29,7 @@
 	// 헤더, 푸터 
     $("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
-    
-    $(document).on("click",".addr-btn",function(){
-		$('#addrTable tbody').empty();
-		
-		var parmas = {'member_id': 'A001', 'address_human' : '가나다'}; 
-		
-
-        $.ajax({
-            url : '/setak/getAddrList.st', // url
-            type:'post',
-            data : parmas,
-            enctype: "application/x-www-form-urlencoded",
-
-            success:function(data) {
-            	 $.each(data, function(index, item) {
-            		 console.log(item.address_loc);
-            	 });
-            },
-            
-            // 문제 발생한 경우
-            error:function(request,status,error) {
-               // ajax를 통한 작업 송신 실패 
-               alert("ajax 통신 실패  ");
-               alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-        });
-    });
-
-    
+        
 	// 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
 	$("#init_addr").on("click", function() {
 		$("#address_human").val('');
@@ -393,13 +364,13 @@
 	// 나의주소록 목록
 	function selectAddress() {
 		
-		/* $('#addrTable tbody').empty();
+		$('#addrTable tbody').empty();
 		
 		var parmas = {'member_id': 'A001', 'address_human' : '가나다'}; 
 		
 
         $.ajax({
-            url : '/setak/getAddrList.st', // url
+            url : '/setak/getAddrList.do', // url
             type:'post',
             data : parmas,
             dataType:'json', 
@@ -417,12 +388,13 @@
                alert("ajax 통신 실패  ");
                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
-        }); */
+        });
         
 	}
 	
 	// 나의주소록 추가
-	/*
+	function insertAddress() {
+
 		var addrName = $("#newAddrName").val();
 		var name = $("#newName").val();
 		
@@ -437,6 +409,9 @@
 		var detailAddress = $("#detailAddress2").val();
 		var addr = address + '!' + detailAddress;
 		
+		alert("name : " + name + "phone : " + phone + "postcode : " + postcode + 
+				"address : " + addr);
+		
 		var params = {
 				'member_id' : 'minchoi',
 				'address_name' : addrName,
@@ -445,7 +420,30 @@
 				'address_zipcode' : postcode,
 				'address_loc' : addr
 		};
-	*/
+		
+		
+		$.ajax({
+            url : '/setak/AddrAddAction.do', // url
+            type:'post',
+            data : parmas,
+            dataType:'json', 
+            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+            success: function(retVal) {
+               if(retVal.res=="OK") {        			
+                  // 초기화
+				  alert("OK"); 
+               }
+               else { // 실패했다면
+                  alert("Insert Fail");
+               }
+            },
+            error:function() {
+               alert("insert ajax 통신 실패");
+            }			
+		})
+		
+	}
+
 	
 	// 신규배송 초기화 함수 
 	function newAddrInit() {
@@ -781,7 +779,7 @@
 							</tr>
 							<tr>
 								<td colspan = "2">
-									<button id = "addrInputBtn" class = "btnBlue" onclick = "selectAddress();">확인</button>
+									<button id = "addrInputBtn" class = "btnBlue" onclick = "insertAddress();">확인</button>
 								</td>
 							</tr>						
 						</table>
