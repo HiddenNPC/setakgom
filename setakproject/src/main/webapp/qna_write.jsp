@@ -74,7 +74,7 @@ $(document).ready(function(){
 	<tr class="qwt1h">
 		<td colspan="2"><div>
 			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">
-			<input type="hidden" name="QNA_CHECK" value="답변완료">					
+			<!-- <input type="hidden" name="QNA_CHECK" value="답변완료"> -->					
 			</div>
 		</td>
 	</tr>

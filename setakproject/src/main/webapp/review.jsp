@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*"%>
 <%@ page session="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,12 +18,14 @@ $(document).ready(function () {
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
     //별점 구동
-	$('.r_content span').click(function () {
-		$(this).parent().children('span').removeClass('on');
-        $(this).addClass('on').prevAll('span').addClass('on');
+	$('.r_content a').click(function () {
+		$(this).parent().children('a').removeClass('on');
+        $(this).addClass('on').prevAll('a').addClass('on');      
+        $('#Review_star').val($(this).attr("value"));
         console.log($(this).attr("value"));
         return false;
     });
+	
 });
 </script>	
 </head>
@@ -33,27 +36,28 @@ $(document).ready(function () {
 <div class="title-text"><h2><a href="javascript:history.go(0)">리뷰 </a></h2></div>
 <div class="review">
 
-<form action="./reviewInsert.st" method="post" enctype="multipart/form-data" name="reviewform">
+<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
 <div class="r_content">
 	<p>사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
-	<span class="starR1 on" value="0.5">별1_왼쪽</span>
-    <span class="starR2" value="1">별1_오른쪽</span>
-    <span class="starR1" value="1.5">별2_왼쪽</span>
-    <span class="starR2" value="2">별2_오른쪽</span>
-    <span class="starR1" value="2.5">별3_왼쪽</span>
-    <span class="starR2" value="3">별3_오른쪽</span>
-    <span class="starR1" value="3.5">별4_왼쪽</span>
-    <span class="starR2" value="4">별4_오른쪽</span>
-    <span class="starR1" value="4.5">별5_왼쪽</span>
-    <span class="starR2" value="5">별5_오른쪽</span>  
-    <input type="hidden" >
+	<a class="starR1 on" value="0.5" >별1_왼쪽</a>
+    <a class="starR2" value="1">별1_오른쪽</a>
+    <a class="starR1" value="1.5">별2_왼쪽</a>
+    <a class="starR2" value="2">별2_오른쪽</a>
+    <a class="starR1" value="2.5">별3_왼쪽</a>
+    <a class="starR2" value="3" checked="checked">별3_오른쪽</a>
+    <a class="starR1" value="3.5">별4_왼쪽</a>
+    <a class="starR2" value="4">별4_오른쪽</a>
+    <a class="starR1" value="4.5">별5_왼쪽</a>
+    <a class="starR2" value="5">별5_오른쪽</a>  
+   	<input type="text" id="Review_star" name="Review_star">
+   	<input type="text" id="Review_like" name="Review_like" value="0">
 </div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
-    <tr><td colspan="7"><textarea rows="10" cols="135" style="resize:none; padding-top:-10px;"></textarea></td></tr>
-    <tr><td width="40px" ><input type="file"/></td>                          
+    <tr><td colspan="7"><textarea name="Review_content" rows="10" cols="135" style="resize:none; padding-top:-10px;"></textarea></td></tr>
+    <tr><td width="40px" ><input name="Review_photo" type="file"/></td>                          
         <td width="40px">
-        	<select id="kind">
+        	<select name="Review_kind">
            		<option value="">분류</option>
                 <option value="세탁">세탁</option>
                 <option value="세탁-수선">세탁-수선</option>

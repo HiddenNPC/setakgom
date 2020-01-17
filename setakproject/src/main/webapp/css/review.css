@@ -20,7 +20,7 @@
   	
   	.starR1 {
   	background: url('../images/r_star.png') no-repeat -51px 0;
-    background-size: auto 100%; width: 15px; height: 30px; float: left; text-indent: -9999px;cursor: pointer;
+    background-size: auto 100%; width: 15px; height: 30px; float: left; text-indent: -9999px; cursor: pointer;
         }
 
     .starR2 {
@@ -46,7 +46,7 @@
    	 	
   	.re_list{ margin:auto; width:1000px; }
   	
-  	/* <input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td>*/
+  
   	
   	
   	
