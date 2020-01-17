@@ -1,5 +1,7 @@
 package com.spring.setak;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,10 @@ public class FaqServiceImpl implements FaqService
 {
 	@Autowired(required = false) private SqlSession sqlSession;
 	
-	@Override public FaqVO faqList () throws Exception
+	@Override public  ArrayList<FaqVO> faqList () throws Exception
 	{
 		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
-		FaqVO vo  = new FaqVO();
+		ArrayList<FaqVO> vo  = new  ArrayList<FaqVO>();
 		try
 		{
 			vo = faqMapper.getFaqList();

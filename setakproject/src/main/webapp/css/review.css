@@ -16,7 +16,8 @@
 	a:visited { color: #444; text-decoration: none;}  	
 	.review { font-size:0.9rem; font-weight:bold; padding-top:150px; }	
  	
- 	.starRev{ margin:auto; width: 1000px;}
+ 	.r_content{ margin:auto; width: 1000px; }
+  	
   	.starR1 {
   	background: url('../images/r_star.png') no-repeat -51px 0;
     background-size: auto 100%; width: 15px; height: 30px; float: left; text-indent: -9999px;cursor: pointer;
@@ -28,8 +29,7 @@
         }
     .starR1.on { background-position: 0 0; }
     .starR2.on { background-position: -15px 0; }	
-	
-	.r_content { border:2px solid #e1e4e4; width:1000px; margin:auto; }	
+
 	.r_notice { background-color:#3498db; color: #fff; border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
    		border: none; outline: none; padding: 5px;}    
@@ -38,10 +38,15 @@
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
    		border: none; outline: none;
    	}
+   	#cbtn { color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
+   		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
+   		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+   		border: none; outline: none; margin-right: 10px
+   	}
    	 	
   	.re_list{ margin:auto; width:1000px; }
   	
-  	
+  	/* <input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td>*/
   	
   	
   	

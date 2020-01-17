@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import = "java.util.*"%>
+<%@ page import = "java.text.SimpleDateFormat"%>
 <%@ page import="com.spring.setak.*" %>    
     
     
 <%
-	FaqVO vo = (FaqVO)request.getAttribute("faqdata");
+	ArrayList<FaqVO> faqlist = (ArrayList<FaqVO>) request.getAttribute("faqdata");
+System.out.println("faqlist.get(0).getFaq_cate()=" +faqlist.get(0).getFaq_cate());
+	
+	
 %>    
     
     
@@ -77,58 +82,70 @@ $(document).ready(function(){
 
 <div class="tab" >
 <ul id="tab">
-    <li>기본정보</li>
-    <li>이용방법</li>
-    <li>수거/배송</li>
-    <li>세탁</li>	
-    <li>요금/결제</li>	
-    <li>보관</li>	    
+    <li><%=faqlist.get(0).getFaq_cate()%></li>
+    <li><%=faqlist.get(6).getFaq_cate()%></li>
+    <li><%=faqlist.get(10).getFaq_cate()%></li>
+    <li><%=faqlist.get(16).getFaq_cate()%></li>	
+    <li><%=faqlist.get(24).getFaq_cate()%></li>	
+    <li><%=faqlist.get(26).getFaq_cate()%></li>	    
 </ul>
 </div>
 
 <div class="tab_con" id="tab_con">
-  <div>
-    <h4>&nbsp;Q. 세탁곰 서비스란? <input class="ico_ar" type="button"value="▼"></h4>   
-    <ol>
-        <li >세탁곰 서비스는 프로젝트3조에서 만든 전문 세탁서비스입니다.간단한 예약서비스로 집에서 세탁물을 수거, 배송 받을 수 있으며 모든 세탁물은 전문 세탁인들의 전문적인 기술로 세탁합니다.</li>
-    </ol>
-    <h4>&nbsp;Q. 기존의 세탁서비스와 다른점은? <input class="ico_ar" type="button" value="▼"></h4>
-    <ol>
-      <li>세탁곰은 기존의 타 세탁서비스와는 다르게 단순한 세탁만으로 끝나지 않고  세탁 후 수선하고 싶거나 보관하고싶은 물건이 있으면 보관까지 할 수 있는 서비스 입니다.</li>
-    </ol>
-    <h4>&nbsp;Q. 이용 방법은 무엇인가요? <input class="ico_ar" type="button" value="▼"></h4>
-    <h4>&nbsp;Q. 서비스 지역은 어디인가요? <input class="ico_ar" type="button" value="▼"></h4>
-    <h4>&nbsp;Q. 세탁 기간은 얼마나 걸리나요? <input class="ico_ar" type="button" value="▼"></h4>
-    <h4>&nbsp;Q. 서비스 이용 시간을 알고싶어요? <input class="ico_ar" type="button" value="▼"></h4>
-  </div>	
+<div>
+<%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
+<%if(vo.getFaq_cate().equals("기본정보")){%>
+<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol><li><%=vo.getFaq_content()%></li></ol>
+<%}%><%}%>
+</div>	
 
 <div>
-   <dl>
-   	<dt>
-   		<span>Q.</span>택배를 신청했는데 언제즈음 받을수 있을까요 ?<input class="ico_ar" type="button"value="▼">
-   	</dt>
-   	<dd>
-   		<p>
-   		상품 인수를 위한 방문 희망 일로 지정하신 요청일에 방문합니다. 다만, 공휴일, 오전/오후 및 특정 시간을 지정하여 
-   		방문 요청하실 경우 반영되지 않으며 관할 지역 사정으로 인해 택배기사 방문이 1~2일 지연될 수 있기에 정확한 방문 시간 확인은
-   		 관할 대리점/사원이나 고객센터로
-   		</p>  	
-   	</dd> 
-   </dl>
-</div>   
-   <div>3rd Contents</div>
-   <div>4rd Contents</div>
-   <div>5rd Contents</div>
-   <div>6rd Contents</div>
+<%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
+<%if(vo.getFaq_cate().equals("이용정보")){%>
+<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol><li><%=vo.getFaq_content()%></li></ol>
+<%}%>
+<%}%>
+</div>	
+<div>
+<%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
+<%if(vo.getFaq_cate().equals("수거/배송")){%>
+<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol><li><%=vo.getFaq_content()%></li></ol>
+<%}%>
+<%}%>
+</div>	
+<div>
+<%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
+<%if(vo.getFaq_cate().equals("세탁")){%>
+<h4>Q.<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol><li><%=vo.getFaq_content()%></li></ol>
+<%}%>
+<%}%>
+</div>	
+<div>
+<%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
+<%if(vo.getFaq_cate().equals("요금/결제")){%>
+<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol><li><%=vo.getFaq_content()%></li></ol>
+<%}%>
+<%}%>
+</div>	
+<div>
+<%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
+<%if(vo.getFaq_cate().equals("보관")){%>
+<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol><li><%=vo.getFaq_content()%></li></ol>
+<%}%>
+<%}%>
+</div>	
+
+
 </div>
 
 
-
-
-
-
-</div>
-</div>
+</div></div>
 </section> 
 <div id="footer"></div> 
 </body>

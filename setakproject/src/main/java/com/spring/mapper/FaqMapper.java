@@ -6,5 +6,5 @@ import com.spring.setak.FaqVO;
 
 public interface FaqMapper 
 {
-	public FaqVO getFaqList();
+	public ArrayList<FaqVO> getFaqList();
 }

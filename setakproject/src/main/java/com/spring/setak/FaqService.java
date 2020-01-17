@@ -1,7 +1,9 @@
 package com.spring.setak;
 
+import java.util.ArrayList;
+
 public interface FaqService 
 {
-	public FaqVO faqList ()throws Exception;
+	public ArrayList<FaqVO> faqList ()throws Exception;
 
 }

@@ -17,7 +17,7 @@ $(document).ready(function () {
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
     //별점 구동
-	$('.starRev span').click(function () {
+	$('.r_content span').click(function () {
 		$(this).parent().children('span').removeClass('on');
         $(this).addClass('on').prevAll('span').addClass('on');
         console.log($(this).attr("value"));
@@ -30,12 +30,12 @@ $(document).ready(function () {
 <div id="header"></div>
 <section id="review">
 <div class="content">
-<div class="title-text"><h2> 리뷰 </h2></div>
+<div class="title-text"><h2><a href="javascript:history.go(0)">리뷰 </a></h2></div>
 <div class="review">
 
 <form action="./reviewInsert.st" method="post" enctype="multipart/form-data" name="reviewform">
-<div class="starRev">
-	<p>사용자 평점</p>
+<div class="r_content">
+	<p>사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
 	<span class="starR1 on" value="0.5">별1_왼쪽</span>
     <span class="starR2" value="1">별1_오른쪽</span>
     <span class="starR1" value="1.5">별2_왼쪽</span>
@@ -46,7 +46,8 @@ $(document).ready(function () {
     <span class="starR2" value="4">별4_오른쪽</span>
     <span class="starR1" value="4.5">별5_왼쪽</span>
     <span class="starR2" value="5">별5_오른쪽</span>  
-</div>        
+    <input type="hidden" >
+</div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
     <tr><td colspan="7"><textarea rows="10" cols="135" style="resize:none; padding-top:-10px;"></textarea></td></tr>
@@ -60,23 +61,22 @@ $(document).ready(function () {
                 <option value="수선">수선</option>
                 <option value="보관">보관</option>
                 <option value="정기구독">정기구독</option>
-             	</select></td>
-		
-		<!-- <button onclick="javascript:reviewform.submit()">등록</button>
-		<button type="reset">취소</button></td> -->
-    </tr>
-</table>
-
-<button onclick="javascript:reviewform.submit()">등록</button>
-<button type="reset">취소</button>
+           </select></td>
+		<td align="right"  colspan="5">
+			<button onclick="javascript:reviewform.submit()">등록</button>
+			<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
+	</tr></table>
 </form>
+<!--인설트해서 DB에 넣어야 한다 . -->
+
+
 <br><br>
      
 <!--리뷰 작성 -->
 <!--리뷰 리스트 (ajax) -->        
 <div class="re_list"> 
 <strong>리뷰XX개</strong>
-<p>(이 부분 Ajax 로 뿌림 + 좋아요) </p>
+
 </div>
 
 </div></div>

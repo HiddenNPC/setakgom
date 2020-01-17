@@ -36,8 +36,7 @@ public class QnaServiceImpl implements QnaService
 	{
 		ArrayList<QnaVO> list = new ArrayList<QnaVO>();		
 		try
-		{	
-			
+		{			
 			QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
 			list = qnaMapper.getQnaList(startRow, endRow);
 			return list;			
