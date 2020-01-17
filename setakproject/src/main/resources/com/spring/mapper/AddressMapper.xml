@@ -15,11 +15,24 @@
 		<result property="address_loc" column="address_loc" />
 	</resultMap>
 	
+	<!-- 배송지 리스트 -->
 	<select id = "getAddressList" parameterType = "String" resultMap = "AddressResultMap">
 		select * from address where member_id = #{member_id}
 	</select>
-	
+
+	<!-- 배송지 선택 -->
+	<select id = "searchAddress" parameterType = "com.spring.setak.AddressVO" resultMap = "AddressResultMap">
+		select * from address where address_num = #{address_num}
+	</select>
+		
+	<!-- 배송지 추가 -->
 	<insert id = "insertAddress" parameterType = "com.spring.setak.AddressVO">
 		insert into address values(#{address_num}, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
 	</insert>
+	
+	<!-- 배송지 삭제 -->
+	<delete id = "deleteAddress" parameterType = "int">
+		delete from address where address_num = #{address_num} 
+	</delete>
+
 </mapper>

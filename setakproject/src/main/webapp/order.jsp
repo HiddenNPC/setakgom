@@ -49,35 +49,166 @@
 	
 
 	// 나의 주소록 > 주소 클릭
-	$(".addr-choice").on("click", function() {
-		var select_btn = $(this);
-		var tr = select_btn.parent();
-		var td = tr.children();
+	$(document).on('click', '.addr-choice', function(event) {
+		var select_id = $(this);
+		var tr = select_id.parent();
+		var address_num = tr.attr("id").replace("addr", "");
 		
-		var name = td.eq(1).text();
+		$.ajax({
+			url : '/setak/searchAddr.do',
+			type : 'post',
+			data : {'address_num':address_num},
+			dataType : 'json',
+			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+			success:function(data) {
+				
+				var human = data.address_human;
+				var phone = data.address_phone;
+       		 	var phone1, phone2, phone3 = ''; 
+    		 
+  				phone1 = phone.substring(0, 3);
+	  			
+	     		 if(phone.length == 11) {
+	     			phone2 = phone.substring(3, 7);
+	     			phone3 = phone.substring(7);
+	     		 } else {
+	     			 phone2 = phone.substring(3, 6);
+	     			 phone3 = phone.substring(6);             			 
+	     		 }
+	     		     
+				var zipcode = data.address_zipcode;
+				var loc = data.address_loc;
+	       		var locSplit = loc.split('!');
+	    		var addr1 = locSplit[0];
+	    		var addr2 = locSplit[1];
+	    		
+        		if(addr2 == null) {
+        			addr2 = '';
+        		}        		 
+        		 
+				$("#address_human").val(human);
+				$("#order_phone1").val(phone1);
+				$("#order_phone2").val(phone2);
+				$("#order_phone3").val(phone3);
+				$("#postcode").val(zipcode);
+				$("#address").val(addr1);
+				$("#detailAddress").val(addr2);
+				
+				layerDeliPopup('close');
+				
+			},            
+            // 문제 발생한 경우
+            error:function(request,status,error) {
+               // ajax를 통한 작업 송신 실패 
+               alert("ajax 통신 실패  ");
+               alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+		}); 
 		
-		$("#address_human").val(name); 
-		layerDeliPopup('close');
-		
-		
-	});
-		
-	// 나의 주소록 > 주소 수정
-    $(".modiAddrBtn").on("click", function () {
+		event.preventDefault(); 
+	})
+
+	// 나의 주소록 > 주소 수정 클릭 : 폼 채워지기 
+	$(document).on('click', '.modiAddrBtn', function(event) {
     	var select_btn = $(this);
         var tr = select_btn.parent().parent(); 
-        var modiDiv = $("#modiDiv");
+        var address_num = tr.attr("id").replace("addr", "");
         
+        var modiDiv = $("#modiDiv");
         modiDiv.css('display', 'table-row');
         modiDiv.insertAfter(tr); 
+        
+		$.ajax({
+			url : '/setak/searchAddr.do',
+			type : 'post',
+			data : {'address_num':address_num},
+			dataType : 'json',
+			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+			success:function(data) {
+				
+				var name = data.address_name; 
+				var human = data.address_human;
+				var phone = data.address_phone;
+       		 	var phone1, phone2, phone3 = ''; 
+    		 
+  				phone1 = phone.substring(0, 3);
+	  			
+	     		 if(phone.length == 11) {
+	     			phone2 = phone.substring(3, 7);
+	     			phone3 = phone.substring(7);
+	     		 } else {
+	     			 phone2 = phone.substring(3, 6);
+	     			 phone3 = phone.substring(6);             			 
+	     		 }
+	     		     
+				var zipcode = data.address_zipcode;
+				var loc = data.address_loc;
+	       		var locSplit = loc.split('!');
+	    		var addr1 = locSplit[0];
+	    		var addr2 = locSplit[1];
+	    		
+        		if(addr2 == null) {
+        			addr2 = '';
+        		}        	
+        		
+				$("#modiAddrName").val(name);
+				$("#modiName").val(human);
+				$("#postcode3").val(zipcode);
+				$("#address3").val(addr1);
+				$("#detailAddress3").val(addr2);
+				$("#modiPhone1").val(phone1);
+				$("#modihone2").val(phone2);
+				$("#modihone3").val(phone3);
+				
+			},
+            // 문제 발생한 경우
+            error:function(request,status,error) {
+               // ajax를 통한 작업 송신 실패 
+               alert("ajax 통신 실패  ");
+               alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+		}); 
+        
+		event.preventDefault(); 
     });
 	
+	// 나의 주소록 > 주소 수정 
+	$(document).on('click', '.modiAddrBtn', function(event) {
+		
+	})
 	
 	// 나의 주소록 > 주소 삭제
-    $(".delAddrBtn").on("click", function () {
+	$(document).on('click', '.delAddrBtn', function(event) {
     	var select_btn = $(this);
-        alert("이 주소를 삭제하시겠습니까?")
+        var tr = select_btn.parent().parent(); 
+        var address_num = tr.attr("id").replace("addr", "");
+    	
+        if(confirm("이 주소를 삭제하시겠습니까?")) {
+        	
+    		$.ajax({
+    			url : '/setak/deleteAddr.do',
+    			type : 'post',
+    			data : {'address_num':address_num},
+    			dataType : 'json',
+    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+    			success:function(data) {
+    				
+    				selectAddress();
+    				alert("주소가 성공적으로 삭제되었습니다."); 
+    			},            
+                // 문제 발생한 경우
+                error:function(request,status,error) {
+                   // ajax를 통한 작업 송신 실패 
+                   alert("ajax 통신 실패  ");
+                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+    		}); 
+    		
+    		event.preventDefault(); 
+        }
     });
+	
+
     
 	// 적립금 사용
 	$('input#usePoint').on('keyup',function(){
@@ -361,12 +492,12 @@
         }
     }
 	
-	// 나의주소록 목록
+	// 나의 주소록 목록
 	function selectAddress() {
 		
 		$('#addrTable tbody').empty();
 		
-		var parmas = {'member_id': 'A001', 'address_human' : '가나다'}; 
+		var parmas = {'member_id': 'minchoi'}; 
 		
 
         $.ajax({
@@ -378,8 +509,49 @@
 
             success:function(data) {
             	 $.each(data, function(index, item) {
-            		 console.log(item.address_loc);
+            		 var output = '';
+            		 
+            		 var num = item.address_num; 
+            		 var name = item.address_name;
+            		 var human = item.address_human; 
+            		 var phone = item.address_phone;
+            		 var phone1, phone2, phone3 = ''; 
+            		 
+         			phone1 = phone.substring(0, 3);
+         			
+            		 if(phone.length == 11) {
+            			phone2 = phone.substring(3, 7);
+            			phone3 = phone.substring(7);
+            		 } else {
+            			 phone2 = phone.substring(3, 6);
+            			 phone3 = phone.substring(6);             			 
+            		 }
+            		 var itemPhone = phone1 + '-' + phone2 + '-' + phone3;
+            		 
+            		 var zipcode = item.address_zipcode;
+            		 var loc = item.address_loc;
+            		 var locSplit = loc.split('!');
+            		 var addr1 = locSplit[0];
+            		 var addr2 = locSplit[1];
+            		 
+            		 if(addr2 == null) {
+            			 addr2 = '';
+            		 }
+            		 var addr = addr1 + ' ' + addr2 + ' (' + zipcode + ')';
+            		 
+            		 output += '<tr id = "addr'+num+'" class = "addrRow">';
+            		 output += '<td>'+name+'</td>';
+            		 output += '<td>'+human+'</td>';
+            		 output += '<td class = "addr-choice">'+addr+'</td>';
+            		 output += '<td>'+itemPhone+'</td>';
+					 output += '<td> <input id="modiBtn'+num+'" type="button" class="modiAddrBtn" value="수정" /> ';
+					 output += '<input id = "delBtn'+num+'" type="button" class="delAddrBtn" value="삭제" /></td>';
+            	 	 output += '</tr>';
+            	 	 
+            	 	$('#addrTable tbody').append(output);             	 
             	 });
+            	 
+         		newAddrModiForm();
             },
             
             // 문제 발생한 경우
@@ -409,6 +581,12 @@
 		var detailAddress = $("#detailAddress2").val();
 		var addr = address + '!' + detailAddress;
 		
+		if(addrName == '' || name == '' || newPhone1 == '' || newPhone2 == '' || newPhone3 == ''
+			|| postcode == '' || address == '' || detailAddress == '') {
+			alert("제대로 입력하세요.");
+			return; 
+		}
+		
 		alert("name : " + name + "phone : " + phone + "postcode : " + postcode + 
 				"address : " + addr);
 		
@@ -419,19 +597,21 @@
 				'address_phone' : phone,
 				'address_zipcode' : postcode,
 				'address_loc' : addr
-		};
-		
+		};		
 		
 		$.ajax({
             url : '/setak/AddrAddAction.do', // url
-            type:'post',
-            data : parmas,
-            dataType:'json', 
-            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+            type : 'POST',
+            data : params, // 서버로 보낼 데이터
+            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+            dataType : 'json',
             success: function(retVal) {
-               if(retVal.res=="OK") {        			
-                  // 초기화
-				  alert("OK"); 
+               if(retVal.res=="OK") {    
+            	   
+            	  selectAddress();
+				  alert("주소가 정상적으로 추가 되었습니다.");				  
+				  newAddrInit();
+				  
                }
                else { // 실패했다면
                   alert("Insert Fail");
@@ -440,12 +620,65 @@
             error:function() {
                alert("insert ajax 통신 실패");
             }			
-		})
+		});
 		
+	}
+	
+	// 신규 배송지 수정 폼 추가 함수 
+	function newAddrModiForm() {
+		
+		var output = '';
+		
+		output += '<tr id="modiDiv">';
+		output += '<td colspan= "5">';
+		output += '<h3>수정하기</h3>';
+		output += '<button class = "modiCloseBtn" onclick = "modiClose()">X</button>';
+		output += '<div class = "modi-form-div">';
+		output += '<form id = "new-addr-form" method = "post">';
+		output += '<table class = "new-addr-table">';
+		output += '<tr>';
+		output += '<td class = "new-left">배송지</td>';
+		output += '<td><input id = "modiAddrName" type = "text" class = "txtInp" name = "" /></td>';
+		output += '</tr>';
+		output += '<tr>';
+		output += '<td class = "new-left">이름</td>';
+		output += '<td><input id = "modiName" type = "text" class = "txtInp" name = "" /></td>';
+		output += '</tr>';
+		output += '<tr>';
+		output += '<td class = "new-left">주소</td>';
+		output += '<td>';
+		output += '<input id="postcode3" class="txtInp" type="text" name="" style="width: 60px;" /> ';
+		output += '<input type="button" onclick="execDaumPostcode("modi")" value="우편번호 찾기"> <br />';
+		output += '<input id="address3" class="txtInp" type="text" name="" style="width: 270px;" readonly /> ';
+		output += '<input id="detailAddress3" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> '
+		output += '</td>';
+		output += '</tr>';
+		output += '<tr>';
+		output += '<td class = "new-left">연락처</td>'
+		output += '<td>';
+		output += '<input id = "modiPhone1" class = "txtInp" type = "text" size = "3" name = "" style = "width : 30px;"/>';
+		output += '-';
+		output += '<input id = "modihone2" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>';
+		output += '-';
+		output += '<input id = "modihone3" class = "txtInp" type = "text" size = "3" name = "" style = "width : 40px;"/>';
+		output += '</td>';
+		output += '</tr>';
+		output += '<tr>';
+		output += '<td colspan = "2">';
+		output += '<input type = "button" id = "modiBtn" class = "btnBlue" value = "확인" />';
+		output += '</td>';
+		output += '</tr>'; 
+		output += '</table>';
+		output += '</form>';
+		output += '</div>';
+		output += '</td>';
+		output += '</tr>'; 
+		
+		$("#addrTable tbody").append(output); 
 	}
 
 	
-	// 신규배송 초기화 함수 
+	// 신규 배송지 초기화 함수 
 	function newAddrInit() {
 		
         jQuery('#new-addr-div').attr('style','display:none');
@@ -474,6 +707,7 @@
 		alert(newAddrName); 
 		
 		jQuery('#layer-div2').attr('style','display:none');
+		
 		newAddrInit();
         $("body").css("overflow","scroll");
 	}
@@ -779,7 +1013,7 @@
 							</tr>
 							<tr>
 								<td colspan = "2">
-									<button id = "addrInputBtn" class = "btnBlue" onclick = "insertAddress();">확인</button>
+									<input id = "addrInputBtn" type = "button" class = "btnBlue" onclick="insertAddress();" value = "확인" />
 								</td>
 							</tr>						
 						</table>
@@ -798,73 +1032,7 @@
    						</tr>
    					</thead>
    					<tbody>
-   						<tr class = "addrRow">
-   							<td>신림</td>
-   							<td>최민경</td>
-   							<td class = "addr-choice">서울특별시 관악구 문성로 218-5 302호 (08842)</td>
-   							<td>010-8848-2996</td>
-   							<td>
-	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
-	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
-	   						</td>
-	   					</tr>
-   						<tr class = "addrRow">
-   							<td>배고파</td>
-   							<td>확인중</td>
-   							<td class = "addr-choice">서울특별시 관악구 어짜구</td>
-   							<td>010-8848-2996</td>
-   							<td>
-	   							<input type = "button" class = "modiAddrBtn" value = "수정"/>
-	   							<input type = "button" class = "delAddrBtn" value = "삭제"/>
-	   						</td>
-	   					</tr>
-	   					<tr id="modiDiv">
-	   						<td colspan= "5">
-								<h3>수정하기</h3>
-								<button class = "modiCloseBtn" onclick = "modiClose()">X</button>
-								<div class = "modi-form-div">
-					   				<form id = "new-addr-form" action = "">
-						   				<table class = "new-addr-table">
-						   					<tr>
-					   							<td class = "new-left">배송지</td>
-						   						<td><input id = "modiAddrName" type = "text" class = "txtInp" name = "" /></td>
-						   					</tr>
-						   					<tr>
-						   						<td class = "new-left">이름</td>
-						   						<td><input id = "modiName" type = "text" class = "txtInp" name = "" /></td>
-						   					</tr>
-						   					<tr>
-						   						<td class = "new-left">주소</td>
-												<td>
-													<input id="postcode3" class="txtInp" type="text" name="" style="width: 60px;" /> 
-													<input type="button" onclick="execDaumPostcode('modi')" value="우편번호 찾기"> <br /> 
-													<input id="address3" class="txtInp" type="text" name="" style="width: 270px;" readonly /> 
-													<input id="detailAddress3" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
-													<input id="extraAddress3" type="hidden" placeholder="참고항목">
-												</td>
-											</tr>
-											<tr>
-												<td class = "new-left">연락처</td>
-												<td>
-													<input id = "modiPhone1" class = "txtInp" type = "text" size = "3" name = "" style = "width : 30px;"/> 
-													-
-													<input id = "modihone2" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>
-													-
-													<input id = "modihone3" class = "txtInp" type = "text" size = "3" name = "" style = "width : 40px;"/>
-												</td>
-											</tr>
-											<tr>
-												<td colspan = "2">
-													<button class = "btnBlue">확인</button>
-												</td>
-											</tr>						
-										</table>
-									</form>
-								</div>
-							</td>
-	   					</tr>
-	   					
-	   					
+
    					</tbody>
    				</table>
    			</div>

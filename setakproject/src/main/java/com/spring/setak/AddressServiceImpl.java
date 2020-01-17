@@ -26,10 +26,23 @@ public class AddressServiceImpl implements AddressService {
 		
 		return addressList;
 	}
+	
+	@Override
+	public AddressVO searchAddress(int address_num) {
+		AddressVO avo = null;
+		
+		try {
+			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
+			avo = addressMapper.searchAddress(address_num);
+		} catch(Exception e) {
+			System.out.println("주소 리스트 선택 실패" + e.getMessage());
+		}
+		
+		return avo;
+	}
 
 	@Override
 	public int insertAddress(AddressVO avo) {
-		System.out.println("insertAddress ");
 		int res = 0;
 		try {
 			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
@@ -40,6 +53,20 @@ public class AddressServiceImpl implements AddressService {
 		
 		return res; 
 	}
+
+	@Override
+	public int deleteAddress(int address_num) {
+		int res = 0;
+		try {
+			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
+			res = addressMapper.deleteAddress(address_num);
+		} catch(Exception e) {
+			System.out.println("배송지 삭제 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+	
 	
 
 }
