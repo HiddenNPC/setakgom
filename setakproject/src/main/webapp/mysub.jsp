@@ -13,8 +13,7 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mysub.css" />
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#header").load("header.jsp")
@@ -76,13 +75,16 @@
 		    }); 
 		
 		//구독해지 클릭
-		   $("#sub").on("click", function() {
-			    $(".popup_back").css("display","block");
-				$("#subcancle").css('display', 'block');
+		   $("#sub").click(function(event){
+			   $(".subcancle").css('display', 'block');
+			});
+		
+		   $(".pop_btn4").on("click", function() {
+				$(".subcancle").css('display', 'none');
 			});
 
-			$("#pop_btn5").on("click", function() {
-				$("#subcancle").css('display', 'none');
+			$(".pop_btn5").on("click", function() {
+				$(".subcancle").css('display', 'none'); //구독해지하면?????
 			});
 			
 
@@ -103,25 +105,25 @@
 					<li class="mypage-title">마이페이지</li>
 					<li>
 						<ul class="mypage_list">
-							<li>주문관리</li>
-							<li>주문/배송현황</li>
-							<li>보관현황</li>
-						</ul>
-						<ul class="mypage_list">
-							<li>정기구독</li>
-							<li>나의 정기구독</li>
-						</ul>
-						<ul class="mypage_list">
-							<li>고객문의</li>
-							<li>Q&amp;A 문의내역</li>
-						</ul>
-						<ul class="mypage_list">
-							<li>정보관리</li>
-							<li>개인정보수정</li>
-							<li>쿠폰조회</li>
-							<li>적립금 조회</li>
-							<li>회원탈퇴</li>
-						</ul>
+                     		<li>주문관리</li>
+                     		<li><a href="orderview.jsp">주문/배송현황</a></li>
+                     		<li><a href="mykeep.jsp">보관현황</a></li>
+                 	 	</ul>
+                  		<ul class="mypage_list">
+                     		<li>정기구독</li>
+                     		<li><a href="mysub.jsp">나의 정기구독</a></li>
+                  		</ul>
+                 		<ul class="mypage_list">
+                    		<li>고객문의</li>
+                     		<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+                  		</ul>
+                  		<ul class="mypage_list">
+                     		<li>정보관리</li>
+                    		<li><a href="password.jsp">개인정보수정</a></li>
+                     		<li><a href="mycoupon.jsp">쿠폰조회</a></li>
+                    		<li><a href="mysavings.jsp">적립금 조회</a></li>
+                    		<li><a href="withdraw.jsp">회원탈퇴</a></li>
+                  		</ul>
 					</li>
 				</ul>
 			</div>
@@ -190,30 +192,24 @@
                 </div>
                 
                 <!-- 구독해지 팝업창 -->
-                 <div class="subcancle" id="subcancle">
-                 	<div class="sub_image">
-                 		<img src="images/clothes1.png">
-                 	</div> 
-        			<div class="text">
-           				<h3>00님</h3><br>
-            			<h2>잠깐만요!!</h2><br>
-            			<br>             
-            			<h5>지금 정기구독을 해지하시면,</h5>
-        			</div>
-        			<div id="mine">
-            			최대 <c>60%</c>저렴한 정기구독권
-            			보관 1BOX 1개월 쿠폰 
-            			구독회원 전용 <c>상시 이벤트</c>
-        			</div>
-        			<div class="last">
-            			이 모든 세탁곰 <d>정기구독 전용 혜택</d>이 사라져요
-            			그래도 해지하시겠어요?
-            			<d>구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</d>
-        			</div>
-        			<div class="pop_btn4">구독하고 혜택 유지</div>
-        			<div class="pop_btn5">해지하고 혜택 포기</div>
-    			</div>
                 
+                <div class="subcancle" id="subcancle" >
+	                <div class="back">
+						<img class="sub_image" src="images/back.png">
+						<div class="text">
+							<h2>00님</h2>
+							<p>지금 정기구독을 해지하시면,</p>
+							<h4>최대<span>60%</span>저렴한 정기구독권</h4>
+							<h4>보관 1BOX<span>1개월 쿠폰</span></h4>
+							<h4>구독회원 전용<span>상시이벤트</span></h4>
+							<h5>이 모든 세탁곰의 <span>정기구독 전용 혜택</span>이 사라져요<br>그래도 해지하시겠어요?</h5>
+							<h5>구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</h5>
+						</div>
+						<input type="button" class="pop_btn4" value="구독하고 혜택 유지">
+						<input type="button" class="pop_btn5" value="해지하고 혜택 포기">
+					</div>
+				</div>
+				
             </div><!-- mysub -->
 			</div><!-- mypage_content -->
 		</div><!-- content -->
@@ -222,5 +218,6 @@
 
 	<div id="footer"></div>
 </body>
+
                 
 </html>

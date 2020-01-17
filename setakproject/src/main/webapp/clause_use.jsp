@@ -4,17 +4,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+function closes(){
+    window.open('','_self').close();
+}
+</script>
 </head>
 <body>
 <!-- header -->
 <div class="modal-header">
     <!-- 닫기(x) 버튼 -->
-  <button type="button" class="close" data-dismiss="modal">×</button>
   <font color="#f67001" size=4>01</font> <font size=3>이용약관</font>
+  <span><button type="button" onclick="closes()" style="margin-left: 465px;">×</button></span>
 </div>
 <!-- body -->
 <div class="modal-body">
-<td align=center><textarea name="tos" rows=15 cols=78>
+<td align=center><textarea name="tos" rows=15 cols=80>
 제1조(목적)
  이 약관은 oooo 회사(전자상거래 사업자)가 운영하는 oooo 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련
  서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리ㆍ의무 및 책임사항을 규정함을 목적으로 합니다.
@@ -238,10 +243,6 @@
 
  ②“몰”과 이용자간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
                 </textarea></td>
-</div>
-<!-- Footer -->
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 </div>
 
 </body>
