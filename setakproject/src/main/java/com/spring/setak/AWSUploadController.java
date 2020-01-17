@@ -24,7 +24,6 @@ public class AWSUploadController {
     public @ResponseBody String initUpload2(@RequestParam("files") MultipartFile[] files, 
     		@RequestParam("ssn_num") String ssn_num, HttpServletRequest request) throws Exception {
 		
-		System.out.println("넘어는가나?");
         try{
  
             AWSCredentials credentials = new BasicAWSCredentials("AKIAWR6CHL4F3EHVIZC7", "zDK7+CZV5t9F8Hgbb+NjthjMRuVm1lQvMmP/ZXPx");

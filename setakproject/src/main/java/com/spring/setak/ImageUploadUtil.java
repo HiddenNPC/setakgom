@@ -29,7 +29,7 @@ public final class ImageUploadUtil {
                 PutObjectRequest putObjectRequest = 
                         new PutObjectRequest(bucketName, ssn_num + "/" + "test" + ssn_num + "_" + System.currentTimeMillis(), file[i].getInputStream(), omd);
                 
-                putObjectRequest.setCannedAcl(CannedAccessControlList.Private);
+                putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
                 s3client.putObject(putObjectRequest);
                 logger.info("======== Upload "+i+1+" completed !!!! =======");
             }
