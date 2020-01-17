@@ -36,7 +36,7 @@ $(document).ready(function () {
 <form action="./reviewInsert.st" method="post" enctype="multipart/form-data" name="reviewform">
 <div class="starRev">
 	<p>사용자 평점</p>
-	<span class="starR1 on" tabindex="0.5" value="0.5">별1_왼쪽</span>
+	<span class="starR1 on" value="0.5">별1_왼쪽</span>
     <span class="starR2" value="1">별1_오른쪽</span>
     <span class="starR1" value="1.5">별2_왼쪽</span>
     <span class="starR2" value="2">별2_오른쪽</span>
