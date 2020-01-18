@@ -20,7 +20,7 @@
              event.preventDefault();
 
              // Get form
-             var form = $('#fileUploadForm')[0];
+             k,r form = $('#fileUploadForm')[0];j
 
              // Create an FormData object
              var data = new FormData(form);
