@@ -17,7 +17,156 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		
+		$('#join').on('click', function(event){ 
+		
+			var address = $("#address").val();
+			var detailAddress = $("#detailAddress").val();
+			var addr = address + '!' + detailAddress; 
+ 			var params = {
+					       'member_name':$("#member_name").val(),
+					       'member_id':$("#member_id").val(),
+					       'member_password':$("#member_password").val(),
+					       'member_phone':$("#member_phone").val(),
+					       'member_email':$("#member_email").val(),
+					       'member_gender':$("#member_gender").val(),
+					   	   'member_birthday':$("#member_birthday").val(),
+					       'member_zipcode':$("#member_zipcode").val(),
+					       'member_loc':addr
+			};
+ 			
+			$.ajax({
+	            url : '/setak/insertMember.do', // url
+	            type:'post',
+	            data : params,
+	            dataType:'json', 
+	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+	            success: function(result) {
+	               if(result.res=="OK") {        			
+	                  // 초기화
+					  alert("OK"); 
+	               }
+	               else { // 실패했다면
+	                  alert("Insert Fail");
+	               }
+	            },
+	            error:function() {
+	               alert("insert ajax 통신 실패");
+	            }			
+			});
+			
+		});
+
+	});
+</script>
+
+</head>
+<body>
+   <div id="header"></div>
    
+   <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
+	<section id="title"> <!-- 변경하시면 안됩니다. -->
+		<div class="content">
+			<!-- 변경하시면 안됩니다. -->
+			<div class="title-text">
+				<!-- 변경하시면 안됩니다. -->
+				<h2>회원가입</h2>
+			</div>
+		</div>
+	</section>
+	
+	<section id="join_section">
+		<div class="content">
+			<form name="joinform">
+			<div class="joinform">
+				<div class="input_list">
+					<input type="text" name="member_name"  id="member_name" placeholder="이름" />
+					<h4>이름을 입력해주세요</h4>
+				</div>
+				<div class="input_list">
+					<input type="text" name="member_id" id="member_id" placeholder="아이디" />
+					<h4>5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.</h4>
+					<h5>이미 사용중이거나 탈퇴한 아이디입니다.</h5>
+				</div>
+				<div class="input_list">
+					<input type="password" name="member_password" id="member_password" placeholder="비밀번호 " />
+					 <h4>8~20자 영문 대 소문자, 숫자, 특수문자 1자리이상 조합으로 사용하세요.</h4>
+				</div>
+				<div class="input_list">
+					<input type="password" name="pw2" id="pw2" placeholder="비밀번호 확인" />
+					 <h4>비밀번호가 일치하지 않습니다.</h4>
+				</div>
+				<div class="input_list">
+					<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
+					<input class="button" type="button" value="인증번호 받기" style="width: 120px;" />
+					<h4>핸드폰 번호를 입력해주세요</h4>
+				</div>
+				<div class="input_list">
+					<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
+					<h4>인증번호를 확인해주세요</h4>
+				</div>
+				<div class="input_list">
+					<input type="text" name="member_email" id="member_email" placeholder="이메일">
+					
+					<h4>메일주소를 입력해주세요</h4>				
+				</div>
+				<div class="input_list">
+					<select name="member_gender" id="member_gender" >
+						<option value="성별" selected>성별</option>
+						<option value="남">남</option>
+						<option value="여">여</option>
+					</select>
+					<h4>성별을 선택해주세요</h4>
+				</div>
+				<div class="input_list">
+					<input type="text" name="member_birthday" id="member_birthday" class="birthday" placeholder="생년월일 "  style="width: 430px;" />
+					<i class="far fa-calendar-alt"></i>
+					<h4>생년월일을 입력해주세요</h4>
+				</div>
+				<div class="input_list">
+					<input id="member_zipcode" type="text" name="member_zipcode" style="width: 320px;"  /> 
+					<input class="button" type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"> 
+					<h4>우편번호를 입력해주세요</h4>
+					<input id="address" type="text" name="" readonly />
+					<input id="detailAddress" type="text" name="" placeholder="상세 주소"/> 
+					<input id="extraAddress" type="hidden" placeholder="참고항목">
+				</div>	
+				
+				<hr>
+			</div><!-- joinform -->	
+			
+			
+			<!-- 이용약관 테이블 -->
+			<div class="clause">
+				<div>
+					<input type="checkbox" id="checkall" /><span> 전체동의</span>
+				</div>
+				<div>
+					<input type="checkbox" id="clause_use" /><span> 이용약관</span>
+    				<input class="button" id="clause_use" type="button" onclick="window.open('clause_use.jsp', '', 'width=600, height=300,location=no,status=no,scrollbars=no');" value="전체보기"/>
+					<h4>이용약관을 선택해주세요</h4>
+				</div>
+				<div>
+					<input type="checkbox" id="clause_privacy" />
+					<span>개인정보 수집 및 이용</span>
+					<input class="button" id="clause_privacy" type="button" onclick="window.open('clause_privacy.jsp', '', 'width=590, height=300,location=no,status=no,scrollbars=yes');" value="전체보기"/>
+					<h4>개인정보 수집 및 이용을 선택해주세요</h4>
+				</div>
+				
+			</div>
+			<div class="join_btn">
+				<input id="join" class="btn" type="button" value="가입하기" />
+			</div>
+		</form>
+	</div><!-- content -->
+	</section>
+	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
+   
+   <div id="footer"></div>
+</body>
 <script type="text/javascript">
 	var regExp = /[가-힣]/;
 	var idReg = /^[a-z0-9_-]{5,20}$/;
@@ -35,7 +184,7 @@
          
          //생년월일
 		$(".birthday").datepicker ({
-		  	dateFormat: 'yymmdd', // 텍스트 필드에 입력되는 날짜 형식.
+		  	dateFormat: 'yy년mm월dd일', // 텍스트 필드에 입력되는 날짜 형식.
 		  	prevText:'이전 달',
 		  	nextText:'다음 달',
 		  	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -82,7 +231,7 @@
  		
  		
 	//이름체크V
-		$(document).on("propertychange change keyup paste","#chk_name",function(){
+		$(document).on("propertychange change keyup paste","#member_name",function(){
 			if(!regExp.test($(this).val())){
 				 $(".joinform div:nth-child(1) h4").css("display","block"); 
 			}else{
@@ -91,7 +240,7 @@
 		});
  		
 	//아이디체크V
-	$(document).on("propertychange change keyup paste","#chk_id",function(){
+	$(document).on("propertychange change keyup paste","#member_id",function(){
 		if(!idReg.test($(this).val())){
 			$(".joinform div:nth-child(2) h4").css("display","block");
 		} else {
@@ -101,8 +250,8 @@
  	});
 	
 	//아이디중복체크 ????????  다시입력해야함니다
-	$(document).on("propertychange change keyup paste","#chk_id",function(){
-		if($('#pw1').val() != $('#pw2').val()) {
+	$(document).on("propertychange change keyup paste","#member_id",function(){
+		if($('#member_password').val() != $('#pw2').val()) {
 			$(".joinform div:nth-child(2) h5").css("display","block");
 		} else {
 			$(".joinform div:nth-child(2) h5").css("display","none");
@@ -110,7 +259,7 @@
 	});
 	
 	//비밀번호체크V
-	$(document).on("propertychange change keyup paste","#pw1",function(){
+	$(document).on("propertychange change keyup paste","#member_password",function(){
 		if(!pwReg.test($(this).val())){
 			$(".joinform div:nth-child(3) h4").css("display","block");
 		} else {
@@ -121,7 +270,7 @@
 	
 	//비밀번호 일치 체크V
 	  	$(document).on("propertychange change keyup paste","#pw2",function(){
- 	    	if($('#pw1').val() != $('#pw2').val()) {
+ 	    	if($('#member_password').val() != $('#pw2').val()) {
  	    		 $(".joinform div:nth-child(4) h4").css("display","block"); 
  	    	} else {
  	    		 $(".joinform div:nth-child(4) h4").css("display","none"); 
@@ -129,7 +278,7 @@
  	    });
 	
 	  //핸드폰번호 체크V
-		$(document).on("propertychange change keyup paste","#chk_phone",function(){
+		$(document).on("propertychange change keyup paste","#member_phone",function(){
 			if(!phReg.test($(this).val())){
 				$(".joinform div:nth-child(5) h4").css("display","block");
 			} else {
@@ -138,7 +287,7 @@
 			
 	 	});
 	  //SNS일치 체크???????????
-	$(document).on("propertychange change keyup paste","#chk_sns",function(){
+	$(document).on("propertychange change keyup paste","#member_sns",function(){
 		if(!phReg.test($(this).val())){
 			$(".joinform div:nth-child(6) h4").css("display","block");
 		} else {
@@ -148,7 +297,7 @@
  	});
 	  
 	  //이메일체크V
-	$(document).on("propertychange change keyup paste","#chk_email",function(){
+	$(document).on("propertychange change keyup paste","#member_email",function(){
 		if(!emReg.test($(this).val())){
 			$(".joinform div:nth-child(7) h4").css("display","block");
 		} else {
@@ -158,8 +307,8 @@
  	});
 
 	//성별체크V
-	$(document).on("change","#chk_gen",function(){
-		if($('#chk_gen').val()=='성별') {
+	$(document).on("change","#member_gender",function(){
+		if($('#member_gender').val()=='성별') {
 			$(".joinform div:nth-child(8) h4").css("display","block");
 		} else {
 			$(".joinform div:nth-child(8) h4").css("display","none");
@@ -168,7 +317,7 @@
  	});
 	  
 	  //생년월일체크V
-		$(document).on("propertychange change keyup paste","#chk_birth",function(){
+		$(document).on("propertychange change keyup paste","#member_birthday",function(){
 		if(!brReg.test($(this).val())){
 			$(".joinform div:nth-child(9) h4").css("display","block");
 		} else {
@@ -177,7 +326,7 @@
  	});
 	  
 	  //우편번호체크V
-	$(document).on("propertychange change keyup paste","#postcode",function(){
+	$(document).on("propertychange change keyup paste","#member_zipcode",function(){
 		if(!poReg.test($(this).val())){
 			$(".joinform div:nth-child(10) h4").css("display","block");
 		} else {
@@ -270,7 +419,7 @@
                   }
 
                   // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                  document.getElementById('postcode').value = data.zonecode;
+                  document.getElementById('member_zipcode').value = data.zonecode;
                   document.getElementById("address").value = addr;
                   // 커서를 상세주소 필드로 이동한다.
                   document.getElementById("detailAddress").focus();
@@ -280,108 +429,4 @@
           
       };  
 </script>
-</head>
-<body>
-   <div id="header"></div>
-   
-   <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
-	<section id="title"> <!-- 변경하시면 안됩니다. -->
-		<div class="content">
-			<!-- 변경하시면 안됩니다. -->
-			<div class="title-text">
-				<!-- 변경하시면 안됩니다. -->
-				<h2>회원가입</h2>
-			</div>
-		</div>
-	</section>
-	
-	<section id="join_section">
-		<div class="content">
-			<form name="joinform" action="joinpro.st" method="post">
-			<div class="joinform">
-				<div class="input_list">
-					<input type="text" name="member_name"  id="chk_name" placeholder="이름" />
-					<h4>이름을 입력해주세요</h4>
-				</div>
-				<div class="input_list">
-					<input type="text" name="member_id" id="chk_id" placeholder="아이디" />
-					<h4>5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.</h4>
-					<h5>이미 사용중이거나 탈퇴한 아이디입니다.</h5>
-				</div>
-				<div class="input_list">
-					<input type="password" name="member_password" id="pw1" placeholder="비밀번호 " />
-					 <h4>8~20자 영문 대 소문자, 숫자, 특수문자 1자리이상 조합으로 사용하세요.</h4>
-				</div>
-				<div class="input_list">
-					<input type="password" name="member_password2" id="pw2" placeholder="비밀번호 확인" />
-					 <h4>비밀번호가 일치하지 않습니다.</h4>
-				</div>
-				<div class="input_list">
-					<input type="text" name="member_phone" id="chk_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
-					<input class="button" type="button" value="인증번호 받기" style="width: 120px;" />
-					<h4>핸드폰 번호를 입력해주세요</h4>
-				</div>
-				<div class="input_list">
-					<input type="text" name="" size="20" id="chk_sns"  placeholder="SNS 인증번호" />
-					<h4>인증번호를 확인해주세요</h4>
-				</div>
-				<div class="input_list">
-					<input type="text" name="member_email1" id="chk_email" placeholder="이메일">
-					
-					<h4>메일주소를 입력해주세요</h4>				
-				</div>
-				<div class="input_list">
-					<select name="gender" id="chk_gen" >
-						<option value="성별" selected>성별</option>
-						<option value="M">남</option>
-						<option value="F">여</option>
-					</select>
-					<h4>성별을 선택해주세요</h4>
-				</div>
-				<div class="input_list">
-					<input type="text" name="member_birthday" id="chk_birth" class="birthday" placeholder="생년월일 "  style="width: 430px;" />
-					<i class="far fa-calendar-alt"></i></td>
-					<h4>생년월일을 입력해주세요</h4>
-				</div>
-				<div class="input_list">
-					<input id="postcode" type="text" name="" style="width: 320px;"  /> 
-					<input class="button" type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"> 
-					<h4>우편번호를 입력해주세요</h4>
-					<input id="address" type="text" name="" readonly />
-					<input id="detailAddress" type="text" name="" placeholder="상세 주소"/> 
-					<input id="extraAddress" type="hidden" placeholder="참고항목">
-				</div>	
-				
-				<hr>
-			</div><!-- joinform -->	
-			
-			
-			<!-- 이용약관 테이블 -->
-			<div class="clause">
-				<div>
-					<input type="checkbox" id="checkall" /><span> 전체동의</span>
-				</div>
-				<div>
-					<input type="checkbox" id="clause_use" /><span> 이용약관</span>
-    				<input class="button" id="clause_use" type="button" onclick="window.open('clause_use.jsp', '', 'width=600, height=300,location=no,status=no,scrollbars=no');" value="전체보기"/>
-					<h4>이용약관을 선택해주세요</h4>
-				</div>
-				<div>
-					<input type="checkbox" id="clause_privacy" />
-					<span>개인정보 수집 및 이용</span>
-					<input class="button" id="clause_privacy" type="button" onclick="window.open('clause_privacy.jsp', '', 'width=590, height=300,location=no,status=no,scrollbars=yes');" value="전체보기"/>
-					<h4>개인정보 수집 및 이용을 선택해주세요</h4>
-				</div>
-				
-			</div>
-			<div class="join_btn">
-				<input class="btn" type="submit" value="가입하기" />
-			</div>
-		</form>
-	</div><!-- content -->
-	</section>
-	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
-   
-   <div id="footer"></div>
-</body>
 </html>

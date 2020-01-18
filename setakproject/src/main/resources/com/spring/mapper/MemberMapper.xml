@@ -21,7 +21,7 @@
    </select>
    
    <insert id="member_insert" parameterType="com.spring.setak.MemberVO" >
-		INSERT INTO member(member_name, member_id, member_password, member_phone, member_email, member_gender, member_birthday, member_zipcode, member_loc, member_join )
+		INSERT INTO member(member_name, member_id, member_password, member_phone, member_email, member_gender, member_birthday, member_zipcode, member_loc, member_join)
 		VALUES (#{member_name}, #{member_id}, #{member_password}, #{member_phone}, #{member_email}, #{member_gender}, #{member_birthday}, #{member_zipcode}, #{member_loc}, sysdate)
    </insert>
    
