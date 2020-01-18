@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.MileageMapper">
+
+	<resultMap type="com.spring.setak.MileageVO" id="MileageResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="mile_date" column="mile_date" />
+		<result property="mile_price" column="mile_price" />
+		<result property="mile_content" column="mile_content" />
+	</resultMap>
+	
+	<!-- 적립금 합계 -->
+	<select id = "getSum" parameterType = "String" resultType = "int">
+		select sum(mile_price) from mileage where member_id = #{member_id}
+	</select>	
+	
+</mapper>

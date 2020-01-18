@@ -1,6 +1,13 @@
 <%@ page language = "java" contentType = "text/html; charset = UTF-8" pageEncoding = "UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ page import = "com.spring.setak.CouponVO" %>
+<%@ page import = "java.util.ArrayList" %>
 
+<%
+	
+	int havePoint = (int)request.getAttribute("havePoint"); 
+	ArrayList<CouponVO> articleList = (ArrayList<CouponVO>)request.getAttribute("couponList");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +55,7 @@
 	});
 	
 
-	// 나의 주소록 > 주소 클릭
+	// 나의 주소록 > 주소 선택
 	$(document).on('click', '.addr-choice', function(event) {
 		var select_id = $(this);
 		var tr = select_id.parent();
@@ -108,7 +115,7 @@
 		event.preventDefault(); 
 	})
 
-	// 나의 주소록 > 주소 수정 클릭 : 폼 채워지기 
+	// 나의 주소록 > 주소 수정 : 폼 채워지기 
 	$(document).on('click', '.modiAddrBtn', function(event) {
     	var select_btn = $(this);
         var tr = select_btn.parent().parent(); 
@@ -157,8 +164,8 @@
 				$("#address3").val(addr1);
 				$("#detailAddress3").val(addr2);
 				$("#modiPhone1").val(phone1);
-				$("#modihone2").val(phone2);
-				$("#modihone3").val(phone3);
+				$("#modiPhone2").val(phone2);
+				$("#modiPhone3").val(phone3);
 				
 			},
             // 문제 발생한 경우
@@ -173,9 +180,64 @@
     });
 	
 	// 나의 주소록 > 주소 수정 
-	$(document).on('click', '.modiAddrBtn', function(event) {
+	$(document).on('click', '#modiAddrSubmit', function(event) {
 		
-	})
+		var num = $("#modiDiv").prev().attr("id").replace("addr", "");
+		
+		var addrName = $("#modiAddrName").val();
+		var name = $("#modiName").val();
+		
+		var phone1 = $("#modiPhone1").val();
+		var phone2 = $("#modiPhone2").val();
+		var phone3 = $("#modiPhone3").val();
+		var phone = phone1 + phone2 + phone3; 
+		
+		var postcode = $("#postcode3").val();
+		var address = $("#address3").val();
+		var detailAddress = $("#detailAddress3").val();
+			
+		var addr = address + '!' + detailAddress; 
+		
+		if(addrName == '' || name == '' || phone1 == '' || phone2 == '' || phone3 == ''
+			|| postcode == '' || address == '' || detailAddress == '') {
+			alert("제대로 입력하세요.");
+			return; 
+		}
+		
+		var params = {
+				'address_num' : num,
+				'address_name' : addrName,
+				'address_human' : name, 
+				'address_phone' : phone,
+				'address_zipcode' : postcode,
+				'address_loc' : addr
+		};	
+		
+		$.ajax({
+            url : '/setak/AddrModifyAction.do', // url
+            type : 'POST',
+            data : params, // 서버로 보낼 데이터
+            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+            dataType : 'json',
+            success: function(retVal) {
+               if(retVal.res=="OK") {    
+            	   
+            	  selectAddress();
+				  alert("주소가 정상적으로 수정 되었습니다.");	
+				  modiClose();
+				  
+               }
+               else { // 실패했다면
+                  alert("Insert Fail");
+               }
+            },
+            error:function() {
+               alert("insert ajax 통신 실패");
+            }			
+		});
+		
+		
+	});
 	
 	// 나의 주소록 > 주소 삭제
 	$(document).on('click', '.delAddrBtn', function(event) {
@@ -321,7 +383,7 @@
 	
 	
 	
-	// 결제 : 아임포트 스크립트
+	// 결제 : 아임포트 스크립트 >> 
 	$(".pay_btn").on("click", function(){
 		
 		// 결제 금액 받아오기 
@@ -342,12 +404,11 @@
             buyer_tel : '010-8848-2996',
             buyer_addr : '서울',
             buyer_postcode : '123-456',
-            //m_redirect_url : 'http://www.naver.com'
         }, function(rsp) {
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 jQuery.ajax({
-                    url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
+                    url: "/setak/getPayInfo.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -370,12 +431,12 @@
                     }
                 });
                 //성공시 이동할 페이지
-                location.href='<%=request.getContextPath()%>/order/paySuccess?msg='+msg;
+                location.href='<%=request.getContextPath()%>/setak/orderSuccess.st?msg='+msg;
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="/setak/order.jsp";
+                location.href="/setak/order.st";
                 alert(msg);
             }
         });
@@ -587,9 +648,6 @@
 			return; 
 		}
 		
-		alert("name : " + name + "phone : " + phone + "postcode : " + postcode + 
-				"address : " + addr);
-		
 		var params = {
 				'member_id' : 'minchoi',
 				'address_name' : addrName,
@@ -634,38 +692,39 @@
 		output += '<h3>수정하기</h3>';
 		output += '<button class = "modiCloseBtn" onclick = "modiClose()">X</button>';
 		output += '<div class = "modi-form-div">';
-		output += '<form id = "new-addr-form" method = "post">';
-		output += '<table class = "new-addr-table">';
+		output += '<form id = "modi-addr-form" method = "post">';
+		output += '<table class = "modi-addr-table">';
 		output += '<tr>';
 		output += '<td class = "new-left">배송지</td>';
-		output += '<td><input id = "modiAddrName" type = "text" class = "txtInp" name = "" /></td>';
+		output += '<td><input id = "modiAddrName" type = "text" class = "txtInp"/></td>';
 		output += '</tr>';
 		output += '<tr>';
 		output += '<td class = "new-left">이름</td>';
-		output += '<td><input id = "modiName" type = "text" class = "txtInp" name = "" /></td>';
+		output += '<td><input id = "modiName" type = "text" class = "txtInp"/></td>';
 		output += '</tr>';
 		output += '<tr>';
 		output += '<td class = "new-left">주소</td>';
 		output += '<td>';
-		output += '<input id="postcode3" class="txtInp" type="text" name="" style="width: 60px;" /> ';
-		output += '<input type="button" onclick="execDaumPostcode("modi")" value="우편번호 찾기"> <br />';
-		output += '<input id="address3" class="txtInp" type="text" name="" style="width: 270px;" readonly /> ';
-		output += '<input id="detailAddress3" class="txtInp" type="text" name="" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> '
+		output += '<input id="postcode3" class="txtInp" type="text" style="width: 60px;" /> ';
+		output += '<input type="button" onclick="execDaumPostcode(\'modi\')" value="우편번호 찾기" />';
+		output += ' <br /><input id="address3" class="txtInp" type="text" style="width: 270px;" readonly /> ';
+		output += '<input id="detailAddress3" class="txtInp" type="text" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> '
+		output += '<input id="extraAddress3" type="hidden" placeholder="참고항목">';
 		output += '</td>';
 		output += '</tr>';
 		output += '<tr>';
 		output += '<td class = "new-left">연락처</td>'
 		output += '<td>';
-		output += '<input id = "modiPhone1" class = "txtInp" type = "text" size = "3" name = "" style = "width : 30px;"/>';
+		output += '<input id = "modiPhone1" class = "txtInp" type = "text" size = "3" style = "width : 30px;"/>';
 		output += '-';
-		output += '<input id = "modihone2" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>';
+		output += '<input id = "modiPhone2" class = "txtInp" type = "text" size = "4" style = "width : 40px;"/>';
 		output += '-';
-		output += '<input id = "modihone3" class = "txtInp" type = "text" size = "3" name = "" style = "width : 40px;"/>';
+		output += '<input id = "modiPhone3" class = "txtInp" type = "text" size = "3" style = "width : 40px;"/>';
 		output += '</td>';
 		output += '</tr>';
 		output += '<tr>';
 		output += '<td colspan = "2">';
-		output += '<input type = "button" id = "modiBtn" class = "btnBlue" value = "확인" />';
+		output += '<input type = "button" id = "modiAddrSubmit" class = "btnBlue" value = "확인" />';
 		output += '</td>';
 		output += '</tr>'; 
 		output += '</table>';
@@ -723,8 +782,8 @@
 		$('#detailAddress3').val('');
 		$('#extraAddress3').val('');
 		$('#modiPhone1').val('');
-		$('#modihone2').val('');
-		$('#modihone3').val('');
+		$('#modiPhone2').val('');
+		$('#modiPhone3').val('');
 		
         modiDiv.css('display', 'none'); 		
 	}
@@ -911,7 +970,7 @@
 											style="width: 75px;" /> <span style="font-size: 0.85rem;">Point</span>
 											&nbsp;
 											<p class="myPoint">
-												(보유 적립금 : <b><span id="havePoint">500</span></b>원)
+												(보유 적립금 : <b><span id="havePoint"><%=havePoint %></span></b>원)
 											</p></td>
 									</tr>
 								</tbody>

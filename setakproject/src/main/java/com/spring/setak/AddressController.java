@@ -25,15 +25,6 @@ public class AddressController {
 		String member_id = avo.getMember_id();
 		List<AddressVO> list = addressService.getAddressList(member_id);
 
-//		String str = "";
-//		
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			str = mapper.writeValueAsString(list);
-//		} catch(Exception e) {
-//			System.out.println("배송지 컨트롤러 리스트 출력 오류 : " + e.getMessage());
-//		}
-
 		return list;
 	}
 	
@@ -67,6 +58,20 @@ public class AddressController {
 	}
 	
 	// 배송지 수정
+	@RequestMapping(value = "/AddrModifyAction.do", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> addressModify(AddressVO avo) {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			int res = addressService.updateAddress(avo);
+			retVal.put("res", "OK");
+		} catch(Exception e) {
+			retVal.put("res", "FAIL");
+			retVal.put("message", "Failure");
+		}
+		
+		return retVal; 
+	}
 	
 	// 배송지 삭제
 	@RequestMapping(value = "/deleteAddr.do", produces="application/json;charset=UTF-8")

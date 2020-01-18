@@ -34,5 +34,11 @@
 	<delete id = "deleteAddress" parameterType = "int">
 		delete from address where address_num = #{address_num} 
 	</delete>
+	
+	<!-- 배송지 수정 -->
+	<update id="updateAddress" parameterType = "com.spring.setak.AddressVO">
+		update address set address_name = #{address_name}, address_human = #{address_human}, address_phone = #{address_phone},
+		address_zipcode = #{address_zipcode}, address_loc = #{address_loc} where address_num = #{address_num}
+	</update>
 
 </mapper>

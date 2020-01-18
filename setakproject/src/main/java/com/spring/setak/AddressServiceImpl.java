@@ -66,6 +66,19 @@ public class AddressServiceImpl implements AddressService {
 		
 		return res; 
 	}
+
+	@Override
+	public int updateAddress(AddressVO avo) {
+		int res = 0;
+		try {
+			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
+			res = addressMapper.updateAddress(avo);
+		} catch(Exception e) {
+			System.out.println("배송지 수정 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
 	
 	
 

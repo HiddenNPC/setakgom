@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.CouponMapperMapper">
+
+	<resultMap type="com.spring.setak.CouponMapperVO" id="CouponResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="mile_date" column="coupon_name" />
+		<result property="mile_price" column="coupon_start" />
+		<result property="mile_content" column="coupon_end" />
+		<result property="mile_content" column="coupon_useday" />
+		<result property="mile_content" column="coupon_use" />
+	</resultMap>
+	
+	<!-- 쿠폰 리스트 -->
+	<select id = "getCouponList" parameterType = "String" resultMap = "CouponResultMap">
+		select * from coupon where member_id = #{member_id}
+	</select>
+	
+</mapper>

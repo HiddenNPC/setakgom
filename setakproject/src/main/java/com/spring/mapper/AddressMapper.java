@@ -16,6 +16,8 @@ public interface AddressMapper {
 	int insertAddress(AddressVO avo); 
 	
 	// 배송지 수정
+	int updateAddress(AddressVO avo);
+	
 	// 배송지 삭제
 	int deleteAddress(int address_num);
 
