@@ -70,10 +70,10 @@
 					<li><img src="images/logo.png" alt="로고"></li>
 				</ul>
 				<ul class="main-nav">
-					<li><a href="#">로그인</a></li>
+					<li><a href="./login.do">로그인</a></li>
 					<!--<li><a href="#">로그아웃</a></li>-->
-					<li><a href="#">회원가입</a></li>
-					<!--<li><a href="#">마이페이지</a></li>-->
+					<li><a href="./join.do">회원가입</a></li>
+					<!--<li><a href="./orderview.do">마이페이지</a></li>-->
 					<!--<li><a href="#">장바구니</a></li>-->
 				</ul>
 				<ul class="sub-nav">

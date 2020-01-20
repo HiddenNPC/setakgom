@@ -15,16 +15,16 @@ public class MemberServiceImpl implements MemberService{
 	private SqlSession sqlsession;
 	
 	@Override
-	public List<MemberVO> member_list() {
-		 List<MemberVO> memberList = null;
+	public MemberVO member_list(MemberVO mo) {
+		 MemberVO mvo = null;
 		 try {
 			 MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
-			 memberList = mapper.member_list();
+			 mvo = mapper.member_list(mo);
 		 } catch(Exception e) {
 				System.out.println("멤버 리스트 검색 실패" + e.getMessage());
 		 }
 		 
-		 return memberList;
+		 return mvo;
 	}
 	
 	@Override
@@ -39,6 +39,29 @@ public class MemberServiceImpl implements MemberService{
 				res = 0;
 		 }
 		 
+		 return res;
+	}
+	
+	@Override
+	public int member_password(MemberVO mo) {
+		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+		int res = 0;
+		//System.out.println("mo id="+mo.getMember_id());
+		//System.out.println("mo="+mo.getMember_password());
+		String passwd = mapper.member_password(mo);
+		//System.out.println("passwd="+passwd);
+	
+		try {
+			if(passwd != null) {
+				String dbpasswd = passwd;
+				if(dbpasswd.equals(mo.getMember_password())) {
+					res = 1; //비밀번호 일치
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("비밀번호 일치 실패" + e.getMessage());
+			 res = -1;
+		}
 		 return res;
 	}
 	

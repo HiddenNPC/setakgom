@@ -14,12 +14,33 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")     
+         var sessionID = "<%=session.getAttribute("id") %>"
+
+         /*비밀번호 일치하면 개인정보 수정 페이지로 이동 */    
+         $('.btn').on('click', function(event){ 
+     		
+  			var params = {	'member_id': sessionID,
+  							'member_password':$("#member_password").val() };
+ 			$.ajax({
+ 	            url : '/setak/password.do', // url
+ 	            type:'post',
+ 	            data : params,
+ 	            dataType:'json', 
+ 	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+ 	            success: function(result) {
+ 	               if(result.res=="OK") {
+ 	            	   $(location.href="/setak/profile2.do");
+ 	               }
+ 	               else { // 실패했다면
+ 	                  alert("비밀번호가 다릅니다.");
+ 	               }
+ 	            },
+ 	            error:function() {
+ 	               alert("insert ajax 통신 실패");
+ 	            }			
+ 			});
+ 		});
          
-         /*비밀번호 일치하면 개인정보 수정 가능 ?????????????????????  이거 해야해*/
-         $('.btn').click(function(event){
-        	 
-         	$(location.href="/setak/profile.jsp");
-         });
       });
     </script>
 </head>
@@ -43,33 +64,34 @@
 					<li class="mypage-title">마이페이지</li>
 					<li>
 						<ul class="mypage_list">
-                     <li>주문관리</li>
-                     <li><a href="orderview.jsp">주문/배송현황</a></li>
-                     <li><a href="mykeep.jsp">보관현황</a></li>
-                  </ul>
-                  <ul class="mypage_list">
-                     <li>정기구독</li>
-                     <li><a href="mysub.jsp">나의 정기구독</a></li>
-                  </ul>
-                  <ul class="mypage_list">
-                     <li>고객문의</li>
-                     <li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
-                  </ul>
-                  <ul class="mypage_list">
-                     <li>정보관리</li>
-                     <li><a href="password.jsp">개인정보수정</a></li>
-                     <li><a href="mycoupon.jsp">쿠폰조회</a></li>
-                     <li><a href="mysavings.jsp">적립금 조회</a></li>
-                     <li><a href="withdraw.jsp">회원탈퇴</a></li>
-                  </ul>
-				</li>
+                     		<li>주문관리</li>
+                     		<li><a href="orderview.jsp">주문/배송현황</a></li>
+                     		<li><a href="mykeep.jsp">보관현황</a></li>
+                  		</ul>
+                  		<ul class="mypage_list">
+                     		<li>정기구독</li>
+                     		<li><a href="mysub.jsp">나의 정기구독</a></li>
+                  		</ul>
+                  		<ul class="mypage_list">
+                     		<li>고객문의</li>
+                     		<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+                  		</ul>
+                  		<ul class="mypage_list">
+                     		<li>정보관리</li>
+                     		<li><a href="profile1.do">개인정보수정</a></li>
+                     		<li><a href="mycoupon.jsp">쿠폰조회</a></li>
+                     		<li><a href="mysavings.jsp">적립금 조회</a></li>
+                     		<li><a href="withdraw.jsp">회원탈퇴</a></li>
+                  		</ul>
+					</li>
 				</ul>
 			</div>
 			<div class="test"> <!-- class 변경해서 사용하세요. -->
 				<div class="content">
+					<h3>Login ID : <%=session.getAttribute("id") %></h3>
 					<h2>회원님의 개인정보를 안전하게 보호하기 위해</h2>
 					<h2>비밀번호를 작성해 주세요</h2>
-					<input class="pw" type="password" name="member_password" placeholder="비밀번호를 입력해주세요" />
+					<input class="pw" type="password" name="member_password" id="member_password" placeholder="비밀번호를 입력해주세요" />
 					<input class="btn" type="button" name="submit" value="확인"/>
 					<h3>세탁곰은 회원님의 개인정보를 신중히 취급하며, 회원님의 동의 없이는 기재하신 회원정보가 공개되지 않습니다.</h3>
 					<h3>보다 다양한 서비스를 받으시려면 정확한 정보를 항상 유지해 주셔야 합니다.</h3>

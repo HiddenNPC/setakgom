@@ -45,12 +45,12 @@
 	            dataType:'json', 
 	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 	            success: function(result) {
-	               if(result.res=="OK") {        			
-	                  // 초기화
-					  alert("OK"); 
+	               if(result.res=="OK") {
+	            	   alert("회원가입 성공");
+	            	   $(location.href="/setak/login.do");
 	               }
 	               else { // 실패했다면
-	                  alert("Insert Fail");
+	                  alert("회원가입 실패");
 	               }
 	            },
 	            error:function() {
@@ -215,19 +215,6 @@
         };
       });
 		
- 		//이메일 입력방식 선택 
-		$('#selectEmail').change(function(){ 
-			$("#selectEmail option:selected").each(function () { 
-				if($(this).val()== '1'){ //직접입력일 경우 
-					$("#str_email02").val(''); //값 초기화 
-					$("#str_email02").attr("disabled",false); //활성화 
-				}else{ //직접입력이 아닐경우 
-					$("#str_email02").val($(this).text()); //선택값 입력 
-					$("#str_email02").attr("disabled",true); //비활성화 
-				} 
-			}); 
-		});
- 		
  		
  		
 	//이름체크V
@@ -316,7 +303,7 @@
 		
  	});
 	  
-	  //생년월일체크V
+	  //생년월일체크????????????????????????????? 년 월 일 까지 포함해야하는데 음..
 		$(document).on("propertychange change keyup paste","#member_birthday",function(){
 		if(!brReg.test($(this).val())){
 			$(".joinform div:nth-child(9) h4").css("display","block");

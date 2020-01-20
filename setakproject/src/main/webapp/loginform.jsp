@@ -115,7 +115,7 @@ var startApp = function() {
 	
 	<section id="test">	<!-- id 변경해서 사용하세요. -->
 		<div class="content">	<!-- class 변경해서 사용하세요. -->
-			<form name="loginform" action="./loginprocess.st" method="post">
+			<form name="loginform" action="logintest.do" method="post">
 			<div class="loginform"> <!-- class 변경해서 사용하세요. -->
 				<div>					
 					<input class="txtln" type="text" name="member_id" placeholder="아이디" />
@@ -130,7 +130,7 @@ var startApp = function() {
 				<div class="find">
 					<div class="find_id">아이디찾기</div>
 					<div class="find_pw">비밀번호찾기</div>
-					<div class="join">회원가입</div>
+					<div onclick="document.location.href='./join.do'">회원가입</div>
 				</div>
 				<div class="extra">
 					<h4>다른서비스계정으로 로그인</h4>
