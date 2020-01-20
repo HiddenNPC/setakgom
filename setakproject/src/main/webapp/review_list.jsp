@@ -4,11 +4,6 @@
 <%@ page import = "com.spring.setak.*"%>
 
 
-<%
-	
-
-
-%>
 
 <!DOCTYPE html>
 <html>
@@ -22,10 +17,21 @@
 <script type="text/javascript"></script>
 <script>
 $(document).ready(function () {
+	
 	//헤더, 푸터연결
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
-    
+   
+    //별점 구동	
+	$('.r_content a').click(function () {
+		$(this).parent().children('a').removeClass('on');
+		console.log($(this));
+        $(this).addClass('on').prevAll('a').addClass('on');      
+        $('#Review_star').val($(this).attr("value"));
+        //console.log($(this).attr("value"));
+        return false;
+    });	
+  
 	//리뷰 리스트 뿌리기 		
 	function selectData() {		
 		$('#re_list').empty();
@@ -53,18 +59,14 @@ $(document).ready(function () {
 			}
 		});
 	}	
-	//별점 구동
-	$('.r_content a').click(function () {
-		$(this).parent().children('a').removeClass('on');
-		console.log($(this));
-        $(this).addClass('on').prevAll('a').addClass('on');      
-        $('#Review_star').val($(this).attr("value"));
-        //console.log($(this).attr("value"));
-        return false;
-    });	
 	
-selectData();		
+
+	
+	
+	
+selectData();	
 });
+
 
 </script>	
 </head>
@@ -77,19 +79,23 @@ selectData();
 
 <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
 <div class="r_content">
-	<p>사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
-	<a class="starR1 on" value="0.5" >별1_왼쪽</a>
-    <a class="starR2" value="1">별1_오른쪽</a>
-    <a class="starR1" value="1.5">별2_왼쪽</a>
-    <a class="starR2" value="2">별2_오른쪽</a>
-    <a class="starR1" value="2.5">별3_왼쪽</a>
-    <a class="starR2" value="3">별3_오른쪽</a>
-    <a class="starR1" value="3.5">별4_왼쪽</a>
-    <a class="starR2" value="4">별4_오른쪽</a>
-    <a class="starR1" value="4.5">별5_왼쪽</a>
-    <a class="starR2" value="5">별5_오른쪽</a>  
+	<p style="margin-bottom:5px;">사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
+	<a id="starR1" class="starR1 on" value="0.5" >별1_왼쪽</a>
+    <a id="starR2" class="starR2" value="1">별1_오른쪽</a>
+    <a id="starR1" class="starR1" value="1.5">별2_왼쪽</a>
+    <a id="starR2" class="starR2" value="2">별2_오른쪽</a>
+    <a id="starR1" class="starR1" value="2.5">별3_왼쪽</a>
+    <a id="starR2" class="starR2" value="3">별3_오른쪽</a>
+    <a id="starR1" class="starR1" value="3.5">별4_왼쪽</a>
+    <a id="starR2" class="starR2" value="4">별4_오른쪽</a>
+    <a id="starR1" class="starR1" value="4.5">별5_왼쪽</a>
+    <a id="starR2" class="starR2" value="5">별5_오른쪽</a>  
    	<input type="number" id="Review_star" name="Review_star">
    	<input type="text" id="Review_like" name="Review_like" value="0">
+   	
+   	
+   	
+   	
    	
    	
    	
@@ -116,7 +122,7 @@ selectData();
 <!--리뷰 리스트 (ajax) -->        
 
 <div class="re2">
-<strong>리뷰   X개</strong>
+<strong id="re2h">리뷰   X개</strong>
 <table id="re_list" class="re2_t1">
 </table>
 

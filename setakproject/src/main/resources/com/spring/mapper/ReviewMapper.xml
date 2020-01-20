@@ -19,8 +19,7 @@
 
 	<select id="reviewList" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
 	SELECT * FROM review  ORDER BY review_num desc
-        
-		
+        		
 	</select>
 
 	<insert id="reviewInsert" parameterType="com.spring.setak.ReviewVO">

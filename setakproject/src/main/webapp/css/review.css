@@ -45,10 +45,10 @@
    		border: none; outline: none; margin-right: 10px
    	}   	 	
   	
-  	.re2{margin:auto; width:1000px;}
+  	.re2{margin:auto; width:1000px; }
   	
   	.re2_t1{ border-top: 3px solid #e1e4e4; border-bottom: 3px solid #e1e4e4; 
-  	margin:auto; width:1000px;}
+  	margin:auto; width:1000px; margin-top: 15px;}
   	  	
   	.re2_t1 td{ border: 1px solid #e1e4e4; 
   	}
