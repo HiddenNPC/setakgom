@@ -62,17 +62,9 @@ $(document).ready(function () {
         //console.log($(this).attr("value"));
         return false;
     });	
-
 	
 selectData();		
 });
-
-/* 
-re_list += '<tr><td>'+item.member_id+'</td>';							
-re_list += 	   '<td>'+item.review_kind+'</td>';																	
-re_list += 	   '<td>'+item.review_date+'</td></tr>';	
- */
-
 
 </script>	
 </head>
@@ -91,13 +83,16 @@ re_list += 	   '<td>'+item.review_date+'</td></tr>';
     <a class="starR1" value="1.5">별2_왼쪽</a>
     <a class="starR2" value="2">별2_오른쪽</a>
     <a class="starR1" value="2.5">별3_왼쪽</a>
-    <a class="starR2" value="3" checked="checked">별3_오른쪽</a>
+    <a class="starR2" value="3">별3_오른쪽</a>
     <a class="starR1" value="3.5">별4_왼쪽</a>
     <a class="starR2" value="4">별4_오른쪽</a>
     <a class="starR1" value="4.5">별5_왼쪽</a>
     <a class="starR2" value="5">별5_오른쪽</a>  
    	<input type="number" id="Review_star" name="Review_star">
    	<input type="text" id="Review_like" name="Review_like" value="0">
+   	
+   	
+   	
 </div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
@@ -134,5 +129,27 @@ re_list += 	   '<td>'+item.review_date+'</td></tr>';
 </section>
 <div id="footer"></div>    
 </body>
+
+
+<!-- 
+
+re_list += '<tr><td>'+item.member_id+'</td>';							
+re_list += 	   '<td>'+item.review_kind+'</td>';																	
+re_list += 	   '<td>'+item.review_date+'</td></tr>';	
+ -->
+
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
