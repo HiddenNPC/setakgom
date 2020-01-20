@@ -45,14 +45,11 @@
 				str += '<td>'+$.attr(this, 'value')+'</td>';
 				str += '<td style="display:none;"><input type="hidden" name="keep_cate" value="'+sortation[0].innerHTML+'">';
 				str += '<input type="hidden" name="keep_kind" value="'+$.attr(this, 'value')+'">';
-				str += '<input type="hidden" class="tttt" name="keep_month" value="'+month+'"></td>';
-
-				
+				str += '<input type="hidden" class="month_value" name="keep_month" value="'+month+'"></td>';
+				//keep_box, keep_price는 아래 html코드에 있음.
 				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="keep_count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
-				
-				
 				str += '</tr>';		
 				
 				$(".keep_sortation_title").after(str);
@@ -66,8 +63,7 @@
 				$(".month").removeClass("month_click");
 				$(this).addClass("month_click");
 				month=($(this).html()).substring(4,5);//개월수
-				$.attr('name', 'keep_month')
-				alert(month);
+				$(".month_value").attr('value', month);
 				monthclick = 1;
 				price = parseInt($($(this).children().children('.price')).html());
 				var n = $('.count').index(this);
@@ -118,6 +114,7 @@
 			$.pricefun = function(n){
 				var num = parseInt($(".box_count:eq(" + n + ")").val());
 				$('.tot_price').html(num*price);
+				$(".keep_price").val(num*price);
 			};
 			//버튼안누르고 직접 수량 입력했을 때
 			$(document).on("propertychange change keyup paste",".box_count", function(){
@@ -314,7 +311,7 @@
 						<li></li>
 					</ul>
 				</div>
-				<form name="keepform" action="./keep.st" method="post">
+				<form name="keepform" action="./keep.do" method="post">
 					<table class="keep_sortation">
 						<tr class="keep_sortation_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
@@ -358,6 +355,7 @@
 					
 					<div class="total_price">
 						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
+						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">
 						<input type="submit" value="장바구니">

@@ -388,7 +388,7 @@
 				</div>
 				
 				<p>※ 받으신 웰컴키트 안 '택'에  선택하신 택 코드를 동일하게 적어서 보내주세요.</p>
-				<form name="mendingform" action="./mending.st" method="post" enctype="multipart/form-data">
+				<form name="mendingform" action="./mending.do" method="post" enctype="multipart/form-data">
 					<table class="mending_order">
 						<tr class="mending_order_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
