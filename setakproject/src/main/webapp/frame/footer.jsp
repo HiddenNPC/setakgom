@@ -5,7 +5,7 @@
 		<div class="content">
 			<ul>
 				<li>㈜세탁곰컴퍼니</li>
-				<li><a href="https://www.youtube.com/channel/UChTTbqy5Wd_GPaGCZLJcpFA/" target="_blank"><i class="fab fa-youtube"></i></a><a href="https://www.instagram.com/laundrybear138/?hl=ko" target="_blank"><i class="fab fa-instagram"></i></a><i class="fab fa-twitter"></i></li>			
+				<li><a href="https://www.youtube.com/channel/UChTTbqy5Wd_GPaGCZLJcpFA/" target="_blank"><i class="fab fa-youtube"></i></a><a href="https://www.instagram.com/laundrybear138/?hl=ko" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://twitter.com/laundrybear138"><i class="fab fa-twitter"></i></a></li>			
 			</ul>
 			<hr>
 			<p>대표 : 세탁곰 | 주소 : 서울 서초구 강남대로 459</p>

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.*, com.spring.setak.*" %>
+<%
+	List<MendingVO> mendinglist = (ArrayList<MendingVO>)request.getAttribute("mendinglist");
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +39,8 @@
 					<li>
 						<ul class="mypage_list">
 							<li>주문관리</li>
-							<li><a href="orderview.jsp">주문/배송현황</a></li>
-							<li><a href="mykeep.jsp">보관현황</a></li>
+							<li><a href="orderview.do">주문/배송현황</a></li>
+							<li><a href="mykeep.do">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
@@ -43,13 +48,13 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
 							<li><a href="password.jsp">개인정보수정</a></li>
-							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
-							<li><a href="mysavings.jsp">적립금 조회</a></li>
+							<li><a href="mycoupon.do">쿠폰조회</a></li>
+							<li><a href="mysavings.do">적립금 조회</a></li>
 							<li><a href="withdraw.jsp">회원탈퇴</a></li>
 						</ul>
 					</li>
@@ -62,8 +67,11 @@
 					<p>
 						<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
 					</p>
-					<%for (int i=0; i<5; i++){ %>
-					
+					<% 
+						try{
+							MendingVO vo = (MendingVO)request.getAttribute("mendingVO");		
+							OrderVO ovo = (OrderVO)request.getAttribute("orderVO");
+						%>
 					<div class="accordion">
 						<div class="accordion-header">주문일자 : 2020/01/18 03:42</div>
 						<div class="accordion-content">
@@ -71,14 +79,14 @@
 							<div class="snb">
 								<div class="ordernumber">
 									<p>주문 번호 :</p>
-									<p>987654-124567</p>
+									<p><%=ovo.getOrder_num() %></p>
 								</div>
 								<div class="addr">
 									<p>주소 :</p>
-									<p>나는 누구? 여긴 어디?</p>
+									<p><%=ovo.getOrder_address() %></p>
 								</div>
 								<br><br><br><br><br>
-								<a href="#" class="button">주문 취소</a>
+								<a href="#" class="button" id="order_false" disabled="">주문 취소</a>
 							</div>
 							<!--//snb -->
 							<!--content -->
@@ -86,7 +94,7 @@
 								<div class="row_content2">
 								<div class="my_laundry">
 									<p>세탁 :</p>
-									<p>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타하아야여어오요우유으이123456789
+									<p><%=vo.getRepair_seq()%><%=vo.getRepair_code() %></p>
 								</div>
 								<div class="my_mending">
 									<p>수선 :</p>
@@ -98,12 +106,15 @@
 								</div>
 								</div>
 								<div class="price">
-									<p>합계 : 0원</p>
+									<p>합계 : <%=vo.getRepair_price() %>원</p>
 								</div>
 							</div>
 						</div>
 					</div>
-					<%} %>
+					<%
+	}
+	catch(Exception ex) {} 
+%>
 				</div>
 				<div class="page1">
 				<table class="page">
@@ -127,19 +138,14 @@
 	<div id="footer"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </body>
-
 <script>
-    $(function () {
-       $(".button").on("click", function () {
-           $(this)
-           	if (confirm("주문을 취소하시겠습니까??") == true){
-              	document.write("확인")
-           	}else{
-           		document.write("아니오")
-           	}
-       });
-    });
-    
+$("#order_false").on('click', function (event) {
+	if(현재일시 > 체크일시) 
+		$('#order_false').attr('disabled', true); 
+	return false;
+ });
+</script>
+<script>
     $(document).ready(function() {
     	  jQuery(".accordion-content").hide();
     	//content 클래스를 가진 div를 표시/숨김(토글)
