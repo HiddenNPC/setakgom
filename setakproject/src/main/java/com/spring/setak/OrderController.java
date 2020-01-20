@@ -21,13 +21,13 @@ public class OrderController {
 	
 	// 페이지	
 	// 장바구니 
-	@RequestMapping(value = "/cart.st")
+	@RequestMapping(value = "/cart.do")
 	public String cart(Model model) {
 		return "cart";	
 	}
 
 	// 주문결제 
-	@RequestMapping(value = "/order.st")
+	@RequestMapping(value = "/order.do")
 	public String order(Model model) {
 		String member_id = "bit"; 
 		
@@ -44,7 +44,7 @@ public class OrderController {
 	}
 	
 	// 주문완료
-	@RequestMapping(value = "/orderSuccess.st")
+	@RequestMapping(value = "/orderSuccess.do")
 	public String orderSuccess() {
 		return "order_success";
 		

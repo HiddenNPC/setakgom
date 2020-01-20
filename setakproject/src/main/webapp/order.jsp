@@ -466,13 +466,13 @@
                 });
 
                 //성공시 이동할 페이지
-                location.href='<%=request.getContextPath()%>/orderSuccess.st';
+                location.href='<%=request.getContextPath()%>/orderSuccess.do';
                 
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="/setak/order.st";
+                location.href="/setak/order.do";
                 alert(msg);
             }
         });
