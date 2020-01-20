@@ -14,20 +14,11 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Service;
+
 @Service
-public class Sens_sms_v2 {
+public class Sens_kakao {
 	
-	String msgtext = "";
-	
-	public String getMsgtext() {
-		return msgtext;
-	}
-
-	public void setMsgtext(String msgtext) {
-		this.msgtext = msgtext;
-	}
-
-	public void sendMessage() {
+	public void sendKakao() {
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
 		String requestUrl= "/sms/v2/services/";                   		// 요청 URL
 		String requestUrlType = "/messages";                      		// 요청 URL
@@ -41,11 +32,13 @@ public class Sens_sms_v2 {
 		
 		// String으로 body data 생성
 		String body = "{\r\n" + 
-				"  \"type\": \"sms\",\r\n" + 		
-				"  \"contentType\": \"comm\",\r\n" + 
+				"  \"plusFriendId\": \"sms\",\r\n" + 		
+				"  \"templateCode\": \"comm\",\r\n" +
+				
+				
 				"  \"countryCode\": \"82\",\r\n" + 
 				"  \"from\": \"01027561533\",\r\n" + 
-				"  \"content\": \""+msgtext+"\",\r\n" + 
+//				"  \"content\": \""+msgtext+"\",\r\n" + 
 				"  \"messages\": [\r\n" + 
 				"    {"  +
 				"  		\"to\": \"01039553966\"\r\n" + 
@@ -128,4 +121,5 @@ public class Sens_sms_v2 {
 
 	  return encodeBase64String;
 	}
+	
 }
