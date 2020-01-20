@@ -13,59 +13,45 @@ import java.util.Base64;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.stereotype.Service;
+@Service
 public class Sens_sms_v2 {
 	
-	public static void sendMessage() {
+	String msgtext = "";
+	
+	public String getMsgtext() {
+		return msgtext;
+	}
+
+	public void setMsgtext(String msgtext) {
+		this.msgtext = msgtext;
+	}
+
+	public void sendMessage() {
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
 		String requestUrl= "/sms/v2/services/";                   		// 요청 URL
 		String requestUrlType = "/messages";                      		// 요청 URL
-		String accessKey = "YOUR_ACCESS_KEY";                     		// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키
-		String secretKey = "YOUR_SECRET_KEY";                    		// 2차 인증을 위해 서비스마다 할당되는 service secret
-		String serviceId = "YOUR_SERVICE_ID";                     		// 프로젝트에 할당된 SMS 서비스 ID
+		String accessKey = "hl1BnDwWlEX9KcAGKYpd";                     		// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키
+		String secretKey = "vEnfUJQ41Loi0pkvRSH70RawQzSkhWxlps5VEA52";                    		// 2차 인증을 위해 서비스마다 할당되는 service secret
+		String serviceId = "ncp:sms:kr:257922917697:setakgom";                     		// 프로젝트에 할당된 SMS 서비스 ID
 		String method = "POST";											// 요청 method
 		String timestamp = Long.toString(System.currentTimeMillis()); 	// current timestamp (epoch)
 		requestUrl += serviceId + requestUrlType;
 		String apiUrl = hostNameUrl + requestUrl;
 		
-		// JSON 을 활용한 body data 생성
-		/*
-		JSONObject bodyJson = new JSONObject();
-		JSONObject toJson = new JSONObject();
-	    JSONArray  toArr = new JSONArray();
-
-	    toJson.put("subject","");				// 메시지 제목 * LMS Type에서만 사용할 수 있습니다.
-	    toJson.put("content","");				// 메시지 내용 * Type별로 최대 byte 제한이 다릅니다.* SMS: 80byte / LMS: 2000byte
-	    toJson.put("to","");					// 수신번호 목록  * 최대 50개까지 한번에 전송할 수 있습니다.
-	    toArr.add(toJson);
-	    
-	    bodyJson.put("type","");				// 메시지 Type (sms | lms)
-	    bodyJson.put("contentType","");			// 메시지 내용 Type (AD | COMM) * AD: 광고용, COMM: 일반용 (default: COMM) * 광고용 메시지 발송 시 불법 스팸 방지를 위한 정보통신망법 (제 50조)가 적용됩니다.
-	    bodyJson.put("countryCode","");			// 국가 전화번호
-	    bodyJson.put("from","");				// 발신번호 * 사전에 인증/등록된 번호만 사용할 수 있습니다.		
-	    bodyJson.put("subject","");				// 메시지 제목 * LMS Type에서만 사용할 수 있습니다.
-	    bodyJson.put("content","");				// 메시지 내용 * Type별로 최대 byte 제한이 다릅니다.* SMS: 80byte / LMS: 2000byte
-	    bodyJson.put("messages", toArr);		
-	    
-
-	    String body = bodyJson.toJSONString();
-	    */
-	    
 		// String으로 body data 생성
 		String body = "{\r\n" + 
-			"  \"type\": \"메시지 Type\",\r\n" + 		
-			"  \"contentType\": \"메시지 내용 Type\",\r\n" + 
-			"  \"countryCode\": \"국가 전화번호\",\r\n" + 
-			"  \"from\": \"발신번호\",\r\n" + 
-			"  \"subject\": \"메시지 제목\",\r\n" +
-			"  \"content\": \"메시지 내용\",\r\n" + 
-			"  \"messages\": [\r\n" + 
-			"    {"  +
-			"  		\"subject\": \"메시지 제목\",\r\n" +
-			"  		\"content\": \"메시지 내용\",\r\n" + 
-			"  		\"to\": \"수신번호\"\r\n" + 
-			"		}\r\n" + 
-			"  ]\r\n" +
-			"}";
+				"  \"type\": \"sms\",\r\n" + 		
+				"  \"contentType\": \"comm\",\r\n" + 
+				"  \"countryCode\": \"82\",\r\n" + 
+				"  \"from\": \"01027561533\",\r\n" + 
+				"  \"content\": \""+msgtext+"\",\r\n" + 
+				"  \"messages\": [\r\n" + 
+				"    {"  +
+				"  		\"to\": \"01039553966\"\r\n" + 
+				"		}\r\n" + 
+				"  ]\r\n" +
+				"}";
 	    
         try {
 
@@ -110,7 +96,7 @@ public class Sens_sms_v2 {
         }
     }
 	
-	public static String makeSignature(String url, String timestamp, String method, String accessKey, String secretKey) throws NoSuchAlgorithmException, InvalidKeyException {
+	public String makeSignature(String url, String timestamp, String method, String accessKey, String secretKey) throws NoSuchAlgorithmException, InvalidKeyException {
 	    String space = " ";                    // one space
 	    String newLine = "\n";                 // new line
 	    
@@ -141,5 +127,9 @@ public class Sens_sms_v2 {
 	    
 
 	  return encodeBase64String;
+	}
+	
+	public void testmsg() {
+		System.out.println("테스트맨");
 	}
 }
