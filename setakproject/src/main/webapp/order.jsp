@@ -6,7 +6,9 @@
 <%
 	
 	int havePoint = (int)request.getAttribute("havePoint"); 
-	ArrayList<CouponVO> articleList = (ArrayList<CouponVO>)request.getAttribute("couponList");
+
+	int haveCoupon = (int)request.getAttribute("haveCoupon"); 
+	ArrayList<CouponVO> couponList = (ArrayList<CouponVO>)request.getAttribute("couponList");
 %>
 <!DOCTYPE html>
 <html>
@@ -228,11 +230,11 @@
 				  
                }
                else { // 실패했다면
-                  alert("Insert Fail");
+                  alert("Update Fail");
                }
             },
             error:function() {
-               alert("insert ajax 통신 실패");
+               alert("Update ajax 통신 실패");
             }			
 		});
 		
@@ -386,12 +388,44 @@
 	// 결제 : 아임포트 스크립트 >> 
 	$(".pay_btn").on("click", function(){
 		
+		var human = $("#address_human").val();
+		var phone1 = $("#order_phone1").val();
+		var phone2 = $("#order_phone2").val();
+		var phone3 = $("#order_phone3").val();
+		var postcode = $("#postcode").val();
+		var address = $("#address").val();
+		var detailAddress = $("#detailAddress").val();
+		var request = $("#request").val(); 
+		
+		var phone = phone1 + phone2 + phone3;
+		var addr = address + '!' + detailAddress; 
+		
+		
+		
+		// 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
+		/*
+		if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
+				postcode == '' || address == '') {
+			alert("배송지 정보를 모두 입력해주세요.");
+			return; 
+		}
+		*/
+		
 		// 결제 금액 받아오기 
 		var final_price = $('#final_price').text().slice(0,-1);
 		
         var IMP = window.IMP; // 생략가능
         IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
+        
+        var date = new Date();
+        var yy = date.getYear();
+        var mm = date.getMonth();
+        var mm1 = date.getMonth() + 1; 
+        var dd = date.getDate(); 
+        var now = yy + '/' + mm + '/' + dd; 
+        
+        var orderNum;
         
         IMP.request_pay({
             pg : 'kakaopay',
@@ -401,37 +435,39 @@
             amount : final_price,
             buyer_email : 'minchoi9509@gmail.com',
             buyer_name : '민경',
-            buyer_tel : '010-8848-2996',
+            buyer_tel : '01088482996',
             buyer_addr : '서울',
-            buyer_postcode : '123-456',
+            buyer_postcode : '12355',
         }, function(rsp) {
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 jQuery.ajax({
-                    url: "/setak/getPayInfo.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
+                    url: "/setak/insertOrder.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        imp_uid : rsp.imp_uid
+                        imp_uid : rsp.imp_uid,
+                        'member_id' : 'bit', 
+                        'order_price' : final_price,
+                        'order_payment' : 'card',
+                        'order_cancel' : '0',
+                        'order_status' : '결제완료',
+                        'order_name' : human,
+                        'order_address' : addr,
+                        'order_request' : request, 
+                        'order_zipcode' : postcode
                         //기타 필요한 데이터가 있으면 추가 전달
                     }
                 }).done(function(data) {
-                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-                    if ( everythings_fine ) {
-                        msg = '결제가 완료되었습니다.';
-                        msg += '\n고유ID : ' + rsp.imp_uid;
-                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-                        msg += '\결제 금액 : ' + rsp.paid_amount;
-                        msg += '카드 승인번호 : ' + rsp.apply_num;
-                        
-                        alert(msg);
-                    } else {
-                        //[3] 아직 제대로 결제가 되지 않았습니다.
-                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-                    }
+                	
+                	orderNum = data.order_num;
+                	alert("결제완료 : " + orderNum); 
+                	sessionStorage.setItem("order_num", orderNum); 
                 });
+
                 //성공시 이동할 페이지
-                location.href='<%=request.getContextPath()%>/setak/orderSuccess.st?msg='+msg;
+                location.href='<%=request.getContextPath()%>/orderSuccess.st';
+                
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
@@ -558,7 +594,7 @@
 		
 		$('#addrTable tbody').empty();
 		
-		var parmas = {'member_id': 'minchoi'}; 
+		var parmas = {'member_id': 'bit'}; 
 		
 
         $.ajax({
@@ -649,7 +685,7 @@
 		}
 		
 		var params = {
-				'member_id' : 'minchoi',
+				'member_id' : 'bit',
 				'address_name' : addrName,
 				'address_human' : name, 
 				'address_phone' : phone,
@@ -910,7 +946,7 @@
 							<tr>
 								<td class = "left_col">받는 사람</td>
 								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" name = ""/></td>
-							</tr>
+							</tr> 
 							
 							<tr>
 								<td class = "left_col">휴대폰 번호</td>
@@ -939,7 +975,7 @@
 							<tr>
 								<td class = "left_col">배송 요청 사항</td>
 								<td class = "right_col">
-									<input class = "txtInp" type = "text" name = "" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
+									<input id = "request" class = "txtInp" type = "text" name = "" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
 								</td>
 							</tr>						
 						</tbody>
@@ -988,7 +1024,7 @@
 								<tbody>
 									<tr>
 										<td class="left_col first_row">총 주문금액</td>
-										<td id="total_price" class="first_row"><span id = "order_price">39000원</span></td>
+										<td id="total_price" class="first_row"><span id = "order_price">100원</span></td>
 									</tr>
 									<tr>
 										<td class="left_col">배송비</td>
@@ -1005,7 +1041,7 @@
 									<tr>
 									<tr>
 										<td class="left_col td_final">최종 결제액</td>
-										<td class="txtBlue"><span id="final_price">39000원</span></td>
+										<td class="txtBlue"><span id="final_price">100원</span></td>
 									</tr>
 								</tbody>
 							</table>
@@ -1112,11 +1148,18 @@
 				<div class="popup-content1">
 					<h3>쿠폰할인</h3>
 					<ul>
-						<li><input type="checkbox" name="checkCoupon" value = "9500" />보관 1개월 무료 (보관세탁)</li>
-						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" name="checkCoupon" value = "10000" />보관 1개월 무료 (세탁) </li>
-						<li><input type="checkbox" name="checkCoupon" value = "9500"/>보관 1개월 무료 (보관세탁)</li>
+						<%
+							if(haveCoupon == 0) {
+						%>
+							<p>보유 쿠폰이 없음</p>
+						<%
+							} else {
+								for(int i = 0; i < couponList.size(); i++) {
+									CouponVO coupon = (CouponVO)couponList.get(i);
+						%>
+							<li><input type="checkbox" name="checkCoupon" value = "9500" /><%=coupon.getCoupon_name() %></li>
+						<%} 
+						} %>
 					</ul>
 				</div>
 				

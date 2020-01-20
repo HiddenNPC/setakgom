@@ -13,6 +13,7 @@ public class MileageServiceImpl implements MileageService {
 	@Autowired
 	private SqlSession sqlSession;
 	
+
 	@Override
 	public int getSum(String member_id) {
 		int sum = 0;

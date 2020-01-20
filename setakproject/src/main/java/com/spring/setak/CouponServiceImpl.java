@@ -26,6 +26,19 @@ public class CouponServiceImpl implements CouponService {
 		
 		return couponList;
 	}
+
+	@Override
+	public int getCouponCount(String member_id) {
+		int count = 0;
+		try {
+			CouponMapper couponMapper = sqlSession.getMapper(CouponMapper.class);
+			count = couponMapper.getCouponCount(member_id);
+		} catch(Exception e) {
+			System.out.println("쿠폰 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return count;		
+	}
 	
 	
 }

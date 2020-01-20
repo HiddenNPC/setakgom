@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class OrderController {	
@@ -14,6 +16,8 @@ public class OrderController {
 	private MileageService mileageService; 
 	@Autowired
 	private CouponService couponService; 
+	@Autowired
+	private OrderService orderService; 
 	
 	// 페이지	
 	// 장바구니 
@@ -25,12 +29,16 @@ public class OrderController {
 	// 주문결제 
 	@RequestMapping(value = "/order.st")
 	public String order(Model model) {
-		String member_id = "minchoi"; 
+		String member_id = "bit"; 
 		
 		int havePoint = mileageService.getSum(member_id);
-		ArrayList<CouponVO> couponList = couponService.getCouponList(member_id);
 		
+		ArrayList<CouponVO> couponList = couponService.getCouponList(member_id);
+		int haveCoupon = couponService.getCouponCount(member_id);
+
+		model.addAttribute("haveCoupon", haveCoupon);
 		model.addAttribute("couponList", couponList);
+		
 		model.addAttribute("havePoint", havePoint);
 		return "order";
 	}
@@ -40,13 +48,18 @@ public class OrderController {
 	public String orderSuccess() {
 		return "order_success";
 		
+		
 	}
 	
-	// 결제
-//	@RequestMapping(value = "/getPayInfo.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-//	@ResponseBody 
-//	public AddressVO getPayInfo(AddressVO avo) {
-//		
-//	}
+	// 주문 정보 입력
+	@RequestMapping(value = "/insertOrder.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public String insertOrder(OrderVO ovo) {
+		
+		ovo.setOrder_num(111114);
+		int res = orderService.insertOrder(ovo);
+		
+		return "order_success";
+	}
 	
 }
