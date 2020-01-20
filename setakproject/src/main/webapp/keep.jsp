@@ -36,15 +36,23 @@
 			}
 			
 			//옷 종류 눌렀을 때
+			var sortation = document.getElementsByClassName('active');
 			$(".keep-list").on("click", function() {
 				var str = "";
 				
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+$.attr(this, 'value')+'</td>';
-				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
+				str += '<td style="display:none;"><input type="hidden" name="keep_cate" value="'+sortation[0].innerHTML+'">';
+				str += '<input type="hidden" name="keep_kind" value="'+$.attr(this, 'value')+'">';
+				str += '<input type="hidden" class="tttt" name="keep_month" value="'+month+'"></td>';
+
+				
+				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="keep_count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
+				
+				
 				str += '</tr>';		
 				
 				$(".keep_sortation_title").after(str);
@@ -53,9 +61,13 @@
 			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 			var monthclick = 0;
 			var price = parseInt(0);
+			var month ="";
 			$(".month").on("click", function(){
 				$(".month").removeClass("month_click");
 				$(this).addClass("month_click");
+				month=($(this).html()).substring(4,5);//개월수
+				$.attr('name', 'keep_month')
+				alert(month);
 				monthclick = 1;
 				price = parseInt($($(this).children().children('.price')).html());
 				var n = $('.count').index(this);
@@ -130,6 +142,13 @@
 				}) 
 				sumprice();
 			});
+			//장바구니 눌렀을 때
+			 $(".total-button").click(function(){
+				if(monthclick==0){
+					alert('보관하실 기간을 선택해주세요.');
+					return false;
+				}
+			 });
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -295,7 +314,7 @@
 						<li></li>
 					</ul>
 				</div>
-				<form>
+				<form name="keepform" action="./keep.st" method="post">
 					<table class="keep_sortation">
 						<tr class="keep_sortation_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
@@ -331,7 +350,7 @@
 					<div class="box_quantity">
 						<p>박스 수량을 선택 해 주세요</p>
 						<div>
-							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="box_count" value="1" id="" class="box_count">
+							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="keep_box" value="1" id="" class="box_count">
 							<a class="box_up">+</a>
 							<a class="box_down">-</a>
 						</div>
@@ -341,7 +360,7 @@
 						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">장바구니</a>
+						<input type="submit" value="장바구니">
 					</div>
 				</form>
 			</div>
