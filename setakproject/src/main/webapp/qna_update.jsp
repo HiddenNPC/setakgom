@@ -26,10 +26,10 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.co">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
-<form action="qnaUpdate.co" method="post" enctype="multipart/form-data" name="modifyform">
+<form action="qnaUpdate.do" method="post" enctype="multipart/form-data" name="modifyform">
 <input type="hidden" name="QNA_NUM" value="<%=vo.getQNA_NUM() %>">
 <input type="hidden" name="MEMBER_ID" value="<%=vo.getMEMBER_ID()%>">
 <table class="qut1" border="1" bordercolor="#e1e4e4" cellpadding="0" cellspacing="0">
@@ -76,7 +76,7 @@ $(document).ready(function(){
 <table class="qut2">			
 	<tr><td>
 		<button onclick="javascript:modifyqna()">수정</button>&nbsp;		
-		<button type="button" onclick="location.href='getDetail.co?QNA_NUM=<%=vo.getQNA_NUM() %>'">뒤로</button>&nbsp;&nbsp;	
+		<button type="button" onclick="location.href='getDetail.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">뒤로</button>&nbsp;&nbsp;	
 		</td>
 	</tr>
 </table>			

@@ -33,6 +33,7 @@
 	.r_notice { background-color:#3498db; color: #fff; border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
    		border: none; outline: none; padding: 5px;}    
+   	
    	button { color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
@@ -42,10 +43,15 @@
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
    		border: none; outline: none; margin-right: 10px
-   	}
-   	 	
-  	.re_list{ margin:auto; width:1000px; }
+   	}   	 	
   	
+  	.re2{margin:auto; width:1000px;}
+  	
+  	.re2_t1{ border-top: 3px solid #e1e4e4; border-bottom: 3px solid #e1e4e4; 
+  	margin:auto; width:1000px;}
+  	  	
+  	.re2_t1 td{ border: 1px solid #e1e4e4; 
+  	}
   
   	
   	

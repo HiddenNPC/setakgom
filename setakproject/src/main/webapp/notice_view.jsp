@@ -26,7 +26,7 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="notice">
 <div class="content">
-<div class="title-text"><h2><a href="./noticeList.st">공지사항</a> </h2></div>
+<div class="title-text"><h2><a href="./noticeList.do">공지사항</a> </h2></div>
 <div class="notice">
 
 
@@ -44,7 +44,7 @@ $(document).ready(function(){
 	<tr align="right" ><td colspan="5">
 		<%-- <a href="./updateForm.st?NOTICE_NUM=<%=vo.getNOTICE_NUM() %>">[수정]</a>&nbsp;&nbsp;
 		<a href="./noticeDelete.st?NOTICE_NUM=<%=vo.getNOTICE_NUM() %>">[삭제]</a>&nbsp;&nbsp; --%>		
-		<a href="./noticeList.st">[목록]</a>&nbsp;&nbsp;</td>
+		<a href="./noticeList.do">[목록]</a>&nbsp;&nbsp;</td>
 	</tr>		
 </table><br>
 

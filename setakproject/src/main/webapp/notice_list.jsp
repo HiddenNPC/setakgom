@@ -63,7 +63,7 @@ $(document).ready(function(){
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#F8F8F8'" onmouseout="this.style.backgroundColor=''" >
 		<td height="35"  width="10%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 		<td width="50%"> 
-			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.st?NOTICE_NUM=<%=bl.getNOTICE_NUM() %>">
+			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.do?NOTICE_NUM=<%=bl.getNOTICE_NUM() %>">
 			<%=bl.getNOTICE_TITLE() %></a></div>
 		</td>
 		<td  width="16%">
@@ -82,21 +82,21 @@ $(document).ready(function(){
 		<% if(nowpage<=1) { %>
 			< &nbsp;&nbsp;&nbsp;
 			<% } else { %>
-			<a href="./noticeList.st?page=<%=nowpage-1 %>" > < </a>&nbsp;
+			<a href="./noticeList.do?page=<%=nowpage-1 %>" > < </a>&nbsp;
 			<% } %>
 			
 			<% for (int a=startpage; a<=endpage; a++) { 
 					if(a==nowpage) { %>
 						<%=a %>
 						<% } else { %>
-						<a href="./noticeList.st?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
+						<a href="./noticeList.do?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
 				<% } %>
 			<% } %>
 			&nbsp;
 			<% if (nowpage >= maxpage ) { %>
 					&nbsp;&nbsp;&nbsp; >
 				<% } else { %>
-					<a href="./noticeList.st?page=<%=nowpage+1 %>" > > </a>
+					<a href="./noticeList.do?page=<%=nowpage+1 %>" > > </a>
 			<% } %>
 			</td>
 		</tr>

@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -13,18 +14,34 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller public class ReviewController 
 {
-	@Autowired ReviewService reviewService;
+	@Autowired private ReviewService reviewService;
 	
-	@RequestMapping(value ="reviewInsert.do") 
-	public String reviewInsert(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping ("review.do") public String review(Model model, ReviewVO vo, HttpServletRequest request ) throws Exception
+	{	
+		//model.addAttribute("Review_num");		 
+		return "review_list";			
+	}
+	
+	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@ResponseBody public ArrayList<ReviewVO> reviewList() throws Exception
+	{
+		ArrayList<ReviewVO> list = reviewService.reviewList();
+		return list;		
+	}
+	
+	@PostMapping("reviewInsert.do") public String reviewInsert(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		ReviewVO vo = new ReviewVO();
 		response.setCharacterEncoding("utf-8");
@@ -45,13 +62,13 @@ import org.springframework.web.servlet.ModelAndView;
 		}
 
 		vo.setReview_num(maxnum); 
-		System.out.println(" 리뷰 갯수 (=maxnum)=" + maxnum);
-		vo.setMember_id("A001");
+		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
+		vo.setMember_id("nanana");
 		//String a = vo.getMember_id();
 		//System.out.println("Member_id=" +a );		
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		System.out.println("분류 = " + vo.getReview_kind());
-		vo.setReview_star(Integer.parseInt(request.getParameter("Review_star")));
+		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star")));
 		System.out.println("별점 떳냐? =" +vo.getReview_star());
 		vo.setReview_content(request.getParameter("Review_content"));
 		System.out.println("내용 = " + vo.getReview_content());
@@ -60,7 +77,7 @@ import org.springframework.web.servlet.ModelAndView;
 		
 		ModelAndView mav = new ModelAndView();
 		MultipartFile mf = request.getFile("Review_photo");//파일		
-		System.out.println("너의 QNA_FILE은=" + mf);
+		System.out.println("너의 review_photo은=" + mf);
 		String uploadPath="C:\\Project138\\upload\\";			
 		if(mf.getSize() != 0)//용량
 		{	
@@ -88,22 +105,21 @@ import org.springframework.web.servlet.ModelAndView;
 		{
 			vo.setReview_photo(null);			
 		}			
-		System.out.println(vo.getReview_photo());
-		
+				
 		int res = reviewService.reviewInsert(vo);
 		
 		if(res ==0 ) 
 		{
-			writer.write("<script> alert('입력실패');location.href='./qnaWrite.co'; </script>");
+			writer.write("<script> alert('입력실패');location.href='./review.do'; </script>");
 			return null;
 		}
-		writer.write("<script> alert('입력 성공');location.href='./qnaList.co'; </script>");
+		writer.write("<script> alert('입력 성공');location.href='./review.do'; </script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
 	}
 	
-	@RequestMapping("fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
+	@PostMapping("fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");
 		String of = request.getParameter("of"); //서버에 업로드된 변경된 실제 파일명

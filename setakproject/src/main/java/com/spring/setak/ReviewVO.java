@@ -1,19 +1,21 @@
 package com.spring.setak;
 
-import java.sql.Date;
-
 public class ReviewVO 
 {
 	private int review_num;
 	private String member_id;
 	private String review_kind;
-	private int review_star;
+	private Double review_star;
 	private String review_content;
+	public String getReview_date() {
+		return review_date;
+	}
+	public void setReview_date(String review_date) {
+		this.review_date = review_date;
+	}
 	private String review_like;
 	private String review_photo;
-	private Date review_date;
-	
-	
+	private String review_date;
 	public int getReview_num() {
 		return review_num;
 	}
@@ -32,10 +34,10 @@ public class ReviewVO
 	public void setReview_kind(String review_kind) {
 		this.review_kind = review_kind;
 	}
-	public int getReview_star() {
+	public Double getReview_star() {
 		return review_star;
 	}
-	public void setReview_star(int review_star) {
+	public void setReview_star(Double review_star) {
 		this.review_star = review_star;
 	}
 	public String getReview_content() {
@@ -56,12 +58,7 @@ public class ReviewVO
 	public void setReview_photo(String review_photo) {
 		this.review_photo = review_photo;
 	}
-	public Date getReview_date() {
-		return review_date;
-	}
-	public void setReview_date(Date review_date) {
-		this.review_date = review_date;
-	}
+	
 	
 
 	

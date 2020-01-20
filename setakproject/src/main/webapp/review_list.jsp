@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*"%>
-<%@ page session="false" %>
+<%@ page import = "java.text.SimpleDateFormat"%>
+<%@ page import = "com.spring.setak.*"%>
+
+
+<%
+	
+
+
+%>
 
 <!DOCTYPE html>
 <html>
@@ -17,16 +25,55 @@ $(document).ready(function () {
 	//헤더, 푸터연결
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
-    //별점 구동
+    
+	//리뷰 리스트 뿌리기 		
+	function selectData() {		
+		$('#re_list').empty();
+		$.ajax({
+			url:'/setak/reviewList.do', 
+			type:'POST', 
+			dataType:"json", //서버에서 보내줄 데이터 타입
+			contentType:'application/x-www-form-urlencoded; charset=utf-8',
+			success:function(data) {				
+				$.each(data, function(index, item) {
+					var re_list = '';
+					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
+					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
+					re_list += '<tr><td colspan="3">'+item.review_star+'</td></tr>';
+					re_list += '<tr><td>'+ item.member_id +'&nbsp;'+ item.review_kind +item.review_date+'</td></tr>';																		
+					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
+					re_list += '<tr><td colspan="3">'+item.review_like+'</td></tr>';																	
+					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
+					console.log(item.review_date);
+					$('#re_list').append(re_list);
+				});
+			},
+			error:function() {
+				alert("ajax통신 실패!!!");
+			}
+		});
+	}	
+	//별점 구동
 	$('.r_content a').click(function () {
 		$(this).parent().children('a').removeClass('on');
+		console.log($(this));
         $(this).addClass('on').prevAll('a').addClass('on');      
         $('#Review_star').val($(this).attr("value"));
-        console.log($(this).attr("value"));
+        //console.log($(this).attr("value"));
         return false;
-    });
+    });	
+
 	
+selectData();		
 });
+
+/* 
+re_list += '<tr><td>'+item.member_id+'</td>';							
+re_list += 	   '<td>'+item.review_kind+'</td>';																	
+re_list += 	   '<td>'+item.review_date+'</td></tr>';	
+ */
+
+
 </script>	
 </head>
 <body>
@@ -49,7 +96,7 @@ $(document).ready(function () {
     <a class="starR2" value="4">별4_오른쪽</a>
     <a class="starR1" value="4.5">별5_왼쪽</a>
     <a class="starR2" value="5">별5_오른쪽</a>  
-   	<input type="text" id="Review_star" name="Review_star">
+   	<input type="number" id="Review_star" name="Review_star">
    	<input type="text" id="Review_like" name="Review_like" value="0">
 </div>      
 <table class="r_content">
@@ -70,21 +117,22 @@ $(document).ready(function () {
 			<button onclick="javascript:reviewform.submit()">등록</button>
 			<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
 	</tr></table>
-</form>
-<!--인설트해서 DB에 넣어야 한다 . -->
-
-
-<br><br>
-     
-<!--리뷰 작성 -->
+</form><br><br>     
 <!--리뷰 리스트 (ajax) -->        
-<div class="re_list"> 
-<strong>리뷰XX개</strong>
+
+<div class="re2">
+<strong>리뷰   X개</strong>
+<table id="re_list" class="re2_t1">
+</table>
+
 
 </div>
+
+
 
 </div></div>
 </section>
 <div id="footer"></div>    
 </body>
 </html>
+

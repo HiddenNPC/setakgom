@@ -4,7 +4,7 @@
 <mapper namespace="com.spring.mapper.ReviewMapper">
 	<resultMap type="com.spring.setak.ReviewVO" id="reviewMap">
 		<result property="review_num" column="review_num"/>
-		<result property="MEMBER_ID" column="member_id"/>
+		<result property="member_id" column="member_id"/>
 		<result property="review_kind" column="review_kind"/>
 		<result property="review_star" column="review_star"/>
 		<result property="review_content" column="review_content"/>
@@ -17,18 +17,19 @@
 		SELECT COUNT(*) FROM review
 	</select>
 
-	<select id="getReviewList" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
-		SELECT * FROM review WHERE review_num=#{review_num} ORDER BY review_num desc
+	<select id="reviewList" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
+	SELECT * FROM review  ORDER BY review_num desc
+        
+		
 	</select>
 
 	<insert id="reviewInsert" parameterType="com.spring.setak.ReviewVO">
-		INSERT INTO review VALUES 
-		(
+		INSERT INTO review VALUES (
 		#{review_num},
 		#{member_id,},
 		#{review_kind}, 
-		#{review_star}, 
-		#{review_content}, 
+		#{review_star},
+		#{review_content},
 		#{review_like}, 
 		#{review_photo, jdbcType=VARCHAR}, 
 		sysdate 		
@@ -39,6 +40,7 @@
 		SELECT MAX(review_num) FROM review
 	</select>
 	
+	<!-- 
 	<delete id="reviewDelete" parameterType="int">
 		DELETE FROM review WHERE review_num=#{review_num}
 	</delete>
@@ -51,7 +53,7 @@
 		review_photo=#{review_photo} 	
 		WHERE review_num=#{review_num}
 	</update>
-
+ -->
 
 </mapper>
 

@@ -31,7 +31,7 @@ $(document).ready(function() {
 		$.ajax({
 			/* url:'/setak_qna/commentList.re?qna_num='+para+'', 
 			type:'GET',*/
-			url:'/setak/commentList.re', 
+			url:'/setak/commentList.do', 
 			type:'POST', 
 			data:para,
 			dataType:"json", //서버에서 보내줄 데이터 타입
@@ -61,7 +61,7 @@ $(document).ready(function() {
 		var params=$("#comment_form").serialize();
 		console.log("comment_form="+params);
 		jQuery.ajax({
-			url:'/setak/commentInsert.re',
+			url:'/setak/commentInsert.do',
 			type:'POST',
 			data:params,
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
@@ -91,7 +91,7 @@ $(document).ready(function() {
 		console.log("id(qna_seq)="+dpara);
 		
 			$.ajax({
-			url:'/setak/commentDelete.re',
+			url:'/setak/commentDelete.do',
 			type:'POST',
 			data:dpara,
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
@@ -124,7 +124,7 @@ selectData();
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.co">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
 <table class="qvt1">
@@ -142,7 +142,7 @@ selectData();
 <table class="qvt2">
 	<tr><td colspan="4" width="10%" height="40px">
 			<div>첨부 파일 : <%if(!(vo.getQNA_FILE()==null)){ %>
-				<a href="./fileDownload.co?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=
+				<a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=
 				<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>			
 				<%}else{ %>파일이 존재하지 않습니다.<%} %>
 			</div>
@@ -155,9 +155,9 @@ selectData();
 
 <table class="qvt3">
 	<tr><td>
-		<button type="button" id="btn1" onclick="location.href='./updateform.co?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 수 정  </button>					
-		<button type="button" id="btn1" onclick="location.href='./qnaDelete.co?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 삭 제  </button>			
-		<button type="button" id="btn2" onclick="location.href='./qnaList.co'"> 글목록  </button>							
+		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 수 정  </button>					
+		<button type="button" id="btn1" onclick="location.href='./qnaDelete.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 삭 제  </button>			
+		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
 </table><br>
