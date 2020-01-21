@@ -33,12 +33,12 @@
     
   	.starR3 {
   	background: url('../images/r_star.png') no-repeat -34px 0;
-    background-size: auto 100%; width: 10px; height: 20px; float: left; text-indent: -9999px; cursor: pointer;
+    background-size: auto 100%; width: 10px; height: 20px; float: left; text-indent: -9999px; 
         }
 
     .starR4 {
 	background: url('../images/r_star.png') no-repeat right 0;
-	background-size: auto 100%; width: 10px;height: 20px;float: left; text-indent: -9999px;cursor: pointer;
+	background-size: auto 100%; width: 10px;height: 20px;float: left; text-indent: -9999px;
         }
     .starR3.on { background-position: 0 0; }
     .starR4.on { background-position: -15px 0; }	

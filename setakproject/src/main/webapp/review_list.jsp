@@ -48,6 +48,7 @@ $(document).ready(function () {
 					re_list += '<a class="starR4" value="'+item.review_star+'"></a></td></tr>'										
 					re_list += '<tr><td>'+ item.member_id +'&nbsp;'+ item.review_kind +item.review_date+'</td></tr>';																		
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
+					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_like+'</td></tr>';																	
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					$('#re_list').append(re_list);
@@ -107,6 +108,7 @@ selectData();
     <a class="starR2" value="8">별4_오른쪽</a>
     <a class="starR1" value="9">별5_왼쪽</a>
     <a class="starR2" value="10">별5_오른쪽</a>  
+    
    	<input type="number" id="Review_star" name="Review_star">
    	<input type="text" id="Review_like" name="Review_like" value="0">
 	
