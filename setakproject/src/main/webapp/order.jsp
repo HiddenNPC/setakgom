@@ -4,7 +4,6 @@
 <%@ page import = "java.util.ArrayList" %>
 
 <%
-	
 	int havePoint = (int)request.getAttribute("havePoint"); 
 
 	int haveCoupon = (int)request.getAttribute("haveCoupon"); 
@@ -45,6 +44,10 @@
 		$("#order_phone1").val('');
 		$("#order_phone2").val('');
 		$("#order_phone3").val('');
+		$("#postcode").val('');
+		$("#address").val('');
+		$("#detailAddress").val('');
+		$("#request").val('');
 	});
 	
 	// 나의 주소록 > 신규등록 
@@ -418,15 +421,6 @@
         IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         
-        var date = new Date();
-        var yy = date.getYear();
-        var mm = date.getMonth();
-        var mm1 = date.getMonth() + 1; 
-        var dd = date.getDate(); 
-        var now = yy + '/' + mm + '/' + dd; 
-        
-        var orderNum;
-        
         IMP.request_pay({
             pg : 'kakaopay',
             pay_method : 'card',
@@ -450,6 +444,7 @@
                         'member_id' : 'bit', 
                         'order_price' : final_price,
                         'order_payment' : 'card',
+                        'order_phone' : phone,
                         'order_cancel' : '0',
                         'order_status' : '결제완료',
                         'order_name' : human,
@@ -457,16 +452,12 @@
                         'order_request' : request, 
                         'order_zipcode' : postcode
                         //기타 필요한 데이터가 있으면 추가 전달
+                    },
+                    success : function(data) {
+                    	var num = data.order_num;
+                        location.href='<%=request.getContextPath()%>/orderSuccess.do?order_num='+num;
                     }
-                }).done(function(data) {
-                	
-                	orderNum = data.order_num;
-                	alert("결제완료 : " + orderNum); 
-                	sessionStorage.setItem("order_num", orderNum); 
                 });
-
-                //성공시 이동할 페이지
-                location.href='<%=request.getContextPath()%>/orderSuccess.do';
                 
             } else {
                 msg = '결제에 실패하였습니다.';
@@ -945,28 +936,28 @@
 							
 							<tr>
 								<td class = "left_col">받는 사람</td>
-								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" name = ""/></td>
+								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" ></td>
 							</tr> 
 							
 							<tr>
 								<td class = "left_col">휴대폰 번호</td>
 								<td class = "right_col">
-									<input id = "order_phone1" class = "txtInp" type = "text" size = "3" name = "" style = "width : 30px;"/> 
+									<input id = "order_phone1" class = "txtInp" type = "text" size = "3" style = "width : 30px;"/> 
 									-
-									<input id = "order_phone2" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>
+									<input id = "order_phone2" class = "txtInp" type = "text" size = "4" style = "width : 40px;"/>
 									-
-									<input id = "order_phone3" class = "txtInp" type = "text" size = "4" name = "" style = "width : 40px;"/>
+									<input id = "order_phone3" class = "txtInp" type = "text" size = "4" style = "width : 40px;"/>
 								</td>
 							</tr>
 							
 							<tr>
 								<td class = "left_col">배송지 주소</td>
 								<td class = "right_col">
-									<input id = "postcode" class = "txtInp" type = "text" name = "" style = "width : 60px;"/> 
+									<input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;"/> 
 									<input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
 									<br/>
-									<input id = "address" class = "txtInp" type = "text" name = "" style = "width : 270px;" readonly/> &nbsp;
-									<input id= "detailAddress" class = "txtInp" type = "text" name = "" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;"/>
+									<input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly/> &nbsp;
+									<input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;"/>
 									<input id="extraAddress" type="hidden" placeholder="참고항목">
 									
 								</td>
@@ -975,7 +966,7 @@
 							<tr>
 								<td class = "left_col">배송 요청 사항</td>
 								<td class = "right_col">
-									<input id = "request" class = "txtInp" type = "text" name = "" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
+									<input id = "request" class = "txtInp" type = "text" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
 								</td>
 							</tr>						
 						</tbody>
@@ -1099,11 +1090,11 @@
 							<tr>
 								<td class = "new-left">연락처</td>
 								<td>
-									<input id = "newPhone1" class = "txtInp" type = "text" name = "" style = "width : 30px;"/> 
+									<input id = "newPhone1" class = "txtInp" type = "text" style = "width : 30px;"/> 
 									-
-									<input id = "newPhone2" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+									<input id = "newPhone2" class = "txtInp" type = "text" style = "width : 40px;"/>
 									-
-									<input id = "newPhone3" class = "txtInp" type = "text" name = "" style = "width : 40px;"/>
+									<input id = "newPhone3" class = "txtInp" type = "text" style = "width : 40px;"/>
 								</td>
 							</tr>
 							<tr>

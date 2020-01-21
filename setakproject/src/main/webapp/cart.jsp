@@ -153,7 +153,7 @@
 					</tbody>
 				</table>
 				
-				<button class="bt_1000" onclick="location.href='/setak/order.st'">주문결제</button>
+				<button class="bt_1000" onclick="location.href='/setak/order.do'">주문결제</button>
 		</div>
 		
 

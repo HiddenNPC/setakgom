@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String order_num = request.getParameter("order_num"); 
+	String order_num = request.getParameter("order_num");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,9 +17,6 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")  
-         
-         var order_num = getItem("order_num");
-         alert(order_num); 
       });
     </script>
 </head>
