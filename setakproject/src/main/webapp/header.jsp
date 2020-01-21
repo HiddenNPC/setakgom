@@ -12,9 +12,9 @@
 					<li><a href="./" class ="logo_a"><img src="images/logo2.png" alt="로고"></a></li>
 				</ul>
 				<ul class="main-nav">
-					<li><a href="./login.st">로그인</a></li>
+					<li><a href="./login.do">로그인</a></li>
 					<!--<li><a href="#">로그아웃</a></li>-->
-					<li><a href="./join.st">회원가입</a></li>
+					<li><a href="./join.do">회원가입</a></li>
 					<!--<li><a href="#">마이페이지</a></li>-->
 					<!--<li><a href="#">장바구니</a></li>-->
 				</ul>

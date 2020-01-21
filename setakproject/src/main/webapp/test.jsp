@@ -20,18 +20,26 @@
 <body>
    <div id="header"></div>
    
-   <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
-   <section id="test"> <!-- id 변경해서 사용하세요. -->
-      <div class="content"> <!-- 변경하시면 안됩니다. -->
-         <div class="title-text"> <!-- 변경하시면 안됩니다. -->
-            <h2>수선 서비스</h2>
-         </div>
-         <div class="test2"> <!-- class 변경해서 사용하세요. -->
-            <p>※ 수선만 가능한 페이지입니다. 수선할 옷에 세탁 서비스도 이용하실 예정이시면 세탁 페이지를 이용해주세요.</p>
-         </div>
-      </div>
-   </section>
-   <!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
+    <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
+	<section id="title"> <!-- 변경하시면 안됩니다. -->
+		<div class="content">
+			<!-- 변경하시면 안됩니다. -->
+			<div class="title-text">
+				<!-- 변경하시면 안됩니다. -->
+				<h2>회원가입</h2>
+			</div>
+		</div>
+	</section>
+	
+	<section id="test">	<!-- id 변경해서 사용하세요. -->
+		<div class="content">	<!-- class 변경해서 사용하세요. -->
+			<div class="test"> <!-- class 변경해서 사용하세요. -->
+			
+			<p>※ 수선만 가능한 페이지입니다. 수선할 옷에 세탁 서비스도 이용하실 예정이시면 세탁 페이지를 이용해주세요.</p>
+			</div>
+		</div>
+	</section>
+	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
    
    <div id="footer"></div>
 </body>
