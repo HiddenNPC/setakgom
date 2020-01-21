@@ -26,7 +26,7 @@
 		$("#allcheck").click(function(){
 	        //클릭되었으면
 	        if($("#allcheck").prop("checked")){
-	            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+	            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의 
 	            $("input[name=check]").prop("checked",true);
 	            //클릭이 안되있으면
 	        }else{
@@ -45,33 +45,7 @@
      		}) 
      		
      	});
-         
-         /* 수정버튼 누르면 새로운 창 뜨게 함 */
-		  $(".updateBtn").click(function(){
-			  var select_btn = $(this);
-			  var tr = select_btn.parent().parent();
-			  var td = tr.children(); 
-			  
-			  var cate = td.eq(1).text(); 
-
-			  var windowObj;
-			  var settings = "";
-			  
-			  switch(cate) {
-			  	case "세탁" :
-			  		
-			  		windowObj = window.open("washingUpdate.jsp","세탁 수정", 'height='+ screen.height*0.9 +',width=' + screen.width + 'top=0,left=0');
-			  		break;
-			  		
-			  	case "세탁-수선" :
-			  		alert("세탁-수선sdfsdf");
-			  		break; 
-			  		
-			  	default :
-			  		alert("뭐야");
-			  }
-		  });
-             
+                      
       });
       
       // 합계 구하는 함수
@@ -113,21 +87,20 @@
 							<th>수량</th>
 							<th>가격</th>
 							<th>비고</th>
-							<th>변경</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
-							<td rowspan = "2">세탁</td>
+							<td>세탁</td>
 							<td>셔츠</td>
 							<td>2장</td>
 							<td class = "product_price">50000원</td>
 							<td>물세탁</td>
-							<td rowspan = "2"><input class = "updateBtn" type = "button" value = "수정" /></td>
 						</tr>			
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
+							<td>세탁</td>
 							<td>셔츠</td>
 							<td>2장</td>
 							<td class = "product_price">50000원</td>
@@ -140,7 +113,6 @@
 							<td>3장</td>
 							<td class = "product_price">40000원</td>
 							<td>소매줄임</td>
-							<td><input class = "updateBtn" type = "button" value = "수정" /></td>
 						</tr>			
 						<tr>
 							<td><input type = "checkbox" name = "check" /></td>
@@ -149,7 +121,7 @@
 							<td>3박스</td>
 							<td class = "product_price">5000원</td>
 							<td>6개월</td>
-							<td><input class = "updateBtn" type = "button" value = "수정" /></td>
+
 						</tr>						
 					</tbody>
 				</table>
@@ -181,7 +153,7 @@
 					</tbody>
 				</table>
 				
-				<a href="./order.st"><button class = "bt_1000">주문결제</button></a>
+				<button class="bt_1000" onclick="location.href='/setak/order.st'">주문결제</button>
 		</div>
 		
 
