@@ -174,3 +174,42 @@
 	border:1px solid #9E9E9E;
 	color:#8e8787;
 }
+
+/*탈퇴팝업*/
+
+
+.alert_withdraw {
+	display:none;
+	z-index:99999;
+    top : 40%;
+    left:35%;
+    position: absolute;
+    background: #f6ecdc;
+    width: 450px;
+    height: 300px;
+    border:1px solid;
+	
+}
+
+.alert_withdraw .content h3 {
+	font-size:1rem;
+	margin-left:70px;
+}
+
+.alert_withdraw .content h3:nth-child(1) {
+	margin-top:80px;
+	margin-bottom:20px;
+
+}
+
+.alert_withdraw .content h3:nth-child(2) {
+    margin-bottom:20px;
+}
+
+.close {
+	margin:50px 300px;
+	width:70px;
+	border:1px solid #3498bd;
+	background-color:#3498db;
+	color:#fff;
+}

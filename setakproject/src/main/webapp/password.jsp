@@ -22,7 +22,7 @@
   			var params = {	'member_id': sessionID,
   							'member_password':$("#member_password").val() };
  			$.ajax({
- 	            url : '/setak/password.do', // url
+ 	            url : '/setak/chk_pw.do', // url
  	            type:'post',
  	            data : params,
  	            dataType:'json', 
@@ -81,7 +81,7 @@
                      		<li><a href="profile1.do">개인정보수정</a></li>
                      		<li><a href="mycoupon.jsp">쿠폰조회</a></li>
                      		<li><a href="mysavings.jsp">적립금 조회</a></li>
-                     		<li><a href="withdraw.jsp">회원탈퇴</a></li>
+                     		<li><a href="withdraw.do">회원탈퇴</a></li>
                   		</ul>
 					</li>
 				</ul>

@@ -35,6 +35,7 @@
 	
       $(document).ready(function(){
     	  var sessionID = "<%=session.getAttribute("id") %>"
+    	 
     	  
     	 //주소분리하기
     	 $("#address").val(find1);
@@ -44,9 +45,82 @@
          $("#header").load("header.jsp");
          $("#footer").load("footer.jsp");
          
+         
+       //비밀번호체크V
+     	$(document).on("propertychange change keyup paste","#member_password",function(){
+     		if(!pwReg.test($(this).val())){
+     			$(".profile h1").css("display","block");
+     		} else {
+     			$(".profile h1").css("display","none");
+     		}
+     		
+      	});
+     	
+     	//비밀번호 일치 체크V
+     	  	$(document).on("propertychange change keyup paste","#pw2",function(){
+      	    	if($('#member_password').val() != $('#pw2').val()) {
+      	    		 $(".profile h2").css("display","block"); 
+      	    	} else {
+      	    		 $(".profile h2").css("display","none"); 
+      	    	}
+      	    });
+     	
+     	  	 //생년월일체크????????????????????????????? 년 월 일 까지 포함해야하는데 음..
+     		$(document).on("propertychange change keyup paste","#member_birthday",function(){
+     		if(!brReg.test($(this).val())){
+     			$(".profile h3").css("display","block");
+     		} else {
+     			$(".profile h3").css("display","none");
+     		}
+      	});
+     	
+     	  //핸드폰번호 체크V
+     		$(document).on("propertychange change keyup paste","#member_phone",function(){
+     			if(!phReg.test($(this).val())){
+     				$(".profile h5").css("display","block");
+     			} else {
+     				$(".profile h5").css("display","none");
+     			}
+     			
+     	 	});
+     	  
+     		//인증번호 체크?????????????????????????????????
+     		$(document).on("propertychange change keyup paste","#chksns",function(){
+     			if($('#chksns').val() == ""){
+     				$(".profile h6").css("display","block");
+     			} else {
+     				$(".profile h6").css("display","none");
+     			}
+     			
+     	 	});
+     	  
+     	  
+     		  //이메일체크V
+     		$(document).on("propertychange change keyup paste","#member_email",function(){
+     			if(!emReg.test($(this).val())){
+     				$(".profile h7").css("display","block");
+     			} else {
+     				$(".profile h7").css("display","none");
+     			}
+     			
+     	 	});
+     		  
+     		
+     	  
+     	  //우편번호체크V
+     	$(document).on("propertychange change keyup paste","#postcode",function(){
+     		if(!poReg.test($(this).val())){
+     			$(".profile h8").css("display","block");
+     		} else {
+     			$(".profile h8").css("display","none");
+     		}
+     		
+      	});
+         
+         
     	 //생년월일
  		$("#member_birthday").datepicker ({
- 		  	dateFormat: 'yy년mm월dd일', // 텍스트 필드에 입력되는 날짜 형식.
+ 		  	dateFormat: 'yy-mm-dd', // 텍스트 필드에 입력되는 날짜 형식.
  		  	prevText:'이전 달',
  		  	nextText:'다음 달',
  		  	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -142,7 +216,7 @@
                      <li><a href="profile1.do">개인정보수정</a></li>
                      <li><a href="mycoupon.jsp">쿠폰조회</a></li>
                      <li><a href="mysavings.jsp">적립금 조회</a></li>
-                    <li><a href="withdraw.jsp">회원탈퇴</a></li>
+                    <li><a href="withdraw.do">회원탈퇴</a></li>
                   </ul>
                </li>
             </ul>
@@ -161,7 +235,7 @@
 							<td class="left_info">새 비밀번호</td>
 							<td class="right_info">
 								<input class="txt_info" type="password" id="member_password" value="">
-								<h1>8~20자 영문 대 소문자, 숫자, 특수문자 1자리이상 조합으로 사용하세요.</h1>
+								<h1>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h1>
 							</td>
 						</tr>
 						<tr>
@@ -224,88 +298,12 @@
 	
 	<div id="footer"></div>
 	<script type="text/javascript">
-	var pwReg =/^(?=[a-zA-Z0-9])(?=.*[~`!@#$%\\^&*()-_]).{8,20}$/;
+	var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
 	var phReg =/^[0-9]{10,11}$/;
 	var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
-	var brReg =/^[0-9]{4}+년[0-9]{2}+(월[0-9]{2}일)$/;
-	var brReg = /^[0-9]{8}$/;
+	var brReg = /^(\d{4})[-]\d{2}[-]\d{2}$/;
 	var poReg = /^[0-9]{5}$/;
 		
-	
-	 $(document).ready(function(){
-	//비밀번호체크V
-	$(document).on("propertychange change keyup paste","#member_password",function(){
-		if(!pwReg.test($(this).val())){
-			$(".profile h1").css("display","block");
-		} else {
-			$(".profile h1").css("display","none");
-		}
-		
- 	});
-	
-	//비밀번호 일치 체크V
-	  	$(document).on("propertychange change keyup paste","#pw2",function(){
- 	    	if($('#member_password').val() != $('#pw2').val()) {
- 	    		 $(".profile h2").css("display","block"); 
- 	    	} else {
- 	    		 $(".profile h2").css("display","none"); 
- 	    	}
- 	    });
-	
-	  	 //생년월일체크????????????????????????????? 년 월 일 까지 포함해야하는데 음..
-		$(document).on("propertychange change keyup paste","#member_birthday",function(){
-		if(!brReg.test($(this).val())){
-			$(".profile h3").css("display","block");
-		} else {
-			$(".profile h3").css("display","none");
-		}
- 	});
-	
-	  //핸드폰번호 체크V
-		$(document).on("propertychange change keyup paste","#member_phone",function(){
-			if(!phReg.test($(this).val())){
-				$(".profile h5").css("display","block");
-			} else {
-				$(".profile h5").css("display","none");
-			}
-			
-	 	});
-	  
-		//인증번호 체크?????????????????????????????????
-		$(document).on("propertychange change keyup paste","#chksns",function(){
-			if($('#chksns').val() == ""){
-				$(".profile h6").css("display","block");
-			} else {
-				$(".profile h6").css("display","none");
-			}
-			
-	 	});
-	  
-	  
-		  //이메일체크V
-		$(document).on("propertychange change keyup paste","#member_email",function(){
-			if(!emReg.test($(this).val())){
-				$(".profile h7").css("display","block");
-			} else {
-				$(".profile h7").css("display","none");
-			}
-			
-	 	});
-		  
-		
-	  
-	  //우편번호체크V
-	$(document).on("propertychange change keyup paste","#postcode",function(){
-		if(!poReg.test($(this).val())){
-			$(".profile h8").css("display","block");
-		} else {
-			$(".profile h8").css("display","none");
-		}
-		
- 	});
-	  
-	 });  
-
 	
     //우편번호 api
     function execDaumPostcode() {

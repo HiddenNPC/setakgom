@@ -14,12 +14,43 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
+         var sessionID = "<%=session.getAttribute("id") %>"
          
-         /*탈퇴신청 버튼누르면?????????*/
+         /*탈퇴신청 버튼 클릭*/
          $(".btn").click(function(event){
-         	$(location.href="/setak/joinform.jsp");
+	       	  $(".back").css('display', 'block');
+        	 $(".alert_withdraw").css('display', 'block'); 
          });
-      });
+         
+         $(".close").click(function(event){
+        	  $(".alert_withdraw").css('display', 'none');
+        	  $(".back").css('display', 'none');
+          });
+         
+         /*탈퇴 ???????
+          $(".btn").click(function(event){
+         var params = {	'member_id': sessionID };
+			$.ajax({
+    		 url : '/setak/deleteMember.do', 
+    		 type:'post',
+    		 data : params,
+    		 dataType:'json', 
+   			 contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+    		 success: function(result) {
+        		if(result.res=="OK") {
+     	  			alert("탈퇴완료");
+        		} else { 
+        			// 실패했다면
+           			alert("탈퇴실패.");
+        				}
+     			},
+     			error:function() {
+        			alert("insert ajax 통신 실패");
+     			}			
+			});
+		});*/
+          
+     });
     </script>
 </head>
 <body>
@@ -57,10 +88,10 @@
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정보관리</li>
-                    		<li><a href="password.jsp">개인정보수정</a></li>
+                    		<li><a href="profile1.do">개인정보수정</a></li>
                      		<li><a href="mycoupon.jsp">쿠폰조회</a></li>
                     		<li><a href="mysavings.jsp">적립금 조회</a></li>
-                    		<li><a href="withdraw.jsp">회원탈퇴</a></li>
+                    		<li><a href="withdraw.do">회원탈퇴</a></li>
                   		</ul>
 					</li>
 				</ul>
@@ -80,6 +111,17 @@
 				</div>
 		</div>	
 	</section>
+	
+	<!--탈퇴신청 팝업 -->
+	<div class="alert_withdraw">
+		<div class="back"></div>
+		<div class="content">
+			<h3>탈퇴신청되었습니다.</h3>
+			<h3>탈퇴는 심사 후 처리됩니다.</h3>
+			<h3>그동안 세탁곰을 이용해 주셔서 감사합니다.</h3>
+			<button type="button" class="close">확인</button>
+		</div>
+	</div>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
    
    <div id="footer"></div>

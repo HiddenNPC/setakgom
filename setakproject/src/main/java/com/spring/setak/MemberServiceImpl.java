@@ -27,6 +27,26 @@ public class MemberServiceImpl implements MemberService{
 		 return mvo;
 	}
 	
+	@Override 
+	public int member_id(MemberVO mo) {
+		int res = 0;
+		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+		String id = mapper.member_id(mo);
+		
+		try {
+					if(id != null) {
+						String dbpassid = id;
+						if(dbpassid.equals(mo.getMember_id())) {
+							res = 1; //아이디중복
+						}
+					}
+				} catch (Exception e) {
+					System.out.println("아이디 중복 확인 실패" + e.getMessage());
+					 res = -1;
+				}
+				 return res;
+	}
+	
 	@Override
 	public int member_insert(MemberVO mo) {
 		 int res = 0;
