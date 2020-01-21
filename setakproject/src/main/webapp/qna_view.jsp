@@ -31,7 +31,7 @@ $(document).ready(function() {
 		$.ajax({
 			/* url:'/setak_qna/commentList.re?qna_num='+para+'', 
 			type:'GET',*/
-			url:'/setak/commentList.re', 
+			url:'/setak/commentList.do', 
 			type:'POST', 
 			data:para,
 			dataType:"json", //서버에서 보내줄 데이터 타입
@@ -39,13 +39,13 @@ $(document).ready(function() {
 			success:function(data) {				
 				$.each(data, function(index, item) {
 					var output = '';							
-					output += '<tr><td><style="display:none;" input type="hidden" value="'+item.qna_seq+'"></tr>';							
-					output += '<tr><td><style="display:none;" input type="hidden" value="'+item.qna_num+'"></tr>';							
-					output += '<tr><td colspan="2">관리자</td></tr>';							
-					output += '<tr><td id="td3" width="8%" valign="top"> A :&nbsp;</td>';														
+					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_seq+'"></tr>';							
+					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></tr>';							
+					output += '<tr><td id="cl_td1" colspan="2">세탁곰</td></tr>';							
+					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
-					output += '<tr><td colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';
-					output += '<tr><td colspan="2"></td></tr>';	
+					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';
+					output += '<tr height="15px"><div></div></tr>';						
 					console.log("para="+para);
 					$('#output').append(output);
 				});
@@ -61,7 +61,7 @@ $(document).ready(function() {
 		var params=$("#comment_form").serialize();
 		console.log("comment_form="+params);
 		jQuery.ajax({
-			url:'/setak/commentInsert.re',
+			url:'/setak/commentInsert.do',
 			type:'POST',
 			data:params,
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
@@ -91,7 +91,7 @@ $(document).ready(function() {
 		console.log("id(qna_seq)="+dpara);
 		
 			$.ajax({
-			url:'/setak/commentDelete.re',
+			url:'/setak/commentDelete.do',
 			type:'POST',
 			data:dpara,
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
@@ -124,7 +124,7 @@ selectData();
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.co">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
 <table class="qvt1">
@@ -142,7 +142,7 @@ selectData();
 <table class="qvt2">
 	<tr><td colspan="4" width="10%" height="40px">
 			<div>첨부 파일 : <%if(!(vo.getQNA_FILE()==null)){ %>
-				<a href="./fileDownload.co?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=
+				<a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=
 				<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>			
 				<%}else{ %>파일이 존재하지 않습니다.<%} %>
 			</div>
@@ -155,26 +155,25 @@ selectData();
 
 <table class="qvt3">
 	<tr><td>
-		<button type="button" id="btn1" onclick="location.href='./updateform.co?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 수 정  </button>					
-		<button type="button" id="btn1" onclick="location.href='./qnaDelete.co?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 삭 제  </button>			
-		<button type="button" id="btn2" onclick="location.href='./qnaList.co'"> 글목록  </button>							
+		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 수 정  </button>					
+		<button type="button" id="btn1" onclick="location.href='./qnaDelete.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 삭 제  </button>			
+		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
 </table><br>
 <!-- 게시판 내용 끝 ,  댓글 작성 폼  시작-->	
 <form id="comment_form" method="post" >
-<table border="0"  bordercolor="#e1e4e4" cellpadding="0" cellspacing="0">
+<table class="cf_t1">
 <tr><th id="cf_label">&nbsp;댓 글</th></tr>
-<tr><td>&nbsp;</td></tr>
 <tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQNA_NUM()%>"></td></tr>
-<tr><td><textarea id="cf_content" name="qna_content" maxlength="300px" cols="95" rows="6" style="resize:none" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
-	<td valign="bottom" width="15%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
+<tr><td><textarea class="textarea" name="qna_content" maxlength="300px" cols="130" rows="6" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
+	<td valign="bottom" width="10%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
 </tr>	
 </table>
 </form>
 <!-- 댓글 작성 폼 끝 -->
 <!-- 댓글리스트  id="output" -->
-<br><br><br>
+<br>
 <form><table id="output" class="comment_list"></table></form>
 <!-- 댓글리스트 끝-->
 </div></div>

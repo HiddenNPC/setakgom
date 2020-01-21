@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 {
 	@Autowired private NoticeService noticeService;
 	
-	@RequestMapping("noticeList.st") public String noticeList(HttpServletRequest request, Model model) throws Exception
+	@RequestMapping("noticeList.do") public String noticeList(HttpServletRequest request, Model model) throws Exception
 	{
 		ArrayList<NoticeVO> noticelist = new ArrayList<NoticeVO>();
 		int page = 1;
@@ -54,14 +54,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 	}
 	
-	@RequestMapping("noticeWrite.st") public String writeForm(NoticeVO noticevo, Model model) throws Exception
+	@RequestMapping("noticeWrite.do") public String writeForm(NoticeVO noticevo, Model model) throws Exception
 	{
 		model.addAttribute("noticevo", noticevo);
 		return "notice_write";
 		
 	}
 	
-	@RequestMapping("noticeInsert.st") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping("noticeInsert.do") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{				
 		NoticeVO noticevo = new NoticeVO();
 		noticevo.setNOTICE_TITLE(request.getParameter("NOTICE_TITLE"));
@@ -81,7 +81,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return null;
 	}
 	
-	@RequestMapping("getDetail.st") public String getDetail( NoticeVO noticevo, Model model) throws Exception
+	@RequestMapping("getDetail.do") public String getDetail( NoticeVO noticevo, Model model) throws Exception
 	{
 		NoticeVO vo = noticeService.getDetail(noticevo);
 		model.addAttribute("noticedata", vo);
@@ -90,21 +90,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return "notice_view";
 	}
 
-	@RequestMapping("/updateForm.st") public String updateForm(NoticeVO noticevo, Model model) throws Exception {
+	@RequestMapping("/updateForm.do") public String updateForm(NoticeVO noticevo, Model model) throws Exception {
 		NoticeVO vo = noticeService.getDetail(noticevo);
 		model.addAttribute("noticedata", vo);
 		
 		return "notice_modify";
 	}
 
-	@RequestMapping ("noticeModify.st") public String noticeModify (NoticeVO noticevo, HttpServletResponse response, HttpServletRequest request) throws Exception
+	@RequestMapping ("noticeModify.do") public String noticeModify (NoticeVO noticevo, HttpServletResponse response, HttpServletRequest request) throws Exception
 	{
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		
-		
-		
 		
 		int res = noticeService.noticeModify(noticevo);		
 		
@@ -119,14 +116,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return null;				
 	}
 	
-	@RequestMapping("/deleteForm.st") public String deleteForm(NoticeVO noticevo, Model model) throws Exception 
+	@RequestMapping("/deleteForm.do") public String deleteForm(NoticeVO noticevo, Model model) throws Exception 
 	{
 		NoticeVO vo = noticeService.getDetail(noticevo);
 		model.addAttribute("noticedata", vo);		
 		return "notice_delete";
 	}
 
-	@RequestMapping("/noticeDelete.st") public String noticeDelete(NoticeVO noticevo, HttpServletResponse response) throws Exception 
+	@RequestMapping("/noticeDelete.do") public String noticeDelete(NoticeVO noticevo, HttpServletResponse response) throws Exception 
 	{
 		int res = noticeService.noticeDelete(noticevo);		
 		response.setCharacterEncoding("utf-8");

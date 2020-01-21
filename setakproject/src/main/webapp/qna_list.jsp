@@ -57,7 +57,7 @@ $(document).ready(function(){
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#F8F8F8'" onmouseout="this.style.backgroundColor=''" >
 		<td height="30px" width="7%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 		<td width="18%"> <div align="center"><%=bl.getQNA_TYPE() %>&nbsp;/&nbsp;<%=bl.getQNA_KIND()%></div></td>
-		<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./getDetail.co?QNA_NUM=<%=bl.getQNA_NUM() %>"><%=bl.getQNA_TITLE() %></a> </div></td>
+		<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?QNA_NUM=<%=bl.getQNA_NUM() %>"><%=bl.getQNA_TITLE() %></a> </div></td>
 		<td width="15%"> <div align="center"><%=bl.getMEMBER_ID() %></div></td>
 		<td width="15%"> <div align="center"><%=bl.getQNA_DATE() %></div> </td>		
 	</tr>
@@ -78,19 +78,19 @@ else
 		<% if(nowpage<=1) { %>
 			< &nbsp;&nbsp;&nbsp;
 		<% } else { %>
-		<a href="./qnaList.co?page=<%=nowpage-1 %>" > < </a>&nbsp;
+		<a href="./qnaList.do?page=<%=nowpage-1 %>" > < </a>&nbsp;
 		<% } %>
 		<% for (int a=startpage; a<=endpage; a++) { 
 			if(a==nowpage) { %>
 			<%=a %>
 			<% } else { %>
-			<a href="./qnaList.co?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
+			<a href="./qnaList.do?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
 			<% } %>
 		<% } %>
 		<% if (nowpage >= maxpage ) { %>
 		&nbsp;&nbsp;&nbsp; >
 		<% } else { %>
-			<a href="./qnaList.co?page=<%=nowpage+1 %>" >></a>
+			<a href="./qnaList.do?page=<%=nowpage+1 %>" >></a>
 		<% } %>
 		</td>
 	</tr>
@@ -98,7 +98,7 @@ else
 <table class="qlt4">		
 <tr align="right">
 <td colspan="5">
-<button type="button" onclick="location.href='./qnaWrite.co?MEMBER_ID=<%=id %>'">글 작성 </button></td>
+<button class="qlt4_btn" type="button" onclick="location.href='./qnaWrite.do?MEMBER_ID=<%=id %>'">글 작성 </button></td>
 </tr> 		
 </table>
 </div></div>

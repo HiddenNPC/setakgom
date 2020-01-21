@@ -10,7 +10,7 @@
 	</resultMap>
 	
 	<select id="commentList" parameterType="com.spring.setak.CommentVO" resultMap="commentMap">
-		SELECT * FROM QNA_REQUEST WHERE QNA_NUM=#{qna_num} ORDER BY QNA_SEQ desc
+		SELECT * FROM QNA_REQUEST WHERE QNA_NUM=#{qna_num} ORDER BY QNA_SEQ DESC
 	</select>
 	
 	<select id="cntListCount" resultType="int">

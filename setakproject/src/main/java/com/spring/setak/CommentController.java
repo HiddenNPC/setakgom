@@ -1,19 +1,11 @@
 package com.spring.setak;
 
-
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
 import com.spring.setak.CommentVO;
 
 
@@ -30,7 +22,7 @@ public class CommentController
 {
 	@Autowired CommentService commentService;
 	
-	@PostMapping(value="commentList.re", produces="application/json; charset=UTF-8")
+	@PostMapping(value="commentList.do", produces="application/json; charset=UTF-8")
 	public  List<CommentVO> commentList(CommentVO vo) 
 	{	
 		System.out.println("컨트롤러,qnum="+ vo.getQna_num());
@@ -39,7 +31,7 @@ public class CommentController
 
 	}
 	
-	@PostMapping(value="commentInsert.re", produces="application/json; charset=UTF-8")
+	@PostMapping(value="commentInsert.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentInsert(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
@@ -56,7 +48,7 @@ public class CommentController
 		return retVal;
 	}
 	
-	@PostMapping(value="commentDelete.re", produces="application/json; charset=UTF-8")
+	@PostMapping(value="commentDelete.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentDelete(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
@@ -76,7 +68,7 @@ public class CommentController
 		return retVal;
 	}
 	
-	@PostMapping(value="/commentUpdate.re", produces="application/json; charset=UTF-8")
+	@PostMapping(value="/commentUpdate.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentUpdate(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
