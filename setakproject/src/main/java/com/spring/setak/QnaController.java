@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 {
 	@Autowired private QnaService qnaService;
 	
-	@RequestMapping("qnaList.co") public String qnaList(HttpServletRequest request, Model model) throws Exception
+	@RequestMapping("qnaList.do") public String qnaList(HttpServletRequest request, Model model) throws Exception
 	{
 		ArrayList<QnaVO> qnalist = new ArrayList<QnaVO>();
 		int page  = 1;
@@ -59,19 +59,17 @@ import org.springframework.web.servlet.ModelAndView;
 		
 		return "qna_list";
 		
-		
-		
-		
+	
 	}
 	
-	@RequestMapping("qnaWrite.co") public String writeForm(QnaVO vo, Model model)
+	@RequestMapping("qnaWrite.do") public String writeForm(QnaVO vo, Model model)
 	{
 		model.addAttribute("qnadata", vo);
 		
 		return "qna_write";
 	}
 
-	@RequestMapping("qnaInsert.co") public String insertQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping("qnaInsert.do") public String insertQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		QnaVO qnaVO = new QnaVO();
 		response.setCharacterEncoding("utf-8");
@@ -142,30 +140,29 @@ import org.springframework.web.servlet.ModelAndView;
 		
 		if(res ==0 ) 
 		{
-			writer.write("<script> alert('입력실패');location.href='./qnaWrite.co'; </script>");
+			writer.write("<script> alert('입력실패');location.href='./qnaWrite.do'; </script>");
 			return null;
 		}
-		writer.write("<script> alert('입력 성공');location.href='./qnaList.co'; </script>");
+		writer.write("<script> alert('입력 성공');location.href='./qnaList.do'; </script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
 	}	
 	
-	@RequestMapping("getDetail.co") public String getDetail(QnaVO qnavo, Model model) throws Exception 
+	@RequestMapping("qnaDetail.do") public String getDetail(QnaVO qnavo, Model model) throws Exception 
 	{
 		QnaVO vo = qnaService.getDetail(qnavo);
-		model.addAttribute("qnadata", vo);
-		
+		model.addAttribute("qnadata", vo);		
 		return "qna_view";
 	}
 	
-	@RequestMapping("updateform.co") public String updateForm(QnaVO qnavo, Model model) throws Exception {
+	@RequestMapping("updateform.do") public String updateForm(QnaVO qnavo, Model model) throws Exception {
 		QnaVO vo = qnaService.getDetail(qnavo);
 		model.addAttribute("qnadata", vo);		
 		return "qna_update";
 	}
 		
-	@RequestMapping("qnaUpdate.co") public String updateQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping("qnaUpdate.do") public String updateQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -179,13 +176,14 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setQNA_KIND(request.getParameter("QNA_KIND"));
 		vo.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		vo.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
+		System.out.println("기존에 DB에 저장되어있던 파일의 이름  ="+request.getParameter("exist_file"));
 		
-		
-		
+						
 		ModelAndView mav = new ModelAndView();
 		MultipartFile mf = request.getFile("QNA_FILE"); //파일		
 		System.out.println("너의 QNA_FILE은=" + mf);
 		String uploadPath="C:\\Project138\\upload\\";			
+		
 		if(mf.getSize() != 0)//용량
 		{	
 		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
@@ -198,58 +196,49 @@ import org.springframework.web.servlet.ModelAndView;
 		mav.addObject("fileSize", mf.getSize());
 		mav.addObject("storedFileName",storedFileName);	
 		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
-		
+		mav.addObject("downlink", downlink);		
 		System.out.println("paramName=" + mf.getName());
 		System.out.println("fileName=" + mf.getOriginalFilename());
 		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
+		System.out.println("storedFileName=" + storedFileName);					
 		vo.setQNA_FILE(mf.getOriginalFilename().concat("/"+storedFileName));	
 		
 		}
 		else
 		{
-			vo.setQNA_FILE(null);
+			vo.setQNA_FILE(request.getParameter("exist_file"));
 			
 		}
 
-		vo.setQNA_CHECK(request.getParameter("QNA_CHECK"));
-		
+		vo.setQNA_CHECK(request.getParameter("QNA_CHECK"));		
 		result = qnaService.qnaModify(vo);
-
 		if(result== 0)
 		{
-			writer.write("<script>alert('수정 실패');location.href='./updateform.co';</script>");
+			writer.write("<script>alert('수정 실패');location.href='./updateform.do';</script>");
 			return null;				
 		}
 		else
 		{				
-			writer.write("<script> alert('수정 성공');location.href='./qnaList.co'; </script>");
+			writer.write("<script> alert('수정 성공');location.href='./qnaList.do'; </script>");
 			//return "redirect:/sungjuklist.su";						
 		}
 		System.out.println("수정 성공하고 리스트로 왓다 .");
 		return null;
 	}
 	
-	@RequestMapping("qnaDelete.co") public String deleteQna (QnaVO vo, HttpServletResponse response) throws Exception
+	@RequestMapping("qnaDelete.do") public String deleteQna (QnaVO vo, HttpServletResponse response) throws Exception
 	{
 		int res = qnaService.qnaDelete(vo);		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();		
 		if (res == 1 ) 
-		writer.write("<script>alert('글을 삭제하셨습니다 '); location.href='./qnaList.co';</script>");
+		writer.write("<script>alert('글을 삭제하셨습니다 '); location.href='./qnaList.do';</script>");
 		return null;
 	
 	}
-	
-	
-	
-	
-	
-	
-	@RequestMapping("fileDownload.co") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
+
+	@RequestMapping("fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");
 		String of = request.getParameter("of"); //서버에 업로드된 변경된 실제 파일명

@@ -21,14 +21,11 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/notice.css"/>
-<style type="text/css">		
-	
-</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#header").load("./frame/header.jsp")
-    $("#footer").load("./frame/footer.jsp")     
+    $("#header").load("./header.jsp")
+    $("#footer").load("./footer.jsp")     
  });
 
 </script>
@@ -66,7 +63,7 @@ $(document).ready(function(){
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#F8F8F8'" onmouseout="this.style.backgroundColor=''" >
 		<td height="35"  width="10%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 		<td width="50%"> 
-			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.st?NOTICE_NUM=<%=bl.getNOTICE_NUM() %>">
+			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.do?NOTICE_NUM=<%=bl.getNOTICE_NUM() %>">
 			<%=bl.getNOTICE_TITLE() %></a></div>
 		</td>
 		<td  width="16%">
@@ -85,21 +82,21 @@ $(document).ready(function(){
 		<% if(nowpage<=1) { %>
 			< &nbsp;&nbsp;&nbsp;
 			<% } else { %>
-			<a href="./noticeList.st?page=<%=nowpage-1 %>" > < </a>&nbsp;
+			<a href="./noticeList.do?page=<%=nowpage-1 %>" > < </a>&nbsp;
 			<% } %>
 			
 			<% for (int a=startpage; a<=endpage; a++) { 
 					if(a==nowpage) { %>
 						<%=a %>
 						<% } else { %>
-						<a href="./noticeList.st?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
+						<a href="./noticeList.do?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
 				<% } %>
 			<% } %>
 			&nbsp;
 			<% if (nowpage >= maxpage ) { %>
 					&nbsp;&nbsp;&nbsp; >
 				<% } else { %>
-					<a href="./noticeList.st?page=<%=nowpage+1 %>" > > </a>
+					<a href="./noticeList.do?page=<%=nowpage+1 %>" > > </a>
 			<% } %>
 			</td>
 		</tr>
@@ -123,9 +120,7 @@ $(document).ready(function(){
 	<tr><td colspan="5"><a href="./noticeWrite.st" >[글쓰기]</a></td></tr> 		
 </table>
  -->
-</div>
-</div>
-</section>
+</div></div></section>
 <div id="footer"></div> 
 </body>
 </html>

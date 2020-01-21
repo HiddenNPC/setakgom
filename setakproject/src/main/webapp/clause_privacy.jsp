@@ -4,13 +4,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+function closes(){
+    window.open('','_self').close();
+}
+
+</script>
 </head>
+
 <body>
 <!-- header -->
 <div class="modal-header">
     <!-- 닫기(x) 버튼 -->
-  <button type="button" class="close" data-dismiss="modal">×</button>
   <font color="#f67001" size=4>02</font> <font size=3>개인정보</font>
+   <button type="button" onclick="closes()" style="margin-left: 450px;">×</button>
 </div>
 <!-- body -->
 <div class="modal-body">
@@ -113,10 +120,6 @@ NICE신용평가정보㈜(이하 “대행사”)가 “대행사”에서 제�
 다음과 같습니다.
 '정보통신망 이용촉진 및 정보보호 등에 관한 법률'의 거래기록 보존 의무에 따른 보존: 1년
                 </textarea></td>
-</div>
-<!-- Footer -->
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 </div>
 
 </body>

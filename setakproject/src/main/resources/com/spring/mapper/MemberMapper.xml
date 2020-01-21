@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.spring.mapper.MemberMapper">
+   <resultMap type="com.spring.setak.MemberVO" id="membervo">
+      <result property="member_name" column="member_name"/>
+      <result property="member_id" column="member_id"/>
+      <result property="member_password" column="member_password" />
+      <result property="pw2" column="pw2"/>
+      <result property="member_phone" column="member_phone"/>
+      <result property="member_email" column="member_email"/>
+      <result property="member_gender" column="member_gender"/>
+      <result property="member_birthday" column="member_birthday"/>
+      <result property="member_zipcode" column="member_zipcode"/>
+      <result property="member_loc" column="member_loc"/>
+      <result property="member_join" column="member_join"/>
+   </resultMap>
+   
+   <select id="member_list" parameterType="com.spring.setak.MemberVO" resultMap="membervo">
+      SELECT * FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR} 
+   </select>
+   
+   <select id="member_id" parameterType="com.spring.setak.MemberVO" resultType="string">
+   		SELECT member_id FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR} 
+   </select>
+   
+   <insert id="member_insert" parameterType="com.spring.setak.MemberVO" >
+		INSERT INTO member(member_name, member_id, member_password, member_phone, member_email, member_gender, member_birthday, member_zipcode, member_loc, member_join)
+		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_password, jdbcType=VARCHAR}, #{member_phone}, #{member_email}, #{member_gender}, #{member_birthday}, #{member_zipcode}, #{member_loc}, sysdate)
+   </insert>
+   
+   <select id="member_password" parameterType="com.spring.setak.MemberVO" resultType="string">
+		SELECT member_password FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR}
+   </select>
+   
+   <update id="member_update" parameterType="com.spring.setak.MemberVO" >
+   		UPDATE member 
+   		SET member_password=#{member_password}, member_birthday=#{member_birthday}, member_phone=#{member_phone}, member_email=#{member_email}, member_zipcode=#{member_zipcode}, member_loc=#{member_loc} 
+   		WHERE member_id= #{member_id, jdbcType=VARCHAR}
+   </update>
+   <delete id="member_delete" parameterType="String">
+   		DELETE FROM member WHERE member_id= #{member_id, jdbcType=VARCHAR}
+   </delete>
+   
+</mapper>

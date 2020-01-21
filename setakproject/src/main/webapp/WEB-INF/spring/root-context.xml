@@ -27,6 +27,13 @@
 		
 	</bean>
 	
+	<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json; charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
 	<!-- mybatis mapper 설정 관련(사용시 Namespace 탭에서 mybatis-spring추가하기 -->
 	<mybatis-spring:scan base-package="com.spring.mapper"/>
 	

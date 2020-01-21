@@ -21,8 +21,8 @@ var cate = "상의";
 $(document).ready(function($) {
 	
 	/* 헤더풋터 생성 */
-	$("#header").load("./frame/header.jsp")
-    $("#footer").load("./frame/footer.jsp")
+	$("#header").load("./header.jsp")
+    $("#footer").load("./footer.jsp")
 	
 	/* 카테고리선택하면 메뉴리스트 변경함수 */
 	$(".tab").on("click", function() {
@@ -51,14 +51,14 @@ $(document).ready(function($) {
 		num++;
 		str += '<tr id="'+num+'">';
 		str += '<td align="center"><input type="checkbox" name="chk" value="'+tdtext[0]+'" checked></td>';
-		str += '<td align="center"><input type="hidden" value="'+tdtext[0]+'" name = "category">'+tdtext[0]+'</td>';
-		str += '<td align="center"><select class = "howsetak" name="세탁방법">';
+		str += '<td align="center"><input type="hidden" value="'+tdtext[0]+'" name = "wash_kind">'+tdtext[0]+'</td>';
+		str += '<td align="center"><select class = "howsetak" name="wash_method">';
 		str += '<option value="물세탁">물세탁</option>';
 		str += '<option value="드라이">드라이(+2000)</option>';
 		str += '<option value="삶음">삶음(+1500)</option></td>';
-		str += '<td align="center"><input type="number" class="qnum" name="quantity" min="1" max="1000" value="1"></td>';
+		str += '<td align="center"><input type="number" class="qnum" name="wash_count" min="1" max="1000" value="1"></td>';
 		str += '<td name="'+tdtext[2]+'" align="center">'+tdtext[2]+'원</td>';
-		str += '<input type="hidden" name="test" value="'+cate+'">';
+		str += '<input type="hidden" name="wash_cate" value="'+cate+'">';
 		$(".pricemenu").after(str);
 		
 		sumprice();
@@ -148,7 +148,7 @@ function checkform() {
 </script>
 <body>
 	<div id="header"></div>
-
+  
 	<div class = content>
 		<div class = title-text>
 			<h2>세탁 서비스</h2>

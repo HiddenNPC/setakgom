@@ -16,8 +16,8 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-         $("#header").load("./frame/header.jsp")
-         $("#footer").load("./frame/footer.jsp")     
+         $("#header").load("./header.jsp")
+         $("#footer").load("./footer.jsp")     
       });
     </script>
 </head>
@@ -54,74 +54,82 @@
 					<tbody align = "center">
 						<tr>
 							<td>올인원59</td>
-							<td>94500원</td>
+							<td>
+								<span class = "origin_price">76,700원</span>
+								<br/>
+								<span class = "sale_price">59,000원</span>
+							</td>
 							<td>3개</td>
 							<td>15장</td>
 							<td>3장</td>
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
 							<td>올인원74</td>
-							<td>74000원</td>
+							<td>
+								<span class = "origin_price">99,900원</span>
+								<br/>
+								<span class = "sale_price">74,000원</span>
+							</td>
 							<td>5개</td>
 							<td>20장</td>
 							<td>3장</td>
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
 							<td>올인원89</td>
-							<td>89000원</td>
+							<td>89,000원</td>
 							<td>8개</td>
 							<td>20장</td>
 							<td>4장</td>
 							<td>-</td>
 							<td>1장</td>
 							<td>6회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
 							<td>올인원104</td>
-							<td>104000원</td>
+							<td>104,000원</td>
 							<td>8개</td>
 							<td>20장</td>
 							<td>5장</td>
 							<td>1개</td>
 							<td>1장</td>
 							<td>8회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
 							<td>올인원119</td>
-							<td>119000원</td>
+							<td>119,000원</td>
 							<td>9개</td>
 							<td>20장</td>
 							<td>6장</td>
 							<td>1개</td>
 							<td>2장</td>
 							<td>10회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
 							<td>올인원134</td>
-							<td>134000원</td>
+							<td>134,000원</td>
 							<td>15개</td>
 							<td>20장</td>
 							<td>7장</td>
 							<td>1개</td>
 							<td>3장</td>
 							<td>12회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 							
 					</tbody>
@@ -153,7 +161,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -165,7 +173,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -177,7 +185,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>6회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>	
 					</tbody>
 				</table>
@@ -208,7 +216,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -220,7 +228,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -232,7 +240,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>	
 					</tbody>
 				</table>
@@ -263,7 +271,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -275,7 +283,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -287,7 +295,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -299,7 +307,7 @@
 							<td>1개</td>
 							<td>-</td>
 							<td>5회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -311,7 +319,7 @@
 							<td>1개</td>
 							<td>-</td>
 							<td>7회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -323,7 +331,7 @@
 							<td>1개</td>
 							<td>1장</td>
 							<td>9회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 					</tbody>
@@ -355,7 +363,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -367,7 +375,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -379,7 +387,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -391,7 +399,7 @@
 							<td>1회</td>
 							<td>1장</td>
 							<td>4회</td>
-							<td><input type = "button" class = "pay_button" value = "결제" /></td>
+							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 					</tbody>
@@ -409,7 +417,8 @@
 		$(document).ready(function() {
 	
 		// 아이엠포트 관련 스크립트
-    	$(".pay_button").on("click", function(){
+    	/*
+		$(".pay_button").on("click", function(){
     		var select_button = $(this);
     		var tr = select_button.parent().parent();
     		var td = tr.children();
@@ -449,6 +458,7 @@
                         //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
                         if ( everythings_fine ) {
                             msg = '결제가 완료되었습니다.';
+                            
                             msg += '\n고유ID : ' + rsp.imp_uid;
                             msg += '\n상점 거래ID : ' + rsp.merchant_uid;
                             msg += '\결제 금액 : ' + rsp.paid_amount;
@@ -472,6 +482,7 @@
             });
             
         });
+		*/
     	
 		});
 		

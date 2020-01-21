@@ -36,8 +36,7 @@ public class QnaServiceImpl implements QnaService
 	{
 		ArrayList<QnaVO> list = new ArrayList<QnaVO>();		
 		try
-		{	
-			
+		{			
 			QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
 			list = qnaMapper.getQnaList(startRow, endRow);
 			return list;			
@@ -51,10 +50,10 @@ public class QnaServiceImpl implements QnaService
 	
 	@Override public int qnaInsert(QnaVO qnavo) throws Exception 
 	{
-		QnaMapper boardMapper = sqlSession.getMapper(QnaMapper.class);
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
 		try
 		{
-			int vo = boardMapper.qnaInsert(qnavo);
+			int vo = qnaMapper.qnaInsert(qnavo);
 			return vo;
 		}
 		catch (Exception e)
@@ -66,10 +65,10 @@ public class QnaServiceImpl implements QnaService
 	@Override public int getMaxNum() throws Exception 
 	{
 		int res=0;
-		QnaMapper boardMapper = sqlSession.getMapper(QnaMapper.class);
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
 		try
 		{
-			 res =boardMapper.getMaxNum();
+			 res =qnaMapper.getMaxNum();
 			
 		}
 		catch (Exception e)
@@ -108,8 +107,8 @@ public class QnaServiceImpl implements QnaService
 
 	@Override public int qnaDelete(QnaVO vo) throws Exception {
 		
-		QnaMapper boardMapper = sqlSession.getMapper(QnaMapper.class);
-		int res = boardMapper.qnaDelete(vo.getQNA_NUM());
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+		int res = qnaMapper.qnaDelete(vo.getQNA_NUM());
 		return res;
 	}
 
