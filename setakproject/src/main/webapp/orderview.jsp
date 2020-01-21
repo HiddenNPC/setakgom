@@ -3,7 +3,13 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.*, com.spring.setak.*" %>
 <%
-	List<MendingVO> mendinglist = (ArrayList<MendingVO>)request.getAttribute("mendinglist");
+	
+	int currentPage = (int)request.getAttribute("currentPage");  
+	int count = (int)request.getAttribute("count");
+	int number = (int)request.getAttribute("number");
+	int pageSize = (int)request.getAttribute("pageSize");
+	
+	List<OrderVO> orderlist = (ArrayList<OrderVO>)request.getAttribute("orderlist");
 %>    
 <!DOCTYPE html>
 <html>
@@ -68,12 +74,18 @@
 						<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
 					</p>
 					<% 
+				
 						try{
-							MendingVO vo = (MendingVO)request.getAttribute("mendingVO");		
+							MendingVO mvo = (MendingVO)request.getAttribute("mendingVO");		
 							OrderVO ovo = (OrderVO)request.getAttribute("orderVO");
-						%>
+							KeepVO kvo = (KeepVO)request.getAttribute("keepVO");
+						
+							for (int i = 0; i<orderlist.size(); i++){	
+								OrderVO orderVO = (OrderVO)orderlist.get(i);
+								System.out.println("orderVO");
+					%>
 					<div class="accordion">
-						<div class="accordion-header">주문일자 : 2020/01/18 03:42</div>
+						<div class="accordion-header">주문일자 : <%=orderVO.getOrder_date() %></div>
 						<div class="accordion-content">
 							<!--snb -->
 							<div class="snb">
@@ -94,37 +106,69 @@
 								<div class="row_content2">
 								<div class="my_laundry">
 									<p>세탁 :</p>
-									<p><%=vo.getRepair_seq()%><%=vo.getRepair_code() %></p>
+									<p></p>
 								</div>
 								<div class="my_mending">
 									<p>수선 :</p>
-									<p>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타하아야여어오요우유으이123456789
+									<p><%=mvo.getRepair_seq()%>&nbsp;<%=mvo.getRepair_code() %>&nbsp;</p>
 								</div>
 								<div class="my_keep">
 									<p>보관 :</p>
-									<p>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타하아야여어오요우유으이123456789
+									<p><%=kvo.getKeep_cate()%>&nbsp;<%=kvo.getKeep_box() %>&nbsp;<%=kvo.getKeep_count() %></p>
 								</div>
 								</div>
 								<div class="price">
-									<p>합계 : <%=vo.getRepair_price() %>원</p>
+									<p>합계 : <%=ovo.getOrder_price() %>원</p>
 								</div>
 							</div>
 						</div>
 					</div>
 					<%
-	}
+						}
+					}
 	catch(Exception ex) {} 
+
 %>
 				</div>
 				<div class="page1">
 				<table class="page">
 					<tr align = center height = 20>
               			<td>
-              				<div class="page_a"><a href = "#">&#60;</a></div>
-                  			<div class="page_a"><a>1</a></div>
-                  			<div class="page_a"><a>2</a></div>
-                  			<div class="page_a"><a>3</a></div>
-                  			<div class="page_a"><a href = "#">&#62;</a></div>
+              			<%
+              			if (count > 0) { 
+              				int pageCount=((count-1) / pageSize)+1;
+              				int startPage=-1;
+              				int i;
+              				
+              				if(currentPage%10 != 0)
+              					startPage = (int) (currentPage/10) * 10+1;
+              				else
+              					startPage = currentPage - 9;
+              				
+              				int pageBlock = 10;
+              				
+              				if(startPage > 10) {
+              			%>
+              				<div class="page_a">
+              					<a href="orderlist.do?pageNum=<%=startPage - 10%>">&#60;</a>
+              				</div>
+                  		<%} 
+                  			for(i = startPage; (i<=startPage+9) && (i<=pageCount); i++)
+                  			{
+                  		%>	
+                  			<div class="page_a" >
+                  				<a href="orderlist.do?pageNum<%=i %>"><%=i %></a>
+                  			</div>
+                  		<%} 
+                  		if (i < pageCount)	{
+                  		%>
+                  			<div class="page_a">
+                  				<a href = "orderlist.do?pageNum=<%=startPage+10%>">&#62;</a>
+                  			</div>
+                  		<%}
+              				
+              			}
+                  		%>	
                   		</td>
                		</tr>
 				</table>
