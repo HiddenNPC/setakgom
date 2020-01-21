@@ -25,8 +25,7 @@ public class ReviewServiceImpl implements ReviewService
 	public ArrayList<ReviewVO> reviewList() throws Exception 
 	{
 		
-		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);		
-	
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
 		ArrayList<ReviewVO> list = reviewMapper.reviewList(); 
 		return list; 
 	}
