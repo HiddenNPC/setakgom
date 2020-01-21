@@ -75,7 +75,7 @@ public class OrderController {
 		
 		long order_num = System.currentTimeMillis();
 		Date today = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm");
 		String date = sdf.format(today);
 		System.out.println("date : " + date);
 		
