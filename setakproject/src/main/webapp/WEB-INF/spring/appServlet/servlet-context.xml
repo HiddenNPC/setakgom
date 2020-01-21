@@ -33,7 +33,6 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.spring.setak" />
-	<context:component-scan base-package="com.spring.mending" />
 	
 </beans:beans>
 
