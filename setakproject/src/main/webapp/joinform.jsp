@@ -20,46 +20,33 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		
-		
-		$('#join').on('click', function(event){ 
-		
-			var address = $("#address").val();
-			var detailAddress = $("#detailAddress").val();
-			var addr = address + '!' + detailAddress; 
- 			var params = {
-					       'member_name':$("#member_name").val(),
-					       'member_id':$("#member_id").val(),
-					       'member_password':$("#member_password").val(),
-					       'member_phone':$("#member_phone").val(),
-					       'member_email':$("#member_email").val(),
-					       'member_gender':$("#member_gender").val(),
-					   	   'member_birthday':$("#member_birthday").val(),
-					       'member_zipcode':$("#member_zipcode").val(),
-					       'member_loc':addr
-			};
- 			
-			$.ajax({
-	            url : '/setak/insertMember.do', // url
-	            type:'post',
-	            data : params,
-	            dataType:'json', 
-	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-	            success: function(result) {
-	               if(result.res=="OK") {
-	            	   alert("회원가입 성공");
-	            	   $(location.href="/setak/login.do");
-	               }
-	               else { // 실패했다면
-	                  alert("회원가입 실패");
-	               }
-	            },
-	            error:function() {
-	               alert("insert ajax 통신 실패");
-	            }			
-			});
+		/*아이디중복확인*/
+		$("#member_id").keyup(function(){
 			
-		});
+			if(this.value.length>=5) {
+			var params = {'member_id': $("#member_id").val() };
+			
+			$.ajax ({
+				 url : '/setak/chk_id.do', 
+				 type:'post',
+		         data : params,
+		         dataType:'json', 
+		         contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+		         success: function(result) {
+		        	 if(result.res=="OK") {
+		        		 $(".joinform div:nth-child(2) h5").css("display","block");
 
+		        	 } else {
+		        		 $(".joinform div:nth-child(2) h5").css("display","none");
+		        	 }
+		         },
+		            error:function() {
+		               alert("insert ajax 통신 실패");
+		            }			
+				});
+			}
+		});
+				
 	});
 </script>
 
@@ -93,7 +80,7 @@
 				</div>
 				<div class="input_list">
 					<input type="password" name="member_password" id="member_password" placeholder="비밀번호 " />
-					 <h4>8~20자 영문 대 소문자, 숫자, 특수문자 1자리이상 조합으로 사용하세요.</h4>
+					 <h4>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h4>
 				</div>
 				<div class="input_list">
 					<input type="password" name="pw2" id="pw2" placeholder="비밀번호 확인" />
@@ -170,10 +157,10 @@
 <script type="text/javascript">
 	var regExp = /[가-힣]/;
 	var idReg = /^[a-z0-9_-]{5,20}$/;
-	var pwReg =/^(?=[a-zA-Z0-9])(?=.*[~`!@#$%\\^&*()-_]).{8,20}$/;
+	var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
 	var phReg =/^[0-9]{10,11}$/;
 	var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
-	var brReg = /^[0-9]{8}$/;
+	var brReg = /^(\d{4})[-]\d{2}[-]\d{2}$/;
 	var poReg = /^[0-9]{5}$/;
 	var gen = document.getElementsByName("gender");
 	
@@ -184,7 +171,7 @@
          
          //생년월일
 		$(".birthday").datepicker ({
-		  	dateFormat: 'yy년mm월dd일', // 텍스트 필드에 입력되는 날짜 형식.
+		  	dateFormat: 'yy-mm-dd', // 텍스트 필드에 입력되는 날짜 형식.
 		  	prevText:'이전 달',
 		  	nextText:'다음 달',
 		  	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -236,14 +223,7 @@
 		
  	});
 	
-	//아이디중복체크 ????????  다시입력해야함니다
-	$(document).on("propertychange change keyup paste","#member_id",function(){
-		if($('#member_password').val() != $('#pw2').val()) {
-			$(".joinform div:nth-child(2) h5").css("display","block");
-		} else {
-			$(".joinform div:nth-child(2) h5").css("display","none");
-		}
-	});
+	
 	
 	//비밀번호체크V
 	$(document).on("propertychange change keyup paste","#member_password",function(){

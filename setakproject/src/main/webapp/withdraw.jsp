@@ -13,12 +13,35 @@
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
-         $("#footer").load("footer.jsp")     
+         $("#footer").load("footer.jsp") 
+         var sessionID = "<%=session.getAttribute("id") %>"
          
-         $('.btn').click(function(event){
-         	$(location.href="/setak/withdrawform.jsp");
+         /*비밀번호 일치하면 탈퇴페이지로 이동 */  
+            $('.btn').on('click', function(event){ 
+        		
+     			var params = {	'member_id': sessionID,
+     							'member_password':$("#member_password").val() };
+    			$.ajax({
+    	            url : '/setak/withdraw_pass.do', // url
+    	            type:'post',
+    	            data : params,
+    	            dataType:'json', 
+    	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+    	            success: function(result) {
+    	               if(result.res=="OK") {
+    	            	   $(location.href="/setak/withdrawform.do");
+    	               }
+    	               else { // 실패했다면
+    	                  alert("비밀번호가 다릅니다.");
+    	               }
+    	            },
+    	            error:function() {
+    	               alert("insert ajax 통신 실패");
+    	            }			
+    			});
+    		});
+            
          });
-      });
     </script>
 </head>
 <body>
@@ -55,10 +78,10 @@
                   </ul>
                   <ul class="mypage_list">
                      <li>정보관리</li>
-                     <li><a href="password.jsp">개인정보수정</a></li>
+                     <li><a href="profile1.do">개인정보수정</a></li>
                      <li><a href="mycoupon.jsp">쿠폰조회</a></li>
                      <li><a href="mysavings.jsp">적립금 조회</a></li>
-                     <li><a href="withdraw.jsp">회원탈퇴</a></li>
+                     <li><a href="withdraw.do">회원탈퇴</a></li>
                   </ul>
 				</li>
 				</ul>
@@ -66,7 +89,7 @@
 			<div class="test"> <!-- class 변경해서 사용하세요. -->
 				<div class="content">
 					<h2>본인 확인을 위해 비밀번호를 입력해 주세요</h2>
-					<input class="pw" type="password" name="member_password" placeholder="비밀번호를 입력해주세요" />
+					<input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" />
 					<input class="btn" type="button" name="submit" value="확인"/>
 				</div>
 			</div>

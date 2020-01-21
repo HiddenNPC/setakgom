@@ -6,4 +6,5 @@ public interface MemberService {
 	int member_update(MemberVO mo);
 	int member_delete(String member_id);
 	int member_password(MemberVO mo);
+	int member_id(MemberVO mo);
 }

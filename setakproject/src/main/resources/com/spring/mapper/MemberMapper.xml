@@ -39,7 +39,7 @@
    		WHERE member_id= #{member_id, jdbcType=VARCHAR}
    </update>
    <delete id="member_delete" parameterType="String">
-   		DELETE FROM member WHERE member_id= #{member_id}
+   		DELETE FROM member WHERE member_id= #{member_id, jdbcType=VARCHAR}
    </delete>
    
 </mapper>

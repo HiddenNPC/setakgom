@@ -111,7 +111,7 @@
                  	 	</ul>
                   		<ul class="mypage_list">
                      		<li>정기구독</li>
-                     		<li><a href="mysub.jsp">나의 정기구독</a></li>
+                     		<li><a href="mysub.do">나의 정기구독</a></li>
                   		</ul>
                  		<ul class="mypage_list">
                     		<li>고객문의</li>
@@ -119,10 +119,10 @@
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정보관리</li>
-                    		<li><a href="password.jsp">개인정보수정</a></li>
+                    		<li><a href="profile1.do">개인정보수정</a></li>
                      		<li><a href="mycoupon.jsp">쿠폰조회</a></li>
                     		<li><a href="mysavings.jsp">적립금 조회</a></li>
-                    		<li><a href="withdraw.jsp">회원탈퇴</a></li>
+                    		<li><a href="withdraw.do">회원탈퇴</a></li>
                   		</ul>
 					</li>
 				</ul>
@@ -139,6 +139,8 @@
 							<li class="list">드라이클리닝</li>
 							<li class="list">이불</li>
 							<li class="list">배송</li>
+							<li class="list">구독신청일</li>
+							<li class="list">구독만료일</li>
 							<li class="list">수거</li>
 							<li class="list">구독해지</li>
 						</ul>
@@ -151,6 +153,8 @@
 							<li class="">3장</li>
 							<li class="">-</li>
 							<li class="">3회</li>
+							<li class="">2020-01-21</li>
+							<li class="">2020-02-21</li>
 							<li class="btn">
 								<a id="go" class="help">수거고 </a> 
 								<a id="cancle" href="javascript:">수거취소</a>
@@ -159,7 +163,8 @@
 								<a id="sub" href="javascript:">해지</a>
 							</li>
 						</ul>
-						
+					</div>
+					<div class="myrecord">
 					</div>
 					
 				<br>
