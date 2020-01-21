@@ -1,6 +1,9 @@
 package com.spring.setak;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,12 +21,26 @@ public class OrderController {
 	private CouponService couponService; 
 	@Autowired
 	private OrderService orderService; 
+	@Autowired
+	private CartService cartService; 
 	
 	// 페이지	
 	// 장바구니 
 	@RequestMapping(value = "/cart.do")
 	public String cart(Model model) {
+		
+		String member_id = "bit"; 
+		List<KeepCartVO> list = cartService.getKeepSeq(member_id);
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println("keepSeq : " + list.get(i).getKeep_seq());
+		}
 		return "cart";	
+	}
+	
+	// 정기구독
+	@RequestMapping(value = "/subscribe.do")
+	public String subscribe(Model model) {
+		return "subscribe";	
 	}
 
 	// 주문결제 
@@ -46,20 +63,30 @@ public class OrderController {
 	// 주문완료
 	@RequestMapping(value = "/orderSuccess.do")
 	public String orderSuccess() {
-		return "order_success";
 		
+		return "order_success";
 		
 	}
 	
 	// 주문 정보 입력
 	@RequestMapping(value = "/insertOrder.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public String insertOrder(OrderVO ovo) {
+	public OrderVO insertOrder(OrderVO ovo) {
 		
-		ovo.setOrder_num(111114);
+		long order_num = System.currentTimeMillis();
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd hh:mm");
+		String date = sdf.format(today);
+		System.out.println("date : " + date);
+		
+		ovo.setOrder_num(order_num);
+		ovo.setOrder_date(date);
+		
 		int res = orderService.insertOrder(ovo);
 		
-		return "order_success";
+		return ovo;
 	}
+
+
 	
 }

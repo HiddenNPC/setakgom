@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class OrderVO {
 
-	private int order_num;
+	private long order_num;
 	private String member_id;
 	private String order_date;
 	private String order_phone;

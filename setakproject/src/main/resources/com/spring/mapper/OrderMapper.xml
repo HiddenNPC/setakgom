@@ -22,7 +22,7 @@
 	
 	<!-- 주문 추가  -->
 	<insert id = "insertOrder" parameterType = "com.spring.setak.OrderVO">
-		insert into memberorder values (#{order_num}, #{member_id, jdbcType=VARCHAR}, sysdate, 
+		insert into memberorder values (#{order_num}, #{member_id, jdbcType=VARCHAR}, to_date(#{order_date}, 'yy/mm/dd hh:mi'), 
 		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment , jdbcType=VARCHAR}, 
 		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 
 		#{order_pickup, jdbcType=DATE}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
