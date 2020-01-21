@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import = "com.spring.setak.*" %>
+<%@ page import = "java.util.*" %>
 <!DOCTYPE html>
+<%
+	ArrayList<WashingVO> list = (ArrayList<WashingVO>)request.getAttribute("list");
+%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -13,8 +18,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./header.jsp")
+			$("#footer").load("./footer.jsp")
 			
 			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
@@ -198,6 +203,7 @@
 				sumprice();
 			});
 		});
+		
 		//한글, 영어 금지
 		function onlyNumber(event) {
 			event = event || window.event;
@@ -208,6 +214,7 @@
 			else
 				return false;
 		}
+		
 		function removeChar(event) {
 			event = event || window.event;
 			var keyID = (event.which) ? event.which : event.keyCode;
@@ -229,6 +236,7 @@
 			<div class="mending">
 				<div class="step"><img src="images/s2.png" alt="step2_수선"></div>
 				<p>※ 세탁 신청이 들어간 세탁물에 대해서만 수선이 가능한 페이지입니다. 수선만 맡기실 옷들은 수선서비스 페이지를 이용해주세요.</p>
+				<p><%=list.get(1).getWash_kind() %></p>
 				<div class="tabs">
 					<div class="tab-list">
 						<a href="#one" id="tab" class="tab active">상의</a>
@@ -367,9 +375,9 @@
 						<p>총 금액	: 세탁비 0원 + 수선비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">다음</a>
-						<a href="javascript:">이전</a>
-						<a class="chkdelete" href="javascript:">선택삭제</a>
+						<a href="./washkeep.st"><input type="button" value="다음"></a>
+						<a href="./setak.st"><input type="button" value="이전"></a>
+						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>
 			</div>

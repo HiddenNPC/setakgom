@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.CartMapper">
+
+	<!-- 컬럼명 제대로 확인 -->
+	<resultMap type="com.spring.setak.WashingCartVO" id="WashingCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="wash_seq" column="wash_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.setak.MendingCartVO" id="MendingCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="mending_seq" column="mending_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.setak.KeepCartVO" id="KeepCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="keep_seq" column="keep_seq" />
+	</resultMap>
+	
+	<!-- 보관 장바구니 시퀀스 읽기 -->
+	<select id = "getKeepSeq" parameterType = "String" resultMap = "KeepCartResultMap">
+		select keep_seq from keep_cart where member_id = #{member_id}
+	</select>
+	
+	
+	
+</mapper>

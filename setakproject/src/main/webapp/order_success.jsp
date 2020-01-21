@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String order_num = request.getParameter("order_num");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +16,7 @@
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
-         $("#footer").load("footer.jsp")     
+         $("#footer").load("footer.jsp")  
       });
     </script>
 </head>
@@ -28,7 +31,7 @@
          </div>
          
          <div class = "div-1000">
-	         <img class = "arrow-img" src = "images/arrow.PNG" />
+	         <img class = "arrow-img" src = "images/order3.png" />
 	 
 	 		<hr/>
 			
@@ -36,7 +39,7 @@
 			<br/>
 			주문하신 주문번호는 아래와 같습니다!
 			<br/>
-			<p class = "p_orderNum">987654 - 32109876</p>
+			<p class = "p_orderNum"><%=order_num %></p>
 			
 			<table class = "order_success_table">
 				<thead>
@@ -54,6 +57,22 @@
 					<tr>
 						<td colspan = "5" style = "height :3px; background-color : #3498db"></td>
 					</tr>
+					<tr>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+	
+					</tr>				
+					<tr>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+	
+					</tr>				
 					<tr>
 						<td>1</td>
 						<td>2</td>

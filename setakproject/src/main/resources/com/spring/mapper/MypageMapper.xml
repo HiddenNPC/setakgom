@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.MypageMapper">
+	
+	<resultMap type="com.spring.setak.MendingVO" id="MypageResultMap">
+		<result column="repair_seq" property="repair_seq"/>
+		<result column="repair_cate" property="repair_cate"/>
+		<result column="repair_kind" property="repair_kind"/>
+		<result column="repair_var1" property="repair_var1"/>
+		<result column="repair_var2" property="repair_var2"/>
+		<result column="repair_var3" property="repair_var3"/>
+		<result column="repair_content" property="repair_content"/>
+		<result column="repair_code" property="repair_code"/>
+		<result column="repair_count" property="repair_count"/>
+		<result column="repair_price" property="repair_price"/>
+		<result column="repair_file" property="repair_file"/>
+	</resultMap>
+	
+	<resultMap type="com.spring.setak.OrderVO" id="OrderResultMap">
+		<result column="order_num" property="order_num"/>
+		<result column="member_id" property="member_id"/>
+		<result column="order_date" property="order_date"/>
+		<result column="order_phone" property="order_phone"/>
+		<result column="order_price" property="order_price"/>
+		<result column="order_payment" property="order_payment"/>
+		<result column="order_delicode" property="order_delicode"/>
+		<result column="order_cancel" property="order_cancel"/>
+		<result column="order_status" property="order_status"/>
+		<result column="order_pickup" property="order_pickup"/>
+		<result column="order_name" property="order_name"/>
+		<result column="order_address" property="order_address"/>
+		<result column="order_request" property="order_request"/>
+		<result column="order_zipcode" property="order_zipcode"/>
+	
+	</resultMap>
+	
+	
+	<select id="getMendinglist" resultMap="MypageResultMap" parameterType="int">
+			select * from repair order by repair_seq
+	</select>
+	
+	<select id="selectMending" resultMap="MypageResultMap" parameterType="int">
+		select * from repair where repair_seq = #{repair_seq}
+	</select>
+	
+	<select id="selectOrder" resultMap="OrderResultMap" parameterType="int">
+		select * from memberorder where order_num = #{order_num}
+	</select>
+</mapper>

@@ -34,6 +34,9 @@
 		position:fixed;
 		z-index:999;
 	}
+	.logo_a:hover:after{
+		display: none;
+	}
 	nav{
 		background-color:#fff;
 		height:135px;
@@ -89,8 +92,8 @@
 	}
 	.sub-nav{
 		float:right;
-		margin-top:60px;
-		margin-right:-150px;
+		margin-top:-69px;
+		margin-right:20px;
 		height:50px;
 		line-height:50px;
 	}

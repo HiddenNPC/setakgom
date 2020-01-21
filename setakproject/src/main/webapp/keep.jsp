@@ -13,8 +13,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./header.jsp")
+			$("#footer").load("./footer.jsp")
 			
 			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
@@ -36,13 +36,18 @@
 			}
 			
 			//옷 종류 눌렀을 때
+			var sortation = document.getElementsByClassName('active');
 			$(".keep-list").on("click", function() {
 				var str = "";
 				
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+$.attr(this, 'value')+'</td>';
-				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
+				str += '<td style="display:none;"><input type="hidden" name="keep_cate" value="'+sortation[0].innerHTML+'">';
+				str += '<input type="hidden" name="keep_kind" value="'+$.attr(this, 'value')+'">';
+				str += '<input type="hidden" class="month_value" name="keep_month" value="'+month+'"></td>';
+				//keep_box, keep_price는 아래 html코드에 있음.
+				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="keep_count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
 				str += '</tr>';		
@@ -53,9 +58,12 @@
 			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 			var monthclick = 0;
 			var price = parseInt(0);
+			var month ="";
 			$(".month").on("click", function(){
 				$(".month").removeClass("month_click");
 				$(this).addClass("month_click");
+				month=($(this).html()).substring(4,5);//개월수
+				$(".month_value").attr('value', month);
 				monthclick = 1;
 				price = parseInt($($(this).children().children('.price')).html());
 				var n = $('.count').index(this);
@@ -106,6 +114,7 @@
 			$.pricefun = function(n){
 				var num = parseInt($(".box_count:eq(" + n + ")").val());
 				$('.tot_price').html(num*price);
+				$(".keep_price").val(num*price);
 			};
 			//버튼안누르고 직접 수량 입력했을 때
 			$(document).on("propertychange change keyup paste",".box_count", function(){
@@ -130,6 +139,13 @@
 				}) 
 				sumprice();
 			});
+			//장바구니 눌렀을 때
+			 $(".total-button").click(function(){
+				if(monthclick==0){
+					alert('보관하실 기간을 선택해주세요.');
+					return false;
+				}
+			 });
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -295,7 +311,7 @@
 						<li></li>
 					</ul>
 				</div>
-				<form>
+				<form name="keepform" action="./keep.do" method="post">
 					<table class="keep_sortation">
 						<tr class="keep_sortation_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
@@ -331,7 +347,7 @@
 					<div class="box_quantity">
 						<p>박스 수량을 선택 해 주세요</p>
 						<div>
-							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="box_count" value="1" id="" class="box_count">
+							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="keep_box" value="1" id="" class="box_count">
 							<a class="box_up">+</a>
 							<a class="box_down">-</a>
 						</div>
@@ -339,9 +355,10 @@
 					
 					<div class="total_price">
 						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
+						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">
-						<a href="javascript:">장바구니</a>
+						<input type="submit" value="장바구니">
 					</div>
 				</form>
 			</div>

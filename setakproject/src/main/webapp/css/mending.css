@@ -219,7 +219,7 @@
         top:14px;
         left:12px;
 	}
-	.details form .hash p{
+	.details .hash p{
 		background-color:#ffac15;
 		padding:4px 15px 4px 20px;
 		color:#fff;
@@ -228,7 +228,7 @@
 		display:inline;
 		margin-left:3px;
 	}
-	.details form .hash p span{
+	.details .hash p span{
 		margin-left:15px;
 		cursor:pointer;
 	}
@@ -294,7 +294,7 @@
 	.total-button{
 		padding:40px 0;
 	}
-	.total-button a{
+	.total-button input{
 		font-size:0.95rem;
 		display:block;
 		width:90px;
@@ -306,8 +306,10 @@
 		text-align:center;
 		float:right;
 		margin: 0 5px;
+		border:0px;
+		cursor:pointer;
 	}
-	.total-button a:hover{
+	.total-button input:hover{
 		background-color:#3498db;
 		color:#fff;
 		transition:all .4s;

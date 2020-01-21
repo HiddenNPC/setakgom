@@ -13,8 +13,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#header").load("header.jsp")
-			$("#footer").load("footer.jsp")
+			$("#header").load("./header.jsp")
+			$("#footer").load("./footer.jsp")
 			
 			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
@@ -28,6 +28,10 @@
 				$(".tab-content").removeClass("show");
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
+				llength ="";
+				rlength ="";
+				tlength ="";
+				details_text = "";
 			});
 			
 			//세탁, 수선, 보관 탭 눌렀을 때 위로 올라가는 제이쿼리
@@ -42,25 +46,41 @@
 			}
 			
 			//치수 입력 시 폼에도 값 넘기기
+			var llength ="";
+			var rlength ="";
+			var tlength ="";
+			var details_text = "";
+			
 			$("#left input").keyup(function(){
 		        $('.left_length').val($(this).val());
+		        llength= $(this).val();
 		    });
 			$("#right input").keyup(function(){
 		        $('.right_length').val($(this).val());
+		        rlength= $(this).val();
 		    });
 			$("#length input").keyup(function(){
 		        $('.total_length').val($(this).val());
+		        tlength= $(this).val();
+		    });
+			
+			$(".details_text").keyup(function(){
+				details_text = $(this).val();
 		    });
 			
 			//태그 기능, 계산기능
 			var maxAppend = 0;
 			var tprice = parseInt(0);
+			var kind;			
+			var kind_str = new Array();
+
 			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
 					alert("최대 10개 선택 가능합니다.");
 					return;
 				}
-				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
+				kind = $.attr(this, 'value');
+				$(".hash").append("<p class='hashvl'>&nbsp;"+kind+"&nbsp;<span>X</span></p>");
 				maxAppend++;
 				
 				$(".price").removeClass("each");
@@ -77,17 +97,31 @@
 			$(".add_button").on("click", function() {
 				var sortation = document.getElementsByClassName('active');
 				var str = "";
-				
+
 				if(maxAppend==0){
 					alert('선택 된 수선내용이 없습니다.');
 					return;
 				}
+				
+				var hashvl = ($(".hash").html()).split('&nbsp;');
+				var kind_str = "";
+				for(var i=1; i<maxAppend*2-1; i+=2 ){
+					kind_str +=hashvl[i] + ",";
+				};
+				kind_str +=hashvl[i];
 
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+sortation[0].innerHTML+'</td>';
+				str += '<td style="display:none;"><input type="hidden" name="repair_cate" value="'+sortation[0].innerHTML+'">';
+				str += '<input type="hidden" name="repair_kind" value="'+kind_str+'">';
+				str += '<input type="hidden" name="repair_var1" value="'+llength*(-1)+'">';
+				str += '<input type="hidden" name="repair_var2" value="'+rlength*(-1)+'">';
+				str += '<input type="hidden" name="repair_var3" value="'+tlength*(-1)+'">';
+				str += '<input type="file" name="repair_file" class="details_file">';
+				str += '<textarea name="repair_content">'+details_text+'</textarea></td>';
 				str += '<td>';
-				str += '<select name="list">';
+				str += '<select name="repair_code">';
 				str += '<option value="A">A</option>';
 				str += '<option value="B">B</option>';
 				str += '<option value="C">C</option>';
@@ -116,10 +150,12 @@
 				str += '<option value="Z">Z</option>';
 				str += '</select>';
 				str += '</td>';
-				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
+				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="repair_count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
-				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원</td>';
+				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
+				str += '</td>';
+				str += '<input class="repair_price" type="hidden" name="repair_price" value="'+tprice+'">';
 				str += '</tr>';		
 				
 				$(".mending_order_title").after(str);
@@ -139,7 +175,7 @@
 				var tr = $(".mending_order").children().children();
 				var pricearr = new Array();
 				tr.each(function(i) {
-					pricearr.push(tr.eq(i).children().eq(4).text())
+					pricearr.push(tr.eq(i).children().eq(5).text())
 				});
 				//tr이 지금 두개라 구분창 말고 값가진 애들만 받기위해 한번 더 돌림 i를 1로.
 				for(var i = 1; i<pricearr.length;i++){
@@ -173,6 +209,7 @@
 				var num = parseInt($(".count:eq(" + n + ")").val());
 				var price = parseInt($(".tprice:eq(" + n + ")").attr('name'));
 				$(".tprice:eq(" + n + ")").html((num*price) + "원");
+				$(".repair_price").val(num*price);
 				sumprice();
 			};
 			$(document).on("propertychange change keyup paste",".count", function(){
@@ -266,7 +303,7 @@
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -304,7 +341,7 @@
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -342,7 +379,7 @@
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -351,7 +388,7 @@
 				</div>
 				
 				<p>※ 받으신 웰컴키트 안 '택'에  선택하신 택 코드를 동일하게 적어서 보내주세요.</p>
-				<form>
+				<form name="mendingform" action="./mending.do" method="post" enctype="multipart/form-data">
 					<table class="mending_order">
 						<tr class="mending_order_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
@@ -366,8 +403,8 @@
 						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
-						<a href="javascript:">장바구니</a>
-						<a class="chkdelete" href="javascript:">선택삭제</a>
+						<input type="submit" value="장바구니">
+						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>
 			</div>

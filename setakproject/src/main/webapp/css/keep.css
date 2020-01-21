@@ -206,6 +206,10 @@
 	}
 	.keep_month ul li h2{
 		padding:60px 0 40px;;
+		font-size:1.7rem;
+	}
+	.keep_month ul li p{
+		font-size:1rem;
 	}
 	.keep_month ul li h1{
 		font-size:1.9rem;
@@ -216,18 +220,18 @@
 		position:relative;
 	}
 	.keep_month .s_keep li h5{
-		padding:133px 130px 15px 30px;
+		padding:130px 130px 15px 15px;
 		font-size:1.2rem;
 		display:inline-block;
 	}
 	.keep_month .s_keep li h1{
-		padding:10px 0px 50px 60px;
+		padding:15px 0px 50px 90px;
 		display:inline-block;
 	}
 	.keep_month .s_keep li img{
 		width:160px;
 		position:absolute;
-		top:286px;
+		top:290px;
 		left:40px;
 	}
 	.keep_month ul li:hover>h1{
@@ -316,7 +320,7 @@
 	.total-button{
 		padding:40px 0;
 	}
-	.total-button a{
+	.total-button input{
 		font-size:0.95rem;
 		display:block;
 		width:90px;
@@ -328,8 +332,10 @@
 		text-align:center;
 		float:right;
 		margin: 0 5px;
+		border:0px;
+		cursor:pointer;
 	}
-	.total-button a:hover{
+	.total-button input:hover{
 		background-color:#3498db;
 		color:#fff;
 		transition:all .4s;
