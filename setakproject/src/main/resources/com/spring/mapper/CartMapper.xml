@@ -19,6 +19,20 @@
 		<result property="keep_seq" column="keep_seq" />
 	</resultMap>
 	
+	<resultMap type="com.spring.setak.KeepVO" id="KeepResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="keep_seq" column="keep_seq" />
+		<result property="keep_cate" column="keep_cate" />
+		<result property="keep_kind" column="keep_kind" />
+		<result property="keep_count" column="keep_count" />
+		<result property="keep_month" column="keep_month" />
+		<result property="keep_box" column="keep_seq" />
+		<result property="keep_seq" column="keep_box" />
+		<result property="keep_price" column="keep_price" />
+		<result property="keep_start" column="keep_start" />
+		<result property="keep_end" column="keep_end" />
+	</resultMap>
+	
 	<!-- 세탁 장바구니 시퀀스 읽기 -->
 	<select id = "getWashSeq" parameterType = "String" resultMap = "WashingCartResultMap">
 		select wash_seq from wash_cart where member_id = #{member_id}
@@ -29,10 +43,14 @@
 		select mending_seq from mending_cart where member_id = #{member_id}
 	</select>
 	
-	
 	<!-- 보관 장바구니 시퀀스 읽기 -->
 	<select id = "getKeepSeq" parameterType = "String" resultMap = "KeepCartResultMap">
 		select keep_seq from keep_cart where member_id = #{member_id}
+	</select>
+	
+	<!-- 보관 장바구니 데이터 읽기 -->
+	<select id = "getKeepList" parameterType = "int" resultMap = "KeepResultMap">
+		select * from keep_view where keep_seq = #{keep_seq}
 	</select>
 	
 	<!-- 보관 장바구니 비우기 -->

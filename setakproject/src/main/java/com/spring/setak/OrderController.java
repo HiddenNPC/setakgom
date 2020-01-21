@@ -30,10 +30,20 @@ public class OrderController {
 	public String cart(Model model) {
 		
 		String member_id = "bit"; 
+		List<KeepVO> keepList = null; 
+		
 		List<KeepCartVO> list = cartService.getKeepSeq(member_id);
+		
 		for(int i = 0; i < list.size(); i++) {
-			System.out.println("keepSeq : " + list.get(i).getKeep_seq());
+			int keep_seq = list.get(i).getKeep_seq();
+			System.out.println("keep_seq : " + keep_seq);
+			keepList = cartService.getKeepList(keep_seq);
 		}
+		
+		System.out.println("keep seq : " + keepList.get(0).getKeep_seq());
+		
+		model.addAttribute("keepList", keepList);
+		
 		return "cart";	
 	}
 	

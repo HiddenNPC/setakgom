@@ -20,12 +20,24 @@ public class CartServiceImpl implements CartService {
 		try {
 			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
 			keepSeqList = cartMapper.getKeepSeq(member_id);
-			System.out.println("컨트롤러 keepSeq: " + keepSeqList.get(0).getKeep_seq());
 		}catch(Exception e) {
 			System.out.println("보관 리스트 시퀀스 검색 실패" + e.getMessage());
 		}
 		
 		return keepSeqList;
+	}
+
+	@Override
+	public ArrayList<KeepVO> getKeepList(int keep_seq) {
+		ArrayList<KeepVO> keepList = null;
+		try {
+			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+			keepList = cartMapper.getKeepList(keep_seq);
+		}catch(Exception e) {
+			System.out.println("보관 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return keepList;
 	}
 	
 }
