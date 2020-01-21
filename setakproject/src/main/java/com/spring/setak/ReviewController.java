@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,14 +30,16 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	@RequestMapping ("review.do") public String review(Model model, ReviewVO vo, HttpServletRequest request ) throws Exception
 	{	
+		
 		//model.addAttribute("Review_num");		 
 		return "review_list";			
 	}
 	
 	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 
-	@ResponseBody public ArrayList<ReviewVO> reviewList() throws Exception
+	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
+		model.addAttribute("reviewList");	
 		return list;		
 	}
 	

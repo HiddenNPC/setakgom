@@ -2,8 +2,9 @@
 <%@ page import = "java.util.*"%>
 <%@ page import = "java.text.SimpleDateFormat"%>
 <%@ page import = "com.spring.setak.*"%>
+<%
 
-
+%>
 
 <!DOCTYPE html>
 <html>
@@ -16,12 +17,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript"></script>
 <script>
-$(document).ready(function () {
-	
+$(document).ready(function () {	
 	//헤더, 푸터연결
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp")    
-     
+   
+    //별점 구동	
+	$('.r_content a').click(function () {
+	$(this).parent().children('a').removeClass('on');
+    $(this).addClass('on').prevAll('a').addClass('on');      
+    $('#Review_star').val($(this).attr("value"));
+    return false;
+	});	
+
 	//리뷰 리스트 뿌리기 		
 	function selectData() {		
 		$('#re_list').empty();
@@ -32,56 +40,65 @@ $(document).ready(function () {
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
-					var re_list = '';
+					var re_list = '';					
+					var i = item.review_star;
+					console.log(i);		
+					
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td height="20px" colspan="3">'
-					re_list += '<a class="starR3 on" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
-					re_list += '<a class="starR4" value="'+item.review_star+'"></a></td></tr>'										
-					re_list += '<tr><td>'+ item.member_id +'&nbsp;'+ item.review_kind +item.review_date+'</td></tr>';																		
+					re_list += '<tr><td height="20px" colspan="3">';   
+					
+					
+					if(i%2 == 1){
+						for(var abc = 0; abc<(i-1)/2; abc++){
+							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+						}
+						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						for(var x = 0; x<((10-i)-1)/2; x++){  
+							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						}
+					}
+					
+					if(i%2 == 0){
+						for(var abc = 0; abc<i/2; abc++){
+							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+						}
+						for(var x = 0; x<(10-i)/2; x++){  
+							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						}
+					}
+					/* for(var x = 0; x<(10-i)/2; x++){ 
+						re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+					}  */
+					
+					
+					re_list += '</td></tr>';		   																		
+					
+					
+					re_list += '<tr><td>'+ item.member_id +'&nbsp;'+ item.review_kind +item.review_date+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_like+'</td></tr>';																	
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
-					$('#re_list').append(re_list);
-					//console.log(item.review_date);
-					//re_list += '<tr><td colspan="3" class="rstar" value="'+item.review_star+'">'+item.review_star+'</td></tr>';
-					
-				});
-
+					$('#re_list').append(re_list);					
+								
+					});
+														
 			},
 			error:function() {
 				alert("ajax통신 실패!!!");
 			}
-			
-			//이 안에다 뭐해봐 
-
-			//
+						
 		});
-		
-		
-		
 		
 	}	
 selectData();	
-
-//별점 구동	
-	$('.r_content a').click(function () {
-	$(this).parent().children('a').removeClass('on');
-	console.log($(this));
-    $(this).addClass('on').prevAll('a').addClass('on');      
-    $('#Review_star').val($(this).attr("value"));
-    //console.log($(this).attr("value"));
-    return false;
-	});	
 
 });
 
@@ -135,13 +152,11 @@ selectData();
 <!--리뷰 리스트 (ajax) -->        
 
 <div class="re2">
-<strong id="re2h">리뷰   X개</strong>
+<strong id="re2h">리뷰  X개</strong>
 <table id="re_list" class="re2_t1"></table>
 
 
 </div>
-
-
 
 </div></div>
 </section>
@@ -149,16 +164,4 @@ selectData();
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
