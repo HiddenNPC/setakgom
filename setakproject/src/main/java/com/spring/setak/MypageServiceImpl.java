@@ -9,19 +9,27 @@ import org.springframework.stereotype.Service;
 import com.spring.mapper.MypageMapper;
 
 @Service
-public class MendingServiceImpl implements MendingService {
+public class MypageServiceImpl implements MypageService {
 	
 	@Autowired
 	private SqlSession sqlSession;
 	
 	@Override
-	public ArrayList<MendingVO> getMendinglist(MendingVO mendingVO){
+	public ArrayList<OrderVO> getOrderlist(OrderVO orderVO){
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
-		ArrayList<MendingVO> mendinglist = new ArrayList<MendingVO>();
+		ArrayList<OrderVO> orderlist = new ArrayList<OrderVO>();
 		
-		mendinglist = mypageMapper.getMendinglist(mendingVO);
+		orderlist = mypageMapper.getOrderlist(orderVO);
 
-		return mendinglist;
+		return orderlist;
+	}
+	
+	@Override
+	public int getOrdercount() {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int orderVO = mypageMapper.getOrdercount();
+		
+		return orderVO;
 	}
 	
 	@Override
@@ -35,13 +43,23 @@ public class MendingServiceImpl implements MendingService {
 	}
 	
 	@Override
-	public OrderVO selectOrder(int order_num) {
+	public OrderVO selectOrder(long order_num) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		OrderVO orderVO = new OrderVO();
 		
 		orderVO = mypageMapper.selectOrder(order_num);
 		
 		return orderVO;
+	}
+	
+	@Override
+	public KeepVO selectKeep(int keep_seq) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		KeepVO keepVO = new KeepVO();
+			
+		keepVO = mypageMapper.selectKeep(keep_seq);
+		
+		return keepVO;
 	}
 }
 
