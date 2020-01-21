@@ -66,33 +66,44 @@
 	<div id="container">
 		<nav>
 			<div class="content">
-				<ul class="logo">
-					<li><img src="images/logo.png" alt="로고"></li>
-				</ul>
-				<ul class="main-nav">
-					<li><a href="./login.do">로그인</a></li>
-					<!--<li><a href="#">로그아웃</a></li>-->
-					<li><a href="./join.do">회원가입</a></li>
-					<!--<li><a href="./orderview.do">마이페이지</a></li>-->
-					<!--<li><a href="#">장바구니</a></li>-->
-				</ul>
-				<ul class="sub-nav">
-					<li><a href="./hist.st">회사소개</a></li>
-					<li><a href="./subscribe.st">정기구독</a></li>
-					<li><a href="./setak.st">세탁서비스</a></li>
-					<li><a href="./mending.st">수선서비스</a></li>
-					<li><a href="./keep.st">보관서비스</a></li>
-					<li><a href="#">커뮤니티</a>
-						<div>
-							<ul class="sub-nav-sub">
-								<li><a href="./noticeList.st">공지사항</a></li>
-								<li><a href="./review.st">리뷰</a></li>
-								<li><a href="./qnaList.co">FAQ</a></li>
-								<li><a href="./faq.st">Q&amp;A</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
+				<div>
+					<ul class="logo">
+						<li><img src="images/logo.png" alt="로고"></li>
+					</ul>
+					<ul class="main-nav">
+					<%
+						if(session.getAttribute("id")==null){
+					%>
+						<li><a href="./login.do">로그인</a></li>
+						<li><a href="./join.do">회원가입</a></li>
+					<%						
+						} else {
+					%>
+						<li><a href="./logout.do">로그아웃</a></li>
+						<li><a href="./orderview.do">마이페이지</a></li>
+						<li><a href="./cart.do">장바구니</a></li>
+					<%} %>
+					</ul>
+				</div>
+				<div>
+					<ul class="sub-nav">
+						<li><a href="./history.do">회사소개</a></li>
+						<li><a href="./subscribe.do">정기구독</a></li>
+						<li><a href="./setak.do">세탁서비스</a></li>
+						<li><a href="./mendingform.do">수선서비스</a></li>
+						<li><a href="./keepform.do">보관서비스</a></li>
+						<li><a href="./noticeList.do">커뮤니티</a>
+							<div>
+								<ul class="sub-nav-sub">
+									<li><a href="./noticeList.do">공지사항</a></li>
+									<li><a href="./review.do">리뷰</a></li>
+									<li><a href="./faqList.do">FAQ</a></li>
+									<li><a href="./qnaList.do">Q&amp;A</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</nav>
 		<header>
