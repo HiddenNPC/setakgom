@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.spring.member.MemberSubVO"  %>    
+<%
+	MemberSubVO ms = (MemberSubVO) request.getAttribute("mo");
+%>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -147,14 +151,14 @@
 					</div>
 					<div class="two">
 						<ul class="mysub_bottom">
-							<li class="">올인원59</li>
-							<li class="">2/3개</li>
-							<li class="">15장</li>
-							<li class="">3장</li>
-							<li class="">-</li>
-							<li class="">3회</li>
-							<li class="">2020-01-21</li>
-							<li class="">2020-02-21</li>
+							<li class=""><%=ms.getSubsname() %></li>
+							<li class=""><%=ms.getWashcnt() %></li>
+							<li class=""><%=ms.getShirscnt() %></li>
+							<li class=""><%=ms.getDrycnt() %></li>
+							<li class=""><%=ms.getBlanketcnt() %></li>
+							<li class=""><%=ms.getDeliverycnt() %>/</li>
+							<li class=""><%=ms.getSubs_start() %></li>
+							<li class=""><%=ms.getSubs_end() %></li>
 							<li class="btn">
 								<a id="go" class="help">수거고 </a> 
 								<a id="cancle" href="javascript:">수거취소</a>
@@ -165,6 +169,7 @@
 						</ul>
 					</div>
 					<div class="myrecord">
+						
 					</div>
 					
 				<br>

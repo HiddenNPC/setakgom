@@ -70,7 +70,7 @@
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정기구독</li>
-                     		<li><a href="mysub.jsp">나의 정기구독</a></li>
+                     		<li><a href="mysub.do">나의 정기구독</a></li>
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>고객문의</li>
@@ -88,7 +88,7 @@
 			</div>
 			<div class="test"> <!-- class 변경해서 사용하세요. -->
 				<div class="content">
-					<h3>Login ID : <%=session.getAttribute("id") %></h3>
+					<h3>Login ID : <%=session.getAttribute("member_id") %></h3>
 					<h2>회원님의 개인정보를 안전하게 보호하기 위해</h2>
 					<h2>비밀번호를 작성해 주세요</h2>
 					<input class="pw" type="password" name="member_password" id="member_password" placeholder="비밀번호를 입력해주세요" />

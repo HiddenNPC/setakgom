@@ -1,4 +1,4 @@
-package com.spring.setak;
+package com.spring.member;
 
 public interface MemberService {
 	MemberVO member_list(MemberVO mo);

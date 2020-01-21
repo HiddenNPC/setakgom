@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.spring.mapper.MemberMapper">
+   <resultMap type="com.spring.member.MemberSubVO" id="membersub">
+      <result property="member_id" column="member_id"/>
+      <result property="washcnt" column="washcnt" />
+      <result property="shirscnt" column="shirscnt"/>
+      <result property="drycnt" column="drycnt"/>
+      <result property="blanketcnt" column="blanketcnt"/>
+      <result property="deliverycnt" column="deliverycnt"/>
+      <result property="subs_start" column="subs_start"/>
+      <result property="subs_end" column="subs_end"/>
+      <result property="subsname" column="subsname"/>
+      <result property="subsprice" column="subsprice"/>
+   </resultMap>
+   
+   <select id="sub_list" parameterType="com.spring.member.MemberSubVO" resultMap="membersub">
+   	SELECT * FROM member_subs WHERE member_id=#{member_id, jdbcType=VARCHAR} 
+   </select>
+   </mapper>
+   

@@ -1,6 +1,4 @@
-package com.spring.setak;
-
-import java.util.List;
+package com.spring.member;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

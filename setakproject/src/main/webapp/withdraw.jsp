@@ -70,7 +70,7 @@
                   </ul>
                   <ul class="mypage_list">
                      <li>정기구독</li>
-                     <li><a href="mysub.jsp">나의 정기구독</a></li>
+                     <li><a href="mysub.do">나의 정기구독</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>고객문의</li>

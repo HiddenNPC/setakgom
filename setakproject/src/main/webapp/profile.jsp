@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.spring.setak.MemberVO"  %>    
+<%@ page import="com.spring.member.MemberVO"  %>    
 <%
 	MemberVO mo2 = (MemberVO) request.getAttribute("mo");
 %>
@@ -65,7 +65,7 @@
       	    	}
       	    });
      	
-     	  	 //생년월일체크????????????????????????????? 년 월 일 까지 포함해야하는데 음..
+     	  	 //생년월일체크
      		$(document).on("propertychange change keyup paste","#member_birthday",function(){
      		if(!brReg.test($(this).val())){
      			$(".profile h3").css("display","block");
@@ -205,7 +205,7 @@
                   </ul>
                   <ul class="mypage_list">
                      <li>정기구독</li>
-                     <li><a href="mysub.jsp">나의 정기구독</a></li>
+                     <li><a href="mysub.do">나의 정기구독</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>고객문의</li>

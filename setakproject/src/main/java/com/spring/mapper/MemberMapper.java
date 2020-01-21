@@ -1,6 +1,6 @@
 package com.spring.mapper;
 
-import com.spring.setak.MemberVO;
+import com.spring.member.MemberVO;
 
 public interface MemberMapper {
 	MemberVO member_list(MemberVO mo);
