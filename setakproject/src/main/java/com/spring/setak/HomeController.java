@@ -19,7 +19,7 @@ public class HomeController {
 		return "main";
 	}
 	
-	@RequestMapping(value = "/setak.st")
+	@RequestMapping(value = "/setak.do")
 	public String washing() {
 		
 		return "washing";
