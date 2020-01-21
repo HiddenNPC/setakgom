@@ -20,18 +20,8 @@ $(document).ready(function () {
 	
 	//헤더, 푸터연결
 	$("#header").load("header.jsp")
-    $("#footer").load("footer.jsp") 
-   
-    //별점 구동	
-	$('.r_content a').click(function () {
-		$(this).parent().children('a').removeClass('on');
-		console.log($(this));
-        $(this).addClass('on').prevAll('a').addClass('on');      
-        $('#Review_star').val($(this).attr("value"));
-        //console.log($(this).attr("value"));
-        return false;
-    });	
-  
+    $("#footer").load("footer.jsp")    
+     
 	//리뷰 리스트 뿌리기 		
 	function selectData() {		
 		$('#re_list').empty();
@@ -45,26 +35,54 @@ $(document).ready(function () {
 					var re_list = '';
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td colspan="3">'+item.review_star+'</td></tr>';
+					re_list += '<tr><td height="20px" colspan="3">'
+					re_list += '<a class="starR3 on" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR4" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR3" value="'+item.review_star+'"></a>'
+					re_list += '<a class="starR4" value="'+item.review_star+'"></a></td></tr>'										
 					re_list += '<tr><td>'+ item.member_id +'&nbsp;'+ item.review_kind +item.review_date+'</td></tr>';																		
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
+					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_like+'</td></tr>';																	
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
-					console.log(item.review_date);
 					$('#re_list').append(re_list);
+					//console.log(item.review_date);
+					//re_list += '<tr><td colspan="3" class="rstar" value="'+item.review_star+'">'+item.review_star+'</td></tr>';
+					
 				});
+
 			},
 			error:function() {
 				alert("ajax통신 실패!!!");
 			}
-		});
-	}	
-	
+			
+			//이 안에다 뭐해봐 
 
-	
-	
-	
+			//
+		});
+		
+		
+		
+		
+	}	
 selectData();	
+
+//별점 구동	
+	$('.r_content a').click(function () {
+	$(this).parent().children('a').removeClass('on');
+	console.log($(this));
+    $(this).addClass('on').prevAll('a').addClass('on');      
+    $('#Review_star').val($(this).attr("value"));
+    //console.log($(this).attr("value"));
+    return false;
+	});	
+
 });
 
 
@@ -80,25 +98,20 @@ selectData();
 <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
 <div class="r_content">
 	<p style="margin-bottom:5px;">사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
-	<a id="starR1" class="starR1 on" value="0.5" >별1_왼쪽</a>
-    <a id="starR2" class="starR2" value="1">별1_오른쪽</a>
-    <a id="starR1" class="starR1" value="1.5">별2_왼쪽</a>
-    <a id="starR2" class="starR2" value="2">별2_오른쪽</a>
-    <a id="starR1" class="starR1" value="2.5">별3_왼쪽</a>
-    <a id="starR2" class="starR2" value="3">별3_오른쪽</a>
-    <a id="starR1" class="starR1" value="3.5">별4_왼쪽</a>
-    <a id="starR2" class="starR2" value="4">별4_오른쪽</a>
-    <a id="starR1" class="starR1" value="4.5">별5_왼쪽</a>
-    <a id="starR2" class="starR2" value="5">별5_오른쪽</a>  
+	<a class="starR1 on" value="1" >별1_왼쪽</a>
+    <a class="starR2" value="2">별1_오른쪽</a>
+    <a class="starR1" value="3">별2_왼쪽</a>
+    <a class="starR2" value="4">별2_오른쪽</a>
+    <a class="starR1" value="5">별3_왼쪽</a>
+    <a class="starR2" value="6">별3_오른쪽</a>
+    <a class="starR1" value="7">별4_왼쪽</a>
+    <a class="starR2" value="8">별4_오른쪽</a>
+    <a class="starR1" value="9">별5_왼쪽</a>
+    <a class="starR2" value="10">별5_오른쪽</a>  
+    
    	<input type="number" id="Review_star" name="Review_star">
    	<input type="text" id="Review_like" name="Review_like" value="0">
-   	
-   	
-   	
-   	
-   	
-   	
-   	
+	
 </div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
@@ -123,8 +136,7 @@ selectData();
 
 <div class="re2">
 <strong id="re2h">리뷰   X개</strong>
-<table id="re_list" class="re2_t1">
-</table>
+<table id="re_list" class="re2_t1"></table>
 
 
 </div>
@@ -135,15 +147,6 @@ selectData();
 </section>
 <div id="footer"></div>    
 </body>
-
-
-<!-- 
-
-re_list += '<tr><td>'+item.member_id+'</td>';							
-re_list += 	   '<td>'+item.review_kind+'</td>';																	
-re_list += 	   '<td>'+item.review_date+'</td></tr>';	
- -->
-
 
 </html>
 

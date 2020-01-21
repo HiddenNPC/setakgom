@@ -2,7 +2,6 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-
 import com.spring.setak.NoticeVO;
 
 

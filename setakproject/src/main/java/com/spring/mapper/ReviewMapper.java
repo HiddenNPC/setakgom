@@ -2,8 +2,6 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-
-
 import com.spring.setak.ReviewVO;
 
 public interface ReviewMapper 
