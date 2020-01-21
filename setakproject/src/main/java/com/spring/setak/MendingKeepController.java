@@ -79,7 +79,7 @@ public class MendingKeepController {
 			*/
 		
 		}
-		return "order";
+		return "cart";
 	}
 	
 	@RequestMapping("/keepform.do")
@@ -108,6 +108,6 @@ public class MendingKeepController {
 			
 			mendingKeepService.insertKeep(keep);
 		}
-		return "order";
+		return "cart";
 	}
 }
