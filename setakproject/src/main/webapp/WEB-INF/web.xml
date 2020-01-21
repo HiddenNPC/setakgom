@@ -30,6 +30,11 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+		
 	<!-- Korean Filter -->
 	 <filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
@@ -48,5 +53,5 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
 </web-app>

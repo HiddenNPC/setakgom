@@ -36,37 +36,36 @@
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
 			
-			<div class="mypage_head" style="width: 12%; float: left;">
+			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
 						<ul class="mypage_list">
 							<li>주문관리</li>
-							<li>주문/배송현황</li>
-							<li>보관현황</li>
+							<li><a href="orderview.jsp">주문/배송현황</a></li>
+							<li><a href="mykeep.jsp">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
-							<li>나의 정기구독</li>
+							<li><a href="mysub.jsp">나의 정기구독</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li>Q&amp;A 문의내역</li>
+							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
-							<li>개인정보수정</li>
-							<li>쿠폰조회</li>
-							<li>적립금 조회</li>
-							<li>회원탈퇴</li>
+							<li><a href="password.jsp">개인정보수정</a></li>
+							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
+							<li><a href="mysavings.jsp">적립금 조회</a></li>
+							<li><a href="withdraw.jsp">회원탈퇴</a></li>
 						</ul>
 					</li>
 				</ul>
 			</div>
-			<div style="width: 85%; float: right;">
+			<div class="solmin">
 				<div class="mypage_content">
 				<h2>보관현황</h2>
-				<div class="mypage_content_cover2">
 				<div class="accordion2">
 					<div class="accordion-header2">
 						<table class="header" >
@@ -89,15 +88,11 @@
 					<div class="accordion-content2">
 						<table>
 							<tr>
-								<td>보관하신품목</td>
+								<td style="background-color: #3498db;">보관하신품목</td>
 							</tr>
-						</table>
-						<table>
 							<tr>
 								<td>상의</td>
 							</tr>
-						</table>
-						<table>
 							<tr>
 								<td>하의</td>
 							</tr>
@@ -197,29 +192,41 @@
 						<button class="pay_btn">결제하기</button> 	
 						</div>
 						<div class="rt-service">
-							<table>
-								<tr>
-									<th width="20%">종류</th>
-									<th width="80%">옷의 특징을 상세히 입력해주세요.</th>
+							<form id="" action="" method="post">
+							<table id="rt-table">
+								<tr style="background-color: #3498db;">
+									<td width="20%">종류</td>
+									<td width="80%" colspan="2">옷의 특징을 상세히 입력해주세요.
+										<input type = "button" value = "+" id='btn_add_row' />
+									</td>
 								</tr>
+								<tbody>
 								<tr>
 									<td>
-										<select name="rt-list">
+										<select id="rt-list">
 											<option value="셔츠">셔츠</option>
 											<option value="가디건">가디건</option>
 											<option value="바지">바지</option>
 										</select>
 									</td>
 									<td>
-									<textarea rows="2" cols="30" placeholder="상세내용"></textarea>
-									</td>
+									<textarea rows="2" cols="30" placeholder="상세내용"></textarea></td>
+									<td class="bt_del"><input type="button" value="x" id="btn_del_row"/></td>	
 								</tr>
+								</tbody>
 							</table>
+							<div class="rt_button">
+								<input type="submit" value="부분 반환" id="all_return" onclick="javascript: form.action='/mykeep/halfupdate';"/>
+								<input type="submit" value="전체 반환" id="all_return" onclick="javascript: form.action='/mykeep/allupdate';"/>
+							</div>
+							<p>※ 부분 반환 신청시 회당 추가 배송비 2,000원이 부과됩니다.<br></p>
+							<p>※ 옷의 특징을 상세히 알려주세요. 부합하는 물품이 없을 시 개인 정보에 적혀있는 전화번호로 연락을 드리며,</p><p>&nbsp;&nbsp;공휴일 제외 5일 이상 부재중 시 결제 및 반환이 취소됩니다.</p>
+							<p>※ 반환 후 재 보관은 불가하며, 보관을 원하실 경우 새로 보관 서비스를 이용하시길 바랍니다.</p>
+							</form>	
 						</div>
 					</div> 
 					<br>
 					</div>
-				</div>
 				</div>
 			</div>
 		</div><!-- content -->
@@ -230,7 +237,34 @@
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
 <script>
+$('#btn_add_row').click(function() {
+
+	var str = '';
+	str += '<tr>';
+	str += '<td>';
+	str += '<select id="rt-list">';
+	str += '<option value="셔츠">셔츠</option>';
+	str += '<option value="바지">바지</option>';
+	str += '<option value="속옷">속옷</option>';
+	str += '</select>';
+	str += '</td>';
+	str += '<td>';
+	str += '<textarea rows="2" cols="30" placeholder="상세내용"></textarea>';
+	str += '</td>';
+	str += '<td class="bt_del">';
+	str += '<input type="button" value="x" id="btn_del_row"/>';
+	str += '</td>';
+	str += '</tr>'; 
+	
+	$('#rt-table > tbody:last').append(str);
+	
+});
+	
+
+</script>
+<script>//보관기간연장 아코디언
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;
 var price = parseInt(0);
@@ -243,16 +277,11 @@ $(".month").on("click", function(){
 	$('.tot_price').html(price);
 	$.pricefun(n);
 });
-
-
 //수량에 따른 값변경
 $.pricefun = function(n){
 	var num = parseInt($(".box_count:eq(" + n + ")").val());
 	
 };
-
-
-
 	$(document).ready(function() {
 	  jQuery(".accordion-content2").hide();
 	//content 클래스를 가진 div를 표시/숨김(토글)
@@ -264,9 +293,13 @@ $.pricefun = function(n){
 	    	.not($(this).next(".accordion-content2").slideToggle(500)).slideUp();
 	    $('.mypage_content_cover2').find('.accordion2>.accordion-header2').not($except).removeClass("active");
 	  });
+	
+	  $(document).on("click","#btn_del_row", function() {
+			$(this).parent().parent().remove();
+		});	
 	});
 </script>
-<script>
+<script>//반환아코디언
 $(document).ready(function() {
 	jQuery(".rt-service").hide();
 	$(".keepbox2").click(function() {
@@ -278,7 +311,7 @@ $(document).ready(function() {
 });
 
 </script>
-<script>
+<script>//결제 스크립트
 $(document).ready(function() {
  	  jQuery(".keep_month").hide();
  	//content 클래스를 가진 div를 표시/숨김(토글)
@@ -351,10 +384,9 @@ $(document).ready(function() {
  	});
 </script>
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script>
+<script>//업다운 이미지 변환
  $(function() {
 	$('.up').on("click",function() {
-		console.log($(this).html())
 		if($(this).html() == '⋁'){
 			$(this).html('&#8896;')
 		}
