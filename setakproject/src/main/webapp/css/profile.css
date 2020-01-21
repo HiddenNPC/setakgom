@@ -1,0 +1,238 @@
+@charset "UTF-8";
+
+   .title-text {
+      position: absolute;
+      right: 0;
+      left: 0;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-align-items: center;
+      -webkit-justify-content: center;
+      -webkit-box-pack: center;
+      -webkit-box-align: center;
+      -moz-box-pack: center;
+      -moz-box-align: center;
+      -ms-box-pack: center;
+      -ms-box-align: center;
+   }
+   .title-text h2 {
+      font-size: 2rem;
+      color: #444;
+   }
+   /*아래의 width로 파란 줄 길이 조절 가능*/
+   .title-text h2:before {
+      content: '';
+      display: block;
+      width: 40%;
+      height: 6px;
+      background-color: #3498db;
+      margin-bottom: 6px;
+      vertical-align: middle;
+   }
+   
+   /*
+   default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
+   content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
+   폰트사이즈는 무조건 rem으로 작업해주세요.
+   */ 
+   
+   
+   /*변경된 클래스와 아이디로 작업하세요*/
+   #test {
+      height:850px;
+   }
+   
+    /*마이페이지 메뉴창*/
+   .mypage_content{
+      width:1035px;
+      float:right;
+   }
+   .mypage_content>h2{
+      height:130px;
+      line-height:130px;
+      text-align:center;
+      font-size:1.7rem;
+      border:2px solid #e1e4e4;
+      box-sizing:border-box;
+   }
+   .mypage_content .mypage_content_cover{
+      padding-top:15px;
+   }
+    .mypage_content .mypage_content_cover p{
+      color:#3498db;
+      font-size:0.9rem;
+   }
+   .mypage_head{
+      width:150px;
+      box-sizing:border-box;
+      float:left;
+   }
+   .mypage_head > ul > li:nth-child(2){
+      border:2px solid #e1e4e4;
+      border-top:0px;
+      padding-bottom:60px;
+   }
+   .mypage-title{
+  		margin-top:120px;
+        height:130px;
+        background-color:#3498db;
+        width:100%;
+        color:#fff;
+        line-height:130px;
+        text-align:center;
+        font-weight:bold;
+        font-size:1rem;
+   }
+  .mypage_list{
+      padding:20px 0 0 15px;
+      color:#444;
+   }
+   .mypage_list li{
+      font-size:0.86rem;
+      padding-top:5px;
+      display:block;
+   }
+   .mypage_list li:first-child{
+      font-weight:bold;
+        font-size:1rem;
+   }
+
+   .mypage_list li a{
+      color:#444;
+    }
+    .mypage_list li a:hover{
+       font-weight:bold;
+    }
+    
+      
+   
+   /*개인정보수정*/
+   .mypage_content {
+   		margin-buttom:70px;
+   }
+   
+   .profile{
+   		padding-top:120px;
+   		padding-left:80px;
+   }
+   
+   .profile_info tr td {
+   		height:60px;
+   }
+   
+   .profile h4 {
+    display:none;
+	color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+}
+
+   .left_info {
+		width : 200px;
+   		text-align : center; 
+  		background-color :   #ffefce;
+   		font-size : 0.92rem;
+   		font-weight : bold; 
+   }
+   
+   .right_info {
+   		width : 500px;
+   		padding-left : 15px; 
+   		background-color :  #fff;
+   }
+   
+   .txt_info {
+   		border : 1px solid #bbb;
+   		color : #444;
+   		padding : 0 5px; 
+   		font-size : 0.8rem; 
+   		height : 25px; 
+   		margin-top : 10px; 
+   		margin-bottom : 10px; 
+   	
+   }
+   
+   .total_button {
+   		padding:40px 0;
+   }
+   
+   .total_button a{
+   		font-size:0.95rem; 
+   		display:block;
+   		width:90px;
+   		background-color: #e1e4e4;
+   		color:#444;
+   		border-radius:30px;
+   		height:4-px;
+   		line-height:40px;
+   		text-align:center;
+   		float:right;
+   		margin: 0 5px;
+   }
+   
+   .total_button a:hover {
+   		background-color: #ffefce;
+   		color:#444;
+   		transition: all .4s;
+   }
+   
+   .profile h1 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+   
+   .profile h2 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+   
+   .profile h3 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+
+   
+   .profile h5 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+
+   .profile h6 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+   .profile h7 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+
+   .profile h8 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}

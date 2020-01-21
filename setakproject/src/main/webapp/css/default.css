@@ -34,6 +34,9 @@
 		position:fixed;
 		z-index:999;
 	}
+	.logo_a:hover:after{
+		display: none;
+	}
 	nav{
 		background-color:#fff;
 		height:135px;

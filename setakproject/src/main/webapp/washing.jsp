@@ -10,18 +10,19 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/washing.css"/>
-</head>
+</head> 
 
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 var num = 0;
+var cate = "상의";
 
-$(document).ready(function($) {	
+$(document).ready(function($) {
 	
 	/* 헤더풋터 생성 */
-	$("#header").load("header.jsp")
-    $("#footer").load("footer.jsp")
+	$("#header").load("./header.jsp")
+    $("#footer").load("./footer.jsp")
 	
 	/* 카테고리선택하면 메뉴리스트 변경함수 */
 	$(".tab").on("click", function() {
@@ -29,11 +30,12 @@ $(document).ready(function($) {
 		$(".menulist").removeClass("show");
 		$(this).addClass("active");
 		$($(this).attr("href")).addClass("show");
+		cate = $(this).text();
 	});
 	
 	var windowWidth = $(window).width();
 	if (windowWidth > 769) {
-		$('a').click(function() {
+		$('.tab').click(function() {
 			$('html, body').animate({
 				scrollTop : 300
 			}, 500);
@@ -49,24 +51,23 @@ $(document).ready(function($) {
 		num++;
 		str += '<tr id="'+num+'">';
 		str += '<td align="center"><input type="checkbox" name="chk" value="'+tdtext[0]+'" checked></td>';
-		str += '<td align="center">'+tdtext[0]+'</td>';
-		str += '<td align="center"><select class = "howsetak" name="세탁방법">';
+		str += '<td align="center"><input type="hidden" value="'+tdtext[0]+'" name = "wash_kind">'+tdtext[0]+'</td>';
+		str += '<td align="center"><select class = "howsetak" name="wash_method">';
 		str += '<option value="물세탁">물세탁</option>';
 		str += '<option value="드라이">드라이(+2000)</option>';
 		str += '<option value="삶음">삶음(+1500)</option></td>';
-		str += '<td align="center"><input type="number" class="qnum" name="quantity" min="1" max="1000" value="1"></td>';
+		str += '<td align="center"><input type="number" class="qnum" name="wash_count" min="1" max="1000" value="1"></td>';
 		str += '<td name="'+tdtext[2]+'" align="center">'+tdtext[2]+'원</td>';
+		str += '<input type="hidden" name="wash_cate" value="'+cate+'">';
 		$(".pricemenu").after(str);
 		
 		sumprice();
-		/* console.log(tr.eq(2).children().eq(4).text()); */
-		
 		
 	});
 	
+	/* 가격 합계 구하는 합수 */
 	sumprice = function() {
 		var hap = 0;
-		var fee = 0;
 		var tr = $("#pricetable").children().children();
 		var pricearr = new Array();
 		
@@ -78,12 +79,7 @@ $(document).ready(function($) {
 			hap += parseInt(pricearr[i]);
 		}
 		
-		$("#repairfee").html(numberFormat(hap));
-		if(hap < 30000)
-			fee = parseInt(2500);
-		$("#shipfee").html(numberFormat(fee));
-		
-		$("#sumprice").html(numberFormat(hap+fee));
+		$("#sumprice").html(numberFormat(hap));
 		
 	}
 	
@@ -95,11 +91,11 @@ $(document).ready(function($) {
 		var quan = td.eq(3).children().val();
 		
 		if(td.eq(2).children().val()=="드라이"){
-			td.eq(4).html((price+2000)*quan);
+			td.eq(4).html((price+2000)*quan+'원');
 		}else if(td.eq(2).children().val()=="삶음"){
-			td.eq(4).html((price+1500)*quan);
+			td.eq(4).html((price+1500)*quan+'원');
 		}else{
-			td.eq(4).html(price*quan);
+			td.eq(4).html(price*quan+'원');
 		}
 		
 		sumprice();
@@ -125,7 +121,7 @@ $(document).ready(function($) {
     })
 	
     /* 체크박스 삭제 */
-	$(".total-button a").click(function(){
+	$("#checkdel").click(function(){
 		var checkbox = $("input[name=chk]:checked");
 		checkbox.each(function(){
 			var tr = checkbox.parent().parent();
@@ -135,26 +131,31 @@ $(document).ready(function($) {
 		sumprice();
 	});
 	
+	/* 숫자 3자리마다 쉼표 넣어줌 */
 	numberFormat = function(inputNumber) {
 		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
+	}
 	
-	//$('#repairfee').html(numberFormat(test));
 });
+
+function checkform() {
+	if($("#pricetable tr").length == "1"){
+		alert("세탁물을 선택해 주시기 바랍니다.");
+		return false;		
+	}
+}
 
 </script>
 <body>
 	<div id="header"></div>
-
+  
 	<div class = content>
 		<div class = title-text>
 			<h2>세탁 서비스</h2>
 		</div>
 		
 		<div class="setakmain">
-		<%-- <div id = setakimg>
-			<	img src ="${pageContext.request.contextPath}/resources/image/화살표.PNG" border="0">
-			</div> --%>
+			<div class="step"><img src="images/s1.png" alt="step1_세탁"></div>
 			<p>※ 본 가격은 물세탁 기준이며, 드라이클리닝 또는 삶음 가격은 세탁물 선택 후 아래창에서 확인 가능합니다.</p>
 			
 			<!-- 카테고리 테이블 -->
@@ -167,9 +168,9 @@ $(document).ready(function($) {
 				</div>
 				<div class="tab-list" id = "tab-two">
 					<a href="#five" class="tab">침구</a>
-					<a href="#six" class="tab">가죽/기타</a>
-					<a href="#seven" class="tab">스포츠웨어</a>
-					<a href="#eight" class="tab">신발</a>
+					<a href="#six" class="tab">리빙</a>
+					<a href="#seven" class="tab">신발</a>
+					<a href="#eight" class="tab">잡화</a>
 				</div>
 			</div>
 			
@@ -293,7 +294,7 @@ $(document).ready(function($) {
 					</ul>
 				</div>
 			</div>
-			<form id="pricediv">
+			<form id="pricediv" action="./washmending.st" method="post" onsubmit="return checkform();">
 				<table id = "pricetable">
 					<tr class= "pricemenu">
 						<td width="10px"><input type="checkbox" id = "allcheck" checked></td>
@@ -303,17 +304,15 @@ $(document).ready(function($) {
 						<td width="200px">합계</td>
 					</tr>
 				</table>
-			</form>
-			<p>※3만원 이상</p>
 			
-			<div class="total">
-				<p>총 금액 : 수선비 <span id = "repairfee">0</span>원 + 배송비 <span id = "shipfee">2,500</span>원 = 합계 : <span id = "sumprice">0</span>원</p>
+			<div class="total"> 
+				<p>총 금액 : 수선비 : <span id = "sumprice">0</span>원</p>
 			</div>
-			
 			<div class="total-button">
-				<a href="javascript:">다음</a>
-				<a href="javascript:">선택삭제</a>
+				<input type="submit" value="다음">
+				<input type="button" value="선택삭제" id="checkdel">
 			</div>
+			</form>
 		</div>
 	</div>
 	

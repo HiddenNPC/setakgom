@@ -6,10 +6,10 @@
 		<nav>
 			<div class="content">
 				<ul class="logo">
-					<li><img src="images/logo.png" alt="로고"></li>
+					<li><a href="./" class ="logo_a"><img src="images/logo.png" alt="로고"></a></li>
 				</ul>
 				<ul class="logo2">
-					<li><img src="images/logo2.png" alt="로고"></li>
+					<li><a href="./" class ="logo_a"><img src="images/logo2.png" alt="로고"></a></li>
 				</ul>
 				<ul class="main-nav">
 				<%
