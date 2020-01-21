@@ -1,4 +1,4 @@
-package com.spring.setak;
+package com.spring.order;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.spring.setak.CouponService;
+import com.spring.setak.CouponVO;
+import com.spring.setak.MileageService;
 
 @Controller
 public class OrderController {	

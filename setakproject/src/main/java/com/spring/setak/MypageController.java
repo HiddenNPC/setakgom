@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.mapper.MypageMapper;
+import com.spring.order.OrderVO;
 
 @Controller
 public class MypageController {

@@ -4,12 +4,12 @@
 <mapper namespace="com.spring.mapper.CartMapper">
 
 	<!-- 컬럼명 제대로 확인 -->
-	<resultMap type="com.spring.setak.WashingCartVO" id="WashingCartResultMap">
+	<resultMap type="com.spring.order.WashingCartVO" id="WashingCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="wash_seq" column="wash_seq" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.MendingCartVO" id="MendingCartResultMap">
+	<resultMap type="com.spring.order.MendingCartVO" id="MendingCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="mending_seq" column="mending_seq" />
 	</resultMap>

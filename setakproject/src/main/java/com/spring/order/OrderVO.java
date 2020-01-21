@@ -1,7 +1,5 @@
-package com.spring.setak;
+package com.spring.order;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,10 +1,10 @@
-package com.spring.setak;
+package com.spring.order;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class MendingCartVO {
+public class KeepCartVO {
 	private String member_id;
-	private String mending_seq;
+	private String keep_seq;
 }

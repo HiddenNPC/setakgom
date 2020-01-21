@@ -5,7 +5,7 @@
       
 <mapper namespace="com.spring.mapper.AddressMapper">
       
-	<resultMap type="com.spring.setak.AddressVO" id="AddressResultMap">
+	<resultMap type="com.spring.order.AddressVO" id="AddressResultMap">
 		<result property="address_num" column="address_num" />
 		<result property="member_id" column="member_id" />
 		<result property="address_name" column="address_name" />
@@ -21,12 +21,12 @@
 	</select>
 
 	<!-- 배송지 선택 -->
-	<select id = "searchAddress" parameterType = "com.spring.setak.AddressVO" resultMap = "AddressResultMap">
+	<select id = "searchAddress" parameterType = "com.spring.order.AddressVO" resultMap = "AddressResultMap">
 		select * from address where address_num = #{address_num}
 	</select>
 		
 	<!-- 배송지 추가 -->
-	<insert id = "insertAddress" parameterType = "com.spring.setak.AddressVO">
+	<insert id = "insertAddress" parameterType = "com.spring.order.AddressVO">
 		insert into address values(#{address_num}, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
 	</insert>
 	
@@ -36,7 +36,7 @@
 	</delete>
 	
 	<!-- 배송지 수정 -->
-	<update id="updateAddress" parameterType = "com.spring.setak.AddressVO">
+	<update id="updateAddress" parameterType = "com.spring.order.AddressVO">
 		update address set address_name = #{address_name}, address_human = #{address_human}, address_phone = #{address_phone},
 		address_zipcode = #{address_zipcode}, address_loc = #{address_loc} where address_num = #{address_num}
 	</update>

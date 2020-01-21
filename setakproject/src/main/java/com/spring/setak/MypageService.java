@@ -2,6 +2,8 @@ package com.spring.setak;
 
 import java.util.ArrayList;
 
+import com.spring.order.OrderVO;
+
 public interface MypageService {
 	public ArrayList<OrderVO> getOrderlist(OrderVO orderVO);
 

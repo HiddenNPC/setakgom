@@ -3,7 +3,7 @@
 
 <mapper namespace="com.spring.mapper.OrderMapper">
 
-	<resultMap type="com.spring.setak.OrderVO" id="OrderResultMap">
+	<resultMap type="com.spring.order.OrderVO" id="OrderResultMap">
 		<result property="order_num" column="order_num" />
 		<result property="member_id" column="member_id" />
 		<result property="order_date" column="order_date" />
@@ -21,7 +21,7 @@
 	</resultMap>
 	
 	<!-- 주문 추가  -->
-	<insert id = "insertOrder" parameterType = "com.spring.setak.OrderVO">
+	<insert id = "insertOrder" parameterType = "com.spring.order.OrderVO">
 		insert into memberorder values (#{order_num}, #{member_id, jdbcType=VARCHAR}, #{order_date, jdbcType=VARCHAR},  
 		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment, jdbcType=VARCHAR}, 
 		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 

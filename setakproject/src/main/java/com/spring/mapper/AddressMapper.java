@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-import com.spring.setak.AddressVO;
+import com.spring.order.AddressVO;
 
 public interface AddressMapper {
 

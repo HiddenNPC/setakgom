@@ -1,6 +1,6 @@
 package com.spring.mapper;
 
-import com.spring.setak.OrderVO;
+import com.spring.order.OrderVO;
 
 public interface OrderMapper {
 

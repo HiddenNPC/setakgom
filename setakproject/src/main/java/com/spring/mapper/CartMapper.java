@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-import com.spring.setak.KeepCartVO;
+import com.spring.order.KeepCartVO;
 
 public interface CartMapper {
 	

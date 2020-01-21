@@ -1,4 +1,4 @@
-package com.spring.setak;
+package com.spring.order;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

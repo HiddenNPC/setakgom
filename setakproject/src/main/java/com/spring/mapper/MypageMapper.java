@@ -2,9 +2,9 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
+import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
-import com.spring.setak.OrderVO;
 
 public interface MypageMapper {
 	ArrayList<OrderVO> getOrderlist(OrderVO orderVO);
