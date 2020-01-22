@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter @Setter
 public class MendingCartVO {
 	private String member_id;
-	private String mending_seq;
+	private int repair_seq;
 }

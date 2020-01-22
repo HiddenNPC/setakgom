@@ -277,7 +277,7 @@
 	
 
     
-	// 적립금 사용
+	// 적립금 사용 
 	$('input#usePoint').on('keyup',function(){
 		var usePoint = parseInt($("#usePoint").val());
 		var havePoint = parseInt($("#havePoint").text());

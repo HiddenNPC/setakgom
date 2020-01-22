@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import = "com.spring.setak.WashingVO" %>
+<%@ page import = "com.spring.setak.MendingVO" %>
+<%@ page import = "com.spring.setak.KeepVO" %>
+<%@ page import = "java.util.ArrayList" %>
+<%
+	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
+	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
+	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,13 +46,61 @@
 	    });
          
          /* 체크박스 삭제 */
+ 
      	$(".total-button a").click(function(){
+            var washSeqArr = []; 
+            var repairSeqArr = []; 
+            var keepSeqArr = []; 
+            
+     		var member_id = "bit"; 
      		var checkbox = $("input[name=check]:checked");
+     		
      		checkbox.each(function(){
      			var tr = checkbox.parent().parent();
+     			var type = $(this).val().substr(0, 1); 
+     			var seq = $(this).val().substr(1, $(this).val().length);
+     			
+     			console.log('type : ' + type); 
+     			
+     			if(type == 'w') {
+     				console.log('w' + seq);
+     				washSeqArr.push(seq);   				
+     			}else if (type == 'r') {
+     				console.log('r' + seq);
+     				repairSeqArr.push(seq);
+     			}else {
+     				console.log('k' + seq);
+     				keepSeqArr.push(seq);
+     			}
+  
      			tr.remove();
-     			getTotal(); 
-     		}) 
+     		});
+
+     		
+ 			getTotal(); 
+     		
+     		var params = {
+     			"washSeqArr" : washSeqArr,
+     			"repairSeqArr" : repairSeqArr,
+     			"loc" : "cart"
+     		};
+     		
+     		$.ajax({
+     			url : '/setak/cartDelete.do',
+     			type : 'post',
+     			data : params,
+     			traditional : true,
+     			success : function(retVal) {
+     				if(retVal.res == "OK") {
+     					alert("오키");
+     				}else {
+     					alert("실패"); 
+     				}
+     			},
+     			error : function() {
+     				alert("삭제 과정 실패 ajax"); 
+     			}
+     		});
      		
      	});
                       
@@ -89,40 +147,61 @@
 							<th>비고</th>
 						</tr>
 					</thead>
-					<tbody align = "center">
-						<tr>
-							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>2장</td>
-							<td class = "product_price">50000원</td>
-							<td>물세탁</td>
-						</tr>			
-						<tr>
-							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁</td>
-							<td>셔츠</td>
-							<td>2장</td>
-							<td class = "product_price">50000원</td>
-							<td>물세탁</td>
-						</tr>			
-						<tr>
-							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁-수선</td>
-							<td>상의</td>
-							<td>3장</td>
-							<td class = "product_price">40000원</td>
-							<td>소매줄임</td>
-						</tr>			
-						<tr>
-							<td><input type = "checkbox" name = "check" /></td>
-							<td>세탁-보관</td>
-							<td></td>
-							<td>3박스</td>
-							<td class = "product_price">5000원</td>
-							<td>6개월</td>
+					<tbody align = "center">			
+						<% if(washingList.size() != 0) {
+						for(int i = 0; i < washingList.size(); i++) {
+						WashingVO wvo = washingList.get(i);%>		
+						  <tr>
+		                     <td>
+		                     	<input type = "checkbox" name = "check" value = "w<%=wvo.getWash_seq() %>"/>
+		                     </td>
+		                     <td>세탁</td>
+		                     <td><%=wvo.getWash_kind() %></td>
+		                     <td><%=wvo.getWash_count() %>장</td>
+		                     <td class = "product_price"><%=wvo.getWash_price() %>원</td>
+		                     <td><%=wvo.getWash_method() %></td>
+		                  </tr>   
+                  		<% } } else { %>
+                  		<tr></tr>
+                  		<%} %>
+						<% if(mendingList.size() != 0) {
+						for(int i = 0; i < mendingList.size(); i++) {
+						MendingVO mvo = mendingList.get(i);%>		
+						  <tr>
+		                     <td>
+		                     	<input type = "checkbox" name = "check" value = "r<%=mvo.getRepair_seq()%>"/>
+		                     </td>
+		                     <%if(mvo.getRepair_wash() == 0) { %>
+		                     <td>수선</td>
+		                     <%} else { %>
+		                     <td>세탁-수선</td>
+		                     <%} %>
+		                     <td><%=mvo.getRepair_cate()%></td>
+		                     <td><%=mvo.getRepair_count()%>장</td>
+		                     <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
+		                     <td><%=mvo.getRepair_kind()%></td>
+		                  </tr>   
+                  		<% } } else { %>
+                  		<tr></tr>
+                  		<%} %>
+                  		
+						<% if(keepList.size() != 0) {
 
-						</tr>						
+						KeepVO kvo = keepList.get(0);%>		
+						  <tr>
+		                     <td>
+		                     	<input type = "checkbox" name = "check" value = "k<%=kvo.getKeep_seq()%>"/>
+		                     </td>
+		                     <td>보관</td>
+		                     <td></td>
+		                     <td><%=kvo.getKeep_box()%>박스</td>
+		                     <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
+		                     <td><%=kvo.getKeep_month()%>개월</td>
+		                  </tr>   
+                  		<% } else { %>
+                  		<tr></tr>
+                  		<%} %>
+					
 					</tbody>
 				</table>
 				
