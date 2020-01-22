@@ -122,8 +122,12 @@
     table.cart_list thead tr th, 
     table.cart_price thead tr th {
     	height : 50px; 
+		}
+	
+		table.cart_list tbody tr {
+    border-bottom: 1px solid #e1e4e4;
     }
-    
+	    
     table.cart_list tbody tr td {
     	height : 40px;
     }

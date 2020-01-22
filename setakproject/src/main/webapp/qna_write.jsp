@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import ="com.spring.setak.*"%>  
+<%@ page import = "com.spring.setak.*"%>  
 <%@ page import = "java.util.*"%>
 <%@ page import = "java.text.SimpleDateFormat"%>
 
@@ -26,10 +26,10 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.co">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
-<form action="./qnaInsert.co" method="post" enctype="multipart/form-data" name="qnaform">
+<form action="./qnaInsert.do" method="post" enctype="multipart/form-data" name="qnaform">
 <table class="qwt1">				
 	<tr>
 		<td height="25px"><div align="center"> 글 쓴 이 </div></td>
@@ -69,13 +69,12 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td height="25px"><div align="center">파일 첨부</div></td>
-		<!-- <td><input name="BOARD_FILE" type="button" value="선택"/></td>  -->
 		<td><input id="QNA_FILE" name="QNA_FILE" type="file" /></td>				
 	</tr>
 	<tr class="qwt1h">
 		<td colspan="2"><div>
 			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">
-			<input type="hidden" name="QNA_CHECK" value="답변완료">					
+			<!-- <input type="hidden" name="QNA_CHECK" value="답변완료"> -->					
 			</div>
 		</td>
 	</tr>

@@ -1,16 +1,24 @@
 package com.spring.setak;
 
 public class MendingVO {
+	int repair_seq;
 	String repair_cate;
 	String repair_kind;
 	int repair_var1;
 	int repair_var2;
 	int repair_var3;
-	int repair_content;
+	String repair_content;
 	String repair_code;
 	int repair_count;
 	int repair_price;
+	String repair_file;
 	
+	public int getRepair_seq() {
+		return repair_seq;
+	}
+	public void setRepair_seq(int repair_seq) {
+		this.repair_seq = repair_seq;
+	}
 	public String getRepair_cate() {
 		return repair_cate;
 	}
@@ -41,10 +49,10 @@ public class MendingVO {
 	public void setRepair_var3(int repair_var3) {
 		this.repair_var3 = repair_var3;
 	}
-	public int getRepair_content() {
+	public String getRepair_content() {
 		return repair_content;
 	}
-	public void setRepair_content(int repair_content) {
+	public void setRepair_content(String repair_content) {
 		this.repair_content = repair_content;
 	}
 	public String getRepair_code() {
@@ -65,4 +73,12 @@ public class MendingVO {
 	public void setRepair_price(int repair_price) {
 		this.repair_price = repair_price;
 	}
+	public String getRepair_file() {
+		return repair_file;
+	}
+	public void setRepair_file(String repair_file) {
+		this.repair_file = repair_file;
+	}
+	
+	
 }

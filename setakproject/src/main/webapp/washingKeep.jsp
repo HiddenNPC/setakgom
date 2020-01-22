@@ -168,8 +168,8 @@
 						<p>총 금액	: 세탁비 0원 + 수선비 0원 + 보관비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
 					</div>
 					<div class="total-button">
-						<a href="./cart.st">다음</a>
-						<a href="javascript:history.back()">이전</a>
+						<input type="button" value="다음">
+						<input type="button" value="이전">
 					</div>
 				</form>
 			</div>

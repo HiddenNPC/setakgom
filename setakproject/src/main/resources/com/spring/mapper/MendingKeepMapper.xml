@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.spring.mapper.MendingKeepMapper">
+	
+	<insert id="insertMending" parameterType="com.spring.setak.MendingVO">
+		insert into repair(repair_seq, repair_cate, repair_kind, repair_var1, repair_var2, repair_var3, repair_content, repair_code, repair_count, repair_price) 
+		values (repair_seq.nextval, #{repair_cate}, #{repair_kind}, #{repair_var1}, #{repair_var2}, #{repair_var3}, #{repair_content}, #{repair_code}, #{repair_count}, #{repair_price})
+	</insert>
+	
+	<insert id="insertKeep" parameterType="com.spring.setak.KeepVO">
+		insert into keep(keep_seq, keep_cate, keep_kind, keep_count, keep_month, keep_box, keep_price, keep_start, keep_end) 
+		values (keep_seq.nextval, #{keep_cate}, #{keep_kind}, #{keep_count}, #{keep_month}, #{keep_box}, #{keep_price}, #{keep_start}, #{keep_end})
+	</insert>
+	
+</mapper>

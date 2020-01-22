@@ -232,9 +232,6 @@
 		margin-left:15px;
 		cursor:pointer;
 	}
-	.details_text2{
-		display:none;
-	}
 	.mending_order{
 		margin:10px 0;
 		width:100%;
@@ -262,14 +259,6 @@
 	}
 	.mending_order .mending_order_title td{
 		border:1px solid;
-	}
-	.mending_order td:nth-child(2) input{
-		background-color:#fff;
-		width:70px;
-		text-align:center;
-		color:#444;
-		border:0px;
-		font-size:0.9rem;
 	}
 	.mending_order select {
 		width:90px;

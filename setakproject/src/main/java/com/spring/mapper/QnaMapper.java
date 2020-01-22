@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-import com.spring.setak.QnaVO;
+import com.spring.community.QnaVO;
 
 public interface QnaMapper 
 {

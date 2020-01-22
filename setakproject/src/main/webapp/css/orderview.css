@@ -1,54 +1,55 @@
 @charset "UTF-8";
 
-	.title-text {
-		position: absolute;
-		right: 0;
-		left: 0;
-		display: -webkit-box;
-		display: -moz-box;
-		display: -ms-flexbox;
-		display: -webkit-flex;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		-webkit-align-items: center;
-		-webkit-justify-content: center;
-		-webkit-box-pack: center;
-		-webkit-box-align: center;
-		-moz-box-pack: center;
-		-moz-box-align: center;
-		-ms-box-pack: center;
-		-ms-box-align: center;
-	}
-	.title-text h2 {
-		font-size: 2rem;
-		color: #444;
-	}
-	/*아래의 width로 파란 줄 길이 조절 가능*/
-	.title-text h2:before {
-		content: '';
-		display: block;
-		width: 40%;
-		height: 6px;
-		background-color: #3498db;
-		margin-bottom: 6px;
-		vertical-align: middle;
-	}
-	
-	/*
-	default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
-	content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
-	폰트사이즈는 무조건 rem으로 작업해주세요.
-	*/ 
-	
-	
+.title-text {
+	position: absolute;
+	right: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+}
+
+.title-text h2 {
+	font-size: 2rem;
+	color: #444;
+}
+
+.title-text h2:before {
+	content: '';
+	display: block;
+	width: 40%;
+	height: 6px;
+	background-color: #3498db;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
+
+/*
+default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
+content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
+폰트사이즈는 무조건 rem으로 작업해주세요.
+*/ 
+
 	/*변경된 클래스와 아이디로 작업하세요*/
-	#test {
-		height:850px;
+	#test > .content{
+		display:flex;
 	}
 	.mypage_content{
 		width:1035px;
-		float:right;
+		margin-left:15px;
+	    box-sizing:border-box;
 	}
 	.mypage_content h2{
 		height:130px;
@@ -58,18 +59,20 @@
 		border:3px solid #e1e4e4;
 		box-sizing:border-box;
 	}
-	.mypage_content .mypage_content_cover{
-		padding-top:15px;
-		height:500px;
-	}
     .mypage_content .mypage_content_cover p{
+ 		-top:15px;
 		color:#3498db;
+		margin-top:10px;
 		font-size:0.9rem;
 	}
+    .mypage_content_cover p:last-child {
+    	color:#444;
+    }
+
 	.mypage_head{
 		width:150px;
 		box-sizing:border-box;
-		float:left;
+		display:inline-block;
 	}
 	.mypage_head > ul > li:nth-child(2){
 		border:2px solid #e1e4e4;
@@ -91,14 +94,22 @@
 		color:#444;
 	}
 	.mypage_list li{
-		font-size:0.9rem;
+		font-size:0.86rem;
 		padding-top:5px;
 		display:block;
 	}
 	.mypage_list li:first-child{
 		font-weight:bold;
-        font-size:0.95rem;
+        font-size:1rem;
 	}
+
+	.mypage_list li a{
+	   color:#444;
+	 }
+	 .mypage_list li a:hover{
+	 	font-weight:bold;
+	 }
+
 
 	/*하단 슬라이드*/
 	.accordion {
@@ -152,13 +163,39 @@
 			height:350px;
 			float:left;
 		}
+		.snb p:first-child{
+			color:#444;
+			font-size:0.9rem;
+			font-weight:bold;
+		}
+		.snb p:last-child{
+			color:#3498db;
+			font-weight:600;
+		}
 
 		.row_content {
 			width:79.6%;
 			height:350px;
 			float:left;
-
 		}
+
+		.row_content2{
+			width:100%;
+			height:310px;
+		    overflow:scroll;
+		    overflow-x:hidden;
+		    border-bottom:1px solid #e1e4e4;
+		}
+        .row_content2 div p:first-child{
+        	font-weight:700;
+        }
+
+
+		.price{
+			float:right;
+			margin-right:10%;
+		}
+
 
 
 		/*취소 버튼*/
@@ -240,7 +277,6 @@
 
 		.page_a{
 			text-align: center;
-			
 			font-size:15px;
 			border: 1px solid #eeefef;
 			margin:5px;
@@ -258,28 +294,17 @@
 		}
 		*/
 		.page1{
-			width: 100%;
-			position:absolute; top:75rem;
+			margin-top:100px;
+			text-align: center;
 		}
 		.page1 table {
 			width: 100%;
 		}
-		.page1 *{
-			text-align: center;		
-		}
+					
 		.page1 table tr td div{
 			display: inline-block;
 		}
 		table.page td a{
 			text-decoration: none;
 			color:#3498db;
-		}
-
-		.accordion-content2 table{
-			width: 1035px; 
-			height: 15px;
-			border-bottom: 1px solid #eeefef;
-		}
-
-
-		
+		}		

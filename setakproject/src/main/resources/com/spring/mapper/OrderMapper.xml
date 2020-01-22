@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.OrderMapper">
+
+	<resultMap type="com.spring.order.OrderVO" id="OrderResultMap">
+		<result property="order_num" column="order_num" />
+		<result property="member_id" column="member_id" />
+		<result property="order_date" column="order_date" />
+		<result property="order_phone" column="order_phone" />
+		<result property="order_price" column="order_price" />
+		<result property="order_payment" column="order_payment" />
+		<result property="order_delicode" column="order_delicode" />
+		<result property="order_cancel" column="order_cancel" />
+		<result property="order_status" column="order_status" />
+		<result property="order_pickup" column="order_pickup" />
+		<result property="order_name" column="order_name" />
+		<result property="order_address" column="order_address" />
+		<result property="order_request" column="order_request" />
+		<result property="order_zipcode" column="order_zipcode" />
+	</resultMap>
+	
+	<!-- 주문 추가  -->
+	<insert id = "insertOrder" parameterType = "com.spring.order.OrderVO">
+		insert into memberorder values (#{order_num}, #{member_id, jdbcType=VARCHAR}, #{order_date, jdbcType=VARCHAR},  
+		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment, jdbcType=VARCHAR}, 
+		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 
+		#{order_pickup, jdbcType=VARCHAR}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
+		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR})
+	</insert>
+		
+</mapper>
