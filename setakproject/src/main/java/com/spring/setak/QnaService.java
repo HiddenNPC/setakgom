@@ -1,6 +1,7 @@
 package com.spring.setak;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public interface QnaService 
@@ -14,6 +15,9 @@ public interface QnaService
 	public int qnaModify(QnaVO vo) throws Exception;
 	public int qnaDelete(QnaVO vo) throws Exception;
 	public int getMaxNum()throws Exception ;
+	
+	//기응
+	public ArrayList<QnaVO> selectQnalist(HashMap<String, Object> map);
 	
 	
 	

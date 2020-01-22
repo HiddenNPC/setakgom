@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.*, com.spring.setak.*" %>
+<%@ page import = "java.text.SimpleDateFormat" %>
+<% 
+	List<CouponVO> couponlist = (ArrayList<CouponVO>)request.getAttribute("couponlist");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,33 +77,22 @@
 									<th width="20">사용가능 기간</th>
 								</tr>
 							</thead>
-							<%for (int i=0; i<10; i++){ %>
 							<tbody align="center">
 								<tr>
-									<td>zljkks</td>
-									<td><a href="#" style="color:#3498db; font-weiht:bold;">보관 1개월 무료</a></td>
-									<td>2020.01.05</td>
-									<td>2020.01.05~2020.07.05</td>
+								<%for(int i=0; i<couponlist.size(); i++){ 
+									CouponVO cvo = (CouponVO)couponlist.get(i);
+									%>
+									<td><%=cvo.getCoupon_name() %></td>
+									<td><a href="#" style="color:#3498db; font-weiht:bold;">보관1개월 무료</a></td>
+									<td><%=sdf.format(cvo.getCoupon_start()) %></td>
+									<td><%=sdf.format(cvo.getCoupon_start()) %>&nbsp;~&nbsp;<%=sdf.format(cvo.getCoupon_end()) %></td>
+									<%} %>		
 								</tr>
 							</tbody>					
-							<%} %>	
+							
 						</table>
 					</div>
 					</div>
-					<div class="page1">
-						<table class="page">
-							<tr align = center height = 20>
-              				<td>
-              					<div class="page_a"><a href = "#">&#60;</a></div>
-                  				<div class="page_a"><a>1</a></div>
-                  				<div class="page_a"><a>2</a></div>
-                  				<div class="page_a"><a>3</a></div>
-                  				<div class="page_a"><a href = "">&#62;</a></div>
-                  			</td>
-               			</tr>
-					</table>
-					</div>	
-				</div>
 			</div>
 		</div>
 	</section>

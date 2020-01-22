@@ -1,5 +1,8 @@
 package com.spring.setak;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,60 @@ public class MileageServiceImpl implements MileageService {
 			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
 			sum = mileageMapper.getSum(member_id);
 		} catch(Exception e) {
-			System.out.println("적립금 총합 계산 실패" + e.getMessage());
+			System.out.println("사용가능금액 총합 계산 실패" + e.getMessage());
+		}
+		return sum; 
+	}
+	
+	
+	//기응
+	@Override
+	public ArrayList<MileageVO> getMileagelist(HashMap<String, Object> map){
+		ArrayList<MileageVO> mileagelist = new ArrayList<MileageVO>();
+		
+		try {
+			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
+			mileagelist = mileageMapper.getMileagelist(map);
+			
+		}catch(Exception e) {
+			System.out.println("적립금 리스트 실패" + e.getMessage());
+		}
+		
+		return mileagelist;
+	}
+	
+	@Override
+	public int getListCount() {
+		int count=0;
+		MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
+		try {
+			count = mileageMapper.getListCount();
+		}catch(Exception e) {
+			System.out.println("카운트 실패" + e.getMessage());
+		}
+		
+		return count;
+	}
+	
+	
+	public int totSum(String member_id) {
+		int sum = 0;
+		try {
+			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
+			sum = mileageMapper.totSum(member_id);
+		} catch(Exception e) {
+			System.out.println("총적립금 계산 실패" + e.getMessage());
+		}
+		return sum; 
+	}
+	
+	public int useSum(String member_id) {
+		int sum = 0;
+		try {
+			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
+			sum = mileageMapper.useSum(member_id);
+		} catch(Exception e) {
+			System.out.println("사용한금액 총합 계산 실패" + e.getMessage());
 		}
 		return sum; 
 	}

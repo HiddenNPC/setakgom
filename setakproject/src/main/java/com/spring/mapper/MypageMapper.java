@@ -10,7 +10,7 @@ public interface MypageMapper {
 	ArrayList<OrderVO> getOrderlist(OrderVO orderVO);
 	OrderVO selectOrder(long order_num);
 	int getOrdercount();
-	
+	String selectOrderId(String member_id);
 	MendingVO selectMending(int repair_seq);
 	KeepVO selectKeep(int keep_seq);
 	

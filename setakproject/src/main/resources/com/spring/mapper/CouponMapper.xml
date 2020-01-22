@@ -18,8 +18,12 @@
 	</select>
 	
 	<!-- 쿠폰 갯수 -->
-	<select id = "getCouponCount" parameterType = "String" resultType = "int">
+	<select id="getCouponCount" parameterType="String" resultType="int">
 		select count(*) from coupon where member_id = #{member_id}
+	</select>
+	
+	<select id= "getCouponId" parameterType="String" resultType="String">
+		
 	</select>
 	
 </mapper>

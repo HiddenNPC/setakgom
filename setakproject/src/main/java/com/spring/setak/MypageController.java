@@ -1,6 +1,7 @@
 package com.spring.setak;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +17,15 @@ public class MypageController {
 	
 	@Autowired
 	private MypageServiceImpl mypageService;
+	
+	@Autowired
+	private CouponServiceImpl couponService;
+	
+	@Autowired
+	private MileageServiceImpl mileageService;
+	
+	@Autowired
+	private QnaServiceImpl qnaService;
 	
 	/*
 	@RequestMapping("/orderview.do")
@@ -38,7 +48,8 @@ public class MypageController {
 		
 		ArrayList<OrderVO> orderlist = null;
 		MendingVO mendingVO = new MendingVO();
-		OrderVO orderVO = new OrderVO();
+		String member_id = "bit";
+		OrderVO orderVO =  null; //mypageService.selectOrderId(member_id);
 		KeepVO keepVO = new KeepVO();
 		
 		int pageSize = 10;
@@ -104,22 +115,109 @@ public class MypageController {
 		return "mykeep";
 	}
 	
-	@RequestMapping("/qnainquiry.do")
-	public String selectQnainquiry () throws Exception{
+	@RequestMapping("/myqna.do")
+	public String selectQnalist (HttpServletRequest request, Model model) throws Exception{
+		String member_id = "bit";
+		ArrayList<QnaVO> qnalist = new ArrayList<QnaVO>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int page = 1;
+		int limit = 10;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
 		
-		return "qnainquiry";
+		int startrow = (page-1)*10 +1;
+		int endrow = startrow + limit-1;
+		int listcount = qnaService.getListCount();
+		
+		map.put("startrow", startrow);
+		map.put("endrow", endrow);
+		map.put("member_id", member_id);
+		
+		qnalist = qnaService.selectQnalist(map);
+		
+		int maxpage = (int)((double)listcount/limit+0.95);
+		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
+		int endpage = startpage + 10-1;
+		
+		if(endpage > maxpage)
+		{
+			endpage = maxpage;
+			
+		}
+		
+		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+		model.addAttribute("listcount", listcount);
+		model.addAttribute("qnalist", qnalist);
+		
+		return "myqna";
 	}
 	
 	@RequestMapping("/mysavings.do")
-	public String selectSaving () throws Exception{
+	public String selectSaving (HttpServletRequest request, Model model) throws Exception{
+		String member_id = "bit";
+		ArrayList<MileageVO> mile_list = new ArrayList<MileageVO>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		int page = 1;
+		int limit = 10;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		int startrow = (page-1)*10 +1;
+		int endrow = startrow + limit-1;
+		int listcount = mileageService.getListCount();
+		
+		map.put("startrow", startrow);
+		map.put("endrow", endrow);
+		map.put("member_id", member_id);
+		
+		
+		mile_list = mileageService.getMileagelist(map);
+		
+		int maxpage = (int)((double)listcount/limit+0.95);
+		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
+		int endpage = startpage + 10-1;
+		
+		if(endpage > maxpage)
+		{
+			endpage = maxpage;
+			
+		}
+		
+		int havePoint = mileageService.getSum(member_id);
+		int totPoint = mileageService.totSum(member_id);
+		int usePoint = mileageService.useSum(member_id);
+		
+		model.addAttribute("havePoint", havePoint);
+		model.addAttribute("totPoint", totPoint);
+		model.addAttribute("usePoint", usePoint);
+		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+		model.addAttribute("listcount", listcount);
+		model.addAttribute("mile_list", mile_list);
 		
 		return "mysavings";
 	}
 
 	@RequestMapping("/mycoupon.do")
-	public String selectMycoupon() throws Exception{
-		
+	public String getCouponList(HttpServletRequest request, Model model) throws Exception{
+			
+			ArrayList<CouponVO> couponlist = null;
+			String member_id = "bit";
+			couponlist = couponService.getCouponList(member_id);
+			
+			model.addAttribute("couponlist", couponlist);
 		return "mycoupon";
 	}
+	
 }
 

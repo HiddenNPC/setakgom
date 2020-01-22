@@ -33,6 +33,14 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
+	public String selectOrderId(String member_id) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		String orderVO = mypageMapper.selectOrderId(member_id);
+		
+		return orderVO;
+	}
+	
+	@Override
 	public MendingVO selectMending(int repair_seq) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		MendingVO mendingVO = new MendingVO();
