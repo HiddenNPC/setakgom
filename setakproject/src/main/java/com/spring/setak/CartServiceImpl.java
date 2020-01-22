@@ -118,6 +118,58 @@ public class CartServiceImpl implements CartService {
 		}
 		
 		return res;
+	}
+
+	@Override
+	public int deleteMendingCart(int repair_seq) {
+		int res = 0;
+		try {
+			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+			res = cartMapper.deleteMendingCart(repair_seq);
+		}catch(Exception e) {
+			System.out.println("수선 장바구니 삭제 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int deleteMending(int repair_seq) {
+		int res = 0;
+		try {
+			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+			res = cartMapper.deleteMending(repair_seq);
+		}catch(Exception e) {
+			System.out.println("수선 상품 삭제 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int deleteKeepCart(String member_id) {
+		int res = 0;
+		try {
+			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+			res = cartMapper.deleteKeepCart(member_id);
+		}catch(Exception e) {
+			System.out.println("보관 장바구니 삭제 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int deleteKeep(int keep_seq) {
+		int res = 0;
+		try {
+			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+			res = cartMapper.deleteKeep(keep_seq);
+		}catch(Exception e) {
+			System.out.println("보관 상품 삭제 실패" + e.getMessage());
+		}
+		
+		return res;
 	}		
 	
 

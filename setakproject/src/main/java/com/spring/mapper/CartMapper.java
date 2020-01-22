@@ -24,5 +24,11 @@ public interface CartMapper {
 	// 장바구니 비우기
 	int deleteWashCart(int wash_seq);
 	int deleteWash(int wash_seq); 
+	
+	int deleteMendingCart(int repair_seq);
+	int deleteMending(int repair_seq);
+	
+	int deleteKeepCart(String member_id);
+	int deleteKeep(int keep_seq); 
 
 }

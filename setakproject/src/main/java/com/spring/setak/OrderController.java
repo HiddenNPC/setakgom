@@ -94,28 +94,54 @@ public class OrderController {
 	// 장바구니 비우기
 	@RequestMapping(value = "/cartDelete.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> cartDelete(@RequestParam(value="loc") String loc, String[] washSeqArr, String[] repairSeqArr) {
+	public Map<String, Object> cartDelete(@RequestParam(value="loc") String loc, 
+			String[] washSeqArr, String[] repairSeqArr, String[] keepSeqArr) {
 		
-		System.out.println("컨트롤러");
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
-		System.out.println("제발 오류 어디야..");
 		// 세탁 선택 시퀀스 
 		ArrayList<WashingCartVO> washSeqList = new ArrayList<WashingCartVO>();
-		
-		System.out.println("값 들어왔나... 수선 : " + repairSeqArr[0]);
-		System.out.println("값 들어왔나... 수선 : " + repairSeqArr[1]);
-//		System.out.println("값 들어왔나... 보관 : " + keepSeqArr.get(0));
+		// 수선 선택 시퀀스
+		ArrayList<MendingCartVO> mendingSeqList = new ArrayList<MendingCartVO>(); 
 		
 		try {
-			for(int i = 0; i < washSeqArr.length; i++) {
-				WashingCartVO wcv = new WashingCartVO();
-				int wash_seq = Integer.parseInt(washSeqArr[i]);
-				int res = cartService.deleteWashCart(wash_seq);
+			
+			if(washSeqArr != null) {
+				for(int i = 0; i < washSeqArr.length; i++) {
+					WashingCartVO wcv = new WashingCartVO();
+					int wash_seq = Integer.parseInt(washSeqArr[i]);
+					int res = cartService.deleteWashCart(wash_seq);
+					
+					if(loc.equals("cart")) {
+						int res2 = cartService.deleteWash(wash_seq);
+					}
+				}
+			}
+			
+			if(repairSeqArr != null) {
+				for(int i = 0; i < repairSeqArr.length; i++) {
+					MendingCartVO mcv = new MendingCartVO();
+					int repair_seq = Integer.parseInt(repairSeqArr[i]);
+					int res = cartService.deleteMendingCart(repair_seq); 
+					
+					if(loc.equals("cart")) {
+						int res2 = cartService.deleteMending(repair_seq);
+					}
+				}
+			}
+			
+			if(keepSeqArr != null) {
+				String member_id = "bit"; 
+				List<KeepCartVO> list = cartService.getKeepSeq(member_id);
+				int res = cartService.deleteKeepCart(member_id);
 				
 				if(loc.equals("cart")) {
-					int res2 = cartService.deleteWash(wash_seq);
+					for(int i = 0; i < list.size(); i++) {
+						int keep_seq = list.get(i).getKeep_seq();
+						int res2 = cartService.deleteKeep(keep_seq);
+					}					
 				}
+
 			}
 
 			retVal.put("res", "OK");

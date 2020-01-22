@@ -32,6 +32,17 @@
          
          getTotal(); 
          
+         /* 배송비 */
+         var price = $("#order_price").text().replace(',',"").slice(0, -1);
+         if(price < 32000) {
+         	$("#deliver_price").text("2,500원");
+         	var order_price = parseInt(price) + 2500;
+         	$("#pay_price").html(numberFormat(order_price+'원'));
+         } else {
+        	 $("#deliver_price").text("0원");
+        	 $("#pay_price").html(numberFormat(price+'원'));
+         } 
+         
 	    /* 체크박스 전체선택 */
 		$("#allcheck").click(function(){
 	        //클릭되었으면
@@ -48,59 +59,69 @@
          /* 체크박스 삭제 */
  
      	$(".total-button a").click(function(){
-            var washSeqArr = []; 
-            var repairSeqArr = []; 
-            var keepSeqArr = []; 
-            
-     		var member_id = "bit"; 
      		var checkbox = $("input[name=check]:checked");
      		
-     		checkbox.each(function(){
-     			var tr = checkbox.parent().parent();
-     			var type = $(this).val().substr(0, 1); 
-     			var seq = $(this).val().substr(1, $(this).val().length);
-     			
-     			console.log('type : ' + type); 
-     			
-     			if(type == 'w') {
-     				console.log('w' + seq);
-     				washSeqArr.push(seq);   				
-     			}else if (type == 'r') {
-     				console.log('r' + seq);
-     				repairSeqArr.push(seq);
-     			}else {
-     				console.log('k' + seq);
-     				keepSeqArr.push(seq);
-     			}
-  
-     			tr.remove();
-     		});
+     		if(checkbox.length == 0) {
+     			alert("선택한 상품이 존재하지 않습니다.");
+     			return; 
+     		}
+     		
+     		if(confirm("선택한 상품을 삭제하시겠습니까?")) {
+                var washSeqArr = []; 
+                var repairSeqArr = []; 
+                var keepSeqArr = []; 
+                
+         		var member_id = "bit"; 
+         		
+         		checkbox.each(function(){
+         			var tr = checkbox.parent().parent();
+         			var type = $(this).val().substr(0, 1); 
+         			var seq = $(this).val().substr(1, $(this).val().length);
+         			
+         			console.log('type : ' + type); 
+         			
+         			if(type == 'w') {
+         				console.log('w' + seq);
+         				washSeqArr.push(seq);   				
+         			}else if (type == 'r') {
+         				console.log('r' + seq);
+         				repairSeqArr.push(seq);
+         			}else {
+         				console.log('k' + seq);
+         				keepSeqArr.push(seq);
+         			}
+      
+         			tr.remove();
+         		});
 
-     		
- 			getTotal(); 
-     		
-     		var params = {
-     			"washSeqArr" : washSeqArr,
-     			"repairSeqArr" : repairSeqArr,
-     			"loc" : "cart"
-     		};
-     		
-     		$.ajax({
-     			url : '/setak/cartDelete.do',
-     			type : 'post',
-     			data : params,
-     			traditional : true,
-     			success : function(retVal) {
-     				if(retVal.res == "OK") {
-     					alert("오키");
-     				}else {
-     					alert("실패"); 
-     				}
-     			},
-     			error : function() {
-     				alert("삭제 과정 실패 ajax"); 
-     			}
-     		});
+         		
+     			getTotal(); 
+         		
+         		var params = {
+         			"washSeqArr" : washSeqArr,
+         			"repairSeqArr" : repairSeqArr,
+         			"keepSeqArr" : keepSeqArr,
+         			"loc" : "cart"
+         		};
+         		
+         		$.ajax({
+         			url : '/setak/cartDelete.do',
+         			type : 'post',
+         			data : params,
+         			traditional : true,
+         			success : function(retVal) {
+         				if(retVal.res == "OK") {
+         					alert("오키");
+         				}else {
+         					alert("실패"); 
+         				}
+         			},
+         			error : function() {
+         				alert("삭제 과정 실패 ajax"); 
+         			}
+         		}); 
+     		} 
+
      		
      	});
                       
@@ -113,7 +134,6 @@
 	          var price = parseInt($(this).text().slice(0, -1)); 
 	          total += price; 
           });
-          $("#pay_price").html(numberFormat(total+'원'));
           $("#order_price").html(numberFormat(total+'원'));
       }
       
@@ -225,7 +245,7 @@
 						<tr>
 							<td><span id = "order_price"></span></td>
 							<td class = "td_big">+</td>
-							<td>0원</td>
+							<td><span id = "deliver_price"></span></td>
 							<td class = "td_big">=</td>
 							<td class = "td_blue"><span id = "pay_price"></span></td>
 						</tr>
