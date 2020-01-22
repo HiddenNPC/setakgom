@@ -3,7 +3,7 @@
 
 <mapper namespace="com.spring.mapper.MileageMapper">
 
-	<resultMap type="com.spring.setak.MileageVO" id="MileageResultMap">
+	<resultMap type="com.spring.member.MileageVO" id="MileageResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="mile_date" column="mile_date" />
 		<result property="mile_price" column="mile_price" />

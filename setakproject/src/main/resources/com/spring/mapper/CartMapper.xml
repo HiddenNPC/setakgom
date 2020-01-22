@@ -14,7 +14,7 @@
 		<result property="mending_seq" column="mending_seq" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.KeepCartVO" id="KeepCartResultMap">
+	<resultMap type="com.spring.order.KeepCartVO" id="KeepCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="keep_seq" column="keep_seq" />
 	</resultMap>

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.spring.mapper.CouponMapper">
 
-	<resultMap type="com.spring.setak.CouponVO" id="CouponResultMap">
+	<resultMap type="com.spring.member.CouponVO" id="CouponResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="coupon_name" column="coupon_name" />
 		<result property="coupon_start" column="coupon_start" />

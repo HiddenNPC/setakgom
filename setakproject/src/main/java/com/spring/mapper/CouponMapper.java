@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-import com.spring.setak.CouponVO;
+import com.spring.member.CouponVO;
 
 public interface CouponMapper {
 

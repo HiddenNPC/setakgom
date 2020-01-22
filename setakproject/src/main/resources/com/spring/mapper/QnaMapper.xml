@@ -3,7 +3,7 @@
 
 <mapper namespace="com.spring.mapper.QnaMapper">
 
-	<resultMap type="com.spring.setak.QnaVO" id="qnaMap">
+	<resultMap type="com.spring.community.QnaVO" id="qnaMap">
 		<result property="QNA_NUM" column="qna_num"/>
 		<result property="MEMBER_ID" column="member_id"/>
 		<result property="QNA_TYPE" column="qna_type"/>
@@ -20,17 +20,17 @@
 		SELECT COUNT(*) FROM QNA
 	</select>
 	
-	<select id="getQnaList" parameterType="com.spring.setak.QnaVO" resultMap="qnaMap">
+	<select id="getQnaList" parameterType="com.spring.community.QnaVO" resultMap="qnaMap">
 		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, QNA_KIND,
 		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc ))
 		 WHERE rnum>=#{arg0} and rnum<=#{arg1}]]>
 	</select>
 	
-	<select id="getDetail" parameterType="com.spring.setak.QnaVO" resultType="com.spring.setak.QnaVO">
+	<select id="getDetail" parameterType="com.spring.community.QnaVO" resultType="com.spring.community.QnaVO">
 		select * from QNA where QNA_NUM = #{QNA_NUM}
 	</select>
 			
-	<insert id="qnaInsert" parameterType="com.spring.setak.QnaVO">
+	<insert id="qnaInsert" parameterType="com.spring.community.QnaVO">
 		insert into QNA values (
 		#{QNA_NUM}, 
 		#{MEMBER_ID, jdbcType=VARCHAR}, 
@@ -48,7 +48,7 @@
 	</select>
 
 
-	<update id="qnaModify" parameterType="com.spring.setak.QnaVO">
+	<update id="qnaModify" parameterType="com.spring.community.QnaVO">
 		update QNA set
 		QNA_TYPE=#{QNA_TYPE,jdbcType=VARCHAR},
 		QNA_KIND=#{QNA_KIND,jdbcType=VARCHAR},
@@ -59,7 +59,7 @@
 		where QNA_NUM=#{QNA_NUM}
 	</update>
 	
-	<delete id="qnaDelete" parameterType="com.spring.setak.QnaVO">
+	<delete id="qnaDelete" parameterType="com.spring.community.QnaVO">
 		delete from QNA where QNA_NUM = #{QNA_NUM}
 	</delete>	
 	

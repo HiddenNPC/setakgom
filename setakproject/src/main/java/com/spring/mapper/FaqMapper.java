@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-import com.spring.setak.FaqVO;
+import com.spring.community.FaqVO;
 
 public interface FaqMapper 
 {

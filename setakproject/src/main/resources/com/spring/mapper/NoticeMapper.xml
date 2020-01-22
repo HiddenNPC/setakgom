@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.mapper.NoticeMapper">
 	
-	<resultMap type="com.spring.setak.NoticeVO" id="noticeMap">
+	<resultMap type="com.spring.community.NoticeVO" id="noticeMap">
 		<result property="NOTICE_NUM" column="notice_num"/>
 		<result property="NOTICE_TITLE" column="notice_title"/>
 		<result property="NOTICE_CONTENT" column="notice_content"/>		
@@ -10,7 +10,7 @@
 	</resultMap>
 	
 	
-	<select id="getNoticeList" parameterType="com.spring.setak.NoticeVO" resultMap="noticeMap">
+	<select id="getNoticeList" parameterType="com.spring.community.NoticeVO" resultMap="noticeMap">
 <![CDATA[ select * from(select rownum rnum, NOTICE_NUM, NOTICE_TITLE, NOTICE_CONTENT, 
 NOTICE_DATE from (select * from NOTICE order by  NOTICE_NUM desc)) 
 where rnum>=#{arg0} and rnum<=#{arg1}]]>
@@ -20,21 +20,21 @@ where rnum>=#{arg0} and rnum<=#{arg1}]]>
 		select count(*) from NOTICE
 	</select>
 
-	<select id="getDetail" parameterType="com.spring.setak.NoticeVO" resultType="com.spring.setak.NoticeVO">
+	<select id="getDetail" parameterType="com.spring.community.NoticeVO" resultType="com.spring.community.NoticeVO">
 		select * from NOTICE where NOTICE_NUM = #{NOTICE_NUM}
 	</select>
 			
-	<insert id="noticeInsert" parameterType="com.spring.setak.NoticeVO">
+	<insert id="noticeInsert" parameterType="com.spring.community.NoticeVO">
 		insert into NOTICE values(#{NOTICE_NUM}, #{NOTICE_TITLE, jdbcType=VARCHAR},
 		#{NOTICE_CONTENT, jdbcType=VARCHAR}, sysdate)	
 	</insert>
-	<update id="noticeModify" parameterType="com.spring.setak.NoticeVO">
+	<update id="noticeModify" parameterType="com.spring.community.NoticeVO">
 		update NOTICE set NOTICE_TITLE=#{NOTICE_TITLE}, 
 		NOTICE_CONTENT=#{NOTICE_CONTENT, jdbcType=VARCHAR} 
 		where  NOTICE_NUM=#{NOTICE_NUM}
 	</update>
 
-	<delete id="noticeDelete" parameterType="com.spring.setak.NoticeVO">
+	<delete id="noticeDelete" parameterType="com.spring.community.NoticeVO">
 		delete from NOTICE where NOTICE_NUM = #{NOTICE_NUM}
 	</delete>
 

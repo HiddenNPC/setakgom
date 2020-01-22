@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.*, com.spring.setak.*" %>
+<%@ page import="java.util.*, com.spring.order.*" %>
+<%@ page import="com.spring.setak.*" %>
 <%
 	
 	int currentPage = (int)request.getAttribute("currentPage");  

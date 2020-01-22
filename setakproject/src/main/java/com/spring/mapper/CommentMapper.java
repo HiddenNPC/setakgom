@@ -2,7 +2,7 @@ package com.spring.mapper;
 
 import java.util.List;
 
-import com.spring.setak.CommentVO;
+import com.spring.community.CommentVO;
 
 public interface CommentMapper 
 {

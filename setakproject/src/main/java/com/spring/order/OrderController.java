@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.setak.CouponService;
-import com.spring.setak.CouponVO;
-import com.spring.setak.MileageService;
+import com.spring.member.*;
+import com.spring.member.CouponService;
+import com.spring.member.CouponVO;
 
 @Controller
 public class OrderController {	
 	
 	@Autowired
-	private MileageService mileageService; 
+	private MileageServiceImpl mileageService; 
 	@Autowired
 	private CouponService couponService; 
 	@Autowired
