@@ -87,12 +87,19 @@
 					 <h4>비밀번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
-					<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
-					<input class="button" type="button" value="인증번호 받기" style="width: 120px;" />
-					<h4>핸드폰 번호를 입력해주세요</h4>
+						<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
+						<input class="button" type="button" value="인증번호 받기" style="width: 120px;" />
+						<h4>핸드폰 번호를 입력해주세요</h4>
 				</div>
 				<div class="input_list">
-					<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
+				<ul id = "auth_ul"> 
+					<li>
+					<span class = "input">
+						<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
+						<span id = "timer">test</span>
+					</span>
+					</li>
+				</ul>
 					<h4>인증번호를 확인해주세요</h4>
 				</div>
 				<div class="input_list">

@@ -172,3 +172,13 @@
 	color:#fff;
 	font-weight:initial;
 }
+
+#auth_ul{
+	position: relative;
+}
+
+#timer{
+	position: absolute;
+	top: 0.5rem;
+	right: 2.7rem;
+}
