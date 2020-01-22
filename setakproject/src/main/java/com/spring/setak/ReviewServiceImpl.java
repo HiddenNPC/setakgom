@@ -15,11 +15,7 @@ public class ReviewServiceImpl implements ReviewService
 {
 	@Autowired (required = false) private SqlSession sqlSession;
 	
-	@Override
-	public String reviewDetail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public ArrayList<ReviewVO> reviewList() throws Exception 

@@ -28,10 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 {
 	@Autowired private ReviewService reviewService;
 	
-	@RequestMapping ("review.do") public String review(Model model, ReviewVO vo, HttpServletRequest request ) throws Exception
+	@RequestMapping ("review.do") public String review(Model model) throws Exception
 	{	
-		
-		//model.addAttribute("Review_num");		 
+		int maxnum = reviewService.getMaxNum();	
+		ArrayList<ReviewVO> list = reviewService.reviewList();
+		model.addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
+		model.addAttribute("reviewlist", list); 
+		System.out.println("reviewlist="+list);
 		return "review_list";			
 	}
 	
@@ -39,7 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
-		model.addAttribute("reviewList");	
+		model.addAttribute("reviewList", list);	
 		return list;		
 	}
 	

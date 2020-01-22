@@ -67,7 +67,15 @@
   	.re2_t1 td{ border: 1px solid #e1e4e4; 
   	}
   
-  	
+  	 #heart{  		
+		background:url("../images/like1.png") no-repeat left 0;
+		background-size: auto 100%;
+        border:1px solid #e1e4e4;
+        width:65px;
+       	height:30px; 
+        cursor: pointer;
+        text-align: right;       
+  	}
   	
   	
   	
