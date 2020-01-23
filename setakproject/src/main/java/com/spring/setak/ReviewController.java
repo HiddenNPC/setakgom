@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -38,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return "review_list";			
 	}
 	
-	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
@@ -52,8 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
-		
-		
+				
 		int maxnum = reviewService.getMaxNum();
 		System.out.println("리뷰 maxnum=" + maxnum);
 				

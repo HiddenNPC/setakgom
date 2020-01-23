@@ -39,13 +39,12 @@ $(document).ready(function () {
 		$.ajax({
 			url:'/setak/reviewList.do', 
 			type:'POST', 
-			dataType:"json", //서버에서 보내줄 데이터 타입
+			dataType:"json", //리턴 데이터 타입
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
 					var re_list = '';					
 					var i = item.review_star;
-					var j = <%=maxnum%>;
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="3">';   
@@ -74,38 +73,37 @@ $(document).ready(function () {
 					}
 										
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td name="member_id">'+ item.member_id +'&nbsp;'+ item.review_kind +item.review_date+'</td></tr>';																	
+					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
-					re_list += '<tr><td colspan="3"><input id = heart'+index+' type="button" name="Review_like'+j+'">'+item.review_like+'</td></tr>';																	
+					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					$('#re_list').append(re_list);	
 					
-					$('#heart'+index+'').click(function () {
+					/* $('#heart'+index+'').click(function () { */
+					$(document).on('click', '#heart'+index+'', function () {
 				        var that = $('#heart'+index+'');
-				        console.log(that);
-				        var sendData = {'review_num' : 'maxnum', 'heart' : item.review_like};
+				        var sendData = {'review_num' : item.review_num, 'review_like' : item.review_like};
+				        console.log(sendData);				        
 				        $.ajax({
 				            url:'/setak/heart.do',
-				            type:'POST',          
+				            type:'POST',
+				            data:sendData,
 							dataType:"json", 
-							contentType:'application/x-www-form-urlencoded; charset=utf-8',
-				            success:function(data){
-				                that.prop('name', data);
-				                if(data==1) {
-				                    $('#heart'+index+'').prop("src","../images/like2.png");
-				                }
-				                else{
-				                    $('#heart'+index+'').prop("src","../images/like1.png");
-				                }
-				            }
+							contentType:'application/x-www-form-urlencoded; charset=utf-8',				            
+							success: function(data){
+				            	console.log(data+"값 잘 넘김  "); //review_like
+				            	$('#heart'+index+'').attr(item.review_like);	
+				            	
+				            },
+				            error:function() {
+								alert("ajax통신 실패!!!");
+							}
+							
 				        });
 				    });
-					
-					
-					
-								
-					});
+			
+				});
 														
 			},
 			error:function() {
@@ -135,6 +133,7 @@ selectData();
 
 <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
 <div class="r_content">
+
 	<p style="margin-bottom:5px;">사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
 	<a class="starR1 on" value="1" >별1_왼쪽</a>
     <a class="starR2" value="2">별1_오른쪽</a>
@@ -147,6 +146,8 @@ selectData();
     <a class="starR1" value="9">별5_왼쪽</a>
     <a class="starR2" value="10">별5_오른쪽</a>     
    	<input type="number" id="Review_star" name="Review_star">
+   	<input type="number" id="Review_like" name="Review_like" value="0">
+   	
 </div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
