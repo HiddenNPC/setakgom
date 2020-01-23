@@ -156,6 +156,16 @@
 				<img class = "arrow-img" src = "images/order1.png" />
 				
 				<table class = "cart_list">
+											
+						<%if(washingList.size() == 0 && mendingList.size() == 0 && keepList.size() == 0) { %>
+						<tr>
+							<td colspan = "6" class = "empty_cart"> 
+								<img src="https://img.icons8.com/ultraviolet/80/000000/shopping-cart.png">
+								<p>장바구니에 담긴 상품이 없습니다.</p> 
+								<p><a class = "goMain" href = "/setak/">홈으로 가기</a></p>
+							</td>
+						</tr>
+						<%} else { %>
 					<thead>
 						<tr>
 							<th><input id = "allcheck" type = "checkbox" /></th>
@@ -223,13 +233,15 @@
 		                  </tr>   
                   		<% } else { %>
                   		<tr></tr>
-                  		<%} %>
-					
+                  		<%}
+						}%>
 					</tbody>
 				</table>
 				
 				<p/>
 
+				
+				<%if(!(washingList.size() == 0 && mendingList.size() == 0 && keepList.size() == 0)) { %> 
 				<div class="total-button">
 					<a href="javascript:">선택삭제</a>
 				</div>
@@ -256,6 +268,7 @@
 				</table>
 				
 				<button class="bt_1000" onclick="location.href='/setak/order.do?type=pay'">주문결제</button>
+				<%} %>
 		</div>
 		
 

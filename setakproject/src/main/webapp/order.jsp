@@ -471,7 +471,7 @@
                     },
                     success : function(data) {
                     	var num = data.order_num;
-                        location.href='<%=request.getContextPath()%>/orderSuccess.do?order_num='+num;
+                        location.href='<%=request.getContextPath()%>/order.do?order_num='+num+'&type=success';
                     }
                 });
                 

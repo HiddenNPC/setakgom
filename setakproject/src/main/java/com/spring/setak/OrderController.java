@@ -1,5 +1,7 @@
 package com.spring.setak;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +34,7 @@ public class OrderController {
 		
 	// 장바구니 
 	@RequestMapping(value = "/order.do")
-	public String cart(Model model, HttpServletRequest request) {
+	public String cart(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 				
 		String member_id = "bit"; 
 		
@@ -93,11 +96,7 @@ public class OrderController {
 		
 		if(type == null) {
 			return "cart";
-		} else {
-			
-			if(washingList.size() == 0 && mendingList.size() == 0 && keepList.size() == 0) {
-				return "cart"; 
-			}
+		} else if(type.equals("pay")) {
 			
 			int havePoint = mileageService.getSum(member_id);
 			
@@ -110,6 +109,8 @@ public class OrderController {
 			model.addAttribute("havePoint", havePoint);
 			
 			return "order"; 
+		} else {
+			return "order_success"; 
 		}
 	}
 		

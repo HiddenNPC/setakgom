@@ -104,6 +104,16 @@
 
 }
 
+	.goMain {
+		border: 1px solid #D8D8D8;
+    padding: 12px 45px;
+    color: #444;
+    background-color: #eeefef;
+   }
+   
+   .goP {
+      margin-top: 100px;
+   }   
 /* 주문 완료 테이블 : order_success_table 
 	   구독 완료 테이블 : sub_success_table */
 table.order_success_table,

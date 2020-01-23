@@ -83,7 +83,9 @@
 					</tr>				
 				</tbody>
 			</table>
-		
+			
+			<p class = "goP"><a class = "goMain" href = "/setak/">홈으로 가기</a></p>
+
 			<div class="notice">
 	            <p>※ 주문내역 확인은 마이페이지 > 주문/배송 현황에서 확인 가능합니다.</p>
 	      	</div>
