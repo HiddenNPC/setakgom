@@ -14,18 +14,15 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Service;
-@Service
+
+import lombok.Getter;
+import lombok.Setter;
+@Service @Getter @Setter
 public class Sens_sms_v2 {
 	
-	String msgtext = "";
 	
-	public String getMsgtext() {
-		return msgtext;
-	}
-
-	public void setMsgtext(String msgtext) {
-		this.msgtext = msgtext;
-	}
+	String msgtext = "";
+	String phonenumber = "";
 
 	public void sendMessage() {
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
@@ -44,11 +41,11 @@ public class Sens_sms_v2 {
 				"  \"type\": \"sms\",\r\n" + 		
 				"  \"contentType\": \"comm\",\r\n" + 
 				"  \"countryCode\": \"82\",\r\n" + 
-				"  \"from\": \"01027561533\",\r\n" + 
+				"  \"from\": \"01049656245\",\r\n" + 
 				"  \"content\": \""+msgtext+"\",\r\n" + 
 				"  \"messages\": [\r\n" + 
 				"    {"  +
-				"  		\"to\": \"01039553966\"\r\n" + 
+				"  		\"to\": \""+phonenumber+"\"\r\n" + 
 				"		}\r\n" + 
 				"  ]\r\n" +
 				"}";

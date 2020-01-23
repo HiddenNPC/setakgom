@@ -32,7 +32,7 @@
 		         data : params,
 		         dataType:'json', 
 		         contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-		         success: function(result) {
+				success: function(result) {
 		        	 if(result.res=="OK") {
 		        		 $(".joinform div:nth-child(2) h5").css("display","block");
 
@@ -88,7 +88,7 @@
 				</div>
 				<div class="input_list">
 						<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
-						<input class="button" type="button" value="인증번호 받기" style="width: 120px;" />
+						<input class="button" id="authbtn" type="button" value="인증번호 받기" style="width: 120px;" />
 						<h4>핸드폰 번호를 입력해주세요</h4>
 				</div>
 				<div class="input_list">
@@ -96,7 +96,7 @@
 					<li>
 					<span class = "input">
 						<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
-						<span id = "timer">test</span>
+						<span id = "timer"></span>
 					</span>
 					</li>
 				</ul>
@@ -206,8 +206,35 @@
             	//input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
             	$("input[id=clause_use]").prop("checked",false);
             	$("input[id=clause_privacy]").prop("checked",false);
-        };
-      });
+        	};
+      	});
+		
+		$("#authbtn").click(function(event){
+			var phonenum = $("#member_phone").val();
+			
+			var allData = { "pn": phonenum };
+			
+			$.ajax({
+                type: "POST",
+                url: "/setak/sendSMS.do", 
+                data: allData,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                dataType: 'json',
+
+                success: function (data) {
+                	var AuthTimer = new $ComTimer()
+        			AuthTimer.comSecond = 179;
+        			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+        			AuthTimer.domId = document.getElementById("timer");
+        			$("#authbtn").attr('disabled', true);
+                },
+                error: function (e) {
+
+				}
+			});
+			
+		});
 		
  		
  		
@@ -401,6 +428,31 @@
           }).open();
           
           
-      };  
+      };
+
+      
+      function $ComTimer(){
+    	    //prototype extend
+    	}
+
+    	$ComTimer.prototype = {
+    	    comSecond : ""
+    	    , fnCallback : function(){}
+    	    , timer : ""
+    	    , domId : ""
+    	    , fnTimer : function(){
+    	        var m = Math.floor(this.comSecond / 60) + "분 " + (this.comSecond % 60) + "초";
+    	        this.comSecond--;					// 1초씩 감소
+    	        this.domId.innerText = m;
+    	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
+    	            clearInterval(this.timer);		// 타이머 해제
+    	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+    	        }
+    	    }
+    	    ,fnStop : function(){
+    	        clearInterval(this.timer);
+    	    }
+    	}
+    	
 </script>
 </html>

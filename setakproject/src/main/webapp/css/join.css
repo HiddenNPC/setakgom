@@ -180,5 +180,16 @@
 #timer{
 	position: absolute;
 	top: 0.5rem;
-	right: 2.7rem;
+	right: 1.2rem;
+	color: #ef3e3e;
+    font-weight: bold;
 }
+
+.button{
+	cursor: pointer;
+}
+
+ .button:disabled {
+	background-color: #bbabab;
+	cursor: default; 
+ }
