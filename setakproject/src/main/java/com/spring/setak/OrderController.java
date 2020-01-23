@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +28,11 @@ public class OrderController {
 	private OrderService orderService; 
 	@Autowired
 	private CartService cartService; 
-	
-	// 페이지	
-	
-	// 장바구니 
-	@RequestMapping(value = "/cart.do")
-	public String cart(Model model) {
 		
+	// 장바구니 
+	@RequestMapping(value = "/order.do")
+	public String cart(Model model, HttpServletRequest request) {
+				
 		String member_id = "bit"; 
 		
 		// 세탁 장바구니 값 읽기
@@ -88,8 +88,31 @@ public class OrderController {
 		model.addAttribute("mendingList", mendingList);
 		model.addAttribute("keepList", keepList);
 		
-		return "cart";	
+		
+		String type = request.getParameter("type");
+		
+		if(type == null) {
+			return "cart";
+		} else {
+			
+			if(washingList.size() == 0 && mendingList.size() == 0 && keepList.size() == 0) {
+				return "cart"; 
+			}
+			
+			int havePoint = mileageService.getSum(member_id);
+			
+			ArrayList<CouponVO> couponList = couponService.getCouponList(member_id);
+			int haveCoupon = couponService.getCouponCount(member_id);
+
+			model.addAttribute("haveCoupon", haveCoupon);
+			model.addAttribute("couponList", couponList);
+			
+			model.addAttribute("havePoint", havePoint);
+			
+			return "order"; 
+		}
 	}
+		
 	
 	// 장바구니 비우기
 	@RequestMapping(value = "/cartDelete.do", method = RequestMethod.POST)
@@ -159,23 +182,7 @@ public class OrderController {
 		return "subscribe";	
 	}
 
-	// 주문결제 
-	@RequestMapping(value = "/order.do")
-	public String order(Model model) {
-		String member_id = "bit"; 
-		
-		int havePoint = mileageService.getSum(member_id);
-		
-		ArrayList<CouponVO> couponList = couponService.getCouponList(member_id);
-		int haveCoupon = couponService.getCouponCount(member_id);
 
-		model.addAttribute("haveCoupon", haveCoupon);
-		model.addAttribute("couponList", couponList);
-		
-		model.addAttribute("havePoint", havePoint);
-		return "order";
-	}
-	
 	// 주문완료
 	@RequestMapping(value = "/orderSuccess.do")
 	public String orderSuccess() {
@@ -187,8 +194,10 @@ public class OrderController {
 	// 주문 정보 입력
 	@RequestMapping(value = "/insertOrder.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public OrderVO insertOrder(OrderVO ovo) {
+	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value="usePoint") String usePoint) {
 		
+		System.out.println(usePoint + " usePoint");
+		String member_id = "bit"; 
 		long order_num = System.currentTimeMillis();
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm");
@@ -198,7 +207,11 @@ public class OrderController {
 		ovo.setOrder_date(date);
 		
 		int res = orderService.insertOrder(ovo);
-		
+
+		orderService.deleteWashCartbyID(member_id);
+		orderService.deleteMendingCartbyID(member_id);
+		orderService.deleteKeepCartbyID (member_id);
+
 		return ovo;
 	}
 

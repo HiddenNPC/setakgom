@@ -20,6 +20,21 @@
 		<result property="order_zipcode" column="order_zipcode" />
 	</resultMap>
 	
+	<resultMap type="com.spring.setak.WashingCartVO" id="WashingCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="wash_seq" column="wash_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.setak.MendingCartVO" id="MendingCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="repair_seq" column="repair_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.setak.KeepCartVO" id="KeepCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="keep_seq" column="keep_seq" />
+	</resultMap>
+	
 	<!-- 주문 추가  -->
 	<insert id = "insertOrder" parameterType = "com.spring.setak.OrderVO">
 		insert into memberorder values (#{order_num}, #{member_id, jdbcType=VARCHAR}, #{order_date, jdbcType=VARCHAR},  
@@ -28,5 +43,21 @@
 		#{order_pickup, jdbcType=VARCHAR}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
 		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR})
 	</insert>
+	
+		<!-- 세탁 장바구니 비우기  > 결제 이후-->
+	<delete id = "deleteWashCartbyID" parameterType = "String">
+		delete from wash_cart where member_id = #{member_id} 
+	</delete>
+
+	<!-- 수선 장바구니 비우기  > 결제 이후-->
+	<delete id = "deleteMendingCartbyID" parameterType = "String">
+		delete from repair_cart where member_id = #{member_id} 
+	</delete>
+	
+	<!-- 보관 장바구니 비우기  > 결제 이후  -->
+	<delete id = "deleteKeepCartbyID" parameterType = "String">
+		delete from keep_cart where member_id = #{member_id} 
+	</delete>
+	
 		
 </mapper>

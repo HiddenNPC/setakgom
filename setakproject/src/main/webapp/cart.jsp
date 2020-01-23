@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>세탁곰</title>
+	<title>세탁곰 장바구니</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
@@ -34,7 +34,7 @@
          
          /* 배송비 */
          var price = $("#order_price").text().replace(',',"").slice(0, -1);
-         if(price < 32000) {
+         if(price < 30000) {
          	$("#deliver_price").text("2,500원");
          	var order_price = parseInt(price) + 2500;
          	$("#pay_price").html(numberFormat(order_price+'원'));
@@ -56,8 +56,7 @@
 	        }
 	    });
          
-         /* 체크박스 삭제 */
- 
+         /* 체크박스 삭제 */ 
      	$(".total-button a").click(function(){
      		var checkbox = $("input[name=check]:checked");
      		
@@ -212,7 +211,11 @@
 		                     <td>
 		                     	<input type = "checkbox" name = "check" value = "k<%=kvo.getKeep_seq()%>"/>
 		                     </td>
+		                     <%if(kvo.getKeep_wash() == 0) { %>
 		                     <td>보관</td>
+		                     <% } else { %>
+		                     <td>세탁-보관</td>
+		                     <% } %>
 		                     <td></td>
 		                     <td><%=kvo.getKeep_box()%>박스</td>
 		                     <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
@@ -252,7 +255,7 @@
 					</tbody>
 				</table>
 				
-				<button class="bt_1000" onclick="location.href='/setak/order.do'">주문결제</button>
+				<button class="bt_1000" onclick="location.href='/setak/order.do?type=pay'">주문결제</button>
 		</div>
 		
 

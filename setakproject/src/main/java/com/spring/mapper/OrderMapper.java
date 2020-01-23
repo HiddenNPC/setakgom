@@ -4,10 +4,13 @@ import com.spring.setak.OrderVO;
 
 public interface OrderMapper {
 
-	// 장바구니
-	
-	// 주문결제
-	
 	// 결제 정보 추가
 	int insertOrder(OrderVO ovo);
+	
+	// 결제 이후 장바구니 비우기
+	int deleteWashCartbyID(String member_id);
+	int deleteMendingCartbyID(String member_id);
+	int deleteKeepCartbyID(String member_id);
+	
+
 }
