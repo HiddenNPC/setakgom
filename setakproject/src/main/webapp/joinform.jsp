@@ -23,9 +23,23 @@
 		/*회원가입 버튼 클릭*/
 		$('#join').on('click', function(event){
 	        
+			
             var address = $("#address").val();
             var detailAddress = $("#detailAddress").val();
             var addr = address + '!' + detailAddress;
+            
+            if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
+            	$("#member_password").val() == '' || $("#pw2").val() == '' || 
+            	$("#member_phone").val() == ''|| $("#member_sns").val() == '' || 
+            	$("#member_email").val() == '' || $("#member_gender").val() == "성별" ||  
+            	$("member_birthday").val() == '' || $("#member_zipcode").val() == '' ||
+            	($("#clause_use").is(":checked")==false) ||($("#clause_privacy").is(":checked")==false)
+            	
+             ) {
+    			alert("빠짐없이 기입해 주세요");
+    			return; 
+    		};
+    		
             var params = {
                      'member_name':$("#member_name").val(),
                      'member_id':$("#member_id").val(),
@@ -131,8 +145,9 @@
 					<h4>핸드폰 번호를 입력해주세요</h4>
 				</div>
 				<div class="input_list">
-					<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
-					<h4>인증번호를 확인해주세요</h4>
+					<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
+					<input class="button" type="button" value="인증번호 확인" style="width: 120px;" />
+					<h4>인증번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
 					<input type="text" name="member_email" id="member_email" placeholder="이메일">
@@ -184,7 +199,7 @@
 				
 			</div>
 			<div class="join_btn">
-				<input id="join" class="btn" type="button" value="가입하기" />
+				<input id="join" class="btn" type="button" value="가입하기"  />
 			</div>
 		</form>
 	</div><!-- content -->

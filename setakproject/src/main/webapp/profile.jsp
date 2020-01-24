@@ -34,8 +34,6 @@
 	console.log(find2);
 	
       $(document).ready(function(){
-    	  var sessionID = "<%=session.getAttribute("id") %>"
-    	 
     	  
     	 //주소분리하기
     	 $("#address").val(find1);
@@ -228,7 +226,7 @@
 						<tr>
 							<td class="left_info">아이디</td>
 							<td class="right_info">
-								<%=(String)session.getAttribute("id") %>
+								<%=mo2.getMember_id() %>
 							</td>
 						</tr>
 						<tr>

@@ -1,5 +1,24 @@
 package com.spring.member;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public interface MemberSubService {
-	MemberSubVO sub_list(MemberSubVO msv);
+	
+	// 나의정기구독
+	public MemberSubVO sub_list(String member_id);
+	
+	// 해당 정기구독 리스트
+	public SubscribeVO subscribe_list (String member_id);
+	
+	/*
+	 * // 정기구독 내역 리스트 public ArrayList<HistorySubVO>subhistory_list(String
+	 * member_id);
+	 */
+	
+	// 정기구독 내역 리스트
+	public ArrayList<HistorySubVO> subhistory_list(HashMap<String, Object> map); 
+
+	// 정기구독 리스트 갯수
+	public int listcount(String member_id); 
 }

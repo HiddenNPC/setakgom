@@ -1,8 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.spring.member.MemberSubVO"  %>    
+<%@ page import="com.spring.member.HistorySubVO" %>
+<%@ page import="com.spring.member.SubscribeVO" %>
+<%@ page import = "java.util.ArrayList" %>
 <%
-	MemberSubVO ms = (MemberSubVO) request.getAttribute("mo");
+	MemberSubVO ms = (MemberSubVO) request.getAttribute("sub_list");
+	SubscribeVO sv = (SubscribeVO) request.getAttribute("subscribe");
+	ArrayList<HistorySubVO> list = (ArrayList<HistorySubVO>)request.getAttribute("subhistory_list");
+	int limit = ((Integer)request.getAttribute("limit")).intValue();
+	int nowpage = ((Integer)request.getAttribute("page")).intValue();
+	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
+	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
+	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
+	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
+	System.out.println("list="+list);
+	
 %>	
 <!DOCTYPE html>
 <html>
@@ -86,13 +99,23 @@
 		   $(".pop_btn4").on("click", function() {
 				$(".subcancle").css('display', 'none');
 			});
-
+		   
+		   
+		 //구독해지하면?????????????????????
 			$(".pop_btn5").on("click", function() {
-				$(".subcancle").css('display', 'none'); //구독해지하면?????
+				$(".subcancle").css('display', 'none'); 
 			});
 			
-
+						
+		/*나의 정기구독이 0/0일 때 -로 바꿈*/
+		for(var i = 0; i < 6; i++) {
+			if($('.cell').eq(i).text() == "0/0") {
+				$('.cell').eq(i).text('-');
+			}
+		}
+		
 	});
+	 
 
 </script>
 </head>
@@ -133,6 +156,9 @@
 			</div>
 			<div class="mypage_content"> 
 				<h2>나의정기구독</h2>
+				<% if(ms == null) {%>
+				<h3>정기구독을 이용해 주세요</h3>
+				<% } else { %> 
 				<div class="mysub">
 					<!-- class 변경해서 사용하세요. -->
 					<div class="one">
@@ -149,16 +175,22 @@
 							<li class="list">구독해지</li>
 						</ul>
 					</div>
+					
+					
 					<div class="two">
 						<ul class="mysub_bottom">
-							<li class=""><%=ms.getSubsname() %></li>
-							<li class=""><%=ms.getWashcnt() %></li>
-							<li class=""><%=ms.getShirscnt() %></li>
-							<li class=""><%=ms.getDrycnt() %></li>
-							<li class=""><%=ms.getBlanketcnt() %></li>
-							<li class=""><%=ms.getDeliverycnt() %>/</li>
-							<li class=""><%=ms.getSubs_start() %></li>
-							<li class=""><%=ms.getSubs_end() %></li>
+							<li class="cell"><%=ms.getSubsname() %></li>
+							<li class="cell"><%=ms.getWashcnt() %>/<%=sv.getSubs_water() %></li>
+							<li class="cell"><%=ms.getShirtscnt() %>/<%=sv.getSubs_shirts() %></li>
+							<li class="cell"><%=ms.getDrycnt() %>/<%=sv.getSubs_dry() %></li>
+							<li class="cell"><%=ms.getBlacketcnt() %>/<%=sv.getSubs_blanket() %></li>
+							<li class="cell"><%=ms.getDeliverycnt() %>/<%=sv.getSubs_delivery() %></li>
+							<li class="cell"><% String a =ms.getSubs_start();
+												String b=a.substring(0,10);
+												%><%=b %></li>
+							<li class="cell"><%String c =ms.getSubs_end(); 
+											   String d =c.substring(0,10);
+												%><%=d %></li>
 							<li class="btn">
 								<a id="go" class="help">수거고 </a> 
 								<a id="cancle" href="javascript:">수거취소</a>
@@ -167,16 +199,74 @@
 								<a id="sub" href="javascript:">해지</a>
 							</li>
 						</ul>
+					
+						<br>
+						<p>※ 수거고를 누르시면 다음날 수거가 이루어집니다.</p>
+						<p>※ 수거 취소는 수거 신청 버튼을 누른 당일 밤 10시까지만 가능하니 유의해주세요.</p>
+						<p>※ 구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</p>
 					</div>
+					<%} %>	
+					<!--정기구독내역이 없을 경우 -->		
+						<% if(list == null ) {%> 
+					<% } else { %> 	
 					<div class="myrecord">
+						<div class="text">
+							<h2>정기구독 내역</h2>
+							<table class="record_list"> 
+								<thead>
+									<tr>
+										<th></th>
+										<th>요금제</th>
+										<th>결제금액</th>
+										<th>결제일</th>
+									</tr>
+								</thead>
 						
+						
+								 <%for (int i=0; i<list.size(); i++) {
+									HistorySubVO hlist = (HistorySubVO)list.get(i);
+								%>
+								<tbody>
+									<tr>
+										<td><%=i+1 %></td>
+										<td><%=hlist.getHis_name() %></td>
+										<td><%=hlist.getHis_price() %>원</td>
+										<td><%=hlist.getHis_date() %></td>
+									</tr>
+								</tbody>
+								<%} %>   
+							</table>
+						</div>
+					</div>	
+					<div class="page_a">
+							<table class="page_a">
+                     		<tr align = center height = 20>
+                          <td>
+                          <%if(nowpage <= 1) {%>
+                          <span class="page_a"><a>&#60;</a></span>
+                          <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
+                             <span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
+                          <%} %>
+                          <%for (int af=startpage; af<=endpage; af++) {
+                             if(af==nowpage) {
+                          %>
+                          <span class="page_a"><a><%=af %></a></span>
+                          <%} else {%>
+                             <span class="page_a"><a href="./mysub.do?page=<%=af %>"><%=af %></a></span>
+                          <%} %>
+                          <%} %>
+                          <%if (nowpage >= maxpage) {%>   <!-- 링크 걸지 않겠다.. -->
+                             <span class="page_a"><a>&#62;</a></span>
+                          <%} else { %>   
+                              <span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
+                           <%} %> 
+                       <%} %>  
+                           </td>
+                        </tr>
+              		 </table>
+						</div>
 					</div>
 					
-				<br>
-				<p>※ 수거고를 누르시면 다음날 수거가 이루어집니다.</p>
-				<p>※ 수거 취소는 수거 신청 버튼을 누른 당일 밤 10시까지만 가능하니 유의해주세요.</p>
-				<p>※ 구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</p>
-
 <!--           popup -->
                 <div class="popup_back"></div> <!-- 팝업 배경 DIV -->
         

@@ -32,17 +32,18 @@ public class MemberServiceImpl implements MemberService{
 		String id = mapper.member_id(mo);
 		
 		try {
-					if(id != null) {
-						String dbpassid = id;
-						if(dbpassid.equals(mo.getMember_id())) {
-							res = 1; //아이디중복
-						}
+			if(id != null) {
+				String dbpassid = id;
+				
+				if(dbpassid.equals(mo.getMember_id())) {
+					res = 1; //아이디중복
 					}
-				} catch (Exception e) {
-					System.out.println("아이디 중복 확인 실패" + e.getMessage());
-					 res = -1;
 				}
-				 return res;
+			} catch (Exception e) {
+				System.out.println("아이디 중복 확인 실패" + e.getMessage());
+				 res = -1;
+			}
+			 return res;
 	}
 	
 	@Override
@@ -64,8 +65,6 @@ public class MemberServiceImpl implements MemberService{
 	public int member_password(MemberVO mo) {
 		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
 		int res = 0;
-		//System.out.println("mo id="+mo.getMember_id());
-		//System.out.println("mo="+mo.getMember_password());
 		String passwd = mapper.member_password(mo);
 		//System.out.println("passwd="+passwd);
 	

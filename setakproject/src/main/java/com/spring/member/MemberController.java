@@ -33,10 +33,11 @@ public class MemberController {
  
 	//로그인
 	@RequestMapping(value="loginpro.do", produces = "application/json; charset=utf-8")
-	public String loginpro(HttpSession session, HttpServletResponse response, MemberVO mo) throws Exception {
-		 response.setCharacterEncoding("UTF-8");
-		 response.setContentType("text/html; charset=UTF-8"); 
-		 PrintWriter writer = response.getWriter();
+	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		
 		 int res = memberservice.member_password(mo);
 		 System.out.println("mo id : " + mo.getMember_id() + "mo pass : " + mo.getMember_password());
 		
@@ -45,7 +46,7 @@ public class MemberController {
 			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
 			 System.out.println("성공");
 		 } else {
-			 writer.write("<script>alert('로그인 실패!!'); location.href='./loginform.do';</script>");
+			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
 			 System.out.println("로그인실패");
 			 return "loginform";
 		 }
@@ -99,6 +100,7 @@ public class MemberController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			int res = memberservice.member_insert(mo);
+			System.out.println("회원가입성공 id="+mo.getMember_id());
 			result.put("res", "OK");
 		} catch (Exception e) {
 			result.put("res", "FAIL");
@@ -118,7 +120,7 @@ public class MemberController {
 	@RequestMapping(value = "chk_pw.do", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
-		// System.out.println("컨트롤러mo="+mo.getMember_password());
+		System.out.println("컨트롤러mo="+mo.getMember_password());
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		int res = memberservice.member_password(mo);
@@ -138,7 +140,7 @@ public class MemberController {
 	public String profile(HttpServletRequest request, Model model) {
 
 		HttpSession session = request.getSession();
-		String ids = (String) session.getAttribute("id");
+		String ids = (String) session.getAttribute("member_id");
 		// System.out.println("session="+ids);
 
 		MemberVO mvo = new MemberVO();
