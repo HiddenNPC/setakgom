@@ -1,5 +1,6 @@
 package com.spring.mapper;
 
+import com.spring.setak.OrderListVO;
 import com.spring.setak.OrderVO;
 
 public interface OrderMapper {
@@ -12,5 +13,7 @@ public interface OrderMapper {
 	int deleteMendingCartbyID(String member_id);
 	int deleteKeepCartbyID(String member_id);
 	
+	// 주문 목록 추가
+	int insertOrderList(OrderListVO olv);
 
 }

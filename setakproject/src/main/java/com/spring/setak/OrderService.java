@@ -9,4 +9,5 @@ public interface OrderService {
 	public int deleteMendingCartbyID(String member_id);
 	public int deleteKeepCartbyID(String member_id);
 	
+	public int insertOrderList(OrderListVO olv);
 }

@@ -88,7 +88,7 @@ public class CartServiceImpl implements CartService {
 			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
 			mendingInfo = cartMapper.getMendingList(repair_seq);
 		}catch(Exception e) {
-			System.out.println("보관 리스트 검색 실패" + e.getMessage());
+			System.out.println("수선 리스트 검색 실패" + e.getMessage());
 		}
 		
 		return mendingInfo;

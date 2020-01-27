@@ -72,7 +72,7 @@
 		select keep_seq from keep_cart where member_id = #{member_id}
 	</select>
 
-	<!-- 세탁 장바구니 데이터 읽기 -->
+	<!-- 세탁 장바구니 데이터 읽기 --> 
 	<select id = "getWashingList" parameterType = "int" resultMap = "WashingResultMap">
 		select * from wash_view where wash_seq = #{wash_seq}
 	</select>	
@@ -96,28 +96,26 @@
 	<delete id = "deleteWash" parameterType = "int">
 		delete from washing where wash_seq = #{wash_seq}
 	</delete>
-	
+	 
 	<!-- 수선 장바구니 비우기  > 장바구니 -->
 	<delete id = "deleteMendingCart" parameterType = "int">
 		delete from repair_cart where repair_seq = #{repair_seq}
 	</delete>
 	
-	<!-- 세탁 상품 지우기 -->	
+	<!-- 수선 상품 지우기 -->	
 	<delete id = "deleteMending" parameterType = "int">
 		delete from repair where repair_seq = #{repair_seq}
 	</delete>
-	
+	 	
 	<!-- 보관 장바구니 비우기  > 장바구니  -->
 	<delete id = "deleteKeepCart" parameterType = "String">
 		delete from keep_cart where member_id = #{member_id} 
 	</delete>
 	
-	<!-- 보관 상품 지우기 -->	
+	<!-- 보관 상품 지우기 -->	 
 	<delete id = "deleteKeep" parameterType = "int">
 		delete from keep where keep_seq = #{keep_seq}
 	</delete>	
-	
-
 	
 	
 </mapper>

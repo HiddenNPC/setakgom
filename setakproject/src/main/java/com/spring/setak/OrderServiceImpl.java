@@ -64,5 +64,18 @@ public class OrderServiceImpl implements OrderService  {
 		
 		return res;
 	}
+
+	@Override
+	public int insertOrderList(OrderListVO olv) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.insertOrderList(olv);
+		} catch(Exception e) {
+			System.out.println("주문 리스트 추가 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
 	
 }

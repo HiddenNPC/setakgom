@@ -25,4 +25,17 @@ public class MileageServiceImpl implements MileageService {
 		}
 		return sum; 
 	}
+
+
+	@Override
+	public int useMileage(MileageVO mvo) {
+		int res = 0;
+		try {
+			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
+			res = mileageMapper.useMileage(mvo);
+		} catch(Exception e) {
+			System.out.println("적립금 사용 입력 실패" + e.getMessage());
+		}
+		return res; 
+	}
 }

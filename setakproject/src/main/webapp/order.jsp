@@ -466,12 +466,13 @@
                         'order_address' : addr,
                         'order_request' : request, 
                         'order_zipcode' : postcode,
-                        'usePoint' : usePoint
+                        'usePoint' : usePoint,
+                        
                         //기타 필요한 데이터가 있으면 추가 전달
                     },
                     success : function(data) {
                     	var num = data.order_num;
-                        location.href='<%=request.getContextPath()%>/order.do?order_num='+num+'&type=success';
+                        location.href='<%=request.getContextPath()%>/orderSuccess.do?order_num='+num;
                     }
                 });
                 
@@ -891,6 +892,7 @@
            } else {
                $("#final_price").html(numberFormat(total+'원'));
            }
+                    
           
           $("#order_price").html(numberFormat(total+'원'));
      }

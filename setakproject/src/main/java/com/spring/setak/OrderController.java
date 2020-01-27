@@ -35,7 +35,7 @@ public class OrderController {
 	// 장바구니 
 	@RequestMapping(value = "/order.do")
 	public String cart(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-				
+		
 		String member_id = "bit"; 
 		
 		// 세탁 장바구니 값 읽기
@@ -57,6 +57,8 @@ public class OrderController {
 		// 수선 장바구니 값 읽기 
 		List<MendingVO> mendingList = new ArrayList<MendingVO>(); 
 		List<MendingCartVO> list2 = cartService.getMendingSeq(member_id);
+		
+		
 		if(list2.size() == 0) {
 			System.out.println("수선 장바구니에 아무것도 없음");
 		}else {
@@ -86,7 +88,7 @@ public class OrderController {
 
 			}	
 		}
-		
+				
 		model.addAttribute("washingList", washingList); 
 		model.addAttribute("mendingList", mendingList);
 		model.addAttribute("keepList", keepList);
@@ -96,7 +98,7 @@ public class OrderController {
 		
 		if(type == null) {
 			return "cart";
-		} else if(type.equals("pay")) {
+		} else {
 			
 			int havePoint = mileageService.getSum(member_id);
 			
@@ -109,9 +111,8 @@ public class OrderController {
 			model.addAttribute("havePoint", havePoint);
 			
 			return "order"; 
-		} else {
-			return "order_success"; 
 		}
+
 	}
 		
 	
@@ -197,22 +198,140 @@ public class OrderController {
 	@ResponseBody 
 	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value="usePoint") String usePoint) {
 		
-		System.out.println(usePoint + " usePoint");
 		String member_id = "bit"; 
+
+		// 장바구니 시퀀스 값 읽기
+		
+		// 세탁 장바구니 값 읽기
+		List<WashingVO> washingList = new ArrayList<WashingVO>();
+		List<WashingCartVO> list3 = cartService.getWashSeq(member_id);
+				
+		if(list3.size() == 0) {
+			System.out.println("세탁 장바구니에 아무것도 없음");
+		} else {
+			for(int i = 0; i < list3.size(); i++) {
+				
+				int wash_seq = list3.get(i).getWash_seq();
+				WashingVO wvo = new WashingVO(); 
+				wvo = cartService.getWashingList(wash_seq);
+				washingList.add(wvo); 
+			}
+		}		
+		
+		// 수선 장바구니 값 읽기 
+		List<MendingVO> mendingList = new ArrayList<MendingVO>(); 
+		List<MendingCartVO> list2 = cartService.getMendingSeq(member_id);
+		
+		
+		if(list2.size() == 0) {
+			System.out.println("수선 장바구니에 아무것도 없음");
+		}else {
+			for(int i = 0; i < list2.size(); i++) {
+				
+				int repair_seq = list2.get(i).getRepair_seq();
+				MendingVO mvo = new MendingVO();
+				mvo = cartService.getMendingList(repair_seq);
+				mendingList.add(mvo); 
+			}
+		}
+		
+
+		// 보관 장바구니 값 읽기
+		List<KeepVO> keepList = new ArrayList<KeepVO>(); 
+		List<KeepCartVO> list = cartService.getKeepSeq(member_id);
+		
+		if(list.size() == 0) {
+			System.out.println("보관 장바구니 아무것도 없음");
+		} else {
+			for(int i = 0; i < list.size(); i++) {
+				
+				int keep_seq = list.get(i).getKeep_seq();
+				KeepVO kvo = new KeepVO();
+				kvo = cartService.getKeepList(keep_seq);
+				keepList.add(kvo);
+
+			}	
+		}
+
+		// 주문번호
 		long order_num = System.currentTimeMillis();
+
+		// 주문목록 DB 저장
+		int wash_size = list3.size();
+		int repair_size = list2.size();
+		int keep_size = list.size();
+		
+		int big = (wash_size>repair_size)&&(wash_size>keep_size)?wash_size:(keep_size>repair_size?keep_size:repair_size);
+
+		List<OrderListVO> orderList = new ArrayList<OrderListVO>();
+		
+		for(int i = 0; i < big; i++) {
+			OrderListVO olv = new OrderListVO();
+			// 주문번호 저장
+			olv.setOrder_num(order_num);
+			// 세탁 시퀀스 저장
+			if(washingList.size() > i) {
+				if(washingList.get(i) != null) {
+					olv.setWash_seq(washingList.get(i).getWash_seq());
+				}				
+			}
+			// 수선 시퀀스 저장
+			if(mendingList.size() > i) {
+				if(mendingList.get(i) != null) {
+					olv.setRepair_seq(mendingList.get(i).getRepair_seq());
+				}
+			}
+			
+			// 보관 시퀀스 저장
+			if(keepList.size() > i) {
+				if(keepList.get(i) != null) {
+					olv.setKeep_seq(keepList.get(i).getKeep_seq());
+				}
+			}
+			
+			orderList.add(olv);
+		}
+		
+		// 주문날짜, 적립금 사용 날짜
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yy/MM/dd"); 
 		String date = sdf.format(today);
+		String date2 = sdf2.format(today);
 		
 		ovo.setOrder_num(order_num);
 		ovo.setOrder_date(date);
+		ovo.setOrder_delete(0);
 		
+		// 주문 테이블 DB 추가
 		int res = orderService.insertOrder(ovo);
 
+
+		for(int i = 0; i < orderList.size(); i++) {
+			OrderListVO olv = orderList.get(i);
+			orderService.insertOrderList(olv);
+		}
+		
+		
+		// 장바구니 비우기
 		orderService.deleteWashCartbyID(member_id);
 		orderService.deleteMendingCartbyID(member_id);
 		orderService.deleteKeepCartbyID (member_id);
 
+		// 사용 적립금 차감 
+		if(usePoint != "") {
+			System.out.println("usePoint 들어옴");
+			MileageVO mvo = new MileageVO();
+			int point = Integer.parseInt(usePoint) * (-1);
+			mvo.setMember_id(member_id);
+			mvo.setMile_date(date2);
+			mvo.setMile_content("결제 차감");
+			mvo.setMile_price(point);
+			
+			mileageService.useMileage(mvo);
+			
+		}
+		
 		return ovo;
 	}
 
