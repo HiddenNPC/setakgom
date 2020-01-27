@@ -6,6 +6,10 @@
 <%
 	int maxnum =((Integer)request.getAttribute("maxnum")).intValue();
 	//ArrayList<ReviewVO> reviewlist = (ArrayList<ReviewVO>)request.getAttribute("reviewlist");
+	//	$("#포토_이미지").attr("에스알시","이미지주소");
+	
+	
+	
 	
 %>
 
@@ -42,9 +46,10 @@ $(document).ready(function () {
 			dataType:"json", //리턴 데이터 타입
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
-				$.each(data, function(index, item) {
-					var re_list = '';					
+				$.each(data, function event(index, item) {
+					var re_list = '';						
 					var i = item.review_star;
+					
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="3">';   
@@ -70,18 +75,17 @@ $(document).ready(function () {
 							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
 							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 						}
-					}
-										
+					}									
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
-					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
+					re_list += '<tr><td colspan="3" id="test1"><input id = "heart'+index+'" type="button" name="Review_like'+index+'">'+item.review_like+'</td></tr>';
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					$('#re_list').append(re_list);	
 					
-					/* $('#heart'+index+'').click(function () { */
-					$(document).on('click', '#heart'+index+'', function () {
+					
+					$(document).on('click', '#heart'+index+'', function(event) {
 				        var that = $('#heart'+index+'');
 				        var sendData = {'review_num' : item.review_num, 'review_like' : item.review_like};
 				        console.log(sendData);				        
@@ -89,20 +93,25 @@ $(document).ready(function () {
 				            url:'/setak/heart.do',
 				            type:'POST',
 				            data:sendData,
-							dataType:"json", 
+							dataType:"json",
 							contentType:'application/x-www-form-urlencoded; charset=utf-8',				            
 							success: function(data){
-				            	console.log(data+"값 잘 넘김  "); //review_like
-				            	$('#heart'+index+'').attr(item.review_like);	
+								
+								console.log(data+"값 잘 넘김  ");
+								$('#heart'+index+'').val(item.review_like);
+								location.reload();			            	
+				            	//$('#heart'+index+'').append("DB"+item.review_like);			            					            	
+				            	
 				            	
 				            },
 				            error:function() {
 								alert("ajax통신 실패!!!");
-							}
-							
+							}							
 				        });
+				        
+				        
 				    });
-			
+					
 				});
 														
 			},
