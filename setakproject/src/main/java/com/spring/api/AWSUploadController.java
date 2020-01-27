@@ -26,7 +26,7 @@ public class AWSUploadController {
 		
         try{
  
-            AWSCredentials credentials = new BasicAWSCredentials("AKIAWR6CHL4F3EHVIZC7", "zDK7+CZV5t9F8Hgbb+NjthjMRuVm1lQvMmP/ZXPx");
+            AWSCredentials credentials = new BasicAWSCredentials("", "");
             AmazonS3 s3Client = new AmazonS3Client(credentials);
             
             s3Service.multiImagesUpload(ssn_num, files, s3Client);

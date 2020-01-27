@@ -26,15 +26,16 @@ public class SetakController {
 		String kind[] = request.getParameterValues("wash_kind");
 		String method[] = request.getParameterValues("wash_method");
 		String count[] = request.getParameterValues("wash_count");
+		String price[] = request.getParameterValues("wash_price");
+		
 		
 		for(int i = 0; i <cate.length; i++) {
 			WashingVO wvo = new WashingVO();
 			wvo.setWash_cate(cate[i]);
 			wvo.setWash_kind(kind[i]);
 			wvo.setWash_method(method[i]);
-			int count2[] = new int[cate.length];
-			count2[i] = Integer.parseInt(count[i]);
-			wvo.setWash_count(count2[i]);
+			wvo.setWash_count(Integer.parseInt(count[i]));
+			wvo.setWash_price(Integer.parseInt(price[i]));
 			list.add(wvo);
 		}
 		

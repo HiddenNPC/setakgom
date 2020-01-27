@@ -18,6 +18,8 @@ public class NaverController {
 		
 		String ip = request.getRemoteAddr();
 		System.out.println(ip);
+		String r = request.getParameter("randomnum");
+		System.out.println(r);
 		
 		sms.setPhonenumber(pn);
 		sms.setMsgtext("안녕하세요");

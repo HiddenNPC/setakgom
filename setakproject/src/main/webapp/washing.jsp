@@ -57,7 +57,8 @@ $(document).ready(function($) {
 		str += '<option value="드라이">드라이(+2000)</option>';
 		str += '<option value="삶음">삶음(+1500)</option></td>';
 		str += '<td align="center"><input type="number" class="qnum" name="wash_count" min="1" max="1000" value="1"></td>';
-		str += '<td name="'+tdtext[2]+'" align="center">'+tdtext[2]+'원</td>';
+		str += '<td value="'+tdtext[2]+'" align="center">'+tdtext[2]+'원</td>';
+		str += '<input type="hidden" name="wash_price" value="'+tdtext[2]+'">';
 		str += '<input type="hidden" name="wash_cate" value="'+cate+'">';
 		$(".pricemenu").after(str);
 		
@@ -87,17 +88,22 @@ $(document).ready(function($) {
 	$.pricefun = function(){
 		var td = $(this).parent().parent().children();
 		console.log(td.eq(4));
-		var price = parseInt(td.eq(4).attr('name'));
+		var price = parseInt(td.eq(4).attr('value'));
 		var quan = td.eq(3).children().val();
+		var tr = $("#pricetable").children().children();
 		
 		if(td.eq(2).children().val()=="드라이"){
 			td.eq(4).html((price+2000)*quan+'원');
+			td.eq(5).val((price+2000)*quan);
 		}else if(td.eq(2).children().val()=="삶음"){
 			td.eq(4).html((price+1500)*quan+'원');
+			td.eq(5).val((price+1500)*quan);
 		}else{
 			td.eq(4).html(price*quan+'원');
+			td.eq(5).val(price*quan);
 		}
 		
+		console.log(td.eq(5).val());
 		sumprice();
 	};
 	
