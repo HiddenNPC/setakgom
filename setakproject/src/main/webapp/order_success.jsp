@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ page import = "com.spring.setak.WashingVO" %>
+<%@ page import = "com.spring.setak.MendingVO" %>
+<%@ page import = "com.spring.setak.KeepVO" %>
+<%@ page import = "com.spring.setak.CouponVO" %>
+<%@ page import = "java.util.ArrayList" %>
+
 <%
 	String order_num = request.getParameter("order_num");
+
+	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
+	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
+	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +30,9 @@
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")  
       });
+      	
+      // 총 주문 금액은 뭔가 DB에서 읽어와야 될거 같은데 그런데가 없음.. 
+     	
     </script>
 </head>
 <body>
@@ -57,30 +72,54 @@
 					<tr>
 						<td colspan = "5" style = "height :3px; background-color : #3498db"></td>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
-	
-					</tr>				
-					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
-	
-					</tr>				
-					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
-	
-					</tr>				
+						<% if(washingList.size() != 0) {
+						for(int i = 0; i < washingList.size(); i++) {
+						WashingVO wvo = washingList.get(i);%>		
+						  <tr>
+		                     <td>세탁</td>
+		                     <td><%=wvo.getWash_kind() %></td>
+		                     <td><%=wvo.getWash_count() %>장</td>
+		                     <td class = "product_price"><%=wvo.getWash_price() %>원</td>
+		                     <td><%=wvo.getWash_method() %></td>
+		                  </tr>   
+                  		<% } } else { %>
+                  		<tr></tr>
+                  		<%} %>
+						<% if(mendingList.size() != 0) {
+						for(int i = 0; i < mendingList.size(); i++) {
+						MendingVO mvo = mendingList.get(i);%>		
+						  <tr>
+		                     <%if(mvo.getRepair_wash() == 0) { %>
+		                     <td>수선</td>
+		                     <%} else { %>
+		                     <td>세탁-수선</td>
+		                     <%} %>
+		                     <td><%=mvo.getRepair_cate()%></td>
+		                     <td><%=mvo.getRepair_count()%>장</td>
+		                     <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
+		                     <td><%=mvo.getRepair_kind()%></td>
+		                  </tr>   
+                  		<% } } else { %>
+                  		<tr></tr>
+                  		<%} %>
+                  		
+						<% if(keepList.size() != 0) {
+
+						KeepVO kvo = keepList.get(0);%>		
+						  <tr>
+		                     <%if(kvo.getKeep_wash() == 0) { %>
+		                     <td>보관</td>
+		                     <% } else { %>
+		                     <td>세탁-보관</td>
+		                     <% } %>
+		                     <td></td>
+		                     <td><%=kvo.getKeep_box()%>박스</td>
+		                     <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
+		                     <td><%=kvo.getKeep_month()%>개월</td>
+		                  </tr>   
+                  		<% } else { %>
+                  		<tr></tr>
+                  		<%} %>			
 				</tbody>
 			</table>
 			

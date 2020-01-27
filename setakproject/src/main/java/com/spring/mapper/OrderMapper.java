@@ -1,7 +1,10 @@
 package com.spring.mapper;
 
+import java.util.ArrayList;
+
 import com.spring.setak.OrderListVO;
 import com.spring.setak.OrderVO;
+import com.spring.setak.WashingCartVO;
 
 public interface OrderMapper {
 
@@ -15,5 +18,7 @@ public interface OrderMapper {
 	
 	// 주문 목록 추가
 	int insertOrderList(OrderListVO olv);
+	// 주문 목록 시퀀스 읽기
+	ArrayList<OrderListVO> getOrderList(OrderListVO olv);
 
 }

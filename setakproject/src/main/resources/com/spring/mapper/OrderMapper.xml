@@ -72,5 +72,10 @@
 	<insert id = "insertOrderList" parameterType = "com.spring.setak.OrderListVO">
 		insert into orderlist values (#{wash_seq}, #{repair_seq}, #{keep_seq}, #{order_num})
 	</insert>
+	
+	<!-- 주문 목록 시퀀스 읽어오기 -->
+	<select id = "getOrderList" parameterType = "com.spring.setak.OrderListVO" resultMap = "OrderListResultMap">
+		select * from orderlist where order_num = #{order_num}
+	</select>	
 			
 </mapper>

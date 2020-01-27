@@ -1,7 +1,6 @@
 package com.spring.setak;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -187,7 +186,61 @@ public class OrderController {
 
 	// 주문완료
 	@RequestMapping(value = "/orderSuccess.do")
-	public String orderSuccess() {
+	public String orderSuccess(HttpServletRequest request, Model model) {
+		
+		long order_num = Long.parseLong(request.getParameter("order_num"));
+		OrderListVO olv = new OrderListVO();
+		olv.setOrder_num(order_num);
+		List<OrderListVO> orderList = orderService.getOrderList(olv);
+		
+		List<WashingVO> washingList = new ArrayList<WashingVO>();
+		List<MendingVO> mendingList = new ArrayList<MendingVO>();
+		List<KeepVO> keepList = new ArrayList<KeepVO>();
+		
+		for(int i = 0; i < orderList.size(); i++) {
+			
+			OrderListVO ovo = orderList.get(i);
+			
+			if(ovo.getWash_seq() != 0) {
+				WashingVO wvo = new WashingVO();
+				wvo.setWash_seq(ovo.getWash_seq());
+				washingList.add(wvo);
+			}
+			
+			if(ovo.getRepair_seq() != 0) {
+				MendingVO mvo = new MendingVO();
+				mvo.setRepair_seq(ovo.getRepair_seq());
+				mendingList.add(mvo);
+			}
+			
+			if(ovo.getKeep_seq() != 0) {
+				KeepVO kvo = new KeepVO();
+				kvo.setKeep_seq(ovo.getKeep_seq());
+				keepList.add(kvo);
+			}
+		}
+		
+		for(int i = 0; i < washingList.size(); i++) {
+			int wash_seq = washingList.get(i).getWash_seq();
+			WashingVO wvo = cartService.getWashingList(wash_seq);
+			washingList.add(i, wvo);
+		}
+		
+		for(int i = 0; i < mendingList.size(); i++) {
+			int repair_seq = mendingList.get(i).getRepair_seq();
+			MendingVO mvo = cartService.getMendingList(repair_seq);
+			mendingList.add(i, mvo);
+		}
+		
+		for(int i = 0; i < keepList.size(); i++) {
+			int keep_seq = keepList.get(i).getKeep_seq();
+			KeepVO kvo = cartService.getKeepList(keep_seq);
+			keepList.add(i, kvo);
+		}
+		
+		model.addAttribute("washingList", washingList);
+		model.addAttribute("mendingList", mendingList);
+		model.addAttribute("keepList", keepList);
 		
 		return "order_success";
 		

@@ -20,6 +20,9 @@ public interface AddressMapper {
 	
 	// 배송지 삭제
 	int deleteAddress(int address_num);
+	
+	// 배송지 개수
+	int getAddressCount(AddressVO avo); 
 
 	
 }

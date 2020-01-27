@@ -52,7 +52,7 @@
 						</tr>
 					</thead>
 					<tbody align = "center">
-						<tr>
+						<tr class = "59000">
 							<td>올인원59</td>
 							<td>
 								<span class = "origin_price">76,700원</span>
@@ -86,7 +86,11 @@
 						
 						<tr>
 							<td>올인원89</td>
-							<td>89,000원</td>
+							<td>
+								<span class = "origin_price">113,900원</span>
+								<br/>
+								<span class = "sale_price">89,000원</span>
+							</td>
 							<td>8개</td>
 							<td>20장</td>
 							<td>4장</td>
@@ -98,7 +102,11 @@
 						
 						<tr>
 							<td>올인원104</td>
-							<td>104,000원</td>
+							<td>
+								<span class = "origin_price">136,900원</span>
+								<br/>
+								<span class = "sale_price">104,000원</span>
+							</td>
 							<td>8개</td>
 							<td>20장</td>
 							<td>5장</td>
@@ -110,7 +118,11 @@
 						
 						<tr>
 							<td>올인원119</td>
-							<td>119,000원</td>
+							<td>
+								<span class = "origin_price">146,000원</span>
+								<br/>
+								<span class = "sale_price">119,000원</span>
+							</td>
 							<td>9개</td>
 							<td>20장</td>
 							<td>6장</td>
@@ -122,7 +134,11 @@
 						
 						<tr>
 							<td>올인원134</td>
-							<td>134,000원</td>
+							<td>
+								<span class = "origin_price">164,900원</span>
+								<br/>
+								<span class = "sale_price">134,000원</span>
+							</td>
 							<td>15개</td>
 							<td>20장</td>
 							<td>7장</td>
@@ -154,7 +170,11 @@
 					<tbody align = "center">
 						<tr>
 							<td>와이29</td>
-							<td>29000원</td>
+							<td>
+								<span class = "origin_price">35,900원</span>
+								<br/>
+								<span class = "sale_price">29,000원</span>
+							</td>
 							<td>-</td>
 							<td>15장</td>
 							<td>-</td>
@@ -166,7 +186,11 @@
 						
 						<tr>
 							<td>와이44</td>
-							<td>44000원</td>
+							<td>
+								<span class = "origin_price">59,900원</span>
+								<br/>
+								<span class = "sale_price">44,000원</span>
+							</td>
 							<td>-</td>
 							<td>30장</td>
 							<td>-</td>
@@ -178,7 +202,11 @@
 						
 						<tr>
 							<td>와이59</td>
-							<td>59000원</td>
+							<td>
+								<span class = "origin_price">75,900원</span>
+								<br/>
+								<span class = "sale_price">59,000원</span>
+							</td>
 							<td>-</td>
 							<td>55장</td>
 							<td>-</td>
@@ -209,7 +237,11 @@
 					<tbody align = "center">
 						<tr>
 							<td>드라이44</td>
-							<td>44000원</td>
+							<td>
+								<span class = "origin_price">57,900원</span>
+								<br/>
+								<span class = "sale_price">44,000원</span>
+							</td>
 							<td>-</td>
 							<td>-</td>
 							<td>10장</td>
@@ -221,7 +253,11 @@
 						
 						<tr>
 							<td>드라이59</td>
-							<td>59000원</td>
+							<td>
+								<span class = "origin_price">71,900원</span>
+								<br/>
+								<span class = "sale_price">59,000원</span>
+							</td>
 							<td>-</td>
 							<td>-</td>
 							<td>14장</td>
@@ -233,7 +269,11 @@
 						
 						<tr>
 							<td>드라이74</td>
-							<td>74000원</td>
+							<td>
+								<span class = "origin_price">99,900원</span>
+								<br/>
+								<span class = "sale_price">74,000원</span>
+							</td>
 							<td>-</td>
 							<td>-</td>
 							<td>18장</td>
@@ -264,7 +304,11 @@
 					<tbody align = "center">
 						<tr>
 							<td>물빨래34</td>
-							<td>34000원</td>
+							<td>
+								<span class = "origin_price">39,900원</span>
+								<br/>
+								<span class = "sale_price">34,000원</span>
+							</td>
 							<td>3개</td>
 							<td>-</td>
 							<td>-</td>
@@ -276,7 +320,11 @@
 						
 						<tr>
 							<td>물빨래49</td>
-							<td>49000원</td>
+							<td>
+								<span class = "origin_price">59,900원</span>
+								<br/>
+								<span class = "sale_price">49,000원</span>
+							</td>
 							<td>5개</td>
 							<td>-</td>
 							<td>-</td>
@@ -288,7 +336,11 @@
 						
 						<tr>
 							<td>물빨래64</td>
-							<td>64000원</td>
+							<td>
+								<span class = "origin_price">72,900원</span>
+								<br/>
+								<span class = "sale_price">64,000원</span>
+							</td>
 							<td>7개</td>
 							<td>-</td>
 							<td>-</td>
@@ -300,7 +352,11 @@
 						
 						<tr>
 							<td>물빨래79</td>
-							<td>79000원</td>
+							<td>
+								<span class = "origin_price">92,900원</span>
+								<br/>
+								<span class = "sale_price">79,000원</span>
+							</td>
 							<td>7개</td>
 							<td>-</td>
 							<td>-</td>
@@ -312,7 +368,11 @@
 						
 						<tr>
 							<td>물빨래84</td>
-							<td>84000원</td>
+							<td>
+								<span class = "origin_price">99,900원</span>
+								<br/>
+								<span class = "sale_price">84,000원</span>
+							</td>
 							<td>8개</td>
 							<td>-</td>
 							<td>-</td>
@@ -324,7 +384,11 @@
 						
 						<tr>
 							<td>물빨래99</td>
-							<td>99000원</td>
+							<td>
+								<span class = "origin_price">111,900원</span>
+								<br/>
+								<span class = "sale_price">99,000원</span>
+							</td>
 							<td>13개</td>
 							<td>-</td>
 							<td>-</td>
@@ -356,7 +420,11 @@
 					<tbody align = "center">
 						<tr>
 							<td>물드44</td>
-							<td>44000원</td>
+							<td>
+								<span class = "origin_price">49,900원</span>
+								<br/>
+								<span class = "sale_price">44,000원</span>
+							</td>
 							<td>3개</td>
 							<td>-</td>
 							<td>3장</td>
@@ -368,7 +436,11 @@
 						
 						<tr>
 							<td>물드59</td>
-							<td>59000원</td>
+							<td>
+								<span class = "origin_price">67,900원</span>
+								<br/>
+								<span class = "sale_price">59,000원</span>
+							</td>
 							<td>4개</td>
 							<td>-</td>
 							<td>4장</td>
@@ -380,7 +452,11 @@
 						
 						<tr>
 							<td>물드74</td>
-							<td>74000원</td>
+							<td>
+								<span class = "origin_price">84,900원</span>
+								<br/>
+								<span class = "sale_price">74,000원</span>
+							</td>
 							<td>6개</td>
 							<td>-</td>
 							<td>4장</td>
@@ -392,7 +468,11 @@
 						
 						<tr>
 							<td>물드89</td>
-							<td>89000원</td>
+							<td>
+								<span class = "origin_price">99,900원</span>
+								<br/>
+								<span class = "sale_price">89,000원</span>
+							</td>
 							<td>7개</td>
 							<td>-</td>
 							<td>4장</td>
@@ -417,72 +497,48 @@
 		$(document).ready(function() {
 	
 		// 아이엠포트 관련 스크립트
-    	/*
 		$(".pay_button").on("click", function(){
     		var select_button = $(this);
     		var tr = select_button.parent().parent();
-    		var td = tr.children();
-    		
-    		var price = td.eq(1).text().slice(0,-1);
-  	
+			var price = $(tr).attr('class');
+    		  	
     		alert(price);
     		
             var IMP = window.IMP; // 생략가능
             IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
             var msg;
             
-            IMP.request_pay({
-                pg : 'kakaopay',
-                pay_method : 'card',
-                merchant_uid : 'merchant_' + new Date().getTime(),
-                name : '세탁곰 결제',
-                amount : price,
-                buyer_email : 'minchoi9509@gmail.com',
-                buyer_name : '민경',
-                buyer_tel : '010-8848-2996',
-                buyer_addr : '서울',
-                buyer_postcode : '123-456',
-                //m_redirect_url : 'http://www.naver.com'
-            }, function(rsp) {
-                if ( rsp.success ) {
-                    //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-                    jQuery.ajax({
-                        url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            imp_uid : rsp.imp_uid
-                            //기타 필요한 데이터가 있으면 추가 전달
-                        }
-                    }).done(function(data) {
-                        //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-                        if ( everythings_fine ) {
-                            msg = '결제가 완료되었습니다.';
-                            
-                            msg += '\n고유ID : ' + rsp.imp_uid;
-                            msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-                            msg += '\결제 금액 : ' + rsp.paid_amount;
-                            msg += '카드 승인번호 : ' + rsp.apply_num;
-                            
-                            alert(msg);
-                        } else {
-                            //[3] 아직 제대로 결제가 되지 않았습니다.
-                            //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-                        }
-                    });
-                    //성공시 이동할 페이지
-                    location.href='<%=request.getContextPath()%>/order/paySuccess?msg='+msg;
-                } else {
-                    msg = '결제에 실패하였습니다.';
-                    msg += '에러내용 : ' + rsp.error_msg;
-                    //실패시 이동할 페이지
-                    location.href="/setak/subscribe.jsp";
-                    alert(msg);
-                }
+            // IMP.request_pay(param, callback) 호출
+            IMP.request_pay({ // param
+              pg: "inicis",
+              pay_method: "card", // "card"만 지원됩니다
+              merchant_uid: "issue_billingkey_monthly_0001", // 빌링키 발급용 주문번호
+              customer_uid: "gildong_0001_1234", // 카드(빌링키)와 1:1로 대응하는 값
+              name: "최초인증결제",
+              amount: 0, // 0 으로 설정하여 빌링키 발급만 진행합니다.
+              buyer_email: "gildong@gmail.com",
+              buyer_name: "홍길동",
+              buyer_tel: "010-4242-4242",
+              buyer_addr: "서울특별시 강남구 신사동",
+              buyer_postcode: "01181"
+            }, function (rsp) { // callback
+              if (rsp.success) {
+                  // 빌링키 발급 성공
+                  // jQuery로 HTTP 요청
+                  jQuery.ajax({
+                    url: "https://www.myservice.com/billings/", // 서비스 웹서버
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    data: {
+                      customer_uid: "gildong_0001_1234", // 카드(빌링키)와 1:1로 대응하는 값
+                    }
+                  });
+              } else {
+                // 빌링키 발급 실패
+              }
             });
             
         });
-		*/
     	
 		});
 		

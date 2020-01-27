@@ -11,7 +11,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
-
 	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
 	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
 	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
@@ -314,6 +313,19 @@
 			alert("사용 가능한 최대 포인트는 " + havePoint + "Point 입니다.");
 			usePoint = havePoint; 
 			$("#usePoint").val(havePoint);
+		}
+		
+		if(usePoint > finalPrice) {
+			alert("결제 금액 이상 사용 할 수 없습니다.");
+			$("#usePoint").val('0');
+			$("#point_price").text('0원');
+			
+			var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
+
+			var asw = totalPrice + couponSalePrice + pointPirice;
+			$("#final_price").html(numberFormat(asw+'원'));
+			
+			return;
 		}
 		
 		if(usePoint != 0) {
@@ -687,13 +699,14 @@
 		var addr = address + '!' + detailAddress;
 		
 		if(addrName == '' || name == '' || newPhone1 == '' || newPhone2 == '' || newPhone3 == ''
-			|| postcode == '' || address == '' || detailAddress == '') {
+			|| postcode == '' || address == '') {
 			alert("제대로 입력하세요.");
 			return; 
 		}
 		
 		var params = {
 				'member_id' : 'bit',
+				'address_num' : 5, 
 				'address_name' : addrName,
 				'address_human' : name, 
 				'address_phone' : phone,
@@ -716,7 +729,9 @@
 				  
                }
                else { // 실패했다면
-                  alert("Insert Fail");
+            	  if(retVal.res == "CNTFAIL") {
+            		  alert(retVal.message);
+            	  }
                }
             },
             error:function() {
@@ -752,18 +767,18 @@
 		output += '<input id="postcode3" class="txtInp" type="text" style="width: 60px;" /> ';
 		output += '<input type="button" onclick="execDaumPostcode(\'modi\')" value="우편번호 찾기" />';
 		output += ' <br /><input id="address3" class="txtInp" type="text" style="width: 270px;" readonly /> ';
-		output += '<input id="detailAddress3" class="txtInp" type="text" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> '
+		output += '<input id="detailAddress3" class="txtInp" type="text" style="width: 270px;" /> '
 		output += '<input id="extraAddress3" type="hidden" placeholder="참고항목">';
 		output += '</td>';
 		output += '</tr>';
 		output += '<tr>';
 		output += '<td class = "new-left">연락처</td>'
 		output += '<td>';
-		output += '<input id = "modiPhone1" class = "txtInp" type = "text" size = "3" style = "width : 30px;"/>';
+		output += '<input id = "modiPhone1" class = "txtInp" type = "text" maxlength = "3" style = "width : 30px;" numberOnly/>';
 		output += '-';
-		output += '<input id = "modiPhone2" class = "txtInp" type = "text" size = "4" style = "width : 40px;"/>';
+		output += '<input id = "modiPhone2" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>';
 		output += '-';
-		output += '<input id = "modiPhone3" class = "txtInp" type = "text" size = "3" style = "width : 40px;"/>';
+		output += '<input id = "modiPhone3" class = "txtInp" type = "text" maxlength = "3" style = "width : 40px;" numberOnly/>';
 		output += '</td>';
 		output += '</tr>';
 		output += '<tr>';
@@ -1016,11 +1031,11 @@
 							<tr>
 								<td class = "left_col">휴대폰 번호</td>
 								<td class = "right_col">
-									<input id = "order_phone1" class = "txtInp" type = "text" size = "3" style = "width : 30px;"/> 
+									<input id = "order_phone1" class = "txtInp" type = "text" maxlength = "3" style = "width : 30px;" numberOnly/> 
 									-
-									<input id = "order_phone2" class = "txtInp" type = "text" size = "4" style = "width : 40px;"/>
+									<input id = "order_phone2" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>
 									-
-									<input id = "order_phone3" class = "txtInp" type = "text" size = "4" style = "width : 40px;"/>
+									<input id = "order_phone3" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>
 								</td>
 							</tr>
 							
@@ -1164,11 +1179,11 @@
 							<tr>
 								<td class = "new-left">연락처</td>
 								<td>
-									<input id = "newPhone1" class = "txtInp" type = "text" style = "width : 30px;"/> 
+									<input id = "newPhone1" class = "txtInp" type = "text" maxlength = "3" style = "width : 30px;" numberOnly/> 
 									-
-									<input id = "newPhone2" class = "txtInp" type = "text" style = "width : 40px;"/>
+									<input id = "newPhone2" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>
 									-
-									<input id = "newPhone3" class = "txtInp" type = "text" style = "width : 40px;"/>
+									<input id = "newPhone3" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>
 								</td>
 							</tr>
 							<tr>

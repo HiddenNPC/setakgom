@@ -1,9 +1,12 @@
 package com.spring.setak;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.mapper.AddressMapper;
 import com.spring.mapper.CartMapper;
 import com.spring.mapper.OrderMapper;
 
@@ -76,6 +79,19 @@ public class OrderServiceImpl implements OrderService  {
 		}
 		
 		return res; 
+	}
+
+	@Override
+	public ArrayList<OrderListVO> getOrderList(OrderListVO olv) {
+		ArrayList<OrderListVO> ordersList = null;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			ordersList = orderMapper.getOrderList(olv);
+		} catch(Exception e) {
+			System.out.println("주소 리스트 시퀀스 검색 실패" + e.getMessage());
+		}
+		
+		return ordersList;
 	}
 	
 }

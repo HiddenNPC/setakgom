@@ -40,5 +40,10 @@
 		update address set address_name = #{address_name}, address_human = #{address_human}, address_phone = #{address_phone},
 		address_zipcode = #{address_zipcode}, address_loc = #{address_loc} where address_num = #{address_num}
 	</update>
+	
+	<!-- 배송지 개수 제한 -->
+	<select id = "getAddressCount" parameterType = "com.spring.setak.AddressVO" resultType = "int">
+		select count(*) from address where member_id = #{member_id}
+	</select>
 
 </mapper>
