@@ -17,7 +17,7 @@ public class SetakController {
 		return "washing";
 	}
 	
-	@RequestMapping(value = "/washmending.st")
+	@RequestMapping(value = "/washmending.do")
 	public ModelAndView washmending(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		ArrayList<WashingVO> list = new ArrayList<WashingVO>();
@@ -27,6 +27,8 @@ public class SetakController {
 		String method[] = request.getParameterValues("wash_method");
 		String count[] = request.getParameterValues("wash_count");
 		
+		String wash_tprice = request.getParameter("wash_tprice");
+
 		for(int i = 0; i <cate.length; i++) {
 			WashingVO wvo = new WashingVO();
 			wvo.setWash_cate(cate[i]);
@@ -39,6 +41,7 @@ public class SetakController {
 		}
 		
 		mav.addObject("list", list);
+		mav.addObject("wash_tprice", wash_tprice);
 		mav.setViewName("washingMending");
 		
 		return mav;

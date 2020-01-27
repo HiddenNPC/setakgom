@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class WashingVO {
+	int wash_seq;
 	String wash_cate;
 	String wash_kind;
 	String wash_method;

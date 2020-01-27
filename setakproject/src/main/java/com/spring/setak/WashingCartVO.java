@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class WashingCartVO {
-	
 	private String member_id;
-	private String wash_seq;
+	private int wash_seq;
 }

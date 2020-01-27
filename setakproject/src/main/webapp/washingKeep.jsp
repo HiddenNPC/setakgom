@@ -1,6 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import = "com.spring.setak.*" %>
+<%@ page import = "java.util.*" %>
 <!DOCTYPE html>
+<%
+	ArrayList<WashingVO> wlist = (ArrayList<WashingVO>)request.getAttribute("wlist");
+	ArrayList<MendingVO> mlist = (ArrayList<MendingVO>)request.getAttribute("mlist");
+	String wash_tprice = request.getParameter("wash_tprice");
+	String mending_tprice = request.getParameter("mending_tprice");
+	String member_id = null;
+
+	if(session.getAttribute("member_id")== null){
+		out.println("<script>");
+		out.println("alert('로그인 후 이용 가능합니다.')");
+		out.println("location.href='login.do'");
+		out.println("</script>");
+	}
+%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -19,9 +35,15 @@
 			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 			var monthclick = 0;
 			var price = parseInt(0);
+			var month ="";
 			$(".month").on("click", function(){
 				$(".month").removeClass("month_click");
 				$(this).addClass("month_click");
+				month=($(this).html()).substring(4,5);//개월수
+				if(month=="아"){
+					month=0;
+				}
+				$(".month_value").attr('value', month);
 				monthclick = 1;
 				price = parseInt($($(this).children().children('.price')).html());
 				var n = $('.count').index(this);
@@ -71,31 +93,37 @@
 			//수량에 따른 값변경
 			$.pricefun = function(n){
 				var num = parseInt($(".box_count:eq(" + n + ")").val());
-				$('.tot_price').html(num*price);
+				$('.ktot_price').html(numberFormat(num*price));
+				$('.tot_price').html(numberFormat(num*price+(parseInt(<%=wash_tprice%>))+(parseInt(<%=mending_tprice%>))));
+				$(".keep_price").val(num*price);
 			};
 			//버튼안누르고 직접 수량 입력했을 때
 			$(document).on("propertychange change keyup paste",".box_count", function(){
 				var n = $('.box_count').index(this);
 				$.pricefun(n);
 			});
+			
+			/* 숫자 3자리마다 쉼표 넣어줌 */
+			numberFormat = function(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			$(".wtot_price").html(numberFormat(parseInt(<%=wash_tprice%>)));
+			$(".mtot_price").html(numberFormat(parseInt(<%=mending_tprice%>)));
+			$('.tot_price').html(numberFormat((parseInt(<%=wash_tprice%>))+(parseInt(<%=mending_tprice%>))));
 
-			//전체선택, 전체선택해제
-			$("#allcheck").click(function(){
-		        if($("#allcheck").prop("checked")){
-		            $("input[name=check]").prop("checked",true);
-		        }else{
-		            $("input[name=check]").prop("checked",false);
-		        }
-		    })
-		    //선택 삭제
-		    $(".chkdelete").click(function(){
-				var checkbox = $("input[name=check]:checked");
-				checkbox.each(function(){
-					var tr = checkbox.parent().parent();
-					tr.remove();
-				}) 
-				sumprice();
-			});
+			//다음 눌렀을 때. member_id 체크는 자동로그아웃 됐을 경우를 생각해서 넣음.
+			 $(document).on('click','.gocart',function(event) {
+				var member_id = "<%=session.getAttribute("member_id") %>";
+				if(member_id=="null"){
+					alert('로그인 후 이용 가능합니다.');
+					location.href='login.do';
+					return false;
+				}
+				if(monthclick==0){
+					alert('보관하실 기간을 선택해주세요.');
+					return false;
+				}
+			 });
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -128,13 +156,13 @@
 			<div class="keep">
 				<div class="step"><img src="images/s3.png" alt="step3_보관"></div>
 				<p>※ 세탁 신청이 들어간 세탁물에 대해서만 보관이 가능한 페이지입니다. 보관만 맡기실 옷들은 보관서비스 페이지를 이용해주세요.</p>
-				<form>					
+				<form name="washingKeepform" action="./washingKeep.do" method="post" enctype="multipart/form-data">					
 					<div class="keep_month">
 						<ul class="s_keep">
 							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h5>10000원</h5><h1><span class="price">9500</span>원</h1><img src="images/sale.png" alt="세일"></li>
 							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h5>28000원</h5><h1><span class="price">27500</span>원</h1><img src="images/sale.png" alt="세일"></li>
 							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h5>55000원</h5><h1><span class="price">54500</span>원</h1><img src="images/sale.png" alt="세일"></li>
-							<li class="month"><h2>아니오</h2></li>
+							<li class="month"><h2>아니오</h2><h1><span class="price" style="display:none;">0</span></h1></li>
 						</ul>
 						<div class="keep_caution">
 							<p>※ 규격 안내 : - 월컴키트 안 세탁곰 규격 리빙박스(30L)가 기준입니다.</p>
@@ -149,27 +177,69 @@
 							<p>※ 기간이 만료되면 입력하신 주소로 바로 배송됩니다. 배송 완료 후 알람을 드리며 이후 분실에 대해 책임을 지지 않습니다. 보관 중 배송지가 변경된다면 미리 정보를 수정해주세요.</p>
 						</div>
 					</div>
-					
+					<!-- 세탁 -->
+					<%
+						for (int i = 0; i < wlist.size(); i++) {
+					%>
+					<input type= "hidden" name="wash_cate" value="<%=wlist.get(i).getWash_cate()%>">
+					<input type= "hidden" name="wash_kind" value="<%=wlist.get(i).getWash_kind()%>">
+					<input type= "hidden" name="wash_method" value="<%=wlist.get(i).getWash_method()%>">
+					<input type= "hidden" name="wash_count" value="<%=wlist.get(i).getWash_count()%>">
+					<input type= "hidden" name="wash_price" value="<%=wlist.get(i).getWash_price()%>">
+					<%
+						}
+					%>
+					<!-- 수선 -->
+					<%
+					if(mlist!=null){
+						for (int i = 0; i < mlist.size(); i++) {
+					%>
+					<input type= "hidden" name="repair_cate" value="<%=mlist.get(i).getRepair_cate()%>">
+					<input type= "hidden" name="repair_kind" value="<%=mlist.get(i).getRepair_kind()%>">
+					<input type= "hidden" name="repair_var1" value="<%=mlist.get(i).getRepair_var1()%>">
+					<input type= "hidden" name="repair_var2" value="<%=mlist.get(i).getRepair_var2()%>">
+					<input type= "hidden" name="repair_var3" value="<%=mlist.get(i).getRepair_var3()%>">
+					<input type= "hidden" name="repair_content" value="<%=mlist.get(i).getRepair_content()%>">
+					<input type= "hidden" name="repair_code" value="<%=mlist.get(i).getRepair_code()%>">
+					<input type= "hidden" name="repair_count" value="<%=mlist.get(i).getRepair_count()%>">
+					<input type= "hidden" name="repair_price" value="<%=mlist.get(i).getRepair_price()%>">
+					<input type= "hidden" name="repair_file" value="<%=mlist.get(i).getRepair_file()%>">
+					<input type= "hidden" name="repair_wash" value="<%=mlist.get(i).getRepair_wash()%>">
+					<%
+						}
+					}
+					%>
+					<!-- 보관 -->
 					<div class="keep_list">
 						<p>보관하시게 될 품목</p>
-						<p>셔츠 (2)</p>
-						<p>니트 (2)</p>
+					<%
+						for(int i= 0; i <wlist.size(); i++){
+					%>
+						<p><%=wlist.get(i).getWash_kind()%>(<%=wlist.get(i).getWash_count()%>)</p>
+						<input type= "hidden" name="keep_cate" value="<%=wlist.get(i).getWash_cate()%>">
+						<input type= "hidden" name="keep_kind" value="<%=wlist.get(i).getWash_kind()%>">
+						<input type= "hidden" name="keep_count" value="<%=wlist.get(i).getWash_count()%>">
+						<input type= "hidden" name="keep_month" class="month_value" value="0">
+					<%
+						}
+					%>
 					</div>
 					<div class="box_quantity">
 						<p>박스 수량을 선택 해 주세요</p>
 						<div>
-							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="box_count" value="1" id="" class="box_count">
+							<input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="keep_box" value="1" id="" class="box_count">
 							<a class="box_up">+</a>
 							<a class="box_down">-</a>
 						</div>
 					</div>
 					
 					<div class="total_price">
-						<p>총 금액	: 세탁비 0원 + 수선비 0원 + 보관비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
+						<p>총 금액	: 세탁비 <span class="wtot_price">0</span>원 + 수선비 <span class="mtot_price">0</span>원 + 보관비 <span class="ktot_price">0</span>원 = 합계 : <span class="tot_price">0</span>원</p>
+						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">
-						<input type="button" value="다음">
-						<input type="button" value="이전">
+						<a><input type="submit" value="다음" class="gocart"></a>
+						<a><input type="button" value="이전" onclick="history.back(); return false;"></a>
 					</div>
 				</form>
 			</div>

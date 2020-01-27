@@ -113,7 +113,7 @@
 			//수량에 따른 값변경
 			$.pricefun = function(n){
 				var num = parseInt($(".box_count:eq(" + n + ")").val());
-				$('.tot_price').html(num*price);
+				$('.tot_price').html(numberFormat(num*price));
 				$(".keep_price").val(num*price);
 			};
 			//버튼안누르고 직접 수량 입력했을 때
@@ -139,8 +139,20 @@
 				}) 
 				sumprice();
 			});
+			
+			/* 숫자 3자리마다 쉼표 넣어줌 */
+			numberFormat = function(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			
 			//장바구니 눌렀을 때
-			 $(".total-button").click(function(){
+			 $(document).on('click','.gocart',function(event) {
+				var member_id = "<%=session.getAttribute("member_id") %>";
+				if(member_id=="null"){
+					alert('로그인 후 이용 가능합니다.');
+					location.href='login.do';
+					return false;
+				}
 				if(monthclick==0){
 					alert('보관하실 기간을 선택해주세요.');
 					return false;
@@ -338,7 +350,7 @@
 								- 세탁곰 리빙박스는 한 박스에 외투 15벌이 들어갑니다.<br>
 								- 세탁곰 리빙박스는 한 박스에 겨울 코트 10벌이 들어갑니다.
 							</p>
-							<p>※ 배송은 만료 기준 1회 무료이며, 도중 개별 반환도 가능합니다.  도중 개별 반환 시 배송비가 청구됩니다.</p>
+							<p>※ 배송은 만료 기준 1회 무료이며, 도중 개별 반환도 가능합니다. 도중 개별 반환 시 배송비가 청구됩니다.</p>
 							<p>※ 기간 만료 2주 전 카카오톡 알람 서비스가 제공됩니다. 연장을 원하신다면 마이페이지 > 보관현황에서 연장 신청을 이용해주세요.</p>
 							<p>※ 기간이 만료되면 입력하신 주소로 바로 배송됩니다. 배송 완료 후 알람을 드리며 이후 분실에 대해 책임을 지지 않습니다. 보관 중 배송지가 변경된다면 미리 정보를 수정해주세요.</p>
 						</div>
@@ -358,7 +370,7 @@
 						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">
-						<input type="submit" value="장바구니">
+						<input type="submit" value="장바구니" class="gocart">
 					</div>
 				</form>
 			</div>

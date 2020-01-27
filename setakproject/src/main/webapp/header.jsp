@@ -13,7 +13,7 @@
 				</ul>
 				<ul class="main-nav">
 				<%
-					if(session.getAttribute("id")==null){
+					if(session.getAttribute("member_id")==null){
 				%>
 					<li><a href="./login.do">로그인</a></li>
 					<li><a href="./join.do">회원가입</a></li>
