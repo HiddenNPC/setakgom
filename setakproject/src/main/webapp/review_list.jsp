@@ -6,10 +6,6 @@
 <%
 	int maxnum =((Integer)request.getAttribute("maxnum")).intValue();
 	//ArrayList<ReviewVO> reviewlist = (ArrayList<ReviewVO>)request.getAttribute("reviewlist");
-	//	$("#포토_이미지").attr("에스알시","이미지주소");
-	
-	
-	
 	
 %>
 
@@ -22,13 +18,25 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/review.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
 <script type="text/javascript"></script>
 <script>
+
 $(document).ready(function () {	
 	//헤더, 푸터연결
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp")    
    
+    //모달팝업 오픈
+    $(".open").on('click', function(){
+    	$("#re_layer").show();	
+    	$(".dim").show();	
+	});
+    $(".close").on('click', function(){
+    	$(this).parent().hide();	
+    	$(".dim").hide();	
+	});
+
     //별점 구동	
 	$('.r_content a').click(function () {
 	$(this).parent().children('a').removeClass('on');
@@ -46,10 +54,9 @@ $(document).ready(function () {
 			dataType:"json", //리턴 데이터 타입
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
-				$.each(data, function event(index, item) {
-					var re_list = '';						
+				$.each(data, function(index, item) {
+					var re_list = '';					
 					var i = item.review_star;
-					
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="3">';   
@@ -75,17 +82,18 @@ $(document).ready(function () {
 							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
 							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 						}
-					}									
+					}
+										
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
-					re_list += '<tr><td colspan="3" id="test1"><input id = "heart'+index+'" type="button" name="Review_like'+index+'">'+item.review_like+'</td></tr>';
+					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
 					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
 					$('#re_list').append(re_list);	
 					
-					
-					$(document).on('click', '#heart'+index+'', function(event) {
+					/* $('#heart'+index+'').click(function () { */
+					$(document).on('click', '#heart'+index+'', function () {
 				        var that = $('#heart'+index+'');
 				        var sendData = {'review_num' : item.review_num, 'review_like' : item.review_like};
 				        console.log(sendData);				        
@@ -93,25 +101,21 @@ $(document).ready(function () {
 				            url:'/setak/heart.do',
 				            type:'POST',
 				            data:sendData,
-							dataType:"json",
+							dataType:"json", 
 							contentType:'application/x-www-form-urlencoded; charset=utf-8',				            
 							success: function(data){
-								
-								console.log(data+"값 잘 넘김  ");
-								$('#heart'+index+'').val(item.review_like);
-								location.reload();			            	
-				            	//$('#heart'+index+'').append("DB"+item.review_like);			            					            	
-				            	
-				            	
+				            	console.log(data+"값 잘 넘김  "); //review_like
+				            	$('#heart'+index+'').attr(item.review_like);
+				            	window.location.reload();
+				            
 				            },
 				            error:function() {
 								alert("ajax통신 실패!!!");
-							}							
+							}
+							
 				        });
-				        
-				        
 				    });
-					
+			
 				});
 														
 			},
@@ -130,6 +134,18 @@ $(document).ready(function () {
 selectData();	
 });
 
+//검색
+function check() {
+    if (document.search.keyWord.value == "") {
+        alert("검색어를 입력하세요.");
+        document.search.keyWord.focus();
+        return;
+    }
+    document.search.submit();
+   
+}	
+
+
 
 </script>	
 </head>
@@ -140,10 +156,13 @@ selectData();
 <div class="title-text"><h2><a href="javascript:history.go(0)">리뷰 </a></h2></div>
 <div class="review">
 
+<!-- 레이아웃 팝업  -->
+<a href="#" class="open">리뷰작성</a>
+<div id="re_layer">
 <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
+<h2>세탁곰 리뷰 작성</h2>
 <div class="r_content">
-
-	<p style="margin-bottom:5px;">사용자 평점</p> <!-- input 안에 넣어야 한다.  -->
+	<p style="margin-bottom:5px;">사용자 평점</p> 
 	<a class="starR1 on" value="1" >별1_왼쪽</a>
     <a class="starR2" value="2">별1_오른쪽</a>
     <a class="starR1" value="3">별2_왼쪽</a>
@@ -154,16 +173,15 @@ selectData();
     <a class="starR2" value="8">별4_오른쪽</a>
     <a class="starR1" value="9">별5_왼쪽</a>
     <a class="starR2" value="10">별5_오른쪽</a>     
-   	<input type="number" id="Review_star" name="Review_star">
-   	<input type="number" id="Review_like" name="Review_like" value="0">
-   	
+   	<input type="hidden" id="Review_star" name="Review_star" value="">
+   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
 </div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
-    <tr><td colspan="7"><textarea name="Review_content" rows="10" cols="140" style="resize:none; padding-top:-10px;"></textarea></td></tr>
+    <tr><td colspan="7"><textarea name="Review_content" placeholder="궁금하신 사항을 입력해 주세요"></textarea></td></tr>
     <tr><td width="40px" ><input name="Review_photo" type="file"/></td>                          
         <td width="40px">
-        	<select name="Review_kind">
+        	<select name="Review_kind" class="">
            		<option value="">분류</option>
                 <option value="세탁">세탁</option>
                 <option value="세탁-수선">세탁-수선</option>
@@ -171,22 +189,45 @@ selectData();
                 <option value="수선">수선</option>
                 <option value="보관">보관</option>
                 <option value="정기구독">정기구독</option>
-           </select></td>
-        <!-- <td><input type="button" class="Review_like" name="Review_like"></td> -->
-        		<!-- 공감/비공감 후 일정시간 동안 추가적인 공감/비공감을 제한하고 있습니다. -->           
+           </select></td>           
 		<td align="right"  colspan="4">
 			<button onclick="javascript:reviewform.submit()">등록</button>
+			<!-- <button onclick="javascript:reviewform.submit()">등록</button> -->
 			<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
 	</tr></table>
-</form><br><br>     
-<!--리뷰 리스트 (ajax) -->        
+</form>
+<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+</div>
+<div class="dim"></div><br><br>     
 
-<form class="re2">
+      
+<!-- 글 분류 -->
+<div class="re2">
 <strong id="re2h">리뷰  <%=maxnum %>개</strong>
+<select name="" class="">
+    <option value="최신">최신</option>
+    <option value="별점">별점</option>
+    <option value="제목">제목</option>
+    <option value="작성자">작성자</option>
+    <option value="작성일">작성일</option>
+</select>
+
+<!-- 검색 -->
+<form action="reviewSearch.do" name="search" method="post">
+<select name="keyField" size="1">
+	<option value="member_id" <c:if test="${'member_id'==keyField }"> selected</c:if>> 이름 </option>
+	<option value="review_content" <c:if test="${'review_content'==keyField }"> selected</c:if>> 내용 </option>
+</select>
+<input type="text" size="16" name="keyWord" value="${keyWord }">
+<input type="button" value="검색" onClick="check()">
+<input type="hidden" name="page" value="0">   
+</form>    
+
+
+<!--리뷰 리스트 (ajax) -->  
 <table id="re_list" class="re2_t1"></table>
 
-
-</form>
+</div>
 
 </div></div>
 </section>

@@ -7,6 +7,13 @@ public class ReviewVO
 	private String review_kind;
 	private Double review_star;
 	private String review_content;
+	//private String 
+	
+	
+	
+	
+	
+	
 	public String getReview_date() {
 		return review_date;
 	}

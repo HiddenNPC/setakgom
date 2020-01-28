@@ -29,6 +29,13 @@
 		INSERT INTO review VALUES (#{review_num},#{member_id,},#{review_kind},#{review_star},
 		#{review_content},#{review_like},#{review_photo, jdbcType=VARCHAR}, sysdate ) 
 	</insert>
+	<!-- 
+	<select id="reviewList" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
+		select * from review where #{review_content} like ('%', #{keyword}, '%') order by review_date desc    		
+	</select>
+	 -->
+	
+	
 
 	<!--  
 	관리자용 
