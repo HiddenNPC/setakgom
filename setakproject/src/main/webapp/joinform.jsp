@@ -95,12 +95,13 @@
 				<ul id = "auth_ul"> 
 					<li>
 					<span class = "input">
-						<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
+						<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
+						<input class="button" type="button" value="인증번호 확인" style="width: 120px;" />
 						<span id = "timer"></span>
 					</span>
 					</li>
 				</ul>
-					<h4>인증번호를 확인해주세요</h4>
+					<h4>인증번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
 					<input type="text" name="member_email" id="member_email" placeholder="이메일">
@@ -209,10 +210,28 @@
         	};
       	});
 		
+		//랜덤함수 생성
+ 		randomnum = function() {
+			var array = new Uint32Array(1);
+			window.crypto.getRandomValues(array);
+			var num = array[0] + "";
+			var rnum = num.substring(0,6);
+			console.log(rnum);
+
+			/* for (var i = 0; i < array.length; i++) {
+			    console.log(array[i]);
+			} */
+			
+			return rnum;
+		}
+		
+		//문자보내기
 		$("#authbtn").click(function(event){
+			var random = randomnum();
+			
 			var phonenum = $("#member_phone").val();
 			
-			var allData = { "pn": phonenum };
+			var allData = { "pn": phonenum , "randomnum": random };
 			
 			$.ajax({
                 type: "POST",

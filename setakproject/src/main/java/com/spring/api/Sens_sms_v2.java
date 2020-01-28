@@ -28,8 +28,8 @@ public class Sens_sms_v2 {
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
 		String requestUrl= "/sms/v2/services/";                   		// 요청 URL
 		String requestUrlType = "/messages";                      		// 요청 URL
-		String accessKey = "hl1BnDwWlEX9KcAGKYpd";                     		// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키
-		String secretKey = "vEnfUJQ41Loi0pkvRSH70RawQzSkhWxlps5VEA52";                    		// 2차 인증을 위해 서비스마다 할당되는 service secret
+		String accessKey = "tdFjVbQH7F6jzIIG4EQ0";                     		// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키
+		String secretKey = "RH7Zp14FFDivW7Yp3LpLtzBa5W1nDImu4G4iewdB";                    		// 2차 인증을 위해 서비스마다 할당되는 service secret
 		String serviceId = "ncp:sms:kr:257922917697:setakgom";                     		// 프로젝트에 할당된 SMS 서비스 ID
 		String method = "POST";											// 요청 method
 		String timestamp = Long.toString(System.currentTimeMillis()); 	// current timestamp (epoch)
@@ -41,7 +41,7 @@ public class Sens_sms_v2 {
 				"  \"type\": \"sms\",\r\n" + 		
 				"  \"contentType\": \"comm\",\r\n" + 
 				"  \"countryCode\": \"82\",\r\n" + 
-				"  \"from\": \"01049656245\",\r\n" + 
+				"  \"from\": \"01027561533\",\r\n" + 
 				"  \"content\": \""+msgtext+"\",\r\n" + 
 				"  \"messages\": [\r\n" + 
 				"    {"  +
