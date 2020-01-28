@@ -149,7 +149,7 @@
 					<li>
 					<span class = "input">
 						<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
-						<input class="button" type="button" value="인증번호 확인" style="width: 120px;" />
+						<input id="smsbtn" class="button" type="button" value="인증번호 확인" style="width: 120px;" />
 						<span id = "timer"></span>
 					</span>
 					</li>
@@ -229,6 +229,8 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
+         var authchk = "0";
+         
          
          //생년월일
 		$(".birthday").datepicker ({
@@ -278,9 +280,11 @@
 			return rnum;
 		}
 		
+ 		var random = randomnum();
+ 		var AuthTimer = new $ComTimer();
 		//문자보내기
 		$("#authbtn").click(function(event){
-			var random = randomnum();
+			random = randomnum();
 			
 			var phonenum = $("#member_phone").val();
 			
@@ -292,9 +296,8 @@
                 data: allData,
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 dataType: 'json',
-
+                
                 success: function (data) {
-                	var AuthTimer = new $ComTimer()
         			AuthTimer.comSecond = 179;
         			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
         			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
@@ -359,14 +362,21 @@
 			}
 			
 	 	});
-	  //SNS일치 체크???????????
-	$(document).on("propertychange change keyup paste","#member_sns",function(){
-		if(!phReg.test($(this).val())){
-			$(".joinform div:nth-child(6) h4").css("display","block");
-		} else {
-			$(".joinform div:nth-child(6) h4").css("display","none");
+	  //인증번호 확인
+	$(document).on("click","#smsbtn",function(){
+		if($("#member_sns").val()==random){
+			console.log("인증성공");
+			AuthTimer.fnStop();
+			AuthTimer.domId = "";
+			document.getElementById('timer').innerHTML = "";
+			$("#authbtn").attr('disabled', false);
+		}else{
+			console.log("인증실패");
+			AuthTimer.fnStop();
+			AuthTimer.domId = "";
+			document.getElementById('timer').innerHTML = "";
+			$("#authbtn").attr('disabled', false);
 		}
-		
  	});
 	  
 	  //이메일체크V

@@ -20,8 +20,6 @@ public class NaverController {
 		System.out.println(ip);
 		String r = request.getParameter("randomnum");
 		System.out.println(r);
-		String ab = request.getParameter("pn");
-		System.out.println(ab);
 		
 		sms.setPhonenumber(request.getParameter("pn"));
 		sms.setMsgtext("인증번호는 " + request.getParameter("randomnum") + " 입니다.");
