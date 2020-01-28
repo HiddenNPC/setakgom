@@ -93,5 +93,18 @@ public class OrderServiceImpl implements OrderService  {
 		
 		return ordersList;
 	}
+
+	@Override
+	public int getOrderPrice(OrderListVO olv) {
+		int price = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			price = orderMapper.getOrderPrice(olv);
+		} catch(Exception e) {
+			System.out.println("결제 금액 검색 실패 " + e.getMessage());
+		}
+		
+		return price; 
+	}
 	
 }

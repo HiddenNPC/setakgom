@@ -101,7 +101,7 @@ public class OrderController {
 			
 			int havePoint = mileageService.getSum(member_id);
 			
-			ArrayList<CouponVO> couponList = couponService.getCouponList(member_id);
+			ArrayList<CouponVO> couponList = couponService.getAbleCouponList(member_id);
 			int haveCoupon = couponService.getCouponCount(member_id);
 
 			model.addAttribute("haveCoupon", haveCoupon);
@@ -188,18 +188,27 @@ public class OrderController {
 	@RequestMapping(value = "/orderSuccess.do")
 	public String orderSuccess(HttpServletRequest request, Model model) {
 		
+		String member_id = "bit"; 
+		
 		long order_num = Long.parseLong(request.getParameter("order_num"));
+
 		OrderListVO olv = new OrderListVO();
 		olv.setOrder_num(order_num);
+		
 		List<OrderListVO> orderList = orderService.getOrderList(olv);
 		
 		List<WashingVO> washingList = new ArrayList<WashingVO>();
 		List<MendingVO> mendingList = new ArrayList<MendingVO>();
 		List<KeepVO> keepList = new ArrayList<KeepVO>();
 		
+		List<WashingVO> washingList2 = new ArrayList<WashingVO>();
+		List<MendingVO> mendingList2 = new ArrayList<MendingVO>();
+		List<KeepVO> keepList2 = new ArrayList<KeepVO>();
+		
 		for(int i = 0; i < orderList.size(); i++) {
 			
 			OrderListVO ovo = orderList.get(i);
+	
 			
 			if(ovo.getWash_seq() != 0) {
 				WashingVO wvo = new WashingVO();
@@ -220,27 +229,38 @@ public class OrderController {
 			}
 		}
 		
+
 		for(int i = 0; i < washingList.size(); i++) {
 			int wash_seq = washingList.get(i).getWash_seq();
 			WashingVO wvo = cartService.getWashingList(wash_seq);
-			washingList.add(i, wvo);
-		}
+			washingList2.add(wvo);
+		}		
 		
 		for(int i = 0; i < mendingList.size(); i++) {
 			int repair_seq = mendingList.get(i).getRepair_seq();
 			MendingVO mvo = cartService.getMendingList(repair_seq);
-			mendingList.add(i, mvo);
-		}
-		
+			mendingList2.add(mvo);
+		}		
+	
 		for(int i = 0; i < keepList.size(); i++) {
 			int keep_seq = keepList.get(i).getKeep_seq();
 			KeepVO kvo = cartService.getKeepList(keep_seq);
-			keepList.add(i, kvo);
-		}
+			keepList2.add(kvo);
+		}				
 		
-		model.addAttribute("washingList", washingList);
-		model.addAttribute("mendingList", mendingList);
-		model.addAttribute("keepList", keepList);
+		// 장바구니 비우기
+		orderService.deleteWashCartbyID(member_id);
+		orderService.deleteMendingCartbyID(member_id);
+		orderService.deleteKeepCartbyID (member_id);
+		
+		int price = orderService.getOrderPrice(olv);
+		
+		model.addAttribute("washingList", washingList2);
+		model.addAttribute("mendingList", mendingList2);
+		model.addAttribute("keepList", keepList2);
+		model.addAttribute("price", price);
+		
+		
 		
 		return "order_success";
 		
@@ -249,7 +269,8 @@ public class OrderController {
 	// 주문 정보 입력
 	@RequestMapping(value = "/insertOrder.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value="usePoint") String usePoint) {
+	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value="usePoint") String usePoint, String[] useCoupon) {
+		
 		
 		String member_id = "bit"; 
 
@@ -315,6 +336,7 @@ public class OrderController {
 		int keep_size = list.size();
 		
 		int big = (wash_size>repair_size)&&(wash_size>keep_size)?wash_size:(keep_size>repair_size?keep_size:repair_size);
+		
 
 		List<OrderListVO> orderList = new ArrayList<OrderListVO>();
 		
@@ -345,6 +367,7 @@ public class OrderController {
 			orderList.add(olv);
 		}
 		
+
 		// 주문날짜, 적립금 사용 날짜
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm");
@@ -356,24 +379,17 @@ public class OrderController {
 		ovo.setOrder_date(date);
 		ovo.setOrder_delete(0);
 		
+		
 		// 주문 테이블 DB 추가
-		int res = orderService.insertOrder(ovo);
-
+		int res = orderService.insertOrder(ovo);				
 
 		for(int i = 0; i < orderList.size(); i++) {
 			OrderListVO olv = orderList.get(i);
 			orderService.insertOrderList(olv);
-		}
-		
-		
-		// 장바구니 비우기
-		orderService.deleteWashCartbyID(member_id);
-		orderService.deleteMendingCartbyID(member_id);
-		orderService.deleteKeepCartbyID (member_id);
+		}		
 
 		// 사용 적립금 차감 
 		if(usePoint != "") {
-			System.out.println("usePoint 들어옴");
 			MileageVO mvo = new MileageVO();
 			int point = Integer.parseInt(usePoint) * (-1);
 			mvo.setMember_id(member_id);
@@ -383,6 +399,15 @@ public class OrderController {
 			
 			mileageService.useMileage(mvo);
 			
+		}
+		
+		// 사용 쿠폰 소멸 
+		if(useCoupon != null) {
+						
+			for(int i = 0; i < useCoupon.length; i++) {
+				int coupon_seq = Integer.parseInt(useCoupon[i]);
+				couponService.useCoupon(coupon_seq);
+			}
 		}
 		
 		return ovo;

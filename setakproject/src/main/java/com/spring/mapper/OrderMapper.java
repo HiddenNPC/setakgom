@@ -20,5 +20,7 @@ public interface OrderMapper {
 	int insertOrderList(OrderListVO olv);
 	// 주문 목록 시퀀스 읽기
 	ArrayList<OrderListVO> getOrderList(OrderListVO olv);
+	// 결제 금액 
+	int getOrderPrice(OrderListVO olv); 
 
 }

@@ -232,7 +232,7 @@ input#point_price {
 	display : none;
 	position : fixed;
 	width : 60%;
-	height : 50%;
+	height : 400px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

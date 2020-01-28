@@ -27,7 +27,7 @@
 		
 	<!-- 배송지 추가 -->
 	<insert id = "insertAddress" parameterType = "com.spring.setak.AddressVO">
-		insert into address values(#{address_num}, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
+		insert into address values(address_seq.nextval, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
 	</insert>
 	
 	<!-- 배송지 삭제 -->

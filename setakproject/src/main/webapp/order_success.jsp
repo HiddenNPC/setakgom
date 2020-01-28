@@ -13,7 +13,7 @@
 	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
 	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
 	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
-
+	int price = (int) request.getAttribute("price");
 %>
 <!DOCTYPE html>
 <html>
@@ -28,10 +28,17 @@
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
-         $("#footer").load("footer.jsp")  
+         $("#footer").load("footer.jsp")
+         
+         var price = '<%=price%>'; 
+         $("#pay_price").html(numberFormat(price));
       });
       	
-      // 총 주문 금액은 뭔가 DB에서 읽어와야 될거 같은데 그런데가 없음.. 
+  	// 콤마      
+      function numberFormat(inputNumber) {
+  		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+     	
      	
     </script>
 </head>
@@ -58,7 +65,7 @@
 			
 			<table class = "order_success_table">
 				<thead>
-					<th colspan = "5" align = "left"> &nbsp; &nbsp; 주문 상품 확인 (총 83,000원)</th>
+					<th colspan = "5" align = "left"> &nbsp; &nbsp; 주문 상품 확인 (총 <span id = "pay_price"></span>원)</th>
 				</thead>
 				<tbody align = "center">
 					<tr>
@@ -119,7 +126,7 @@
 		                  </tr>   
                   		<% } else { %>
                   		<tr></tr>
-                  		<%} %>			
+                  		<%} %>					
 				</tbody>
 			</table>
 			

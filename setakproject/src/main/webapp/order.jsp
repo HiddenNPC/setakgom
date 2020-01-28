@@ -432,6 +432,16 @@
 		
 		var usePoint = $("#usePoint").val(); 
 		
+		var checkbox = $("input[name=checkCoupon]:checked");
+		var useCoupon = []; 
+		
+ 		checkbox.each(function(){
+ 			var seq = $(this).attr('id');
+ 			console.log(seq); 
+ 			useCoupon.push(seq);   				
+ 		});
+
+		
 		// 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
 		/*
 		if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
@@ -465,6 +475,7 @@
                 jQuery.ajax({
                     url: "/setak/insertOrder.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
                     type: 'POST',
+         			traditional : true,
                     dataType: 'json',
                     data: {
                         imp_uid : rsp.imp_uid,
@@ -479,7 +490,7 @@
                         'order_request' : request, 
                         'order_zipcode' : postcode,
                         'usePoint' : usePoint,
-                        
+                        'useCoupon' : useCoupon
                         //기타 필요한 데이터가 있으면 추가 전달
                     },
                     success : function(data) {
@@ -706,7 +717,6 @@
 		
 		var params = {
 				'member_id' : 'bit',
-				'address_num' : 5, 
 				'address_name' : addrName,
 				'address_human' : name, 
 				'address_phone' : phone,
@@ -865,6 +875,9 @@
             
             var orderPrice = parseInt($('#order_price').text().replace(",",""));            
             $('#product_price').html(numberFormat(orderPrice+'원'));
+            
+            var deliPrice = parseInt($('#delivery_price').text().replace(",","").slice(0, -1));            
+            $('#deli_price').html(numberFormat(deliPrice+'원'));
             
             var couponSalePrice = parseInt($('#coupon_sale_price').text().replace(",",""));
             $('#coupon_price').html(numberFormat(couponSalePrice+'원'));
@@ -1241,11 +1254,13 @@
 										KeepVO kvo = keepList.get(0);
 										if(kvo.getKeep_wash() == 0) {
 											%>
-											<li><input type="checkbox" name="checkCoupon" value = "9500" /><%=coupon.getCoupon_name() %></li>
+											<li><input type="checkbox" name="checkCoupon" value = "9500" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
 										<% } else { %> 
-											<li><input type="checkbox" name="checkCoupon" value = "9000" /><%=coupon.getCoupon_name() %></li>
+											<li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
 										<%} 
-									}
+									} else { %>
+										<p>적용 가능한 쿠폰이 없음</p>
+									<% }
 								}
 						} %>
 					</ul>
@@ -1257,6 +1272,10 @@
 							<tr>
 								<td class = "pLeft_col">상품금액</td>
 								<td class = "pRight_col"><span id = "product_price"></span></td>
+							</tr>
+							<tr>
+								<td class = "pLeft_col">배송비</td>
+								<td class = "pRight_col"><span id = "deli_price"></span></td>
 							</tr>
 							<tr>
 								<td class = "pLeft_col">쿠폰 할인금액</td>

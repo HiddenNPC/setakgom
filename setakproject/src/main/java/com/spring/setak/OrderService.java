@@ -13,4 +13,6 @@ public interface OrderService {
 	
 	public int insertOrderList(OrderListVO olv);
 	public ArrayList<OrderListVO> getOrderList(OrderListVO olv);
+
+	public int getOrderPrice(OrderListVO olv);
 }

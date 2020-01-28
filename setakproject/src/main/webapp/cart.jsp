@@ -76,17 +76,12 @@
          			var tr = checkbox.parent().parent();
          			var type = $(this).val().substr(0, 1); 
          			var seq = $(this).val().substr(1, $(this).val().length);
-         			
-         			console.log('type : ' + type); 
-         			
+         			         			
          			if(type == 'w') {
-         				console.log('w' + seq);
          				washSeqArr.push(seq);   				
          			}else if (type == 'r') {
-         				console.log('r' + seq);
          				repairSeqArr.push(seq);
          			}else {
-         				console.log('k' + seq);
          				keepSeqArr.push(seq);
          			}
       

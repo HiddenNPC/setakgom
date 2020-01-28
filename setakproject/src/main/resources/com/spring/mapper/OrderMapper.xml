@@ -76,6 +76,12 @@
 	<!-- 주문 목록 시퀀스 읽어오기 -->
 	<select id = "getOrderList" parameterType = "com.spring.setak.OrderListVO" resultMap = "OrderListResultMap">
 		select * from orderlist where order_num = #{order_num}
+	</select>
+	
+	<!-- 결제 금액 읽어오기 -->
+	<select id = "getOrderPrice" parameterType = "com.spring.setak.OrderListVO" resultType = "int">
+		select order_price from memberorder where order_num = #{order_num}
 	</select>	
+
 			
 </mapper>
