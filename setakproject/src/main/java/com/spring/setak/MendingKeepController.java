@@ -19,11 +19,6 @@ public class MendingKeepController {
 	@Autowired()//required = false
 	private MendingKeepService mendingKeepService;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		
-		return "main";
-	}
 	
 	@RequestMapping("/history.do")
 	public String history() {

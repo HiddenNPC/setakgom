@@ -66,6 +66,7 @@
 	<div id="container">
 		<nav>
 			<div class="content">
+
 				<div>
 					<ul class="logo">
 						<li><img src="images/logo.png" alt="로고"></li>

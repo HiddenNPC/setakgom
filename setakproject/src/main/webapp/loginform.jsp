@@ -52,11 +52,13 @@ $(document).ready(function(){
    		$(".popup2").css("display","none"); 
     });
     
-    /*클릭시 사이트이동*/
-    $(".join").click(function(event){
-    	$(location.href="/setak/joinform.jsp");
-    });
     
+    /*회원가입 클릭*/
+    $(".btn_join").click(function(event){
+    	$(location.href="/setak/join.do");
+    });
+        	
+    /*클릭시 사이트이동*/
     $(".kakao").click(function(event){
     	$(location.href="/setak/joinform.jsp");
     });
@@ -115,7 +117,7 @@ var startApp = function() {
 	
 	<section id="test">	<!-- id 변경해서 사용하세요. -->
 		<div class="content">	<!-- class 변경해서 사용하세요. -->
-			<form name="loginform" action="logintest.do" method="post">
+			<form name="loginform" action="loginpro.do" method="post">
 			<div class="loginform"> <!-- class 변경해서 사용하세요. -->
 				<div>					
 					<input class="txtln" type="text" name="member_id" placeholder="아이디" />
@@ -130,7 +132,7 @@ var startApp = function() {
 				<div class="find">
 					<div class="find_id">아이디찾기</div>
 					<div class="find_pw">비밀번호찾기</div>
-					<div onclick="document.location.href='./join.do'">회원가입</div>
+					<div class="btn_join">회원가입</div>
 				</div>
 				<div class="extra">
 					<h4>다른서비스계정으로 로그인</h4>

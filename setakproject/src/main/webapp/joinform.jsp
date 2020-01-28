@@ -20,6 +20,59 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		
+		/*회원가입 버튼 클릭*/
+		$('#join').on('click', function(event){
+	        
+			
+            var address = $("#address").val();
+            var detailAddress = $("#detailAddress").val();
+            var addr = address + '!' + detailAddress;
+            
+            if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
+            	$("#member_password").val() == '' || $("#pw2").val() == '' || 
+            	$("#member_phone").val() == ''|| $("#member_sns").val() == '' || 
+            	$("#member_email").val() == '' || $("#member_gender").val() == "성별" ||  
+            	$("member_birthday").val() == '' || $("#member_zipcode").val() == '' ||
+            	($("#clause_use").is(":checked")==false) ||($("#clause_privacy").is(":checked")==false)
+            	
+             ) {
+    			alert("빠짐없이 기입해 주세요");
+    			return; 
+    		};
+    		
+            var params = {
+                     'member_name':$("#member_name").val(),
+                     'member_id':$("#member_id").val(),
+                     'member_password':$("#member_password").val(),
+                     'member_phone':$("#member_phone").val(),
+                     'member_email':$("#member_email").val(),
+                     'member_gender':$("#member_gender").val(),
+                       'member_birthday':$("#member_birthday").val(),
+                     'member_zipcode':$("#member_zipcode").val(),
+                     'member_loc':addr
+            };
+           
+            $.ajax({
+     			url : '/setak/insertMember.do',
+     			type:'post',
+     			data : params,
+     			dataType:'json',
+    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+     			success: function(result) {
+     			if(result.res=="OK") {            
+     				$(location.href="/setak/login.do");
+     			}
+     			else { // 실패했다면
+    			 alert("Insert Fail");
+     			}
+     		},
+     		error:function() {
+     		alert("insert ajax 통신 실패");
+     		}           
+            });
+            
+        });
+		
 		/*아이디중복확인*/
 		$("#member_id").keyup(function(){
 			
@@ -153,7 +206,7 @@
 				
 			</div>
 			<div class="join_btn">
-				<input id="join" class="btn" type="button" value="가입하기" />
+				<input id="join" class="btn" type="button" value="가입하기"  />
 			</div>
 		</form>
 	</div><!-- content -->

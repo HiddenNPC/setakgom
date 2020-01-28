@@ -12,6 +12,7 @@
 					<li><a href="./" class ="logo_a"><img src="images/logo2.png" alt="로고"></a></li>
 				</ul>
 				<ul class="main-nav">
+
 				<%
 					if(session.getAttribute("id")==null){
 				%>
@@ -24,6 +25,7 @@
 					<li><a href="./orderview.do">마이페이지</a></li>
 					<li><a href="./cart.do">장바구니</a></li>
 				<%} %>
+
 				</ul>
 			</div>
 			<div class="content">

@@ -1,9 +1,11 @@
 package com.spring.member;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +19,52 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberservice;
+	
+	@RequestMapping (value="main.do",produces = "application/json; charset=utf-8")
+	public String main() {
+		return "main";
+	}
 
 	// 로그인버튼 클릭시 로그인페이지으로 이동
 	@RequestMapping(value = "login.do", produces = "application/json; charset=utf-8")
 	public String loginform() {
 		return "loginform";
 	}
-
-	// 로그인되면 메인으로 이동
-	@RequestMapping(value = "main.do", produces = "application/json; charset=utf-8")
-	public String main() {
-		return "main";
+ 
+	//로그인
+	@RequestMapping(value="loginpro.do", produces = "application/json; charset=utf-8")
+	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		
+		 int res = memberservice.member_password(mo);
+		 System.out.println("mo id : " + mo.getMember_id() + "mo pass : " + mo.getMember_password());
+		
+		 if(res == 1) {
+			 session.setAttribute("member_id", mo.getMember_id());
+			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
+			 System.out.println("성공");
+		 } else {
+			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
+			 System.out.println("로그인실패");
+			 return "loginform";
+		 }
+		
+		 return "main";
+			
 	}
 
+	//로그아웃
+	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
+	public String logout(HttpSession session, MemberVO mo) throws Exception {
+		session.removeAttribute("member_id");
+
+		return "loginform";
+		
+	}
+	
+	    
 	// 회원가입 클릭 (메인, 로그인페이지)
 	@RequestMapping(value = "join.do", produces = "application/json; charset=utf-8")
 	public String join() {
@@ -42,7 +77,7 @@ public class MemberController {
 	  @RequestMapping(value="chk_id.do", produces = "application/json; charset=utf-8")
 	  @ResponseBody 
 	  public Map<String, Object> check_id(HttpServletRequest request,MemberVO mo) {
-		 System.out.println("컨트롤러mo="+mo.getMember_id());
+	  //	 System.out.println("컨트롤러mo="+mo.getMember_id());
 	  Map<String,Object> result = new HashMap<String, Object>(); 
 
 		  int res = memberservice.member_id(mo);
@@ -65,6 +100,7 @@ public class MemberController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			int res = memberservice.member_insert(mo);
+			System.out.println("회원가입성공 id="+mo.getMember_id());
 			result.put("res", "OK");
 		} catch (Exception e) {
 			result.put("res", "FAIL");
@@ -73,12 +109,7 @@ public class MemberController {
 		return result;
 	}
 
-	// 로그인테스트용 삭제될거임
-	@RequestMapping(value = "logintest.do", produces = "application/json; charset=utf-8")
-	public String logintest() {
-		return "logintest";
-	}
-
+	
 	// 개인정보 수정 클릭시 비밀번호 입력페이지로 이동
 	@RequestMapping(value = "profile1.do", produces = "application/json; charset=utf-8")
 	public String password() {
@@ -89,7 +120,7 @@ public class MemberController {
 	@RequestMapping(value = "chk_pw.do", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
-		// System.out.println("컨트롤러mo="+mo.getMember_password());
+		System.out.println("컨트롤러mo="+mo.getMember_password());
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		int res = memberservice.member_password(mo);
@@ -109,7 +140,7 @@ public class MemberController {
 	public String profile(HttpServletRequest request, Model model) {
 
 		HttpSession session = request.getSession();
-		String ids = (String) session.getAttribute("id");
+		String ids = (String) session.getAttribute("member_id");
 		// System.out.println("session="+ids);
 
 		MemberVO mvo = new MemberVO();

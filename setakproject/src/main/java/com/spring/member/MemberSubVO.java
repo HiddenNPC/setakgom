@@ -1,7 +1,5 @@
 package com.spring.member;
 
-import java.sql.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +8,12 @@ public class MemberSubVO {
 
    private String member_id;
    private int washcnt;
-   private int shirscnt;
+   private int shirtscnt;
    private int drycnt;
-   private int blanketcnt;
+   private int blacketcnt;
    private int deliverycnt;
-   private Date subs_start;
-   private Date subs_end;
+   private String subs_start;
+   private String subs_end;
    private String subsname;
    private int subsprice;
 }
