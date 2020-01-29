@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "com.spring.setak.*" %>
 <%@ page import = "java.util.*" %>
+<%@ page import = "java.text.*" %>
 <!DOCTYPE html>
 <%
 	ArrayList<WashingVO> wlist = (ArrayList<WashingVO>)request.getAttribute("wlist");
@@ -16,6 +17,14 @@
 		out.println("location.href='login.do'");
 		out.println("</script>");
 	}
+	
+	Date today = new Date();
+	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+	
+	Calendar start_cal = Calendar.getInstance();
+	Calendar end_cal = Calendar.getInstance();
+	start_cal.add(Calendar.DATE, 1);
+	end_cal.add(Calendar.DATE, 1);
 %>
 <html>
 <head>
@@ -31,7 +40,13 @@
 			//헤더, 푸터연결
 			$("#header").load("./header.jsp")
 			$("#footer").load("./footer.jsp")
-						
+			
+			//모바일에서 step 이미지 변경
+			var windowWidth = $(window).width();
+			if (windowWidth < 769) {
+				$('.step img').attr("src","images/ms3.png")
+			}
+			
 			//보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 			var monthclick = 0;
 			var price = parseInt(0);
@@ -112,7 +127,7 @@
 			$('.tot_price').html(numberFormat((parseInt(<%=wash_tprice%>))+(parseInt(<%=mending_tprice%>))));
 
 			//다음 눌렀을 때. member_id 체크는 자동로그아웃 됐을 경우를 생각해서 넣음.
-			 $(document).on('click','.gocart',function(event) {
+			$(document).on('click','.gocart',function(event) {
 				var member_id = "<%=session.getAttribute("member_id") %>";
 				if(member_id=="null"){
 					alert('로그인 후 이용 가능합니다.');
@@ -123,7 +138,7 @@
 					alert('보관하실 기간을 선택해주세요.');
 					return false;
 				}
-			 });
+			});
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -159,9 +174,9 @@
 				<form name="washingKeepform" action="./washingKeep.do" method="post" enctype="multipart/form-data">					
 					<div class="keep_month">
 						<ul class="s_keep">
-							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h5>10000원</h5><h1><span class="price">9500</span>원</h1><img src="images/sale.png" alt="세일"></li>
-							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h5>28000원</h5><h1><span class="price">27500</span>원</h1><img src="images/sale.png" alt="세일"></li>
-							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h5>55000원</h5><h1><span class="price">54500</span>원</h1><img src="images/sale.png" alt="세일"></li>
+							<li class="month"><h2>1개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,1);%><%=date.format(end_cal.getTime()) %></p><h5>10000원</h5><h1><span class="price">9500</span>원</h1><img src="images/sale.png" alt="세일"></li>
+							<li class="month"><h2>3개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,2);%><%=date.format(end_cal.getTime()) %></p><h5>28000원</h5><h1><span class="price">27500</span>원</h1><img src="images/sale.png" alt="세일"></li>
+							<li class="month"><h2>6개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,3);%><%=date.format(end_cal.getTime()) %></p><h5>55000원</h5><h1><span class="price">54500</span>원</h1><img src="images/sale.png" alt="세일"></li>
 							<li class="month"><h2>아니오</h2><h1><span class="price" style="display:none;">0</span></h1></li>
 						</ul>
 						<div class="keep_caution">

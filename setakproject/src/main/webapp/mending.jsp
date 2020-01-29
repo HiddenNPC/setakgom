@@ -50,6 +50,10 @@
 					}, 500);
 					return false;
 				});
+			} else {
+				$('.tab-list a').click(function() {
+					event.preventDefault();
+				});
 			}
 			
 			//치수 입력 시 폼에도 값 넘기기

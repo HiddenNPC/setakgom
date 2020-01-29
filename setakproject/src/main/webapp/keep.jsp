@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import ="java.util.*, java.text.*" %>
+<%
+	Date today = new Date();
+	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+	
+	Calendar start_cal = Calendar.getInstance();
+	Calendar end_cal = Calendar.getInstance();
+	start_cal.add(Calendar.DATE, 1);
+	end_cal.add(Calendar.DATE, 1);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +42,10 @@
 						scrollTop : $($.attr(this, 'href')).offset().top - 250
 					}, 500);
 					return false;
+				});
+			} else {
+				$('.tab-list a').click(function() {
+					event.preventDefault();
 				});
 			}
 			
@@ -338,9 +352,9 @@
 					
 					<div class="keep_month">
 						<ul>
-							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h1><span class="price">10000</span>원</h1></li>
-							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h1><span class="price">28000</span>원</h1></li>
-							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h1><span class="price">55000</span>원</h1></li>
+							<li class="month"><h2>1개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,1);%><%=date.format(end_cal.getTime()) %></p><h1><span class="price">10000</span>원</h1></li>
+							<li class="month"><h2>3개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,2);%><%=date.format(end_cal.getTime()) %></p><h1><span class="price">28000</span>원</h1></li>
+							<li class="month"><h2>6개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,3);%><%=date.format(end_cal.getTime()) %></p><h1><span class="price">55000</span>원</h1></li>
 						</ul>
 						<div class="keep_caution">
 							<p>※ 규격 안내 : - 월컴키트 안 세탁곰 규격 리빙박스(30L)가 기준입니다.</p>

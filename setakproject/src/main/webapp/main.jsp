@@ -12,63 +12,95 @@
 	<script type="text/javascript">
 		$(document).ready(function($) {
 			var windowWidth = $(window).width();
-			if (windowWidth > 767) {
-				$('#example1').sliderPro({
-					width : 1200,
-					height : 630,
-					arrows : true,
-					buttons : false,
-					waitForLayers : true,
-					thumbnailsPosition : 'top',
-					thumbnailWidth : 200,
-					thumbnailHeight :80,
-					thumbnailPointer : true,
-					autoplay : true,
-					autoScaleLayers : false,
-					breakpoints : {
-						500 : {
-							thumbnailWidth : 120,
-							thumbnailHeight : 50
+			slider = function() {
+				if (windowWidth > 767) {
+					$('#example1 , #example2, #example3').sliderPro({
+						width : 1200,
+						height : 630,
+						arrows : true,
+						buttons : false,
+						waitForLayers : true,
+						thumbnailsPosition : 'top',
+						thumbnailWidth : 200,
+						thumbnailHeight :80,
+						thumbnailPointer : true,
+						autoplay : true,
+						autoScaleLayers : false,
+						breakpoints : {
+							500 : {
+								thumbnailWidth : 120,
+								thumbnailHeight : 50
+							}
 						}
-					}
-				});
-			} else{
-				$('#example1').sliderPro({
-			
-					arrows : true,
-					buttons : false,
-					waitForLayers : true,
-					thumbnailsPosition : 'top',
-					thumbnailWidth : 200,
-					thumbnailHeight :80,
-					thumbnailPointer : true,
-					autoplay : true,
-					autoScaleLayers : false,
-					breakpoints : {
-						500 : {
-							thumbnailWidth : 120,
-							thumbnailHeight : 50
+					});
+				} else{
+					$('#example1 , #example2, #example3').sliderPro({
+				
+						arrows : true,
+						buttons : false,
+						waitForLayers : true,
+						thumbnailsPosition : 'top',
+						thumbnailWidth : 200,
+						thumbnailHeight :80,
+						thumbnailPointer : true,
+						autoplay : true,
+						autoScaleLayers : false,
+						breakpoints : {
+							500 : {
+								thumbnailWidth : 120,
+								thumbnailHeight : 50
+							}
 						}
-					}
-				});
+					});
+				}
 			}
+			slider();
 
 			$(".tab").on("click", function() {
 				$(".tab").removeClass("active");
 				$(".tab-content").removeClass("show");
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
+				slider();
 			});
+			$("nav_open div a").on("click", function(){
+				$("nav_open div a").removeClass("click");
+				$(this).addClass("click");
+			})
 		});
 	</script>
 </head>
 <body>
 	<div id="container">
+		<div class="nav_open">
+			<div>
+				<a href="./" class="click"><i class="fas fa-home"></i></a>
+				<a><i class="fas fa-bars"></i></a>
+				<%
+					if(session.getAttribute("member_id")==null){
+				%>
+				<a href="./login.do"><i class="fas fa-shopping-cart"></i></a>
+				<%
+					} else {
+				%>
+				<a href="./cart.do"><i class="fas fa-shopping-cart"></i></a>
+				<%
+					}
+				%>
+				<a href="./login.do"><i class="fas fa-user"></i></a>
+			</div>
+		</div>
+		<div class="nav_close"><i class="fas fa-times"></i></div>
+		<div class="mobile_text">
+			<h1>Wash</h1>
+			<h1>Life</h1>
+			<h1>Balance</h1>
+		</div>
 		<nav>
 			<div class="content">
 				<div>
 					<ul class="logo">
-						<li><img src="images/logo.png" alt="로고"></li>
+						<li><a href="./" class ="logo_a"><img src="images/logo.png" alt="로고"></a></li>
 					</ul>
 					<ul class="main-nav">
 					<%
@@ -169,13 +201,87 @@
 						</div>
 					</div>
 					<div id="two" class="tab-content">
-					Assumenda natus, debitis at
-					non tenetur nam dignissimos id alias neque vero illo eius quidem
-					quaerat, animi voluptas repellat quis. Tenetur, rem.
+						<div id="example2" class="slider-pro">
+							<div class="sp-thumbnails">
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">1. 카테고리 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">2. 치수 밑 데이터 입력</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">3. 수량, 택 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">4. 장바구니</div>
+								</div>
+							</div>
+							<div class="sp-slides">
+								<div class="sp-slide">
+									<img class="sp-image" src="images/mending1.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image" src="images/mending2.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image" src="images/mending3.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
+								</div>
+							</div>
+						</div>
 					</div>
 					<div id="three" class="tab-content">
-						Lnon cum minima delectus
-						quas excepturi quia temporibus.
+						<div id="example3" class="slider-pro">
+							<div class="sp-thumbnails">
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">1. 카테고리 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">2. 치수 밑 데이터 입력</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">3. 수량, 택 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">4. 장바구니</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">5. 세탁 진행</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">6. 빨래 끝</div>
+								</div>
+							</div>
+							<div class="sp-slides">
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image1_large.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image2_large.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image3_large.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image5_large.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image"
+										src="http://bqworks.com/slider-pro/images/image6_large.jpg" />
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -217,27 +323,28 @@
 	</div>
 	<script>
 		$(function() {
-			//스크롤에따라 네비게이션 보이고 안보이고 
-			$(window).scroll(function() {
-				if ($(window).scrollTop() >= $("#use-area").position().top) {
-					$("nav").css('display', 'none');
-				}
-				if ($(window).scrollTop() <= $("#use-area").position().top) {
-					$("nav").css('display', 'block');
-				}
-			});
-			
-			//커뮤니티 메뉴 hover시.
-			$(".sub-nav > li:last-child").hover(function () {
-	            $(".sub-nav-sub").css('display', 'block');
-	        },
-	        function() {
-	            $(".sub-nav-sub").css('display', 'none');
-	        });
-			
-			//화면 너비 769초과일 때 세탁,수선,보관 탭 누르면 탭 위로 위치 자동으로 가게 해줌.
 			var windowWidth = $(window).width();
 			if (windowWidth > 769) {
+				
+				//스크롤에따라 네비게이션 보이고 안보이고 
+				$(window).scroll(function() {
+					if ($(window).scrollTop() >= $("#use-area").position().top) {
+						$("nav").css('display', 'none');
+					}
+					if ($(window).scrollTop() <= $("#use-area").position().top) {
+						$("nav").css('display', 'block');
+					}
+				});
+				
+				//커뮤니티 메뉴 hover시.
+				$(".sub-nav > li:last-child").hover(function () {
+		            $(".sub-nav-sub").css('display', 'block');
+		        },
+		        function() {
+		            $(".sub-nav-sub").css('display', 'none');
+		        });
+
+				//화면 너비 769초과일 때 세탁,수선,보관 탭 누르면 탭 위로 위치 자동으로 가게 해줌.
 				$('a').click(function() {
 					$('html, body').animate({
 						scrollTop : $($.attr(this, 'href')).offset().top - 150
@@ -260,6 +367,30 @@
 						scrollTop : 0
 					}, 500);
 				});
+			} else{
+				
+				//nav 보이게, 안보이게. 
+				$('.nav_open div a:nth-child(2)').click(function(){
+					$("nav").fadeIn(300);
+					$(".nav_close").fadeIn(300);
+					$(".nav_open").fadeOut(300);
+				});
+				$('.nav_close').click(function(){
+					$("nav").fadeOut(300);
+					$(".nav_close").fadeOut(300);
+					$(".nav_open").fadeIn(300);
+				});
+				
+				//커뮤니티 눌렀을 때
+				$(".sub-nav > li:last-child").click(function () {
+					event.preventDefault();
+					$(".sub-nav-sub").toggle(300);
+				});
+				
+				$('.tab-list a').click(function() {
+					event.preventDefault();
+				});
+				
 			}
 		});
 	</script>
