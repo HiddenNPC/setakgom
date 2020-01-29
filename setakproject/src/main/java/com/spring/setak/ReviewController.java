@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 		ArrayList<ReviewVO> list = reviewService.reviewList();
 		model.addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
 		model.addAttribute("reviewlist", list); 
-		System.out.println("reviewlist="+list);
+		//System.out.println("reviewlist="+list);
 		return "review_list";			
 	}
 	
@@ -190,10 +190,26 @@ import org.springframework.web.servlet.ModelAndView;
 	@RequestMapping (value="reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewCondition (HttpServletRequest request, Model model, String re_condition) throws Exception
 	{
-		re_condition=request.getParameter("re_condition");		
-		ArrayList<ReviewVO> list = reviewService.reviewCondition(re_condition);
-		model.addAttribute("reviewCondition", list);	
-		return list;		
+		re_condition=request.getParameter("re_condition");	
+		System.out.println("re_condition 넘어오긴 하냐?="+re_condition);
+		if(re_condition.equals("review_date")) {
+			ArrayList<ReviewVO> list = reviewService.reviewCondition1(re_condition);
+			model.addAttribute("reviewCondition1", list);	
+			return list;
+		}else if(re_condition.equals("review_like")) {
+			ArrayList<ReviewVO> list = reviewService.reviewCondition2(re_condition);
+			model.addAttribute("reviewCondition2", list);	
+			return list;
+			
+		}else {
+			ArrayList<ReviewVO> list = reviewService.reviewCondition3(re_condition);
+			model.addAttribute("reviewCondition3", list);	
+			return list;
+			
+		}
+		
+		
+				
 	}
 	
 	

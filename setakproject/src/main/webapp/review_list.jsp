@@ -43,8 +43,65 @@ $(document).ready(function () {
     $(this).addClass('on').prevAll('a').addClass('on');      
     $('#Review_star').val($(this).attr("value"));
     return false;
-	});		
-	
+	});	
+    
+	// 조건 
+	$("#re_condition").on('click', function() {		
+		$('#re_list').empty();
+	    var rec= { re_condition : $('#re_condition:has(label)')}; 
+	    console.log(rec);
+		$.ajax({
+			url:'/setak/reviewCondition.do', 
+			type:'POST',
+			data:rec,
+			dataType:"json", //리턴 데이터 타입
+			contentType:'application/x-www-form-urlencoded; charset=utf-8',
+			success:function(data) {				
+				$.each(data, function(index, item) {
+					var re_list = '';					
+					var i = item.review_star;
+					re_list += '<tr><td height="20px" colspan="3"></td></tr>';
+					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
+					re_list += '<tr><td height="20px" colspan="3">';   
+					if(i%2 == 1){
+						for(var abc = 0; abc<(i-1)/2; abc++){
+							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+						}
+						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						for(var x = 0; x<((10-i)-1)/2; x++){  
+							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						}
+					}
+					
+					if(i%2 == 0){
+						for(var abc = 0; abc<i/2; abc++){
+							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+						}
+						for(var x = 0; x<(10-i)/2; x++){  
+							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						}
+					}
+									
+					re_list += '</td></tr>';		   																		
+					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
+					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
+					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
+					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
+					re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
+					$('#re_list').append(re_list);	
+				})				
+			},
+			error: function() {
+				alert("ajax통신 실패!!!");
+		    }
+	    });	
+	});			
+		
 	//리뷰 리스트 뿌리기 		
 	function selectData() {		
 		$('#re_list').empty();
@@ -128,27 +185,22 @@ $(document).ready(function () {
 		
 	}	
 
-//좋아요  //
-	
 selectData();	
 });
+		
 
+		
 //검색
-function searchCheck() {
-   
-	/* if (document.search.keyword.value == "") {
-        alert("검색어를 입력하세요.");
-        document.search.keyword.focus();
+function searchCheck() {	
+	if (document.getElementById('keyword').value=="") {
+		alert("검색어를 입력하세요.");
+        document.getElementById('keyword').focus();
         return;
     }
-    document.search.submit(); */
-      
-    
-    $('#re_list').empty();
+   
+	$('#re_list').empty();
     var key= { keyfield :$('#keyfield').val(), keyword: $('input#keyword').val() };  
-
-    
-    console.log(key);
+	console.log(key);
 	$.ajax({
 		url:'/setak/reviewSearch.do', 
 		type:'POST',
@@ -185,8 +237,7 @@ function searchCheck() {
 						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 					}
 				}
-				
-				
+								
 				re_list += '</td></tr>';		   																		
 				re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
 				re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
@@ -194,8 +245,7 @@ function searchCheck() {
 				re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
 				re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
 				$('#re_list').append(re_list);	
-			})
-				
+			})				
 		},
 		error: function() {
 			alert("ajax통신 실패!!!");
@@ -260,10 +310,19 @@ function searchCheck() {
 <!-- 글 분류 -->
 <div class="re2">
 <strong id="re2h">리뷰  <%=maxnum %>개</strong>
-<select name="re_condition" id="re_condition">
+<input type="radio" name="re_condition" id="re_condition" >
+    <label for="re_condition" id="review_date">등록일순</label>
+    <label for="re_condition" id="review_like">좋아요순</label>
+    <label for="re_condition" id="review_star">별점순</label>
+
+
+<!-- 
+<select name="re_condition" id="re_condition" size="5">
     <option value="review_date">등록일순</option>
-    <option value="review_like">별점순</option>
+    <option value="review_like">좋아요순</option>
+    <option value="review_star">별점순</option>
 </select>
+-->
 
 <!-- 검색 -->
 <!-- form action="reviewSearch.do" name="search" method="post"> -->
@@ -274,7 +333,6 @@ function searchCheck() {
 	</select>
 	<input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
 	<input type="button" value="검색" onClick="searchCheck()">
-
 
 <!--리뷰 리스트 (ajax) -->  
 <table id="re_list" class="re2_t1"></table>

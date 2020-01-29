@@ -71,10 +71,24 @@ public class ReviewServiceImpl implements ReviewService
 	}
 
 	@Override
-	public ArrayList<ReviewVO> reviewCondition(String re_condition) 
+	public ArrayList<ReviewVO> reviewCondition1(String re_condition) 
 	{
 		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
-		ArrayList<ReviewVO> list = reviewMapper.reviewCondition(re_condition); 
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition1(re_condition); 
+		return list; 
+	}
+	@Override
+	public ArrayList<ReviewVO> reviewCondition2(String re_condition) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition2(re_condition); 
+		return list; 
+	}
+	@Override
+	public ArrayList<ReviewVO> reviewCondition3(String re_condition) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition3(re_condition); 
 		return list; 
 	}
 

@@ -40,11 +40,16 @@
 	</select>
 		
 	
-	<select id="reviewCondition" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
-		SELECT * FROM REVIEW ORDER BY #{re_condition} DESC       		
+	<select id="reviewCondition1" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap" >
+		SELECT * FROM REVIEW ORDER BY review_date DESC
+	</select>	
+	<select id="reviewCondition2" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap" >
+		SELECT * FROM REVIEW ORDER BY review_like DESC
+	</select>
+	<select id="reviewCondition3" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap" >
+		SELECT * FROM REVIEW ORDER BY review_star DESC
 	</select>
 	 
-	
 	
 
 	<!--  

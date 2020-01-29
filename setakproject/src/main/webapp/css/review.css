@@ -120,6 +120,27 @@
 	  border: 1px solid #e1e4e4;
 	 }
 	
+	input[type=radio]{display: none; }	
+	}
+	
+	input[type=radio]:radio+label{
+	background-image:none;
+	background-color:#3498db;
+	color:#fff;	
+	float: right;
+	}
+	
+	
+	label{margin:15px;}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

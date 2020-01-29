@@ -16,7 +16,9 @@ public interface ReviewMapper
 	public ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword);
 
 	
-	public ArrayList<ReviewVO> reviewCondition(String re_condition);
+	public ArrayList<ReviewVO> reviewCondition1(String re_condition);
+	public ArrayList<ReviewVO> reviewCondition2(String re_condition);
+	public ArrayList<ReviewVO> reviewCondition3(String re_condition);
 	
 
 	
