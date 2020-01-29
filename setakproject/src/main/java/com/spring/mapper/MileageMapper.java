@@ -1,6 +1,6 @@
 package com.spring.mapper;
 
-import com.spring.setak.MileageVO;
+import com.spring.member.MileageVO;
 
 public interface MileageMapper {
 	

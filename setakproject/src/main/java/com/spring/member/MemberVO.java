@@ -5,7 +5,7 @@ import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter @Setter 
 public class MemberVO {
    String member_name;
    String member_id;

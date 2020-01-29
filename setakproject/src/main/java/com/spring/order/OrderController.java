@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.member.*;
 import com.spring.member.CouponService;
 import com.spring.member.CouponVO;
+import com.spring.member.MemberVO;
+import com.spring.member.MileageServiceImpl;
+import com.spring.member.MileageVO;
+import com.spring.setak.KeepVO;
+import com.spring.setak.MendingVO;
+import com.spring.setak.WashingVO;
 
 @Controller
 public class OrderController {	

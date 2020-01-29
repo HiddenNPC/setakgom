@@ -4,7 +4,7 @@
 <%@ page import = "com.spring.setak.WashingVO" %>
 <%@ page import = "com.spring.setak.MendingVO" %>
 <%@ page import = "com.spring.setak.KeepVO" %>
-<%@ page import = "com.spring.setak.CouponVO" %>
+<%@ page import = "com.spring.setak.*" %>
 <%@ page import = "java.util.ArrayList" %>
 
 <%

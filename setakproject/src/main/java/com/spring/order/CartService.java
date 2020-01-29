@@ -2,6 +2,10 @@ package com.spring.order;
 
 import java.util.ArrayList;
 
+import com.spring.setak.KeepVO;
+import com.spring.setak.MendingVO;
+import com.spring.setak.WashingVO;
+
 public interface CartService {
 
 	// 세탁 장바구니 시퀀스 리스트

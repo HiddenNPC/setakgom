@@ -6,9 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.mapper.AddressMapper;
-import com.spring.mapper.CartMapper;
 import com.spring.mapper.OrderMapper;
+import com.spring.member.MemberVO;
 
 @Service
 public class OrderServiceImpl implements OrderService  {

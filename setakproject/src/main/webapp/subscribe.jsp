@@ -1,7 +1,7 @@
+<%@page import="com.spring.member.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ page import = "com.spring.setak.MemberVO" %>
 
 <%
 	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");

@@ -1,4 +1,4 @@
-package com.spring.setak;
+package com.spring.order;
 
 import lombok.Getter;
 import lombok.Setter;

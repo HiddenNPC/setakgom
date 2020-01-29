@@ -2,9 +2,9 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
-import com.spring.setak.MemberVO;
-import com.spring.setak.OrderListVO;
-import com.spring.setak.OrderVO;
+import com.spring.member.MemberVO;
+import com.spring.order.OrderListVO;
+import com.spring.order.OrderVO;
 
 public interface OrderMapper {
 

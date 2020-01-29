@@ -1,11 +1,11 @@
+<%@page import="com.spring.member.*"%>
 <%@ page language = "java" contentType = "text/html; charset = UTF-8" pageEncoding = "UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <%@ page import = "com.spring.setak.WashingVO" %>
 <%@ page import = "com.spring.setak.MendingVO" %>
 <%@ page import = "com.spring.setak.KeepVO" %>
-<%@ page import = "com.spring.setak.CouponVO" %>
-<%@ page import = "com.spring.setak.MemberVO" %>
+<%@ page import = "com.spring.setak.*" %>
 
 <%@ page import = "java.util.ArrayList" %>
 

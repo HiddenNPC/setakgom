@@ -1,6 +1,8 @@
-package com.spring.order;
+ package com.spring.order;
 
 import java.util.ArrayList;
+
+import com.spring.member.MemberVO;
 
 public interface OrderService {
 
