@@ -236,7 +236,7 @@
 			<div class="mending">
 				<div class="step"><img src="images/s2.png" alt="step2_수선"></div>
 				<p>※ 세탁 신청이 들어간 세탁물에 대해서만 수선이 가능한 페이지입니다. 수선만 맡기실 옷들은 수선서비스 페이지를 이용해주세요.</p>
-				<p><%=list.get(1).getWash_kind() %></p>
+				<p><%=list.get(0).getWash_price() %></p>
 				<div class="tabs">
 					<div class="tab-list">
 						<a href="#one" id="tab" class="tab active">상의</a>

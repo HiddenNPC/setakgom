@@ -18,7 +18,67 @@
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+	var authchk = "0";
 	$(document).ready(function() {
+		
+		
+		/*회원가입 버튼 클릭*/
+		$('#join').on('click', function(event){
+	        
+			
+            var address = $("#address").val();
+            var detailAddress = $("#detailAddress").val();
+            var addr = address + '!' + detailAddress;
+            
+            if(authchk == 0){
+            	alert("인증번호 확인이 되지 않았습니다.");
+            	return;
+            }
+            
+            if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
+            	$("#member_password").val() == '' || $("#pw2").val() == '' || 
+            	$("#member_phone").val() == ''|| $("#member_sns").val() == '' || 
+            	$("#member_email").val() == '' || $("#member_gender").val() == "성별" ||  
+            	$("member_birthday").val() == '' || $("#member_zipcode").val() == '' ||
+            	($("#clause_use").is(":checked")==false) ||($("#clause_privacy").is(":checked")==false)
+            	
+             ) {
+    			alert("빠짐없이 기입해 주세요");
+    			return; 
+    		};
+    		
+            var params = {
+                     'member_name':$("#member_name").val(),
+                     'member_id':$("#member_id").val(),
+                     'member_password':$("#member_password").val(),
+                     'member_phone':$("#member_phone").val(),
+                     'member_email':$("#member_email").val(),
+                     'member_gender':$("#member_gender").val(),
+                       'member_birthday':$("#member_birthday").val(),
+                     'member_zipcode':$("#member_zipcode").val(),
+                     'member_loc':addr
+            };
+           
+            $.ajax({
+     			url : '/setak/insertMember.do',
+     			type:'post',
+     			data : params,
+     			dataType:'json',
+    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+     			success: function(result) {
+     			if(result.res=="OK") {            
+     				$(location.href="/setak/login.do");
+     			}
+     			else { // 실패했다면
+    			 alert("Insert Fail");
+     			}
+     		},
+     		error:function() {
+     		alert("insert ajax 통신 실패");
+     		}           
+            });
+            
+        });
 		
 		/*아이디중복확인*/
 		$("#member_id").keyup(function(){
@@ -32,7 +92,7 @@
 		         data : params,
 		         dataType:'json', 
 		         contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-		         success: function(result) {
+				success: function(result) {
 		        	 if(result.res=="OK") {
 		        		 $(".joinform div:nth-child(2) h5").css("display","block");
 
@@ -87,13 +147,22 @@
 					 <h4>비밀번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
-					<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
-					<input class="button" type="button" value="인증번호 받기" style="width: 120px;" />
-					<h4>핸드폰 번호를 입력해주세요</h4>
+						<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
+						<input class="button" id="authbtn" type="button" value="인증번호 받기" style="width: 120px;" />
+						<h4>핸드폰 번호를 입력해주세요</h4>
 				</div>
 				<div class="input_list">
-					<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
-					<h4>인증번호를 확인해주세요</h4>
+				<ul id = "auth_ul"> 
+					<li>
+					<span class = "input">
+						<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
+						<input id="smsbtn" class="button" type="button" value="인증번호 확인" style="width: 120px;" />
+						<span id = "timer"></span>
+					</span>
+					</li>
+				</ul>
+					<h4 id = "authsucess">인증번호가 일치합니다.</h4>
+					<h4 id = "authfail">인증번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
 					<input type="text" name="member_email" id="member_email" placeholder="이메일">
@@ -145,7 +214,7 @@
 				
 			</div>
 			<div class="join_btn">
-				<input id="join" class="btn" type="button" value="가입하기" />
+				<input id="join" class="btn" type="button" value="가입하기"  />
 			</div>
 		</form>
 	</div><!-- content -->
@@ -164,10 +233,29 @@
 	var poReg = /^[0-9]{5}$/;
 	var gen = document.getElementsByName("gender");
 	
+	//랜덤함수 생성
+		randomnum = function() {
+		var array = new Uint32Array(1);
+		window.crypto.getRandomValues(array);
+		var num = array[0] + "";
+		var rnum = num.substring(0,6);
+		console.log(rnum);
+
+		/* for (var i = 0; i < array.length; i++) {
+		    console.log(array[i]);
+		} */
+		
+		return rnum;
+	}
+	
+		var random = randomnum();
+	
 	
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
+         
+         
          
          //생년월일
 		$(".birthday").datepicker ({
@@ -199,8 +287,40 @@
             	//input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
             	$("input[id=clause_use]").prop("checked",false);
             	$("input[id=clause_privacy]").prop("checked",false);
-        };
-      });
+        	};
+      	});
+		
+ 		var AuthTimer = new $ComTimer();
+		//문자보내기
+		$("#authbtn").click(function(event){
+			$(".joinform div:nth-child(6) h4").css("display","none");
+			AuthTimer.fnStop();
+			random = randomnum();
+			
+			var phonenum = $("#member_phone").val();
+			
+			var allData = { "pn": phonenum , "randomnum": random };
+			
+			$.ajax({
+                type: "POST",
+                url: "/setak/sendSMS.do", 
+                data: allData,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                dataType: 'json',
+                
+                success: function (data) {
+        			AuthTimer.comSecond = 179;
+        			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+        			AuthTimer.domId = document.getElementById("timer");
+        			$("#authbtn").attr('disabled', true);
+                },
+                error: function (e) {
+
+				}
+			});
+			
+		});
 		
  		
  		
@@ -253,14 +373,23 @@
 			}
 			
 	 	});
-	  //SNS일치 체크???????????
-	$(document).on("propertychange change keyup paste","#member_sns",function(){
-		if(!phReg.test($(this).val())){
-			$(".joinform div:nth-child(6) h4").css("display","block");
-		} else {
+	  //인증번호 확인
+	$(document).on("click","#smsbtn",function(){
+		if($("#member_sns").val()==random){
+			console.log("인증성공");
+			AuthTimer.fnStop();
+			AuthTimer.domId = "";
+			document.getElementById('timer').innerHTML = "";
+			$("#authbtn").attr('disabled', false);
 			$(".joinform div:nth-child(6) h4").css("display","none");
+			$(".joinform div:nth-child(6) #authsucess").css("display","block");
+			authchk = "1";
+		}else{
+			console.log("인증실패");
+			$("#authbtn").attr('disabled', false);
+			$(".joinform div:nth-child(6) h4").css("display","none");
+			$(".joinform div:nth-child(6) #authfail").css("display","block");
 		}
-		
  	});
 	  
 	  //이메일체크V
@@ -329,7 +458,11 @@
  	 	  	  } else {
  	 	  		$(".clause div:nth-child(3) h4").css("display","block"); 
  	 	  	  }
- 	 	  });	
+ 	 	  });
+ 	  
+ 	  var test  = function(){
+ 		 random = randomnum();
+ 	  }
  		
 	});
 	
@@ -394,6 +527,32 @@
           }).open();
           
           
-      };  
+      };
+
+      
+      function $ComTimer(){
+    	    //prototype extend
+    	}
+
+    	$ComTimer.prototype = {
+    	    comSecond : ""
+    	    , fnCallback : function(){}
+    	    , timer : ""
+    	    , domId : ""
+    	    , fnTimer : function(){
+    	        var m = Math.floor(this.comSecond / 60) + "분 " + (this.comSecond % 60) + "초";
+    	        this.comSecond--;					// 1초씩 감소
+    	        this.domId.innerText = m;
+    	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
+    	            clearInterval(this.timer);		// 타이머 해제
+    	            random = randomnum();
+    	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+    	        }
+    	    }
+    	    ,fnStop : function(){
+    	        clearInterval(this.timer);
+    	    }
+    	}
+    	
 </script>
 </html>

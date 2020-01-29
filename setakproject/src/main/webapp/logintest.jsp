@@ -10,6 +10,6 @@
     <h3>로그인 성공햇는데...</h3>
     <h3>Login ID : <%=(String)session.getAttribute("id") %></h3>   
     <h3>Login PASSWORD : <%=(String)session.getAttribute("password") %></h3> 
-     <a href="profile1.do">회원정보 수정</a>
+     <a href="javascript:history.back();">회원정보 수정</a>
 </body>
 </html>

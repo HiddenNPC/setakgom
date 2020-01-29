@@ -3,7 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*"%>
 <%@ page import = "java.text.SimpleDateFormat"%>
-<%@ page import = "com.spring.setak.*" %>    
     
     
 <%

@@ -14,13 +14,14 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")     
-         var sessionID = "<%=session.getAttribute("id") %>"
+         var sessionID = "<%=session.getAttribute("member_id") %>"
 
          /*비밀번호 일치하면 개인정보 수정 페이지로 이동 */    
          $('.btn').on('click', function(event){ 
-     		
+        	 
   			var params = {	'member_id': sessionID,
-  							'member_password':$("#member_password").val() };
+  							'member_password':$("#member_password").val() 
+  						};
  			$.ajax({
  	            url : '/setak/chk_pw.do', // url
  	            type:'post',
@@ -70,7 +71,7 @@
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정기구독</li>
-                     		<li><a href="mysub.jsp">나의 정기구독</a></li>
+                     		<li><a href="mysub.do">나의 정기구독</a></li>
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>고객문의</li>
@@ -88,7 +89,7 @@
 			</div>
 			<div class="test"> <!-- class 변경해서 사용하세요. -->
 				<div class="content">
-					<h3>Login ID : <%=session.getAttribute("id") %></h3>
+					<h3>Login ID : <%=session.getAttribute("member_id") %></h3>
 					<h2>회원님의 개인정보를 안전하게 보호하기 위해</h2>
 					<h2>비밀번호를 작성해 주세요</h2>
 					<input class="pw" type="password" name="member_password" id="member_password" placeholder="비밀번호를 입력해주세요" />
