@@ -381,6 +381,7 @@
 					
 					<div class="total_price">
 						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
+						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
 						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">

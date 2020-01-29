@@ -442,6 +442,7 @@
 					%>
 					<div class="total_price">
 						<p>세탁비 <span class="wtot_price">0</span>원 + 수선비 <span class="mtot_price">0</span>원 = 합계 : <span class="tot_price">0</span>원</p>
+						<p>수선비 : <span class="mtot_price">0</span>원</p>
 						<input type="hidden" name="wash_tprice" value="<%=wash_tprice %>" class="wash_tprice">
 						<input type="hidden" name="mending_tprice" value="0" class="mending_tprice">
 					</div>

@@ -249,7 +249,8 @@
 					</div>
 					
 					<div class="total_price">
-						<p>총 금액	: 세탁비 <span class="wtot_price">0</span>원 + 수선비 <span class="mtot_price">0</span>원 + 보관비 <span class="ktot_price">0</span>원 = 합계 : <span class="tot_price">0</span>원</p>
+						<p>세탁비 <span class="wtot_price">0</span>원 + 수선비 <span class="mtot_price">0</span>원 + 보관비 <span class="ktot_price">0</span>원 = 합계 : <span class="tot_price">0</span>원</p>
+						<p>보관비 : <span class="ktot_price">0</span>원</p>
 						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">

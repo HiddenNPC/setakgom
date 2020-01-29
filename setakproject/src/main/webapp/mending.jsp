@@ -431,6 +431,7 @@
 					
 					<div class="total_price">
 						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
+						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
 						<input type="submit" value="장바구니" class="gocart">

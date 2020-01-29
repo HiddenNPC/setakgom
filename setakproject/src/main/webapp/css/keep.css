@@ -309,6 +309,9 @@
 	.total_price {
 		padding:50px 0 0 0;
 	}
+	.total_price p:nth-child(2){
+		display:none;
+	}
 	.total_price p{
 		background-color:#e1e4e4;
 		height:40px;
@@ -380,7 +383,7 @@
 	}
 	.step img{
 		width:100%;
-		margin-bottom:60px;
+		margin-bottom:10px;
 	}
 	.keep p{
 		font-size:0.8rem;
@@ -506,14 +509,14 @@
 		padding-bottom:60px;
 	}
 	.delete-button a{
-		font-size:0.85rem;
+		font-size:0.8rem;
 		display:block;
-		width:90px;
+		width:70px;
 		background-color:#e1e4e4;
 		color:#444;
 		border-radius:30px;
-		height:40px;
-		line-height:40px;
+		height:35px;
+		line-height:35px;
 		text-align:center;
 		float:right;
 		margin: 0 5px;
@@ -568,19 +571,22 @@
 		position:relative;
 	}
 	.keep_month .s_keep li h5{
-		padding:130px 130px 15px 15px;
+		padding:20px 130px 0px 15px;
 		font-size:1.2rem;
 		display:inline-block;
 	}
 	.keep_month .s_keep li h1{
-		padding:15px 0px 50px 90px;
+		padding:15px 0px 30px 100px;
 		display:inline-block;
+	}
+	.keep_month .s_keep li:nth-child(4) h1{
+		height:92px;
 	}
 	.keep_month .s_keep li img{
 		width:160px;
 		position:absolute;
-		top:290px;
-		left:40px;
+		top:135px;
+		left:60px;
 	}
 	.keep_month ul li:hover>h1{
 		color:#fff;
@@ -657,6 +663,12 @@
 	.total_price {
 		padding:0px 0 0 0;
 	}
+	.total_price p:nth-child(1){
+		display:none;
+	}
+	.total_price p:nth-child(2){
+		display:block;
+	}
 	.total_price p{
 		background-color:#e1e4e4;
 		height:40px;
@@ -664,19 +676,20 @@
 		color:#444;
 		text-align:right;
 		padding-right:15px;
+		font-size:0.85rem;
 	}
 	.total-button{
 		padding:30px 0;
 	}
 	.total-button input{
-		font-size:0.95rem;
+		font-size:0.8rem;
 		display:block;
-		width:90px;
+		width:70px;
 		background-color:#e1e4e4;
 		color:#444;
 		border-radius:30px;
-		height:40px;
-		line-height:40px;
+		height:35px;
+		line-height:35px;
 		text-align:center;
 		float:right;
 		margin: 0 5px;
