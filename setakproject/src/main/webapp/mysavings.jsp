@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, com.spring.setak.*" %>   
+<%@ page import = "java.text.SimpleDateFormat" %> 
+<% 
+	List<MileageVO> mile_list = (ArrayList<MileageVO>)request.getAttribute("mile_list");
+	int havePoint = (int) request.getAttribute("havePoint");
+	int totPoint = (int) request.getAttribute("totPoint");
+	int usePoint = (int) request.getAttribute("usePoint");
+	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
+	int nowpage = ((Integer)request.getAttribute("page")).intValue();
+	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
+	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
+	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
+	int limit = ((Integer)request.getAttribute("limit")).intValue();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,18 +76,19 @@
 				<h2>적립금 조회</h2>
 				<div class="mypage_content_cover">
 				<div class="savings_point">
+				<% %>
 					<table>
 						<tr>
 							<td class="point1">-&nbsp;총 적립금</td>
-							<td class="point2">25,000</td>
+							<td class="point2"><%=totPoint%>&nbsp; 곰</td>
 						</tr>
 						<tr>
 							<td class="point1">-&nbsp;사용된 적립금</td>
-							<td class="point2">22,000</td>
+							<td class="point2"><%=usePoint %>&nbsp; 곰</td>
 						</tr>
 						<tr>
 							<td class="point1">-&nbsp;사용가능 적립금</td>
-							<td class="point2">3,000</td>
+							<td class="point2"><%=havePoint %>&nbsp; 곰</td>
 						</tr>	
 					</table>
 					<table id="jqGrid"></table>
@@ -87,12 +104,14 @@
 									<th width="44%">적립내용</th>
 								</tr>
 							</thead>
-							<%for (int i=0; i<10; i++){ %>
+							<%for (int i=0; i<mile_list.size(); i++){ 
+								MileageVO mivo=(MileageVO)mile_list.get(i);
+							%>
 							<tbody align="center">
 								<tr>
-									<td>2020-01-18</td>
-									<td>2,000원</td>
-									<td>리뷰이벤트</td>
+									<td><%=sdf.format(mivo.getMile_date()) %></td>
+									<td><%=mivo.getMile_price() %></td>
+									<td><%=mivo.getMile_content() %></td>
 								</tr>
 							</tbody>					
 							<%} %>	
@@ -103,11 +122,24 @@
 						<table class="page">
 							<tr align = center height = 20>
               				<td>
-              					<div class="page_a"><a href = "#">&#60;</a></div>
-                  				<div class="page_a"><a>1</a></div>
-                  				<div class="page_a"><a>2</a></div>
-                  				<div class="page_a"><a>3</a></div>
-                  				<div class="page_a"><a href = "">&#62;</a></div>
+              				<%if(nowpage <= 1) {%>
+              				<div class="page_a"><a>&#60;</a></div>
+              				<%} else {%>
+              					<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              				<%} %>
+              				<%for (int a=startpage; a<=endpage; a++) {
+              					if(a==nowpage) {
+           					%>
+           					<div class="page_a"><a><%=a %></a></div>
+           					<%} else {%>
+           						<div class="page_a"><a href="/mysaving.do?page=<%=a %>"><%=a %></a></div>
+           					<%} %>
+           					<%} %>
+           					<%if (nowpage >= maxpage) {%>	
+           						<div class="page_a"><a>&#62;</a></div>
+           					<%} else { %>	
+                  				<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  			<%} %>	
                   			</td>
                			</tr>
 					</table>

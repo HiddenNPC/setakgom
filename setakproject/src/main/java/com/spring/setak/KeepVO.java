@@ -1,7 +1,5 @@
 package com.spring.setak;
 
-import java.sql.Timestamp;
-
 public class KeepVO {
 	int keep_seq;
 	String keep_cate;

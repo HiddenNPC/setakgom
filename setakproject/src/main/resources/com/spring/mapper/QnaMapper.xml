@@ -13,7 +13,6 @@
 		<result property="QNA_DATE" column="qna_date"/>
 		<result property="QNA_FILE" column="qna_file"/>
 		<result property="QNA_CHECK" column="qna_check"/>
-		
 	</resultMap>
 	
 	<select id="getListCount" resultType="int">
@@ -83,7 +82,13 @@
 	</select>
  -->
 	
-
+	<!-- 기응 -->
+	
+	<select id="selectQnalist" parameterType="HashMap" resultMap="qnaMap">
+		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, QNA_KIND,
+		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM asc))
+		 WHERE rnum>=#{startrow} and rnum<=#{endrow} and member_id = #{member_id}]]>
+	</select>
 </mapper>
 
 

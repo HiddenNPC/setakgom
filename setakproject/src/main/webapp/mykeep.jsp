@@ -1,8 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
+<%@ page import = "java.text.SimpleDateFormat" %> 
+<%@ page import="java.util.*, com.spring.setak.*" %>
+<%
+List<OrderListVO> ordernumlist = (ArrayList<OrderListVO>)request.getAttribute("ordernumlist");
+List<KeepVO> keeplist = (ArrayList<KeepVO>)request.getAttribute("keeplist");
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+%>
 <!DOCTYPE html>
 <html>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,14 +36,13 @@
 		$("#footer").load("./footer.jsp")
 	});
 </script>
-
 </head>
 <body>
 	<div id="header"></div>
 
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test">
-		<!-- id 변경해서 사용하세요. -->
+		<!-- id 변경해서 사용하세요. -->7
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
 			
@@ -40,25 +50,25 @@
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
-						<ul class="mypage_list">
+							<ul class="mypage_list">
 							<li>주문관리</li>
-							<li><a href="orderview.jsp">주문/배송현황</a></li>
-							<li><a href="mykeep.jsp">보관현황</a></li>
+							<li><a href="orderview.do">주문/배송현황</a></li>
+							<li><a href="mykeep.do">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
-							<li><a href="mysub.jsp">나의 정기구독</a></li>
+							<li><a href="mysub.do">나의 정기구독</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
-							<li><a href="password.jsp">개인정보수정</a></li>
-							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
-							<li><a href="mysavings.jsp">적립금 조회</a></li>
-							<li><a href="withdraw.jsp">회원탈퇴</a></li>
+							<li><a href="password.do">개인정보수정</a></li>
+							<li><a href="mycoupon.do">쿠폰조회</a></li>
+							<li><a href="mysavings.do">적립금 조회</a></li>
+							<li><a href="withdraw.do">회원탈퇴</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -66,6 +76,38 @@
 			<div class="solmin">
 				<div class="mypage_content">
 				<h2>보관현황</h2>
+				<%
+					for (int i = 0; i < ordernumlist.size(); i++){	
+						OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
+						KeepVO kvo = (KeepVO)keeplist.get(i);
+						System.out.println("jsp" + olvo);
+						
+						String start = kvo.getKeep_start();
+						String[] date = start.split(" ");
+						String start_date = date[0]; 			
+						
+						String end = kvo.getKeep_end();
+						String[] date2 = end.split(" ");
+						String end_date = date2[0];
+						
+						System.out.println(end_date); //end_date 출력
+						Date sol = sdf.parse(end_date);
+						
+						Calendar one = Calendar.getInstance();
+						one.setTime(sol);
+						one.add(Calendar.MONTH, 1);
+						String m1 = sdf.format(one.getTime());
+
+						Calendar three = Calendar.getInstance();
+						three.setTime(sol);
+						three.add(Calendar.MONTH, 3);
+						String m3 = sdf.format(three.getTime());
+	
+						Calendar six = Calendar.getInstance();
+						six.setTime(sol);
+						six.add(Calendar.MONTH, 6);
+						String m6 = sdf.format(six.getTime());
+				%>
 				<div class="accordion2">
 					<div class="accordion-header2">
 						<table class="header" >
@@ -76,9 +118,9 @@
 								<th style="width:10%;">상세보기</th>
 							</tr>
 							<tr>
-								<td>987654-321456</td>
-								<td>2BOX</td>
-								<td>2020.01.28 ~ 2020.07.27</td>
+								<td><%=olvo.getOrder_num() %></td>
+								<td><%=kvo.getKeep_box() %></td>
+								<td><%=start_date %>&nbsp;~&nbsp;<%=end_date %></td>
 								<td>
 									<button id='up' class="up">&#8897;</button>
 								</td>
@@ -90,12 +132,14 @@
 							<tr>
 								<td style="background-color: #3498db;">보관하신품목</td>
 							</tr>
+							<%
+							for (int j=0; j <keeplist.size(); j++) {
+								KeepVO kvo2 = (KeepVO)keeplist.get(j);
+							%>
 							<tr>
-								<td>상의</td>
+								<td><%=kvo2.getKeep_cate() %>&nbsp;&nbsp;(<%=kvo2.getKeep_count() %>)</td>
 							</tr>
-							<tr>
-								<td>하의</td>
-							</tr>
+							<%} %>
 						</table>
 						<div>
 							<ul class="slides">
@@ -139,28 +183,6 @@
 									</div>
 									<div class="nav">
 										<label for="img-3" class="prev">&#x2039;</label> 
-										<label for="img-5" class="next">&#x203a;</label>
-									</div>
-								</li>
-
-								<input type="radio" name="radio-btn" id="img-5" />
-								<li class="slide-container">
-									<div class="slide">
-										<img src="images/smoke.jpg" />
-									</div>
-									<div class="nav">
-										<label for="img-4" class="prev">&#x2039;</label> 
-										<label for="img-6" class="next">&#x203a;</label>
-									</div>
-								</li>
-
-								<input type="radio" name="radio-btn" id="img-6" />
-								<li class="slide-container">
-									<div class="slide">
-										<img src="images/pure.jpg" />
-									</div>
-									<div class="nav">
-										<label for="img-5" class="prev">&#x2039;</label> 
 										<label for="img-1" class="next">&#x203a;</label>
 									</div>
 								</li>
@@ -170,8 +192,6 @@
 								<label for="img-2" class="nav-dot"id="img-dot-2"></label> 
 								<label for="img-3" class="nav-dot" id="img-dot-3"></label> 
 								<label for="img-4" class="nav-dot" id="img-dot-4"></label> 
-								<label for="img-5" class="nav-dot" id="img-dot-5"></label> 
-								<label for="img-6" class="nav-dot"id="img-dot-6"></label>
 								</li>
 							</ul>
 							<div class="keepbox" style="border-right:1px solid rgb(255, 255, 255);">보관 기간 연장</div>
@@ -182,9 +202,9 @@
 						<br><br><br>
 						<div class="keep_month">
 						<ul>
-							<li class="month"><h3>1개월</h3><p>2020.01.03 ~ 2020.02.02</p><h1><span class="price">10000</span>원</h1></li>
-							<li class="month"><h3>3개월</h3><p>2020.01.03 ~ 2020.04.02</p><h1><span class="price">28000</span>원</h1></li>
-							<li class="month"><h3>6개월</h3><p>2020.01.03 ~ 2020.07.02</p><h1><span class="price">55000</span>원</h1></li>
+							<li class="month"><h3>1개월</h3><p><%=end_date %> ~ <%=m1 %></p><h1><span class="price">10000</span>원</h1></li>
+							<li class="month"><h3>3개월</h3><p><%=end_date %> ~ <%=m3 %></p><h1><span class="price">28000</span>원</h1></li>
+							<li class="month"><h3>6개월</h3><p><%=end_date %> ~ <%=m6 %></p><h1><span class="price">55000</span>원</h1></li>
 						</ul>
 						<div class="total_price">
 							<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
@@ -193,20 +213,25 @@
 						</div>
 						<div class="rt-service">
 							<form id="" action="" method="post">
-							<table id="rt-table">
+							<table name="rt-table">
 								<tr style="background-color: #3498db;">
 									<td width="20%">종류</td>
 									<td width="80%" colspan="2">옷의 특징을 상세히 입력해주세요.
-										<input type = "button" value = "+" id='btn_add_row' />
+										<input type = "button" value = "+" name='btn_add_row' />
 									</td>
 								</tr>
 								<tbody>
 								<tr>
 									<td>
 										<select id="rt-list">
-											<option value="셔츠">셔츠</option>
-											<option value="가디건">가디건</option>
-											<option value="바지">바지</option>
+											<%
+											for(int k=0; k<keeplist.size(); k++) {
+												KeepVO kvo3 = (KeepVO)keeplist.get(k);
+											%>
+											<option value="<%=kvo3.getKeep_cate() %>"><%=kvo3.getKeep_cate() %></option>
+											<%
+											}
+											%>
 										</select>
 									</td>
 									<td>
@@ -227,6 +252,9 @@
 					</div> 
 					<br>
 					</div>
+					<%
+						} 
+					%>
 				</div>
 			</div>
 		</div><!-- content -->
@@ -237,34 +265,11 @@
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<script>
-$('#btn_add_row').click(function() {
-
-	var str = '';
-	str += '<tr>';
-	str += '<td>';
-	str += '<select id="rt-list">';
-	str += '<option value="셔츠">셔츠</option>';
-	str += '<option value="바지">바지</option>';
-	str += '<option value="속옷">속옷</option>';
-	str += '</select>';
-	str += '</td>';
-	str += '<td>';
-	str += '<textarea rows="2" cols="30" placeholder="상세내용"></textarea>';
-	str += '</td>';
-	str += '<td class="bt_del">';
-	str += '<input type="button" value="x" id="btn_del_row"/>';
-	str += '</td>';
-	str += '</tr>'; 
-	
-	$('#rt-table > tbody:last').append(str);
-	
-});
-	
-
-</script>
 <script>//보관기간연장 아코디언
+
+//버튼클릭시 
+
+
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;
 var price = parseInt(0);
@@ -297,9 +302,31 @@ $.pricefun = function(n){
 	  $(document).on("click","#btn_del_row", function() {
 			$(this).parent().parent().remove();
 		});	
+	  
+	  $(document).on("click","input[name='btn_add_row']", function () {
+		var str='';
+		
+		str += '<tr>';
+		str += '<td>';
+		str += '<select id="rt-list">';
+		str += '<option value="셔츠">셔츠</option>';
+		str += '<option value="바지">바지</option>';
+		str += '<option value="속옷">속옷</option>';
+		str += '</select>';
+		str += '</td>';
+		str += '<td>';
+		str += '<textarea rows="2" cols="30" placeholder="상세내용"></textarea>';
+		str += '</td>';
+		str += '<td class="bt_del">';
+		str += '<input type="button" value="x" id="btn_del_row"/>';
+		str += '</td>';
+		str += '</tr>'; 
+		$(this).closest('table').append(str);
+		//$("table[name='rt-table']:eq("++") > tbody:last").append(str);
 	});
-</script>
-<script>//반환아코디언
+	});
+
+//반환아코디언
 $(document).ready(function() {
 	jQuery(".rt-service").hide();
 	$(".keepbox2").click(function() {
@@ -310,8 +337,8 @@ $(document).ready(function() {
 	});
 });
 
-</script>
-<script>//결제 스크립트
+
+//결제 스크립트
 $(document).ready(function() {
  	  jQuery(".keep_month").hide();
  	//content 클래스를 가진 div를 표시/숨김(토글)
@@ -331,6 +358,10 @@ $(document).ready(function() {
         var IMP = window.IMP; // 생략가능
         IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
+        if (select_price == 0){
+        	msg = '금액을 선택해주세요.';
+       		alert(msg);
+        }
         
         IMP.request_pay({
             pg : 'kakaopay',
@@ -376,15 +407,14 @@ $(document).ready(function() {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="/setak/keep.jsp";
+                location.href="/setak/mykeep.do";
                 alert(msg);
             }
         });
  	  });
  	});
-</script>
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script>//업다운 이미지 변환
+
+//업다운 이미지 변환
  $(function() {
 	$('.up').on("click",function() {
 		if($(this).html() == '⋁'){

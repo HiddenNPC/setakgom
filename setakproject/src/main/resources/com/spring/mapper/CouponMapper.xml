@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 쿠폰 갯수 -->
-	<select id = "getCouponCount" parameterType = "String" resultType = "int">
+	<select id="getCouponCount" parameterType="String" resultType="int">
 		select count(*) from coupon where member_id = #{member_id}
 	</select>
 	
@@ -32,5 +32,9 @@
 	<update id="useCoupon" parameterType = "int">
 		update coupon set coupon_use = 1 where coupon_seq = #{coupon_seq}
 	</update>
+	
+	<select id= "getCouponId" parameterType="String" resultType="String">
+		
+	</select>
 	
 </mapper>

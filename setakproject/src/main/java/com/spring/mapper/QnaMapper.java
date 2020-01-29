@@ -1,6 +1,7 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.spring.community.QnaVO;
 
@@ -22,14 +23,14 @@ public interface QnaMapper
 	public int qnaDelete(int num);
 	
 	
-	
-	
 	/*
 	 * public int qnaModify(QnaVO vo) throws Exception;
 	 * 
 	 * public int qnaDelete(int num) throws Exception;
 	 */
 	
+	//기응
+	public ArrayList<QnaVO> selectQnalist(HashMap<String, Object> map);
 
 	
 }

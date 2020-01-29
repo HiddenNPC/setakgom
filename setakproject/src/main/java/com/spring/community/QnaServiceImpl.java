@@ -1,6 +1,8 @@
 package com.spring.community;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -114,7 +116,17 @@ public class QnaServiceImpl implements QnaService
 
 	
 
-	
+	//기응
+	@Override 
+	public ArrayList<QnaVO> selectQnalist(HashMap<String, Object> map) {
+		ArrayList<QnaVO> qnalist = null;
+		
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+		
+		qnalist = qnaMapper.selectQnalist(map);
+		
+		return qnalist;
+	}
 	
 	
 	

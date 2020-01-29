@@ -1,5 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, com.spring.setak.*" %>   
+<%@ page import = "java.text.SimpleDateFormat" %> 
+<%
+	List<QnaVO> qnalist = (ArrayList<QnaVO>)request.getAttribute("qnalist");
+	int nowpage = ((Integer)request.getAttribute("page")).intValue();
+	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
+	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
+	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
+	int limit = ((Integer)request.getAttribute("limit")).intValue();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +21,7 @@
 	<title>세탁곰</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
-	<link rel="stylesheet" type="text/css" href="./css/qnainquiry.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="stylesheet" type="text/css" href="./css/myqna.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -34,23 +47,23 @@
 					<li>
 						<ul class="mypage_list">
 							<li>주문관리</li>
-							<li><a href="orderview.jsp">주문/배송현황</a></li>
-							<li><a href="mykeep.jsp">보관현황</a></li>
+							<li><a href="orderview.do">주문/배송현황</a></li>
+							<li><a href="mykeep.do">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
-							<li><a href="mysub.jsp">나의 정기구독</a></li>
+							<li><a href="mysub.do">나의 정기구독</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
-							<li><a href="password.jsp">개인정보수정</a></li>
-							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
-							<li><a href="mysavings.jsp">적립금 조회</a></li>
-							<li><a href="withdraw.jsp">회원탈퇴</a></li>
+							<li><a href="password.do">개인정보수정</a></li>
+							<li><a href="mycoupon.do">쿠폰조회</a></li>
+							<li><a href="mysavings.do">적립금 조회</a></li>
+							<li><a href="withdraw.do">회원탈퇴</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -70,13 +83,15 @@
 									<th width="15">답변상태</th>
 								</tr>
 							</thead>
-							<%for (int i=0; i<10; i++){ %>
+							<%for (int i=0; i<qnalist.size(); i++){ 
+								QnaVO qvo = (QnaVO)qnalist.get(i);
+							%>
 							<tbody align="center">
 								<tr>
-									<td>배송</td>
-									<td><a href="#" style="color:#3498db; font-weiht:bold;">내 택배 언제와</a></td>
-									<td>2020.01.05</td>
-									<td>답변완료</td>
+									<td><%=qvo.getQNA_KIND() %></td>
+									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQNA_NUM() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQNA_TITLE() %></a></td>
+									<td><%=sdf.format(qvo.getQNA_DATE()) %></td>
+									<td><%=qvo.getQNA_CHECK() %></td>
 								</tr>
 							</tbody>					
 							<%} %>	
@@ -87,11 +102,24 @@
 						<table class="page">
 							<tr align = center height = 20>
               				<td>
-              					<div class="page_a"><a href = "#">&#60;</a></div>
-                  				<div class="page_a"><a>1</a></div>
-                  				<div class="page_a"><a>2</a></div>
-                  				<div class="page_a"><a>3</a></div>
-                  				<div class="page_a"><a href = "">&#62;</a></div>
+              					<%if(nowpage <= 1) {%>
+              				<div class="page_a"><a>&#60;</a></div>
+              				<%} else {%>
+              					<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              				<%} %>
+              				<%for (int a=startpage; a<=endpage; a++) {
+              					if(a==nowpage) {
+           					%>
+           					<div class="page_a"><a><%=a %></a></div>
+           					<%} else {%>
+           						<div class="page_a"><a href="/mysaving.do?page=<%=a %>"><%=a %></a></div>
+           					<%} %>
+           					<%} %>
+           					<%if (nowpage >= maxpage) {%>	
+           						<div class="page_a"><a>&#62;</a></div>
+           					<%} else { %>	
+                  				<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  			<%} %>	
                   			</td>
                			</tr>
 					</table>

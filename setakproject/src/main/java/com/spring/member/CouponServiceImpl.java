@@ -34,7 +34,7 @@ public class CouponServiceImpl implements CouponService {
 			CouponMapper couponMapper = sqlSession.getMapper(CouponMapper.class);
 			count = couponMapper.getCouponCount(member_id);
 		} catch(Exception e) {
-			System.out.println("쿠폰 리스트 검색 실패" + e.getMessage());
+			System.out.println("쿠폰 카운트 검색 실패" + e.getMessage());
 		}
 		
 		return count;		
