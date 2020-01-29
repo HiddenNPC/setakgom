@@ -57,7 +57,7 @@ $(document).ready(function () {
 				$.each(data, function(index, item) {
 					var re_list = '';					
 					var i = item.review_star;
-					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
+					re_list += '<tr><td height="20px" colspan="3"></td></tr>';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="3">';   
 					if(i%2 == 1){
@@ -83,13 +83,14 @@ $(document).ready(function () {
 							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 						}
 					}
-										
+					
+					
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
 					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
 					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
-					re_list += '<tr><td height="20px" colspan="3"></td></tr>'
+					re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
 					$('#re_list').append(re_list);	
 					
 					/* $('#heart'+index+'').click(function () { */
@@ -129,23 +130,78 @@ $(document).ready(function () {
 
 //좋아요  //
 	
-
-
 selectData();	
 });
 
 //검색
-function check() {
-    if (document.search.keyWord.value == "") {
+function searchCheck() {
+   
+	/* if (document.search.keyword.value == "") {
         alert("검색어를 입력하세요.");
-        document.search.keyWord.focus();
+        document.search.keyword.focus();
         return;
     }
-    document.search.submit();
-   
-}	
+    document.search.submit(); */
+      
+    
+    $('#re_list').empty();
+    var key= { keyfield :$('#keyfield').val(), keyword: $('input#keyword').val() };  
 
-
+    
+    console.log(key);
+	$.ajax({
+		url:'/setak/reviewSearch.do', 
+		type:'POST',
+		data:key,
+		dataType:"json", //리턴 데이터 타입
+		contentType:'application/x-www-form-urlencoded; charset=utf-8',
+		success:function(data) {				
+			$.each(data, function(index, item) {
+				var re_list = '';					
+				var i = item.review_star;
+				re_list += '<tr><td height="20px" colspan="3"></td></tr>';
+				re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
+				re_list += '<tr><td height="20px" colspan="3">';   
+				if(i%2 == 1){
+					for(var abc = 0; abc<(i-1)/2; abc++){
+						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+					}
+					re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+					re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+					for(var x = 0; x<((10-i)-1)/2; x++){  
+						re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+					}
+				}
+				
+				if(i%2 == 0){
+					for(var abc = 0; abc<i/2; abc++){
+						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+					}
+					for(var x = 0; x<(10-i)/2; x++){  
+						re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+					}
+				}
+				
+				
+				re_list += '</td></tr>';		   																		
+				re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
+				re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
+				re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
+				re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
+				re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
+				$('#re_list').append(re_list);	
+			})
+				
+		},
+		error: function() {
+			alert("ajax통신 실패!!!");
+	    }
+    });	
+}			
 
 </script>	
 </head>
@@ -173,8 +229,8 @@ function check() {
     <a class="starR2" value="8">별4_오른쪽</a>
     <a class="starR1" value="9">별5_왼쪽</a>
     <a class="starR2" value="10">별5_오른쪽</a>     
-   	<input type="hidden" id="Review_star" name="Review_star" value="">
-   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
+   	<input type="text" id="Review_star" name="Review_star" value="">
+   	<input type="text" id="Review_like" name="Review_like" value="0">  	
 </div>      
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
@@ -204,24 +260,20 @@ function check() {
 <!-- 글 분류 -->
 <div class="re2">
 <strong id="re2h">리뷰  <%=maxnum %>개</strong>
-<select name="" class="">
-    <option value="최신">최신</option>
-    <option value="별점">별점</option>
-    <option value="제목">제목</option>
-    <option value="작성자">작성자</option>
-    <option value="작성일">작성일</option>
+<select name="re_condition" id="re_condition">
+    <option value="review_date">등록일순</option>
+    <option value="review_like">별점순</option>
 </select>
 
 <!-- 검색 -->
-<form action="reviewSearch.do" name="search" method="post">
-<select name="keyField" size="1">
-	<option value="member_id" <c:if test="${'member_id'==keyField }"> selected</c:if>> 이름 </option>
-	<option value="review_content" <c:if test="${'review_content'==keyField }"> selected</c:if>> 내용 </option>
-</select>
-<input type="text" size="16" name="keyWord" value="${keyWord }">
-<input type="button" value="검색" onClick="check()">
-<input type="hidden" name="page" value="0">   
-</form>    
+<!-- form action="reviewSearch.do" name="search" method="post"> -->
+
+	<select name="keyfield" id="keyfield" size="1">
+		<option value="member_id"> 이름 </option>
+		<option value="review_content"> 내용 </option>
+	</select>
+	<input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
+	<input type="button" value="검색" onClick="searchCheck()">
 
 
 <!--리뷰 리스트 (ajax) -->  

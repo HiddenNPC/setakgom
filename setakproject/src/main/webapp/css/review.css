@@ -73,6 +73,12 @@
   	margin:auto; width:1000px; margin-top: 15px;}
   	  	
   	.re2_t1 td{border: none;}
+  	
+  	.re_border{
+  	 
+  	}
+  
+  
   
   	 #heart{  		
 		background:url("../images/like1.png") no-repeat left 0;
@@ -110,7 +116,9 @@
 	background:rgba(0,0,0,0.5); 
 	}
 	
-	
+	 hr{
+	  border: 1px solid #e1e4e4;
+	 }
 	
 	
 	

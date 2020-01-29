@@ -10,7 +10,11 @@
 		<result property="review_content" column="review_content"/>
 		<result property="review_like" column="review_like"/>
 		<result property="review_photo" column="review_photo"/>
-		<result property="review_date" column="review_date"/>		
+		<result property="review_date" column="review_date"/>
+		<result property="keyfield" column="keyfield"/>		
+		<result property="keyword" column="keyword"/>		
+		<result property="re_condition" column="re_condition"/>		
+				
 	</resultMap>	
 		
 	<select id="getMaxNum" resultType="int">
@@ -29,11 +33,17 @@
 		INSERT INTO review VALUES (#{review_num},#{member_id,},#{review_kind},#{review_star},
 		#{review_content},#{review_like},#{review_photo, jdbcType=VARCHAR}, sysdate ) 
 	</insert>
-	<!-- 
-	<select id="reviewList" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
-		select * from review where #{review_content} like ('%', #{keyword}, '%') order by review_date desc    		
+	
+	<select id="reviewSearch" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
+	 <bind name="arg1" value="'%'+ arg1 +'%'" />
+		SELECT * FROM REVIEW WHERE ${arg0} like #{arg1} ORDER BY review_date DESC    		
 	</select>
-	 -->
+		
+	
+	<select id="reviewCondition" parameterType="com.spring.setak.ReviewVO" resultMap="reviewMap">
+		SELECT * FROM REVIEW ORDER BY #{re_condition} DESC       		
+	</select>
+	 
 	
 	
 

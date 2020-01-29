@@ -62,6 +62,22 @@ public class ReviewServiceImpl implements ReviewService
 		return res;
 	}
 
+	@Override
+	public ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewSearch(keyfield, keyword);
+		return list; 
+	}
+
+	@Override
+	public ArrayList<ReviewVO> reviewCondition(String re_condition) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition(re_condition); 
+		return list; 
+	}
+
 	
 
 	

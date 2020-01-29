@@ -176,10 +176,23 @@ import org.springframework.web.servlet.ModelAndView;
 	}
 	
 	@RequestMapping (value="reviewSearch.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
-	@ResponseBody public ArrayList<ReviewVO> reviewSearch(Model model) throws Exception
+	@ResponseBody public ArrayList<ReviewVO> reviewSearch(HttpServletRequest request, Model model,String keyfield, String keyword ) throws Exception
 	{
-		ArrayList<ReviewVO> list = reviewService.reviewList();
-		model.addAttribute("reviewList", list);	
+		keyfield=request.getParameter("keyfield");
+		System.out.println("키필드 넘어오긴 하냐?="+keyfield);
+		keyword=request.getParameter("keyword");
+		System.out.println("키워드 넘어오긴 하냐?="+keyword);
+		ArrayList<ReviewVO> list = reviewService.reviewSearch(keyfield, keyword);
+		model.addAttribute("reviewSearch", list);	
+		return list;		
+	}
+	
+	@RequestMapping (value="reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public ArrayList<ReviewVO> reviewCondition (HttpServletRequest request, Model model, String re_condition) throws Exception
+	{
+		re_condition=request.getParameter("re_condition");		
+		ArrayList<ReviewVO> list = reviewService.reviewCondition(re_condition);
+		model.addAttribute("reviewCondition", list);	
 		return list;		
 	}
 	
