@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,8 +35,12 @@ public class OrderController {
 	// 장바구니 
 	@RequestMapping(value = "/order.do")
 	public String cart(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		// 로그인 세션 값 읽기
+//		HttpSession session = request.getSession();
+//		String member_id = (String) session.getAttribute("member_id");
+		String member_id = "nanana"; 
 		
-		String member_id = "bit"; 
 		
 		// 세탁 장바구니 값 읽기
 		List<WashingVO> washingList = new ArrayList<WashingVO>();
@@ -99,15 +104,60 @@ public class OrderController {
 			return "cart";
 		} else {
 			
+			MemberVO memberVO = orderService.getMemberInfo(member_id);
+			String member_name = memberVO.getMember_name();
+			
+   		 	String member_phone1 = " ", member_phone2 = " ", member_phone3 = " ";
+
+   		 	if(memberVO.getMember_phone() != null) {
+   		 		
+   		 		String phone = memberVO.getMember_phone();
+   		 		member_phone1 = phone.substring(0, 3);
+	     			
+	   			if(phone.length() == 11) {
+	   				member_phone2 = phone.substring(3, 7);
+	   				member_phone3 = phone.substring(7);
+	        	} else {
+	        		member_phone2 = phone.substring(3, 6);
+	        		member_phone3 = phone.substring(6);             			 
+	        	}
+	        		     
+			}
+   		 	
+   		 	String member_addr1 = " ", member_addr2 = " "; 
+   		 	
+   		 	if(memberVO.getMember_loc() != null) {
+   		 		String addr = memberVO.getMember_loc();
+   		 		String[] locArr = addr.split("!");
+   		 		member_addr1 = locArr[0];
+   		 		member_addr2 = locArr[1]; 
+   		 	}
+   		 	
+   		 	String zipcode = " ";
+   		 	if(memberVO.getMember_zipcode() != null) {
+   		 		zipcode = memberVO.getMember_zipcode();
+   		 	}
+			
 			int havePoint = mileageService.getSum(member_id);
 			
 			ArrayList<CouponVO> couponList = couponService.getAbleCouponList(member_id);
 			int haveCoupon = couponService.getCouponCount(member_id);
 
+			model.addAttribute("member_name", member_name); 
+			model.addAttribute("memberVO", memberVO); 
+			
+			model.addAttribute("member_phone1", member_phone1);
+			model.addAttribute("member_phone2", member_phone2);
+			model.addAttribute("member_phone3", member_phone3);
+			
+			model.addAttribute("member_addr1", member_addr1);
+			model.addAttribute("member_addr2", member_addr2);
+			model.addAttribute("zipcode", zipcode);
+
+			model.addAttribute("havePoint", havePoint);
+
 			model.addAttribute("haveCoupon", haveCoupon);
 			model.addAttribute("couponList", couponList);
-			
-			model.addAttribute("havePoint", havePoint);
 			
 			return "order"; 
 		}
@@ -180,6 +230,12 @@ public class OrderController {
 	// 정기구독
 	@RequestMapping(value = "/subscribe.do")
 	public String subscribe(Model model) {
+		
+		String member_id = "bit"; 
+		
+		MemberVO mvo = orderService.getMemberInfo(member_id);
+		
+		model.addAttribute("memberVO", mvo);
 		return "subscribe";	
 	}
 
@@ -412,6 +468,36 @@ public class OrderController {
 		
 		return ovo;
 	}
+	
+	// 기본 배송지 저장
+	@RequestMapping(value = "/defaultAddrUpdate.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public Map<String, Object> defaultAddrUpdate(MemberVO mvo) {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			int res = orderService.defaultAddrUpdate(mvo);
+			retVal.put("res", "OK");
+		} catch(Exception e) {
+			retVal.put("res", "FAIL");
+			retVal.put("message", "Failure");
+		}
+		
+		return retVal; 		
+
+	}	
+	
+	// 정기구독 정보 입력
+	@RequestMapping(value = "/insertSubscribe.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public String insertSubscribe() {
+		
+		// 세션 아이디 값 읽음
+		// MemberVO 값 변경 (번호 입력)
+		// member_subs 테이블 값 추가
+		// subs_history 테이블 값 추가 
+		
+		return "index"; 
+	}	
 
 
 	

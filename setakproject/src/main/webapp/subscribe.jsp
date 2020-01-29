@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import = "com.spring.setak.MemberVO" %>
+
+<%
+	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +24,55 @@
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("./header.jsp")
-         $("#footer").load("./footer.jsp")     
+         $("#footer").load("./footer.jsp")
+         
+         var sub_num = '<%=memberVO.getSubs_num()%>';
+         alert(sub_num); 
+         if(sub_num != null) {
+        	 $(".pay_td").addClass("hh");
+         }else {
+        	 $(".pay_td").addClass("kk");
+         }
+         
+         $(document).on('click', '.pay_button', function(event) {
+        	 
+             var IMP = window.IMP; // 생략가능
+             IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+             var msg;
+                          
+             // IMP.request_pay(param, callback) 호출
+             IMP.request_pay({ // param
+               pay_method: "card", // "card"만 지원됩니다
+               merchant_uid : 'merchant_' + new Date().getTime(),
+               customer_uid: "gildong_0001_1235", // 카드(빌링키)와 1:1로 대응하는 값
+               name: "최초인증결제",
+               amount: 150, // 0 으로 설정하여 빌링키 발급만 진행합니다.
+               buyer_email: "gildong@gmail.com",
+               buyer_name: "홍길동",
+               buyer_tel: "010-4242-4242",
+               buyer_addr: "서울특별시 강남구 신사동",
+               buyer_postcode: "01181"
+             }, function (rsp) { // callback
+               if (rsp.success) {
+            	   alert("빌링키 발급 성공"); 
+            	      // 빌링키 발급 성공
+            	      // jQuery로 HTTP 요청
+            	      jQuery.ajax({
+            	        url: "/setak/insertSubscribe.do", // 서비스 웹서버
+            	        method: "POST",
+            	        headers: { "Content-Type": "application/json" },
+            	        data: {
+            	          customer_uid: "gildong_0001_1235", // 카드(빌링키)와 1:1로 대응하는 값
+            	        }
+            	      });
+               } else {
+                 alert("결제 오류"); 
+               }
+             });
+             
+         });
+         
+         
       });
     </script>
 </head>
@@ -32,7 +87,7 @@
 	         <div class="title-text"> <!-- 변경하시면 안됩니다. -->
 	            <h2>정기구독</h2>
 	         </div>
-       
+	                
 	       	<div class="sub-div">
 		         <p class = "p_subtitle">정기구독을 하시면 최대 60% 저렴합니다.</p> 	
 		        
@@ -65,7 +120,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 						<tr>
@@ -493,56 +548,5 @@
    <div id="footer"></div>
 </body>
 
-    <script>
-		$(document).ready(function() {
-	
-		// 아이엠포트 관련 스크립트
-		$(".pay_button").on("click", function(){
-    		var select_button = $(this);
-    		var tr = select_button.parent().parent();
-			var price = $(tr).attr('class');
-    		  	
-    		alert(price);
-    		
-            var IMP = window.IMP; // 생략가능
-            IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-            var msg;
-            
-            // IMP.request_pay(param, callback) 호출
-            IMP.request_pay({ // param
-              pg: "inicis",
-              pay_method: "card", // "card"만 지원됩니다
-              merchant_uid: "issue_billingkey_monthly_0001", // 빌링키 발급용 주문번호
-              customer_uid: "gildong_0001_1234", // 카드(빌링키)와 1:1로 대응하는 값
-              name: "최초인증결제",
-              amount: 0, // 0 으로 설정하여 빌링키 발급만 진행합니다.
-              buyer_email: "gildong@gmail.com",
-              buyer_name: "홍길동",
-              buyer_tel: "010-4242-4242",
-              buyer_addr: "서울특별시 강남구 신사동",
-              buyer_postcode: "01181"
-            }, function (rsp) { // callback
-              if (rsp.success) {
-                  // 빌링키 발급 성공
-                  // jQuery로 HTTP 요청
-                  jQuery.ajax({
-                    url: "https://www.myservice.com/billings/", // 서비스 웹서버
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    data: {
-                      customer_uid: "gildong_0001_1234", // 카드(빌링키)와 1:1로 대응하는 값
-                    }
-                  });
-              } else {
-                // 빌링키 발급 실패
-              }
-            });
-            
-        });
-    	
-		});
-		
-
-    </script>
     
 </html>

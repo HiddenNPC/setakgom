@@ -5,6 +5,8 @@
 <%@ page import = "com.spring.setak.MendingVO" %>
 <%@ page import = "com.spring.setak.KeepVO" %>
 <%@ page import = "com.spring.setak.CouponVO" %>
+<%@ page import = "com.spring.setak.MemberVO" %>
+
 <%@ page import = "java.util.ArrayList" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,10 +16,18 @@
 	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
 	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
 	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
+
+	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
+	String member_phone1 = (String) request.getAttribute("member_phone1");
+	String member_phone2 = (String) request.getAttribute("member_phone2");
+	String member_phone3 = (String) request.getAttribute("member_phone3");
+	String member_addr1 = (String) request.getAttribute("member_addr1");
+	String member_addr2 = (String) request.getAttribute("member_addr2");
+	String zipcode = (String) request.getAttribute("zipcode");
 	
 	int havePoint = (int)request.getAttribute("havePoint"); 
-
 	int haveCoupon = (int)request.getAttribute("haveCoupon"); 
+	
 	ArrayList<CouponVO> couponList = (ArrayList<CouponVO>)request.getAttribute("couponList");
 %>
 <!DOCTYPE html>
@@ -287,8 +297,6 @@
     		event.preventDefault(); 
         }
     });
-	
-
     
 	// 적립금  > 한글 금지
 	$("input:text[numberOnly]").on("keyup", function() { 
@@ -396,12 +404,20 @@
 	// 쿠폰 레이아웃 > 쿠폰 적용 선택
 	$("#coupon-btn").on("click", function (){
 
+		
+			var na = $("ul > p").attr('id');
+			if(na == 'notAble') {
+				layerPopup('close');
+				return;
+			}
+			
 			if($('input:checkbox[name="checkCoupon"]:checked').length == 0) {
+				
 				alert("쿠폰을 선택해주세요.");
 				return; 
 			}
 
-			
+		
 			var discountPrice = $("#discount_price").text().slice(0,-1);	
 			var couponPrice = $("#coupon_price").text().slice(0,-1);	
 			
@@ -455,20 +471,20 @@
 		var final_price = $('#final_price').text().slice(0,-1).replace(",","");
 		
         var IMP = window.IMP; // 생략가능
-        IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         
         IMP.request_pay({
-            pg : 'kakaopay',
+            pg : 'inicis',
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : '세탁곰 결제',
-            amount : 100,
-            buyer_email : 'minchoi9509@gmail.com',
-            buyer_name : '민경',
-            buyer_tel : '01088482996',
-            buyer_addr : '서울',
-            buyer_postcode : '12355',
+            amount : final_price,
+            buyer_email : '<%=memberVO.getMember_email()%>',
+            buyer_name : '<%=memberVO.getMember_name()%>',
+            buyer_tel : '<%=memberVO.getMember_phone()%>',
+            buyer_addr : '<%=memberVO.getMember_loc()%>',
+            buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
         }, function(rsp) {
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -511,8 +527,6 @@
     });
 	
 });
-
-	// 함수
 
 	//우편번호 api
     function execDaumPostcode(type) {
@@ -857,6 +871,56 @@
         modiDiv.css('display', 'none'); 		
 	}
 	
+	// 기본 배송지 지정
+	function setDefaultAddr() {
+		
+		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
+			
+			var phone1 = $("#order_phone1").val();
+			var phone2 = $("#order_phone2").val();
+			var phone3 = $("#order_phone3").val();
+			var postcode = $("#postcode").val();
+			var address = $("#address").val();
+			var detailAddress = $("#detailAddress").val();
+			var request = $("#request").val(); 
+			
+			var phone = phone1 + phone2 + phone3;
+			var addr = address + '!' + detailAddress; 
+			
+			var params = {
+					'member_id' : 'nanana',
+					'member_phone' : phone,
+					'member_zipcode' : postcode, 
+					'member_loc' : addr,
+			};
+			
+			$.ajax({
+	            url : '/setak/defaultAddrUpdate.do', // url
+	            type : 'POST',
+	            data : params, // 서버로 보낼 데이터
+	            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+	            dataType : 'json',
+	            success: function(retVal) {
+	               if(retVal.res=="OK") {    
+	            	   
+					  alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");	
+					  
+	               }
+	               else { // 실패했다면
+	                  alert("Update Fail");
+	               }
+	            },
+	            error:function() {
+	               alert("Update ajax 통신 실패");
+	            }			
+			});
+				
+		} else {
+			alert("선택이 취소되었습니다.");
+		}
+		
+	}
+	
 	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 
@@ -1038,28 +1102,29 @@
 							
 							<tr>
 								<td class = "left_col">받는 사람</td>
-								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" ></td>
+								<td class = "right_col"><input id = "address_human" class = "txtInp" type = "text" value = "<%=memberVO.getMember_name()%>"></td>
 							</tr> 
 							
 							<tr>
 								<td class = "left_col">휴대폰 번호</td>
 								<td class = "right_col">
-									<input id = "order_phone1" class = "txtInp" type = "text" maxlength = "3" style = "width : 30px;" numberOnly/> 
+									<input id = "order_phone1" class = "txtInp" type = "text" maxlength = "3" style = "width : 30px;" numberOnly value = "<%=member_phone1%>"/> 
 									-
-									<input id = "order_phone2" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>
+									<input id = "order_phone2" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly value = "<%=member_phone2%>"/>
 									-
-									<input id = "order_phone3" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly/>
+									<input id = "order_phone3" class = "txtInp" type = "text" maxlength = "4" style = "width : 40px;" numberOnly value = "<%=member_phone3%>"/>
 								</td>
 							</tr>
 							
 							<tr>
 								<td class = "left_col">배송지 주소</td>
 								<td class = "right_col">
-									<input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;"/> 
+									<input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;" value = "<%=zipcode%>"/> 
 									<input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
+									<label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox" onclick = "setDefaultAddr()"/>기본 배송지로 저장</label>
 									<br/>
-									<input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly/> &nbsp;
-									<input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;"/>
+									<input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly value = "<%=member_addr1%>"/> &nbsp;
+									<input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;" value = "<%=member_addr2%>"/>
 									<input id="extraAddress" type="hidden" placeholder="참고항목">
 									
 								</td>
@@ -1258,11 +1323,14 @@
 										<% } else { %> 
 											<li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
 										<%} 
-									} else { %>
-										<p>적용 가능한 쿠폰이 없음</p>
-									<% }
+										} 
 								}
-						} %>
+								
+								if(keepList.size() == 0) {
+							%>
+								<p id = "notAble">사용 가능한 쿠폰이 없음</p>
+						<% }
+						}%>
 					</ul>
 				</div>
 				

@@ -2,9 +2,9 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 
+import com.spring.setak.MemberVO;
 import com.spring.setak.OrderListVO;
 import com.spring.setak.OrderVO;
-import com.spring.setak.WashingCartVO;
 
 public interface OrderMapper {
 
@@ -22,5 +22,10 @@ public interface OrderMapper {
 	ArrayList<OrderListVO> getOrderList(OrderListVO olv);
 	// 결제 금액 
 	int getOrderPrice(OrderListVO olv); 
+	
+	// 회원 정보 읽어오기
+	MemberVO getMemberInfo(String member_id);
+	// 회원 정보 수정
+	int defaultAddrUpdate(MemberVO mvo); 
 
 }

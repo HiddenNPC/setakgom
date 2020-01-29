@@ -15,4 +15,7 @@ public interface OrderService {
 	public ArrayList<OrderListVO> getOrderList(OrderListVO olv);
 
 	public int getOrderPrice(OrderListVO olv);
+	
+	public MemberVO getMemberInfo(String member_id);
+	public int defaultAddrUpdate(MemberVO mvo); 
 }

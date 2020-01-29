@@ -106,5 +106,31 @@ public class OrderServiceImpl implements OrderService  {
 		
 		return price; 
 	}
+
+	@Override
+	public MemberVO getMemberInfo(String member_id) {
+		MemberVO mvo = null; 
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			mvo = orderMapper.getMemberInfo(member_id);
+		} catch(Exception e) {
+			System.out.println("멤버 정보 검색 실패 " + e.getMessage());
+		}
+		
+		return mvo; 		
+	}
+
+	@Override
+	public int defaultAddrUpdate(MemberVO mvo) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.defaultAddrUpdate(mvo);
+		} catch(Exception e) {
+			System.out.println("기본지 배송지 수정 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
 	
 }
