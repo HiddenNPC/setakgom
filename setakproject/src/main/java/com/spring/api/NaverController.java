@@ -23,7 +23,7 @@ public class NaverController {
 		
 		sms.setPhonenumber(request.getParameter("pn"));
 		sms.setMsgtext("인증번호는 " + request.getParameter("randomnum") + " 입니다.");
-		sms.sendMessage();
+		//sms.sendMessage();
 		
 		return "";
 	}

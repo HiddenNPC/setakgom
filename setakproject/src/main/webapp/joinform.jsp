@@ -18,7 +18,9 @@
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+	var authchk = "0";
 	$(document).ready(function() {
+		
 		
 		/*회원가입 버튼 클릭*/
 		$('#join').on('click', function(event){
@@ -27,6 +29,11 @@
             var address = $("#address").val();
             var detailAddress = $("#detailAddress").val();
             var addr = address + '!' + detailAddress;
+            
+            if(authchk == 0){
+            	alert("인증번호 확인이 되지 않았습니다.");
+            	return;
+            }
             
             if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
             	$("#member_password").val() == '' || $("#pw2").val() == '' || 
@@ -154,7 +161,8 @@
 					</span>
 					</li>
 				</ul>
-					<h4>인증번호가 일치하지 않습니다.</h4>
+					<h4 id = "authsucess">인증번호가 일치합니다.</h4>
+					<h4 id = "authfail">인증번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
 					<input type="text" name="member_email" id="member_email" placeholder="이메일">
@@ -225,11 +233,28 @@
 	var poReg = /^[0-9]{5}$/;
 	var gen = document.getElementsByName("gender");
 	
+	//랜덤함수 생성
+		randomnum = function() {
+		var array = new Uint32Array(1);
+		window.crypto.getRandomValues(array);
+		var num = array[0] + "";
+		var rnum = num.substring(0,6);
+		console.log(rnum);
+
+		/* for (var i = 0; i < array.length; i++) {
+		    console.log(array[i]);
+		} */
+		
+		return rnum;
+	}
+	
+		var random = randomnum();
+	
 	
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
-         var authchk = "0";
+         
          
          
          //생년월일
@@ -265,25 +290,11 @@
         	};
       	});
 		
-		//랜덤함수 생성
- 		randomnum = function() {
-			var array = new Uint32Array(1);
-			window.crypto.getRandomValues(array);
-			var num = array[0] + "";
-			var rnum = num.substring(0,6);
-			console.log(rnum);
-
-			/* for (var i = 0; i < array.length; i++) {
-			    console.log(array[i]);
-			} */
-			
-			return rnum;
-		}
-		
- 		var random = randomnum();
  		var AuthTimer = new $ComTimer();
 		//문자보내기
 		$("#authbtn").click(function(event){
+			$(".joinform div:nth-child(6) h4").css("display","none");
+			AuthTimer.fnStop();
 			random = randomnum();
 			
 			var phonenum = $("#member_phone").val();
@@ -370,12 +381,14 @@
 			AuthTimer.domId = "";
 			document.getElementById('timer').innerHTML = "";
 			$("#authbtn").attr('disabled', false);
+			$(".joinform div:nth-child(6) h4").css("display","none");
+			$(".joinform div:nth-child(6) #authsucess").css("display","block");
+			authchk = "1";
 		}else{
 			console.log("인증실패");
-			AuthTimer.fnStop();
-			AuthTimer.domId = "";
-			document.getElementById('timer').innerHTML = "";
 			$("#authbtn").attr('disabled', false);
+			$(".joinform div:nth-child(6) h4").css("display","none");
+			$(".joinform div:nth-child(6) #authfail").css("display","block");
 		}
  	});
 	  
@@ -445,7 +458,11 @@
  	 	  	  } else {
  	 	  		$(".clause div:nth-child(3) h4").css("display","block"); 
  	 	  	  }
- 	 	  });	
+ 	 	  });
+ 	  
+ 	  var test  = function(){
+ 		 random = randomnum();
+ 	  }
  		
 	});
 	
@@ -528,6 +545,7 @@
     	        this.domId.innerText = m;
     	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
     	            clearInterval(this.timer);		// 타이머 해제
+    	            random = randomnum();
     	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
     	        }
     	    }

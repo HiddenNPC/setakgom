@@ -107,7 +107,10 @@
 	color: #ff2222;
 	font-size: 0.8rem;
 	text-align:left;
-	margin:-20px 0 0 20px;
+	margin:-18px 0 3px 20px;
+}
+#authsucess{
+	color: #3498db;
 }
 
 .joinform h5 {
