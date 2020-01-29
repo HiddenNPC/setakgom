@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String name = (String)session.getAttribute("name");
+	String member_id = (String)session.getAttribute("member_id");
+	System.out.println("id"+member_id);
+%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,19 +15,11 @@
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/loginform.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    
-<!-- 네이버로그인 -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
-
-<!-- 카카오로그인 -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <!-- 구글로그인 -->
-
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"/>
-<script src="https://apis.google.com/js/api:client.js"></script>
+<meta name="google-signin-scope" content="profile email">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name = "google-signin-client_id" content = "114414180398-cjl49jqvelctnaiuvj6vi2ffjbrrv1dc.apps.googleusercontent.com">
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -60,42 +57,24 @@ $(document).ready(function(){
         	
     /*클릭시 사이트이동*/
     $(".kakao").click(function(event){
-    	$(location.href="/setak/joinform.jsp");
+    	$(location.href="${kakao_url}");
     });
     
- 	$(".gogle").click(function(event){
- 		$(location.href="/setak/joinform.jsp");
-    });
- 
  	$(".naver").click(function(event){
- 		$(location.href="/setak/joinform.jsp");
+ 		$(location.href="${naver_url}");
  	});
-    
+
+ 	$(".google").click(function(event){
+ 		$(location.href="${googleUrl}");
+ 	});
+	
+ 		
+
 });
 
-/*카카오*/
-Kakao.init('4655d068fb7f5b762388735c9fa8e3c9');
 
 
 /*구글로그인*/
-var googleUser = {};
-var startApp = function() {
-  gapi.load('auth2', function(){
-    auth2 = gapi.auth2.init({
-      client_id: '114414180398-eck8pdo38mttlb5d0jbs3j3ro8jejk9p.apps.googleusercontent.com',
-      cookiepolicy: 'single_host_origin',
-    });
-    attachSignin(document.getElementById('g-login-btn'));
-  });
-};
-
-/*네이버로그인*/
- var naverLogin = new naver.LoginWithNaverId({
-		clientId: "MaBE6KUU0ia5DhWNL3_Q",
-		callbackUrl: "http://localhost:9000/springhello/callback",
-		isPopup: false, /* 팝업을 통한 연동처리 여부 */
-	});
-
 
 
 </script>
@@ -134,12 +113,13 @@ var startApp = function() {
 					<div class="find_pw">비밀번호찾기</div>
 					<div class="btn_join">회원가입</div>
 				</div>
+				<% if (name == null) { %>
 				<div class="extra">
 					<h4>다른서비스계정으로 로그인</h4>
 					<div class="logo kakao">
 						<img src="images/logo_kakao.png">
 					</div>
-					<div class="logo gogle">
+					<div class="logo google" >
 						<img src="images/logo_gogle.png">
 	   				</div>
 					<div class="logo naver">
@@ -147,6 +127,10 @@ var startApp = function() {
 					</div>
 					<hr>
 				</div>
+				<% } else { %>
+					<h2>다른 서비스계정 로그인 성공하셨습니다!!</h2>
+					<h3>'${name}' 님 환영합니다!</h3>
+				<% } %>
 			</div>
 			</form>
 		</div>

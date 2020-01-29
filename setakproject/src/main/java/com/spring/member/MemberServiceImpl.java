@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.MemberMapper;
+import com.spring.mapper.MemberSubMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -109,4 +110,34 @@ public class MemberServiceImpl implements MemberService{
 		}
 		 return res;
 	}
+	
+	// 멤버 이름
+		@Override
+		public MemberVO name(String member_id) {
+			MemberVO mo = null;
+			try {
+				MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+				mo = mapper.name(member_id);
+			} catch (Exception e) {
+				System.out.println("멤버이름 못찾앗어요"+e.getMessage());
+			}
+			return mo;
+			
+		}
+		
+	//로그인 연동시 회원가입
+		@Override
+		public int linkage(MemberVO mo) {
+		int res = 1;
+			try {
+				MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+				mapper.linkage(mo);
+						
+			} catch(Exception e) {
+				System.out.println("네이버 로그인 회원가입 실패" + e.getMessage());
+				res = 0;
+			}
+					 
+				return res;
+			}
 }

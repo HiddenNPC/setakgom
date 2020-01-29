@@ -9,8 +9,6 @@
       <result property="pw2" column="pw2"/>
       <result property="member_phone" column="member_phone"/>
       <result property="member_email" column="member_email"/>
-      <result property="member_gender" column="member_gender"/>
-      <result property="member_birthday" column="member_birthday"/>
       <result property="member_zipcode" column="member_zipcode"/>
       <result property="member_loc" column="member_loc"/>
       <result property="member_join" column="member_join"/>
@@ -25,8 +23,8 @@
    </select>
    
    <insert id="member_insert" parameterType="com.spring.member.MemberVO" >
-		INSERT INTO member(member_name, member_id, member_password, member_phone, member_email, member_gender, member_birthday, member_zipcode, member_loc, member_join)
-		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_password, jdbcType=VARCHAR}, #{member_phone}, #{member_email}, #{member_gender}, #{member_birthday}, #{member_zipcode}, #{member_loc}, sysdate)
+		INSERT INTO member(member_name, member_id, member_password, member_phone, member_email, member_zipcode, member_loc, member_join)
+		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_password, jdbcType=VARCHAR}, #{member_phone}, #{member_email}, #{member_zipcode}, #{member_loc}, sysdate)
    </insert>
    
    <select id="member_password" parameterType="com.spring.member.MemberVO" resultType="string">
@@ -35,11 +33,22 @@
    
    <update id="member_update" parameterType="com.spring.member.MemberVO" >
    		UPDATE member 
-   		SET member_password=#{member_password}, member_birthday=#{member_birthday}, member_phone=#{member_phone}, member_email=#{member_email}, member_zipcode=#{member_zipcode}, member_loc=#{member_loc} 
+   		SET member_password=#{member_password},  member_phone=#{member_phone}, member_email=#{member_email}, member_zipcode=#{member_zipcode}, member_loc=#{member_loc} 
    		WHERE member_id= #{member_id, jdbcType=VARCHAR}
    </update>
    <delete id="member_delete" parameterType="String">
    		DELETE FROM member WHERE member_id= #{member_id, jdbcType=VARCHAR}
    </delete>
+   
+     <!-- 정기구독에서 멤버이름 -->
+    <select id="name" parameterType="String" resultMap="membervo">
+   		SELECT member_name FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR}
+   </select>
+   
+    <!-- 로그인 연동시 회원가입 -->
+   <insert id="linkage" parameterType="com.spring.member.MemberVO"  >
+   		INSERT INTO member(member_name, member_id, member_email, member_join)
+		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_email}, sysdate)
+   </insert>
    
 </mapper>

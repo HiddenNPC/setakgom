@@ -15,14 +15,11 @@ public interface MemberSubMapper {
 	 // 해당 정기구독 리스트
 	 SubscribeVO subscribe_list(String member_id);
 	 
-	/*
-	 * // 정기구독 내역 리스트 ArrayList<HistorySubVO>subhistory_list(String member_id);
-	 */
-	 
-	 
 	 // 정기구독 내역 리스트
 	 ArrayList<HistorySubVO>subhistory_list(HashMap<String, Object> map); 
 
 	 // 정기구독 리스트 갯수
-	 int listcount(String member_id);  
+	 int listcount(String member_id);
+
+	 
 }

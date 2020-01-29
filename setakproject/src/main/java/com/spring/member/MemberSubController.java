@@ -16,6 +16,10 @@ public class MemberSubController {
 
 	@Autowired
 	private MemberSubService membersubservice;
+	
+	@Autowired
+	private MemberService memberservice;
+	
 
 	@RequestMapping(value="mysub.do", produces = "application/json; charset=utf-8")
 	public String mysub(Model model, HttpSession session,HttpServletRequest request) {
@@ -31,6 +35,10 @@ public class MemberSubController {
 		/*해당 정기구독 리스트*/
 		SubscribeVO subscribe = membersubservice.subscribe_list(member_id);
 		model.addAttribute("subscribe", subscribe);
+		
+		/*멤버 이름*/
+		MemberVO name1 = memberservice.name(member_id);
+		model.addAttribute("name", name1);
 		  
 		/*정기구독 내역 리스트*/
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -65,6 +73,7 @@ public class MemberSubController {
 	         endpage = maxpage;
 	         
 	      }
+	      
 	      
 	      model.addAttribute("subhistory_list", subhistory_list);
 	      model.addAttribute("limit", limit);

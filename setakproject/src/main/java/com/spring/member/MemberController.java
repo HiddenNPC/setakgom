@@ -25,12 +25,7 @@ public class MemberController {
 		return "main";
 	}
 
-	// 로그인버튼 클릭시 로그인페이지으로 이동
-	@RequestMapping(value = "login.do", produces = "application/json; charset=utf-8")
-	public String loginform() {
-		return "loginform";
-	}
- 
+
 	//로그인
 	@RequestMapping(value="loginpro.do", produces = "application/json; charset=utf-8")
 	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception {
@@ -43,7 +38,7 @@ public class MemberController {
 		
 		 if(res == 1) {
 			 session.setAttribute("member_id", mo.getMember_id());
-			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
+			 writer.write("<script>alert('로그인 성공!!'); </script>");
 			 System.out.println("성공");
 		 } else {
 			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
@@ -51,15 +46,16 @@ public class MemberController {
 			 return "loginform";
 		 }
 		
-		 return "main";
+		 return "redirect:main.do";
 			
 	}
-
 	//로그아웃
 	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
 	public String logout(HttpSession session, MemberVO mo) throws Exception {
-		session.removeAttribute("member_id");
 
+		session.removeAttribute("member_id");
+		session.removeAttribute("name");
+	
 		return "loginform";
 		
 	}

@@ -89,7 +89,20 @@
 			</div>
 			<div class="test"> <!-- class 변경해서 사용하세요. -->
 				<div class="content">
+					<%
+						String str=(String)session.getAttribute("member_id");
+						String last = str.substring(str.length() - 1);
+						System.out.println(last);
+						if(last.equals("K")){
+					%>
+					<h3>카카오 계정으로 로그인 하셨습니다</h3>
+					<%} else if(last.equals("N")) {%>
+					<h3>네이버 계정으로 로그인 하셨습니다</h3>
+					<%} else if(last.equals("G")) {%>
+					<h3>구글 계정으로 로그인 하셨습니다</h3>
+					<% } else { %>
 					<h3>Login ID : <%=session.getAttribute("member_id") %></h3>
+					<%} %>
 					<h2>회원님의 개인정보를 안전하게 보호하기 위해</h2>
 					<h2>비밀번호를 작성해 주세요</h2>
 					<input class="pw" type="password" name="member_password" id="member_password" placeholder="비밀번호를 입력해주세요" />

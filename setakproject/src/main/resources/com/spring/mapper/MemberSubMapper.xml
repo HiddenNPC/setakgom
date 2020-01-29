@@ -32,7 +32,6 @@
    		 <result property="his_date" column="his_date"/>
    </resultMap>
    
-   
    <!--나의정기구독   -->
    <select id="sub_list" parameterType="String" resultMap="member_sub">
    		SELECT * FROM member_subs WHERE member_id=#{member_id, jdbcType=VARCHAR} 
