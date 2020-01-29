@@ -26,8 +26,8 @@
 	</select>
 		
 	<!-- 배송지 추가 -->
-	<insert id = "insertAddress" parameterType = "com.spring.order.AddressVO">
-		insert into address values(#{address_num}, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
+	<insert id = "insertAddress" parameterType = "com.spring.setak.AddressVO">
+		insert into address values(address_seq.nextval, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
 	</insert>
 	
 	<!-- 배송지 삭제 -->
@@ -40,5 +40,10 @@
 		update address set address_name = #{address_name}, address_human = #{address_human}, address_phone = #{address_phone},
 		address_zipcode = #{address_zipcode}, address_loc = #{address_loc} where address_num = #{address_num}
 	</update>
+	
+	<!-- 배송지 개수 제한 -->
+	<select id = "getAddressCount" parameterType = "com.spring.setak.AddressVO" resultType = "int">
+		select count(*) from address where member_id = #{member_id}
+	</select>
 
 </mapper>

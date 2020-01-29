@@ -97,6 +97,11 @@
 	height : 50px; 
 }
 
+label#saveAddrLabel {
+    font-size: 0.85rem;
+    margin-left: 30px;
+}
+
 /*배송지 테이블 */
 .delivery-div {
 	margin-bottom : 70px; 
@@ -232,7 +237,7 @@ input#point_price {
 	display : none;
 	position : fixed;
 	width : 60%;
-	height : 50%;
+	height : 400px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

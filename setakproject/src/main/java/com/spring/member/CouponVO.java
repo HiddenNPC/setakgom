@@ -14,6 +14,6 @@ public class CouponVO {
 	private Timestamp coupon_end;
 	private Timestamp coupon_useday;
 	private String coupon_use;
-
+	private int coupon_seq; 
 
 }

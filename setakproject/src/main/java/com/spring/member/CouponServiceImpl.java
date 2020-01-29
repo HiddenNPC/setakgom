@@ -39,6 +39,32 @@ public class CouponServiceImpl implements CouponService {
 		
 		return count;		
 	}
+
+	@Override
+	public ArrayList<CouponVO> getAbleCouponList(String member_id) {
+		ArrayList<CouponVO> couponList = null;
+		try {
+			CouponMapper couponMapper = sqlSession.getMapper(CouponMapper.class);
+			couponList = couponMapper.getAbleCouponList(member_id);
+		} catch(Exception e) {
+			System.out.println("쿠폰 가능 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return couponList;
+	}
+
+	@Override
+	public int useCoupon(int coupon_seq) {
+		int res = 0;
+		try {
+			CouponMapper couponMapper = sqlSession.getMapper(CouponMapper.class);
+			res = couponMapper.useCoupon(coupon_seq);
+		} catch(Exception e) {
+			System.out.println("쿠폰 사용 실패" + e.getMessage());
+		}
+		
+		return res;	
+	}
 	
 	
 }

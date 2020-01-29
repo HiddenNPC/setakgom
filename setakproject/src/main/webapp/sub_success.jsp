@@ -61,6 +61,8 @@
 					</tr>				
 				</tbody>
 			</table>
+
+			<p class = "goP"><a class = "goMain" href = "/setak/">홈으로 가기</a></p>
 			
 			<div class="notice" style = "padding-top : 100px;">
 	            <p>※ 구독관련 내용 확인은 마이페이지 > 나의 정기구독에서 확인 가능합니다.</p>

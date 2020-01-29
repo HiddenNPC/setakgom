@@ -75,12 +75,6 @@
  		font-size : 1.2rem;  
  		border : none; 
 		}
-		
-		.bt_1000:hover {
-			background-color : #e1e4e4;
-			color: #000;
-			transition: all .4s;
-		}
  
     .title-text {
       margin-bottom: 100px; 
@@ -100,8 +94,24 @@
       margin-bottom:6px;
       margin : auto;	 
       
-   }
-   
+	 }
+	 /*장바구니 비어있는 경우*/
+	 .empty_cart {
+	 	border: 1px solid white;
+	 	padding: 100px;
+	 }
+
+	 .empty_cart p {
+	 	padding-top: 30px;
+	 }
+
+	.goMain {
+		border: 1px solid #D8D8D8;
+    padding: 12px 45px;
+    color: #444;
+    background-color: #eeefef;
+	}
+		
    /* 장바구니 테이블 */
    table.cart_list, 
    table.cart_price  {

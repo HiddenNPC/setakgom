@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ page import = "com.spring.setak.WashingVO" %>
+<%@ page import = "com.spring.setak.MendingVO" %>
+<%@ page import = "com.spring.setak.KeepVO" %>
+<%@ page import = "com.spring.setak.CouponVO" %>
+<%@ page import = "java.util.ArrayList" %>
+
 <%
 	String order_num = request.getParameter("order_num");
+
+	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
+	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
+	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
+	int price = (int) request.getAttribute("price");
 %>
 <!DOCTYPE html>
 <html>
@@ -16,8 +28,18 @@
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
-         $("#footer").load("footer.jsp")  
+         $("#footer").load("footer.jsp")
+         
+         var price = '<%=price%>'; 
+         $("#pay_price").html(numberFormat(price));
       });
+      	
+  	// 콤마      
+      function numberFormat(inputNumber) {
+  		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+     	
+     	
     </script>
 </head>
 <body>
@@ -43,7 +65,7 @@
 			
 			<table class = "order_success_table">
 				<thead>
-					<th colspan = "5" align = "left"> &nbsp; &nbsp; 주문 상품 확인 (총 83,000원)</th>
+					<th colspan = "5" align = "left"> &nbsp; &nbsp; 주문 상품 확인 (총 <span id = "pay_price"></span>원)</th>
 				</thead>
 				<tbody align = "center">
 					<tr>
@@ -57,33 +79,59 @@
 					<tr>
 						<td colspan = "5" style = "height :3px; background-color : #3498db"></td>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
-	
-					</tr>				
-					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
-	
-					</tr>				
-					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
-	
-					</tr>				
+						<% if(washingList.size() != 0) {
+						for(int i = 0; i < washingList.size(); i++) {
+						WashingVO wvo = washingList.get(i);%>		
+						  <tr>
+		                     <td>세탁</td>
+		                     <td><%=wvo.getWash_kind() %></td>
+		                     <td><%=wvo.getWash_count() %>장</td>
+		                     <td class = "product_price"><%=wvo.getWash_price() %>원</td>
+		                     <td><%=wvo.getWash_method() %></td>
+		                  </tr>   
+                  		<% } } else { %>
+                  		<tr></tr>
+                  		<%} %>
+						<% if(mendingList.size() != 0) {
+						for(int i = 0; i < mendingList.size(); i++) {
+						MendingVO mvo = mendingList.get(i);%>		
+						  <tr>
+		                     <%if(mvo.getRepair_wash() == 0) { %>
+		                     <td>수선</td>
+		                     <%} else { %>
+		                     <td>세탁-수선</td>
+		                     <%} %>
+		                     <td><%=mvo.getRepair_cate()%></td>
+		                     <td><%=mvo.getRepair_count()%>장</td>
+		                     <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
+		                     <td><%=mvo.getRepair_kind()%></td>
+		                  </tr>   
+                  		<% } } else { %>
+                  		<tr></tr>
+                  		<%} %>
+                  		
+						<% if(keepList.size() != 0) {
+
+						KeepVO kvo = keepList.get(0);%>		
+						  <tr>
+		                     <%if(kvo.getKeep_wash() == 0) { %>
+		                     <td>보관</td>
+		                     <% } else { %>
+		                     <td>세탁-보관</td>
+		                     <% } %>
+		                     <td></td>
+		                     <td><%=kvo.getKeep_box()%>박스</td>
+		                     <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
+		                     <td><%=kvo.getKeep_month()%>개월</td>
+		                  </tr>   
+                  		<% } else { %>
+                  		<tr></tr>
+                  		<%} %>					
 				</tbody>
 			</table>
-		
+			
+			<p class = "goP"><a class = "goMain" href = "/setak/">홈으로 가기</a></p>
+
 			<div class="notice">
 	            <p>※ 주문내역 확인은 마이페이지 > 주문/배송 현황에서 확인 가능합니다.</p>
 	      	</div>

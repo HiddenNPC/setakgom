@@ -79,6 +79,19 @@ public class AddressServiceImpl implements AddressService {
 		
 		return res; 
 	}
+
+	@Override
+	public int getAddressCount(AddressVO avo) {
+		int cnt = 0; 
+		try {
+			AddressMapper addressMapper = sqlSession.getMapper(AddressMapper.class);
+			cnt = addressMapper.getAddressCount(avo);
+		} catch(Exception e) {
+			System.out.println("주소 리스트 갯수 검색 실패" + e.getMessage());
+		}
+		
+		return cnt;
+	}
 	
 	
 

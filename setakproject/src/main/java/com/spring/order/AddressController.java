@@ -47,6 +47,14 @@ public class AddressController {
 	public Map<String, Object> addressAdd(AddressVO avo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		try {
+			
+			int cnt = addressService.getAddressCount(avo);
+			if(cnt == 5) {
+				retVal.put("res", "CNTFAIL");
+				retVal.put("message", "주소지는 최대 5개까지 입력 가능합니다."); 
+				
+				return retVal; 
+			}
 			int res = addressService.insertAddress(avo);
 			retVal.put("res", "OK");
 		} catch(Exception e) {
@@ -77,7 +85,6 @@ public class AddressController {
 	@RequestMapping(value = "/deleteAddr.do", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> deleteAdd(AddressVO avo) {
-		System.out.println("삭제 컨트롤러");
 		int address_num = avo.getAddress_num();
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		try {
