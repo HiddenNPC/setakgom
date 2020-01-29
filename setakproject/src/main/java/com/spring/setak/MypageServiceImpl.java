@@ -1,6 +1,7 @@
 package com.spring.setak;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,44 @@ public class MypageServiceImpl implements MypageService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public ArrayList<OrderVO> getOrderlist(OrderVO orderVO){
+	public ArrayList<OrderVO> getOrderlist(HashMap<String, Object> map){
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		ArrayList<OrderVO> orderlist = new ArrayList<OrderVO>();
 		
-		orderlist = mypageMapper.getOrderlist(orderVO);
+		orderlist = mypageMapper.getOrderlist(map);
 
 		return orderlist;
 	}
+	
+	
+	@Override
+	public ArrayList<OrderListVO> getOrdernumlist(String member_id){
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
+		
+		ordernumlist = mypageMapper.getOrdernumlist(member_id);
+		System.out.println("service" + ordernumlist);
+		return ordernumlist;
+	}
+	
+	@Override
+	public ArrayList<KeepVO> selectMykeeplist(long order_num) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
+		keeplist = mypageMapper.selectMykeeplist(order_num);
+		
+		return keeplist;
+	}
+	
+	@Override
+	public KeepVO getKeepSeq(int keep_seq) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		KeepVO keepVO = new KeepVO();
+		keepVO = mypageMapper.getKeepSeq(keep_seq);
+		
+		return keepVO;
+	}
+	
 	
 	@Override
 	public int getOrdercount() {
@@ -31,6 +62,15 @@ public class MypageServiceImpl implements MypageService {
 		
 		return orderVO;
 	}
+	
+	@Override
+	public int getKeepcount() {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int keepVO = mypageMapper.getKeepcount();
+		
+		return keepVO;
+	}
+	
 	
 	@Override
 	public String selectOrderId(String member_id) {
@@ -68,6 +108,16 @@ public class MypageServiceImpl implements MypageService {
 		keepVO = mypageMapper.selectKeep(keep_seq);
 		
 		return keepVO;
+	}
+	
+	@Override
+	public WashingVO selectWashing(int wash_seq) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		WashingVO washVO = new WashingVO();
+		
+		washVO = mypageMapper.selectWashing(wash_seq);
+		
+		return washVO;
 	}
 }
 

@@ -31,6 +31,7 @@
 		<result column="order_address" property="order_address"/>
 		<result column="order_request" property="order_request"/>
 		<result column="order_zipcode" property="order_zipcode"/>
+		<result column="order_delete" property="order_delete"/>
 	</resultMap>
 	
 	<resultMap type="com.spring.setak.KeepVO" id="KeepResultMap">
@@ -45,11 +46,51 @@
 		<result column="keep_end" property="keep_end"/>
 	</resultMap>	
 	
-	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="int">
-			select * from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
-						order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode 
-						from memberorder) <![CDATA[ where rnum>=#{startRow, javaType=int} and rnum<=#{endRow, javaType=int} ]]> and  
-						member_id = #{member_id}
+	<resultMap type="com.spring.setak.WashingVO" id="WashingResultMap">
+		<result column="wash_seq" property="wash_seq"/>
+		<result column="wash_cate" property="wash_cate"/>
+		<result column="wash_kind" property="wash_kind"/>
+		<result column="wash_method" property="wash_method"/>
+		<result column="wash_count" property="wash_count"/>
+		<result column="wash_price" property="wash_price"/>
+	</resultMap>
+	
+	<resultMap type="com.spring.setak.OrderListVO" id="OrderlistResultMap">
+		<result column="wash_seq" property="wash_seq"/>
+		<result column="repair_seq" property="repair_seq"/>
+		<result column="keep_seq" property="keep_seq"/>
+		<result column="order_num" property="order_num"/>
+	</resultMap>
+	
+	
+	
+	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
+			select * 
+			from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
+						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete 
+				   from memberorder) 
+  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> and member_id = #{member_id}
+	</select>
+
+	
+	<select id="getOrdernumlist" resultMap="OrderlistResultMap" parameterType="String">
+		select DISTINCT order_num from orderlist 
+   							where order_num in  (select order_num from memberorder
+													where member_id = #{member_id})  
+	</select>
+	
+	<select id="selectMykeeplist" resultMap="KeepResultMap" parameterType="long">
+		select * from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})
+	</select>
+	
+	<select id="getKeepSeq" resultMap="KeepResultMap" parameterType="int">
+			select * from keep
+				where keep_seq = #{keep_seq}
+	</select>
+	
+	
+	<select id="getKeepcount" resultType="int">
+		select count(*) from keep
 	</select>
 
 	<select id="selectOrder" resultMap="OrderResultMap" parameterType="long">
@@ -71,4 +112,10 @@
 	<select id="selectKeep" resultMap="KeepResultMap" parameterType="int">
 		select * from keep where keep_seq = #{keep_seq}
 	</select>
+	
+	<select id="selectWashing" resultMap="WashingResultMap" parameterType="int">
+		select * from washing where wash_seq = #{wash_seq}
+	</select>
+	
+	
 </mapper>

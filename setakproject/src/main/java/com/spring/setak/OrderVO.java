@@ -22,6 +22,5 @@ public class OrderVO {
    private String order_address;
    private String order_request;   
    private String order_zipcode;
-   private int startRow;
-   private int endRow;
+   private String order_delete;
 }
