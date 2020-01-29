@@ -48,8 +48,8 @@ $(document).ready(function () {
 	// 조건 
 	$("#re_condition").on('click', function() {		
 		$('#re_list').empty();
-	    var rec= { re_condition : $('#re_condition:has(label)')}; 
-	    console.log(rec);
+	    var rec= { re_condition : $('#re_condition').val() }; 	    
+		console.log(rec);
 		$.ajax({
 			url:'/setak/reviewCondition.do', 
 			type:'POST',
@@ -310,19 +310,13 @@ function searchCheck() {
 <!-- 글 분류 -->
 <div class="re2">
 <strong id="re2h">리뷰  <%=maxnum %>개</strong>
-<input type="radio" name="re_condition" id="re_condition" >
-    <label for="re_condition" id="review_date">등록일순</label>
-    <label for="re_condition" id="review_like">좋아요순</label>
-    <label for="re_condition" id="review_star">별점순</label>
 
-
-<!-- 
 <select name="re_condition" id="re_condition" size="5">
     <option value="review_date">등록일순</option>
     <option value="review_like">좋아요순</option>
     <option value="review_star">별점순</option>
 </select>
--->
+
 
 <!-- 검색 -->
 <!-- form action="reviewSearch.do" name="search" method="post"> -->
