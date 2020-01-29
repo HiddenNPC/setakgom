@@ -46,9 +46,9 @@ $(document).ready(function () {
 	});	
     
 	// 조건 
-	$("#re_condition").on('click', function() {		
+	$('input[type="radio"]').on('click', function() {		
 		$('#re_list').empty();
-	    var rec= { re_condition : $('#re_condition').val() }; 	    
+		var rec= {re_condition : $('input[name="radio_val"]:checked').val()}; 	    
 		console.log(rec);
 		$.ajax({
 			url:'/setak/reviewCondition.do', 
@@ -306,27 +306,35 @@ function searchCheck() {
 </div>
 <div class="dim"></div><br><br>     
 
-      
-<!-- 글 분류 -->
-<div class="re2">
-<strong id="re2h">리뷰  <%=maxnum %>개</strong>
-
+<!-- 
+var rec= $('input[name="radio_val"]:checked').val();
+ var rec= { re_condition : $('#re_condition').val() };
 <select name="re_condition" id="re_condition" size="5">
     <option value="review_date">등록일순</option>
     <option value="review_like">좋아요순</option>
     <option value="review_star">별점순</option>
 </select>
+ -->
 
 
+
+      
+<!-- 글 분류 -->
+<div class="re2">
+<strong id="re2h">리뷰  <%=maxnum %>개</strong>
+<div>
+<input type="radio" id="radio1" name="radio_val" value="review_date" ><label for="radio1">등록일순</label>
+<input type="radio" id="radio2" name="radio_val" value="review_like"><label for="radio2">좋아요순</label>
+<input type="radio" id="radio3" name="radio_val" value="review_star"><label for="radio3">별점순</label>
+ 
 <!-- 검색 -->
-<!-- form action="reviewSearch.do" name="search" method="post"> -->
-
-	<select name="keyfield" id="keyfield" size="1">
-		<option value="member_id"> 이름 </option>
-		<option value="review_content"> 내용 </option>
-	</select>
-	<input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
-	<input type="button" value="검색" onClick="searchCheck()">
+<select name="keyfield" id="keyfield" size="1">
+	<option value="member_id"> 이름 </option>
+	<option value="review_content"> 내용 </option>
+</select>
+<input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
+<input type="button" value="검색" onClick="searchCheck()">
+</div>
 
 <!--리뷰 리스트 (ajax) -->  
 <table id="re_list" class="re2_t1"></table>
