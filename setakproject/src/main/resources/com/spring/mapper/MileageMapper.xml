@@ -15,7 +15,7 @@
 		select sum(mile_price) from mileage where member_id = #{member_id}
 	</select>	
 	
-	<insert id = "useMileage" parameterType = "com.spring.setak.MileageVO">
+	<insert id = "useMileage" parameterType = "com.spring.member.MileageVO">
 		insert into mileage values (#{member_id}, #{mile_date}, #{mile_price}, #{mile_content})
 	</insert>
 	

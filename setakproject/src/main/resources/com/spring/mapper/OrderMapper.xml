@@ -21,29 +21,29 @@
 		<result property="order_delete" column="order_delete" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.WashingCartVO" id="WashingCartResultMap">
+	<resultMap type="com.spring.order.WashingCartVO" id="WashingCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="wash_seq" column="wash_seq" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.MendingCartVO" id="MendingCartResultMap">
+	<resultMap type="com.spring.order.MendingCartVO" id="MendingCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="repair_seq" column="repair_seq" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.KeepCartVO" id="KeepCartResultMap">
+	<resultMap type="com.spring.order.KeepCartVO" id="KeepCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="keep_seq" column="keep_seq" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.OrderListVO" id="OrderListResultMap">
+	<resultMap type="com.spring.order.OrderListVO" id="OrderListResultMap">
 		<result property="wash_seq" column="wash_seq" />
 		<result property="wash_seq" column="wash_seq" />
 		<result property="keep_seq" column="keep_seq" />
 		<result property="order_num" column="order_num" />
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.MemberVO" id="MemberResultMap">
+	<resultMap type="com.spring.member.MemberVO" id="MemberResultMap">
 		<result property="member_name" column="member_name" />
 		<result property="member_id" column="member_id" />
 		<result property="member_password" column="member_password" />
@@ -81,17 +81,17 @@
 	</delete>
 	
 	<!-- 주문 목록 추가 -->
-	<insert id = "insertOrderList" parameterType = "com.spring.setak.OrderListVO">
+	<insert id = "insertOrderList" parameterType = "com.spring.order.OrderListVO">
 		insert into orderlist values (#{wash_seq}, #{repair_seq}, #{keep_seq}, #{order_num})
 	</insert>
 	
 	<!-- 주문 목록 시퀀스 읽어오기 -->
-	<select id = "getOrderList" parameterType = "com.spring.setak.OrderListVO" resultMap = "OrderListResultMap">
+	<select id = "getOrderList" parameterType = "com.spring.order.OrderListVO" resultMap = "OrderListResultMap">
 		select * from orderlist where order_num = #{order_num}
 	</select>
 	
 	<!-- 결제 금액 읽어오기 -->
-	<select id = "getOrderPrice" parameterType = "com.spring.setak.OrderListVO" resultType = "int">
+	<select id = "getOrderPrice" parameterType = "com.spring.order.OrderListVO" resultType = "int">
 		select order_price from memberorder where order_num = #{order_num}
 	</select>	
 	
@@ -101,7 +101,7 @@
 	</select>
 			
 	<!-- 기본 배송지 -->
-	<update id="defaultAddrUpdate" parameterType = "com.spring.setak.MemberVO">
+	<update id="defaultAddrUpdate" parameterType = "com.spring.member.MemberVO">
 		update member set member_phone = #{member_phone}, member_zipcode = #{member_zipcode}, member_loc = #{member_loc} where member_id = #{member_id}
 	</update>
 	

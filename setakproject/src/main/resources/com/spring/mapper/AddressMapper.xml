@@ -26,7 +26,7 @@
 	</select>
 		
 	<!-- 배송지 추가 -->
-	<insert id = "insertAddress" parameterType = "com.spring.setak.AddressVO">
+	<insert id = "insertAddress" parameterType = "com.spring.order.AddressVO">
 		insert into address values(address_seq.nextval, #{member_id}, #{address_name}, #{address_human}, #{address_phone}, #{address_zipcode}, #{address_loc})
 	</insert>
 	
@@ -42,7 +42,7 @@
 	</update>
 	
 	<!-- 배송지 개수 제한 -->
-	<select id = "getAddressCount" parameterType = "com.spring.setak.AddressVO" resultType = "int">
+	<select id = "getAddressCount" parameterType = "com.spring.order.AddressVO" resultType = "int">
 		select count(*) from address where member_id = #{member_id}
 	</select>
 

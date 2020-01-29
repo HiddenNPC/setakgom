@@ -55,7 +55,7 @@
 		<result column="wash_price" property="wash_price"/>
 	</resultMap>
 	
-	<resultMap type="com.spring.setak.OrderListVO" id="OrderlistResultMap">
+	<resultMap type="com.spring.order.OrderListVO" id="OrderlistResultMap">
 		<result column="wash_seq" property="wash_seq"/>
 		<result column="repair_seq" property="repair_seq"/>
 		<result column="keep_seq" property="keep_seq"/>
