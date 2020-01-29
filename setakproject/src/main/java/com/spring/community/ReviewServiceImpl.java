@@ -15,11 +15,7 @@ public class ReviewServiceImpl implements ReviewService
 {
 	@Autowired (required = false) private SqlSession sqlSession;
 	
-	@Override
-	public String reviewDetail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public ArrayList<ReviewVO> reviewList() throws Exception 
@@ -64,6 +60,36 @@ public class ReviewServiceImpl implements ReviewService
 		}
 		
 		return res;
+	}
+
+	@Override
+	public ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewSearch(keyfield, keyword);
+		return list; 
+	}
+
+	@Override
+	public ArrayList<ReviewVO> reviewCondition1(String re_condition) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition1(re_condition); 
+		return list; 
+	}
+	@Override
+	public ArrayList<ReviewVO> reviewCondition2(String re_condition) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition2(re_condition); 
+		return list; 
+	}
+	@Override
+	public ArrayList<ReviewVO> reviewCondition3(String re_condition) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
+		ArrayList<ReviewVO> list = reviewMapper.reviewCondition3(re_condition); 
+		return list; 
 	}
 
 	

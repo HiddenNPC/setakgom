@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -18,8 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,16 +29,21 @@ import org.springframework.web.servlet.ModelAndView;
 {
 	@Autowired private ReviewService reviewService;
 	
-	@RequestMapping ("review.do") public String review(Model model, ReviewVO vo, HttpServletRequest request ) throws Exception
+	@RequestMapping ("review.do") public String review(Model model) throws Exception
 	{	
-		//model.addAttribute("Review_num");		 
+		int maxnum = reviewService.getMaxNum();	
+		ArrayList<ReviewVO> list = reviewService.reviewList();
+		model.addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
+		model.addAttribute("reviewlist", list); 
+		//System.out.println("reviewlist="+list);
 		return "review_list";			
 	}
 	
-	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 
-	@ResponseBody public ArrayList<ReviewVO> reviewList() throws Exception
+	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
+		model.addAttribute("reviewList", list);	
 		return list;		
 	}
 	
@@ -47,8 +53,7 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
-		
-		
+				
 		int maxnum = reviewService.getMaxNum();
 		System.out.println("리뷰 maxnum=" + maxnum);
 				
@@ -63,7 +68,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 		vo.setReview_num(maxnum); 
 		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
-		vo.setMember_id("nanana");
+		vo.setMember_id("bit");
 		//String a = vo.getMember_id();
 		//System.out.println("Member_id=" +a );		
 		vo.setReview_kind(request.getParameter("Review_kind"));	
@@ -169,6 +174,46 @@ import org.springframework.web.servlet.ModelAndView;
 		sout.close();
 
 	}
+	
+	@RequestMapping (value="reviewSearch.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public ArrayList<ReviewVO> reviewSearch(HttpServletRequest request, Model model,String keyfield, String keyword ) throws Exception
+	{
+		keyfield=request.getParameter("keyfield");
+		System.out.println("키필드 넘어오긴 하냐?="+keyfield);
+		keyword=request.getParameter("keyword");
+		System.out.println("키워드 넘어오긴 하냐?="+keyword);
+		ArrayList<ReviewVO> list = reviewService.reviewSearch(keyfield, keyword);
+		model.addAttribute("reviewSearch", list);	
+		return list;		
+	}
+	
+	@RequestMapping (value="reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public ArrayList<ReviewVO> reviewCondition (HttpServletRequest request, Model model, String re_condition) throws Exception
+	{
+		re_condition=request.getParameter("re_condition");	
+		System.out.println("re_condition 넘어오긴 하냐?="+re_condition);
+		if(re_condition.equals("review_date")) {
+			ArrayList<ReviewVO> list = reviewService.reviewCondition1(re_condition);
+			model.addAttribute("reviewCondition1", list);	
+			return list;
+		}else if(re_condition.equals("review_like")) {
+			ArrayList<ReviewVO> list = reviewService.reviewCondition2(re_condition);
+			model.addAttribute("reviewCondition2", list);	
+			return list;
+			
+		}else {
+			ArrayList<ReviewVO> list = reviewService.reviewCondition3(re_condition);
+			model.addAttribute("reviewCondition3", list);	
+			return list;
+			
+		}
+		
+		
+				
+	}
+	
+	
+	
 	
 	
 }

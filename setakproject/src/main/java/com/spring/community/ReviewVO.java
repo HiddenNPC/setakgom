@@ -1,5 +1,8 @@
 package com.spring.community;
 
+import lombok.Data;
+
+
 public class ReviewVO 
 {
 	private int review_num;
@@ -7,15 +10,12 @@ public class ReviewVO
 	private String review_kind;
 	private Double review_star;
 	private String review_content;
-	public String getReview_date() {
-		return review_date;
-	}
-	public void setReview_date(String review_date) {
-		this.review_date = review_date;
-	}
 	private String review_like;
 	private String review_photo;
-	private String review_date;
+	private String review_date;	
+	private String keyfield;
+	private String keyword;
+	private String re_condition;
 	public int getReview_num() {
 		return review_num;
 	}
@@ -58,8 +58,31 @@ public class ReviewVO
 	public void setReview_photo(String review_photo) {
 		this.review_photo = review_photo;
 	}
-	
-	
+	public String getReview_date() {
+		return review_date;
+	}
+	public void setReview_date(String review_date) {
+		this.review_date = review_date;
+	}
+	public String getKeyfield() {
+		return keyfield;
+	}
+	public void setKeyfield(String keyfield) {
+		this.keyfield = keyfield;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	public String getRe_condition() {
+		return re_condition;
+	}
+	public void setRe_condition(String re_condition) {
+		this.re_condition = re_condition;
+	}
+
 
 	
 }
