@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import ="java.util.*, java.text.*" %>
+<%
+	Date today = new Date();
+	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+	
+	Calendar start_cal = Calendar.getInstance();
+	Calendar end_cal = Calendar.getInstance();
+	start_cal.add(Calendar.DATE, 1);
+	end_cal.add(Calendar.DATE, 1);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +42,10 @@
 						scrollTop : $($.attr(this, 'href')).offset().top - 250
 					}, 500);
 					return false;
+				});
+			} else {
+				$('.tab-list a').click(function() {
+					event.preventDefault();
 				});
 			}
 			
@@ -113,7 +127,7 @@
 			//수량에 따른 값변경
 			$.pricefun = function(n){
 				var num = parseInt($(".box_count:eq(" + n + ")").val());
-				$('.tot_price').html(num*price);
+				$('.tot_price').html(numberFormat(num*price));
 				$(".keep_price").val(num*price);
 			};
 			//버튼안누르고 직접 수량 입력했을 때
@@ -139,8 +153,20 @@
 				}) 
 				sumprice();
 			});
+			
+			/* 숫자 3자리마다 쉼표 넣어줌 */
+			numberFormat = function(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			
 			//장바구니 눌렀을 때
-			 $(".total-button").click(function(){
+			 $(document).on('click','.gocart',function(event) {
+				var member_id = "<%=session.getAttribute("member_id") %>";
+				if(member_id=="null"){
+					alert('로그인 후 이용 가능합니다.');
+					location.href='login.do';
+					return false;
+				}
 				if(monthclick==0){
 					alert('보관하실 기간을 선택해주세요.');
 					return false;
@@ -326,9 +352,9 @@
 					
 					<div class="keep_month">
 						<ul>
-							<li class="month"><h2>1개월</h2><p>2020.01.03 ~ 2020.02.02</p><h1><span class="price">10000</span>원</h1></li>
-							<li class="month"><h2>3개월</h2><p>2020.01.03 ~ 2020.04.02</p><h1><span class="price">28000</span>원</h1></li>
-							<li class="month"><h2>6개월</h2><p>2020.01.03 ~ 2020.07.02</p><h1><span class="price">55000</span>원</h1></li>
+							<li class="month"><h2>1개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,1);%><%=date.format(end_cal.getTime()) %></p><h1><span class="price">10000</span>원</h1></li>
+							<li class="month"><h2>3개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,2);%><%=date.format(end_cal.getTime()) %></p><h1><span class="price">28000</span>원</h1></li>
+							<li class="month"><h2>6개월</h2><p><%=date.format(start_cal.getTime()) %> ~ <%end_cal.add(Calendar.MONTH,3);%><%=date.format(end_cal.getTime()) %></p><h1><span class="price">55000</span>원</h1></li>
 						</ul>
 						<div class="keep_caution">
 							<p>※ 규격 안내 : - 월컴키트 안 세탁곰 규격 리빙박스(30L)가 기준입니다.</p>
@@ -338,7 +364,7 @@
 								- 세탁곰 리빙박스는 한 박스에 외투 15벌이 들어갑니다.<br>
 								- 세탁곰 리빙박스는 한 박스에 겨울 코트 10벌이 들어갑니다.
 							</p>
-							<p>※ 배송은 만료 기준 1회 무료이며, 도중 개별 반환도 가능합니다.  도중 개별 반환 시 배송비가 청구됩니다.</p>
+							<p>※ 배송은 만료 기준 1회 무료이며, 도중 개별 반환도 가능합니다. 도중 개별 반환 시 배송비가 청구됩니다.</p>
 							<p>※ 기간 만료 2주 전 카카오톡 알람 서비스가 제공됩니다. 연장을 원하신다면 마이페이지 > 보관현황에서 연장 신청을 이용해주세요.</p>
 							<p>※ 기간이 만료되면 입력하신 주소로 바로 배송됩니다. 배송 완료 후 알람을 드리며 이후 분실에 대해 책임을 지지 않습니다. 보관 중 배송지가 변경된다면 미리 정보를 수정해주세요.</p>
 						</div>
@@ -355,10 +381,11 @@
 					
 					<div class="total_price">
 						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
+						<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
 						<input style="display:none;" class="keep_price" type="hidden" name="keep_price" value="0">
 					</div>
 					<div class="total-button">
-						<input type="submit" value="장바구니">
+						<input type="submit" value="장바구니" class="gocart">
 					</div>
 				</form>
 			</div>

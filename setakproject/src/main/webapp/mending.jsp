@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String member_id = null;
+
+	if(session.getAttribute("member_id")!= null){
+		member_id = (String)session.getAttribute("member_id");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +49,10 @@
 						scrollTop : $($.attr(this, 'href')).offset().top - 200
 					}, 500);
 					return false;
+				});
+			} else {
+				$('.tab-list a').click(function() {
+					event.preventDefault();
 				});
 			}
 			
@@ -181,7 +192,7 @@
 				for(var i = 1; i<pricearr.length;i++){
 					sum += parseInt(pricearr[i].split('원')[0]);
 				}
-				$(".tot_price").html(sum);
+				$(".tot_price").html(numberFormat(sum));
 			}
 			
 			//수량
@@ -234,6 +245,25 @@
 				}) 
 				sumprice();
 			});
+
+			/* 숫자 3자리마다 쉼표 넣어줌 */
+			numberFormat = function(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			
+			//장바구니 클릭 시
+			$(document).on('click','.gocart',function(event) {
+				var member_id = "<%=session.getAttribute("member_id") %>";
+				if(member_id=="null"){
+					alert('로그인 후 이용 가능합니다.');
+					location.href='login.do';
+					return false;
+				}
+				if($(".tot_price").text()==0){
+					alert('수선 내용이 없습니다.');
+					return false;
+				}
+			 });
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -401,9 +431,10 @@
 					
 					<div class="total_price">
 						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
+						<p>수선비 총 금액 : <span class="tot_price">0</span>원</p>
 					</div>
 					<div class="total-button">
-						<input type="submit" value="장바구니">
+						<input type="submit" value="장바구니" class="gocart">
 						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>

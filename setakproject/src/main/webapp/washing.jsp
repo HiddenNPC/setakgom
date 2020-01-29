@@ -81,7 +81,7 @@ $(document).ready(function($) {
 		}
 		
 		$("#sumprice").html(numberFormat(hap));
-		
+		$(".wash_tprice").val(hap);	//총 금액 넘겨주려고 넣어놨슴돠. 주석 지우셔도 됨니당.-솔민
 	}
 	
 	/* 가격바뀌는 함수 */
@@ -300,7 +300,7 @@ function checkform() {
 					</ul>
 				</div>
 			</div>
-			<form id="pricediv" action="./washmending.st" method="post" onsubmit="return checkform();">
+			<form id="pricediv" action="./washmending.do" method="post" onsubmit="return checkform();">
 				<table id = "pricetable">
 					<tr class= "pricemenu">
 						<td width="10px"><input type="checkbox" id = "allcheck" checked></td>
@@ -312,7 +312,8 @@ function checkform() {
 				</table>
 			
 			<div class="total"> 
-				<p>총 금액 : 수선비 : <span id = "sumprice">0</span>원</p>
+				<p>총 금액 : 세탁비 <span id = "sumprice">0</span>원</p>
+				<input type="hidden" name="wash_tprice" value="" class="wash_tprice">
 			</div>
 			<div class="total-button">
 				<input type="submit" value="다음">

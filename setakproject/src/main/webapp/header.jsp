@@ -3,6 +3,25 @@
 <meta charset="UTF-8">
 <div id="container">
 	<header>
+		<div class="nav_open">
+			<div>
+				<a href="./" class="click"><i class="fas fa-home"></i></a>
+				<a><i class="fas fa-bars"></i></a>
+				<%
+					if(session.getAttribute("member_id")==null){
+				%>
+				<a href="./login.do"><i class="fas fa-shopping-cart"></i></a>
+				<%
+					} else {
+				%>
+				<a href="./cart.do"><i class="fas fa-shopping-cart"></i></a>
+				<%
+					}
+				%>
+				<a href="./login.do"><i class="fas fa-user"></i></a>
+			</div>
+		</div>
+		<div class="nav_close"><i class="fas fa-times"></i></div>
 		<nav>
 			<div class="content">
 				<ul class="logo">
@@ -14,7 +33,7 @@
 				<ul class="main-nav">
 
 				<%
-					if(session.getAttribute("id")==null){
+					if(session.getAttribute("member_id")==null){
 				%>
 					<li><a href="./login.do">로그인</a></li>
 					<li><a href="./join.do">회원가입</a></li>
@@ -52,23 +71,44 @@
 	<div class="header_space">
 	</div>
 	<script>
-		$(function() {
-			$(window).scroll(function() {
-				if ($(window).scrollTop() > 10) {
-					$("nav").addClass("shrink");
-					$(".logo li img").css('display', 'none');
-					$(".logo2 li img").css('display', 'block');
-				} else {
-					$("nav").removeClass("shrink");
-					$(".logo li img").css('display', 'block');
-					$(".logo2 li img").css('display', 'none');
-				}
-			});
-			$(".sub-nav > li:last-child").hover(function () {
-	            $(".sub-nav-sub").css('display', 'block');
-	        },
-	        function() {
-	            $(".sub-nav-sub").css('display', 'none');
-	        });
+		$(function(){
+			var windowWidth = $(window).width();
+			if (windowWidth > 769) {
+				$(window).scroll(function() {
+					if ($(window).scrollTop() > 10) {
+						$("nav").addClass("shrink");
+						$(".logo li img").css('display', 'none');
+						$(".logo2 li img").css('display', 'block');
+					} else {
+						$("nav").removeClass("shrink");
+						$(".logo li img").css('display', 'block');
+						$(".logo2 li img").css('display', 'none');
+					}
+				});
+				$(".sub-nav > li:last-child").hover(function () {
+		            $(".sub-nav-sub").css('display', 'block');
+		        },
+		        function() {
+		            $(".sub-nav-sub").css('display', 'none');
+		        });
+			} else{
+				//nav 보이게, 안보이게. 
+				$('.nav_open div a:nth-child(2)').click(function(){
+					$("nav").fadeIn(300);
+					$(".nav_close").fadeIn(300);
+					$(".nav_open").fadeOut(300);
+				});
+				$('.nav_close').click(function(){
+					$("nav").fadeOut(300);
+					$(".nav_close").fadeOut(300);
+					$(".nav_open").fadeIn(300);
+				});
+				
+				//커뮤니티 눌렀을 때
+				$(".sub-nav > li:last-child").click(function () {
+					event.preventDefault();
+					$(".sub-nav-sub").toggle(300);
+				});
+			}
 		});
 	</script>

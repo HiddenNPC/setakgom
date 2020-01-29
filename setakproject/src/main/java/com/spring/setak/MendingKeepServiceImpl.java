@@ -3,6 +3,8 @@ package com.spring.setak;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,24 @@ public class MendingKeepServiceImpl implements MendingKeepService{
 	private SqlSession sqlSession;
 	
 	@Override
-	public void insertMending(MendingVO mending) {
+	public int insertMending(MendingVO mending) {
 		MendingKeepMapper mendingkeepmapper = sqlSession.getMapper(MendingKeepMapper.class);
-		mendingkeepmapper.insertMending(mending);
+		int result = mendingkeepmapper.insertMending(mending);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("repair_seq", mending.getRepair_seq());
+		
+		return result;
 	}
 	
 	@Override
-	public void insertKeep(KeepVO keep) {
+	public void insertMendingCart(MendingCartVO mendingcart) {
+		MendingKeepMapper mendingkeepmapper = sqlSession.getMapper(MendingKeepMapper.class);
+		mendingkeepmapper.insertMendingCart(mendingcart);
+	}
+	
+	@Override
+	public int insertKeep(KeepVO keep) {
 		MendingKeepMapper mendingkeepmapper = sqlSession.getMapper(MendingKeepMapper.class);
 		
 		Date today = new Date();
@@ -46,6 +59,34 @@ public class MendingKeepServiceImpl implements MendingKeepService{
 		keep.setKeep_start(date.format(start_cal.getTime()));
 		keep.setKeep_end(date.format(end_cal.getTime()));
 		
-		mendingkeepmapper.insertKeep(keep);
+		int result = mendingkeepmapper.insertKeep(keep);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("keep_seq", keep.getKeep_seq());
+		
+		return result;
+	}
+	
+	@Override
+	public void insertKeepCart(KeepCartVO keepcart) {
+		MendingKeepMapper mendingkeepmapper = sqlSession.getMapper(MendingKeepMapper.class);
+		mendingkeepmapper.insertKeepCart(keepcart);
+	}
+	
+	@Override
+	public int insertWash(WashingVO washing) {
+		MendingKeepMapper mendingkeepmapper = sqlSession.getMapper(MendingKeepMapper.class);
+		int result = mendingkeepmapper.insertWash(washing);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("wash_seq", washing.getWash_seq());
+		
+		return result;
+	}
+	
+	@Override
+	public void insertWashingCart(WashingCartVO washingcart) {
+		MendingKeepMapper mendingkeepmapper = sqlSession.getMapper(MendingKeepMapper.class);
+		mendingkeepmapper.insertWashingCart(washingcart);
 	}
 }

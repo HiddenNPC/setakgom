@@ -5,6 +5,16 @@
 <!DOCTYPE html>
 <%
 	ArrayList<WashingVO> list = (ArrayList<WashingVO>)request.getAttribute("list");
+	String wash_tprice = request.getParameter("wash_tprice");
+
+	String member_id = null;
+
+	if(session.getAttribute("member_id")== null){
+		out.println("<script>");
+		out.println("alert('로그인 후 이용 가능합니다.')");
+		out.println("location.href='login.do'");
+		out.println("</script>");
+	}
 %>
 <html>
 <head>
@@ -33,6 +43,10 @@
 				$(".tab-content").removeClass("show");
 				$(this).addClass("active");
 				$($(this).attr("href")).addClass("show");
+				llength ="";
+				rlength ="";
+				tlength ="";
+				details_text = "";
 			});
 			
 			//세탁, 수선, 보관 탭 눌렀을 때 위로 올라가는 제이쿼리
@@ -44,28 +58,49 @@
 					}, 500);
 					return false;
 				});
+			} else {
+				$('.tab-list a').click(function() {
+					event.preventDefault();
+				});
+				$('.step img').attr("src","images/ms2.png")
 			}
 			
 			//치수 입력 시 폼에도 값 넘기기
+			var llength ="";
+			var rlength ="";
+			var tlength ="";
+			var details_text = "";
+			
 			$("#left input").keyup(function(){
 		        $('.left_length').val($(this).val());
+		        llength= $(this).val();
 		    });
 			$("#right input").keyup(function(){
 		        $('.right_length').val($(this).val());
+		        rlength= $(this).val();
 		    });
 			$("#length input").keyup(function(){
 		        $('.total_length').val($(this).val());
+		        tlength= $(this).val();
+		    });
+
+			$(".details_text").keyup(function(){
+				details_text = $(this).val();
 		    });
 			
 			//태그 기능, 계산기능
 			var maxAppend = 0;
 			var tprice = parseInt(0);
+			var kind;			
+			var kind_str = new Array();
+			
 			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
 					alert("최대 10개 선택 가능합니다.");
 					return;
 				}
-				$(".hash").append("<p class='hashvl'>"+$.attr(this, 'value')+"<span>X</span></p>");
+				kind = $.attr(this, 'value');
+				$(".hash").append("<p class='hashvl'>&nbsp;"+kind+"&nbsp;<span>X</span></p>");
 				maxAppend++;
 				
 				$(".price").removeClass("each");
@@ -88,11 +123,25 @@
 					return;
 				}
 
+				var hashvl = ($(".hash").html()).split('&nbsp;');
+				var kind_str = "";
+				for(var i=1; i<maxAppend*2-1; i+=2 ){
+					kind_str +=hashvl[i] + ",";
+				};
+				kind_str +=hashvl[i];
+				
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+sortation[0].innerHTML+'</td>';
+				str += '<td style="display:none;"><input type="hidden" name="repair_cate" value="'+sortation[0].innerHTML+'">';
+				str += '<input type="hidden" name="repair_kind" value="'+kind_str+'">';
+				str += '<input type="hidden" name="repair_var1" value="'+llength*(-1)+'">';
+				str += '<input type="hidden" name="repair_var2" value="'+rlength*(-1)+'">';
+				str += '<input type="hidden" name="repair_var3" value="'+tlength*(-1)+'">';
+				str += '<input type="file" name="repair_file" class="details_file">';
+				str += '<textarea name="repair_content">'+details_text+'</textarea></td>';
 				str += '<td>';
-				str += '<select name="list">';
+				str += '<select name="repair_code">';
 				str += '<option value="가">가</option>';
 				str += '<option value="나">나</option>';
 				str += '<option value="다">다</option>';
@@ -121,10 +170,12 @@
 				str += '<option value="토">토</option>';
 				str += '</select>';
 				str += '</td>';
-				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="count" value="1" id="" class="count">';
+				str += '<td><input type="text" maxlength="3" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" name="repair_count" value="1" id="" class="count">';
 				str += '<div><a class="bt_up">▲</a><a class="bt_down">▼</a></div>';
 				str += '</td>';
-				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원</td>';
+				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
+				str += '</td>';
+				str += '<input class="repair_price" type="hidden" name="repair_price" value="'+tprice+'">';
 				str += '</tr>';		
 				
 				$(".mending_order_title").after(str);
@@ -144,13 +195,16 @@
 				var tr = $(".mending_order").children().children();
 				var pricearr = new Array();
 				tr.each(function(i) {
-					pricearr.push(tr.eq(i).children().eq(4).text())
+					pricearr.push(tr.eq(i).children().eq(5).text())
 				});
 				//tr이 지금 두개라 구분창 말고 값가진 애들만 받기위해 한번 더 돌림 i를 1로.
 				for(var i = 1; i<pricearr.length;i++){
 					sum += parseInt(pricearr[i].split('원')[0]);
 				}
-				$(".tot_price").html(sum);
+				
+				$(".mtot_price").html(numberFormat(sum));
+				$(".tot_price").html(numberFormat(sum+(parseInt(<%=wash_tprice%>))));
+				$(".mending_tprice").val(sum);
 			}
 			
 			//수량
@@ -178,6 +232,7 @@
 				var num = parseInt($(".count:eq(" + n + ")").val());
 				var price = parseInt($(".tprice:eq(" + n + ")").attr('name'));
 				$(".tprice:eq(" + n + ")").html((num*price) + "원");
+				$(".repair_price").val(num*price);
 				sumprice();
 			};
 			$(document).on("propertychange change keyup paste",".count", function(){
@@ -202,8 +257,14 @@
 				}) 
 				sumprice();
 			});
+			
+			/* 숫자 3자리마다 쉼표 넣어줌 */
+			numberFormat = function(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			$(".wtot_price").html(numberFormat(parseInt(<%=wash_tprice%>)));
+			$('.tot_price').html(numberFormat(parseInt(<%=wash_tprice%>)));
 		});
-		
 		//한글, 영어 금지
 		function onlyNumber(event) {
 			event = event || window.event;
@@ -214,7 +275,6 @@
 			else
 				return false;
 		}
-		
 		function removeChar(event) {
 			event = event || window.event;
 			var keyID = (event.which) ? event.which : event.keyCode;
@@ -236,7 +296,6 @@
 			<div class="mending">
 				<div class="step"><img src="images/s2.png" alt="step2_수선"></div>
 				<p>※ 세탁 신청이 들어간 세탁물에 대해서만 수선이 가능한 페이지입니다. 수선만 맡기실 옷들은 수선서비스 페이지를 이용해주세요.</p>
-				<p><%=list.get(0).getWash_price() %></p>
 				<div class="tabs">
 					<div class="tab-list">
 						<a href="#one" id="tab" class="tab active">상의</a>
@@ -275,7 +334,7 @@
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -313,7 +372,7 @@
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -351,7 +410,7 @@
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
 								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -360,7 +419,7 @@
 				</div>
 				
 				<p>※ 받으신 웰컴키트 안 '택'에  선택하신 택 코드를 동일하게 적어서 보내주세요.</p>
-				<form>
+				<form name="washingMendingform" action="./washingKeepform.do" method="post" enctype="multipart/form-data">
 					<table class="mending_order">
 						<tr class="mending_order_title">
 							<td width="5%"><input type="checkbox" id = "allcheck" checked></td>
@@ -370,13 +429,26 @@
 							<td style="width:25%;">합계</td>
 						</tr>
 					</table>
-					
+					<%
+						for (int i = 0; i < list.size(); i++) {
+					%>
+					<input type= "hidden" name="wash_cate" value="<%=list.get(i).getWash_cate()%>">
+					<input type= "hidden" name="wash_kind" value="<%=list.get(i).getWash_kind()%>">
+					<input type= "hidden" name="wash_method" value="<%=list.get(i).getWash_method()%>">
+					<input type= "hidden" name="wash_count" value="<%=list.get(i).getWash_count()%>">
+					<input type= "hidden" name="wash_price" value="<%=list.get(i).getWash_price()%>">
+					<%
+						}
+					%>
 					<div class="total_price">
-						<p>총 금액	: 세탁비 0원 + 수선비 <span class="tot_price">0</span>원 = 합계 : 0원</p>
+						<p>세탁비 <span class="wtot_price">0</span>원 + 수선비 <span class="mtot_price">0</span>원 = 합계 : <span class="tot_price">0</span>원</p>
+						<p>수선비 : <span class="mtot_price">0</span>원</p>
+						<input type="hidden" name="wash_tprice" value="<%=wash_tprice %>" class="wash_tprice">
+						<input type="hidden" name="mending_tprice" value="0" class="mending_tprice">
 					</div>
 					<div class="total-button">
-						<a href="./washkeep.st"><input type="button" value="다음"></a>
-						<a href="./setak.st"><input type="button" value="이전"></a>
+						<a><input type="submit" value="다음" class="gocart"></a>
+						<a><input type="button" value="이전" onclick="history.back(); return false;"></a>
 						<input type="button" value="선택삭제" class="chkdelete">
 					</div>
 				</form>
