@@ -117,7 +117,7 @@
     .mypage_content h3 {
     	color:#3498bd;
     	text-align:center;
-    	margin-top:80px;
+    	margin-top:150px;
     }
 
 /*나의 정기구독*/
@@ -198,9 +198,57 @@ a#cancle {
 	color: #3498db;
 }
 
+/*정기구독내역*/
+.myrecord .text h2 {
+	margin:70px 0 20px 0;
+	font-size:1.5rem;
+}
+
+.myrecord .text h2:before {
+	content: '';
+	display: block;
+	width: 4%;
+	height: 6px;
+	background-color: #3498db;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
+.record_list {
+	border-collapse:collapse;
+}
+.record_list thead th{
+	width:1000px;
+	height:60px;
+	background-color: #3498db;
+	color:#fff;
+	font-weight:initial;
+	border:2px solid #e1e4e4;
+
+}
+
+.record_list thead th:first-child{
+	width:300px;
+	}
+
+.record_list tbody td {
+	 height:50px;
+     text-align:center;
+	 border:2px solid #e1e4e4;
+}
+
+
+
+/*이전이후*/
+.page_a {
+	margin:50px auto;
+	
+}
+
+
 /*팝업창*/
 
-.popup_back { /* 팝업 배경 css */
+/*수거고 팝업창*/
+.popup_back { 
 	z-index:10000;
     position: fixed;
     width: 100%;
@@ -212,7 +260,7 @@ a#cancle {
     opacity: 0.8;
 }
 
-.popup {  /* 팝업창 css */
+.popup { 
 	display:none;
 	z-index:99999;
     top : 0px;
@@ -266,7 +314,7 @@ a#cancle {
     color:#858688;
 }
 
-/*구독해지*/
+/*구독해지 팝업창*/
 .subcancle {
 	z-index:10000;
 	position: fixed;
@@ -340,49 +388,4 @@ a#cancle {
 	font-size:0.9rem;
 }
 
-/*정기구독내역*/
-.myrecord .text h2 {
-	margin:70px 0 20px 0;
-	font-size:1.5rem;
-}
-
-.myrecord .text h2:before {
-	content: '';
-	display: block;
-	width: 4%;
-	height: 6px;
-	background-color: #3498db;
-	margin-bottom: 6px;
-	vertical-align: middle;
-}
-.record_list {
-	border-collapse:collapse;
-}
-.record_list thead th{
-	width:1000px;
-	height:60px;
-	background-color: #3498db;
-	color:#fff;
-	font-weight:initial;
-	border:2px solid #e1e4e4;
-
-}
-
-.record_list thead th:first-child{
-	width:300px;
-	}
-
-.record_list tbody td {
-	 height:50px;
-     text-align:center;
-	 border:2px solid #e1e4e4;
-}
-
-
-
-/*이전이후*/
-.page_a {
-	margin:50px auto;
-	
-}
 

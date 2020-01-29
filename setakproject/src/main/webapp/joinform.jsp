@@ -10,11 +10,7 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/join.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-   
-<!-- 생년월일  datepicker script -->
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -38,8 +34,7 @@
             if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
             	$("#member_password").val() == '' || $("#pw2").val() == '' || 
             	$("#member_phone").val() == ''|| $("#member_sns").val() == '' || 
-            	$("#member_email").val() == '' || $("#member_gender").val() == "성별" ||  
-            	$("member_birthday").val() == '' || $("#member_zipcode").val() == '' ||
+            	$("#member_email").val() == '' || $("#member_zipcode").val() == '' ||
             	($("#clause_use").is(":checked")==false) ||($("#clause_privacy").is(":checked")==false)
             	
              ) {
@@ -53,8 +48,6 @@
                      'member_password':$("#member_password").val(),
                      'member_phone':$("#member_phone").val(),
                      'member_email':$("#member_email").val(),
-                     'member_gender':$("#member_gender").val(),
-                       'member_birthday':$("#member_birthday").val(),
                      'member_zipcode':$("#member_zipcode").val(),
                      'member_loc':addr
             };
@@ -170,19 +163,6 @@
 					<h4>메일주소를 입력해주세요</h4>				
 				</div>
 				<div class="input_list">
-					<select name="member_gender" id="member_gender" >
-						<option value="성별" selected>성별</option>
-						<option value="남">남</option>
-						<option value="여">여</option>
-					</select>
-					<h4>성별을 선택해주세요</h4>
-				</div>
-				<div class="input_list">
-					<input type="text" name="member_birthday" id="member_birthday" class="birthday" placeholder="생년월일 "  style="width: 430px;" />
-					<i class="far fa-calendar-alt"></i>
-					<h4>생년월일을 입력해주세요</h4>
-				</div>
-				<div class="input_list">
 					<input id="member_zipcode" type="text" name="member_zipcode" style="width: 320px;"  /> 
 					<input class="button" type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"> 
 					<h4>우편번호를 입력해주세요</h4>
@@ -229,9 +209,7 @@
 	var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
 	var phReg =/^[0-9]{10,11}$/;
 	var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
-	var brReg = /^(\d{4})[-]\d{2}[-]\d{2}$/;
 	var poReg = /^[0-9]{5}$/;
-	var gen = document.getElementsByName("gender");
 	
 	//랜덤함수 생성
 		randomnum = function() {
@@ -255,25 +233,6 @@
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
          
-         
-         
-         //생년월일
-		$(".birthday").datepicker ({
-		  	dateFormat: 'yy-mm-dd', // 텍스트 필드에 입력되는 날짜 형식.
-		  	prevText:'이전 달',
-		  	nextText:'다음 달',
-		  	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		  	dayNamesMin:['일','월','화','수','목','금','토'],
-		  	changeMonth:true, //월을 바꿀 수 있는 박스를 표시한다
-		  	changeYear:true,
-		  	showMonthAfterYear:true, //월, 년 순의 박스를 년, 월 순으로 바꿔준다
-		  	yearRange:'c-100:c'// 년도 선택 박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할 것인가?
-	 	 });
-		
-		//생년월일 아이콘으로 포커스하기
-		$('.fa-calendar-alt').click(function(){
-			$(".birthday").focus();
-		});
 		
 		//체크박스
  		$("#checkall").click(function(){
@@ -402,24 +361,6 @@
 		
  	});
 
-	//성별체크V
-	$(document).on("change","#member_gender",function(){
-		if($('#member_gender').val()=='성별') {
-			$(".joinform div:nth-child(8) h4").css("display","block");
-		} else {
-			$(".joinform div:nth-child(8) h4").css("display","none");
-		}
-		
- 	});
-	  
-	  //생년월일체크????????????????????????????? 년 월 일 까지 포함해야하는데 음..
-		$(document).on("propertychange change keyup paste","#member_birthday",function(){
-		if(!brReg.test($(this).val())){
-			$(".joinform div:nth-child(9) h4").css("display","block");
-		} else {
-			$(".joinform div:nth-child(9) h4").css("display","none");
-		}
- 	});
 	  
 	  //우편번호체크V
 	$(document).on("propertychange change keyup paste","#member_zipcode",function(){

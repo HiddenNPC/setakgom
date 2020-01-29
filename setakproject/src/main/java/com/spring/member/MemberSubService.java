@@ -21,4 +21,6 @@ public interface MemberSubService {
 
 	// 정기구독 리스트 갯수
 	public int listcount(String member_id); 
+	
+	
 }

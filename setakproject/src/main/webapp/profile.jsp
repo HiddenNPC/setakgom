@@ -63,14 +63,6 @@
       	    	}
       	    });
      	
-     	  	 //생년월일체크
-     		$(document).on("propertychange change keyup paste","#member_birthday",function(){
-     		if(!brReg.test($(this).val())){
-     			$(".profile h3").css("display","block");
-     		} else {
-     			$(".profile h3").css("display","none");
-     		}
-      	});
      	
      	  //핸드폰번호 체크V
      		$(document).on("propertychange change keyup paste","#member_phone",function(){
@@ -114,25 +106,6 @@
      		}
      		
       	});
-         
-         
-    	 //생년월일
- 		$("#member_birthday").datepicker ({
- 		  	dateFormat: 'yy-mm-dd', // 텍스트 필드에 입력되는 날짜 형식.
- 		  	prevText:'이전 달',
- 		  	nextText:'다음 달',
- 		  	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
- 		  	dayNamesMin:['일','월','화','수','목','금','토'],
- 		  	changeMonth:true, //월을 바꿀 수 있는 박스를 표시한다
- 		  	changeYear:true,
- 		  	showMonthAfterYear:true, //월, 년 순의 박스를 년, 월 순으로 바꿔준다
- 		  	yearRange:'c-100:c'// 년도 선택 박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할 것인가?
- 	 	 });
- 		
- 		//생년월일 아이콘으로 포커스하기
- 		$('.fa-calendar-alt').click(function(){
- 				$("#member_birthday").focus();
- 		});
  		
  		
  		$('#update').on('click', function(event) {
@@ -141,9 +114,8 @@
 			var detailAddress = $("#detailAddress").val();
 			var addr = address + '!' + detailAddress; 
  			var params = {
- 						'member_id':sessionID,
+ 						   'member_id':sessionID,
 					       'member_password':$("#member_password").val(),
-					       'member_birthday':$("#member_birthday").val(),
 					       'member_phone':$("#member_phone").val(),
 					       'member_email':$("#member_email").val(),
 					       'member_zipcode':$("#postcode").val(),
@@ -248,19 +220,12 @@
 							<td class="right_info"><%=mo2.getMember_name() %></td>
 						</tr>	
 						<tr>
-							<td class="left_info">생년월일</td>
-							<td class="right_info">
-								<input type="text" class="txt_info" id="member_birthday" value="<%=mo2.getMember_birthday() %>">
-								<i class="far fa-calendar-alt"></i>
-								<h3>생년월일을 입력해주세요</h3>
-							</td>
-						</tr>
-						<tr>
 							<td class="left_info">핸드폰</td>
 							<td class="right_info">
 								<input type="text" class="txt_info" id="member_phone" value="<%=mo2.getMember_phone() %>">
 								<input type="button" value="인증번호 발송하기" />
 								<input type="text" class="txt_info"  id="chksns" placeholder="SNS 인증번호"><br>
+								<input type="button" value="인증번호 확인하기" />
 								<h5>핸드폰 번호를 입력해주세요</h5><h6>인증번호를 확인해주세요</h6>
 								
 							</td>
@@ -286,7 +251,7 @@
 					</table>
 				<div class="total_button">
 				<input type="reset" value="취소" />
-				<input type="button" id="update" value="수정" />
+				<input type="submit" id="update" value="수정" />
 				</div>	
 			</form>
 		</div>			
@@ -299,7 +264,6 @@
 	var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
 	var phReg =/^[0-9]{10,11}$/;
 	var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
-	var brReg = /^(\d{4})[-]\d{2}[-]\d{2}$/;
 	var poReg = /^[0-9]{5}$/;
 		
 	

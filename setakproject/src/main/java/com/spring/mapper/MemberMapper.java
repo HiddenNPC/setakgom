@@ -10,4 +10,9 @@ public interface MemberMapper {
 	void member_update(MemberVO mo);
 	void member_delete(String member_id);
 	
+	 // 멤버 이름
+	 MemberVO name(String member_id);
+	 
+	//로그인 연동시 회원가입
+	 void linkage(MemberVO mo);
 }

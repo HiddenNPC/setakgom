@@ -3,10 +3,12 @@
 <%@ page import="com.spring.member.MemberSubVO"  %>    
 <%@ page import="com.spring.member.HistorySubVO" %>
 <%@ page import="com.spring.member.SubscribeVO" %>
+<%@ page import="com.spring.member.MemberVO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%
 	MemberSubVO ms = (MemberSubVO) request.getAttribute("sub_list");
 	SubscribeVO sv = (SubscribeVO) request.getAttribute("subscribe");
+	MemberVO mo = (MemberVO) request.getAttribute("name");
 	ArrayList<HistorySubVO> list = (ArrayList<HistorySubVO>)request.getAttribute("subhistory_list");
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
@@ -14,7 +16,6 @@
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
-	System.out.println("list="+list);
 	
 %>	
 <!DOCTYPE html>
@@ -114,6 +115,12 @@
 			}
 		}
 		
+		/*수거고 날짜*/
+		var d = new Date(); 
+		var day = (d.getMonth()+1)+"월" + (d.getDate()+1)+"일";
+		document.getElementById("printday").innerHTML =day;
+		
+				
 	});
 	 
 
@@ -207,7 +214,7 @@
 					</div>
 					<%} %>	
 					<!--정기구독내역이 없을 경우 -->		
-						<% if(list == null ) {%> 
+						<% if(listcount == 0 ) {%> 
 					<% } else { %> 	
 					<div class="myrecord">
 						<div class="text">
@@ -275,7 +282,7 @@
                 	<img src="images/popup.png">
                     <div class="text">
                                                      수거 신청이 되었습니다.<br><br>
-                        0월 0일 수거됩니다.
+                       	<span id="printday"></span>에 수거됩니다.
                     </div>
                     <div class="pop_btn">확인</div>
                 </div>    
@@ -297,7 +304,7 @@
 	                <div class="back">
 						<img class="sub_image" src="images/back.png">
 						<div class="text">
-							<h2>00님</h2>
+							<h2><span><%=mo.getMember_name() %></span>님</h2>
 							<p>지금 정기구독을 해지하시면,</p>
 							<h4>최대<span>60%</span>저렴한 정기구독권</h4>
 							<h4>보관 1BOX<span>1개월 쿠폰</span></h4>
