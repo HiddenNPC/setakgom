@@ -213,11 +213,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						</div>
 						<div class="rt-service">
 							<form id="" action="" method="post">
-							<table id="rt-table">
+							<table name="rt-table">
 								<tr style="background-color: #3498db;">
 									<td width="20%">종류</td>
 									<td width="80%" colspan="2">옷의 특징을 상세히 입력해주세요.
-										<input type = "button" value = "+" id='btn_add_row' />
+										<input type = "button" value = "+" name='btn_add_row' />
 									</td>
 								</tr>
 								<tbody>
@@ -303,9 +303,9 @@ $.pricefun = function(n){
 			$(this).parent().parent().remove();
 		});	
 	  
-	  $(document).on("click","#btn_add_row", function () {
-		  
+	  $(document).on("click","input[name='btn_add_row']", function () {
 		var str='';
+		
 		str += '<tr>';
 		str += '<td>';
 		str += '<select id="rt-list">';
@@ -321,7 +321,8 @@ $.pricefun = function(n){
 		str += '<input type="button" value="x" id="btn_del_row"/>';
 		str += '</td>';
 		str += '</tr>'; 
-		$('#rt-table > tbody:last').append(str);
+		$(this).closest('table').append(str);
+		//$("table[name='rt-table']:eq("++") > tbody:last").append(str);
 	});
 	});
 
