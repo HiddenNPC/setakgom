@@ -1,8 +1,9 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.spring.member.CouponVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.*, com.spring.setak.*" %>
-<%@ page import = "java.text.SimpleDateFormat" %>
 <% 
 	List<CouponVO> couponlist = (ArrayList<CouponVO>)request.getAttribute("couponlist");
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");

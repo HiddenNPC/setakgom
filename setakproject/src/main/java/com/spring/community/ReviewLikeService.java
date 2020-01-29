@@ -1,4 +1,4 @@
-package com.spring.setak;
+package com.spring.community;
 
 public interface ReviewLikeService 
 {

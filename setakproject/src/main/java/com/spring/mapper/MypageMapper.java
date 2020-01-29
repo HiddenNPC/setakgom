@@ -3,11 +3,10 @@ package com.spring.mapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
-import com.spring.setak.OrderListVO;
-import com.spring.setak.OrderVO;
 import com.spring.setak.WashingVO;
 
 public interface MypageMapper {

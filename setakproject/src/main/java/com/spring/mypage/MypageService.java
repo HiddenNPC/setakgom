@@ -3,9 +3,11 @@ package com.spring.mypage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
+import com.spring.setak.WashingVO;
 
 public interface MypageService {
 	public ArrayList<OrderVO> getOrderlist(HashMap<String, Object> map);

@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.MypageMapper;
+import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
+import com.spring.setak.WashingVO;
 
 @Service
 public class MypageServiceImpl implements MypageService {

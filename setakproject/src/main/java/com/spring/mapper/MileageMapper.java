@@ -1,11 +1,9 @@
 package com.spring.mapper;
 
-import com.spring.member.MileageVO;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.spring.setak.MileageVO;
+import com.spring.member.MileageVO;
 
 public interface MileageMapper {
 	

@@ -441,7 +441,7 @@ public class OrderController {
 		
 		ovo.setOrder_num(order_num);
 		ovo.setOrder_date(date);
-		ovo.setOrder_delete(0);
+		ovo.setOrder_delete("0");
 		
 		
 		// 주문 테이블 DB 추가
