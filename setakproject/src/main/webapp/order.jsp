@@ -55,6 +55,9 @@
 
 	$(document).ready(function() {
 	
+	HttpSession session = request.getSession();
+	var member_id = session.getAttribute("member_id"); 
+	
 	// 헤더, 푸터 
     $("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
@@ -481,7 +484,7 @@
             name : '세탁곰 결제',
             amount : final_price,
             buyer_email : '<%=memberVO.getMember_email()%>',
-            buyer_name : '<%=memberVO.getMember_name()%>',
+            buyer_name : '<%=memberVO.getMember_name()%>', 
             buyer_tel : '<%=memberVO.getMember_phone()%>',
             buyer_addr : '<%=memberVO.getMember_loc()%>',
             buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
@@ -495,7 +498,7 @@
                     dataType: 'json',
                     data: {
                         imp_uid : rsp.imp_uid,
-                        'member_id' : 'bit', 
+                        'member_id' : member_id, 
                         'order_price' : final_price,
                         'order_payment' : 'card',
                         'order_phone' : phone,
@@ -639,7 +642,7 @@
 		
 		$('#addrTable tbody').empty();
 		
-		var parmas = {'member_id': 'bit'}; 
+		var parmas = {'member_id': member_id }; 
 		
 
         $.ajax({
@@ -730,7 +733,7 @@
 		}
 		
 		var params = {
-				'member_id' : 'bit',
+				'member_id' : member_id,
 				'address_name' : addrName,
 				'address_human' : name, 
 				'address_phone' : phone,
@@ -888,7 +891,7 @@
 			var addr = address + '!' + detailAddress; 
 			
 			var params = {
-					'member_id' : 'nanana',
+					'member_id' : member_id,
 					'member_phone' : phone,
 					'member_zipcode' : postcode, 
 					'member_loc' : addr,

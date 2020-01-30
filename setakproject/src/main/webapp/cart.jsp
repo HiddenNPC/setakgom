@@ -69,8 +69,6 @@
                 var washSeqArr = []; 
                 var repairSeqArr = []; 
                 var keepSeqArr = []; 
-                
-         		var member_id = "bit"; 
          		
          		checkbox.each(function(){
          			var tr = checkbox.parent().parent();

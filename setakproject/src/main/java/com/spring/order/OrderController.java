@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,9 +46,8 @@ public class OrderController {
 	public String cart(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		// 로그인 세션 값 읽기
-//		HttpSession session = request.getSession();
-//		String member_id = (String) session.getAttribute("member_id");
-		String member_id = "nanana"; 
+		HttpSession session = request.getSession();
+		String member_id = (String) session.getAttribute("member_id");
 		
 		
 		// 세탁 장바구니 값 읽기
@@ -113,6 +113,8 @@ public class OrderController {
 		} else {
 			
 			MemberVO memberVO = orderService.getMemberInfo(member_id);
+			// 멤버 아이디 구분해서 member_name, phone, loc 값 공백 
+			
 			String member_name = memberVO.getMember_name();
 			
    		 	String member_phone1 = " ", member_phone2 = " ", member_phone3 = " ";
@@ -177,7 +179,7 @@ public class OrderController {
 	@RequestMapping(value = "/cartDelete.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> cartDelete(@RequestParam(value="loc") String loc, 
-			String[] washSeqArr, String[] repairSeqArr, String[] keepSeqArr) {
+			String[] washSeqArr, String[] repairSeqArr, String[] keepSeqArr, HttpSession session) {
 		
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
@@ -213,7 +215,7 @@ public class OrderController {
 			}
 			
 			if(keepSeqArr != null) {
-				String member_id = "bit"; 
+				String member_id = (String)session.getAttribute("member_id");  
 				List<KeepCartVO> list = cartService.getKeepSeq(member_id);
 				int res = cartService.deleteKeepCart(member_id);
 				
@@ -237,9 +239,10 @@ public class OrderController {
 	
 	// 정기구독
 	@RequestMapping(value = "/subscribe.do")
-	public String subscribe(Model model) {
+	public String subscribe(Model model, HttpSession session) {
 		
-		String member_id = "bit"; 
+		String member_id = (String)session.getAttribute("member_id"); 
+		
 		
 		MemberVO mvo = orderService.getMemberInfo(member_id);
 		
@@ -250,9 +253,9 @@ public class OrderController {
 
 	// 주문완료
 	@RequestMapping(value = "/orderSuccess.do")
-	public String orderSuccess(HttpServletRequest request, Model model) {
+	public String orderSuccess(HttpServletRequest request, Model model, HttpSession session) {
 		
-		String member_id = "bit"; 
+		String member_id = (String)session.getAttribute("member_id");
 		
 		long order_num = Long.parseLong(request.getParameter("order_num"));
 
@@ -333,10 +336,10 @@ public class OrderController {
 	// 주문 정보 입력
 	@RequestMapping(value = "/insertOrder.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value="usePoint") String usePoint, String[] useCoupon) {
+	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value="usePoint") String usePoint, String[] useCoupon, HttpSession session) {
 		
 		
-		String member_id = "bit"; 
+		String member_id = (String)session.getAttribute("member_id"); 
 
 		// 장바구니 시퀀스 값 읽기
 		
