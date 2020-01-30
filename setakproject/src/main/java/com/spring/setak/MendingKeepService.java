@@ -1,5 +1,9 @@
 package com.spring.setak;
 
+import com.spring.order.KeepCartVO;
+import com.spring.order.MendingCartVO;
+import com.spring.order.WashingCartVO;
+
 public interface MendingKeepService {
 	public int insertMending(MendingVO mending);
 	public void insertMendingCart(MendingCartVO mendingcart);

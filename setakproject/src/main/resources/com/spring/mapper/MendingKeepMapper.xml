@@ -9,7 +9,7 @@
 		values (repair_seq.nextval, #{repair_cate}, #{repair_kind}, #{repair_var1}, #{repair_var2}, #{repair_var3}, #{repair_content}, #{repair_code}, #{repair_count}, #{repair_price}, #{repair_wash})
 	</insert>
 	
-	<insert id="insertMendingCart" parameterType="com.spring.setak.MendingCartVO">
+	<insert id="insertMendingCart" parameterType="com.spring.order.MendingCartVO">
 		insert into repair_cart(member_id, repair_seq)
 		values (#{member_id}, #{repair_seq})
 	</insert>
@@ -20,7 +20,7 @@
 		values (keep_seq.nextval, #{keep_cate}, #{keep_kind}, #{keep_count}, #{keep_month}, #{keep_box}, #{keep_price}, #{keep_start}, #{keep_end}, #{keep_wash})
 	</insert>
 	
-	<insert id="insertKeepCart" parameterType="com.spring.setak.KeepCartVO">
+	<insert id="insertKeepCart" parameterType="com.spring.order.KeepCartVO">
 		insert into keep_cart(member_id, keep_seq)
 		values (#{member_id}, #{keep_seq})
 	</insert>
@@ -31,7 +31,7 @@
 		values (wash_seq.nextval, #{wash_cate}, #{wash_kind}, #{wash_method}, #{wash_count}, #{wash_price})
 	</insert>
 	
-	<insert id="insertWashingCart" parameterType="com.spring.setak.WashingCartVO">
+	<insert id="insertWashingCart" parameterType="com.spring.order.WashingCartVO">
 		insert into wash_cart(member_id, wash_seq)
 		values (#{member_id}, #{wash_seq})
 	</insert>

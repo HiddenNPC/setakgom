@@ -275,7 +275,7 @@
         			$("#authbtn").attr('disabled', true);
                 },
                 error: function (e) {
-
+					console.error(e);
 				}
 			});
 			
