@@ -265,7 +265,7 @@
                 url: "/setak/sendSMS.do", 
                 data: allData,
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                dataType: 'json',
+                dataType: 'text',
                 
                 success: function (data) {
         			AuthTimer.comSecond = 179;
