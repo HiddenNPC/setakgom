@@ -20,4 +20,11 @@ public interface OrderService {
 	
 	public MemberVO getMemberInfo(String member_id);
 	public int defaultAddrUpdate(MemberVO mvo); 
+	
+	public int updateSubInfo(MemberVO mvo); 
+	public int insertMemberSubInfo(MemberVO mvo); 
+	public int insertSubHistory(MemberVO mvo); 
+	public int getCouponNum(MemberVO mvo);
+	public int insertCoupon(MemberVO mvo);
+	
 }

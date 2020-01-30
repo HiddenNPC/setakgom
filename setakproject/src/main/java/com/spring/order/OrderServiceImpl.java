@@ -132,4 +132,70 @@ public class OrderServiceImpl implements OrderService  {
 		return res; 
 	}
 	
+	@Override
+	public int updateSubInfo(MemberVO mvo) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.updateSubInfo(mvo);
+		} catch(Exception e) {
+			System.out.println("회원 정보 > 정기구독 번호 등록 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+
+	@Override
+	public int insertMemberSubInfo(MemberVO mvo) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.insertMemberSubInfo(mvo);
+		} catch(Exception e) {
+			System.out.println("회원 정기구독 정보 등록 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+
+	@Override
+	public int insertSubHistory(MemberVO mvo) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.insertSubHistory(mvo);
+		} catch(Exception e) {
+			System.out.println("회원 정기구독 결제 정보 등록 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+
+	@Override
+	public int getCouponNum(MemberVO mvo) {
+		int cnt = 0; 
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			cnt = orderMapper.getCouponNum(mvo);
+		} catch(Exception e) {
+			System.out.println("쿠폰 갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public int insertCoupon(MemberVO mvo) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.insertCoupon(mvo);
+		} catch(Exception e) {
+			System.out.println("쿠폰 등록 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+
+	
 }

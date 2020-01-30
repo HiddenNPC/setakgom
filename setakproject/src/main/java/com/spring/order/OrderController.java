@@ -241,12 +241,14 @@ public class OrderController {
 	@RequestMapping(value = "/subscribe.do")
 	public String subscribe(Model model, HttpSession session) {
 		
-		String member_id = (String)session.getAttribute("member_id"); 
+		String member_id = (String)session.getAttribute("member_id");
+		MemberVO mvo = new MemberVO(); 
 		
+		if(member_id != null) {
+			mvo = orderService.getMemberInfo(member_id);
+			model.addAttribute("memberVO", mvo);
+		}
 		
-		MemberVO mvo = orderService.getMemberInfo(member_id);
-		
-		model.addAttribute("memberVO", mvo);
 		return "subscribe";	
 	}
 
@@ -500,15 +502,43 @@ public class OrderController {
 	// 정기구독 정보 입력
 	@RequestMapping(value = "/insertSubscribe.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public String insertSubscribe() {
+	public Map<String, Object> insertSubscribe(MemberVO mvo) {
 		
-		// 세션 아이디 값 읽음
+		Map<String, Object> retVal = new HashMap<String, Object>();
+
 		// MemberVO 값 변경 (번호 입력)
-		// member_subs 테이블 값 추가
-		// subs_history 테이블 값 추가 
+		orderService.updateSubInfo(mvo);
 		
-		return "index"; 
+		// member_subs 테이블 값 추가
+		orderService.insertMemberSubInfo(mvo);
+		// history_sub 테이블 값 추가
+		orderService.insertSubHistory(mvo);
+		
+		// 쿠폰 수에 따라서 쿠폰 부여 >> 여기서 보내버리는거 어때
+		int coupon_num = orderService.getCouponNum(mvo);
+		System.out.println("쿠폰 개수 : " + coupon_num );
+		
+		for(int i = 0; i < coupon_num; i++) {
+			orderService.insertCoupon(mvo);
+		}
+		
+		System.out.println("왔나...");
+		retVal.put("coupon_num", coupon_num);
+		return retVal; 
 	}	
+	
+	@RequestMapping(value = "/subSuccess.do") 
+	public String subSuccess(Model model, HttpServletRequest request) {
+		
+		int subs_num = Integer.parseInt(request.getParameter("subs_num"));
+		System.out.println(subs_num);
+		// member_subs에서 값 읽기
+		// ㅋㅋㅋㅋ쿠폰 개수는 따로 읽기 개이상해..
+		// 모델로 쿠폰 개수랑 member_subs에서 받아온 vo 읽기
+		
+		// 세션 아이디 값 읽기 
+		return "sub_success"; 
+	}
 
 
 	
