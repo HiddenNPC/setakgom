@@ -69,10 +69,10 @@
   	
   	.re2{margin:auto; width:1000px; }
   	
-  	.re2_t1{ border-top: 3px solid #e1e4e4; border-bottom: 3px solid #e1e4e4; 
+  	.paginated{ border-top: 3px solid #e1e4e4; border-bottom: 3px solid #e1e4e4; 
   	margin:auto; width:1000px; margin-top:5px;}
   	
-  	.re2_t1 td{border: none;} 	
+  	.paginated td { border: none; } 	
   	
   	 #heart{  		
 		background:url("../images/like1.png") no-repeat left 0;
@@ -131,5 +131,17 @@
 	background-color: #3498db;
 	color: #fff;	
 	}
+	
+	.clickable {cursor: pointer;}
+	.hover {text-decoration: underline;}	
+	.active{ width:10px; height:10px; background:#3498db; color:#fff;}
+
+
+
+
+
+
+
+
 	 
     

@@ -76,10 +76,10 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
 		
+		System.out.println("1");
 		
-		int maxnum = qnaService.getMaxNum();
-		System.out.println("글쓰기maxnum=" + maxnum);
-				
+		/*int maxnum = qnaService.getMaxNum();
+		System.out.println("글쓰기maxnum=" + maxnum);				
 		if(maxnum != 0) 
 		{
 			maxnum = maxnum+1;
@@ -88,9 +88,9 @@ import org.springframework.web.servlet.ModelAndView;
 		{ 
 			maxnum=1;
 		}
-
 		qnaVO.setQNA_NUM(maxnum);
-		System.out.println("들어가는 글의 maxnum=" + maxnum);
+		System.out.println("들어가는 글의 maxnum=" + maxnum);*/
+		
 		qnaVO.setMEMBER_ID(request.getParameter("MEMBER_ID"));
 		String a = qnaVO.getMEMBER_ID();
 		System.out.println("MEMBER_ID=" +a );		
@@ -98,6 +98,8 @@ import org.springframework.web.servlet.ModelAndView;
 		qnaVO.setQNA_KIND(request.getParameter("QNA_KIND"));	
 		qnaVO.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		qnaVO.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
+		qnaVO.setQNA_PASS(request.getParameter("QNA_PASS"));
+		qnaVO.setQNA_SCR(request.getParameter("QNA_SCR"));
 
 		
 		ModelAndView mav = new ModelAndView();
@@ -176,6 +178,8 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setQNA_KIND(request.getParameter("QNA_KIND"));
 		vo.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		vo.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
+		vo.setQNA_PASS(request.getParameter("QNA_PASS"));
+		vo.setQNA_SCR(request.getParameter("QNA_SCR"));
 		System.out.println("기존에 DB에 저장되어있던 파일의 이름  ="+request.getParameter("exist_file"));
 		
 						

@@ -67,9 +67,11 @@ public class QnaServiceImpl implements QnaService
 	@Override public int getMaxNum() throws Exception 
 	{
 		int res=0;
+		int maxnum=0;
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
 		try
-		{
+		{	
+			
 			 res =qnaMapper.getMaxNum();
 			
 		}

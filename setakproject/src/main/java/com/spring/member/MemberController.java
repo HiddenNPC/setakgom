@@ -34,7 +34,7 @@ public class MemberController {
 		PrintWriter writer = response.getWriter();
 		
 		 int res = memberservice.member_password(mo);
-		 System.out.println("mo id : " + mo.getMember_id() + "mo pass : " + mo.getMember_password());
+		 System.out.println("mo id : " + mo.getMember_id() + " mo pass : " + mo.getMember_password());
 		
 		 if(res == 1) {
 			 session.setAttribute("member_id", mo.getMember_id());

@@ -55,8 +55,7 @@
 
 	$(document).ready(function() {
 	
-	HttpSession session = request.getSession();
-	var member_id = session.getAttribute("member_id"); 
+	var member_id = "<%=session.getAttribute("member_id")%>"; 
 	
 	// 헤더, 푸터 
     $("#header").load("header.jsp")

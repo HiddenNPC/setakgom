@@ -32,7 +32,7 @@ $(document).ready(function(){
 
 <form action="qnaUpdate.do" method="post" enctype="multipart/form-data" name="modifyform">
 <input type="hidden" name="QNA_NUM" value="<%=vo.getQNA_NUM() %>">
-<input type="hidden" name="MEMBER_ID" value="<%=vo.getMEMBER_ID()%>">
+<input type="hidden" name="MEMBER_ID" value="<%=session.getAttribute("member_id")%>">
 <table class="qut1" border="1" bordercolor="#e1e4e4" cellpadding="0" cellspacing="0">
 	<tr><td height="30px"><div align="center"> 문의 유형 </div></td>
 		<td height="30px">
@@ -73,6 +73,13 @@ $(document).ready(function(){
 			<input type="hidden" name="QNA_CHECK" value="답변완료">
 		</div></td>
 	</tr>	
+	<tr > 
+		<td height="25px"><div align="center">비밀번호</div></td>
+		<td><input id="QNA_PASS" name="QNA_PASS" type="password"/></td>							
+		<td><span>공개여부&nbsp;</span>
+			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공개				
+			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개</td>				
+	</tr>
 </table><br>						
 <table class="qut2">			
 	<tr><td>

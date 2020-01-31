@@ -30,7 +30,7 @@
 	.qlt4_btn {color:#fff; background-color:#3498db; WIDTH: 45pt; HEIGHT: 25pt;
 		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
 		border-top-right-radius: 5px;  border-bottom-right-radius: 5px; border: none;
-		outline: none; margin-right:10px;  }
+		outline: none; margin-right:10px; cursor: pointer; }
 	
 	.qwt1 { width:1000px; margin:auto; border:1px solid #e1e4e4; border-top: 3px solid #3498db; border-collapse: collapse;}	
 	.qwt1 tr td { border: 2px solid #e1e4e4; padding:8px; }	
