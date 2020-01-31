@@ -28,4 +28,19 @@ public class NaverController {
 		return "";
 	}
 	
+	@RequestMapping(value="ipcount.do")
+    public @ResponseBody String ipcount(String pn, HttpServletRequest request) throws Exception {
+		
+		String ip = request.getRemoteAddr();
+		System.out.println(ip);
+		String r = request.getParameter("randomnum");
+		System.out.println(r);
+		
+		sms.setPhonenumber(request.getParameter("pn"));
+		sms.setMsgtext("인증번호는 " + request.getParameter("randomnum") + " 입니다.");
+		//sms.sendMessage();
+		
+		return "";
+	}
+	
 }
