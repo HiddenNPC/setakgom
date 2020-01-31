@@ -20,7 +20,7 @@
              event.preventDefault();
 
              // Get form
-             k,r form = $('#fileUploadForm')[0];j
+             var form = $('#fileUploadForm')[0];
 
              // Create an FormData object
              var data = new FormData(form);
@@ -34,7 +34,8 @@
              $.ajax({
                  type: "POST",
                  enctype: 'multipart/form-data',
-                 url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}", 
+                 //url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}",
+                 url: "/setak/testImage.do"
                  data: data,
                  processData: false,
                  contentType: false,

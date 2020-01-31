@@ -35,7 +35,7 @@
          	$.ajax({
                 type: "POST",
                 data:{"randomnum":random},
-                url: "/setak/sendSMS.do", 
+                url: "/setak/testImage.do", 
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 dataType: 'json',
 
