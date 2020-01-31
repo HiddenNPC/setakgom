@@ -32,20 +32,47 @@
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#header").load("./header.jsp");
-	$("#footer").load("./footer.jsp");     
-   
-	jQuery(".accordion-content").hide();
-	//content 클래스를 가진 div를 표시/숨김(토글)
-	$(".accordion-header").click(function(){
-		$except = $(this).closest("div");
-		$except.toggleClass("active");
-		$(".accordion-content")
-			.not($(this).next(".accordion-content").slideToggle(500)).slideUp();
-		$('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
+
+	$(document).ready(function(){
+		$("#header").load("./header.jsp");
+		$("#footer").load("./footer.jsp");     
+	   
+		jQuery(".accordion-content").hide();
+		//content 클래스를 가진 div를 표시/숨김(토글)
+		$(".accordion-header").click(function(){
+			$except = $(this).closest("div");
+			$except.toggleClass("active");
+			$(".accordion-content")
+				.not($(this).next(".accordion-content").slideToggle(500)).slideUp();
+			$('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
+		});
+		
+		$(document).on('click', '#order_false', function(event) {
+			var btn = $(this); 
+			var order_muid = btn.attr('name');
+			
+			alert(order_muid); 
+			
+			if(confirm("선택된 주문을 취소하시겠습니까?")) {
+			    jQuery.ajax({
+				      "url": "/setak/cancelPay.do",
+				      "type": "POST",
+				      "contentType": "application/x-www-form-urlencoded; charset=UTF-8",
+				      "data": {
+				        "order_muid" : order_muid
+				      },
+				      "dataType": "json"
+				    }).done(function(result) { // 환불 성공시 로직 
+				        alert("주문이 성공적으로 취소 되었습니다.");
+				    }).fail(function(result) { // 환불 실패시 로직
+				      	alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+				    });	
+			}		    
+		}); 
+	    
 	});
-});
+
+
     
 function cancle() {
 	confirm("주문을 취소하시겠습니까?");
@@ -122,9 +149,9 @@ function cancle() {
 								<br><br><br><br><br>
 								<div class="order_dateClass">
 									<%if (orderVO.getOrder_delete().equals(0)) {%>
-									<a href="#" class="button" id="order_false" disabled="true">주문 취소</a>
+									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="true">주문 취소</a>
 									<%} else { %>
-									<a href="#" class="button" id="order_false" disabled="false">주문 취소</a>
+									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="false">주문 취소</a>
 									<%} %>
 								</div>
 							</div>

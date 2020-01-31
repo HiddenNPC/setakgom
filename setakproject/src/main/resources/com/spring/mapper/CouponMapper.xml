@@ -33,8 +33,5 @@
 		update coupon set coupon_use = 1 where coupon_seq = #{coupon_seq}
 	</update>
 	
-	<select id= "getCouponId" parameterType="String" resultType="String">
-		
-	</select>
 	
 </mapper>

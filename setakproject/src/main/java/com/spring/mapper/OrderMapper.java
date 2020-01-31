@@ -3,6 +3,7 @@ package com.spring.mapper;
 import java.util.ArrayList;
 
 import com.spring.member.MemberVO;
+import com.spring.member.SubscribeVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 
@@ -38,5 +39,11 @@ public interface OrderMapper {
 	int getCouponNum(MemberVO mvo);
 	// 쿠폰 발급하기
 	int insertCoupon(MemberVO mvo);
+	
+	// 정기구독 정보 읽어오기
+	SubscribeVO getSubscribeInfo(MemberVO mvo);
+	
+	// 주문 취소 정보 등록
+	int orderCancle(OrderVO ovo);
 
 }

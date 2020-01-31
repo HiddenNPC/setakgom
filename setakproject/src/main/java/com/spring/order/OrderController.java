@@ -1,6 +1,8 @@
 package com.spring.order;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +28,7 @@ import com.spring.member.CouponVO;
 import com.spring.member.MemberVO;
 import com.spring.member.MileageServiceImpl;
 import com.spring.member.MileageVO;
+import com.spring.member.SubscribeVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
 import com.spring.setak.WashingVO;
@@ -140,7 +144,10 @@ public class OrderController {
    		 		String addr = memberVO.getMember_loc();
    		 		String[] locArr = addr.split("!");
    		 		member_addr1 = locArr[0];
-   		 		member_addr2 = locArr[1]; 
+   		 		if(locArr.length == 2) {
+   		 			member_addr2 = locArr[1];
+   		 		}
+  
    		 	}
    		 	
    		 	String zipcode = " ";
@@ -502,9 +509,7 @@ public class OrderController {
 	// 정기구독 정보 입력
 	@RequestMapping(value = "/insertSubscribe.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public Map<String, Object> insertSubscribe(MemberVO mvo) {
-		
-		Map<String, Object> retVal = new HashMap<String, Object>();
+	public String insertSubscribe(MemberVO mvo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// MemberVO 값 변경 (번호 입력)
 		orderService.updateSubInfo(mvo);
@@ -513,31 +518,80 @@ public class OrderController {
 		orderService.insertMemberSubInfo(mvo);
 		// history_sub 테이블 값 추가
 		orderService.insertSubHistory(mvo);
-		
-		// 쿠폰 수에 따라서 쿠폰 부여 >> 여기서 보내버리는거 어때
+		// 쿠폰 발급
 		int coupon_num = orderService.getCouponNum(mvo);
-		System.out.println("쿠폰 개수 : " + coupon_num );
-		
 		for(int i = 0; i < coupon_num; i++) {
 			orderService.insertCoupon(mvo);
 		}
 		
-		System.out.println("왔나...");
-		retVal.put("coupon_num", coupon_num);
-		return retVal; 
+		// 정기 결제 예약
+		Iamport iamport = new Iamport();
+		
+		// 아임포트 억세스 토큰생성 
+		String imp_key 		=	URLEncoder.encode("9458449343571602", "UTF-8");
+		String imp_secret	=	URLEncoder.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+		
+		String requestURL = "https://api.iamport.kr/users/getToken";
+		
+		String token = iamport.getToken(request, response, json, requestURL);
+		
+		
+		
+		return ""; 
 	}	
 	
 	@RequestMapping(value = "/subSuccess.do") 
-	public String subSuccess(Model model, HttpServletRequest request) {
+	public String subSuccess(Model model, HttpServletRequest request, HttpSession session) {
 		
-		int subs_num = Integer.parseInt(request.getParameter("subs_num"));
-		System.out.println(subs_num);
-		// member_subs에서 값 읽기
-		// ㅋㅋㅋㅋ쿠폰 개수는 따로 읽기 개이상해..
-		// 모델로 쿠폰 개수랑 member_subs에서 받아온 vo 읽기
+		String member_id = (String)session.getAttribute("member_id");
+
+		// 회원 정보 및 구독 정보 넘기기
+		MemberVO memberVO = orderService.getMemberInfo(member_id);
+		SubscribeVO subscribeVO = orderService.getSubscribeInfo(memberVO);
 		
-		// 세션 아이디 값 읽기 
+		model.addAttribute("memberVO", memberVO);
+		model.addAttribute("subscribeVO", subscribeVO);
+		
 		return "sub_success"; 
+	}
+	
+	// 결제 주문 취소
+	@RequestMapping(value = "/cancelPay.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public Map<String, Object> cancelPay(OrderVO ovo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+				
+		Iamport iamport = new Iamport();
+		
+		// 아임포트 억세스 토큰생성 
+		String imp_key 		=	URLEncoder.encode("1270405352722195", "UTF-8");
+		String imp_secret	=	URLEncoder.encode("IjB6jSFvaqvDw123fNlvZk3jqw2AwGHf0jljb0Pmrk0Xm20BQm7PHb87IaIeRptRJObVP0hglidIlejb", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+		
+		String requestURL = "https://api.iamport.kr/users/getToken";
+		
+		String token = iamport.getToken(request, response, json, requestURL);
+		
+		String order_muid = ovo.getOrder_muid();
+
+		int res = iamport.cancelPayment(token, order_muid);
+		
+		int res2 = orderService.orderCancel(ovo);
+		System.out.println("res2 : " + res2);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if(res == 1) {
+			result.put("result", "아주굿");
+		} else {
+			result.put("result", "흠");
+		}
+		
+		return result;
 	}
 
 

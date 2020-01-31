@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 
 import com.spring.member.MemberVO;
+import com.spring.member.SubscribeVO;
 
 public interface OrderService {
 
@@ -26,5 +27,9 @@ public interface OrderService {
 	public int insertSubHistory(MemberVO mvo); 
 	public int getCouponNum(MemberVO mvo);
 	public int insertCoupon(MemberVO mvo);
+	
+	public SubscribeVO getSubscribeInfo(MemberVO mvo);
+	
+	public int orderCancel(OrderVO ovo);
 	
 }

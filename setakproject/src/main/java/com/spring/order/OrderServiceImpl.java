@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.mapper.OrderMapper;
 import com.spring.member.MemberVO;
+import com.spring.member.SubscribeVO;
 
 @Service
 public class OrderServiceImpl implements OrderService  {
@@ -192,6 +193,32 @@ public class OrderServiceImpl implements OrderService  {
 			res = orderMapper.insertCoupon(mvo);
 		} catch(Exception e) {
 			System.out.println("쿠폰 등록 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+
+	@Override
+	public SubscribeVO getSubscribeInfo(MemberVO mvo) {
+		SubscribeVO svo = null;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			svo = orderMapper.getSubscribeInfo(mvo);
+		} catch(Exception e) {
+			System.out.println("정기구독 정보 읽어오기 실패 " + e.getMessage());
+		}
+		
+		return svo; 
+	}
+
+	@Override
+	public int orderCancel(OrderVO ovo) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.orderCancle(ovo);
+		} catch(Exception e) {
+			System.out.println("주문 취소 정보 등록 실패 " + e.getMessage());
 		}
 		
 		return res; 

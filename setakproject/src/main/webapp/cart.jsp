@@ -30,19 +30,9 @@
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")   
          
-         getTotal(); 
-         
-         /* 배송비 */
-         var price = $("#order_price").text().replace(',',"").slice(0, -1);
-         if(price < 30000) {
-         	$("#deliver_price").text("2,500원");
-         	var order_price = parseInt(price) + 2500;
-         	$("#pay_price").html(numberFormat(order_price+'원'));
-         } else {
-        	 $("#deliver_price").text("0원");
-        	 $("#pay_price").html(numberFormat(price+'원'));
-         } 
-         
+         getTotal();
+         deliveryFee();
+                  
 	    /* 체크박스 전체선택 */
 		$("#allcheck").click(function(){
 	        //클릭되었으면
@@ -65,6 +55,12 @@
      			return; 
      		}
      		
+     		// 전체 삭제 할 경우
+     		var rd = false;      		
+     		if($('#cartList tbody tr.cnt').length == checkbox.length) {
+     			rd = true; 
+     		}
+     		
      		if(confirm("선택한 상품을 삭제하시겠습니까?")) {
                 var washSeqArr = []; 
                 var repairSeqArr = []; 
@@ -84,10 +80,12 @@
          			}
       
          			tr.remove();
+         			getTotal();
+         			deliveryFee(); 
+         			
          		});
 
          		
-     			getTotal(); 
          		
          		var params = {
          			"washSeqArr" : washSeqArr,
@@ -103,9 +101,12 @@
          			traditional : true,
          			success : function(retVal) {
          				if(retVal.res == "OK") {
-         					alert("오키");
+         					console.log("삭제 성공")
+         					if(rd) {
+         						window.location.href = "./order.do";
+         					}
          				}else {
-         					alert("실패"); 
+         					console.log("삭제 실패");
          				}
          			},
          			error : function() {
@@ -128,6 +129,20 @@
           });
           $("#order_price").html(numberFormat(total+'원'));
       }
+
+      /* 배송비 */
+      function deliveryFee() {
+          var price = $("#order_price").text().replace(',',"").slice(0, -1);
+          if(price < 30000) {
+          	$("#deliver_price").text("2,500원");
+          	var order_price = parseInt(price) + 2500;
+          	$("#pay_price").html(numberFormat(order_price+'원'));
+          } else {
+         	 $("#deliver_price").text("0원");
+         	 $("#pay_price").html(numberFormat(price+'원'));
+          }         	 
+      }
+
       
       function numberFormat(inputNumber) {
 		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -148,7 +163,7 @@
 							
 				<img class = "arrow-img" src = "images/order1.png" />
 				
-				<table class = "cart_list">
+				<table id = "cartList" class = "cart_list">
 											
 						<%if(washingList.size() == 0 && mendingList.size() == 0 && keepList.size() == 0) { %>
 						<tr>
@@ -173,7 +188,7 @@
 						<% if(washingList.size() != 0) {
 						for(int i = 0; i < washingList.size(); i++) {
 						WashingVO wvo = washingList.get(i);%>		
-						  <tr>
+						  <tr class="cnt">
 		                     <td>
 		                     	<input type = "checkbox" name = "check" value = "w<%=wvo.getWash_seq() %>"/>
 		                     </td>
@@ -189,7 +204,7 @@
 						<% if(mendingList.size() != 0) {
 						for(int i = 0; i < mendingList.size(); i++) {
 						MendingVO mvo = mendingList.get(i);%>		
-						  <tr>
+						  <tr class="cnt">
 		                     <td>
 		                     	<input type = "checkbox" name = "check" value = "r<%=mvo.getRepair_seq()%>"/>
 		                     </td>
@@ -210,7 +225,7 @@
 						<% if(keepList.size() != 0) {
 
 						KeepVO kvo = keepList.get(0);%>		
-						  <tr>
+						  <tr class="cnt">
 		                     <td>
 		                     	<input type = "checkbox" name = "check" value = "k<%=kvo.getKeep_seq()%>"/>
 		                     </td>
