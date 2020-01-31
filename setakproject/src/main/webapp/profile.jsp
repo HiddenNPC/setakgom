@@ -26,7 +26,7 @@
     <script type="text/javascript">
     
 	//주소 분리하기
-	var loc="<%=mo2.getMember_loc() %>";  
+	var loc=<%=mo2.getMember_loc() %>;  
 	var addr = new Array();
 	addr=loc.split('!');
 	var find1=addr[0];

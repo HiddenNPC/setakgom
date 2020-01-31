@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -65,9 +66,19 @@ public class MemberController {
 
 	
 	// 개인정보 수정 클릭시 비밀번호 입력페이지로 이동
-	@RequestMapping(value = "profile1.do", produces = "application/json; charset=utf-8")
-	public String password() {
+	@RequestMapping(value = "profile1.do", produces = "application/json; charset=utf-8", method = { RequestMethod.GET, RequestMethod.POST })
+	public String password(HttpSession session) {
+		
+		String str=(String)session.getAttribute("member_id");
+		String last = str.substring(str.length() - 1);
+		System.out.println(last);
+		//다른 서비스 계정으로 로그인 할때
+		if(last.equals( "K")|| last.equals("N")||last.equals("G")) {
+			return "profile";
+			
+		} else {
 		return "password";
+		}
 	}
 
 	// 비밀번호 확인

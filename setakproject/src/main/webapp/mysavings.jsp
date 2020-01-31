@@ -64,10 +64,10 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
-							<li><a href="password.jsp">개인정보수정</a></li>
-							<li><a href="mycoupon.jsp">쿠폰조회</a></li>
-							<li><a href="mysavings.jsp">적립금 조회</a></li>
-							<li><a href="withdraw.jsp">회원탈퇴</a></li>
+							<li><a href="profile1.do">개인정보수정</a></li>
+							<li><a href="mycoupon.do">쿠폰조회</a></li>
+							<li><a href="mysavings.do">적립금 조회</a></li>
+							<li><a href="withdraw.do">회원탈퇴</a></li>
 						</ul>
 					</li>
 				</ul>
