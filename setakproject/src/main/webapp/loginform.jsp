@@ -65,7 +65,7 @@ $(document).ready(function(){
  	});
 
  	$(".google").click(function(event){
- 		$(location.href="${googleUrl}");
+ 		$(location.href="${google_url}");
  	});
 	
  		
