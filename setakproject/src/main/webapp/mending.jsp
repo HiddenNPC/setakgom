@@ -256,7 +256,7 @@
 				var member_id = "<%=session.getAttribute("member_id") %>";
 				if(member_id=="null"){
 					alert('로그인 후 이용 가능합니다.');
-					location.href='login.do';
+					location.href='loginform.jsp';
 					return false;
 				}
 				if($(".tot_price").text()==0){

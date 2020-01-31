@@ -21,8 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  
 
 public class KakaoLoginBO {
+    //카카오 서비스 url 설정 8000, 8080
+	//카카오  redirect url 설정  8000, 8080
 	private final static String CLIENT_ID = "63f85b95121a3ecad4e9d5e14923c73a";
-	private final static String REDIRECT_URI ="http%3a%2f%2flocalhost%3a8080%2fsetak%2fkakao";
+	private final static String REDIRECT_URI ="http://localhost:8000/setak/kakao";
+	
 	
 	public static String getAuthorizationUrl(HttpSession session) {
 		String url = "https://kauth.kakao.com/oauth/authorize?client_id="+CLIENT_ID+"&redirect_uri="+REDIRECT_URI+"&response_type=code";
@@ -37,7 +40,7 @@ public class KakaoLoginBO {
  
         postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
         postParams.add(new BasicNameValuePair("client_id", "63f85b95121a3ecad4e9d5e14923c73a")); // REST API KEY
-        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:8080/setak/kakao")); // 리다이렉트 URI
+        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:8000/setak/kakao")); // 리다이렉트 URI
         postParams.add(new BasicNameValuePair("code", code)); // 로그인 과정중 얻은 code 값
  
         final HttpClient client = HttpClientBuilder.create().build();
@@ -51,9 +54,9 @@ public class KakaoLoginBO {
             final HttpResponse response = client.execute(post);
             final int responseCode = response.getStatusLine().getStatusCode();
  
-            System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
-            System.out.println("Post parameters : " + postParams);
-            System.out.println("Response Code : " + responseCode);
+            //System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
+            //System.out.println("Post parameters : " + postParams);
+            //System.out.println("Response Code : " + responseCode);
  
             // JSON 형태 반환값 처리
             ObjectMapper mapper = new ObjectMapper();
@@ -75,6 +78,7 @@ public class KakaoLoginBO {
 	
 	 public static JsonNode getKakaoUserInfo(JsonNode accessToken) {
 		 
+		 	//System.out.println("정보를 위한 토큰="+accessToken);
 	        final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
 	        final HttpClient client = HttpClientBuilder.create().build();
 	        final HttpPost post = new HttpPost(RequestUrl);
@@ -88,8 +92,8 @@ public class KakaoLoginBO {
 	            final HttpResponse response = client.execute(post);
 	            final int responseCode = response.getStatusLine().getStatusCode();
 	 
-	            System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
-	            System.out.println("Response Code : " + responseCode);
+	           // System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
+	           // System.out.println("Response Code : " + responseCode);
 	 
 	            // JSON 형태 반환값 처리
 	            ObjectMapper mapper = new ObjectMapper();
