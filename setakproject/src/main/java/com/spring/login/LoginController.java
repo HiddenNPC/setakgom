@@ -3,6 +3,7 @@ package com.spring.login;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -40,7 +41,7 @@ public class LoginController {
 
 //로그인 이동
 	@RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String login(Model model, HttpSession session) {
+	public String login(Model model, HttpSession session,HttpServletRequest request) {
 
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -50,20 +51,21 @@ public class LoginController {
 		//카카오 로그인 인증 URL을 생성하기 위해 getAuthorizetaionUrl 호출 
 		String kakaoUrl = KakaoLoginBO.getAuthorizationUrl(session); 
 		model.addAttribute("kakao_url", kakaoUrl);
-		
-		
+		model.addAttribute("backurl", request.getHeader("referer"));
 		 //구글로그인 인증 URL을 생성하기 위해 getAuthorizetaionUrl 호출 
-		String googleUrl =GoogleLoginBO.getAuthorizationUrl(session);
-		 System.out.println("googleUrl="+googleUrl); 
-		model.addAttribute("google_url",googleUrl);
+		/*
+		 * String googleUrl =GoogleLoginBO.getAuthorizationUrl(session);
+		 * System.out.println("googleUrl="+googleUrl);
+		 * model.addAttribute("google_url",googleUrl);
+		 */
+		
 		
 		return "loginform";
 	}
 	
 	//로그인
 	@RequestMapping(value="loginpro.do",produces = "application/json; charset=utf-8")
-	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception  {
-	
+	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response,String backurl) throws Exception  {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter writer = response.getWriter();
@@ -72,7 +74,7 @@ public class LoginController {
 		
 		 if(res == 1) {
 			 session.setAttribute("member_id", mo.getMember_id());
-			 writer.write("<script>alert('로그인 성공!!'); history.go(-2); </script>");
+			 writer.write("<script>alert('로그인 성공!!'); location.href='"+backurl+"'; </script>");
 		 } else {
 			 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
 		 }

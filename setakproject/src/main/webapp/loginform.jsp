@@ -3,6 +3,7 @@
 <%
 	String name = (String)session.getAttribute("name");
 	String member_id = (String)session.getAttribute("member_id");
+	String backurl = (String)request.getAttribute("backurl");
 	System.out.println("id"+member_id);
 %>  
 <!DOCTYPE html>
@@ -98,6 +99,7 @@ $(document).ready(function(){
 		<div class="content">	<!-- class 변경해서 사용하세요. -->
 			<form name="loginform" action="loginpro.do" method="post">
 			<div class="loginform"> <!-- class 변경해서 사용하세요. -->
+					<input type="hidden" name="backurl" value = "<%=backurl%>" />
 				<div>					
 					<input class="txtln" type="text" name="member_id" placeholder="아이디" />
 				</div>
