@@ -1,6 +1,7 @@
 package com.spring.login;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -57,6 +58,37 @@ public class LoginController {
 		model.addAttribute("google_url",googleUrl);
 		
 		return "loginform";
+	}
+	
+	//로그인
+	@RequestMapping(value="loginpro.do",produces = "application/json; charset=utf-8")
+	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception  {
+	
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		
+		 int res = memberservice.member_password(mo);
+		
+		 if(res == 1) {
+			 session.setAttribute("member_id", mo.getMember_id());
+			 writer.write("<script>alert('로그인 성공!!'); history.go(-2); </script>");
+		 } else {
+			 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
+		 }
+		 
+		 return null;
+		}
+	
+	//로그아웃
+	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
+	public String logout(HttpSession session, MemberVO mo) throws Exception {
+
+		session.removeAttribute("member_id");
+		session.removeAttribute("name");
+	
+		return "redirect:login.do";
+		
 	}
 
 //네이버 로그인 성공시 callback호출 메소드

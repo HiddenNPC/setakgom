@@ -1,11 +1,9 @@
 package com.spring.member;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,44 +17,7 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberservice;
-	
-	@RequestMapping (value="main.do",produces = "application/json; charset=utf-8")
-	public String main() {
-		return "main";
-	}
 
-
-	//로그인
-	@RequestMapping(value="loginpro.do",produces = "application/json; charset=utf-8")
-	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception  {
-	
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter writer = response.getWriter();
-		
-		 int res = memberservice.member_password(mo);
-		
-		 if(res == 1) {
-			 session.setAttribute("member_id", mo.getMember_id());
-			 writer.write("<script>alert('로그인 성공!!'); history.go(-2); </script>");
-		 } else {
-			 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
-		 }
-		 
-		 return null;
-		}
-	
-	//로그아웃
-	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
-	public String logout(HttpSession session, MemberVO mo) throws Exception {
-
-		session.removeAttribute("member_id");
-		session.removeAttribute("name");
-	
-		return "redirect:login.do";
-		
-	}
-	
 	    
 	// 회원가입 클릭 (메인, 로그인페이지)
 	@RequestMapping(value = "join.do", produces = "application/json; charset=utf-8")
