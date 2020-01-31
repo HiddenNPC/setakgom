@@ -27,28 +27,25 @@ public class MemberController {
 
 
 	//로그인
-	@RequestMapping(value="loginpro.do", produces = "application/json; charset=utf-8")
-	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="loginpro.do",produces = "application/json; charset=utf-8")
+	public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response) throws Exception  {
+	
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter writer = response.getWriter();
 		
 		 int res = memberservice.member_password(mo);
-		 System.out.println("mo id : " + mo.getMember_id() + "mo pass : " + mo.getMember_password());
 		
 		 if(res == 1) {
 			 session.setAttribute("member_id", mo.getMember_id());
-			 writer.write("<script>alert('로그인 성공!!'); </script>");
-			 System.out.println("성공");
+			 writer.write("<script>alert('로그인 성공!!'); history.go(-2); </script>");
 		 } else {
-			 writer.write("<script>alert('로그인 성공!!'); location.href='./profile1.do';</script>");
-			 System.out.println("로그인실패");
-			 return "loginform";
+			 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
 		 }
-		
-		 return "redirect:main.do";
-			
-	}
+		 
+		 return null;
+		}
+	
 	//로그아웃
 	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
 	public String logout(HttpSession session, MemberVO mo) throws Exception {
@@ -56,7 +53,7 @@ public class MemberController {
 		session.removeAttribute("member_id");
 		session.removeAttribute("name");
 	
-		return "loginform";
+		return "redirect:login.do";
 		
 	}
 	

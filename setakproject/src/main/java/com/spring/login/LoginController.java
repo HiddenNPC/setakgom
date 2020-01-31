@@ -50,12 +50,12 @@ public class LoginController {
 		String kakaoUrl = KakaoLoginBO.getAuthorizationUrl(session); 
 		model.addAttribute("kakao_url", kakaoUrl);
 		
-		/*
-		 * //구글로그인 인증 URL을 생성하기 위해 getAuthorizetaionUrl 호출 String googleUrl =
-		 * GoogleLoginBO.getAuthorizationUrl(session);
-		 * //System.out.println("googleUrl="+googleUrl); model.addAttribute("googleUrl",
-		 * googleUrl);
-		 */
+		
+		 //구글로그인 인증 URL을 생성하기 위해 getAuthorizetaionUrl 호출 
+		String googleUrl =GoogleLoginBO.getAuthorizationUrl(session);
+		 System.out.println("googleUrl="+googleUrl); 
+		model.addAttribute("google_url",googleUrl);
+		
 		return "loginform";
 	}
 
@@ -183,12 +183,57 @@ public class LoginController {
 		return "redirect:login.do";
 	}
 	
-	/*
-	 * // 구글 로그인 버튼
-	 * 
-	 * @RequestMapping(value = "/google", produces="application/json", method=
-	 * {RequestMethod.GET, RequestMethod.POST}) public String google(Model
-	 * model, @RequestParam("code") String code, HttpSession session)throws
-	 * Exception { }
-	 */
+	 // 구글 로그인 버튼
+    @RequestMapping(value = "/google", produces="application/json", method= {RequestMethod.GET, RequestMethod.POST}) 
+    public String google(Model  model, @RequestParam("code") String code, HttpSession session)throws Exception {
+          //결과값을 node에 담아줌
+          JsonNode node = GoogleLoginBO.getGoogleAccessToken(code);
+          //accessToken에 사용자의 로그인한 모든 정보가 들어있다
+          JsonNode accessToken = node.get("access_token");
+          //사용자의 정보
+          JsonNode userInfo = GoogleLoginBO.getGoogleUserInfo(accessToken);
+          //DB에 맞게 받을 정보이름 수정
+          String email = null;
+          String nickname = null;
+          String bid = null;
+          
+          //유저정보 카카오에서 가져오기
+          JsonNode properties = userInfo.path("properties");
+          JsonNode kakao_account = userInfo.path("kakao_account");
+
+          bid = userInfo.path("id").asText();
+          email = kakao_account.path("email").asText(); 
+          nickname = properties.path("nickname").asText();
+          String id = bid+"_K";
+          System.out.println("아이디"+id);
+          System.out.println(nickname+"/"+id+"/"+email);
+          
+          /* 4. 데이터 DB에 저장 */
+          MemberVO mo = new MemberVO();
+        mo.setMember_id(id);
+        
+        
+        int res = memberservice.member_id(mo);
+        if(res == 1) { // DB에 id확인
+           session.setAttribute("name", nickname);
+           session.setAttribute("member_id", id);
+           return "redirect:login.do";
+           
+        } else { // 등록되지 않은 회원이면 DB에 저장
+        mo.setMember_id(id);
+        mo.setMember_email(email);
+        mo.setMember_name(nickname);
+
+        int res2 = memberservice.linkage(mo);
+        if (res2 == 1) { //이미 카카오로  회원가입 경우 
+           session.setAttribute("name", nickname);
+           session.setAttribute("member_id", id);
+        } else {
+           System.out.println("등록실패");
+           return "redirect:login.do";
+        }
+     }
+        return "redirect:login.do";
+     }
+
 }
