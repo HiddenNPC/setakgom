@@ -70,11 +70,9 @@
 		delete from QNA where QNA_NUM = #{QNA_NUM}
 	</delete>	
 	
-	
-	
-	<!-- <select id="passwdChk" parameterType="int" resultType="String">
-		SELECT notice_pass FROM notice_board WHERE notice_num=#{notice_num}
-	</select> -->
+	<select id="qnaPassChk" parameterType="int" resultType="String">
+		select qna_pass from qna where qna_num=#{qna_num}
+	</select> 
 	
 	
 	

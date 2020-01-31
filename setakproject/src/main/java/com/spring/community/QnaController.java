@@ -76,21 +76,6 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
 		
-		System.out.println("1");
-		
-		/*int maxnum = qnaService.getMaxNum();
-		System.out.println("글쓰기maxnum=" + maxnum);				
-		if(maxnum != 0) 
-		{
-			maxnum = maxnum+1;
-		}
-		else 
-		{ 
-			maxnum=1;
-		}
-		qnaVO.setQNA_NUM(maxnum);
-		System.out.println("들어가는 글의 maxnum=" + maxnum);*/
-		
 		qnaVO.setMEMBER_ID(request.getParameter("MEMBER_ID"));
 		String a = qnaVO.getMEMBER_ID();
 		System.out.println("MEMBER_ID=" +a );		
@@ -157,6 +142,42 @@ import org.springframework.web.servlet.ModelAndView;
 		model.addAttribute("qnadata", vo);		
 		return "qna_view";
 	}
+	
+	@RequestMapping("qnaPass.do") public String qnaPass(QnaVO qnavo, Model model) throws Exception 
+	{
+		QnaVO vo = qnaService.getDetail(qnavo);
+		model.addAttribute("qnadata", vo);		
+		return "qna_pass";
+	}
+	@RequestMapping("qnaPassChk.do") public String qnaPassChk(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{	
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer  = response.getWriter();	
+		
+		String pass= request.getParameter("QNA_PASS");
+		int num = Integer.parseInt(request.getParameter("QNA_NUM"));
+		System.out.println("pass 잘 넘어왔나? = " + pass);
+		System.out.println("num 잘 넘어왔나? = " + num);
+		
+		String res = qnaService.qnaPassChk(num);
+			
+		System.out.println("res 잘 넘어왔나? = " + res);	
+		
+		if(res.equals(pass)){
+			writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?QNA_NUM="+num+"'; </script>");
+		 }else { 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaList.do'; </script>"); 
+		 }
+		
+		return null; 	
+		
+	}
+	
+	
+	
+	
 	
 	@RequestMapping("updateform.do") public String updateForm(QnaVO qnavo, Model model) throws Exception {
 		QnaVO vo = qnaService.getDetail(qnavo);

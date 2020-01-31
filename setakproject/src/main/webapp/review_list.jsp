@@ -355,21 +355,6 @@ function page(){
 		 });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>	
 </head>
 <body>

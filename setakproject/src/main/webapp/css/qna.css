@@ -32,6 +32,28 @@
 		border-top-right-radius: 5px;  border-bottom-right-radius: 5px; border: none;
 		outline: none; margin-right:10px; cursor: pointer; }
 	
+		
+	#qp1_1{ border: 2px solid #3498db; margin: auto;
+	width:300px; height:150px; text-align: center; 
+	padding: 20px; 
+	}	
+	
+	#qp1_1 p {margin-bottom: 30px;}	
+	#qp1_2{ border: 1px solid #e1e4e4; height:50px; width:250px;
+	margin:auto;  line-height:50px;
+	 }
+	#qp1_2 input{ height:30px; margin: auto; border: 0px;}
+	 
+	 
+	#qp1_4{color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
+   		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
+   		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+   		border: none; outline: none; margin-right: 10px;
+   	}
+	 
+	 
+		
+	
 	.qwt1 { width:1000px; margin:auto; border:1px solid #e1e4e4; border-top: 3px solid #3498db; border-collapse: collapse;}	
 	.qwt1 tr td { border: 2px solid #e1e4e4; padding:8px; }	
 	.qwt1h { display:none; }
@@ -55,10 +77,9 @@
 		border-top-left-radius: 5px;  border-bottom-left-radius: 5px; 		
 		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
 		border: none; outline: none; margin: 3px; }
+	
 		
-	 #btn1 {float: right; }		
-		
-			
+	#btn1 {float: right; }		
 	#comment_form{ width:1000px; margin:auto; color:#444; }
 	.cf_t1{ padding:8px; border:3px solid #e1e4e4; width: 1000px;}
 	#cf_label { text-align:left; padding-left:10px; padding:auto;}
