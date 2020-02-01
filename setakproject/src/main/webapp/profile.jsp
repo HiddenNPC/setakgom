@@ -2,7 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.spring.member.MemberVO"  %>    
 <%
-	MemberVO mo2 = (MemberVO) request.getAttribute("mo");
+	String member_name = (String) request.getAttribute("member_name");
+	String member_phone = (String) request.getAttribute("member_phone");
+	String member_email = (String) request.getAttribute("member_email");
+	String member_addr1 = (String) request.getAttribute("member_addr1");
+	String member_addr2 = (String) request.getAttribute("member_addr2");
+	String zipcode = (String) request.getAttribute("zipcode");
+	
+	String session_id=(String)session.getAttribute("member_id");
 %>
 <!DOCTYPE html>
 <html>
@@ -15,113 +22,112 @@
 	<link rel="stylesheet" type="text/css" href="./css/profile.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	
-	<!-- 생년월일  datepicker script -->
-	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-	<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-	
+		
 	<!-- 우편번호 api -->
 	<script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
     <script type="text/javascript">
     
-	//주소 분리하기
-	var loc=<%=mo2.getMember_loc() %>;  
-	var addr = new Array();
-	addr=loc.split('!');
-	var find1=addr[0];
-	var find2=addr[1];
-	console.log(find2);
+    //핸드폰 인증을 위한  난수 설정 함수
+   	 randomnum = function() {
+		var array = new Uint32Array(1);
+		window.crypto.getRandomValues(array);
+		var num = array[0] + "";
+		var rnum = num.substring(0,6);
+		console.log(rnum);
+
+		/* for (var i = 0; i < array.length; i++) {
+		    console.log(array[i]);
+		} */
+		
+		return rnum;
+	}
 	
-      $(document).ready(function(){
-    	  
-    	 //주소분리하기
-    	 $("#address").val(find1);
-    	 $("#address_detail").val(find2);
-    	 
+    //난수
+    var random = randomnum();
+    
+	$(document).ready(function(){
     	 //기본 
          $("#header").load("header.jsp");
          $("#footer").load("footer.jsp");
          
          
-       //비밀번호체크V
-     	$(document).on("propertychange change keyup paste","#member_password",function(){
-     		if(!pwReg.test($(this).val())){
-     			$(".profile h1").css("display","block");
-     		} else {
-     			$(".profile h1").css("display","none");
-     		}
+      
+    	var AuthTimer = new $ComTimer();
+    		//문자보내기
+    	$("#authbtn").click(function(event){
+    			$(".profile div:nth-child(6) h5").css("display","none");	
+    			AuthTimer.fnStop();
+    			random = randomnum();
+    			
+    			var phonenum = $("#member_phone").val();
+    			
+    			var allData = { "pn": phonenum , "randomnum": random };
+    			
+    			$.ajax({
+                    type: "POST",
+                    url: "/setak/sendSMS.do", 
+                    data: allData,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    dataType: 'text',
+                    
+                    success: function (data) {
+            			AuthTimer.comSecond = 179;
+            			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+            			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+            			AuthTimer.domId = document.getElementById("timer");
+            			$("#authbtn").attr('disabled', true);
+                    },
+                    error: function (e) {
+    					console.error(e);
+    				}
+    			});
+    			
+    		});
+    		
+     	  
+    		//인증번호 확인
+    		$(document).on("click","#smsbtn",function(){
+    			if($("#member_sns").val()==random){
+    				console.log("인증성공");
+    				AuthTimer.fnStop();
+    				AuthTimer.domId = "";
+    				document.getElementById('timer').innerHTML = "";
+    				$("#authbtn").attr('disabled', false);
+    				$(".profile div:nth-child(6) h4").css("display","none");
+    				$(".profile div:nth-child(6) #authsucess").css("display","block");
+    				authchk = "1";
+    			}else{
+    				console.log("인증실패");
+    				$("#authbtn").attr('disabled', false);
+    				$(".profile div:nth-child(6) h4").css("display","none");
+    				$(".profile div:nth-child(6) #authfail").css("display","block");
+    			}
+    	 	});
      		
-      	});
-     	
-     	//비밀번호 일치 체크V
-     	  	$(document).on("propertychange change keyup paste","#pw2",function(){
-      	    	if($('#member_password').val() != $('#pw2').val()) {
-      	    		 $(".profile h2").css("display","block"); 
-      	    	} else {
-      	    		 $(".profile h2").css("display","none"); 
-      	    	}
-      	    });
-     	
-     	
-     	  //핸드폰번호 체크V
-     		$(document).on("propertychange change keyup paste","#member_phone",function(){
-     			if(!phReg.test($(this).val())){
-     				$(".profile h5").css("display","block");
-     			} else {
-     				$(".profile h5").css("display","none");
-     			}
-     			
-     	 	});
-     	  
-     		//인증번호 체크?????????????????????????????????
-     		$(document).on("propertychange change keyup paste","#chksns",function(){
-     			if($('#chksns').val() == ""){
-     				$(".profile h6").css("display","block");
-     			} else {
-     				$(".profile h6").css("display","none");
-     			}
-     			
-     	 	});
-     	  
-     	  
-     		  //이메일체크V
-     		$(document).on("propertychange change keyup paste","#member_email",function(){
-     			if(!emReg.test($(this).val())){
-     				$(".profile h7").css("display","block");
-     			} else {
-     				$(".profile h7").css("display","none");
-     			}
-     			
-     	 	});
-     		  
-     		
-     	  
-     	  //우편번호체크V
-     	$(document).on("propertychange change keyup paste","#postcode",function(){
-     		if(!poReg.test($(this).val())){
-     			$(".profile h8").css("display","block");
-     		} else {
-     			$(".profile h8").css("display","none");
-     		}
-     		
-      	});
- 		
  		
  		$('#update').on('click', function(event) {
- 			
- 			var address = $("#address").val();
-			var detailAddress = $("#detailAddress").val();
+
+ 			var id = $("#member_id").val();
+			alert(id);
+			var password = $("#member_password").val();
+			var name = $("#member_name").val();
+			var phone = $("#member_phone").val();
+			var email = $("#member_email").val();
+			var zipcode = $("#postcode").val();
+			var address = $("#address").val();
+			var detailAddress = $("#address_detail").val();
 			var addr = address + '!' + detailAddress; 
+			
  			var params = {
- 						   'member_id':sessionID,
-					       'member_password':$("#member_password").val(),
-					       'member_phone':$("#member_phone").val(),
-					       'member_email':$("#member_email").val(),
-					       'member_zipcode':$("#postcode").val(),
+ 						   'member_id': id,
+					       'member_password':password,
+					       'member_name': name,
+					       'member_phone':phone,
+					       'member_email': email,
+					       'member_zipcode':zipcode,
 					       'member_loc':addr
 			};
- 			alert(params);
 			$.ajax({
 	            url : '/setak/updateMember.do', // url
 	            type:'post',
@@ -131,7 +137,7 @@
 	            success: function(result) {
 	               if(result.res=="OK") {
 	            	   alert("수정 성공");
-	            	   $(location.href="/setak/profile2.do");
+	            	   window.location.href = "./profile2.do";
 	               }
 	               else { // 실패했다면
 	                  alert("개인정보수정 실패");
@@ -145,7 +151,30 @@
 		});
          
       });
-          
+      
+      function $ComTimer(){
+    	    //prototype extend
+    	}
+
+    	$ComTimer.prototype = {
+    	    comSecond : ""
+    	    , fnCallback : function(){}
+    	    , timer : ""
+    	    , domId : ""
+    	    , fnTimer : function(){
+    	        var m = Math.floor(this.comSecond / 60) + "분 " + (this.comSecond % 60) + "초";
+    	        this.comSecond--;					// 1초씩 감소
+    	        this.domId.innerText = m;
+    	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
+    	            clearInterval(this.timer);		// 타이머 해제
+    	            random = randomnum();
+    	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+    	        }
+    	    }
+    	    ,fnStop : function(){
+    	        clearInterval(this.timer);
+    	    }
+    	}
     </script>
 </head>
 <body>
@@ -184,9 +213,9 @@
                   <ul class="mypage_list">
                      <li>정보관리</li>
                      <li><a href="profile1.do">개인정보수정</a></li>
-                     <li><a href="mycoupon.jsp">쿠폰조회</a></li>
-                     <li><a href="mysavings.jsp">적립금 조회</a></li>
-                    <li><a href="withdraw.do">회원탈퇴</a></li>
+					 <li><a href="mycoupon.do">쿠폰조회</a></li>
+					 <li><a href="mysavings.do">적립금 조회</a></li>
+					 <li><a href="withdraw.do">회원탈퇴</a></li>
                   </ul>
                </li>
             </ul>
@@ -194,68 +223,83 @@
 		 <div class="mypage_content">
 			<div class="profile"> <!-- class 변경해서 사용하세요. -->
 				<form name="profile">
-					<table class="profile_info">
-						<tr>
-							<td class="left_info">아이디</td>
-							<td class="right_info">
-								<%=mo2.getMember_id() %>
-							</td>
-						</tr>
-						<tr>
-							<td class="left_info">새 비밀번호</td>
-							<td class="right_info">
-								<input class="txt_info" type="password" id="member_password" value="">
-								<h1>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h1>
-							</td>
-						</tr>
-						<tr>
-							<td class="left_info">새 비밀번호 확인</td>
-							<td class="right_info">
-								<input class="txt_info" type="password" id="pw2">
-								 <h2>비밀번호가 일치하지 않습니다.</h2>
-							</td>
-						</tr>	
-						<tr>
-							<td class="left_info">이름</td>
-							<td class="right_info"><%=mo2.getMember_name() %></td>
-						</tr>	
-						<tr>
-							<td class="left_info">핸드폰</td>
-							<td class="right_info">
-								<input type="text" class="txt_info" id="member_phone" value="<%=mo2.getMember_phone() %>">
-								<input type="button" value="인증번호 발송하기" />
-								<input type="text" class="txt_info"  id="chksns" placeholder="SNS 인증번호"><br>
-								<input type="button" value="인증번호 확인하기" />
-								<h5>핸드폰 번호를 입력해주세요</h5><h6>인증번호를 확인해주세요</h6>
-								
-							</td>
-						</tr>	
-						<tr>
-							<td class="left_info">이메일</td>
-							<td class="right_info" >
-								<input class="txt_info" type="text" id="member_email" value="<%=mo2.getMember_email() %>">
-								<h7>메일주소를 입력해주세요</h7>	
-							</td>
-						</tr>
-						<tr>
-							<td class="left_info">주소</td>
-							<td class="right_info">
-								<input id="postcode" class="txt_info" type="text" name="member_post" style="width:60px;" value="<%=mo2.getMember_zipcode() %>"/> 
-								<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /> <br />
-								<input id="address"  class="txt_info" type="text" name="member_loc" style="width:270px;"  readonly/> 
-								<input id="address_detail" class="txt_info" type="text" name="member_locdetail" style="width:270px" />
-								<input id="extraAddress" type="hidden" placeholder="참고항목"><br>
-								<h8>주소를 입력해주세요</h8>
-							</td>
-						</tr>
-					</table>
-				<div class="total_button">
-				<input type="reset" value="취소" />
-				<input type="submit" id="update" value="수정" />
-				</div>	
-			</form>
-		</div>			
-	</div>
+					<div class="update_list">
+					<%
+					   String last = session_id.substring(session_id.length() - 1);
+						if(last.equals("K")){
+						%>  
+							<input type="hidden" name="member_id" id="member_id" value="<%=session_id %>">
+							<h1>카카오 계정으로 로그인 하셨습니다<h1>
+						<% } else if(last.equals("N")) { %>
+							<input type="hidden" name="member_id" id="member_id" value="<%=session_id %>" >
+							<h1>네이버 계정으로 로그인 하셨습니다<h1>
+						<% } else if(last.equals("G")) { %>
+							<input type="hidden" name="member_id" id="member_id" value="<%=session_id %>">
+							<h1>구글 계정으로 로그인 하셨습니다<h1>
+						<% } else { %>
+							<input type="text" name="member_id" id="member_id" value="<%=session_id %>" readonly >
+						<%} %>
+				
+					</div>					
+					<% if(last.equals("K")||last.equals("N")||last.equals("G")) { %>
+					<div class="update_list">
+						<input type="hidden" name="member_password" id="member_password" placeholder="새 비밀번호 " value="" />
+						<h2>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h2>
+					</div>
+					<div class="update_list">
+						<input type="hidden" name="pw2" id="pw2" placeholder="비밀번호 확인" />
+						 <h3>비밀번호가 일치하지 않습니다.</h3>
+					</div>
+					<% } else {%>
+					<div class="update_list">
+						<input type="password"  name="member_password" id="member_password" placeholder="새 비밀번호 " />
+						<h2>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h2>
+					</div>
+					<div class="update_list">
+						<input type="password" name="pw2" id="pw2" placeholder="비밀번호 확인" />
+						 <h3>비밀번호가 일치하지 않습니다.</h3>
+					</div>
+					<%} %>
+					<div class="update_list">
+						<input type="text" name="member_name"  id="member_name" placeholder="이름" value="<%=member_name %>" />	
+					</div>
+					<div class="update_list">
+						<input type="text" name="member_phone"  id="member_phone" placeholder="핸드폰" value="<%=member_phone %>" style="width: 320px;"  />	
+						<input class="btn" id="authbtn" type="button" value="인증번호 받기" style="width: 120px;" />
+						<h5>핸드폰 번호를 입력해주세요</h5>
+					</div>
+					<div class="update_list">
+						<ul id = "auth_ul"> 
+							<li>
+							<span class = "input">
+								<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
+								<input id="smsbtn" class="btn" type="button" value="인증번호 확인" style="width: 120px;" />
+								<span id = "timer"></span>
+							</span>
+							</li>
+						</ul>
+							<h4 id = "authsucess">인증번호가 일치합니다.</h4>
+							<h4 id = "authfail">인증번호가 일치하지 않습니다.</h4>
+					</div>
+					<div class="update_list">
+						<input type="text" name="member_email" id="member_email" placeholder="이메일" value="<%=member_email %>">
+						<h6>메일주소를 입력해주세요</h6>	
+					</div>
+					<div class="update_list">
+						<input id="postcode" class="txt_info" type="text" name="member_post" value="<%=zipcode %>"/> 
+						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"  /> <br />
+						<input id="address"  class="txt_info" type="text" name="member_loc"   value="<%=member_addr1 %>" readonly/> 
+						<input id="address_detail" class="txt_info" type="text" name="member_locdetail"  value="<%=member_addr2 %>" />
+						<input id="extraAddress" type="hidden" placeholder="참고항목"><br>
+						<h7>주소를 입력해주세요</h7>
+					</div>	
+					<div class="total_button">
+						<input class="btn"  type="reset" value="취소" />
+						<input class="btn" type="submit" id="update" value="수정" />
+					</div>	
+				</form>
+			</div>			
+		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 	
@@ -266,7 +310,72 @@
 	var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
 	var poReg = /^[0-9]{5}$/;
 		
-	
+	 //비밀번호체크V
+	$(document).ready(function(){
+ 	$(document).on("propertychange change keyup paste","#member_password",function(){
+ 		if(!pwReg.test($(this).val())){
+ 			$(".profile h2").css("display","block");
+ 		} else {
+ 			$(".profile h2").css("display","none");
+ 		}
+ 		
+  	});
+ 	
+ 	//비밀번호 일치 체크V
+ 	  	$(document).on("propertychange change keyup paste","#pw2",function(){
+  	    	if($('#member_password').val() != $('#pw2').val()) {
+  	    		 $(".profile h3").css("display","block"); 
+  	    	} else {
+  	    		 $(".profile h3").css("display","none"); 
+  	    	}
+  	    });
+ 	
+ 	
+ 	  //핸드폰번호 체크V
+ 		$(document).on("propertychange change keyup paste","#member_phone",function(){
+ 			if(!phReg.test($(this).val())){
+ 				$(".profile h5").css("display","block");
+ 			} else {
+ 				$(".profile h5").css("display","none");
+ 			}
+ 			
+ 	 	});
+ 	  
+ 		//인증번호 체크?????????????????????????????????
+ 		$(document).on("propertychange change keyup paste","#chksns",function(){
+ 			if($('#chksns').val() == ""){
+ 				$(".profile h4").css("display","block");
+ 			} else {
+ 				$(".profile h4").css("display","none");
+ 			}
+ 			
+ 	 	});
+ 	  
+ 	  
+ 		  //이메일체크V
+ 		$(document).on("propertychange change keyup paste","#member_email",function(){
+ 			if(!emReg.test($(this).val())){
+ 				$(".profile h6").css("display","block");
+ 			} else {
+ 				$(".profile h6").css("display","none");
+ 			}
+ 			
+ 	 	});
+ 		  
+ 		
+ 	  
+ 	  //우편번호체크V
+ 	$(document).on("propertychange change keyup paste","#postcode",function(){
+ 		if(!poReg.test($(this).val())){
+ 			$(".profile h7").css("display","block");
+ 		} else {
+ 			$(".profile h7").css("display","none");
+ 		}
+ 		
+  	});
+ 	  
+ 	  
+	});
     //우편번호 api
     function execDaumPostcode() {
         new daum.Postcode({

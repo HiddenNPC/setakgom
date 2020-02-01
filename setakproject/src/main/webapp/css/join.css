@@ -85,16 +85,6 @@
 	
 }
 
-.joinform select {
-	width:460px;
-	height:35px;
-	margin:0 0 20px 0px;
-    border-radius: 3px;	
-    color:#777;
-    padding-left:7px;
-    border:1px solid #777;
-
-}
 .joinform .button {
 	margin-left:5px;
 	background-color: #3498db;

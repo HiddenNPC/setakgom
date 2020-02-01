@@ -3,6 +3,7 @@
 <%
 	String name = (String) session.getAttribute("name");
 	String member_id = (String) session.getAttribute("member_id");
+	String backurl = (String)request.getAttribute("backurl");
 %>
 <!DOCTYPE html>
 <html>
@@ -94,8 +95,9 @@
 					'member_name' : g_nickname,
 					'member_email' : g_email
  			}
+			
 			$.ajax({
-	            url : '/setak/google.do', // url
+	            url : '/setak/google.do', 
 	            type:'post',
 	            data : params,
 	            dataType:'json', 
@@ -128,8 +130,7 @@
 	<div id="header"></div>
 
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
-	<section id="title">
-		<!-- 변경하시면 안됩니다. -->
+	<section id="title"> <!-- 변경하시면 안됩니다. -->
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
 			<div class="title-text">
@@ -139,13 +140,11 @@
 		</div>
 	</section>
 
-	<section id="test">
-		<!-- id 변경해서 사용하세요. -->
-		<div class="content">
-			<!-- class 변경해서 사용하세요. -->
+	<section id="test"> <!-- id 변경해서 사용하세요. -->
+		<div class="content"> 	<!-- class 변경해서 사용하세요. -->
 			<form name="loginform" action="loginpro.do" method="post">
-				<div class="loginform">
-					<!-- class 변경해서 사용하세요. -->
+				<div class="loginform"> <!-- class 변경해서 사용하세요. -->
+						<input type="hidden" name="backurl" value = "<%=backurl%>" />
 					<div>
 						<input class="txtln" type="text" name="member_id"
 							placeholder="아이디" />
@@ -168,15 +167,17 @@
 					%>
 					<div class="extra">
 						<h4>다른서비스계정으로 로그인</h4>
+						<!--카카오 -->
 						<div class="logo kakao">
 							<img src="images/logo_kakao.png">
 						</div>
-						
+						<!-- 구글 -->
 						<div id="gSignInWrapper">
 							<div id="customBtn" class="customGPlusSignIn">
 							<img src="images/logo_gogle.png">
 							</div>
 						</div>
+						<!-- 네이버 -->
 						<div class="logo naver">
 							<img src="images/logo_naver.PNG">
 						</div>
@@ -210,10 +211,11 @@
 			</div>
 			<div class="text">
 				<h5>회원정보에 등록한 휴대폰번호를 입력하세요</h5>
-				<input type="text" placeholder="이름" /> <input type="text"
-					placeholder="휴대폰번호" /> <input type="button" class="phone"
-					value="인증번호받기" /> <input type="text" placeholder="인증번호" /> <input
-					type="button" class="ok" value="확인" />
+				<input type="text" placeholder="이름" />
+				<input type="text" placeholder="휴대폰번호" /> 
+				<input type="button" class="phone" value="인증번호받기" /> 
+				<input type="text" placeholder="인증번호" /> 
+				<input type="button" class="ok" value="확인" />
 			</div>
 		</div>
 	</div>
@@ -229,10 +231,12 @@
 			</div>
 			<div class="text">
 				<h5>회원정보에 등록한 휴대폰번호를 입력하세요</h5>
-				<input type="text" placeholder="이름" /> <input type="text"
-					placeholder="아이디" /> <input type="text" placeholder="휴대폰번호" /> <input
-					type="button" class="phone" value="인증번호받기" /> <input type="text"
-					placeholder="인증번호" /> <input type="button" class="ok" value="확인" />
+				<input type="text" placeholder="이름" /> 
+				<input type="text" placeholder="아이디" /> 
+				<input type="text" placeholder="휴대폰번호" /> 
+				<input type="button" class="phone" value="인증번호받기" /> 
+				<input type="text" placeholder="인증번호" />
+				<input type="button" class="ok" value="확인" />
 			</div>
 		</div>
 	</div>

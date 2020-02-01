@@ -109,64 +109,69 @@
        font-weight:bold;
     }
     
-      
+    
    
    /*개인정보수정*/
-   .mypage_content {
-   		margin-buttom:70px;
-   }
+.mypage_content {
+    margin-buttom:70px;
+}
    
-   .profile{
-   		padding-top:120px;
-   		padding-left:80px;
-   }
-   
-   .profile_info tr td {
-   		height:60px;
-   }
-   
-   .profile h4 {
-    display:none;
-	color: #ff2222;
+.profile {
+	padding-top:110px;
+   	padding-left:190px;
+}
+.profile input {
+	width:450px;
+	padding-left:10px;
+	border: 1px solid #7b7979;
+	border-radius: 3px;
+	line-height: 35px;
 	font-size: 0.8rem;
-	text-align:left;
+	margin:10px auto;
 }
 
-   .left_info {
-		width : 200px;
-   		text-align : center; 
-  		background-color :   #ffefce;
-   		font-size : 0.92rem;
-   		font-weight : bold; 
-   }
-   
-   .right_info {
-   		width : 500px;
-   		padding-left : 15px; 
-   		background-color :  #fff;
-   }
-   
-   .txt_info {
-   		border : 1px solid #bbb;
-   		color : #444;
-   		padding : 0 5px; 
-   		font-size : 0.8rem; 
-   		height : 25px; 
-   		margin-top : 10px; 
-   		margin-bottom : 10px; 
-   	
-   }
-   
+.input_list input{
+	margin-bottom : 20px; 
+}
+.profile input:hover::-webkit-input-placeholder {
+    transition: all.4s;
+	font-size:0.7rem;
+	color:#3498db;
+
+}
+.profile input:hover::-ms-input-placeholder {
+    transition: all.4s;
+	font-size:0.7rem;
+	color:#3498db;
+	
+}
+
+.profile input:hover::-moz-input-placeholder {
+    transition: all.4s;
+	font-size:0.7rem;
+	color:#3498db;
+
    .total_button {
    		padding:40px 0;
    }
    
-   .total_button a{
+   #auth_ul{
+	position: relative;
+}
+
+#timer{
+	position: absolute;
+	top: 0.58rem;
+	right: 9.2rem;
+	color: #ef3e3e;
+    font-weight: bold;
+}
+   
+   .btn{
    		font-size:0.95rem; 
-   		display:block;
    		width:90px;
-   		background-color: #e1e4e4;
-   		color:#444;
+   		background-color: #3498bd;
+   		color:#fff;
    		border-radius:30px;
    		height:4-px;
    		line-height:40px;
@@ -175,13 +180,22 @@
    		margin: 0 5px;
    }
    
-   .total_button a:hover {
+   .btn:hover {
    		background-color: #ffefce;
    		color:#444;
    		transition: all .4s;
    }
    
-   .profile h1 {
+
+    .update_list h1 {
+	color: #3498bd;
+	font-weight:bold;
+	font-size: 1rem;
+	text-align:left;
+}
+
+   
+   .update_list h2 {
     display:none;
     color: #ff2222;
 	font-size: 0.8rem;
@@ -189,15 +203,8 @@
 
 }
    
-   .profile h2 {
-    display:none;
-    color: #ff2222;
-	font-size: 0.8rem;
-	text-align:left;
-
-}
    
-   .profile h3 {
+   .update_list h3 {
     display:none;
     color: #ff2222;
 	font-size: 0.8rem;
@@ -205,8 +212,15 @@
 
 }
 
-   
-   .profile h5 {
+
+   .update_list h4 {
+    display:none;
+    color: #ff2222;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+   .update_list h5 {
     display:none;
     color: #ff2222;
 	font-size: 0.8rem;
@@ -214,14 +228,7 @@
 
 }
 
-   .profile h6 {
-    display:none;
-    color: #ff2222;
-	font-size: 0.8rem;
-	text-align:left;
-
-}
-   .profile h7 {
+   .update_list h6 {
     display:none;
     color: #ff2222;
 	font-size: 0.8rem;
@@ -229,10 +236,9 @@
 
 }
 
-   .profile h8 {
-    display:none;
+    .update_list h7 {
+	 display:none;
     color: #ff2222;
 	font-size: 0.8rem;
 	text-align:left;
-
 }
