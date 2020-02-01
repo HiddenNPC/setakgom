@@ -58,6 +58,8 @@ function passchk(){
 	<div id="qp1_1"><p>비밀번호를 입력하세요</p>
 		<div id="qp1_2">
 			<input type="hidden" name="QNA_NUM" value="<%=vo.getQNA_NUM()%>">		
+			<input type="hidden" name="MEMBER_ID" value="<%=vo.getMEMBER_ID()%>">		
+			<input type="hidden" name="loginId" value="<%=session.getAttribute("member_id")%>">		
 			<input id="qp1_3" type="password" name="QNA_PASS" placeholder="비밀번호">
 			<input id="qp1_4" type="button" onclick="passchk()" value="확인">			
 					

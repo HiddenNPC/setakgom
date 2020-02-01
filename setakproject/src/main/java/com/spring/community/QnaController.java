@@ -103,20 +103,16 @@ import org.springframework.web.servlet.ModelAndView;
 		mav.addObject("fileSize", mf.getSize());
 		mav.addObject("storedFileName",storedFileName);	
 		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
-		
+		mav.addObject("downlink", downlink);		
 		System.out.println("paramName=" + mf.getName());
 		System.out.println("fileName=" + mf.getOriginalFilename());
 		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
-		qnaVO.setQNA_FILE(mf.getOriginalFilename().concat("/"+storedFileName));	
+		System.out.println("storedFileName=" + storedFileName);					
+
+		qnaVO.setQNA_FILE(mf.getOriginalFilename().concat("/"+storedFileName));			
 		
-		}
-		else
-		{
-			qnaVO.setQNA_FILE(null);
-			
+		}else{
+			qnaVO.setQNA_FILE("등록한 파일이 없습니다./등록한 파일이 없습니다.");			
 		}
 		
 		qnaVO.setQNA_CHECK(request.getParameter("QNA_CHECK"));
@@ -127,10 +123,10 @@ import org.springframework.web.servlet.ModelAndView;
 		
 		if(res ==0 ) 
 		{
-			writer.write("<script> alert('입력실패');location.href='./qnaWrite.do'; </script>");
+			writer.write("<script> alert('글 작성을 실패하습니다.');location.href='./qnaWrite.do'; </script>");
 			return null;
 		}
-		writer.write("<script> alert('입력 성공');location.href='./qnaList.do'; </script>");
+		writer.write("<script> alert('글 작성이 완료되었습니다.');location.href='./qnaList.do'; </script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
@@ -149,6 +145,13 @@ import org.springframework.web.servlet.ModelAndView;
 		model.addAttribute("qnadata", vo);		
 		return "qna_pass";
 	}
+	@RequestMapping("qnaPass2.do") public String qnaPass2(QnaVO qnavo, Model model) throws Exception 
+	{
+		QnaVO vo = qnaService.getDetail(qnavo);
+		model.addAttribute("qnadata", vo);		
+		return "qna_pass2";
+	}
+	
 	@RequestMapping("qnaPassChk.do") public String qnaPassChk(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{	
 		
@@ -156,29 +159,35 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
 		
+		String writerId = request.getParameter("MEMBER_ID");
+		String loginId= request.getParameter("loginId");
 		String pass= request.getParameter("QNA_PASS");
 		int num = Integer.parseInt(request.getParameter("QNA_NUM"));
+		
+		System.out.println("writerId 잘 넘어왔나? = " + writerId);
 		System.out.println("pass 잘 넘어왔나? = " + pass);
 		System.out.println("num 잘 넘어왔나? = " + num);
+		System.out.println("loginId 잘 넘어왔나? = " + loginId);
 		
 		String res = qnaService.qnaPassChk(num);
 			
 		System.out.println("res 잘 넘어왔나? = " + res);	
 		
-		if(res.equals(pass)){
-			writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?QNA_NUM="+num+"'; </script>");
+		if(res.equals(pass))
+		{
+			if(loginId.equals(writerId)) 
+			{
+				writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?QNA_NUM="+num+"'; </script>");				
+			}
+			writer.write("<script> alert('작성자만 열람가능합니다.');location.href='qnaList.do'</script>");	
 		 }else { 
-			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaList.do'; </script>"); 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?QNA_NUM="+num+"'; </script>"); 
 		 }
 		
 		return null; 	
 		
 	}
-	
-	
-	
-	
-	
+
 	@RequestMapping("updateform.do") public String updateForm(QnaVO qnavo, Model model) throws Exception {
 		QnaVO vo = qnaService.getDetail(qnavo);
 		model.addAttribute("qnadata", vo);		

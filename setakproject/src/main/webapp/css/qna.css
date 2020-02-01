@@ -17,14 +17,19 @@
 	.qna { font-size:0.9rem; font-weight:bold; padding-top:150px; }
 	
 	.qlt1 { width:1000px; background-color:#3498db; align-content: center;
-		margin: auto;  border: none; color:#fff; }
-	
+		margin: auto;  border: none; color:#fff; }	
 	.qlt1 tr { vertical-align:middle; height: 30px; }
 	
-	.qlt2 { width:1000px; margin: auto;  color:#444; border-style:solid;
-   	 	border-width: 0.5px 1px;/*상하 ,좌우*/ }
+	.qlt2 { width:1000px; margin: auto;  color:#444; }
+	.qlt2 td { 
+		
+		border-bottom: 1px solid #e1e4e4;
+		
+	}
 	
-	.qlt3 { width:1000px; margin: auto; color:#444; border:none; }
+	
+	
+	.qlt3 { width:1000px; margin-top: 10px; color:#444; border:none; }
 		
 	.qlt4 { width:1000px; margin:auto;  border:none; }
 	.qlt4_btn {color:#fff; background-color:#3498db; WIDTH: 45pt; HEIGHT: 25pt;

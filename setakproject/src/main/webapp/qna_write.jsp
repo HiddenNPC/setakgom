@@ -21,6 +21,47 @@ $(document).ready(function(){
     $("#header").load("header.jsp")
     $("#footer").load("footer.jsp")     
  });
+ 
+function writechk(){	
+	//입력안한거 입력하도록 
+	if (document.getElementById('QNA_TITLE').value=="") 
+	{
+		alert("제목을 입력하세요.");
+        document.getElementById('QNA_TITLE').focus();
+        return false;
+        
+    }
+	else if (document.getElementById('QNA_CONTENT').value=="") 
+	{
+    	alert("내용을 입력하세요.(최대 500자)");
+        document.getElementById('QNA_CONTENT').focus();
+        return false;
+    }
+	else if(document.getElementById('QNA_PASS').value=="") 
+	{
+    	alert("작성하신 글의 비밀번호를 설정해 주세요 (최대 10자)");
+        document.getElementById('QNA_PASS').focus();
+        return false;
+    }
+	else{
+		document.qnaform.submit();
+	}
+}
+function wcancel(){
+	  var check = confirm("작성을 취소하시겠습니까");
+	  /* if(check == true) else false */
+	  if(check)
+	  { 
+		  location.href='./qnaList.do';
+	  }
+	  else
+	  { 
+		  return false;
+	  }
+}
+
+//javascript:qnaform.submit(),,document.passform.submit();
+ 
 </script>
 </head>
 <body>
@@ -30,7 +71,7 @@ $(document).ready(function(){
 <div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
-<form action="./qnaInsert.do" method="post" enctype="multipart/form-data" name="qnaform">
+<form action="./qnaInsert.do" method="post" enctype="multipart/form-data" name="qnaform" onsubmit="return writechk();">
 <table class="qwt1">				
 	<tr>
 		<td height="25px"><div align="center">작성자</div></td>
@@ -62,11 +103,11 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td height="25px"><div align="center">제목</div></td>
-		<td colspan="2"><input name="QNA_TITLE" type="text" size="50" maxlength="100"/></td>
+		<td colspan="2"><input id="QNA_TITLE" name="QNA_TITLE" type="text" size="50" maxlength="50"/></td>
 	</tr>
 	<tr>
 		<td height="25px"><div align="center">내용</div></td>
-		<td colspan="2"><textarea name="QNA_CONTENT" cols="80" rows="15" style="resize:none" ></textarea></td>
+		<td colspan="2"><textarea id="QNA_CONTENT" name="QNA_CONTENT" cols="80" rows="15" maxlength="500" style="resize:none" ></textarea></td>
 	</tr>
 	<tr>
 		<td height="25px"><div align="center">파일첨부</div></td>
@@ -74,7 +115,8 @@ $(document).ready(function(){
 	</tr>
 	<tr > 
 		<td height="25px"><div align="center">비밀번호</div></td>
-		<td><input id="QNA_PASS" name="QNA_PASS" type="password"/></td>							
+		<td><input id="QNA_PASS" name="QNA_PASS" type="password" maxlength="10"/></td>							
+		
 		<td><span>공개여부&nbsp;</span>
 			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공개				
 			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개</td>					
@@ -88,8 +130,8 @@ $(document).ready(function(){
 	</tr>
 	<tr align="center" valign="middle">
 		<td colspan="5">
-			<button onclick="javascript:qnaform.submit()" >등록</button>
-			<button onclick="javascript:history.go(-1)">뒤로</button>
+			<input type="submit" name="submit" value="등록" >			
+			<input type="button" name="cancel" value="취소" onclick="wcancel();">			
 		</td>
 	</tr>			
 </table>

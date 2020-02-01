@@ -157,12 +157,15 @@ selectData();
 
 <table class="qvt3">
 	<tr><td>
-		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 수정  </button>					
-		<button type="button" id="btn1" onclick="location.href='./qnaDelete.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 삭제  </button>			
+		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">수정 </button>					
+		<button type="button" id="btn1" onclick="location.href='./qnaPass2.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">삭제 </button>			
 		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
 </table><br>
+
+
+
 <!-- 게시판 내용 끝 ,  댓글 작성 폼  시작-->	
 <form id="comment_form" method="post" >
 <table class="cf_t1">
