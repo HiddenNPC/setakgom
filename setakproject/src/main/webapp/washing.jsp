@@ -41,6 +41,11 @@ $(document).ready(function($) {
 			}, 500);
 			return false;
 		});
+	} else {
+		$('.tab-list a').click(function() {
+			event.preventDefault();
+		});
+		$('.step img').attr("src","images/ms1.png")
 	}
 	
 	/* 메뉴리스트 눌렀을때 가격테이블 생성 */
@@ -303,11 +308,11 @@ function checkform() {
 			<form id="pricediv" action="./washmending.do" method="post" onsubmit="return checkform();">
 				<table id = "pricetable">
 					<tr class= "pricemenu">
-						<td width="10px"><input type="checkbox" id = "allcheck" checked></td>
-						<td width="580px">세탁물</td>
-						<td width="250px">세탁방법</td>
-						<td width="140px">수량</td>
-						<td width="200px">합계</td>
+						<td><input type="checkbox" id = "allcheck" checked></td>
+						<td>세탁물</td>
+						<td>세탁방법</td>
+						<td>수량</td>
+						<td>합계</td>
 					</tr>
 				</table>
 			
