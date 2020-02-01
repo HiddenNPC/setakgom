@@ -120,7 +120,10 @@
 		var day = (d.getMonth()+1)+"월" + (d.getDate()+1)+"일";
 		document.getElementById("printday").innerHTML =day;
 		
-				
+		/*리뷰버튼 클릭시*/
+		$("#review").click(function(event){
+			 $(location.href="/setak/profile2.do"); // 리뷰쓰는 주소로 수정하기
+		});
 	});
 	 
 
@@ -226,6 +229,7 @@
 										<th>요금제</th>
 										<th>결제금액</th>
 										<th>결제일</th>
+										<th>리뷰쓰기</th>
 									</tr>
 								</thead>
 						
@@ -239,6 +243,9 @@
 										<td><%=hlist.getHis_name() %></td>
 										<td><%=hlist.getHis_price() %>원</td>
 										<td><%=hlist.getHis_date() %></td>
+										<td>
+											<a id="review" href="javascript:">review</a>
+										</td>
 									</tr>
 								</tbody>
 								<%} %>   

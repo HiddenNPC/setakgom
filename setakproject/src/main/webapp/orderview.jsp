@@ -121,10 +121,10 @@ function cancle() {
 								</div>
 								<br><br><br><br><br>
 								<div class="order_dateClass">
-									<%if (orderVO.getOrder_delete().equals(0)) {%>
-									<a href="#" class="button" id="order_false" disabled="true">주문 취소</a>
-									<%} else { %>
-									<a href="#" class="button" id="order_false" disabled="false">주문 취소</a>
+									<%if (orderVO.getOrder_delete().equals(0)) {%> <!-- 활성화 -->
+									<a href="#" class="button" id="order_false" disabled="false">주문 취소</a> 
+									<%} else { %> <!-- 비활성화 -->
+									<a href="#" class="button" id="order_false" disabled="true">주문 취소</a> 
 									<%} %>
 								</div>
 							</div>

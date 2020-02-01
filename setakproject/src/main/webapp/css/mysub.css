@@ -236,7 +236,9 @@ a#cancle {
 	 border:2px solid #e1e4e4;
 }
 
-
+.record_list thead th:last-child{
+	width:400px;
+	}
 
 /*이전이후*/
 .page_a {
