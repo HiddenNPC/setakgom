@@ -51,22 +51,27 @@
         	 var subs_num = $(tr).attr('id'); 
         	 var final_price = $(tr).attr('class'); 
         	 
+        	 // merchant_uid
+        	 var muid = 'merchant_' + new Date().getTime();
+        	 console.log("muid " + muid); 
         	 
-        	 // customer_uid를 통한 난수 생성
+        	 // customer_uid를 위한 난수 생성 > 재결제 예약에 사용 
         	 var num = Math.floor(Math.random() * 1000) + 1; 
+        	 var cuid = '<%=memberVO.getMember_id()%>' + num;
+        	 console.log("cuid " + cuid); 
 
              var IMP = window.IMP; // 생략가능
              IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
              var msg;
                           
              // IMP.request_pay(param, callback) 호출
-             // amount 바꿔야함 
+             // amount 바꿔야함  **** > 최초 결제 동시에
              IMP.request_pay({ // param
                pay_method: "card", // "card"만 지원됩니다
-               merchant_uid : 'merchant_' + new Date().getTime(),
-               customer_uid: '<%=memberVO.getMember_id()%>' + num, // 카드(빌링키)와 1:1로 대응하는 값
+               merchant_uid : muid,
+               customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
                name: "정기 구독 결제 카드 등록 및 최초 결제",
-               amount: 0, 
+               amount: 100, 
                buyer_email : '<%=memberVO.getMember_email()%>',
                buyer_name : '<%=memberVO.getMember_name()%>',
                buyer_tel : '<%=memberVO.getMember_phone()%>',
@@ -74,7 +79,7 @@
                buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
              }, function (rsp) { // callback
                if (rsp.success) {
-            	   alert("빌링키 발급 성공"); 
+            	   alert("결제가 성공적으로 완료되었습니다."); 
             	      // 빌링키 발급 성공
             	      // jQuery로 HTTP 요청
             	      jQuery.ajax({
@@ -82,8 +87,8 @@
             	        method: "POST",
             	        dataType: 'json',
             	        data: {
-            	          merchant_uid : 'merchant_' + new Date().getTime(),
-            	          customer_uid: '<%=memberVO.getMember_id()%>'+num,
+            	          merchant_uid : muid,
+            	          customer_uid: cuid,
             	          'member_id' : member_id,
            				  'subs_num' : subs_num     	          
             	        },
@@ -92,7 +97,7 @@
                         }
             	      });
                } else {
-                 alert("결제 오류"); 
+                 alert("결제가 취소 되었습니다."); 
                }
              });
              

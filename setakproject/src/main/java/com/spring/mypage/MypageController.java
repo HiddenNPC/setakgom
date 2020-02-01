@@ -107,26 +107,20 @@ public class MypageController {
 //		OrderListVO olvo2 = new OrderListVO();
 		String member_id = "bit";
 		
+		System.out.println("1");
+		
 		ordernumlist = mypageService.getOrdernumlist(member_id);
 		
+		System.out.println("2");
 		
 		for(int i = 0; i < ordernumlist.size(); i++) {
 			OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
 			
 			long order_num = olvo.getOrder_num();
-			keeplist = mypageService.selectMykeeplist(order_num);
-			
-		}
-		
-		
-		
-		
-		
+			keeplist = mypageService.selectMykeeplist(order_num);	
+		}	
 		
 		System.out.println("컨트롤"+ordernumlist);
-		
-		
-		
 		
 		model.addAttribute("keeplist", keeplist);
 		model.addAttribute("ordernumlist", ordernumlist);

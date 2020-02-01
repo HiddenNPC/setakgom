@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Iamport {
 	
 	public static final String import_cancel_url = "https://api.iamport.kr/payments/cancel";
-	public static final String import_sub_url = "https://api.iamport.kr/subscribe/payments/schedule";
+	public static final String import_schedule_url = "https://api.iamport.kr/subscribe/payments/schedule";
 	
 	public String getToken(HttpServletRequest request, HttpServletResponse response,JSONObject json ,String requestURL) throws Exception{
 
@@ -126,6 +126,58 @@ public class Iamport {
 			return 1;
 			
 		}
+	}
+	
+	
+	public int subscribeSchedule(String token, String cid, String mid, int amount) {
+		
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost post = new HttpPost(import_schedule_url);
+		
+		String price = Integer.toString(amount);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		System.out.println("mid : " + mid);
+		
+        String schedules = "[{\"merchant_uid\":" + "\"" + mid + "\"" + ","
+                + "\"schedule_at\":\"1580576884\","
+                + "\"amount\":\"100\""
+                + "}]";
+        
+        System.out.println("schedules : " + schedules);
+        
+		post.setHeader("Authorization", token);
+		map.put("customer_uid", cid);
+		map.put("schedules", schedules);
+		map.put("amount", price); 
+		String asd = ""; 
+		
+		try {
+			
+			post.setEntity(new UrlEncodedFormEntity(convertParameter(map)));
+			HttpResponse res = client.execute(post);
+			ObjectMapper mapper = new ObjectMapper();
+			String enty = EntityUtils.toString(res.getEntity());
+			JsonNode rootNode = mapper.readTree(enty);
+			asd = rootNode.get("response").asText();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}	
+		
+		System.out.println("asd : " + asd);
+		
+		if(asd.equals("null")) {
+			System.out.println("결제 예약 실패");
+			return -1;
+		} else {
+			System.out.println("결제 예약 성공");
+			return 1;
+		}
+		
 	}
 
 	public List<NameValuePair> convertParameter(Map<String, String> paramMap) {

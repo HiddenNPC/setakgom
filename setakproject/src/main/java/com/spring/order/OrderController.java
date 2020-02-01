@@ -509,20 +509,24 @@ public class OrderController {
 	// 정기구독 정보 입력
 	@RequestMapping(value = "/insertSubscribe.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public String insertSubscribe(MemberVO mvo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String insertSubscribe(MemberVO mvo, HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value="merchant_uid") String merchant_uid, @RequestParam(value="customer_uid") String customer_uid) throws Exception {
 
+		System.out.println("merchant_uid : " + merchant_uid);
+		System.out.println("customer_uid : " + customer_uid);
+		
 		// MemberVO 값 변경 (번호 입력)
 		orderService.updateSubInfo(mvo);
-		
 		// member_subs 테이블 값 추가
 		orderService.insertMemberSubInfo(mvo);
 		// history_sub 테이블 값 추가
 		orderService.insertSubHistory(mvo);
+		
 		// 쿠폰 발급
-		int coupon_num = orderService.getCouponNum(mvo);
-		for(int i = 0; i < coupon_num; i++) {
-			orderService.insertCoupon(mvo);
-		}
+//		int coupon_num = orderService.getCouponNum(mvo);
+//		for(int i = 0; i < coupon_num; i++) {
+//			orderService.insertCoupon(mvo);
+//		}
 		
 		// 정기 결제 예약
 		Iamport iamport = new Iamport();
@@ -538,7 +542,8 @@ public class OrderController {
 		
 		String token = iamport.getToken(request, response, json, requestURL);
 		
-		
+		int res = iamport.subscribeSchedule(token, customer_uid, merchant_uid, 100);
+		System.out.println("ss res : " + res);
 		
 		return ""; 
 	}	
