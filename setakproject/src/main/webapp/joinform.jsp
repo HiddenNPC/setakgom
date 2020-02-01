@@ -423,10 +423,6 @@
  	 	  		$(".clause div:nth-child(3) h4").css("display","block"); 
  	 	  	  }
  	 	  });
- 	  
- 	  var test  = function(){
- 		 random = randomnum();
- 	  }
  		
 	});
 	

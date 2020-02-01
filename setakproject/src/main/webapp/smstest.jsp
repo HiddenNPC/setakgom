@@ -31,12 +31,22 @@
 		
 		$("#btnSubmit").click(function (event) {
 			var random = randomnum();
+			event.preventDefault();
+			
+			// Get form
+            var form = $('#fileUploadForm')[0];
+
+            // Create an FormData object
+            var data = new FormData(form);
 			
          	$.ajax({
                 type: "POST",
-                data:{"randomnum":random},
-                url: "/setak/testImage.do", 
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                enctype: 'multipart/form-data',
+                url: "/setak/testImage.do",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
                 dataType: 'json',
 
                 success: function (data) {
@@ -54,6 +64,9 @@
     </script>
 </head>
 <body>
-	<input type = "button" value = "메모리" id="btnSubmit">
+	<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+        <input type="file" name="files" multiple/><br/><br/>
+        <input type="submit" value="Submit" id="btnSubmit"/>
+    </form>
 </body>
 </html> 

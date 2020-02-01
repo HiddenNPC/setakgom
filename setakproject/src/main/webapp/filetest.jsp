@@ -35,7 +35,7 @@
                  type: "POST",
                  enctype: 'multipart/form-data',
                  //url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}",
-                 url: "/setak/testImage.do"
+                 url: "/setak/testImage.do",
                  data: data,
                  processData: false,
                  contentType: false,
