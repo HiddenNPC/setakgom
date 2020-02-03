@@ -49,15 +49,16 @@
 }
 
 .search-date-btn {
-	background-color : #eeefef;
-    padding : 6px;
+    background-color: #eeefef;
+    padding: 6px;
     color: #444;
-	text-align: center;
-	box-shadow : none;
-	border-radius : 3px;
-	border : 0;   
-	font-size : 0.75rem;
-	cursor : pointer;
+    text-align: center;
+    box-shadow: none;
+    border-radius: 3px;
+    border: 0;
+    font-size: 0.75rem;
+    cursor: pointer;
+    width: 45px;
 }
 
 
@@ -125,4 +126,106 @@ li.check {
 
 .active {
 	background-color : #D8D8D8;
+}
+
+
+/*팝업 레이어 공통*/
+.layer-card {
+	display : none; 
+	z-index : 10000;
+	position : absolute;
+	top : 0;
+	left : 0;
+	width : 100%;
+	background-color : rgba(0, 0, 0, 0.5);
+}
+
+#popup-div {
+	display : none;
+	position : fixed;
+	width : 60%;
+	height : 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	background-color : #ffffff; 
+	padding : 20px; 
+}
+
+
+.popup-close {
+	background-color : white;
+	border : 0px;
+    cursor: pointer;
+    float:right;
+}
+
+.popup-content {
+    margin: 20px 30px;
+}
+
+.detail-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 3px;
+}
+
+#detail-order-div {
+    margin-bottom: 30px;
+}
+#detail-table,
+#detail-get-table {
+    border-top: 2px solid #3498db;
+    width: 100%;
+    text-align: left;
+    border-spacing : 1px;
+    font-size : 0.8rem;
+}
+
+#detail-table td,
+#detail-get-table td {
+	padding-top : 8px;
+	padding-bottom : 8px;
+	padding-left : 10px; 
+	border-bottom : 1px solid #D8D8D8;
+}
+
+#detail-table td:nth-child(1),
+#detail-table td:nth-child(3),
+#detail-get-table td:nth-child(1),
+#detail-get-table td:nth-child(3) {
+	width : 15%;
+	background-color : #eeefef;
+
+}
+
+#detail-table td input,
+#detail-get-table td input {
+	border : 1px solid #a9a9a9;
+}
+
+#detail-btn-div {
+	text-align : center;
+}
+
+#detail-submit-btn {
+	font-size : 0.8rem;
+	background-color : #3498db;
+	box-shadow : none;
+	border : 0px; 
+	padding : 6px 10px; 
+	color : white;
+	margin-top : 30px;
+	cursor : pointer;
+}
+
+.orderNum {
+    border: 0px;
+    background-color: white;
+    cursor: pointer;
+    color : #444; 
+}
+
+.orderNum:hover {
+	text-decoration : underline;
 }

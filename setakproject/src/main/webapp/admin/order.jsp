@@ -9,6 +9,9 @@
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
+	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+	
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	
 	<!-- datepicker -->
@@ -61,6 +64,32 @@
 			});
 			
 		});
+		
+		// 나의주소록 레이어 스크립트
+		 function layerOrderDetail(type) {
+
+	        if(type == 'open') {
+	           
+	            // 팝업창을 연다.            
+	            jQuery('#layer-div').attr('style','display:block');
+	            jQuery('#popup-div').attr('style','display:block');
+	            
+	            // 스크롤 없애기
+	            $("body").css("overflow","hidden");
+	            
+	            // 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+	            jQuery('#layer-div').height(jQuery(document).height());
+	        	
+	        }
+	       
+	        else if(type == 'close') {
+	           
+	            // 팝업창을 닫는다.
+	            jQuery('#layer-div').attr('style','display:none');
+	            $("body").css("overflow","scroll");
+	            
+	        }
+	    }
 	</script>
 </head>
 <body>
@@ -101,11 +130,11 @@
 								<input id = "datepicker" class = "search-date" type = "text" size = "10px"/>
 								~
 								<input id = "datepicker2" class = "search-date" type = "text" size = "10px"/>
-								<input class = "search-date-btn" id = "today" value = "오늘"/>
-								<button class = "search-date-btn" id = "oneweek">일주일</button>
-								<button class = "search-date-btn" id = "onemonth">1개월</button>
-								<button class = "search-date-btn" id = "threemonth">3개월</button>
-								<button class = "search-date-btn" id = "sixmonth">6개월</button>
+								<input type = "button" class = "search-date-btn" id = "today" value = "오늘"/>
+								<input type = "button"  class = "search-date-btn" id = "today" value = "일주일"/>
+								<input type = "button"  class = "search-date-btn" id = "today" value = "1개월"/>
+								<input type = "button"  class = "search-date-btn" id = "today" value = "3개월"/>
+								<input type = "button"  class = "search-date-btn" id = "today" value = "6개월"/>
 							</td>
 						</tr>
 					</table>
@@ -158,12 +187,12 @@
 						<li class = "check">
 							<input type = "checkbox" />
 						</li>
-						<li>238428349023</li>
+						<li><input class = "orderNum" type = "button" onclick = "layerOrderDetail('open')" value = "1580040955887" /></li>
 						<li>bit</li>
 						<li>박비트</li>
 						<li>2020-01-30</li>
 						<li>100원</li>
-						<li>dssdf</li>
+						<li><span id = "delivery_num"></span></li>
 						<li>asd</li>
 					</ul>
 				</div>
@@ -196,6 +225,87 @@
 				<!-- 결과 페이징 div 끝 -->
 			</div>
 		<!-- 결과  div 끝-->
+		
+	<!-- 주문 상세보기 레이어 -->
+   <section id = "detail">
+   	<div id = "layer-div" class = "layer-card">
+		<div id = "popup-div">
+			<div class="popup-title">
+				<h2>주문 상세정보 
+				<button class = "popup-close" onclick = "layerOrderDetail('close')"><img src="https://img.icons8.com/ultraviolet/20/000000/close-window.png"></button>
+				</h2>
+			</div>
+			<div class="popup-content">
+				
+				<!-- 주문정보 div 시작 -->
+				<div id = "detail-order-div">
+					<p class = "detail-title">주문정보</p>
+					<table id = "detail-table">
+						<tbody>
+							<tr>
+								<td>주문번호</td>
+								<td><span id = "detailOrderNum">1580040955887</span></td>
+								<td>결제방법</td>
+								<td>카드</td>
+							</tr>
+							<tr>
+								<td>주문일자</td>
+								<td><span id = "detailOrderDate"></span></td>
+								<td>배송번호</td>
+								<td><input id = "deliveryNum" type = "text"/></td>
+							</tr>
+							<tr>
+								<td>주문상태</td>
+								<td colspan = "3"><span id = "detailOrderStatus"></span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 주문정보 div 끝-->
+				
+				<!-- 수취인 정보 div 시작 -->
+				<div id = "detail-info-div">
+					<p class = "detail-title">수취인정보</p>
+					<table id = "detail-get-table">
+						<tbody>
+							<tr>
+								<td>받는사람</td>
+								<td><input id = "detail-human" type = "text" value = "" /></td>
+								<td>휴대폰</td>
+								<td><input id = "detail-phone" type = "text" value = "" /></td>
+							</tr>
+							<tr>
+								<td>우편번호</td>
+								<td>
+									<input id = "detail-zipcode" type = "text" value = "" readonly />
+									<input type = "button" value = "우편번호 검색" />
+								</td>
+							<tr>
+								<td>주소</td>
+								<td><input id = "detail-addr1" type = "text" value = "" /></td>
+								<td>상세주소</td>
+								<td><input id = "detail-addr2" type = "text" value = "" /></td>
+							</tr>
+							<tr>
+								<td>요청사항</td>
+								<td colspan = "3">
+									<textarea id = "detail-request" cols = "75" rows = "3"></textarea>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 수취인 정보 div 끝-->
+
+				<!-- 버튼 div -->				
+				<div id = "detail-btn-div">
+					<input id = "detail-submit-btn" type = "button" value = "확인 "/>
+				</div>
+			</div>
+		</div>
+   	</div>
+   </section>
+   
 	</div><!-- 지우지마세요 -->
 </body>
 </html>
