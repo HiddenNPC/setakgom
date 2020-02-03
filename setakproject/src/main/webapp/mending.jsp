@@ -332,7 +332,7 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input type="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
@@ -370,7 +370,7 @@
 								<p>※ 왼쪽 기장 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input type="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
