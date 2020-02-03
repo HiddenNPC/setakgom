@@ -176,6 +176,7 @@ import org.springframework.web.servlet.ModelAndView;
 		if(res.equals(pass))
 		{
 			if(loginId.equals(writerId)) 
+			//if(loginId.equals(writerId)&&loginId.equals(어드민)) 
 			{
 				writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?QNA_NUM="+num+"'; </script>");				
 			}
@@ -260,15 +261,38 @@ import org.springframework.web.servlet.ModelAndView;
 		return null;
 	}
 	
-	@RequestMapping("qnaDelete.do") public String deleteQna (QnaVO vo, HttpServletResponse response) throws Exception
-	{
-		int res = qnaService.qnaDelete(vo);		
+	@RequestMapping("qnaDelete.do") public String deleteQna (QnaVO vo, HttpServletResponse response, HttpServletRequest request) throws Exception
+	{	
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();		
-		if (res == 1 ) 
-		writer.write("<script>alert('글을 삭제하셨습니다 '); location.href='./qnaList.do';</script>");
-		return null;
+		
+		String writerId = request.getParameter("MEMBER_ID");
+		String loginId= request.getParameter("loginId");
+		String pass= request.getParameter("QNA_PASS");
+		int num = Integer.parseInt(request.getParameter("QNA_NUM"));
+		
+		System.out.println("writerId 잘 넘어왔나? = " + writerId);
+		System.out.println("pass 잘 넘어왔나? = " + pass);
+		System.out.println("num 잘 넘어왔나? = " + num);
+		System.out.println("loginId 잘 넘어왔나? = " + loginId);
+		
+		String pchk = qnaService.qnaPassChk(num);
+		System.out.println("pchk 잘 넘어왔나? = " + pchk);
+		
+		if(pchk.equals(pass))
+		{
+			if(loginId.equals(writerId)) 
+			{	
+				qnaService.qnaDelete(vo);
+				writer.write("<script> alert('게시글을 삭제하였습니다.');location.href='./qnaList.do'; </script>");				
+			}
+			writer.write("<script> alert('작성자만 삭제 가능합니다.');location.href='qnaList.do'</script>");	
+		 }else { 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?QNA_NUM="+num+"'; </script>"); 
+		 }
+		
+		return null; 	
 	
 	}
 

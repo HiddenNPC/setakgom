@@ -15,34 +15,27 @@
 	a:link { color: #444; text-decoration: none;}
 	a:visited { color: #444; text-decoration: none;}  	
 	.qna { font-size:0.9rem; font-weight:bold; padding-top:150px; }
+	button { color:#fff; background-color:#3498db; WIDTH: 43pt; HEIGHT: 22pt;
+		border-top-left-radius: 5px;  border-bottom-left-radius: 5px; 		
+		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+		border: none; outline: none; margin: 3px; }
 	
 	.qlt1 { width:1000px; background-color:#3498db; align-content: center;
 		margin: auto;  border: none; color:#fff; }	
-	.qlt1 tr { vertical-align:middle; height: 30px; }
-	
+	.qlt1 tr { vertical-align:middle; height: 30px; }	
 	.qlt2 { width:1000px; margin: auto;  color:#444; }
-	.qlt2 td { 
-		
-		border-bottom: 1px solid #e1e4e4;
-		
-	}
-	
-	
-	
-	.qlt3 { width:1000px; margin-top: 10px; color:#444; border:none; }
-		
+	.qlt2 td { border-bottom: 1px solid #e1e4e4; }	
+	.qlt3 { width:1000px; margin-top: 10px; color:#444; border:none; }		
 	.qlt4 { width:1000px; margin:auto;  border:none; }
 	.qlt4_btn {color:#fff; background-color:#3498db; WIDTH: 45pt; HEIGHT: 25pt;
 		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
 		border-top-right-radius: 5px;  border-bottom-right-radius: 5px; border: none;
 		outline: none; margin-right:10px; cursor: pointer; }
-	
-		
+			
 	#qp1_1{ border: 2px solid #3498db; margin: auto;
 	width:300px; height:150px; text-align: center; 
 	padding: 20px; 
-	}	
-	
+	}		
 	#qp1_1 p {margin-bottom: 30px;}	
 	#qp1_2{ border: 1px solid #e1e4e4; height:50px; width:250px;
 	margin:auto;  line-height:50px;
@@ -55,14 +48,10 @@
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
    		border: none; outline: none; margin-right: 10px;
    	}
-	 
-	 
-		
-	
+
 	.qwt1 { width:1000px; margin:auto; border:1px solid #e1e4e4; border-top: 3px solid #3498db; border-collapse: collapse;}	
-	.qwt1 tr td { border: 2px solid #e1e4e4; padding:8px; }	
-	.qwt1h { display:none; }
-	
+	.qwt1 tr td { border: 2px solid #e1e4e4; padding:8px; color:#444; }	
+	.qwt1h { display:none; }	
  	.qvt1 { width:1000px; margin: auto; color:#444; 
  		 border-top: 3px solid #3498db; border-collapse: collapse;}
 	.qvt1 tr td { border:2px solid #e1e4e4; border-left:0px; border-right:0px; 
@@ -74,14 +63,38 @@
 	.qvt2 { width:1000px; margin: auto; color:#444; 
 	border: 2px solid #e1e4e4; border-left: 0px; border-right: 0px; 
 	border-bottom: 3px solid #3498db;
-	}
-	
+	}	
   	.qvt3 { width:1000px; margin: auto; border: none; margin-top: 10px; color:#444; }
-			
-	 button { color:#fff; background-color:#3498db; WIDTH: 43pt; HEIGHT: 22pt;
-		border-top-left-radius: 5px;  border-bottom-left-radius: 5px; 		
-		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
-		border: none; outline: none; margin: 3px; }
+	.qut1{ width:1000px; margin:auto; 
+	border-top: 3px solid #3498db; border-collapse: collapse;	
+	}
+	.qut1 tr td { border:2px solid #e1e4e4;  
+	padding:8px; color:#444;  }
+  	.qut2{ width:1000px; margin:auto; color:#444; text-align: end;}
+	
+	
+	.filebox input[type="file"] { 
+	position: absolute; width: 1px; height: 1px; padding: 0; 
+	margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; } 
+	.filebox label { 
+	display: inline-block; padding: .5em .75em; color: #999; 
+	font-size: inherit; line-height: normal; vertical-align: middle; 
+	background-color: #fdfdfd; cursor: pointer; 
+	border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; 
+	border-radius: .25em; } /* named upload */ 
+	.filebox .upload-name 
+	{ display: inline-block; 
+	padding: .5em .75em; /* label의 패딩값과 일치 */ 
+	font-size: inherit; font-family: inherit; line-height: normal; 
+	vertical-align: middle; background-color: #f5f5f5; 
+	border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; 
+	border-radius: .25em; -webkit-appearance: none;
+	 /* 네이티브 외형 감추기 */ -moz-appearance: none; appearance: none; }
+
+
+	
+	
+	
 	
 		
 	#btn1 {float: right; }		
@@ -105,9 +118,6 @@
 	#td3{ color:#3498db; text-align:right; padding-left:15px;}		
 	.cdbtn{ float: right; }
         
-	.qut1{ width:1000px; margin:auto; color:#444; }
-  	.qut2{ width:1000px; margin:auto; color:#444; text-align: end;}
-	
 	
       
       
