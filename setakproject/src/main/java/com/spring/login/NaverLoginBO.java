@@ -12,10 +12,11 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class NaverLoginBO {
-
+    // 네이버 서비스 url 설정 8000
+	// 네이버 callback url 설정 8000, 8080
 	private final static String CLIENT_ID = "YnTpvVPQF1pPriyZCGwG";
 	private final static String CLIENT_SECRET = "SM7BbBapHC";
-	private final static String REDIRECT_URI = "http://localhost:8080/setak/callback";
+	private final static String REDIRECT_URI = "http://localhost:8000/setak/naver";
 	private final static String SESSION_STATE = "oauth_state";
 	/* 프로필 조회 API URL */
 	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";

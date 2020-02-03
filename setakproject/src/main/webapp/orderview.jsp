@@ -77,7 +77,7 @@ function cancle() {
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
-							<li><a href="password.do">개인정보수정</a></li>
+							<li><a href="profile1.do">개인정보수정</a></li>
 							<li><a href="mycoupon.do">쿠폰조회</a></li>
 							<li><a href="mysavings.do">적립금 조회</a></li>
 							<li><a href="withdraw.do">회원탈퇴</a></li>
@@ -121,10 +121,10 @@ function cancle() {
 								</div>
 								<br><br><br><br><br>
 								<div class="order_dateClass">
-									<%if (orderVO.getOrder_delete().equals(0)) {%>
-									<a href="#" class="button" id="order_false" disabled="true">주문 취소</a>
-									<%} else { %>
-									<a href="#" class="button" id="order_false" disabled="false">주문 취소</a>
+									<%if (orderVO.getOrder_delete().equals(0)) {%> <!-- 활성화 -->
+									<a href="#" class="button" id="order_false" disabled="false">주문 취소</a> 
+									<%} else { %> <!-- 비활성화 -->
+									<a href="#" class="button" id="order_false" disabled="true">주문 취소</a> 
 									<%} %>
 								</div>
 							</div>

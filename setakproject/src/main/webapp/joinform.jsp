@@ -140,7 +140,7 @@
 					 <h4>비밀번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
-						<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)," />
+						<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)" />
 						<input class="button" id="authbtn" type="button" value="인증번호 받기" style="width: 120px;" />
 						<h4>핸드폰 번호를 입력해주세요</h4>
 				</div>
@@ -423,6 +423,7 @@
  	 	  		$(".clause div:nth-child(3) h4").css("display","block"); 
  	 	  	  }
  	 	  });
+ 	  
  		
 	});
 	

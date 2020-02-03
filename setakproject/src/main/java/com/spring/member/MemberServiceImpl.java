@@ -26,6 +26,7 @@ public class MemberServiceImpl implements MemberService{
 		 return mvo;
 	}
 	
+	//아이디 확인(중복여부)
 	@Override 
 	public int member_id(MemberVO mo) {
 		int res = 0;
@@ -47,6 +48,7 @@ public class MemberServiceImpl implements MemberService{
 			 return res;
 	}
 	
+	//회원가입
 	@Override
 	public int member_insert(MemberVO mo) {
 		 int res = 0;
@@ -62,6 +64,7 @@ public class MemberServiceImpl implements MemberService{
 		 return res;
 	}
 	
+	//비밀번호 확인
 	@Override
 	public int member_password(MemberVO mo) {
 		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
@@ -83,6 +86,7 @@ public class MemberServiceImpl implements MemberService{
 		 return res;
 	}
 	
+	// 회원정보 수정
 	@Override
 	public int member_update(MemberVO mo) {
 		int res = 0;
@@ -97,19 +101,7 @@ public class MemberServiceImpl implements MemberService{
 		 return res;
 	}
 	
-	@Override
-	public int member_delete(String member_id) {
-		int res = 0;
-		try {
-			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
-			mapper.member_delete(member_id);
-			res = 1;
-		} catch(Exception e) {
-			System.out.println("멤버 삭제 실패" + e.getMessage());
-			res = 0;
-		}
-		 return res;
-	}
+	
 	
 	// 멤버 이름
 		@Override
@@ -140,4 +132,19 @@ public class MemberServiceImpl implements MemberService{
 					 
 				return res;
 			}
+		
+		//회원삭제
+		@Override
+		public int member_delete(String member_id) {
+			int res = 0;
+			try {
+				MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+				mapper.member_delete(member_id);
+				res = 1;
+			} catch(Exception e) {
+				System.out.println("멤버 삭제 실패" + e.getMessage());
+				res = 0;
+			}
+			 return res;
+		}
 }
