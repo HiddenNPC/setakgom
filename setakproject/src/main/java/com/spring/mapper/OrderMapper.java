@@ -3,6 +3,7 @@ package com.spring.mapper;
 import java.util.ArrayList;
 
 import com.spring.member.MemberVO;
+import com.spring.member.SubscribeVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 
@@ -27,5 +28,22 @@ public interface OrderMapper {
 	MemberVO getMemberInfo(String member_id);
 	// 회원 정보 수정
 	int defaultAddrUpdate(MemberVO mvo); 
+	
+	// 회원 정보 수정 > 정기구독 번호 등록
+	int updateSubInfo(MemberVO mvo); 
+	// 회원 정기구독 정보 등록
+	int insertMemberSubInfo(MemberVO mvo);
+	// 회원 정기구독 결제 정보 등록
+	int insertSubHistory(MemberVO mvo); 
+	// 쿠폰 제공 개수 구하기
+	int getCouponNum(MemberVO mvo);
+	// 쿠폰 발급하기
+	int insertCoupon(MemberVO mvo);
+	
+	// 정기구독 정보 읽어오기
+	SubscribeVO getSubscribeInfo(MemberVO mvo);
+	
+	// 주문 취소 정보 등록
+	int orderCancle(OrderVO ovo);
 
 }

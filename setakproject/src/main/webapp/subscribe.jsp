@@ -1,10 +1,15 @@
-<%@page import="com.spring.member.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ page import = "com.spring.member.MemberVO" %>
 
 <%
-	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
+	MemberVO memberVO = new MemberVO();
+	Integer sub_num = null; 
+	if(session.getAttribute("member_id") != null) {
+		memberVO = (MemberVO) request.getAttribute("memberVO");
+		sub_num = memberVO.getSubs_num();	
+	}
 %>
 
 <!DOCTYPE html>
@@ -26,47 +31,75 @@
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")
          
-         var sub_num = '<%=memberVO.getSubs_num()%>';
-         alert(sub_num); 
-         if(sub_num != null) {
-        	 $(".pay_td").addClass("hh");
+         // 회원 별 보이는 화면 다르게
+         var member_id = "<%=session.getAttribute("member_id")%>"; 
+         var sub_num = '<%=sub_num%>';
+         
+         if(sub_num == "null") {
+        	 $('.pay_td').show(); 
          }else {
-        	 $(".pay_td").addClass("kk");
+        	 $('.pay_td').hide();
          }
          
+         // 아임포트 정기 결제
          $(document).on('click', '.pay_button', function(event) {
         	 
+        	 if(member_id == "null") {
+        		 window.location.href = "./login.do";
+        		 return; 
+        	 }
+        	 
+        	 var tr = $(this).parent().parent();
+        	 var subs_num = $(tr).attr('id'); 
+        	 var final_price = $(tr).attr('class'); 
+        	 
+        	 // merchant_uid
+        	 var muid = 'merchant_' + new Date().getTime();
+        	 console.log("muid " + muid); 
+        	 
+        	 // customer_uid를 위한 난수 생성 > 재결제 예약에 사용 
+        	 var num = Math.floor(Math.random() * 1000) + 1; 
+        	 var cuid = '<%=memberVO.getMember_id()%>' + num;
+        	 console.log("cuid " + cuid); 
+
              var IMP = window.IMP; // 생략가능
              IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
              var msg;
                           
              // IMP.request_pay(param, callback) 호출
+             // amount 바꿔야함  **** > 최초 결제 동시에
              IMP.request_pay({ // param
                pay_method: "card", // "card"만 지원됩니다
-               merchant_uid : 'merchant_' + new Date().getTime(),
-               customer_uid: "gildong_0001_1235", // 카드(빌링키)와 1:1로 대응하는 값
-               name: "최초인증결제",
-               amount: 150, // 0 으로 설정하여 빌링키 발급만 진행합니다.
-               buyer_email: "gildong@gmail.com",
-               buyer_name: "홍길동",
-               buyer_tel: "010-4242-4242",
-               buyer_addr: "서울특별시 강남구 신사동",
-               buyer_postcode: "01181"
+               merchant_uid : muid,
+               customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
+               name: "정기 구독 결제 카드 등록 및 최초 결제",
+               amount: 100, 
+               buyer_email : '<%=memberVO.getMember_email()%>',
+               buyer_name : '<%=memberVO.getMember_name()%>',
+               buyer_tel : '<%=memberVO.getMember_phone()%>',
+               buyer_addr : '<%=memberVO.getMember_loc()%>',
+               buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
              }, function (rsp) { // callback
                if (rsp.success) {
-            	   alert("빌링키 발급 성공"); 
+            	   alert("결제가 성공적으로 완료되었습니다."); 
             	      // 빌링키 발급 성공
             	      // jQuery로 HTTP 요청
             	      jQuery.ajax({
-            	        url: "/setak/insertSubscribe.do", // 서비스 웹서버
+            	        url: "/setak/insertSubscribe.do", 
             	        method: "POST",
-            	        headers: { "Content-Type": "application/json" },
+            	        dataType: 'json',
             	        data: {
-            	          customer_uid: "gildong_0001_1235", // 카드(빌링키)와 1:1로 대응하는 값
-            	        }
+            	          merchant_uid : muid,
+            	          customer_uid: cuid,
+            	          'member_id' : member_id,
+           				  'subs_num' : subs_num     	          
+            	        },
+                        success : function() {
+                            location.href='<%=request.getContextPath()%>/subSuccess.do';
+                        }
             	      });
                } else {
-                 alert("결제 오류"); 
+                 alert("결제가 취소 되었습니다."); 
                }
              });
              
@@ -103,11 +136,11 @@
 							<th width = "10%">이불</th>
 							<th width = "15%">보관 1BOX<br/>(1개월 쿠폰)</th>
 							<th width = "10%">배송</th>
-							<th width = "10%">결제</th>
+							<th class = "pay_td" width = "10%">결제</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
-						<tr class = "59000">
+						<tr id = "1" class = "59000">
 							<td>올인원59</td>
 							<td>
 								<span class = "origin_price">76,700원</span>
@@ -123,7 +156,7 @@
 							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "2" class = "74000">
 							<td>올인원74</td>
 							<td>
 								<span class = "origin_price">99,900원</span>
@@ -136,10 +169,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "3" class = "89000">
 							<td>올인원89</td>
 							<td>
 								<span class = "origin_price">113,900원</span>
@@ -152,10 +185,10 @@
 							<td>-</td>
 							<td>1장</td>
 							<td>6회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "4" class = "104000">
 							<td>올인원104</td>
 							<td>
 								<span class = "origin_price">136,900원</span>
@@ -168,10 +201,10 @@
 							<td>1개</td>
 							<td>1장</td>
 							<td>8회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "5" class = "119000">
 							<td>올인원119</td>
 							<td>
 								<span class = "origin_price">146,000원</span>
@@ -184,10 +217,10 @@
 							<td>1개</td>
 							<td>2장</td>
 							<td>10회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "6" class = "134000">
 							<td>올인원134</td>
 							<td>
 								<span class = "origin_price">164,900원</span>
@@ -200,7 +233,7 @@
 							<td>1개</td>
 							<td>3장</td>
 							<td>12회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 							
 					</tbody>
@@ -219,11 +252,11 @@
 							<th width = "10%">이불</th>
 							<th width = "15%">보관 1BOX<br/>(1개월 쿠폰)</th>
 							<th width = "10%">배송</th>
-							<th width = "10%">결제</th>
+							<th class = "pay_td" width = "10%">결제</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
-						<tr>
+						<tr id = "7" class = "29000">
 							<td>와이29</td>
 							<td>
 								<span class = "origin_price">35,900원</span>
@@ -236,10 +269,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "8" class = "44000">
 							<td>와이44</td>
 							<td>
 								<span class = "origin_price">59,900원</span>
@@ -252,10 +285,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "9" class = "59000">
 							<td>와이59</td>
 							<td>
 								<span class = "origin_price">75,900원</span>
@@ -268,7 +301,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>6회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>	
 					</tbody>
 				</table>
@@ -286,11 +319,11 @@
 							<th width = "10%">이불</th>
 							<th width = "15%">보관 1BOX<br/>(1개월 쿠폰)</th>
 							<th width = "10%">배송</th>
-							<th width = "10%">결제</th>
+							<th width = "10%"  class = "pay_td">결제</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
-						<tr>
+						<tr id = "10" class = "44000">
 							<td>드라이44</td>
 							<td>
 								<span class = "origin_price">57,900원</span>
@@ -303,10 +336,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "11" class = "59000">
 							<td>드라이59</td>
 							<td>
 								<span class = "origin_price">71,900원</span>
@@ -319,10 +352,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "12" class = "74000">
 							<td>드라이74</td>
 							<td>
 								<span class = "origin_price">99,900원</span>
@@ -335,7 +368,7 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>	
 					</tbody>
 				</table>
@@ -353,11 +386,11 @@
 							<th width = "10%">이불</th>
 							<th width = "15%">보관 1BOX<br/>(1개월 쿠폰)</th>
 							<th width = "10%">배송</th>
-							<th width = "10%">결제</th>
+							<th width = "10%"  class = "pay_td">결제</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
-						<tr>
+						<tr id = "13" class = "34000">
 							<td>물빨래34</td>
 							<td>
 								<span class = "origin_price">39,900원</span>
@@ -370,10 +403,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "14" class = "49000">
 							<td>물빨래49</td>
 							<td>
 								<span class = "origin_price">59,900원</span>
@@ -386,10 +419,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "15" class = "64000">
 							<td>물빨래64</td>
 							<td>
 								<span class = "origin_price">72,900원</span>
@@ -402,10 +435,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "16" class = "79000">
 							<td>물빨래79</td>
 							<td>
 								<span class = "origin_price">92,900원</span>
@@ -418,10 +451,10 @@
 							<td>1개</td>
 							<td>-</td>
 							<td>5회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "17" class = "84000">
 							<td>물빨래84</td>
 							<td>
 								<span class = "origin_price">99,900원</span>
@@ -434,10 +467,10 @@
 							<td>1개</td>
 							<td>-</td>
 							<td>7회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "18" class = "99000">
 							<td>물빨래99</td>
 							<td>
 								<span class = "origin_price">111,900원</span>
@@ -450,7 +483,7 @@
 							<td>1개</td>
 							<td>1장</td>
 							<td>9회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 					</tbody>
@@ -469,11 +502,11 @@
 							<th width = "10%">이불</th>
 							<th width = "15%">보관 1BOX<br/>(1개월 쿠폰)</th>
 							<th width = "10%">배송</th>
-							<th width = "10%">결제</th>
+							<th width = "10%"  class = "pay_td">결제</th>
 						</tr>
 					</thead>
 					<tbody align = "center">
-						<tr>
+						<tr id = "19" class = "44000">
 							<td>물드44</td>
 							<td>
 								<span class = "origin_price">49,900원</span>
@@ -486,10 +519,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "20" class = "59000">
 							<td>물드59</td>
 							<td>
 								<span class = "origin_price">67,900원</span>
@@ -502,10 +535,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>3회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "21" class = "74000">
 							<td>물드74</td>
 							<td>
 								<span class = "origin_price">84,900원</span>
@@ -518,10 +551,10 @@
 							<td>-</td>
 							<td>-</td>
 							<td>4회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
-						<tr>
+						<tr id = "22" class = "89000">
 							<td>물드89</td>
 							<td>
 								<span class = "origin_price">99,900원</span>
@@ -534,7 +567,7 @@
 							<td>1회</td>
 							<td>1장</td>
 							<td>4회</td>
-							<td><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>
 						
 					</tbody>

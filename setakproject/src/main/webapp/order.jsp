@@ -476,10 +476,12 @@
         IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         
+        var muid = 'merchant_' + new Date().getTime();
+        
         IMP.request_pay({
             pg : 'inicis',
             pay_method : 'card',
-            merchant_uid : 'merchant_' + new Date().getTime(),
+            merchant_uid : muid,
             name : '세탁곰 결제',
             amount : final_price,
             buyer_email : '<%=memberVO.getMember_email()%>',
@@ -507,6 +509,7 @@
                         'order_address' : addr,
                         'order_request' : request, 
                         'order_zipcode' : postcode,
+                        'order_muid' : muid,
                         'usePoint' : usePoint,
                         'useCoupon' : useCoupon
                         //기타 필요한 데이터가 있으면 추가 전달

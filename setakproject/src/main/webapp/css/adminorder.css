@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+#search-table {
+    width: 100%;
+    border-top : 2px solid #3498db;
+    border-spacing: 0;
+    font-size : 0.9rem;
+    margin : 10px auto;
+}
+
+#search-div h2 {
+	margin-left : 20px;
+	font-size : 1.2rem;
+}
+
+#search-table td {
+    padding : 15px;
+    border-bottom : 1px solid #D8D8D8;
+}
+
+#search-table td:nth-child(1) {
+    background-color :  #eeefef;
+}
+
+#search-btn {
+    background-color : #3498db;
+    padding : 10px 30px;
+    color: #ffffff;
+	text-align: center;
+	box-shadow : none;
+	border : 0; 
+	cursor : pointer;
+}
+
+#reset-btn {
+    background-color : #eeefef;
+    padding : 10px 25px;
+    color: #444;
+	text-align: center;
+	box-shadow : none;
+	border : 0;   
+	cursor : pointer;
+}
+
+#search-btn-div {
+    margin-top : 30px;
+    margin-bottom : 40px;
+    text-align : center;
+}
+
+.search-date-btn {
+	background-color : #eeefef;
+    padding : 6px;
+    color: #444;
+	text-align: center;
+	box-shadow : none;
+	border-radius : 3px;
+	border : 0;   
+	font-size : 0.75rem;
+	cursor : pointer;
+}
+
+
+/*검색  div */
+#result-first-div {
+	margin : 10px; 
+}
+
+#result-num-div {
+    display: inline;
+    width: 50%;
+}
+
+#result-num-div span {
+	color : #3498db;
+}
+
+#result-order-div {
+    display: inline;
+    width: 50%;
+    float: right;
+}
+
+#result-order-div form {
+	float : right; 
+}
+
+li.check {
+	width : 250px; 
+}
+
+#result-third-div {
+    font-size: 0.8rem;
+    margin-top: 30px;
+    color: #444;
+}
+
+#result-third-div option {
+	font-size: 0.8rem;
+	
+}
+
+#update-btn {
+	background-color : #3498db;
+    color: #ffffff;
+	text-align: center;
+	box-shadow : none;
+	border : 0; 
+	cursor : pointer;
+	font-size : 0.8rem;
+	border-radius : 2px;
+}
+
+
+
+#result-paging-div {
+	margin-top : 40px;
+    text-align : center;
+    font-size : 0.95rem;
+}
+
+#result-paging-div img {
+	vertical-align :middle;
+}
+
+.active {
+	background-color : #D8D8D8;
+}
