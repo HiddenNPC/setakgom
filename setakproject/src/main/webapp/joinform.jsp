@@ -87,10 +87,10 @@
 		         contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 				success: function(result) {
 		        	 if(result.res=="OK") {
-		        		 $(".joinform div:nth-child(2) h5").css("display","block");
+		        		 $(".joinform div:nth-child(2) #overlap").css("display","block");
 
 		        	 } else {
-		        		 $(".joinform div:nth-child(2) h5").css("display","none");
+		        		 $(".joinform div:nth-child(2) #overlap").css("display","none");
 		        	 }
 		         },
 		            error:function() {
@@ -128,8 +128,8 @@
 				</div>
 				<div class="input_list">
 					<input type="text" name="member_id" id="member_id" placeholder="아이디" />
-					<h4>5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.</h4>
-					<h5>이미 사용중이거나 탈퇴한 아이디입니다.</h5>
+					<h4 id = "specialsym">5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.</h4>
+					<h4 id = "overlap">이미 사용중이거나 탈퇴한 아이디입니다.</h4>
 				</div>
 				<div class="input_list">
 					<input type="password" name="member_password" id="member_password" placeholder="비밀번호 " />
@@ -255,29 +255,54 @@
 			$(".joinform div:nth-child(6) h4").css("display","none");
 			AuthTimer.fnStop();
 			random = randomnum();
-			
-			var phonenum = $("#member_phone").val();
-			
-			var allData = { "pn": phonenum , "randomnum": random };
+			var daycount = 0; 
 			
 			$.ajax({
                 type: "POST",
-                url: "/setak/sendSMS.do", 
-                data: allData,
+                url: "/setak/ipcount.do",
+                async:false,
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                dataType: 'text',
+                dataType: 'json',
                 
                 success: function (data) {
-        			AuthTimer.comSecond = 179;
-        			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
-        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
-        			AuthTimer.domId = document.getElementById("timer");
-        			$("#authbtn").attr('disabled', true);
+                	if(data.res=="OK") {
+                		daycount = 1;
+		        	 } else {
+		        		 alert("오늘 사용횟수를 초과하였습니다.");
+		        	 }
                 },
                 error: function (e) {
 					console.error(e);
 				}
 			});
+			
+			if(daycount == 1){
+				var phonenum = $("#member_phone").val();
+				
+				var allData = { "pn": phonenum , "randomnum": random };
+				
+				
+				
+				
+				$.ajax({
+	                type: "POST",
+	                url: "/setak/sendSMS.do", 
+	                data: allData,
+	                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+	                dataType: 'text',
+	                
+	                success: function (data) {
+	        			AuthTimer.comSecond = 179;
+	        			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+	        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+	        			AuthTimer.domId = document.getElementById("timer");
+	        			$("#authbtn").attr('disabled', true);
+	                },
+	                error: function (e) {
+						console.error(e);
+					}
+				});
+			}
 			
 		});
 		
@@ -295,9 +320,9 @@
 	//아이디체크V
 	$(document).on("propertychange change keyup paste","#member_id",function(){
 		if(!idReg.test($(this).val())){
-			$(".joinform div:nth-child(2) h4").css("display","block");
+			$(".joinform div:nth-child(2) #specialsym").css("display","block");
 		} else {
-			$(".joinform div:nth-child(2) h4").css("display","none");
+			$(".joinform div:nth-child(2) #specialsym").css("display","none");
 		}
 		
  	});
@@ -339,13 +364,11 @@
 			AuthTimer.fnStop();
 			AuthTimer.domId = "";
 			document.getElementById('timer').innerHTML = "";
-			$("#authbtn").attr('disabled', false);
 			$(".joinform div:nth-child(6) h4").css("display","none");
 			$(".joinform div:nth-child(6) #authsucess").css("display","block");
 			authchk = "1";
 		}else{
 			console.log("인증실패");
-			$("#authbtn").attr('disabled', false);
 			$(".joinform div:nth-child(6) h4").css("display","none");
 			$(".joinform div:nth-child(6) #authfail").css("display","block");
 		}
@@ -400,10 +423,6 @@
  	 	  		$(".clause div:nth-child(3) h4").css("display","block"); 
  	 	  	  }
  	 	  });
- 	  
- 	  var test  = function(){
- 		 random = randomnum();
- 	  }
  		
 	});
 	

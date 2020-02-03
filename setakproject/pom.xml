@@ -210,7 +210,7 @@
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
 		<dependency>
 		    <groupId>com.amazonaws</groupId>
-		    <artifactId>aws-java-sdk</artifactId>
+		    <artifactId>aws-java-sdk-s3</artifactId>
 		    <version>1.11.707</version>
 		</dependency>
 		 
@@ -240,7 +240,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
+            <version>4.5.11</version>
         </dependency>
 	<!-- 카카오 로그인  연동 끝-->
 	
