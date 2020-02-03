@@ -286,16 +286,16 @@
 						<h6>메일주소를 입력해주세요</h6>	
 					</div>
 					<div class="update_list">
-						<input id="postcode" class="txt_info" type="text" name="member_post" value="<%=zipcode %>"/> 
-						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"  /> <br />
+						<input id="postcode" class="txt_info" type="text" name="member_post" value="<%=zipcode %>"  style="width: 320px;"/> 
+						<input type="button" class="btn" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"   /> <br />
 						<input id="address"  class="txt_info" type="text" name="member_loc"   value="<%=member_addr1 %>" readonly/> 
 						<input id="address_detail" class="txt_info" type="text" name="member_locdetail"  value="<%=member_addr2 %>" />
 						<input id="extraAddress" type="hidden" placeholder="참고항목"><br>
 						<h7>주소를 입력해주세요</h7>
 					</div>	
 					<div class="total_button">
-						<input class="btn"  type="reset" value="취소" />
-						<input class="btn" type="submit" id="update" value="수정" />
+						<input class="btns"  type="reset" value="취소"  style="width: 230px;" />
+						<input class="btns" type="submit" id="update" value="수정"  style="width: 230px;" />
 					</div>	
 				</form>
 			</div>			
