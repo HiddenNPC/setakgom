@@ -60,28 +60,24 @@ function uCancel(){
 		  return false;
 	  }
 }
-/* 
 $(document).ready(function(){ 
-		
+	
 	var fileTarget = $('.filebox .upload-hidden');
 	fileTarget.on('change', function(){ // 값이 변경되면
 		if(window.FileReader){ // modern browser 
 			var filename = $(this)[0].files[0].name; 
+			console.log("1="+$(this)[0].files[0].name);
 		}else { // old IE 
 			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			
 			} 
 	// 추출한 파일명 삽입 
-	$(this).siblings('.upload-name').val(filename); 
+	$(this).siblings('.upload-name').val(filename);
+	
 	}); 
 });
- */
 
 
-
- 
- 
- 
- 
  
 </script>
 </head>
@@ -126,21 +122,17 @@ $(document).ready(function(){
 	</tr>
 	<tr><td><div align="center">내 용</div></td>
 		<td colspan="2"><textarea name="QNA_CONTENT" cols="67" rows="15"><%=vo.getQNA_CONTENT() %></textarea></td>
-	</tr>
-	
+	</tr>	
 	<tr>
 		<td height="30px"><div align="center"> 파일첨부 </div></td>
-		<td colspan="2">
-		<div class="filebox">
+		<td colspan="2"><div class="filebox" >
+		<input type="hidden" name="exist_file" value="<%=vo.getQNA_FILE()%>">
 		<input class="upload-name" value="<%if (!(vo.getQNA_FILE()==null)){ %><%=vo.getQNA_FILE().split("/")[0]%>
 		<%}else{ %>파일이 존재하지 않습니다 .<%}%>" disabled="disabled">
-		<label for="ex_file">업로드</label></div>
-		<input type="file" id="ex_filename" class="upload-hidden">
-		<input type="hidden" name="exist_file" value="<%=vo.getQNA_FILE()%>">	
-		<!-- <input type="file" id="QNA_FILE" name="QNA_FILE" /> -->
-		</td>
-	</tr>
-	
+		<label for="ex_filename">업로드</label>
+		<input type="file" name="QNA_FILE" id="ex_filename" class="upload-hidden">
+		</div></td>		
+	</tr>	
 	
 	<tr><td style="display:none;"><div>
 			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">
