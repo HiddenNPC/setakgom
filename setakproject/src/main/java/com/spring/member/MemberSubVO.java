@@ -16,4 +16,5 @@ public class MemberSubVO {
    private String subs_end;
    private String subsname;
    private int subsprice;
+   private String subs_cancel;
 }

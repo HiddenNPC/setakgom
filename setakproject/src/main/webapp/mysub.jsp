@@ -16,7 +16,7 @@
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
-	
+	System.out.println("수거취소"+ms.getSubs_cancel());
 %>	
 <!DOCTYPE html>
 <html>
@@ -39,7 +39,6 @@
 		
 		 //수거고 클릭
 		 $("#go").on("click", function() {  
-			 
 				$("#cancletxt").css('display', 'none');	 
 		        $("#gotxt").css({
 		            "top": (($(window).height()-$("#gotxt").outerHeight())/2+$(window).scrollTop())+"px",
@@ -52,8 +51,7 @@
 		        
 		        $("#go").css('display', 'none');
 				$("#cancle").css('display', 'block');
-		        
-		    });
+			  });
 			//수거고 - 확인
 			$(".pop_btn").click(function(event){
 		        $(".popup_back").css("display","none"); //팝업창 뒷배경 display none
@@ -61,17 +59,25 @@
 		    });
 		
 		//수거취소 클릭
-		 $("#cancle").on("click", function() {  
+		
+			var subs_cancel = <%=ms.getSubs_cancel() %>;
+			if(subs_cancel=="0") { // 수거취소 가능
+			 $("#cancle").on("click", function() {  
 		        $("#cancletxt").css({
 		            "top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
 		            "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
 		           
 		            }); 
 		        
-		        $(".popup_back").css("display","block"); //팝업 뒷배경 display block
-		        $("#cancletxt").css("display","block"); //팝업창 display block
-
-		    });		
+		        $(".popup_back").css("display","block");
+		        $("#cancletxt").css("display","block");
+			 });		
+			} else  { // 수거취소 불가능
+				$('#cancle').css('background-color','#e1e4e4');
+				$('#cancle').css('color','#444');
+				$("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
+			};
+		 
 		
 		
 		//수거취소 - 수거취소
@@ -124,6 +130,7 @@
 		$("#review").click(function(event){
 			 $(location.href="/setak/profile2.do"); // 리뷰쓰는 주소로 수정하기
 		});
+		
 	});
 	 
 
@@ -202,11 +209,11 @@
 											   String d =c.substring(0,10);
 												%><%=d %></li>
 							<li class="btn">
-								<a id="go" class="help">수거고 </a> 
+								<a id="go" class="help">수거고 </a>
 								<a id="cancle" href="javascript:">수거취소</a>
 							</li>
 							<li class="btn">
-								<a id="sub" href="javascript:">해지</a>
+								<a id="sub" href="javascript:" >해지</a>
 							</li>
 						</ul>
 					

@@ -172,9 +172,10 @@
 
 #timer{
 	position: absolute;
-	top: 0.58rem;
+	top: 0.69rem;
 	right: 9.2rem;
 	color: #ef3e3e;
+	font-size:0.9rem;
     font-weight: bold;
 }
 

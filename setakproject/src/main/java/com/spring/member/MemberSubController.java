@@ -65,9 +65,9 @@ public class MemberSubController {
 	      int maxpage = (int)((double)listcount/limit+0.95);
 	      int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
 	      int endpage = startpage + 10-1;
-	      System.out.println("max"+maxpage);
-	      System.out.println("start"+startpage);
-	      System.out.println("end"+endpage);
+	      //System.out.println("max"+maxpage);
+	      //System.out.println("start"+startpage);
+	      //System.out.println("end"+endpage);
 	      if(endpage > maxpage)
 	      {
 	         endpage = maxpage;
@@ -83,11 +83,11 @@ public class MemberSubController {
 	      model.addAttribute("endpage", endpage);
 	      model.addAttribute("listcount", listcount);
 		
-		
+		/*
 		for(int i = 0; i <subhistory_list.size(); i++) {
 			System.out.println(subhistory_list.get(i).getHis_name());
 		}
-	
+	*/
 		return "mysub";
 	}
 

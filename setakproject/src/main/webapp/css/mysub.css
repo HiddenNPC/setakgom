@@ -161,6 +161,7 @@
 
 .btn {
 	padding: 40px 0;
+	cursor: pointer;
 }
 
 .btn a {
@@ -176,9 +177,11 @@
 	margin: -8.5px 0 0 19px;
 }
 
+ 
 a#cancle {
 	display: none;
 }
+
 
 .two ul li:last-child a {
 	background-color: #e1e4e4;
