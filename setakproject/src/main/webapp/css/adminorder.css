@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 #search-table {
-    width: 1200px;
+    width: 100%;
     border-top : 2px solid #3498db;
     border-spacing: 0;
     font-size : 0.9rem;
@@ -121,4 +121,8 @@ li.check {
 
 #result-paging-div img {
 	vertical-align :middle;
+}
+
+.active {
+	background-color : #D8D8D8;
 }

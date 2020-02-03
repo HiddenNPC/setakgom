@@ -20,6 +20,12 @@
 			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")
 			
+			//요일 버튼 누르기
+			$(".search-date-btn").on("click", function() {
+				$(".search-date-btn").removeClass("active");
+				$(this).addClass("active");
+			});
+			
 			//datePicker
 			$.datepicker.setDefaults({
                 dateFormat: 'yy-mm-dd' //Input Display Format 변경
@@ -47,7 +53,13 @@
             $('#datepicker').datepicker('setDate', 'today');
             $('#datepicker2').datepicker('setDate', 'today');
             
-			$("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;");   
+			$("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
+			
+			// 초기화 버튼
+			$(".reset-btn").on("click", function() {
+				$("#search-content").val(" "); 
+			});
+			
 		});
 	</script>
 </head>
@@ -69,7 +81,7 @@
 									<option>주문 번호</option>
 									<option>회원 아이디</option>
 								</select>
-								<input type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
+								<input id = "search-content" type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
 							</td>
 						</tr>
 						<tr>
@@ -89,7 +101,7 @@
 								<input id = "datepicker" class = "search-date" type = "text" size = "10px"/>
 								~
 								<input id = "datepicker2" class = "search-date" type = "text" size = "10px"/>
-								<button class = "search-date-btn" id = "today">오늘</button>
+								<input class = "search-date-btn" id = "today" value = "오늘"/>
 								<button class = "search-date-btn" id = "oneweek">일주일</button>
 								<button class = "search-date-btn" id = "onemonth">1개월</button>
 								<button class = "search-date-btn" id = "threemonth">3개월</button>

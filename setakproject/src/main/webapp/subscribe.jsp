@@ -31,6 +31,7 @@
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")
          
+         // 회원 별 보이는 화면 다르게
          var member_id = "<%=session.getAttribute("member_id")%>"; 
          var sub_num = '<%=sub_num%>';
          
@@ -40,6 +41,7 @@
         	 $('.pay_td').hide();
          }
          
+         // 아임포트 정기 결제
          $(document).on('click', '.pay_button', function(event) {
         	 
         	 if(member_id == "null") {

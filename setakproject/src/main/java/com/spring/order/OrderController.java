@@ -1,7 +1,6 @@
 package com.spring.order;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -528,6 +528,21 @@ public class OrderController {
 //			orderService.insertCoupon(mvo);
 //		}
 		
+		
+		return ""; 
+	}
+	
+	// 정기구독 웹훅 설정
+	@RequestMapping(value = "/iamport-callback", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String iamportCallback(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap<String, String> map) throws Exception {
+		
+		// 데이터 받기
+		String customer_uid =  map.get("imp_uid");
+		String merchant_uid =  map.get("merchant_uid");
+		String status =  map.get("status");
+		
+		System.out.println("customer_uid : " + customer_uid);
+		
 		// 정기 결제 예약
 		Iamport iamport = new Iamport();
 		
@@ -543,11 +558,11 @@ public class OrderController {
 		String token = iamport.getToken(request, response, json, requestURL);
 		
 		int res = iamport.subscribeSchedule(token, customer_uid, merchant_uid, 100);
-		System.out.println("ss res : " + res);
 		
-		return ""; 
-	}	
+		return "";
+	}
 	
+	// 정기구독 결제 성공	
 	@RequestMapping(value = "/subSuccess.do") 
 	public String subSuccess(Model model, HttpServletRequest request, HttpSession session) {
 		
