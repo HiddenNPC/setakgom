@@ -5,7 +5,7 @@
 <%@ page import = "java.text.SimpleDateFormat"%>
 
 <%	
-	QnaVO vo = (QnaVO)request.getAttribute("qnadata");	
+	ArrayList<QnaVO> onlist = (ArrayList<QnaVO>)request.getAttribute("onList");
 %>
 <!DOCTYPE html>
 <html>
@@ -19,11 +19,15 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $("#header").load("header.jsp")
-    $("#footer").load("footer.jsp")     
+    $("#footer").load("footer.jsp") 
+    
+  
  });
+
  
+//입력받을곳 확인체크 + 값 컨트롤러로 전달
 function writechk(){	
-	//입력안한거 입력하도록 
+
 	if (document.getElementById('QNA_TITLE').value=="") 
 	{
 		alert("제목을 입력하세요.");
@@ -47,6 +51,7 @@ function writechk(){
 		document.qnaform.submit();
 	}
 }
+//취소
 function wcancel(){
 	  var check = confirm("작성을 취소하시겠습니까");
 	  /* if(check == true) else false */
@@ -60,8 +65,6 @@ function wcancel(){
 	  }
 }
 
-//javascript:qnaform.submit(),,document.passform.submit();
- 
 </script>
 </head>
 <body>
@@ -79,26 +82,28 @@ function wcancel(){
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">문의유형</div></td>
-		<td colspan="2"><div>
-			<input type="radio" name="QNA_TYPE" value="취소" checked="checked">취소
-			<input type="radio" name="QNA_TYPE" value="배송관련">배송관련
-			<input type="radio" name="QNA_TYPE" value="적립금">적립금
-			<input type="radio" name="QNA_TYPE" value="서비스관련">서비스관련
-			<input type="radio" name="QNA_TYPE" value="회원정보">회원정보
-			<input type="radio" name="QNA_TYPE" value="기타">기타</div>
-			
+		<td colspan="2" class="qwr">
+		<div>			
+			<input type="radio" id="type1" name="QNA_TYPE" value="주문 취소" checked="checked"><label for="type1">주문 취소</label>
+			<input type="radio" id="type2" name="QNA_TYPE" value="배송 문의 "><label for="type2">배송 문의 </label>
+			<input type="radio" id="type3" name="QNA_TYPE" value="적립금"><label for="type3">적립금</label>
+			<input type="radio" id="type4" name="QNA_TYPE" value="서비스이용"><label for="type4">서비스이용</label>
+			<input type="radio" id="type5" name="QNA_TYPE" value="회원정보"><label for="type5">회원정보</label>
+			<input type="radio" id="type5" name="QNA_TYPE" value="결제"><label for="type5">회원정보</label>
+			<input type="radio" id="type7" name="QNA_TYPE" value="기타"><label for="type7">기타</label>			
+		</div>
 		</td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">구분</div></td>
+		<td height="30px"><div align="center">주문번호</div></td>
 		<td colspan="2"><div>
-			<input type="radio" name="QNA_KIND" value="세탁" checked="checked" >세탁
-			<input type="radio" name="QNA_KIND" value="세탁-수선">세탁-수선
-			<input type="radio" name="QNA_KIND" value="세탁-보관">세탁-보관
-			<input type="radio" name="QNA_KIND" value="수선">수선
-			<input type="radio" name="QNA_KIND" value="보관">보관
-			<input type="radio" name="QNA_KIND" value="정기구독">정기구독
-			</div>
+		<select class="qwon" name="ORDER_NUM">
+		
+			<option value="선택안함">선택안함</option>
+			<%for(int i=0; i<onlist.size(); i++){ QnaVO ol = (QnaVO)onlist.get(i); %>
+   	 		<option value="<%=ol.getORDER_NUM()%>"><%=ol.getORDER_NUM()%></option>    		
+    		<%} %>
+		</select></div>
 		</td>
 	</tr>
 	<tr>

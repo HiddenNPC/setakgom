@@ -131,7 +131,7 @@ selectData();
 <table class="qvt1">
 	<tr>					
 		<td align="center" width="10%" height="40px">&nbsp;<%=vo.getQNA_TYPE() %></td>		
-		<td align="center" width="10%" height="40px">&nbsp;<%=vo.getQNA_KIND() %></td>		
+		<td align="center" width="10%" height="40px">&nbsp;<%=vo.getORDER_NUM() %></td>		
 		<td align="left"  height="40px">&nbsp;제목 :&nbsp;<%=vo.getQNA_TITLE()%></td>		
 		<td align="right" height="40px"> 작성자 : <%=vo.getMEMBER_ID() %>&nbsp;&nbsp;</td>					
 	</tr>

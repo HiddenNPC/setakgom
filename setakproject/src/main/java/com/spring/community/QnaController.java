@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,10 +63,12 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	}
 	
-	@RequestMapping("qnaWrite.do") public String writeForm(QnaVO vo, Model model)
-	{
-		model.addAttribute("qnadata", vo);
-		
+	@RequestMapping("qnaWrite.do") public String writeForm(QnaVO vo, Model model, HttpSession session) throws Exception
+	{	
+		String loginId = (String) session.getAttribute("member_id");
+		System.out.println("세션 아이디 잘 받아 왓냐 ="  + loginId);
+		ArrayList<QnaVO> onlist = qnaService.onList(loginId);
+		model.addAttribute("onList", onlist);		
 		return "qna_write";
 	}
 
@@ -79,8 +82,13 @@ import org.springframework.web.servlet.ModelAndView;
 		qnaVO.setMEMBER_ID(request.getParameter("MEMBER_ID"));
 		String a = qnaVO.getMEMBER_ID();
 		System.out.println("MEMBER_ID=" +a );		
-		qnaVO.setQNA_TYPE(request.getParameter("QNA_TYPE"));	
-		qnaVO.setQNA_KIND(request.getParameter("QNA_KIND"));	
+		qnaVO.setQNA_TYPE(request.getParameter("QNA_TYPE"));
+		String chkOn =request.getParameter("ORDER_NUM");
+		
+		if(!chkOn.equals("선택안함")) {
+			qnaVO.setORDER_NUM(Long.parseLong(request.getParameter("ORDER_NUM")));	
+		}
+		qnaVO.setORDER_NUM(0);
 		qnaVO.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		qnaVO.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
 		qnaVO.setQNA_PASS(request.getParameter("QNA_PASS"));
@@ -206,7 +214,7 @@ import org.springframework.web.servlet.ModelAndView;
 		int num=Integer.parseInt(request.getParameter("QNA_NUM"));		
 		vo.setQNA_NUM(num);
 		vo.setQNA_TYPE(request.getParameter("QNA_TYPE"));
-		vo.setQNA_KIND(request.getParameter("QNA_KIND"));
+		vo.setORDER_NUM(Integer.parseInt(request.getParameter("ORDER_NUM")));
 		vo.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		vo.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
 		vo.setQNA_PASS(request.getParameter("QNA_PASS"));
