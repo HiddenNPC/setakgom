@@ -27,7 +27,7 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="notice">
 <div class="content">
-<div class="title-text"><h2><a href="./noticeList.do">공지사항</a> </h2></div>
+<div class="title-text"><h2><a href="./noticeList.do">공지사항</a></h2></div>
 <div class="notice">
 
 

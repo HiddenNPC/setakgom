@@ -140,28 +140,32 @@ selectData();
 		<td id="td2" valign=top colspan="3"><%=vo.getQNA_CONTENT()%></td>		
 	</tr>
 </table>
+
 <table class="qvt2">
-	<tr><td colspan="4" width="10%" height="40px">
-			<div>첨부 파일 : <%if(!(vo.getQNA_FILE()==null)){ %>
-				<a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=
-				<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>			
-				<%}else{ %>파일이 존재하지 않습니다.<%} %>
-			</div>
-		</td>
-	</tr>	
+<tr><td colspan="4" width="10%" height="40px">
+	<div>첨부 파일 : <%if(!(vo.getQNA_FILE()==null)){ %>
+	<a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>			
+	<%}else{ %>파일이 존재하지 않습니다.<%} %>
+	</div></td>
+</tr>	
 </table> 
+
+
 <form id="only_qna_num" method="post">
 <input type="hidden" value="<%=vo.getQNA_NUM()%>">
 </form>
 
 <table class="qvt3">
 	<tr><td>
-		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 수 정  </button>					
-		<button type="button" id="btn1" onclick="location.href='./qnaDelete.do?QNA_NUM=<%=vo.getQNA_NUM() %>'"> 삭 제  </button>			
+		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">수정 </button>					
+		<button type="button" id="btn1" onclick="location.href='./qnaPass2.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">삭제 </button>			
 		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
 </table><br>
+
+
+
 <!-- 게시판 내용 끝 ,  댓글 작성 폼  시작-->	
 <form id="comment_form" method="post" >
 <table class="cf_t1">
