@@ -49,6 +49,18 @@ $(document).ready(function () {
     return false;
 	});	
     
+	//top버튼 누르면 맨 위로 올라가게.
+	$('span .page-number').on("click", function() {
+		$("html, body").animate({
+			scrollTop : 0
+		}, 500);
+	});
+    
+    
+    
+    
+    
+    
 	// 조건 
 	$('input[type="radio"]').on('click', function() {		
 		$('#re_list').empty();
@@ -287,6 +299,7 @@ function page(){
 			currentPage = 0;   
 		    $table.trigger('repaginate');  
 		    $($(".page-number")[2]).addClass('active').siblings().removeClass('active');
+		    $("html, body").animate({ scrollTop : 0 }, 500);
 		}).appendTo($pager).addClass('clickable');
 		// [이전]
 		$('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[이전]&nbsp;</span>').bind('click', {newPage: page},function(event) {
@@ -294,36 +307,40 @@ function page(){
 		    currentPage = currentPage-1;
 		    $table.trigger('repaginate'); 
 		    $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+		    $("html, body").animate({ scrollTop : 0 }, 500);
 		}).appendTo($pager).addClass('clickable');
 		// [1,2,3,4,5,6,7,8]
-		   for (var page = nowp ; page < endp; page++) {
-		    $('<span class="page-number" cursor: "pointer" style="margin-left: 8px;"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
-		     currentPage = event.data['newPage'];
-		     $table.trigger('repaginate');
-		     $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
-		     }).appendTo($pager).addClass('clickable');
-		   } 
-		    // [다음]
-		      $('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[다음]&nbsp;</span>').bind('click', {newPage: page},function(event) {
+		for (var page = nowp ; page < endp; page++) {
+			$('<span class="page-number" cursor: "pointer" style="margin-left: 8px;"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
+		    currentPage = event.data['newPage'];
+		    $table.trigger('repaginate');
+		    $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+		    $("html, body").animate({ scrollTop : 0 }, 500);
+		    }).appendTo($pager).addClass('clickable');
+		} 
+		// [다음]
+		$('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[다음]&nbsp;</span>').bind('click', {newPage: page},function(event) {
 		    if(currentPage == numPages-1) return;
-		        currentPage = currentPage+1;
+		    currentPage = currentPage+1;
 		    $table.trigger('repaginate'); 
-		     $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
-		   }).appendTo($pager).addClass('clickable');
-		    // [끝]
-		   $('<span class="page-number" cursor: "pointer">&nbsp;[끝]</span>').bind('click', {newPage: page},function(event) {
-		           currentPage = numPages-1;
-		           $table.trigger('repaginate');
-		           $($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
-		   }).appendTo($pager).addClass('clickable');
-		     
-		     $($(".page-number")[2]).addClass('active');
+		    $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+		    $("html, body").animate({ scrollTop : 0 }, 500);
+		}).appendTo($pager).addClass('clickable');
+		// [끝]
+		$('<span class="page-number" cursor: "pointer">&nbsp;[끝]</span>').bind('click', {newPage: page},function(event) {
+		    currentPage = numPages-1;
+		    $table.trigger('repaginate');
+		    $($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
+		    $("html, #review").animate({ scrollTop : 0 }, 500);
+		}).appendTo($pager).addClass('clickable');
+		$($(".page-number")[2]).addClass('active');
 		
-		  });
-		   $pager.insertAfter($table).find('span.page-number:first').next().next().addClass('active');   
-		   $pager.appendTo($table);
-		   $table.trigger('repaginate');
-		 });
+	 });
+	 $pager.insertAfter($table).find('span.page-number:first').next().next().addClass('active');   
+	 $pager.appendTo($table);
+	 $table.trigger('repaginate');
+  });
+
 }
 
 //입력받을곳 확인체크 + 값 컨트롤러로 전달
