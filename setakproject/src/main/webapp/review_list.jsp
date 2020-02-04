@@ -6,6 +6,10 @@
 <%
 	int maxnum =((Integer)request.getAttribute("maxnum")).intValue();
 	//ArrayList<ReviewVO> reviewlist = (ArrayList<ReviewVO>)request.getAttribute("reviewlist");
+	Date today = new Date();
+	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	
+	
 	
 %>
 
@@ -58,45 +62,7 @@ $(document).ready(function () {
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
-					var re_list = '';					
-					var i = item.review_star;
-					re_list += '<thead>';
-					re_list += '<tr><td height="20px" colspan="3"></td></tr>';
-					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td height="20px" colspan="3">';   
-					if(i%2 == 1){
-						for(var abc = 0; abc<(i-1)/2; abc++){
-							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
-							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
-						}
-						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
-						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
-						for(var x = 0; x<((10-i)-1)/2; x++){  
-							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
-							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
-						}
-					}
-					
-					if(i%2 == 0){
-						for(var abc = 0; abc<i/2; abc++){
-							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
-							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
-						}
-						for(var x = 0; x<(10-i)/2; x++){  
-							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
-							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
-						}
-					}
-									
-					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
-					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
-					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
-					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
-					re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
-					re_list += '</thead>';
-					$('#re_list').append(re_list);
-					
+					selectData()
 				})
 				page();
 			},
@@ -118,8 +84,14 @@ $(document).ready(function () {
 				$.each(data, function(index, item) {
 					var re_list = '';					
 					var i = item.review_star;
+					var res =JSON.stringify(item.review_photo);			
+					var idx= res.indexOf("/");
+					var rphoto=res.substring(1,idx);
+					var re_d =JSON.stringify(item.review_date);					
+					var rdate= re_d.substr(1 ,16);
+					console.log(rdate);				
 					
-					re_list += '<thead>';
+					re_list += '<thead class="re_thead">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="3">';   
 					if(i%2 == 1){
@@ -146,15 +118,17 @@ $(document).ready(function () {
 						}
 					}
 					
-					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
-					re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
-					re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
-					re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
-					re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
+					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+rdate+'</td></tr>';																														
+					re_list += '<tr><td colspan="2"><textarea id="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
+					re_list += '<td>'+rphoto+'</td></tr>';																	
+					re_list += '<tr><td></td>';																	
+					re_list += '<td style="margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
+					re_list += '<td><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
+					re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
 					re_list += '</thead>';
 					$('#re_list').append(re_list);	
+					
 					
 					/* $('#heart'+index+'').click(function () { */
 					$(document).on('click', '#heart'+index+'', function () {
@@ -216,7 +190,7 @@ function searchCheck() {
 			$.each(data, function sd(index, item) {
 				var re_list = '';					
 				var i = item.review_star;
-				re_list += '<thead>';
+				re_list += '<thead class="re_thead">';
 				re_list += '<tr><td height="20px" colspan="3"></td></tr>';
 				re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 				re_list += '<tr><td height="20px" colspan="3">';   
@@ -263,10 +237,7 @@ function searchCheck() {
 
 //만들어진 테이블에 페이지 처리
 function page(){ 
-	var reSortColors = function($table) {
-		$('tr:odd td', $table).removeClass('even').removeClass('listtd').addClass('odd');
-		$('tr:even td', $table).removeClass('odd').removeClass('listtd').addClass('even');
-	};
+	
 	$('table.paginated').each(function() {
 		var pagesu = 10;  //페이지 번호 갯수		
 		var currentPage = 0;		
@@ -347,7 +318,7 @@ function page(){
 		   }).appendTo($pager).addClass('clickable');
 		     
 		     $($(".page-number")[2]).addClass('active');
-		reSortColors($table);
+		
 		  });
 		   $pager.insertAfter($table).find('span.page-number:first').next().next().addClass('active');   
 		   $pager.appendTo($table);
@@ -355,6 +326,51 @@ function page(){
 		 });
 }
 
+//입력받을곳 확인체크 + 값 컨트롤러로 전달
+function rwchk(){	
+
+	if (document.getElementById('Review_content').value=="") 
+	{
+		alert("리뷰의 내용을 작성하세요.(최대 300자)");
+        document.getElementById('Review_content').focus();
+        return false;
+        
+    }
+	else if (document.getElementById('Review_star').value=="") 
+	{
+    	alert("별점을 눌러주세요");
+        document.getElementById('Review_star').focus();
+        return false;
+    }
+	else if (document.getElementById('Review_kind').value=="") 
+	{
+    	alert("이용하신 서비스를 선택해주세요");
+        document.getElementById('Review_kind').focus();
+        return false;
+    }
+	
+	else{
+		document.reviewform.submit();
+	}
+}
+//취소
+function rwcancel(){
+	  var check = confirm("작성을 취소하시겠습니까");
+	  /* if(check == true) else false */
+	  if(check)
+	  { 
+		  location.href='./review.do';
+	  }
+	  else
+	  { 
+		  return false;
+	  }
+}
+
+
+
+
+	
 </script>	
 </head>
 <body>
@@ -367,7 +383,7 @@ function page(){
 <!-- 레이아웃 팝업  -->
 <a href="#" class="open">리뷰작성</a>
 <div id="re_layer">
-<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
+<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" onsubmit="return rwchk();">
 <h2>세탁곰 리뷰 작성</h2>
 <div class="r_content">
 	<p style="margin-bottom:5px;">사용자 평점</p> 
@@ -380,16 +396,16 @@ function page(){
     <a class="starR1" value="7">별4_왼쪽</a>
     <a class="starR2" value="8">별4_오른쪽</a>
     <a class="starR1" value="9">별5_왼쪽</a>
-    <a class="starR2" value="10">별5_오른쪽</a>     
-   	<input type="text" id="Review_star" name="Review_star" value="">
-   	<input type="text" id="Review_like" name="Review_like" value="0">  	
+    <a class="starR2" value="10">별5_오른쪽</a>    
+    <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly"></small>   
+   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
 </div>      
 <table class="r_content">
-	<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
-    <tr><td colspan="7"><textarea name="Review_content" placeholder="궁금하신 사항을 입력해 주세요"></textarea></td></tr>
+	<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+    <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
     <tr><td width="40px" ><input name="Review_photo" type="file"/></td>                          
         <td width="40px">
-        	<select name="Review_kind" class="">
+        	<select name="Review_kind" id="Review_kind">
            		<option value="">분류</option>
                 <option value="세탁">세탁</option>
                 <option value="세탁-수선">세탁-수선</option>
@@ -399,28 +415,15 @@ function page(){
                 <option value="정기구독">정기구독</option>
            </select></td>           
 		<td align="right"  colspan="4">
-			<button onclick="javascript:reviewform.submit()">등록</button>
+			<input type="submit" name="submit" value="등록" >		
 			<!-- <button onclick="javascript:reviewform.submit()">등록</button> -->
-			<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
+			<input id="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
 	</tr></table>
 </form>
 <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
 </div>
 <div class="dim"></div><br><br>     
 
-<!-- 
-var rec= $('input[name="radio_val"]:checked').val();
- var rec= { re_condition : $('#re_condition').val() };
-<select name="re_condition" id="re_condition" size="5">
-    <option value="review_date">등록일순</option>
-    <option value="review_like">좋아요순</option>
-    <option value="review_star">별점순</option>
-</select>
- -->
-
-
-
-      
 <!-- 글 분류 -->
 <div class="re2">
 <strong id="re2h">리뷰  <%=maxnum %>개</strong>
@@ -439,8 +442,10 @@ var rec= $('input[name="radio_val"]:checked').val();
 </div>
 
 <!--리뷰 리스트 (ajax) -->  
+<form>
 <table id="re_list" class="paginated"></table>
 
+</form>
 </div>
 
 </div></div>

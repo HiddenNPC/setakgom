@@ -6,6 +6,7 @@
 
 <%
 	QnaVO vo = (QnaVO)request.getAttribute("qnadata");
+	ArrayList<QnaVO> onlist = (ArrayList<QnaVO>)request.getAttribute("onList");
 %>
 <!DOCTYPE html>
 <html>
@@ -120,16 +121,17 @@ $(document).ready(function() {
 			<input type="radio" id="type6" name="QNA_TYPE" value="기타"><label for="type6">기타</label>
 			</div></td>
 	</tr>
-	<tr><td height="30px"><div align="center"> 구 분 </div></td>
-		<td colspan="2">
-			<div>
-			<input type="radio" name="QNA_KIND" value="세탁" checked="checked">세탁
-			<input type="radio" name="QNA_KIND" value="세탁-수선">세탁-수선
-			<input type="radio" name="QNA_KIND" value="세탁-보관">세탁-보관
-			<input type="radio" name="QNA_KIND" value="수선">수선
-			<input type="radio" name="QNA_KIND" value="보관">보관
-			<input type="radio" name="QNA_KIND" value="정기구독">정기구독
-			</div></td>
+	<tr><td height="30px"><div align="center">주문번호</div></td>
+		<td colspan="2"><div>
+		<select class="qwon" name="ORDER_NUM">		
+			<option value="<%=vo.getORDER_NUM()%>"selected><%=vo.getORDER_NUM()%></option>
+			<option value="선택안함">선택안함</option>
+			<%for(int i=0; i<onlist.size(); i++){ QnaVO ol = (QnaVO)onlist.get(i); %>
+			<% if(vo.getORDER_NUM() != ol.getORDER_NUM()){ %>
+   	 		<option value="<%=ol.getORDER_NUM()%>"><%=ol.getORDER_NUM()%></option>    		
+    		<%}%><%}%>
+		</select></div>
+		</td>
 	</tr>
 	<tr><td height="30px"><div align="center"> 제 목 </div></td>
 		<td colspan="2"><input name="QNA_TITLE" type="text" size="50" maxlength="100" value="<%=vo.getQNA_TITLE()%>"></td>

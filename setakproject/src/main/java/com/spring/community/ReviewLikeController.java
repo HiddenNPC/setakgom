@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 {
 	@Autowired private ReviewLikeService reviewLikeService;
 	 
-    @RequestMapping(value = "heart.do", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/heart.do", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody public String heart(HttpServletRequest request) throws Exception {
   
         int review_num = Integer.parseInt(request.getParameter("review_num"));  

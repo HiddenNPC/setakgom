@@ -7,10 +7,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import java.util.UUID;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,18 +18,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller public class ReviewController 
 {
 	@Autowired private ReviewService reviewService;
 	
-	@RequestMapping ("review.do") public String review(Model model) throws Exception
+	@RequestMapping (value = "/review.do") public String review(Model model) throws Exception
 	{	
 		int maxnum = reviewService.getMaxNum();	
 		ArrayList<ReviewVO> list = reviewService.reviewList();
@@ -39,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return "review_list";			
 	}
 	
-	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
@@ -47,7 +46,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return list;		
 	}
 	
-	@PostMapping("reviewInsert.do") public String reviewInsert(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@PostMapping(value = "/reviewInsert.do") public String reviewInsert(HttpSession session ,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		ReviewVO vo = new ReviewVO();
 		response.setCharacterEncoding("utf-8");
@@ -68,7 +67,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 		vo.setReview_num(maxnum); 
 		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
-		vo.setMember_id("bit");
+		vo.setMember_id((String)session.getAttribute("member_id"));
 		//String a = vo.getMember_id();
 		//System.out.println("Member_id=" +a );		
 		vo.setReview_kind(request.getParameter("Review_kind"));	
@@ -124,7 +123,7 @@ import org.springframework.web.servlet.ModelAndView;
 			
 	}
 	
-	@PostMapping("fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
+	@PostMapping(value = "/fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");
 		String of = request.getParameter("of"); //서버에 업로드된 변경된 실제 파일명
@@ -175,7 +174,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 	}
 	
-	@RequestMapping (value="reviewSearch.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/reviewSearch.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewSearch(HttpServletRequest request, Model model,String keyfield, String keyword ) throws Exception
 	{
 		keyfield=request.getParameter("keyfield");
@@ -187,7 +186,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return list;		
 	}
 	
-	@RequestMapping (value="reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewCondition (HttpServletRequest request, Model model, String re_condition) throws Exception
 	{
 		re_condition=request.getParameter("re_condition");	

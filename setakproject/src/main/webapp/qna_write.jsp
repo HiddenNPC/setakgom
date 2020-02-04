@@ -97,8 +97,7 @@ function wcancel(){
 	<tr>
 		<td height="30px"><div align="center">주문번호</div></td>
 		<td colspan="2"><div>
-		<select class="qwon" name="ORDER_NUM">
-		
+		<select class="qwon" name="ORDER_NUM">		
 			<option value="선택안함">선택안함</option>
 			<%for(int i=0; i<onlist.size(); i++){ QnaVO ol = (QnaVO)onlist.get(i); %>
    	 		<option value="<%=ol.getORDER_NUM()%>"><%=ol.getORDER_NUM()%></option>    		
