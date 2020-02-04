@@ -320,6 +320,7 @@
 	//아이디체크V
 	$(document).on("propertychange change keyup paste","#member_id",function(){
 		if(!idReg.test($(this).val())){
+			$(".joinform div:nth-child(2) #overlap").css("display","none");
 			$(".joinform div:nth-child(2) #specialsym").css("display","block");
 		} else {
 			$(".joinform div:nth-child(2) #specialsym").css("display","none");

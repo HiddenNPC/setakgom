@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -41,7 +42,7 @@ public class MendingKeepController {
 	}
 	
 	@RequestMapping("/mending.do")
-	public String insertMending(MultipartHttpServletRequest request, HttpSession session) throws Exception{
+	public String insertMending(MultipartHttpServletRequest request, HttpSession session,@RequestParam("repair_file") MultipartFile[] files) throws Exception{
 		String repair_cate[] = request.getParameterValues("repair_cate");
 		String repair_kind[] = request.getParameterValues("repair_kind");
 		String repair_var1[] = request.getParameterValues("repair_var1");
@@ -51,7 +52,10 @@ public class MendingKeepController {
 		String repair_code[] = request.getParameterValues("repair_code");
 		String repair_count[] = request.getParameterValues("repair_count");
 		String repair_price[] = request.getParameterValues("repair_price");
-		List<MultipartFile> repair_file = request.getFiles("repair_file");
+		//MultipartFile files = (MultipartFile)request.getAttribute("repair_file");
+		System.out.println(files[0].getName());
+		//System.out.println(files);
+		//List<MultipartFile> repair_file = request.getFiles("repair_file");
 		
 		String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정
 		

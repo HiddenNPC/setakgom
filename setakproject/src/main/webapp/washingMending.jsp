@@ -327,7 +327,7 @@
 									<p id="length">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
 								</div>
 							</div>
-							<form>
+							<form id  ="fileUploadForm" enctype="multipart/form-data">
 								<div class="hash">
 								</div>
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>

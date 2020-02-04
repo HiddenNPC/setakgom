@@ -30,15 +30,19 @@
 		
 		
 		$("#btnSubmit").click(function (event) {
-			var random = randomnum();
 			event.preventDefault();
 			
-			// Get form
+			/* // Get form
             var form = $('#fileUploadForm')[0];
-
+			console.log($('#fileUploadForm'));
+			console.log(form);
+			
             // Create an FormData object
             var data = new FormData(form);
-			
+            console.log(data); */
+            
+            //var data = {"files":}
+            
          	$.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
@@ -56,6 +60,7 @@
 
 				}
 			});
+         	
    	     });
 	});
 	 
