@@ -117,6 +117,7 @@ public class MendingKeepController {
 			keep.setKeep_box(Integer.parseInt(keep_box));
 			keep.setKeep_price(Integer.parseInt(keep_price));
 			keep.setKeep_wash(0);
+			keep.setKeep_now("입고전");
 			
 			mendingKeepService.insertKeep(keep);
 			
@@ -286,6 +287,7 @@ public class MendingKeepController {
 				keep.setKeep_box(Integer.parseInt(keep_box));
 				keep.setKeep_price(Integer.parseInt(keep_price));
 				keep.setKeep_wash(1);
+				keep.setKeep_now("입고전");
 				
 				mendingKeepService.insertKeep(keep);
 				

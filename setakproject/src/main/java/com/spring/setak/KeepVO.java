@@ -12,6 +12,7 @@ public class KeepVO {
 	String keep_end;
 	int keep_wash;
 	String keep_file;
+	String keep_now;
 	
 	public int getKeep_seq() {
 		return keep_seq;
@@ -78,6 +79,12 @@ public class KeepVO {
 	}
 	public void setKeep_file(String keep_file) {
 		this.keep_file = keep_file;
+	}
+	public String getKeep_now() {
+		return keep_now;
+	}
+	public void setKeep_now(String keep_now) {
+		this.keep_now = keep_now;
 	}
 	
 }

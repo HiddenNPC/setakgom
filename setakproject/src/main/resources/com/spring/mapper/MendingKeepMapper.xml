@@ -16,8 +16,8 @@
 	
 	<insert id="insertKeep" parameterType="com.spring.setak.KeepVO">
 		<selectKey keyProperty="keep_seq" resultType="Integer" order="AFTER"> SELECT keep_seq.currval FROM dual </selectKey>
-		insert into keep(keep_seq, keep_cate, keep_kind, keep_count, keep_month, keep_box, keep_price, keep_start, keep_end, keep_wash) 
-		values (keep_seq.nextval, #{keep_cate}, #{keep_kind}, #{keep_count}, #{keep_month}, #{keep_box}, #{keep_price}, #{keep_start}, #{keep_end}, #{keep_wash})
+		insert into keep(keep_seq, keep_cate, keep_kind, keep_count, keep_month, keep_box, keep_price, keep_start, keep_end, keep_wash, keep_now) 
+		values (keep_seq.nextval, #{keep_cate}, #{keep_kind}, #{keep_count}, #{keep_month}, #{keep_box}, #{keep_price}, #{keep_start}, #{keep_end}, #{keep_wash}, #{keep_now})
 	</insert>
 	
 	<insert id="insertKeepCart" parameterType="com.spring.order.KeepCartVO">

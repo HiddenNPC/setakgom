@@ -19,7 +19,7 @@
 				$('#list').empty();
 				
 				$.ajax({
-					url : '/setakproject/getKeepJSON.do',
+					url : '/setak/getKeepList.do',
 					type : 'POST',
 					dataType : 'json',
 					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
@@ -27,13 +27,18 @@
 						$.each(data, function(index, item){
 							var str = '';
 							str += '<ul>'
-							str += '<li><input type="checkbox" name="check" value="yes" checked></li>';
+							str += '<li><input type="checkbox"></li>';
+							str += '<li>' + item.keep_rnum + '</li>';
 							str += '<li>' + item.order_num + '</li>';
-							str += '';
-							str += '';
-							str += '';
-							str += '';
-							str += '';
+							str += '<li>' + item.member_id + '</li>';
+							str += '<li>' + item.keep_kind + '(' + item.keep_count +')</li>';
+							str += '<li>' + item.keep_box + '</li>';
+							str += '<li>' + item.keep_start + '</li>';
+							str += '<li>' + item.keep_end + '</li>';
+							str += '<li>' + item.keep_now + '</li>';
+							str += '<li>' + item.keep_file + '</li>';
+							str += '<li><a href="/setak/updateKeep.do?">수정</a></li>';
+							$(".keep_list").after(str);
 						});
 					},
 					error:function(){
@@ -43,7 +48,7 @@
 			}
 			
 			
-			
+			selectData();
 			
 		});
 	</script>
@@ -53,18 +58,20 @@
 		<div class="content">
 			<!-- 여기서부터 작업하세요. -->
 			<h1>보관관리</h1>
-			<ul class="example">
-				<li>선택</li>
+			<ul class="keep_list">
+				<li><input type="checkbox" id = "allcheck"></li>
 				<li>주문번호</li>
 				<li>아이디</li>
 				<li>종류</li>
-				<li>수량</li>
+				<li>박스수량</li>
 				<li>신청날짜</li>
 				<li>반환날짜</li>
 				<li>상황</li>
 				<li>이미지</li>
-				<li>삭제</li>
+				<li>수정 / 삭제</li>
 			</ul>
+			
+			
 		</div>
 	</div><!-- 지우지마세요 -->
 </body>
