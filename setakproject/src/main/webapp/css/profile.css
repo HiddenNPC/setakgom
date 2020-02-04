@@ -239,6 +239,10 @@
    	cursor: pointer;
    	transition: all .4s;
  }
+ .btn:disabled {
+	background-color: #bbabab;
+	cursor: default; 
+ }
 
  .total_button {
  	margin: 50px auto;
