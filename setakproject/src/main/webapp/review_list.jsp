@@ -25,7 +25,6 @@
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
 <script type="text/javascript"></script>
 <script>
-
 $(document).ready(function () {	
 	//헤더, 푸터연결
 	$("#header").load("header.jsp")
@@ -51,45 +50,17 @@ $(document).ready(function () {
     
 	//top버튼 누르면 맨 위로 올라가게.
 	$('span .page-number').on("click", function() {
-		$("html, body").animate({
-			scrollTop : 0
-		}, 500);
+		$("html, body").animate({scrollTop : 0}, 1000);
 	});
     
-    
-    
-    
-    
-    
-	// 조건 
+	// 조건 ()
 	$('input[type="radio"]').on('click', function() {		
 		$('#re_list').empty();
 		var rec= {re_condition : $('input[name="radio_val"]:checked').val()}; 	    
-		console.log(rec);
 		$.ajax({
 			url:'/setak/reviewCondition.do', 
 			type:'POST',
 			data:rec,
-			dataType:"json", //리턴 데이터 타입
-			contentType:'application/x-www-form-urlencoded; charset=utf-8',
-			success:function(data) {				
-				$.each(data, function(index, item) {
-					selectData()
-				})
-				page();
-			},
-			error: function() {
-				alert("ajax통신 실패!!!");
-		    }
-	    });	
-	});			
-		
-	//리뷰 리스트 뿌리기 		
-	function selectData() {		
-		$('#re_list').empty();
-		$.ajax({
-			url:'/setak/reviewList.do', 
-			type:'POST', 
 			dataType:"json", //리턴 데이터 타입
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
@@ -101,11 +72,10 @@ $(document).ready(function () {
 					var rphoto=res.substring(1,idx);
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
-					console.log(rdate);				
-					
+													
 					re_list += '<thead class="re_thead">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td height="20px" colspan="3">';   
+					re_list += '<tr><td><p>별점 :</p></td><td height="20px" colspan="3"> ';   
 					if(i%2 == 1){
 						for(var abc = 0; abc<(i-1)/2; abc++){
 							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -132,11 +102,75 @@ $(document).ready(function () {
 					
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+rdate+'</td></tr>';																														
-					re_list += '<tr><td colspan="2"><textarea id="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
+					re_list += '<tr><td colspan="2"><textarea class="ret" id="ret'+index+'" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
 					re_list += '<td>'+rphoto+'</td></tr>';																	
 					re_list += '<tr><td></td>';																	
 					re_list += '<td style="margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
 					re_list += '<td><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
+					re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
+					re_list += '</thead>';
+					$('#re_list').append(re_list);	
+				})
+				page();
+			},
+			error: function() {
+				alert("ajax통신 실패!!!");
+		    }
+	    });	
+	});			
+		
+	//리뷰 리스트 뿌리기 		
+	function selectData() {		
+		$('#re_list').empty();
+		$.ajax({
+			url:'/setak/reviewList.do', 
+			type:'POST', 
+			dataType:"json", //리턴 데이터 타입
+			contentType:'application/x-www-form-urlencoded; charset=utf-8',
+			success:function(data) {				
+				$.each(data, function(index, item) {
+					var re_list = '';					
+					var i = item.review_star;
+					var res =JSON.stringify(item.review_photo);			
+					var idx= res.indexOf("/");
+					var rphoto=res.substring(1,idx);
+					var re_d =JSON.stringify(item.review_date);					
+					var rdate= re_d.substr(1 ,16);
+													
+					re_list += '<thead class="re_thead">';
+					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
+					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
+					if(i%2 == 1){
+						for(var abc = 0; abc<(i-1)/2; abc++){
+							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+						}
+						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						for(var x = 0; x<((10-i)-1)/2; x++){  
+							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						}
+					}
+					
+					if(i%2 == 0){
+						for(var abc = 0; abc<i/2; abc++){
+							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
+						}
+						for(var x = 0; x<(10-i)/2; x++){  
+							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
+							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
+						}
+					}
+					
+					re_list += '</td></tr>';		   																		
+					re_list += '<tr><td name="member_id" style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:450px;"></td><td style="width:120px;">'+rdate+'</td></tr>';																														
+					re_list += '<tr><td colspan="3"><textarea class="ret" id="ret'+index+'" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
+					re_list += '<td>'+rphoto+'</td></tr>';																	
+					re_list += '<tr>';																	
+					re_list += '<td colspan="3" style="text-align:center; margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
+					re_list += '<td style="text-align:center;"><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
 					re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
 					re_list += '</thead>';
 					$('#re_list').append(re_list);	
@@ -202,8 +236,13 @@ function searchCheck() {
 			$.each(data, function sd(index, item) {
 				var re_list = '';					
 				var i = item.review_star;
+				var res =JSON.stringify(item.review_photo);			
+				var idx= res.indexOf("/");
+				var rphoto=res.substring(1,idx);
+				var re_d =JSON.stringify(item.review_date);					
+				var rdate= re_d.substr(1 ,16);
+												
 				re_list += '<thead class="re_thead">';
-				re_list += '<tr><td height="20px" colspan="3"></td></tr>';
 				re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 				re_list += '<tr><td height="20px" colspan="3">';   
 				if(i%2 == 1){
@@ -229,14 +268,16 @@ function searchCheck() {
 						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 					}
 				}
-								
+				
 				re_list += '</td></tr>';		   																		
-				re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+item.review_date+'</td></tr>';																	
-				re_list += '<tr><td colspan="3">'+item.review_content+'</td></tr>';																	
-				re_list += '<tr><td colspan="3">'+item.review_photo+'</td></tr>';																	
-				re_list += '<tr><td colspan="3"><input id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td></tr>';																	
-				re_list += '<tr><td height="20px" colspan="3"><hr></td></tr>';
-				re_list += '<thead>';
+				re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+rdate+'</td></tr>';																														
+				re_list += '<tr><td colspan="2"><textarea class="ret" id="ret'+index+'" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
+				re_list += '<td>'+rphoto+'</td></tr>';																	
+				re_list += '<tr><td></td>';																	
+				re_list += '<td style="margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
+				re_list += '<td><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
+				re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
+				re_list += '</thead>';
 				$('#re_list').append(re_list);	
 			})
 			page();
@@ -257,10 +298,8 @@ function page(){
 		var $table = $(this);    
 		//length로 원래 리스트의 전체길이구함
 		var numRows = $table.find('thead').length;//10
-		console.log("numRows="+numRows);
 		//Math.ceil를 이용하여 반올림
 		var numPages = Math.ceil(numRows / numPerPage);
-		console.log("numPages="+numPages);
 		//리스트가 없으면 종료
 		if (numPages==0) return;
 		//pager라는 클래스의 div엘리먼트 작성
@@ -455,7 +494,7 @@ function rwcancel(){
 	<option value="review_content"> 내용 </option>
 </select>
 <input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
-<input type="button" value="검색" onClick="searchCheck()">
+<input id="kwbtn" type="button" value="검색" onClick="searchCheck()">
 </div>
 
 <!--리뷰 리스트 (ajax) -->  

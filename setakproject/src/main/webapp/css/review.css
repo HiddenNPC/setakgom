@@ -39,25 +39,17 @@
     
   	.starR3 {
   	background: url('../images/r_star.png') no-repeat -34px 0;
-    background-size: auto 100%; width: 10px; height: 20px; float: left; text-indent: -9999px; 
+    background-size: auto 100%; width: 10px; height: 20px; float: left;
         }
 
     .starR4 {
 	background: url('../images/r_star.png') no-repeat right 0;
-	background-size: auto 100%; width: 10px;height: 20px;float: left; text-indent: -9999px;
+	background-size: auto 100%; width: 10px; height: 20px; float: left; 
         }
     .starR3.on { background-position: 0 0; }
     .starR4.on { background-position: -10px 0; }
-    small{font-size: 0.8rem; color:#aa9fa7; }	
-	 #Review_star{width:17px; text-align:center; border:none; color:#aa9fa7;}
-
-
-	.r_notice { background-color:#3498db; color: #fff; 
-	border-top-left-radius:5px; border-bottom-left-radius: 5px;
-	border-top-right-radius:5px; border-bottom-right-radius: 5px;
-   	border: none; outline: none; padding: 5px;
-   	}    
-   	
+    small{ font-size: 0.8rem; color:#aa9fa7; }	
+	
    	button { color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
@@ -70,42 +62,26 @@
    	}   	 	
   	
   	.re2{margin:auto; width:1000px; }
-  	
+ 
+  	/* 리뷰 리스트 */
   	.paginated{ margin:auto; width:1000px; margin-top:5px; }
   	
-  	.re_thead{
-  	border: 3px solid #3498db;
-  	/* display: */
-  	}
+  	.paginated td { border: 2px solid #e1e4e4; padding: 8px;
+    line-height: 25px; width:200px; text-align: center;
+   	} 
+    
+    .clickable {cursor: pointer;}
+	 	    
+  	.ret{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
+    line-height: 25px; width: 800px;  height:200px; border: none; margin: auto;
+  	}  
   	
-  	
-  	
-  	
-  	
-  	.paginated td { 
-  	border-top: 3px solid #3498db; 
-  	border-bottom: 3px solid #3498db;
-  	border: 2px solid #e1e4e4; padding: 8px;
-    line-height: 25px;
-    text-align: center;
-     } 
-    .paginated input[type=button]{
-    color: #fff; background-color: #3498db; WIDTH:40pt; HEIGHT:20pt;
+  	.paginated input[type=button]{
+    	color: #fff; background-color: #3498db; WIDTH:40pt; HEIGHT:20pt;
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
    		border: none; outline: none; margin: 5px; cursor: pointer;
-    } 
-    .clickable {cursor: pointer;}
-	 	    
-  	#ret{font-size: 0.9rem; 
-    color: #444;
-    font-family: "Nanum Gothic", "Noto Sans";
-    line-height: 25px;
-    width: 700px;
-    height:200px;
-    border: none;
-    margin: auto;
-  	}  	
+    } 	
   	
   	/* 검색버튼 */ 
 	input[type=radio]{display:none;}	
@@ -113,7 +89,7 @@
 	display: inline-block; padding:5px;
 	background-color: #fff; border: 1px solid #e1e4e4;
 	width:60px; text-align: center; cursor: pointer;
-	transition: all .3s;
+	transition: all .3s; 
 	} 
 	input[type=radio]+label:hover{	
 	background-color:#3498db; 
@@ -125,11 +101,28 @@
 	input[type=radio]:radio+label{
 	background-image: none;
 	background-color: #3498db;
-	color: #fff;	
+	color: #fff;
+	
 	}
+	
+	select { width: 80px;  padding: 5px; height:30px; 
+	background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%;  
+  	-webkit-appearance: none; -moz-appearance: none; 
+ 	border: 1px solid #e1e4e4; border-radius: 0px;
+ 	font-size: 0.9rem; color: #444; font-family:"Nanum Gothic", "Noto Sans"; font-weight: bold;
+	}
+	#keyword{height:25px; border: 1px solid #e1e4e4; }
+	#kwbtn{height:30px; border: 1px solid #e1e4e4; }
+	
 	/* 검색끝 */ 
 	
-	/* 모달팝업 */
+	/* 모달팝업 */	
+	.r_notice { background-color:#3498db; color: #fff; 
+	border-top-left-radius:5px; border-bottom-left-radius: 5px;
+	border-top-right-radius:5px; border-bottom-right-radius: 5px;
+   	border: none; outline: none; padding: 5px;
+   	}    
+	#Review_star{width:17px; text-align:center; border:none; color:#aa9fa7;}
   	#re_layer { display:none; position: fixed; left:50px; top:50px; 
   	width:700px; height:550px;
   	border: 3px solid #444; box-sizing:border-box;
@@ -158,27 +151,3 @@
 	/* 모달끝 */
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-	 
-    
