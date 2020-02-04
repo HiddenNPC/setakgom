@@ -24,6 +24,28 @@
 	
 	<!-- 전체 주문 테이블  : 시간 역순 -->
 	<select id = "getOrderList" resultMap = "OrderResultMap">
-		select order_num, member_id, order_name, order_price, order_delicode, order_status from memberorder order by member_id, order_date desc
+		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status from memberorder order by member_id, order_date desc
+	</select>
+	
+	<!-- 전체 주문 개수  -->
+	<select id = "getOrderCount" resultType = "int">
+		select count(*) from memberorder
+	</select>
+	
+	<!-- 주문 검색  > mybatis if문 사용해야함-->
+	<select id = "orderSearch" parameterType="java.util.HashMap" resultMap="OrderResultMap">
+		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status
+		from memberorder
+		where <![CDATA[order_date > #{startDate} and order_date < #{endDate}]]> or order_date like #{endDate}||'%'
+		<if test = 'keyword != null'>
+		and #{searchType} like '%'||#{keyword}||'%'
+		</if>
+		<if test = 'statusArr != null'>
+			and order_status in
+			<foreach collection='statusArr' index='index' item='item' open='(' close=')' separator=','>
+				#{item}			
+			</foreach>
+		</if>
+		order by order_date desc
 	</select>
 </mapper>

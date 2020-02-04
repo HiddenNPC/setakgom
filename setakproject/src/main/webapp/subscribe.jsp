@@ -55,12 +55,10 @@
         	 
         	 // merchant_uid
         	 var muid = 'merchant_' + new Date().getTime();
-        	 console.log("muid " + muid); 
         	 
         	 // customer_uid를 위한 난수 생성 > 재결제 예약에 사용 
         	 var num = Math.floor(Math.random() * 1000) + 1; 
         	 var cuid = '<%=memberVO.getMember_id()%>' + num;
-        	 console.log("cuid " + cuid); 
 
              var IMP = window.IMP; // 생략가능
              IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용

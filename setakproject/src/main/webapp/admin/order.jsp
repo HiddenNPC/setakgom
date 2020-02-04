@@ -1,4 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@ page import = "com.spring.order.OrderVO" %>
+<%@ page import = "java.util.ArrayList" %>
+
+<%
+	ArrayList<OrderVO> orderList = (ArrayList<OrderVO>)request.getAttribute("orderList");
+	int orderCount = (int)request.getAttribute("orderCount"); 
+	
+	int limit = ((Integer)request.getAttribute("limit")).intValue();
+	int nowpage = ((Integer)request.getAttribute("page")).intValue();
+	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
+	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
+	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
+	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +40,10 @@
 		$(document).ready(function() {
 			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")
+			
+			//전체 주문 개수
+			var resultNum = <%=orderCount%>;
+			$("#result-num").text(resultNum); 
 			
 			//요일 버튼 누르기
 			$(".search-date-btn").on("click", function() {
@@ -61,8 +83,7 @@
 			// 초기화 버튼
 			$(".reset-btn").on("click", function() {
 				$("#search-content").val(" "); 
-			});
-			
+			});			
 		});
 		
 		// 나의주소록 레이어 스크립트
@@ -90,6 +111,70 @@
 	            
 	        }
 	    }
+		
+		// 검색
+		function searchOrder() {
+			
+			var checkbox = $("input[name=check]:checked");
+			
+			var statusArr = []; 
+     		checkbox.each(function(){
+     			var status = $(this).val(); 
+     			statusArr.push(status);
+     		});
+     		
+     		var start = $('#datepicker').val();
+     		var end = $('#datepicker2').val(); 
+     		
+     		console.log(statusArr); 
+     		console.log("start : " + start + "end : " + end); 
+     		
+			$('#result-table tbody').empty();
+			var param = {
+							startDate : start,
+							endDate : end,
+							statusArr : statusArr, 
+							searchType : $('#searchType').val(),
+							keyword : $('#keyword').val()
+						};
+			
+			alert(param); 
+			
+			$.ajax({
+				url:'/setak/admin/orderSearch.do', 
+				type:'POST',
+				data:param,
+				traditional : true,
+				dataType:"json", //리턴 데이터 타입
+				contentType:'application/x-www-form-urlencoded; charset=utf-8',
+				success:function(data) {	
+					$("#result-table tbody").empty();
+					
+					 
+					 $.each(data, function(index, item) {
+						 
+						 var output = '';
+						 
+						 output += '<tr>';
+						 output += '<td class = "check"> <input type = "checkbox" /> </td>';
+						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('open')" value="'+item.order_num+'"/></td>';						 
+						 output += '<td>'+item.member_id+'</td>';						 
+						 output += '<td>'+item.order_name+'</td>';						 
+						 output += '<td>'+item.order_price+'원</td>';						 
+						 output += '<td>20'+item.order_date+'</td>';						 
+						 output += '<td><span id = "delivery_num">'+item.order_status+'</span></td>';	
+						 output += '</tr>';
+						 
+						 $('#result-table tbody').append(output); 
+					 });
+
+				},
+				error: function() {
+					alert("ajax통신 실패!!!");
+			    }
+			});
+		}
+
 	</script>
 </head>
 <body>
@@ -106,42 +191,43 @@
 						<tr>
 							<td>주문검색</td>
 							<td>
-								<select id = "cate-select">
-									<option>주문 번호</option>
-									<option>회원 아이디</option>
+								<select id = "searchType" name = "cate-select">
+									<option value = "order_num">주문 번호</option>
+									<option value = "member_id">회원 아이디</option>
 								</select>
-								<input id = "search-content" type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
+								<input id = "keyword" type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
 							</td>
 						</tr>
 						<tr>
 							<td>주문상태</td>
 							<td>
-								<label for = ""><input type = "checkbox">결제완료</label>
-								<label for = ""><input type = "checkbox">수거중</label>
-								<label for = ""><input type = "checkbox">서비스중</label>
-								<label for = ""><input type = "checkbox">배송중</label>
-								<label for = ""><input type = "checkbox">배송완료</label>
-								<label for = ""><input type = "checkbox">주문취소</label>
+								<label for = "orderStatus1"><input id="orderStatus1" name = "check" value = "결제완료" type = "checkbox">결제완료</label>
+								<label for = "orderStatus2"><input id="orderStatus2" name = "check" value = "수거중"  type = "checkbox">수거중</label>
+								<label for = "orderStatus3"><input id="orderStatus3" name = "check" value = "서비스중"  type = "checkbox">서비스중</label>
+								<label for = "orderStatus4"><input id="orderStatus4" name = "check" value = "배송중"  type = "checkbox">배송중</label>
+								<label for = "orderStatus5"><input id="orderStatus5" name = "check" value = "배송완료"  type = "checkbox">배송완료</label>
+								<label for = "orderStatus6"><input id="orderStatus6" name = "check" value = "주문취소"  type = "checkbox">주문취소</label>
 							</td>
 						</tr>
 						<tr>
 							<td>주문일자</td>
 							<td>
-								<input id = "datepicker" class = "search-date" type = "text" size = "10px"/>
+								<input id = "datepicker" name = "search_start" class = "search-date" type = "text" size = "10px"/>
 								~
-								<input id = "datepicker2" class = "search-date" type = "text" size = "10px"/>
-								<input type = "button" class = "search-date-btn" id = "today" value = "오늘"/>
-								<input type = "button"  class = "search-date-btn" id = "today" value = "일주일"/>
-								<input type = "button"  class = "search-date-btn" id = "today" value = "1개월"/>
-								<input type = "button"  class = "search-date-btn" id = "today" value = "3개월"/>
-								<input type = "button"  class = "search-date-btn" id = "today" value = "6개월"/>
+								<input id = "datepicker2" name = "search_end" class = "search-date" type = "text" size = "10px"/>
+								
+								<input type = "button" class = "search-date-btn" name = "order_date" id = "today" value = "오늘"/>
+								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "일주일"/>
+								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "1개월"/>
+								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "3개월"/>
+								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "6개월"/>
 							</td>
 						</tr>
 					</table>
 				</form>
 				
 				<div id="search-btn-div">
-					<button id = "search-btn">검색</button>
+					<input type="button" id = "search-btn" value = "검색" onclick = "searchOrder();" />
 					<button id = "reset-btn">초기화</button>
 				</div>
 			</div>
@@ -173,28 +259,45 @@
 				
 				<!-- 결과 테이블 div 시작 -->
 				<div id=result-second-div>
-					<ul class="example">
-						<li class = "check"><input type = "checkbox" /></li>
-						<li>주문번호</li>
-						<li>아이디</li>
-						<li>받는사람</li>
-						<li>주문날짜</li>
-						<li>결제금액</li>
-						<li>배송번호</li>
-						<li>주문상태</li>
-					</ul>
-					<ul>
-						<li class = "check">
-							<input type = "checkbox" />
-						</li>
-						<li><input class = "orderNum" type = "button" onclick = "layerOrderDetail('open')" value = "1580040955887" /></li>
-						<li>bit</li>
-						<li>박비트</li>
-						<li>2020-01-30</li>
-						<li>100원</li>
-						<li><span id = "delivery_num"></span></li>
-						<li>asd</li>
-					</ul>
+				
+					<table id="result-table" class = "example">
+						<thead>
+							<tr>
+								<th class = "check"><input type = "checkbox" /></th>
+								<th>주문번호</th>
+								<th>아이디</th>
+								<th>받는사람</th>
+								<th>주문날짜</th>
+								<th>결제금액</th>
+								<th>배송번호</th>
+								<th>주문상태</th>
+							</tr>
+						</thead>
+						<tbody>
+						<%for(int i = 0; i < orderList.size(); i++) {
+							OrderVO ovo = orderList.get(i);
+							
+							String date = ovo.getOrder_date();
+							String[] dateArr = date.split(" ");
+							String orderDate = dateArr[0]; 			
+							
+						%>
+							<tr>
+								<td class = "check"> <input type = "checkbox" /> </td>
+								<td><input class = "orderNum" type = "button" onclick = "layerOrderDetail('open')" value = "<%=ovo.getOrder_num() %>" /></td>
+								<td><%=ovo.getMember_id() %></td>
+								<td><%=ovo.getOrder_name() %></td>
+								<td>20<%=orderDate %></td>
+								<td><%=ovo.getOrder_price() %>원</td>
+								<td><span id = "delivery_num"></span></td>
+								<td>asd</td>
+							</tr>
+						<%} %>
+						
+						</tbody>
+					</table>
+
+
 				</div>
 				<!-- 결과 테이블 div 끝-->
 
@@ -218,9 +321,33 @@
 			
 				<!-- 결과 페이징 div 시작 -->
 				<div id="result-paging-div">
-					<img src="https://img.icons8.com/ultraviolet/20/000000/left-squared.png">
-					1/1
-					<img src="https://img.icons8.com/ultraviolet/20/000000/right-squared.png">
+				
+				<table class="nlt3" align="center">	
+					<tr align=center height=35  >
+						<td colspan=7 >
+						<% if(nowpage<=1) { %>
+							< &nbsp;&nbsp;&nbsp;
+							<% } else { %>
+							<a href="./noticeList.do?page=<%=nowpage-1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/left-squared.png"></a>&nbsp;
+							<% } %>
+							
+							<% for (int a=startpage; a<=endpage; a++) { 
+									if(a==nowpage) { %>
+										<%=a %>
+										<% } else { %>
+										<a href="./noticeList.do?page=<%=a %>" >&nbsp;<%=a %>&nbsp;</a>
+								<% } %>
+							<% } %>
+							&nbsp;
+							<% if (nowpage >= maxpage ) { %>
+									&nbsp;&nbsp;&nbsp; >
+								<% } else { %>
+									<a href="./noticeList.do?page=<%=nowpage+1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/right-squared.png"></a>
+							<% } %>
+							</td>
+						</tr>
+				</table>				
+
 				</div>
 				<!-- 결과 페이징 div 끝 -->
 			</div>

@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -134,28 +136,28 @@ public class Iamport {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(import_schedule_url);
 		
-		String price = Integer.toString(amount);
+
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		Map<String, String> map = new HashMap<String, String>();
+		JSONArray schedules = new JSONArray();
 		
-		System.out.println("mid : " + mid);
+		JSONObject schedule = new JSONObject();
+		schedule.put("merchant_uid", mid);
+		schedule.put("schedule_at", new Date().getTime() + 100);
+		schedule.put("amount", amount);
 		
-        String schedules = "[{\"merchant_uid\":" + "\"" + mid + "\"" + ","
-                + "\"schedule_at\":\"1580576884\","
-                + "\"amount\":\"100\""
-                + "}]";
-        
+		schedules.add(schedule);
+ 
         System.out.println("schedules : " + schedules);
         
 		post.setHeader("Authorization", token);
 		map.put("customer_uid", cid);
 		map.put("schedules", schedules);
-		map.put("amount", price); 
 		String asd = ""; 
 		
 		try {
 			
-			post.setEntity(new UrlEncodedFormEntity(convertParameter(map)));
+			post.setEntity(new UrlEncodedFormEntity(convertParameter2(map)));
 			HttpResponse res = client.execute(post);
 			ObjectMapper mapper = new ObjectMapper();
 			String enty = EntityUtils.toString(res.getEntity());
@@ -190,4 +192,16 @@ public class Iamport {
 		
 		return paramList;
 	}
+	
+	public List<NameValuePair> convertParameter2(Map<String, Object> paramMap) {
+		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+		Set<Entry<String, Object>> entries = paramMap.entrySet();
+		
+		for(Entry<String, Object> entry : entries) {
+			paramList.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+		}
+		
+		return paramList;
+	}
+	
 }
