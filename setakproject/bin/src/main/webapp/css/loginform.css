@@ -1,0 +1,294 @@
+@charset "UTF-8";
+
+#title {
+	height: 140px;
+}
+.title-text {
+	position: absolute;
+	right: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+}
+
+.title-text h2 {
+	font-size: 2rem;
+	color: #444;
+}
+/*아래의 width로 파란 줄 길이 조절 가능*/
+.title-text h2:before {
+	content: '';
+	display: block;
+	width: 40%;
+	height: 6px;
+	background-color: #3498db;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
+/*
+   default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
+   content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
+   폰트사이즈는 무조건 rem으로 작업해주세요.
+   */
+
+/*변경된 클래스와 아이디로 작업하세요*/
+/*로그인*/
+#test .content{
+	margin:0 auto;
+}
+
+.loginform{
+    width:400px;
+    margin: -50px auto;
+    text-align:center;	
+}
+
+.loginform div input {
+	width:100%;
+}
+
+.loginform .txtln {
+	height:40px;
+	margin-top:20px;
+	padding-left:10px;
+	border:1.4px solid #9E9E9E;
+	box-sizing:border-box;
+}
+
+.login .btn {
+	margin-top:20px;
+	background-color: #3498db;
+	border:2px solid #3498db;
+	color:#fff;
+	line-height: 45px;
+	border-radius: 6px;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+	text-align:center;
+}
+
+.login input.btn:hover {
+	background-color:#fff;
+	color:#3498db;
+	font-weight:initial;
+	transition:all .4s;
+}
+
+.loginform hr {
+	margin:40px auto;
+    width:100%;
+}
+
+.loginform .find{
+	margin:40px auto;
+	font-size:1.0rem;
+	color:#444;
+}
+.loginform .find div{
+	display:inline;
+	cursor:pointer;
+}
+.loginform .find div:before {
+	content:' | ';
+	color:#999;
+	font-size:0.9rem;
+}
+.loginform .find div:first-child:before {
+	content:'';
+}
+.loginform .find div:hover {
+	color:#3498db;
+	transition:all .3s;
+}
+
+.extra h4 {
+	margin-bottom:30px;
+	font-size:0.9rem;
+	background-color:#3498db;
+	color:#fff;
+	font-weight:initial;
+	line-height:30px;
+}
+
+.extra div {
+	display:inline;
+	margin:25px;
+}
+
+
+.extra  img{
+	width:40px;
+}
+
+.extra img:hover {
+	cursor:pointer;
+}
+
+.extra hr {
+	margin-top:26px;
+	border:1px solid #3498db;
+}
+
+
+
+/*팝업창*/
+/*아이디찾기*/
+
+.check_id .back{
+	display:none;
+	z-index:10000;
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    top: 0px;
+    left: 0px;
+    background-color:#7575749e;
+}
+
+.check_id .popup {
+	display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 20%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 450px;
+    height: 420px;
+}
+
+.head button {
+	margin: 15px 410px; 
+	border:0;
+	background-color:#fff;
+	font-size:1.4rem;
+}
+
+.head button:hover {
+	cursor:pointer;
+	color:#9E9E9E;
+}
+
+.head h4 {
+	text-align:center;
+	margin:-25px 0 20px 0 ;
+	font-size:1.2rem;
+
+}
+.popup hr {
+	border:0.5px solid #9E9E9E;
+	width:100%;
+	margin: 20px auto;
+}
+
+.text h5 {
+	text-align:center;
+	color:#333;
+}
+.text input {
+	width:60%;
+	height:30px;
+	margin: 0 0 0 100px;
+}
+
+.text .phone {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:10px;
+
+}
+.text input:nth-child(2) {
+	margin:20px 0 0 100px;
+}
+
+.text input:nth-child(5) {
+	margin:30px 0 0 100px;
+}
+
+.text .ok {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+}
+
+/*비밀번호찾기*/
+
+.check_pw .back{
+	display:none;
+	z-index:10000;
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    top: 0px;
+    left: 0px;
+    background-color:#7575749e;
+}
+
+.check_pw .popup2 {
+	display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 20%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 450px;
+    height: 420px;
+}
+
+
+
+/*비밀번호찾기*/
+
+.check_pw .back{
+	display:none;
+	z-index:10000;
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    top: 0px;
+    left: 0px;
+    background-color:#7575749e;
+}
+
+.check_pw .popup2 {
+	display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 20%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 450px;
+    height: 470px;
+}
+
+.popup2 .text h5 {
+	margin:20px auto;
+}
+.popup2 .text input:nth-child(6) {
+	margin:30px 0 -50px 100px;
+}
+

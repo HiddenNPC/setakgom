@@ -159,93 +159,23 @@
 	-webkit-user-select: none;
 	-webkit-touch-callout: none;
 }
-.slides input {
-	display: none;
-}
-.slide-container {
+
+ 
+.carousel-inner img{
 	display: block;
-}
-.slide {
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height:100%;
-	display: block;
-	transform: scale(0);
-	transition: all .7s ease-in-out;
-}
-.slide img {
-	width: 100%;
-	height: 100%;
+	border:0;
+	width:1035px;
+	height:400px;
 }
 
-.nav label {
-	width: 100px;
-	height: 100%;
-	display: none;
-	position: absolute;
+.slide{
+    width:1035px;
+    height:400px;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+} 
 
-	opacity: 0;
-	z-index: 9;
-	cursor: pointer;
-
-	transition: opacity .2s;
-
-	color: #FFF;
-	font-size: 60pt;
-	text-align: center;
-	line-height: 350px;
-	font-family: "Varela Round", sans-serif;
-	text-shadow: 0px 0px 15px rgb(119, 119, 119);
-}
-.slide:hover+.nav label {
-	opacity: 0.5;
-}
-.nav label:hover {
-	opacity: 1;
-}
-.nav .next {
-	right: 0;
-}
-input:checked+.slide-container .slide {
-	opacity: 1;
-	transform: scale(1);
-	transition: opacity 1s ease-in-out;
-}
-input:checked+.slide-container .nav label {
-	display: block;
-}
-.nav-dots {
-	width: 100%;
-	bottom: 9px;
-	height: 11px;
-	display: block;
-	position: absolute;
-	text-align: center;
-}
-
-.nav-dots .nav-dot {
-	top: -5px;
-	width: 11px;
-	height: 11px;
-	margin: 0 4px;
-	position: relative;
-	border-radius: 100%;
-	display: inline-block;
-	background-color:#fff;
-}
-
-.nav-dots .nav-dot:hover {
-	cursor: pointer;
-	background-color: #3498db;
-}
-
-input#img-1:checked~.nav-dots label#img-dot-1,
-input#img-2:checked~.nav-dots label#img-dot-2,
-input#img-3:checked~.nav-dots label#img-dot-3,
-input#img-4:checked~.nav-dots label#img-dot-4{
-    background-color: #3498db;
-}
 
 /**보관기간연장, 반환신청 **/
 

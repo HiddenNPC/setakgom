@@ -9,8 +9,17 @@
 <%@ page import="java.util.*, com.spring.setak.*" %>
 <%
 List<OrderListVO> ordernumlist = (ArrayList<OrderListVO>)request.getAttribute("ordernumlist");
-List<KeepVO> keeplist = (ArrayList<KeepVO>)request.getAttribute("keeplist");
+ArrayList<ArrayList<KeepVO>> keeplist2 = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keeplist2");
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+List<Integer> seq_count = (ArrayList<Integer>)request.getAttribute("seq_count");
+long order_num = 0;
+
+for (int i = 0; i <ordernumlist.size(); i++){	
+	OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
+	
+	order_num = olvo.getOrder_num();
+}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -26,11 +35,15 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mykeep.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<script type="text/javascript"src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="dist/jquery.sliderPro.min.js"></script>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#header").load("./header.jsp")
@@ -43,7 +56,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test">
-		<!-- id 변경해서 사용하세요. -->7
+		<!-- id 변경해서 사용하세요. -->
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
 			
@@ -78,16 +91,17 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				<div class="mypage_content">
 				<h2>보관현황</h2>
 				<%
-					for (int i = 0; i < ordernumlist.size(); i++){	
+					for (int i = 0; i <ordernumlist.size(); i++){	
 						OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
-						KeepVO kvo = (KeepVO)keeplist.get(i);
-						System.out.println("jsp" + olvo);
+						ArrayList<KeepVO> keeplist = keeplist2.get(i);
+						System.out.println(keeplist);
+						System.out.println("날짜" + keeplist.get(0).getKeep_start());
 						
-						String start = kvo.getKeep_start();
+						String start = keeplist.get(0).getKeep_start();
 						String[] date = start.split(" ");
 						String start_date = date[0]; 			
 						
-						String end = kvo.getKeep_end();
+						String end = keeplist.get(0).getKeep_end();
 						String[] date2 = end.split(" ");
 						String end_date = date2[0];
 						
@@ -107,8 +121,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						Calendar six = Calendar.getInstance();
 						six.setTime(sol);
 						six.add(Calendar.MONTH, 6);
-						String m6 = sdf.format(six.getTime());
-				%>
+						String m6 = sdf.format(six.getTime()); 	
+			%>
 				<div class="accordion2">
 					<div class="accordion-header2">
 						<table class="header" >
@@ -120,8 +134,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							</tr>
 							<tr>
 								<td><%=olvo.getOrder_num() %></td>
-								<td><%=kvo.getKeep_box() %></td>
-								<td><%=start_date %>&nbsp;~&nbsp;<%=end_date %></td>
+								<td><%=keeplist.get(0).getKeep_box() %></td>
+								<td><%=start_date %>&nbsp;~&nbsp;<%=end_date %></td> 
+								
 								<td>
 									<button id='up' class="up">&#8897;</button>
 								</td>
@@ -130,76 +145,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					</div>
 					<div class="accordion-content2">
 						<table>
-							<tr>
-								<td style="background-color: #3498db;">보관하신품목</td>
-							</tr>
-							<%
-							for (int j=0; j <keeplist.size(); j++) {
-								KeepVO kvo2 = (KeepVO)keeplist.get(j);
-							%>
-							<tr>
-								<td><%=kvo2.getKeep_cate() %>&nbsp;&nbsp;(<%=kvo2.getKeep_count() %>)</td>
-							</tr>
-							<%} %>
 						</table>
-						<div>
-							<ul class="slides">
-								<input type="radio" name="radio-btn" id="img-1" checked />
-								<li class="slide-container">
-									<div class="slide">
-										<img src="images/more.jpg" />
-									</div>
-									<div class="nav">
-										<label for="img-6" class="prev">&#x2039;</label> 
-										<label for="img-2" class="next">&#x203a;</label>
-									</div>
-								</li>
-
-								<input type="radio" name="radio-btn" id="img-2" />
-								<li class="slide-container">
-									<div class="slide">
-										<img src="images/pure.jpg" />
-									</div>
-									<div class="nav">
-										<label for="img-1" class="prev">&#x2039;</label> 
-										<label for="img-3" class="next">&#x203a;</label>
-									</div>
-								</li>
-
-								<input type="radio" name="radio-btn" id="img-3" />
-								<li class="slide-container">
-									<div class="slide">
-										<img src="images/smoke.jpg" />
-									</div>
-									<div class="nav">
-										<label for="img-2" class="prev">&#x2039;</label> 
-										<label for="img-4" class="next">&#x203a;</label>
-									</div>
-								</li>
-
-								<input type="radio" name="radio-btn" id="img-4" />
-								<li class="slide-container">
-									<div class="slide">
-										<img src="images/more.jpg" />
-									</div>
-									<div class="nav">
-										<label for="img-3" class="prev">&#x2039;</label> 
-										<label for="img-1" class="next">&#x203a;</label>
-									</div>
-								</li>
-
-								<li class="nav-dots">
-								<label for="img-1" class="nav-dot" id="img-dot-1"></label> 
-								<label for="img-2" class="nav-dot"id="img-dot-2"></label> 
-								<label for="img-3" class="nav-dot" id="img-dot-3"></label> 
-								<label for="img-4" class="nav-dot" id="img-dot-4"></label> 
-								</li>
-							</ul>
-							<div class="keepbox" style="border-right:1px solid rgb(255, 255, 255);">보관 기간 연장</div>
-							<div class="keepbox2">
-								반환 신청
-							</div>
-						</div>
+						<div class="keepbox" style="border-right:1px solid rgb(255, 255, 255);">보관 기간 연장</div>
+							<div class="keepbox2">반환 신청</div>
 						<br><br><br>
 						<div class="keep_month">
 						<ul>
@@ -210,6 +158,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						<div class="total_price">
 							<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
 						</div>
+						
 						<button class="pay_btn">결제하기</button> 	
 						</div>
 						<div class="rt-service">
@@ -225,14 +174,19 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 								<tr>
 									<td>
 										<select id="rt-list">
-											<%
-											for(int k=0; k<keeplist.size(); k++) {
-												KeepVO kvo3 = (KeepVO)keeplist.get(k);
-											%>
-											<option value="<%=kvo3.getKeep_cate() %>"><%=kvo3.getKeep_cate() %></option>
-											<%
+										<%
+										for (int m = 0; m < seq_count.size(); m++){
+											int keep_seq = seq_count.get(m);
+											keeplist = keeplist2.get(m);
+											for (int j=0; j < keeplist.size(); j++) {
+												KeepVO kvo2 = (KeepVO)keeplist.get(j);
+										%>
+										<option value="<%=kvo2.getKeep_cate() %>"><%=kvo2.getKeep_cate() %></option>
+										<%
 											}
-											%>
+										}
+										%>	
+										
 										</select>
 									</td>
 									<td>
@@ -269,7 +223,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 <script>//보관기간연장 아코디언
 
 //버튼클릭시 
-
+ 
 
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;
@@ -288,6 +242,41 @@ $.pricefun = function(n){
 	var num = parseInt($(".box_count:eq(" + n + ")").val());
 	
 };
+
+//ajax
+	
+$(document).ready(function() {
+	
+	function selectData() {
+	var param = {'order_num': <%=order_num %> };
+	console.log("para?=" + param);
+	$.ajax({
+			url : '/setak/keepcatelist.do',
+			type : 'POST',
+			data : param,
+			dataType:"json",
+			contentType:'application/x-www-form-urlencoded; charset=utf-8',
+			success:function(data) {
+				$.each(data, function (index, item) {
+					var output= '';
+					output += '<tr>';
+					output += '<td style="background-color: #3498db;">보관하신품목</td>';
+					output += '</tr>';
+					output += '<td>' + item.keep_cate + '</td>';
+					output += '</tr>';
+					console.log("output : " + output);
+					$('.accordion-content2 > table').append(output);
+				});
+			},
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+	}
+});
+
+
+
 	$(document).ready(function() {
 	  jQuery(".accordion-content2").hide();
 	//content 클래스를 가진 div를 표시/숨김(토글)
@@ -305,25 +294,26 @@ $.pricefun = function(n){
 		});	
 	  
 	  $(document).on("click","input[name='btn_add_row']", function () {
-		var str='';
-		
-		str += '<tr>';
-		str += '<td>';
-		str += '<select id="rt-list">';
-		str += '<option value="셔츠">셔츠</option>';
-		str += '<option value="바지">바지</option>';
-		str += '<option value="속옷">속옷</option>';
-		str += '</select>';
-		str += '</td>';
-		str += '<td>';
-		str += '<textarea rows="2" cols="30" placeholder="상세내용"></textarea>';
-		str += '</td>';
-		str += '<td class="bt_del">';
-		str += '<input type="button" value="x" id="btn_del_row"/>';
-		str += '</td>';
-		str += '</tr>'; 
-		$(this).closest('table').append(str);
-		//$("table[name='rt-table']:eq("++") > tbody:last").append(str);
+		  var str='';
+			
+			str += '<tr>';
+			str += '<td>';
+			str += '<select class="rt-list">';
+			<% for(int i =0; i< keeplist2.size(); i++){
+				ArrayList<KeepVO> keeplist = keeplist2.get(i);%>
+				str += '<option value="<%=keeplist.get(i).getKeep_cate()%>"><%=keeplist.get(i).getKeep_cate() %></option>';	
+			<%}%>
+			str += '</select>';
+			str += '</td>';
+			str += '<td>';
+			str += '<textarea rows="2" cols="30" placeholder="상세내용"></textarea>';
+			str += '</td>';
+			str += '<td class="bt_del">';
+			str += '<input type="button" value="x" class="btn_del_row"/>';
+			str += '</td>';
+			str += '</tr>'; 
+			$(this).closest('table').append(str);
+			//$("table[name='rt-table']:eq("++") > tbody:last").append(str);
 	});
 	});
 

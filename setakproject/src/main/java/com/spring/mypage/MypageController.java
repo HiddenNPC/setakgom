@@ -2,13 +2,17 @@ package com.spring.mypage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.community.QnaServiceImpl;
 import com.spring.community.QnaVO;
@@ -36,6 +40,8 @@ public class MypageController {
 	
 	@Autowired
 	private QnaServiceImpl qnaService;
+//	@Autowired
+//	SqlSession session; 
 	
 	@RequestMapping("/orderview.do")
 	public String selectMending(HttpServletRequest request, Model model) throws Exception{
@@ -101,37 +107,52 @@ public class MypageController {
 	
 	@RequestMapping("/mykeep.do")
 	public String selectKeep (HttpServletRequest request, Model model) throws Exception{
-		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
-		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
+			ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
+			ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
+			ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
+			
 //		ArrayList<OrderListVO> keepseqlist = new ArrayList<OrderListVO>();
 //		OrderListVO olvo2 = new OrderListVO();
 		String member_id = "bit";
 		
 		ordernumlist = mypageService.getOrdernumlist(member_id);
 		
-		
-		for(int i = 0; i < ordernumlist.size(); i++) {
-			OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
+		long order_num = 0;
+		int keep_seq = 0;
+		List<Integer> seq_count = new ArrayList<Integer>(); 
+
 			
-			long order_num = olvo.getOrder_num();
-			keeplist = mypageService.selectMykeeplist(order_num);
+			for(int i = 0; i < ordernumlist.size(); i++) {
+				OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
+				
+				order_num = olvo.getOrder_num();
+				System.out.println(order_num + "주문번호");
+				keeplist = mypageService.selectMykeeplist(order_num);
+				
+				keep_seq = mypageService.selectMykeep(order_num);
+				System.out.println("keep_seq" + keep_seq);
+				
+				seq_count.add(keep_seq);
+				System.out.println("seq_count = "+seq_count);
+				keeplist2.add(keeplist);
+			}
 			
-		}
-		
-		
-		
-		
-		
-		
-		System.out.println("컨트롤"+ordernumlist);
-		
-		
-		
-		
-		model.addAttribute("keeplist", keeplist);
+		model.addAttribute("seq_count", seq_count);
+		model.addAttribute("keeplist2", keeplist2);
 		model.addAttribute("ordernumlist", ordernumlist);
-	
+		
+			
 		return "mykeep";
+	}
+	
+	@RequestMapping(value="/keepcatelist.do", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+	public List<KeepVO> keepcatelist(OrderVO orderVO){
+			long order_num = orderVO.getOrder_num();
+			System.out.println(order_num + "qttqtqtqtqtqt");
+			List<KeepVO> list = mypageService.selectMykeeplist(order_num);
+			System.out.println("ajaxlist" + list);
+			System.out.println("시발시발시발");
+			return list;
 	}
 	
 	@RequestMapping("/myqna.do")

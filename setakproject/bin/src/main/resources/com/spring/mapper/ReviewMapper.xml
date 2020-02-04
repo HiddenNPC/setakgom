@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.ReviewMapper">
+	<resultMap type="com.spring.community.ReviewVO" id="reviewMap">
+		<result property="review_num" column="review_num"/>
+		<result property="member_id" column="member_id"/>
+		<result property="review_kind" column="review_kind"/>
+		<result property="review_star" column="review_star"/>
+		<result property="review_content" column="review_content"/>
+		<result property="review_like" column="review_like"/>
+		<result property="review_photo" column="review_photo"/>
+		<result property="review_date" column="review_date"/>
+		<result property="keyfield" column="keyfield"/>		
+		<result property="keyword" column="keyword"/>		
+		<result property="re_condition" column="re_condition"/>		
+				
+	</resultMap>	
+		
+	<select id="getMaxNum" resultType="int">
+		SELECT MAX(review_num) FROM review
+	</select>
+	
+	<select id="getListCount" resultType="int"> 
+		SELECT COUNT(*) FROM review
+	</select>
+
+	<select id="reviewList" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
+		SELECT * FROM review  ORDER BY review_num desc       		
+	</select>
+
+	<insert id="reviewInsert" parameterType="com.spring.community.ReviewVO">
+		INSERT INTO review VALUES (#{review_num},#{member_id,},#{review_kind},#{review_star},
+		#{review_content},#{review_like},#{review_photo, jdbcType=VARCHAR}, sysdate ) 
+	</insert>
+	
+	<select id="reviewSearch" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
+	 <bind name="arg1" value="'%'+ arg1 +'%'" />
+		SELECT * FROM REVIEW WHERE ${arg0} like #{arg1} ORDER BY review_date DESC    		
+	</select>
+		
+	
+	<select id="reviewCondition1" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
+		SELECT * FROM REVIEW ORDER BY review_date DESC
+	</select>	
+	<select id="reviewCondition2" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
+		SELECT * FROM REVIEW ORDER BY review_like DESC
+	</select>
+	<select id="reviewCondition3" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
+		SELECT * FROM REVIEW ORDER BY review_star DESC
+	</select>
+	 
+	
+
+	<!--  
+	관리자용 
+	<delete id="reviewDelete" parameterType="int">
+		DELETE FROM review WHERE review_num=#{review_num}
+	</delete>
+	
+	<update id="reviewUpdate" parameterType="com.spring.community.ReviewVO">
+		UPDATE review SET 
+		review_kind=#{review_kind}, 
+		review_star=#{review_star}, 
+		review_content=#{review_content}, 		
+		review_photo=#{review_photo} 	
+		WHERE review_num=#{review_num}
+	</update>
+ -->
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

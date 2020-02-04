@@ -45,9 +45,22 @@ public class MypageServiceImpl implements MypageService {
 	public ArrayList<KeepVO> selectMykeeplist(long order_num) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
-		keeplist = mypageMapper.selectMykeeplist(order_num);
 		
+		
+		keeplist = mypageMapper.selectMykeeplist(order_num);
+		System.out.println(keeplist + "킵");
 		return keeplist;
+	}
+	
+	@Override
+	public int selectMykeep(long order_num) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int keepVO = 0;
+		
+		
+		keepVO = mypageMapper.selectMykeep(order_num);
+		
+		return keepVO;
 	}
 	
 	@Override

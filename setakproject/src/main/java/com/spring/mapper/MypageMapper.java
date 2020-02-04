@@ -13,6 +13,7 @@ public interface MypageMapper {
 	ArrayList<OrderVO> getOrderlist(HashMap<String, Object> map);
 	ArrayList<OrderListVO> getOrdernumlist(String member_id);
 	ArrayList<KeepVO> selectMykeeplist(long order_num);
+	int selectMykeep(long order_num);
 	KeepVO getKeepSeq(int keep_seq);
 	OrderVO selectOrder(long order_num);
 	int getOrdercount();
