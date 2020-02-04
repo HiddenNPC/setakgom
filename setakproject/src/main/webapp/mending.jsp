@@ -23,6 +23,9 @@
 			$("#header").load("./header.jsp")
 			$("#footer").load("./footer.jsp")
 			
+			var data = new FormData();
+			
+			console.log(Date.now());
 			//세탁, 수선, 보관 탭 눌렀을 때
 			$(".tab").on("click", function() {
 				$(".tab").removeClass("active");
@@ -61,6 +64,8 @@
 			var rlength ="";
 			var tlength ="";
 			var details_text = "";
+			var filecontent;
+			var filename="";
 			
 			$("#left input").keyup(function(){
 		        $('.left_length').val($(this).val());
@@ -78,6 +83,12 @@
 			$(".details_text").keyup(function(){
 				details_text = $(this).val();
 		    });
+			
+			$(".fileupload").change(function(){
+				filecontent = $(this)[0].files[0];
+				filename = Date.now() + "_" + $(this)[0].files[0].name ;
+				console.log(filename);
+			});
 			
 			//태그 기능, 계산기능
 			var maxAppend = 0;
@@ -112,6 +123,11 @@
 				if(maxAppend==0){
 					alert('선택 된 수선내용이 없습니다.');
 					return;
+				}
+				
+				if(filecontent != null){
+					data.append("files", filecontent);
+					data.append("filename", filename);
 				}
 				
 				var hashvl = ($(".hash").html()).split('&nbsp;');
@@ -175,6 +191,8 @@
 				$(".details form")[0].reset();
 				$(".details form")[1].reset();
 				$(".details form")[2].reset();
+				filecontent = null;
+				filename = "";
 				maxAppend = 0;
 				tprice = parseInt(0);
 				sumprice();
@@ -263,6 +281,26 @@
 					alert('수선 내용이 없습니다.');
 					return false;
 				}
+				
+				$.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "/setak/testImage.do",
+	                data: data,
+	                async: false,
+	                processData: false,
+	                contentType: false,
+	                cache: false,
+	                dataType: 'json',
+
+	                success: function (data) {
+	                	
+	                },
+	                error: function (e) {
+
+					}
+				});
+				
 			 });
 		});
 		//한글, 영어 금지
@@ -332,7 +370,7 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input type="file" class="fileupload" name="file" accept="image/*" style="width:92%; display:inline;"></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
@@ -370,7 +408,7 @@
 								<p>※ 왼쪽 기장 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input type="file" class="fileupload" name="file" accept="image/*" style="width:92%; display:inline;"></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
@@ -407,8 +445,8 @@
 								</div>
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
-								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
+								<p>※ <input type="file" class="fileupload" name="file" accept="image/*" style="width:92%; display:inline;"></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>

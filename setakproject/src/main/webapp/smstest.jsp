@@ -14,6 +14,11 @@
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")     
 		
+		
+		var fileEleCnt = $("input[type=file]").length;
+		console.log(fileEleCnt);
+
+		
 		randomnum = function() {
 			var array = new Uint32Array(1);
 			window.crypto.getRandomValues(array);
@@ -37,13 +42,23 @@
             var form = $('#fileUploadForm')[0];
 
             // Create an FormData object
-            var data = new FormData(form);
+            //var data = new FormData(form);
+            var data = new FormData();
+			console.log($("#filetest")[0].files.length);
 			
-         	$.ajax({
+			for(var i = 0; i < $("#filetest")[0].files.length; i++){
+				data.append("files", $("#filetest")[0].files[i]);
+			}
+
+			$("#filetest")[0].files[0].name("test.jpg");
+			var ab = $("#filetest")[0].files[0].name;
+			console.log(ab);
+			
+         	/* $.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
                 url: "/setak/testImage.do",
-                data: data,
+                data: data2,
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -55,7 +70,8 @@
                 error: function (e) {
 
 				}
-			});
+			}); */
+			
    	     });
 	});
 	 
@@ -65,7 +81,7 @@
 </head>
 <body>
 	<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-        <input type="file" name="files" multiple/><br/><br/>
+        <input type="file" name="files" id="filetest" accept="image/*" multiple/><br/><br/>
         <input type="submit" value="Submit" id="btnSubmit"/>
     </form>
 </body>
