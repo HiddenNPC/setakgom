@@ -27,7 +27,7 @@ public class MemberController {
 
 	    
 	// 회원가입 클릭 (메인, 로그인페이지)
-	@RequestMapping(value = "join.do", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/join.do", produces = "application/json; charset=utf-8")
 	public String join() {
 		return "joinform";
 	}
@@ -35,7 +35,7 @@ public class MemberController {
 	
 	  //아이디 중복확인
 	  
-	  @RequestMapping(value="chk_id.do", produces = "application/json; charset=utf-8")
+	  @RequestMapping(value="/chk_id.do", produces = "application/json; charset=utf-8")
 	  @ResponseBody 
 	  public Map<String, Object> check_id(HttpServletRequest request,MemberVO mo) {
 	  //	 System.out.println("컨트롤러mo="+mo.getMember_id());
@@ -55,7 +55,7 @@ public class MemberController {
 	 
 	
 	// 멤버 추가
-	@RequestMapping(value = "insertMember.do", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/insertMember.do", produces = "application/json; charset=utf-8")
 	@ResponseBody // 데이터를 전송(view가 아니다)
 	public Map<String, Object> insertMember(MemberVO mo) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -72,7 +72,7 @@ public class MemberController {
 
 	
 	// 개인정보 수정 클릭시 비밀번호 입력페이지로 이동
-	@RequestMapping(value = "profile1.do", produces = "application/json; charset=utf-8", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/profile1.do", produces = "application/json; charset=utf-8", method = { RequestMethod.GET, RequestMethod.POST })
 	public String password(Model model, HttpSession session) {
 		
 		String str=(String)session.getAttribute("member_id");
@@ -94,13 +94,17 @@ public class MemberController {
 				
 			String member_email = memberVO.getMember_email();
 			
-			String member_addr1 = " ", member_addr2 = " "; 
-   		 	
+			String member_addr1 = " ";
+			String member_addr2 = " ";
    		 	if(memberVO.getMember_loc() != null) {
    		 		String addr = memberVO.getMember_loc();
+   		 		
    		 		String[] locArr = addr.split("!");
    		 		member_addr1 = locArr[0];
-   		 		member_addr2 = locArr[1]; 
+   		 		
+   		 		if(locArr.length == 2) {
+   		 		member_addr2 = locArr[1];	
+   		 		}
    		 	}
    		 	
    		 	String zipcode = " ";
@@ -126,7 +130,7 @@ public class MemberController {
 	}
 
 	// 비밀번호 확인
-	@RequestMapping(value = "chk_pw.do", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -143,8 +147,8 @@ public class MemberController {
 		return result;
 	}
 
-	// 비밀번호 입력후 개인정보수정 페이지로 이동
-	@RequestMapping(value = "profile2.do", produces = "application/json; charset=utf-8")
+	// 일반로그인시 비밀번호 입력후 개인정보수정 페이지로 이동
+	@RequestMapping(value = "/profile2.do", produces = "application/json; charset=utf-8")
 	public String profile(HttpServletRequest request, Model model, HttpSession session) {
 
 		String ids = (String) session.getAttribute("member_id");
@@ -198,13 +202,13 @@ public class MemberController {
 
 
 	// 회원탈퇴 클릭시
-	@RequestMapping(value = "withdraw.do", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/withdraw.do", produces = "application/json; charset=utf-8")
 	public String withdraw() {
 		return "withdraw";
 	}
 
 	// 탈퇴시 비밀번호 입력
-	 @RequestMapping(value="withdraw_pass.do", produces = "application/json; charset=utf-8")
+	 @RequestMapping(value="/withdraw_pass.do", produces = "application/json; charset=utf-8")
 	 @ResponseBody 
 	 public Map<String, Object> withdraw(HttpServletRequest request,MemberVO mo) {
 	  //System.out.println("컨트롤러mo="+mo.getMember_password()); Map<String, Object>
@@ -223,7 +227,7 @@ public class MemberController {
 	  }
 	 
 	 //비밀번호 일치하면 탈퇴 페이지로 이동
-	 @RequestMapping(value = "withdrawform.do", produces = "application/json; charset=utf-8")
+	 @RequestMapping(value = "/withdrawform.do", produces = "application/json; charset=utf-8")
 		public String withdrawform() {
 			return "withdrawform";
 	 }

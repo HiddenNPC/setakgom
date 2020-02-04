@@ -16,7 +16,6 @@
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
-	System.out.println("수거취소"+ms.getSubs_cancel());
 %>	
 <!DOCTYPE html>
 <html>
@@ -59,7 +58,7 @@
 		    });
 		
 		//수거취소 클릭
-		
+		<% if(ms != null) {%>
 			var subs_cancel = <%=ms.getSubs_cancel() %>;
 			if(subs_cancel=="0") { // 수거취소 가능
 			 $("#cancle").on("click", function() {  
@@ -77,7 +76,7 @@
 				$('#cancle').css('color','#444');
 				$("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
 			};
-		 
+		 <% }%>
 		
 		
 		//수거취소 - 수거취소
@@ -127,7 +126,7 @@
 		document.getElementById("printday").innerHTML =day;
 		
 		/*리뷰버튼 클릭시*/
-		$("#review").click(function(event){
+		  $(document).on('click', '#review', function(event) {
 			 $(location.href="/setak/profile2.do"); // 리뷰쓰는 주소로 수정하기
 		});
 		
@@ -224,7 +223,7 @@
 					</div>
 					<%} %>	
 					<!--정기구독내역이 없을 경우 -->		
-						<% if(listcount == 0 ) {%> 
+					<% if(listcount == 0 ) {%> 
 					<% } else { %> 	
 					<div class="myrecord">
 						<div class="text">
@@ -255,38 +254,43 @@
 										</td>
 									</tr>
 								</tbody>
-								<%} %>   
+								<%} %>
+							   
 							</table>
 						</div>
-					</div>	
+					</div>
+					<%} %>  
+						
 					<div class="page_a">
 							<table class="page_a">
                      		<tr align = center height = 20>
-                          <td>
-                          <%if(nowpage <= 1) {%>
-                          <span class="page_a"><a>&#60;</a></span>
-                          <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
-                             <span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
-                          <%} %>
-                          <%for (int af=startpage; af<=endpage; af++) {
-                             if(af==nowpage) {
-                          %>
-                          <span class="page_a"><a><%=af %></a></span>
-                          <%} else {%>
-                             <span class="page_a"><a href="./mysub.do?page=<%=af %>"><%=af %></a></span>
-                          <%} %>
-                          <%} %>
-                          <%if (nowpage >= maxpage) {%>   <!-- 링크 걸지 않겠다.. -->
-                             <span class="page_a"><a>&#62;</a></span>
-                          <%} else { %>   
-                              <span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
-                           <%} %> 
-                       <%} %>  
-                           </td>
-                        </tr>
-              		 </table>
-						</div>
+                          		<td>
+                          		<% if(nowpage <= 1) {%>
+                          			<span class="page_a"><a>&#60;</a></span>
+                         		 <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
+                             		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
+                         		 <%} %>
+                         	
+                         		<%
+                         			for (int af=startpage; af<=endpage; af++) {
+                             			if(af==nowpage) {
+                          		%>
+                          			<span class="page_a"><a><%=af %></a></span>
+                          		<%} else {%>
+                             		<span class="page_a"><a href="./mysub.do?page=<%=af %>"><%=af %></a></span>
+                          			<%} %>
+                          		<%} %>
+                          
+                          		<% if (nowpage >= maxpage) { %>   <!-- 링크 걸지 않겠다.. -->
+                             		<span class="page_a"><a>&#62;</a></span>
+                          		<%} else { %>   
+                              		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
+                           		<%} %> 
+                           		</td>
+                        	</tr>
+              			 </table>
 					</div>
+				</div>
 					
 <!--           popup -->
                 <div class="popup_back"></div> <!-- 팝업 배경 DIV -->

@@ -29,6 +29,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.ad</url-pattern>
 	</servlet-mapping>
 		
 	<!-- Korean Filter -->

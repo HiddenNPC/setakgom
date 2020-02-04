@@ -14,9 +14,6 @@
       <result property="member_join" column="member_join"/>
    </resultMap>
    
-   <select id="member_list" parameterType="com.spring.member.MemberVO" resultMap="membervo">
-      SELECT * FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR} 
-   </select>
    <!-- 아이디 확인(중복여부)  -->
    <select id="member_id" parameterType="com.spring.member.MemberVO" resultType="string">
    		SELECT member_id FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR} 
@@ -31,6 +28,11 @@
    <!-- 비밀번호 확인 -->
    <select id="member_password" parameterType="com.spring.member.MemberVO" resultType="string">
 		SELECT member_password FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR}
+   </select>
+   
+   <!-- 회원정보 출력 -->
+   <select id="member_list" parameterType="com.spring.member.MemberVO" resultMap="membervo">
+      SELECT * FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR} 
    </select>
    
    <!-- 회원정보 수정 -->
@@ -55,4 +57,5 @@
    <delete id="member_delete" parameterType="String">
    		DELETE FROM member WHERE member_id= #{member_id, jdbcType=VARCHAR}
    </delete>
+   
 </mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.spring.mapper.Admin_memberMapper">
+   <resultMap type="com.spring.member.MemberVO" id="adminMemberVO">
+      <result property="member_name" column="member_name"/>
+      <result property="member_id" column="member_id"/>
+      <result property="member_join" column="member_join"/>
+      <result property="member_memo" column="member_memo"/>
+   </resultMap>
+   
+   <!-- 전체 회원리스트 출력 -->
+   <select id="adminlist"  parameterType="HashMap"   resultMap="adminMemberVO">
+   	SELECT *
+   	FROM(SELECT rownum rnum, b.*
+   		 FROM(SELECT member_id, member_name, member_join, member_memo
+   			  FROM member
+   			  ORDER BY member_join desc ) b)
+   	WHERE <![CDATA[ rnum>=#{startrow} and rnum<=#{endrow} ]]> 		
+   </select>
+    
+    <!-- 전체 회원리스트 갯수 -->
+    <select id="adminlistcount" resultType="int">
+    	SELECT count(*) FROM member
+    </select>  
+
+	<!-- 오늘 가입한 회원 수 -->
+	<select id="todaycount" resultType="int">
+<![CDATA[ SELECT count(*) FROM member WHERE member_join >= TO_CHAR(SYSDATE) ]]> 		
+	</select>
+	
+	<!-- 메모 수정 -->
+	<update id="update_memo" parameterType="com.spring.member.MemberVO" >
+		UPDATE member SET member_memo=#{member_memo} WHERE member_id= #{member_id, jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,96 @@
+@charset "utf-8";
+	.count {
+		float:right;
+		font-size:1.1rem;
+		margin: -70px 170px 0 0 ;
+	}
+
+	.count span:nth-child(2){
+		
+ 	}
+
+    .record_list {
+        width:80%;
+        margin: 0 auto;
+
+    }
+ 	.record_list tr:nth-child(1) {
+ 		background-color:#3498db;
+ 		height:45px;
+ 		color:#fff;
+ 	}
+    .record_list tr {
+    	height:30px;
+    }
+ 	.record_list td {
+ 		border-bottom:1px solid #afaaa8;
+ 		height:30px;
+ 	}
+    
+    .record_list td:nth-child(1) {
+    	width:50px;
+        text-align:center;
+    }
+ 	.record_list td:nth-child(2) {
+ 		width:300px;
+ 		padding: 0 10px;
+ 	}
+
+ 	.record_list td:nth-child(3) {
+ 		width:200px;
+ 		padding: 0 10px;
+ 	}
+
+ 	.record_list td:nth-child(4) {
+ 		width:150px;
+ 		 text-align:center;
+ 	}
+
+    #member_memo {
+         border:1px solid #fff;
+         padding: 0 10px;
+         font-size:1rem;
+         
+     }
+
+     
+    .record_list td:nth-child(6) {
+    	width:200px;
+ 		text-align:center;
+ 	}
+
+ 	/*버튼*/
+      #update {
+      	background-color:#fff;
+      	border:1px solid #3498bd;
+      	color:#3498db;
+      	cursor: pointer;
+      	font-size:0.9rem;
+      	width:70px;
+
+      }
+
+      #update:hover{
+      	background-color:#3498db;
+      	color:#fff;
+      }
+
+      #delete {
+      	background-color:#fff;
+      	border:1px solid #3498bd;
+      	color:#3498db;
+      	cursor: pointer;
+      	font-size:0.9rem;
+      	margin: 0 10px;
+        width:70px;
+      }
+       
+       #delete:hover{
+      	background-color:#3498db;
+      	color:#fff;
+      }
+
+     .page {
+     	margin: 20px auto;
+     	font-size:1em;
+     }

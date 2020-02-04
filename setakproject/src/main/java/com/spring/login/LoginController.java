@@ -60,7 +60,7 @@ public class LoginController {
 		}
 		
 /* 일반로그인 */
-		@RequestMapping(value="loginpro.do",produces = "application/json; charset=utf-8")
+		@RequestMapping(value="/loginpro.do",produces = "application/json; charset=utf-8")
 		public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response, String backurl) throws Exception  {
 		
 			response.setCharacterEncoding("UTF-8");
@@ -80,7 +80,7 @@ public class LoginController {
 			}
 
 /*네이버 로그인 연동 */
-	@RequestMapping(value = "naver",produces="application/json", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/naver",produces="application/json", method= {RequestMethod.GET, RequestMethod.POST})
 	public String callback(Model model, @RequestParam(required = false, defaultValue = "0") String code,
 			@RequestParam String state, HttpSession session, HttpServletResponse response)
 			throws IOException, ParseException {
@@ -251,7 +251,7 @@ public class LoginController {
 	
 	
 	//로그아웃
-	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
+	@RequestMapping(value="/logout.do", produces = "application/json; charset=utf-8")
 	public String logout(HttpSession session, MemberVO mo) throws Exception {
 
 		session.removeAttribute("member_id");
