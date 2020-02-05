@@ -12,4 +12,6 @@ public interface AdminOrderService {
 	
 	public ArrayList<OrderVO> orderSearch(HashMap<String, Object> map);
 	public int orderSearchCount(HashMap<String, Object> map);
+	
+	public OrderVO getOrderInfo(OrderVO ovo);
 }

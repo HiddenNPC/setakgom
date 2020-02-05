@@ -15,5 +15,9 @@ public interface Admin_order {
 	
 	// 주문 검색
 	ArrayList<OrderVO> orderSearch(HashMap<String, Object> map);
+	// 주문 검색 개수
 	int orderSearchCount(HashMap<String, Object> map);
+	
+	// 선택 주문 정보
+	OrderVO getOrderInfo(OrderVO ovo); 
 }

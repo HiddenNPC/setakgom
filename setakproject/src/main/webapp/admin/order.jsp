@@ -44,13 +44,7 @@
 			//전체 주문 개수
 			var resultNum = <%=orderCount%>;
 			$("#result-num").text(resultNum); 
-			
-			//요일 버튼 누르기
-			$(".search-date-btn").on("click", function() {
-				$(".search-date-btn").removeClass("active");
-				$(this).addClass("active");
-			});
-			
+						
 			//datePicker
 			$.datepicker.setDefaults({
                 dateFormat: 'yy-mm-dd' //Input Display Format 변경
@@ -74,33 +68,91 @@
             //input을 datepicker로 선언
             $("#datepicker").datepicker();                    
             $("#datepicker2").datepicker();
-
-            $('#datepicker').datepicker('setDate', 'today');
-            $('#datepicker2').datepicker('setDate', 'today');
             
 			$("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
 			
+			//요일 버튼 누르기
+			$(".search-date-btn").on("click", function() {
+				$(".search-date-btn").removeClass("active");
+				$(this).addClass("active");
+				
+				var select_btn = $(this).val(); 
+
+				if(select_btn == '오늘') {
+		            $('#datepicker').datepicker('setDate', 'today');
+		            $('#datepicker2').datepicker('setDate', 'today');
+				}else if(select_btn == '일주일') {
+		            $('#datepicker').datepicker('setDate', '-7D');
+		            $('#datepicker2').datepicker('setDate', 'today');					
+				}else if(select_btn == '1개월') {
+		            $('#datepicker').datepicker('setDate', '-1M');
+		            $('#datepicker2').datepicker('setDate', 'today');					
+				}else if(select_btn == '3개월') {
+		            $('#datepicker').datepicker('setDate', '-3M');
+		            $('#datepicker2').datepicker('setDate', 'today');					
+				}else if(select_btn == '6개월') {
+		            $('#datepicker').datepicker('setDate', '-6M');
+		            $('#datepicker2').datepicker('setDate', 'today');					
+				}else {
+		            $('#datepicker').datepicker('setDate', '-1Y');
+		            $('#datepicker2').datepicker('setDate', 'today');					
+				}
+				
+			});
+			
 			// 초기화 버튼
-			$(".reset-btn").on("click", function() {
-				$("#search-content").val(" "); 
+			$("#reset-btn").on("click", function() {
+				$("#searchType").val("order_num"); 
+				$("#keyword").val(""); 
+				$("input[name=check]").prop("checked",false);
+	            $('#datepicker').val("");
+	            $('#datepicker2').val("");
 			});
 			
 			// 정렬
 			$('#order-select').change(function() {
 				searchOrder();
 			});
-			
+
 		});
 		
 		// 나의주소록 레이어 스크립트
-		 function layerOrderDetail(type) {
+		 function layerOrderDetail(type, value) {
 
 	        if(type == 'open') {
-	           
+	        	
 	            // 팝업창을 연다.            
 	            jQuery('#layer-div').attr('style','display:block');
 	            jQuery('#popup-div').attr('style','display:block');
 	            
+	            var param = {'order_num' : value}
+				$.ajax({
+					url:'/setak/admin/orderSelect.do', 
+					type:'POST',
+					data:param,
+					dataType:"json", //리턴 데이터 타입
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(data) {	
+						
+						$("#detailOrderNum").text(data.order_num);
+						$("#detailOrderDate").text(data.order_date);
+						$("#deliveryPrice").text(data.order_price);
+						$("#detailOrderStatus").text(data.order_status);
+						$("#deliveryNum").text(data.order_delicode);
+						$("#deliveryPrice").text(data.order_price+'원');
+						
+						$("#detail-human").val(data.order_name);
+						$("#detail-phone").val(data.order_phone);
+						$("#detail-zipcode").val(data.order_zipcode);
+						$("#detail-addr1").val(data.order_addr1);
+						$("#detail-addr2").val(data.order_addr2);
+						$("#detail-request").val(data.order_request);
+					},
+					error: function() {
+						alert("ajax통신 실패!!!");
+				    }
+				});
+				
 	            // 스크롤 없애기
 	            $("body").css("overflow","hidden");
 	            
@@ -110,17 +162,15 @@
 	        }
 	       
 	        else if(type == 'close') {
-	           
 	            // 팝업창을 닫는다.
 	            jQuery('#layer-div').attr('style','display:none');
-	            $("body").css("overflow","scroll");
-	            
+	            $("body").css("overflow","scroll");            
 	        }
 	    }
 		
 		// 검색
 		function searchOrder() {
-						
+			
 			var checkbox = $("input[name=check]:checked");
 			
 			var statusArr = []; 
@@ -132,8 +182,20 @@
      		var start = $('#datepicker').val();
      		var end = $('#datepicker2').val(); 
      		
-			var orderBy = $("#order-select").val(); 
-     		     		
+     		if(start == ""){
+     			start = "2020-01-01"
+     			
+     			var dateObj = new Date();
+     			var year = dateObj.getFullYear();
+     			var month = dateObj.getMonth()+1;
+     			var day = dateObj.getDate();
+     			var today = year + "-" + month + "-" + day; 
+     			end = today;
+     			
+     			console.log(today); 
+     		}     		
+     		
+			var orderBy = $("#order-select").val();
 			$('#result-table tbody').empty();
 			var param = {
 							startDate : start,
@@ -169,8 +231,7 @@
 						 
 						 output += '<tr>';
 						 output += '<td class = "check"> <input type = "checkbox" /> </td>';
-						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('+"open"+')" value="'+item.order_num+'"/></td>';						 
-						 
+						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('+'\'open\',\''+item.order_num+'\''+')" value="'+item.order_num+'"/></td>';
 						 output += '<td>'+item.member_id+'</td>';						 
 						 output += '<td>'+item.order_name+'</td>';						 
 						 output += '<td>20'+date+'</td>';
@@ -235,6 +296,7 @@
 								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "1개월"/>
 								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "3개월"/>
 								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "6개월"/>
+								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "1년"/>
 							</td>
 						</tr>
 					</table>
@@ -297,13 +359,13 @@
 						%>
 							<tr>
 								<td class = "check"> <input type = "checkbox" /> </td>
-								<td><input class = "orderNum" type = "button" onclick = "layerOrderDetail('open')" value = "<%=ovo.getOrder_num() %>" /></td>
+								<td><input id="orderNumBtn" class = "orderNum" type = "button" onclick = "layerOrderDetail('open', '<%=ovo.getOrder_num()%>')" value = "<%=ovo.getOrder_num() %>" /></td>
 								<td><%=ovo.getMember_id() %></td>
 								<td><%=ovo.getOrder_name() %></td>
 								<td>20<%=orderDate %></td>
 								<td><%=ovo.getOrder_price() %>원</td>
 								<td><span id = "delivery_num"></span></td>
-								<td>asd</td>
+								<td><%=ovo.getOrder_status() %></td>
 							</tr>
 						<%} %>
 						
@@ -384,19 +446,21 @@
 						<tbody>
 							<tr>
 								<td>주문번호</td>
-								<td><span id = "detailOrderNum">1580040955887</span></td>
+								<td><span id = "detailOrderNum"></span></td>
 								<td>결제방법</td>
 								<td>카드</td>
 							</tr>
 							<tr>
 								<td>주문일자</td>
 								<td><span id = "detailOrderDate"></span></td>
-								<td>배송번호</td>
-								<td><input id = "deliveryNum" type = "text"/></td>
+								<td>결제금액</td>
+								<td><span id = "deliveryPrice"></span></td>
 							</tr>
 							<tr>
 								<td>주문상태</td>
-								<td colspan = "3"><span id = "detailOrderStatus"></span></td>
+								<td><span id = "detailOrderStatus"></span></td>
+								<td>배송번호</td>
+								<td><input id = "deliveryNum" type = "text"/></td>
 							</tr>
 						</tbody>
 					</table>

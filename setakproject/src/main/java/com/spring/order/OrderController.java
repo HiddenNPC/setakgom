@@ -537,7 +537,7 @@ public class OrderController {
 	public String iamportCallback(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap<String, String> map) throws Exception {
 		
 		// 데이터 받기
-		String customer_uid =  map.get("imp_uid");
+		String customer_uid =  map.get("customer_uid");
 		String merchant_uid =  map.get("merchant_uid");
 		String status =  map.get("status");
 		
@@ -601,7 +601,6 @@ public class OrderController {
 		int res = iamport.cancelPayment(token, order_muid);
 		
 		int res2 = orderService.orderCancel(ovo);
-		System.out.println("res2 : " + res2);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		

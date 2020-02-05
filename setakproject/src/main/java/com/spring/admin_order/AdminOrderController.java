@@ -29,8 +29,6 @@ public class AdminOrderController {
 		// 전체 주문 개수
 		ArrayList<OrderVO> orderList = adminOrderService.getOrderList();
 		int orderCount = adminOrderService.getOrderCount();
-
-		System.out.println("orderCount : " + orderCount);
 		
 		// 페이지
 		int page = 1;
@@ -72,11 +70,9 @@ public class AdminOrderController {
 			String[] statusArr, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate
 			, @RequestParam(value="orderBy") String orderBy) {
 		
-		System.out.println("orderBy : " + orderBy);
-
 		String start = startDate.replace("-", "/").substring(2, startDate.length());
 		String end = endDate.replace("-", "/").substring(2, endDate.length());
-		
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
@@ -87,15 +83,54 @@ public class AdminOrderController {
 		
 		ArrayList<OrderVO> orderSearchList = adminOrderService.orderSearch(map);
 		int orderSearchCount = adminOrderService.orderSearchCount(map);
-		
-		System.out.println("cnt : " + orderSearchCount);
-		
+				
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		retVal.put("orderSearchList", orderSearchList);
 		retVal.put("orderSearchCount", orderSearchCount);
 
 		return retVal;
 		
+	}
+	
+	@RequestMapping(value = "/admin/orderSelect.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public Map<String, Object> orderSelect(OrderVO ovo) {
+		
+		OrderVO orderVO = adminOrderService.getOrderInfo(ovo);
+		
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		
+		String order_addr1 = " ", order_addr2 = " ";
+		String addr = orderVO.getOrder_address();
+		String[] addrArr = addr.split("!");
+		order_addr1 = addrArr[0]; 
+		
+		if(addrArr.length == 2) {
+			order_addr2 = addrArr[1];
+		}
+		String order_request = " ";
+		if(orderVO.getOrder_request() != null) {
+			order_request = orderVO.getOrder_request();
+		}
+		
+		String order_delicode = " ";
+		if(orderVO.getOrder_delicode() != null) {
+			order_delicode = orderVO.getOrder_delicode();
+		}
+		
+		retVal.put("order_num", orderVO.getOrder_num());
+		retVal.put("order_price", orderVO.getOrder_price());
+		retVal.put("order_date", orderVO.getOrder_date());
+		retVal.put("order_status", orderVO.getOrder_status());
+		retVal.put("order_phone", orderVO.getOrder_phone());
+		retVal.put("order_name", orderVO.getOrder_name());
+		retVal.put("order_zipcode", orderVO.getOrder_zipcode());
+		retVal.put("order_request", orderVO.getOrder_request());
+		retVal.put("order_addr1", order_addr1);
+		retVal.put("order_addr2", order_addr2);
+		retVal.put("order_delicode", order_delicode);
+		
+		return retVal; 
 	}
 
 }

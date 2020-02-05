@@ -37,10 +37,10 @@
 		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status
 		from memberorder
 		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
-		<if test = "keyword != ' '">
-		and (${searchType} like '%'||#{keyword}||'%')
+		<if test = 'keyword != null'>
+		and (${searchType} like '%'||#{keyword, jdbcType=VARCHAR }||'%')
 		</if>
-		<if test = "statusArr != null">
+		<if test = 'statusArr != null'>
 			and order_status in
 			<foreach collection='statusArr' index='index' item='item' open='(' close=')' separator=','>
 				#{item}			
@@ -62,7 +62,7 @@
 		select count(*)
 		from memberorder
 		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
-		<if test = "keyword != ' '">
+		<if test = "keyword != null">
 		and (${searchType} like '%'||#{keyword}||'%')
 		</if>
 		<if test = "statusArr != null">
@@ -72,6 +72,11 @@
 			</foreach>
 		</if>
 		order by order_date desc
+	</select>
+	
+	<!-- 선택 주문 정보 -->
+	<select id = "getOrderInfo" parameterType = "com.spring.order.OrderVO" resultMap = "OrderResultMap">
+		select * from memberorder where order_num = #{order_num}
 	</select>
 
 </mapper>

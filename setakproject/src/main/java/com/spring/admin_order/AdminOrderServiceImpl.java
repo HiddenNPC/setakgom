@@ -64,10 +64,23 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
 			cnt = adminOrderMapper.orderSearchCount(map);
 		} catch(Exception e) {
-			System.out.println("전체 주문 검색 실패" + e.getMessage());
+			System.out.println("전체 검색 갯수 실패 " + e.getMessage());
 		}
 		
 		return cnt;
+	}
+
+	@Override
+	public OrderVO getOrderInfo(OrderVO ovo) {
+		OrderVO orderVO = null;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			orderVO = adminOrderMapper.getOrderInfo(ovo);
+		}catch(Exception e) {
+			System.out.println("주문 정보 선택 실패 " + e.getMessage());
+		}
+		
+		return orderVO; 
 	}
 
 
