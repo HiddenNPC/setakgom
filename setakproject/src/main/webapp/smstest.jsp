@@ -12,7 +12,7 @@
     <script type="text/javascript">
 	$(document).ready(function(){
 		$("#header").load("./header.jsp")
-		$("#footer").load("./footer.jsp")     
+		$("#footer").load("./footer.jsp") 
 		
 		
 		var fileEleCnt = $("input[type=file]").length;
@@ -34,8 +34,7 @@
 		}
 		
 		
-		$("#btnSubmit").click(function (event) {
-			var random = randomnum();
+		/* $("#btnSubmit").click(function (event) {
 			event.preventDefault();
 			
 			// Get form
@@ -49,16 +48,24 @@
 			for(var i = 0; i < $("#filetest")[0].files.length; i++){
 				data.append("files", $("#filetest")[0].files[i]);
 			}
-
-			$("#filetest")[0].files[0].name("test.jpg");
-			var ab = $("#filetest")[0].files[0].name;
-			console.log(ab);
 			
-         	/* $.ajax({
+			console.log(data.get("files"));
+			console.log(data);
+			var objStr = JSON.stringify(data);
+			
+			console.log("제이슨data:" + objStr);
+			
+			sessionStorage.setItem("test", objStr);
+			var sm = sessionStorage.getItem("test");
+			var data3 = JSON.parse(sm);
+			console.log(data3);
+			
+			
+         	$.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
                 url: "/setak/testImage.do",
-                data: data2,
+                data: data,
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -70,13 +77,41 @@
                 error: function (e) {
 
 				}
-			}); */
+			});
 			
-   	     });
+   	     }); */
+		
+		
+		$("#btnSubmit").click(function (event) {
+			event.preventDefault();
+			var xhr = new XMLHttpRequest();
+
+			var formdata = new FormData();
+
+			formdata.enctype='multipart/form-data';
+			formdata.method='post';
+			formdata.action='test2.jsp';
+
+			formdata.append("files", $("#filetest")[0].files[0]);
+
+			xhr.open('post','/setak/passimage.do', true); 
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4){
+					location.replace="/setak/test2.jsp"
+				}
+			}
+			xhr.send(formdata);
+		});
+		
+   	    $("#subtest").click(function (event) {
+   	    	event.preventDefault();
+   	    	
+   	    	$("#hid").val()
+   	     	$('#target').submit();
+   	    });
+   	    
 	});
-	 
 	
-      
     </script>
 </head>
 <body>
@@ -84,5 +119,11 @@
         <input type="file" name="files" id="filetest" accept="image/*" multiple/><br/><br/>
         <input type="submit" value="Submit" id="btnSubmit"/>
     </form>
+    
+    <form method="POST" action = "./setak/passimage.do" enctype="multipart/form-data" id= "target">
+    	<input type="hidden" value="" id ="hid">
+    	<input type="submit" value="Submit" id= "subtest"/>
+    </form>
+    
 </body>
 </html> 
