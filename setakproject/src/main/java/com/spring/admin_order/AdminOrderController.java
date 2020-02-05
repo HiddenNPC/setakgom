@@ -2,6 +2,7 @@ package com.spring.admin_order;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +29,8 @@ public class AdminOrderController {
 		// 전체 주문 개수
 		ArrayList<OrderVO> orderList = adminOrderService.getOrderList();
 		int orderCount = adminOrderService.getOrderCount();
+
+		System.out.println("orderCount : " + orderCount);
 		
 		// 페이지
 		int page = 1;
@@ -65,25 +68,33 @@ public class AdminOrderController {
 	
 	@RequestMapping(value = "/admin/orderSearch.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public ArrayList<OrderVO> orderSearch(@RequestParam(value="searchType") String searchType, @RequestParam(value="keyword") String keyword,
-			String[] statusArr, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) {
+	public Map<String, Object> orderSearch(@RequestParam(value="searchType") String searchType, @RequestParam(value="keyword") String keyword,
+			String[] statusArr, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate
+			, @RequestParam(value="orderBy") String orderBy) {
+		
+		System.out.println("orderBy : " + orderBy);
 
 		String start = startDate.replace("-", "/").substring(2, startDate.length());
 		String end = endDate.replace("-", "/").substring(2, endDate.length());
-
+		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
 		map.put("startDate", start);
 		map.put("endDate", end);
 		map.put("statusArr", statusArr);
+		map.put("orderBy", orderBy);
 		
 		ArrayList<OrderVO> orderSearchList = adminOrderService.orderSearch(map);
+		int orderSearchCount = adminOrderService.orderSearchCount(map);
 		
-		System.out.println("orderSearchList size : " + orderSearchList.size());
+		System.out.println("cnt : " + orderSearchCount);
 		
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		retVal.put("orderSearchList", orderSearchList);
+		retVal.put("orderSearchCount", orderSearchCount);
 
-		return orderSearchList;
+		return retVal;
 		
 	}
 

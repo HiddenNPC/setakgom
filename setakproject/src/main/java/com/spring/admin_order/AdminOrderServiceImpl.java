@@ -46,7 +46,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
 	@Override
 	public ArrayList<OrderVO> orderSearch(HashMap<String, Object> map) {
-
 		ArrayList<OrderVO> orderList = null;
 		try {
 			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
@@ -57,5 +56,20 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		
 		return orderList;
 	}
+
+	@Override
+	public int orderSearchCount(HashMap<String, Object> map) {
+		int cnt = 0;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.orderSearchCount(map);
+		} catch(Exception e) {
+			System.out.println("전체 주문 검색 실패" + e.getMessage());
+		}
+		
+		return cnt;
+	}
+
+
 
 }

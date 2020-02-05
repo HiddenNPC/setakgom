@@ -15,5 +15,5 @@ public interface Admin_order {
 	
 	// 주문 검색
 	ArrayList<OrderVO> orderSearch(HashMap<String, Object> map);
-	
+	int orderSearchCount(HashMap<String, Object> map);
 }

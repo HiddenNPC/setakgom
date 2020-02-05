@@ -11,4 +11,5 @@ public interface AdminOrderService {
 	public int getOrderCount();
 	
 	public ArrayList<OrderVO> orderSearch(HashMap<String, Object> map);
+	public int orderSearchCount(HashMap<String, Object> map);
 }

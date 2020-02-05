@@ -83,7 +83,13 @@
 			// 초기화 버튼
 			$(".reset-btn").on("click", function() {
 				$("#search-content").val(" "); 
-			});			
+			});
+			
+			// 정렬
+			$('#order-select').change(function() {
+				searchOrder();
+			});
+			
 		});
 		
 		// 나의주소록 레이어 스크립트
@@ -114,7 +120,7 @@
 		
 		// 검색
 		function searchOrder() {
-			
+						
 			var checkbox = $("input[name=check]:checked");
 			
 			var statusArr = []; 
@@ -126,19 +132,17 @@
      		var start = $('#datepicker').val();
      		var end = $('#datepicker2').val(); 
      		
-     		console.log(statusArr); 
-     		console.log("start : " + start + "end : " + end); 
-     		
+			var orderBy = $("#order-select").val(); 
+     		     		
 			$('#result-table tbody').empty();
 			var param = {
 							startDate : start,
 							endDate : end,
 							statusArr : statusArr, 
 							searchType : $('#searchType').val(),
-							keyword : $('#keyword').val()
+							keyword : $('#keyword').val(),
+							orderBy : orderBy
 						};
-			
-			alert(param); 
 			
 			$.ajax({
 				url:'/setak/admin/orderSearch.do', 
@@ -150,19 +154,29 @@
 				success:function(data) {	
 					$("#result-table tbody").empty();
 					
+					 var count = data.orderSearchCount;
+					 $("#result-num").text(count); 
 					 
-					 $.each(data, function(index, item) {
+					 var list = data.orderSearchList;
+					 
+					 $.each(list, function(index, item) {
+						 
+						 var orderDate = item.order_date; 
+						 var dateArr = orderDate.split(" ");
+						 var date = dateArr[0];
 						 
 						 var output = '';
 						 
 						 output += '<tr>';
 						 output += '<td class = "check"> <input type = "checkbox" /> </td>';
-						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('open')" value="'+item.order_num+'"/></td>';						 
+						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('+"open"+')" value="'+item.order_num+'"/></td>';						 
+						 
 						 output += '<td>'+item.member_id+'</td>';						 
 						 output += '<td>'+item.order_name+'</td>';						 
-						 output += '<td>'+item.order_price+'원</td>';						 
-						 output += '<td>20'+item.order_date+'</td>';						 
-						 output += '<td><span id = "delivery_num">'+item.order_status+'</span></td>';	
+						 output += '<td>20'+date+'</td>';
+						 output += '<td>'+item.order_price+'원</td>';
+						 output += '<td><span id = "delivery_num"></span></td>';	
+						 output += '<td>'+item.order_status+'</td>';
 						 output += '</tr>';
 						 
 						 $('#result-table tbody').append(output); 
@@ -247,10 +261,9 @@
 					<div id="result-order-div">
 						<form id = "result-order">
 							<select id = "order-select">
-								<option>주문날짜순</option>
-								<option>주문날짜역순</option>
-								<option>주문번호순</option>
-								<option>주문자이름순</option>
+								<option value = "byDate">주문날짜순</option>
+								<option value = "byDateReverse">주문날짜역순</option>
+								<option value = "byName">주문자이름순</option>
 							</select>
 						</form>
 					</div>					

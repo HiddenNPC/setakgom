@@ -32,15 +32,40 @@
 		select count(*) from memberorder
 	</select>
 	
-	<!-- 주문 검색  > mybatis if문 사용해야함-->
+	<!-- 주문 검색  -->
 	<select id = "orderSearch" parameterType="java.util.HashMap" resultMap="OrderResultMap">
 		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status
 		from memberorder
-		where <![CDATA[order_date > #{startDate} and order_date < #{endDate}]]> or order_date like #{endDate}||'%'
-		<if test = 'keyword != null'>
-		and #{searchType} like '%'||#{keyword}||'%'
+		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
+		<if test = "keyword != ' '">
+		and (${searchType} like '%'||#{keyword}||'%')
 		</if>
-		<if test = 'statusArr != null'>
+		<if test = "statusArr != null">
+			and order_status in
+			<foreach collection='statusArr' index='index' item='item' open='(' close=')' separator=','>
+				#{item}			
+			</foreach>
+		</if>
+		<if test = "orderBy.equals('byDate')">
+			order by order_date desc
+		</if>
+		<if test = "orderBy.equals('byDateReverse')">
+			order by order_date
+		</if>
+		<if test = "orderBy.equals('byName')">
+			order by order_name
+		</if>
+	</select>
+
+	<!-- 주문 검색 갯수 -->
+	<select id = "orderSearchCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from memberorder
+		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
+		<if test = "keyword != ' '">
+		and (${searchType} like '%'||#{keyword}||'%')
+		</if>
+		<if test = "statusArr != null">
 			and order_status in
 			<foreach collection='statusArr' index='index' item='item' open='(' close=')' separator=','>
 				#{item}			
@@ -48,4 +73,5 @@
 		</if>
 		order by order_date desc
 	</select>
+
 </mapper>

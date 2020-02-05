@@ -129,6 +129,27 @@ li.check {
 	background-color : #D8D8D8;
 }
 
+#result-table {
+	width : 100%;
+}
+
+#result-table thead{
+	background-color : #3498db;
+	color : white;
+}
+
+#result-table thead th {
+	padding : 7px; 
+}
+
+#result-table tbody td {
+	padding : 10px;
+	font-size : 0.9rem;
+	color : #444;
+	border-bottom : 1px solid #eeefef;
+	text-align : center;
+}
+
 
 /*팝업 레이어 공통*/
 .layer-card {
