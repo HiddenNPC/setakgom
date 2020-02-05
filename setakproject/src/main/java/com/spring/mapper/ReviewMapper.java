@@ -19,6 +19,11 @@ public interface ReviewMapper
 	public ArrayList<ReviewVO> reviewCondition1(String re_condition);
 	public ArrayList<ReviewVO> reviewCondition2(String re_condition);
 	public ArrayList<ReviewVO> reviewCondition3(String re_condition);
+	public int reviewDelete(int review_num); 
+	public int reviewUpdate(int review_num); 
+	
+	
+	
 	
 
 	

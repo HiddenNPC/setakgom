@@ -89,7 +89,7 @@
 							%>
 							<tbody align="center">
 								<tr>
-									<td><%=qvo.getQNA_KIND() %></td>
+									<%-- <td><%=qvo.getQNA_KIND() %></td>  --%>
 									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQNA_NUM() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQNA_TITLE() %></a></td>
 									<td><%=sdf.format(qvo.getQNA_DATE()) %></td>
 									<td><%=qvo.getQNA_CHECK() %></td>

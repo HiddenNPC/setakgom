@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.mapper.CommentMapper;
 import com.spring.mapper.ReviewMapper;
 
 @Service("reviewService")
@@ -90,6 +91,21 @@ public class ReviewServiceImpl implements ReviewService
 		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
 		ArrayList<ReviewVO> list = reviewMapper.reviewCondition3(re_condition); 
 		return list; 
+	}
+
+	@Override
+	public int reivewDelete(ReviewVO vo) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);		
+		int res = reviewMapper.reviewDelete(vo.getReview_num());
+		return res;
+	}
+
+	@Override
+	public int reivewUpdate(ReviewVO vo) {
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);		
+		int res = reviewMapper.reviewUpdate(vo.getReview_num());
+		return res;
 	}
 
 	
