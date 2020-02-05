@@ -56,28 +56,3 @@
 		padding:40px 0;
 		color:#444;
 	}
-	/*여기서부터 작업하세요*/
-	.content ul{
-		width:100%;
-		display:flex;
-		justify-content: space-between;
-		border-bottom:1px solid #e1e4e4;
-	}
-	.content ul:nth-child(2){
-		border-bottom:0px;
-	}
-	.content li{
-		widht:100%;
-		text-align:center;
-		margin:0 1px;		
-		width:100%;
-		font-size:0.9rem;
-		height:40px;
-		line-height:40px;
-		color:#444;
-	}
-	.example li{
-		background:#3498db;
-		color:#fff;
-		font-size:1rem;
-	}
