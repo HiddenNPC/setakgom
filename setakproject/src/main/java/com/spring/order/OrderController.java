@@ -528,6 +528,13 @@ public class OrderController {
 //			orderService.insertCoupon(mvo);
 //		}
 		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("imp_uid", customer_uid);
+		String muid = merchant_uid + 1;
+		System.out.println(muid);
+		map.put("merchant_uid", muid);
+		String a = iamportCallback(request, response, map);
+		
 		
 		return ""; 
 	}
@@ -535,13 +542,13 @@ public class OrderController {
 	// 정기구독 웹훅 설정
 	@RequestMapping(value = "/iamport-callback", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String iamportCallback(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap<String, String> map) throws Exception {
-		
+		System.out.println("여기오니~~ -민경");
 		// 데이터 받기
 		String customer_uid =  map.get("imp_uid");
 		String merchant_uid =  map.get("merchant_uid");
-		String status =  map.get("status");
+		//String status =  map.get("status");
 		
-		System.out.println("customer_uid : " + customer_uid);
+		System.out.println("customer_uid 승환 : " + customer_uid);
 		
 		// 정기 결제 예약
 		Iamport iamport = new Iamport();

@@ -87,7 +87,7 @@
             	      jQuery.ajax({
             	        url: "/setak/insertSubscribe.do", 
             	        method: "POST",
-            	        dataType: 'json',
+            	        dataType: 'text',
             	        data: {
             	          merchant_uid : muid,
             	          customer_uid: cuid,

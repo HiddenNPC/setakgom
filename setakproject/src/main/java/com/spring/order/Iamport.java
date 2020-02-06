@@ -140,10 +140,10 @@ public class Iamport {
 		
 		System.out.println("mid : " + mid);
 		
-        String schedules = "[{\"merchant_uid\":" + "\"" + mid + "\"" + ","
-                + "\"schedule_at\":\"1580576884\","
+        String schedules = "{\"merchant_uid\":" + "\"" + mid + "\"" + ","
+                + "\"schedule_at\":\"1581075444\","
                 + "\"amount\":\"100\""
-                + "}]";
+                + "}";
         
         System.out.println("schedules : " + schedules);
         
