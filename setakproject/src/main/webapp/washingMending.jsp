@@ -115,6 +115,9 @@
 			
 			//추가 버튼 눌렀을 때
 			$(".add_button").on("click", function() {
+				
+				var a = $("#filetest").val();
+				alert(a);
 				var sortation = document.getElementsByClassName('active');
 				var str = "";
 				
@@ -138,7 +141,7 @@
 				str += '<input type="hidden" name="repair_var1" value="'+llength*(-1)+'">';
 				str += '<input type="hidden" name="repair_var2" value="'+rlength*(-1)+'">';
 				str += '<input type="hidden" name="repair_var3" value="'+tlength*(-1)+'">';
-				str += '<input type="file" name="repair_file" class="details_file">';
+				str += '<input type="file" name="repair_file" class="details_file" value="'+a+'">';
 				str += '<textarea name="repair_content">'+details_text+'</textarea></td>';
 				str += '<td>';
 				str += '<select name="repair_code">';
@@ -333,7 +336,7 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input id="filetest" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>

@@ -72,7 +72,6 @@ public class CommentController
 	@PostMapping(value="/commentUpdate.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentUpdate(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
-		
 		/*
 		 * System.out.println(vo.getQNA_SEQ()); System.out.println(vo.getQNA_NUM());
 		 * System.out.println(vo.getQNA_CONTENT());
