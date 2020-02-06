@@ -23,7 +23,7 @@ public class CommentController
 {
 	@Autowired CommentService commentService;
 	
-	@PostMapping(value="commentList.do", produces="application/json; charset=UTF-8")
+	@PostMapping(value="/commentList.do", produces="application/json; charset=UTF-8")
 	public  List<CommentVO> commentList(CommentVO vo) 
 	{	
 		System.out.println("컨트롤러,qnum="+ vo.getQna_num());
@@ -32,7 +32,7 @@ public class CommentController
 
 	}
 	
-	@PostMapping(value="commentInsert.do", produces="application/json; charset=UTF-8")
+	@PostMapping(value="/commentInsert.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentInsert(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
@@ -49,7 +49,7 @@ public class CommentController
 		return retVal;
 	}
 	
-	@PostMapping(value="commentDelete.do", produces="application/json; charset=UTF-8")
+	@PostMapping(value="/commentDelete.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentDelete(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		

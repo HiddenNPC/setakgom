@@ -10,6 +10,7 @@ public interface QnaService
 {
 	public int getListCount() throws Exception;
 	public ArrayList<QnaVO> getQnaList(int startRow, int endRow) throws Exception;	
+	public ArrayList<QnaVO> onList(String loginId) throws Exception;	
 	public QnaVO getDetail(QnaVO vo) throws Exception;
 	
 	public String qnaPassChk(int num) throws Exception;

@@ -52,6 +52,27 @@ public class QnaServiceImpl implements QnaService
 	
 	}
 	
+	@Override
+	public ArrayList<QnaVO> onList(String loginId) throws Exception 
+	{
+		ArrayList<QnaVO> onlist = new ArrayList<QnaVO>();		
+		try
+		{			
+			QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+			onlist = qnaMapper.onList(loginId);
+			return onlist;			
+		}
+		catch(Exception e)
+		{
+			throw new Exception("리스트 불러오기 오류남 ㅇㅇ.", e);
+		}
+	
+	}
+	
+	
+	
+	
+	
 	@Override public int qnaInsert(QnaVO qnavo) throws Exception 
 	{
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
@@ -145,6 +166,8 @@ public class QnaServiceImpl implements QnaService
 		
 		return qnalist;
 	}
+
+	
 
 	
 

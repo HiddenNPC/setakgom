@@ -47,7 +47,7 @@ function q4ba_click(){
 <table class="qlt1">	
 	<tr>
 		<th width="7%" height="40px"><div align="center">번호</div></th>
-		<th width="18%"><div align="center">문의유형</div></th>
+		<th width="15%"><div align="center">문의유형</div></th>
 		<th width="45%"><div align="center">제목</div></th>
 		<th width="15%"><div align="center">작성자</div></th>
 		<th width="15%"><div align="center">작성일</div></th>
@@ -60,7 +60,7 @@ function q4ba_click(){
 		<%if (session.getAttribute("member_id")==null) {%> <!-- 비회원이라면  -->
 			<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >	
 			<td height="40px" width="7%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
-			<td width="18%"> <div align="center"><%=bl.getQNA_TYPE() %>&nbsp;/&nbsp;<%=bl.getQNA_KIND()%></div></td>
+			<td width="15%"> <div align="center"><%=bl.getQNA_TYPE() %></div></td>
 			<%if(bl.getQNA_SCR().equals("비공개")){%> <!-- 모든 비공개글은 볼수 없다. -->
 				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaPass.do?QNA_NUM=<%=bl.getQNA_NUM() %>"><i class="fas fa-unlock-alt" style="color:#444;"></i>&nbsp;비공개 글입니다.</a></div></td>
 			<%}else{%> <!-- 오직 공개글만 볼 수 있다. -->
@@ -73,7 +73,7 @@ function q4ba_click(){
 		<%}else{%> <!-- 회원이라면  -->
 			<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >	
 			<td height="40px" width="7%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
-			<td width="18%"> <div align="center"><%=bl.getQNA_TYPE() %>&nbsp;/&nbsp;<%=bl.getQNA_KIND()%></div></td>
+			<td width="15%"> <div align="center"><%=bl.getQNA_TYPE() %></div></td>
 			<!-- 다른 회원의 비공개글만 볼수 없다 . -->
 			<%if(!session.getAttribute("member_id").equals(bl.getMEMBER_ID())){%> <!-- 회원인 나와 글의 작성자와 아이디가 다르면 , -->
 				<%if(bl.getQNA_SCR().equals("비공개")){%>

@@ -16,6 +16,7 @@ public interface QnaMapper
 	public int qnaModify(QnaVO vo);
 	public int qnaDelete(int num);
 	public String qnaPassChk(int num) throws Exception;
+	public ArrayList<QnaVO> onList (String loginId); 
 	
 	
 	

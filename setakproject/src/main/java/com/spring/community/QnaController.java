@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 {
 	@Autowired private QnaService qnaService;
 	
-	@RequestMapping("qnaList.do") public String qnaList(HttpServletRequest request, Model model) throws Exception
+	@RequestMapping(value="/qnaList.do") public String qnaList(HttpServletRequest request, Model model) throws Exception
 	{
 		ArrayList<QnaVO> qnalist = new ArrayList<QnaVO>();
 		int page  = 1;
@@ -62,14 +63,16 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	}
 	
-	@RequestMapping("qnaWrite.do") public String writeForm(QnaVO vo, Model model)
-	{
-		model.addAttribute("qnadata", vo);
-		
+	@RequestMapping(value = "/qnaWrite.do") public String writeForm(QnaVO vo, Model model, HttpSession session) throws Exception
+	{	
+		String loginId = (String) session.getAttribute("member_id");
+		System.out.println("세션 아이디 잘 받아 왓냐 ="  + loginId);
+		ArrayList<QnaVO> onlist = qnaService.onList(loginId);
+		model.addAttribute("onList", onlist);		
 		return "qna_write";
 	}
 
-	@RequestMapping("qnaInsert.do") public String insertQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping(value = "/qnaInsert.do") public String insertQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		QnaVO qnaVO = new QnaVO();
 		response.setCharacterEncoding("utf-8");
@@ -79,8 +82,11 @@ import org.springframework.web.servlet.ModelAndView;
 		qnaVO.setMEMBER_ID(request.getParameter("MEMBER_ID"));
 		String a = qnaVO.getMEMBER_ID();
 		System.out.println("MEMBER_ID=" +a );		
-		qnaVO.setQNA_TYPE(request.getParameter("QNA_TYPE"));	
-		qnaVO.setQNA_KIND(request.getParameter("QNA_KIND"));	
+		qnaVO.setQNA_TYPE(request.getParameter("QNA_TYPE"));
+		
+		String chkOn =request.getParameter("ORDER_NUM");		
+		if(!chkOn.equals("선택안함")){qnaVO.setORDER_NUM(Long.parseLong(request.getParameter("ORDER_NUM")));}
+		else{ qnaVO.setORDER_NUM(0);}		
 		qnaVO.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		qnaVO.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
 		qnaVO.setQNA_PASS(request.getParameter("QNA_PASS"));
@@ -132,27 +138,27 @@ import org.springframework.web.servlet.ModelAndView;
 			
 	}	
 	
-	@RequestMapping("qnaDetail.do") public String getDetail(QnaVO qnavo, Model model) throws Exception 
+	@RequestMapping(value = "/qnaDetail.do") public String getDetail(QnaVO qnavo, Model model) throws Exception 
 	{
 		QnaVO vo = qnaService.getDetail(qnavo);
 		model.addAttribute("qnadata", vo);		
 		return "qna_view";
 	}
 	
-	@RequestMapping("qnaPass.do") public String qnaPass(QnaVO qnavo, Model model) throws Exception 
+	@RequestMapping(value = "/qnaPass.do") public String qnaPass(QnaVO qnavo, Model model) throws Exception 
 	{
 		QnaVO vo = qnaService.getDetail(qnavo);
 		model.addAttribute("qnadata", vo);		
 		return "qna_pass";
 	}
-	@RequestMapping("qnaPass2.do") public String qnaPass2(QnaVO qnavo, Model model) throws Exception 
+	@RequestMapping(value = "/qnaPass2.do") public String qnaPass2(QnaVO qnavo, Model model) throws Exception 
 	{
 		QnaVO vo = qnaService.getDetail(qnavo);
 		model.addAttribute("qnadata", vo);		
 		return "qna_pass2";
 	}
 	
-	@RequestMapping("qnaPassChk.do") public String qnaPassChk(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping(value = "/qnaPassChk.do") public String qnaPassChk(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{	
 		
 		response.setCharacterEncoding("utf-8");
@@ -189,13 +195,17 @@ import org.springframework.web.servlet.ModelAndView;
 		
 	}
 
-	@RequestMapping("updateform.do") public String updateForm(QnaVO qnavo, Model model) throws Exception {
+	@RequestMapping(value = "/updateform.do") public String updateForm(HttpSession session, QnaVO qnavo, Model model) throws Exception {
+		String loginId = (String) session.getAttribute("member_id");
+		System.out.println("세션 아이디 잘 받아 왓냐 ="  + loginId);
+		ArrayList<QnaVO> onlist = qnaService.onList(loginId);
 		QnaVO vo = qnaService.getDetail(qnavo);
+		model.addAttribute("onList", onlist);		
 		model.addAttribute("qnadata", vo);		
 		return "qna_update";
 	}
 		
-	@RequestMapping("qnaUpdate.do") public String updateQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping(value = "/qnaUpdate.do") public String updateQna(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -206,7 +216,10 @@ import org.springframework.web.servlet.ModelAndView;
 		int num=Integer.parseInt(request.getParameter("QNA_NUM"));		
 		vo.setQNA_NUM(num);
 		vo.setQNA_TYPE(request.getParameter("QNA_TYPE"));
-		vo.setQNA_KIND(request.getParameter("QNA_KIND"));
+		String chkOn =request.getParameter("ORDER_NUM");
+		System.out.println("주문번호 잘 들어오냐?="+chkOn);
+		if(!chkOn.equals("선택안함")) {vo.setORDER_NUM(Long.parseLong(request.getParameter("ORDER_NUM")));	}
+		else { vo.setORDER_NUM(0); }
 		vo.setQNA_TITLE(request.getParameter("QNA_TITLE"));
 		vo.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
 		vo.setQNA_PASS(request.getParameter("QNA_PASS"));
@@ -261,7 +274,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return null;
 	}
 	
-	@RequestMapping("qnaDelete.do") public String deleteQna (QnaVO vo, HttpServletResponse response, HttpServletRequest request) throws Exception
+	@RequestMapping(value = "/qnaDelete.do") public String deleteQna (QnaVO vo, HttpServletResponse response, HttpServletRequest request) throws Exception
 	{	
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -296,7 +309,7 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	}
 
-	@RequestMapping("fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
+	@RequestMapping(value = "/fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");
 		String of = request.getParameter("of"); //서버에 업로드된 변경된 실제 파일명

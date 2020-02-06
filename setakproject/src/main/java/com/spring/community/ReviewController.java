@@ -2,15 +2,17 @@ package com.spring.community;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,18 +20,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+
+
 
 @Controller public class ReviewController 
 {
 	@Autowired private ReviewService reviewService;
 	
-	@RequestMapping ("review.do") public String review(Model model) throws Exception
+	@RequestMapping (value = "/review.do") public String review(Model model) throws Exception
 	{	
 		int maxnum = reviewService.getMaxNum();	
 		ArrayList<ReviewVO> list = reviewService.reviewList();
@@ -39,7 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return "review_list";			
 	}
 	
-	@RequestMapping (value="reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/reviewList.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
@@ -47,7 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return list;		
 	}
 	
-	@PostMapping("reviewInsert.do") public String reviewInsert(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@PostMapping(value = "/reviewInsert.do") public String reviewInsert(HttpSession session ,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		ReviewVO vo = new ReviewVO();
 		response.setCharacterEncoding("utf-8");
@@ -68,7 +71,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 		vo.setReview_num(maxnum); 
 		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
-		vo.setMember_id("bit");
+		vo.setMember_id((String)session.getAttribute("member_id"));
 		//String a = vo.getMember_id();
 		//System.out.println("Member_id=" +a );		
 		vo.setReview_kind(request.getParameter("Review_kind"));	
@@ -124,7 +127,7 @@ import org.springframework.web.servlet.ModelAndView;
 			
 	}
 	
-	@PostMapping("fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
+	@PostMapping(value = "/fileDownload.do") public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");
 		String of = request.getParameter("of"); //서버에 업로드된 변경된 실제 파일명
@@ -175,7 +178,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 	}
 	
-	@RequestMapping (value="reviewSearch.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/reviewSearch.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewSearch(HttpServletRequest request, Model model,String keyfield, String keyword ) throws Exception
 	{
 		keyfield=request.getParameter("keyfield");
@@ -187,7 +190,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return list;		
 	}
 	
-	@RequestMapping (value="reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/reviewCondition.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> reviewCondition (HttpServletRequest request, Model model, String re_condition) throws Exception
 	{
 		re_condition=request.getParameter("re_condition");	
@@ -204,15 +207,91 @@ import org.springframework.web.servlet.ModelAndView;
 		}else {
 			ArrayList<ReviewVO> list = reviewService.reviewCondition3(re_condition);
 			model.addAttribute("reviewCondition3", list);	
-			return list;
-			
+			return list;			
 		}
-		
-		
-				
+
 	}
 	
+	@RequestMapping(value ="/reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 	
+	@ResponseBody public Map<String, Object> reviewDelete(ReviewVO vo) {
+		
+		int review_num = vo.getReview_num();
+		Map<String, Object> retVal = new HashMap<String, Object>();		
+		retVal.put("review_num", review_num);
+		System.out.println("맵 안에는 뭐가 있을까 ?=" + retVal);
+		
+		try {
+			int res = reviewService.reivewDelete(vo);
+			
+			if (res==1)
+				retVal.put("res", "OK");
+		}
+		catch (Exception e) {
+			retVal.put("res", "FAIL");
+			
+		}
+		System.out.println("넘기기 직전 이안에는 뭐가 들어있을까 ?->" + retVal);
+		return retVal;
+	}
 	
+	@RequestMapping(value ="/reviewUpdate.do", method = {RequestMethod.GET, RequestMethod.POST} ) 	
+	@ResponseBody public Map<String, Object> reviewUpdate(ReviewVO vo, MultipartHttpServletRequest request) throws Exception {
+		
+		/* produces="application/json; charset=UTF-8", */
+		String reviewe_kind=vo.getReview_kind();
+		Double review_star=vo.getReview_star();
+		String review_content=vo.getReview_content();
+		int review_num = vo.getReview_num();
+		
+		ModelAndView mav = new ModelAndView();
+		MultipartFile mf = request.getFile("review_photo");//파일		
+		System.out.println("너의 review_photo은=" + mf);
+		String uploadPath="C:\\Project138\\upload\\";			
+		
+		if(mf.getSize() != 0)//용량
+		{	
+		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
+		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "")+originalFileExtention;								
+		mf.transferTo(new File(uploadPath+storedFileName));//파일 전송				
+		//뷰에 출력한 데이터 모델에 저장 
+		mav.setViewName("download");
+		mav.addObject("paramName", mf.getName());
+		mav.addObject("fileName", mf.getOriginalFilename());
+		mav.addObject("fileSize", mf.getSize());
+		mav.addObject("storedFileName",storedFileName);	
+		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
+		mav.addObject("downlink", downlink);
+		
+		System.out.println("paramName=" + mf.getName());
+		System.out.println("fileName=" + mf.getOriginalFilename());
+		System.out.println("fileSize=" + mf.getSize());
+		System.out.println("storedFileName=" + storedFileName);
+					
+		vo.setReview_photo(mf.getOriginalFilename().concat("/"+storedFileName));	
+		
+		}
+		else
+		{
+			vo.setReview_photo("등록한 파일이 없습니다./등록한 파일이 없습니다.");			
+		}			
+						
+		Map<String, Object> retVal = new HashMap<String, Object>();		
+		retVal.put("수정할 떄 review_num", review_num);
+		System.out.println("수정,맵 안에는 뭐가 있을까 ?=" + retVal);
+		
+		try {
+			int res = reviewService.reivewUpdate(vo);
+			
+			if (res==1)
+				retVal.put("res", "OK");
+		}
+		catch (Exception e) {
+			retVal.put("res", "FAIL");
+			retVal.put("message", "Failure");
+		}
+		System.out.println("넘기기 직전 이안에는 뭐가 들어있을까 ?->" + retVal);
+		return retVal;
+	}
 	
 	
 	
