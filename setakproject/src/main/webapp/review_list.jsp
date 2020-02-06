@@ -23,6 +23,8 @@
 <link rel="stylesheet" type="text/css" href="./css/review.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+
 <script type="text/javascript"></script>
 <script>
 $(document).ready(function () {	
@@ -289,97 +291,33 @@ $(document).ready(function () {
 		
 	//수정버튼 - 폼
 	$(document).on('click','.updateForm', function(){
-		$("html, body").scrollTop('0');
-		var ur_num = $(this).attr("ur_num");			
+	    	$("#re_layer").show();	
+	    	$(".dim").show();	
+		
+	    $(".close").on('click', function(){
+	    	$(this).parent().hide();	
+	    	$(".dim").hide();	
+		});
+	    var ur_num = $(this).attr("ur_num");			
 		var ur_id = $(this).attr("ur_id");			
 		var ur_star= $(this).attr("ur_star");						
 		var ur_content=$(this).attr("ur_content"); 						
 		var ur_kind=$(this).attr("ur_kind");					
 		var ur_photo=$(this).attr("ur_photo");
+		console.log(ur_num);
+		console.log(ur_id);
+		console.log(ur_star);
+		console.log(ur_content);
+		console.log(ur_kind);
 		console.log(ur_photo);
-		var res =JSON.stringify(ur_photo);			
-		var idx= res.indexOf("/");
-		var ur_photo2=res.substring(1,idx);		
-		
-		var uform='';
-		
-		uform += '<form action="/url" id="rUpdateForm'+ur_num+'" method="post" enctype="multipart/form-data"><table class="re_table'+ur_num+'">';
-		uform += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+ur_num+'"></tr>';							
-		uform += '<tr><td height="20px" colspan="3"><span style="float:left">별점 :&nbsp;</span>' 
-		uform += '<span class="r_content">';
-		uform += '<a class="starR1 on" value="1" >별1_왼쪽</a>';
-		uform += '<a class="starR2" value="2">별1_오른쪽</a>';
-		uform += '<a class="starR1" value="3">별2_왼쪽</a>';
-		uform += '<a class="starR2" value="4">별2_오른쪽</a>';
-		uform += '<a class="starR1" value="5">별3_왼쪽</a>';
-		uform += '<a class="starR2" value="6">별3_오른쪽</a>';
-		uform += '<a class="starR1" value="7">별4_왼쪽</a>';
-		uform += '<a class="starR2" value="8">별4_오른쪽</a>';
-		uform += '<a class="starR1" value="9">별5_왼쪽</a>';
-		uform += '<a class="starR2" value="10">별5_오른쪽</a>'; 
-		uform += '<small>&nbsp;별점 :<input type="text" id="Review_star" name="review_star" value="'+ur_star+'" readonly="readonly"></small>';	
-		uform += '</span></td></tr>';		   																		
-		uform += '<tr><td name="Member_id" style="width:150px;">작성자 :&nbsp;'+ur_id+'</td>';
-		uform += '<td style="width:100px;"><select name="review_kind">'+
-       			 '<option value="">분류</option> <option value="세탁">세탁</option><option value="세탁-수선">세탁-수선</option>'+
-            	 '<option value="세탁-보관">세탁-보관</option><option value="수선">수선</option><option value="보관">보관</option>'+
-            	 '<option value="정기구독">정기구독</option></select></td>';
-        uform += '<td rowspan="2"><input name="fake_photo" type="file">'+ur_photo2+'';
-        uform += '<input type="hidden" name="review_photo" type="file" value="'+ur_photo+'"></td></tr>';
-		uform += '<tr><td colspan="2"><textarea name="Review_content" class="ret2">'+ur_content+'</textarea></td></tr>';
-		uform += '<tr><td colspan="3" style="text-align: center;">';																
-		uform += '<input class="re_update" ur_num="'+ur_num+'" type="button" value="수정">';	
-		uform += '<input type="button" value="취소" onclick="rwcancel();">';
-		uform += '</td></tr></table><form>';		
-		$('#re_list').html(uform);
-		/* .xx'+ur_num */
-		
-		
-		$('.r_content a').click(function () {
-			$(this).parent().children('a').removeClass('on');
-			$(this).addClass('on').prevAll('a').addClass('on');      
-			$('#Review_star').val($(this).val("value"));
-			return false;
-		});	
-
+	
 	});
+	
+	
 	
 	//수정 실시
-	$(document).on('click','.re_update', function(){
-		var ur_num = $(this).attr("ur_num");
-		console.log(ur_num);
-		var params = $('#rUpdateForm'+ur_num).serialize();
-		console.log(params);
-		alert(params);
-		jQuery.ajax({
-			url :'/setak/reviewUpdate.do',
-			type :'POST',
-			enctype:'multipart/form-data',
-			data : params,
-			processData: false, 
-			contentType: false,
-			async:false,
-	        cache:false,
-			dataType : 'json',
-			success : function(retVal) {
-				if (retVal.res == "OK") {
-					selectData();
-					alert("수정 했습니다.");
-				
-				}else {
-					alert("Update 실패!");
-				}
-			},
-			error:function() {
-				alert("ajax통신 실패!!!");
-			}
-		});
-		//event.preventDefault();
-	});
 	
-	
-	
-	
+
 selectData();		
 });
 
@@ -670,13 +608,11 @@ function rwcancel(){
 <div class="paginated">
 <div id="re_list">
 
-
-
-
 </div>
 </div>
-
+<!--리뷰 리스트 끝-->
 </div>
+
 
 </div></div>
 </section>
