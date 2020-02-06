@@ -318,7 +318,51 @@ $(document).ready(function () {
 	//수정 실시
 	
 
-selectData();		
+selectData();
+	
+	var filecontent;
+	var filename="";
+	
+	$(".fileupload").change(function(){
+		filecontent = $(this)[0].files[0];
+		filename = Date.now() + "_" + $(this)[0].files[0].name;
+	});
+	
+	$("#reviewform").on("submit", function() {
+		if(rwchk()){
+			
+			if(filecontent != null){
+				var data = new FormData();
+				data.append("purpose", "review");
+				data.append("files", filecontent);
+				data.append("filename", filename);
+				
+				$("#review_photo").val(filename);
+				
+				$.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "/setak/testImage.do",
+	                data: data,
+	                processData: false,
+	                contentType: false,
+	                cache: false,
+	                dataType: 'json',
+	
+	                success: function (data) {
+	                	
+	                },
+	                error: function (e) {
+	
+					}
+	                
+				});
+			}
+			
+		}else{
+			event.preventDefault();
+		}
+	});
 });
 
 		
@@ -512,10 +556,7 @@ function rwchk(){
         document.getElementById('Review_kind').focus();
         return false;
     }
-	
-	else{
-		document.reviewform.submit()
-	}
+	return true;
 }
 //취소
 function rwcancel(){
@@ -544,7 +585,7 @@ function rwcancel(){
 <!-- 레이아웃 팝업  -->
 <a href="#" class="open">리뷰작성</a>
 <div id="re_layer">
-<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" onsubmit="return rwchk();">
+<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
 <h2>세탁곰 리뷰 작성</h2>
 <div class="r_content">
 	<p style="margin-bottom:5px;">사용자 평점</p> 
@@ -564,7 +605,7 @@ function rwcancel(){
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
     <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-    <tr><td width="40px" ><input name="Review_photo" type="file"/></td>                          
+    <tr><td width="40px" ><input name="Review_photo" type="file" class="fileupload"/></td>                          
         <td width="40px">
         	<select name="Review_kind" id="Review_kind">
            		<option value="">분류</option>
@@ -574,9 +615,10 @@ function rwcancel(){
                 <option value="수선">수선</option>
                 <option value="보관">보관</option>
                 <option value="정기구독">정기구독</option>
-           </select></td>           
+           </select></td>
 		<td align="right"  colspan="4">
-			<input type="submit" name="submit" value="등록" >		
+			<input type="hidden" name = "review_photo" id = "review_photo">
+			<input type="submit" name="submit" value="등록" id="reviewsubmit">
 			<!-- <button onclick="javascript:reviewform.submit()">등록</button> -->
 			<input id="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
 	</tr></table>

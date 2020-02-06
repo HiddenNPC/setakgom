@@ -87,7 +87,6 @@
 			$(".fileupload").change(function(){
 				filecontent = $(this)[0].files[0];
 				filename = Date.now() + "_" + $(this)[0].files[0].name ;
-				console.log(filename);
 			});
 			
 			//태그 기능, 계산기능
