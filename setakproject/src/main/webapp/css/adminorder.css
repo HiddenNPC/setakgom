@@ -112,8 +112,6 @@ li.check {
 	border-radius : 2px;
 }
 
-
-
 #result-paging-div {
 	margin-top : 40px;
 	margin-bottom: 100px;
@@ -241,6 +239,17 @@ li.check {
 	cursor : pointer;
 }
 
+#detail-close-btn {
+	font-size : 0.8rem;
+	background-color : #D8D8D8;
+	box-shadow : none;
+	border : 0px; 
+	padding : 6px 10px; 
+	color : #444;
+	margin-top : 30px;
+	cursor : pointer;
+}
+
 .orderNum {
     border: 0px;
     background-color: white;
@@ -250,4 +259,9 @@ li.check {
 
 .orderNum:hover {
 	text-decoration : underline;
+}
+
+#detail-table input,
+#detail-get-table input {
+	padding-left : 5px;
 }

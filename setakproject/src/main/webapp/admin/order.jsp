@@ -27,6 +27,8 @@
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
+	<!-- 우편번호 -->
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>   
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	
@@ -109,9 +111,115 @@
 	            $('#datepicker2').val("");
 			});
 			
+			// 전체선택
+			$("#allcheck").click(function(){
+		        if($("#allcheck").prop("checked")){
+		            $("input[name=chk]").prop("checked",true);
+		        }else{
+		            $("input[name=chk]").prop("checked",false);
+		        }
+		    })
+			
 			// 정렬
 			$('#order-select').change(function() {
 				searchOrder();
+			});
+			
+			// 주문 상세 수정
+			$('#detail-submit-btn').on("click", function() {
+				
+				if(confirm("수정 하시겠습니까?")) {
+					var addr = $("#detail-addr1").val() + '!' + $("#detail-addr2").val();
+					
+					var param = {
+							order_num : $("#detailOrderNum").text(),
+							order_status : $("#detailOrderStatus").val(),
+							order_delicode : $("#deliveryNum").val(),
+							order_name : $("#detail-human").val(), 
+						 	order_phone : $("#detail-phone").val(),
+						 	order_zipcode : $("#detail-zipcode").val(),
+							order_address : addr,
+							order_request : $("#detail-request").val()
+					};
+					
+					$.ajax({
+						url:'/setak/admin/orderUpdate.do', 
+						type:'POST',
+						data:param,
+						dataType:"json", //리턴 데이터 타입
+						contentType:'application/x-www-form-urlencoded; charset=utf-8',
+						success:function(data) {	
+							
+							var loc = data.order_address;
+				       		var locSplit = loc.split('!');
+				    		var addr1 = locSplit[0];
+				    		var addr2 = locSplit[1];
+				    		
+			        		if(addr2 == null) {
+			        			addr2 = '';
+			        		}  
+			        		
+			        		var delicode = data.order_delicode;
+			        		if(delicode == null) {
+			        			delicode = ''; 
+			        		}
+
+							$("#detailOrderStatus").val(data.order_status);
+							$("#deliveryNum").val(data.order_delicode);
+							$("#detail-human").val(data.order_name);
+							$("#detail-phone").val(data.order_phone);
+							$("#detail-zipcode").val(data.order_zipcode);
+							$("#detail-addr1").val(addr1);
+							$("#detail-addr2").val(addr2);
+							$("#detail-request").val(data.order_request);
+							
+							searchOrder();
+						},
+						error: function() {
+							alert("ajax통신 실패");
+					    }
+					});	
+				}
+				
+			});
+			
+			// 입력창  한글 금지 > 검색어, 배송번호, 휴대폰번호
+			$("#keyword, #deliveryNum, #detail-phone").on("keyup", function() { 
+				$(this).val($(this).val().replace(/[^0-9]/g,"")); 
+			});
+			
+			// 선택 주문 상태 변경
+			$("#update-btn").click(function(){
+				
+				var select_status = $("#status-select").val();
+				
+				var orderNumArr = []; 
+				var checkbox = $("input[name=chk]:checked");
+				
+	     		checkbox.each(function() {
+	     			var chk = $(this);
+	     			var order_num = chk.parent().parent().children().eq(1).children().val();
+	     			orderNumArr.push(order_num);
+	     		});
+	     		
+				$.ajax({
+					url:'/setak/admin/statusUpdate.do', 
+					type:'POST',
+					data: { 
+						orderNumArr : orderNumArr, 
+						order_status : select_status
+						},
+					traditional : true,
+					dataType:"json", //리턴 데이터 타입
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(data) {
+						alert("성공"); 				
+					},
+					error: function() {
+						alert("ajax통신 실패");
+				    }
+				});
+	     		
 			});
 
 		});
@@ -125,31 +233,54 @@
 	            jQuery('#layer-div').attr('style','display:block');
 	            jQuery('#popup-div').attr('style','display:block');
 	            
-	            var param = {'order_num' : value}
+	            var param = {'order_num' : value }; 
 				$.ajax({
 					url:'/setak/admin/orderSelect.do', 
 					type:'POST',
 					data:param,
 					dataType:"json", //리턴 데이터 타입
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
-					success:function(data) {	
+					success:function(data) {
 						
+						var loc = data.order_address;
+			       		var locSplit = loc.split('!');
+			    		var addr1 = locSplit[0];
+			    		var addr2 = locSplit[1];
+			    		
+		        		if(addr2 == null) {
+		        			addr2 = '';
+		        		}  
+		        		
+		        		var delicode = data.order_delicode;
+		        		if(delicode == null) {
+		        			delicode = ''; 
+		        		}
+						
+		        		// 서비스 중 상태에서만 배송번호 입력 가능 
+		        		var status = data.order_status;
+		        		console.log(status); 
+		        		if(status == '서비스중') {
+		        			$('#deliveryNum').prop('readonly', false); 
+		        		}else {
+		        			$('#deliveryNum').prop('readonly', true);
+		        		}
+		        				        		
 						$("#detailOrderNum").text(data.order_num);
-						$("#detailOrderDate").text(data.order_date);
+						$("#detailOrderDate").text('20'+data.order_date);
 						$("#deliveryPrice").text(data.order_price);
-						$("#detailOrderStatus").text(data.order_status);
-						$("#deliveryNum").text(data.order_delicode);
+						$("#detailOrderStatus").val(status);
+						$("#deliveryNum").val(data.order_delicode);
 						$("#deliveryPrice").text(data.order_price+'원');
 						
 						$("#detail-human").val(data.order_name);
 						$("#detail-phone").val(data.order_phone);
 						$("#detail-zipcode").val(data.order_zipcode);
-						$("#detail-addr1").val(data.order_addr1);
-						$("#detail-addr2").val(data.order_addr2);
+						$("#detail-addr1").val(addr1);
+						$("#detail-addr2").val(addr2);
 						$("#detail-request").val(data.order_request);
 					},
 					error: function() {
-						alert("ajax통신 실패!!!");
+						alert("ajax통신 실패");
 				    }
 				});
 				
@@ -216,6 +347,10 @@
 				success:function(data) {	
 					$("#result-table tbody").empty();
 					
+					if($("#allcheck").prop("checked")){
+						 $("#allcheck").prop("checked",false);
+					}
+					
 					 var count = data.orderSearchCount;
 					 $("#result-num").text(count); 
 					 
@@ -227,16 +362,22 @@
 						 var dateArr = orderDate.split(" ");
 						 var date = dateArr[0];
 						 
+						 var delicode = item.order_delicode;
+						 console.log(delicode); 
+						 if(delicode == null) {
+							 delicode = "-"; 
+						 }
+						 
 						 var output = '';
 						 
 						 output += '<tr>';
-						 output += '<td class = "check"> <input type = "checkbox" /> </td>';
+						 output += '<td class = "check"> <input type = "checkbox"  name = "chk"/> </td>';
 						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('+'\'open\',\''+item.order_num+'\''+')" value="'+item.order_num+'"/></td>';
 						 output += '<td>'+item.member_id+'</td>';						 
 						 output += '<td>'+item.order_name+'</td>';						 
 						 output += '<td>20'+date+'</td>';
 						 output += '<td>'+item.order_price+'원</td>';
-						 output += '<td><span id = "delivery_num"></span></td>';	
+						 output += '<td><span id = "delivery_num">'+delicode+'</span></td>';	
 						 output += '<td>'+item.order_status+'</td>';
 						 output += '</tr>';
 						 
@@ -249,6 +390,60 @@
 			    }
 			});
 		}
+		
+		//우편번호 api
+	    function execDaumPostcode() {
+
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+	                
+	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+
+	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("extraAddress").value = extraAddr;	
+
+	                
+	                } else {
+	                	document.getElementById("extraAddress").value = '';		                    
+	                }
+	                
+	                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                    document.getElementById('detail-zipcode').value = data.zonecode;
+	                    document.getElementById("detail-addr1").value = addr;
+	                    // 커서를 상세주소 필드로 이동한다.
+	                    document.getElementById("detail-addr2").value = ""; 
+	                    document.getElementById("detail-addr2").focus();                	
+
+	            }
+	        }).open();
+	    }
+		
 
 	</script>
 </head>
@@ -287,9 +482,9 @@
 						<tr>
 							<td>주문일자</td>
 							<td>
-								<input id = "datepicker" name = "search_start" class = "search-date" type = "text" size = "10px"/>
+								<input id = "datepicker" name = "search_start" class = "search-date" type = "text" size = "10px" readonly />
 								~
-								<input id = "datepicker2" name = "search_end" class = "search-date" type = "text" size = "10px"/>
+								<input id = "datepicker2" name = "search_end" class = "search-date" type = "text" size = "10px" readonly/>
 								
 								<input type = "button" class = "search-date-btn" name = "order_date" id = "today" value = "오늘"/>
 								<input type = "button"  class = "search-date-btn" name = "order_date" id = "today" value = "일주일"/>
@@ -338,7 +533,7 @@
 					<table id="result-table" class = "example">
 						<thead>
 							<tr>
-								<th class = "check"><input type = "checkbox" /></th>
+								<th class = "check"><input id = "allcheck" type = "checkbox" /></th>
 								<th>주문번호</th>
 								<th>아이디</th>
 								<th>받는사람</th>
@@ -354,17 +549,23 @@
 							
 							String date = ovo.getOrder_date();
 							String[] dateArr = date.split(" ");
-							String orderDate = dateArr[0]; 			
+							String orderDate = dateArr[0]; 	
+							
+							String order_delicode = "-"; 
+							if(ovo.getOrder_delicode() != null) {
+								order_delicode = ovo.getOrder_delicode();
+							}
 							
 						%>
 							<tr>
-								<td class = "check"> <input type = "checkbox" /> </td>
+								<td class = "check"> <input type = "checkbox" name = "chk"/> </td>
 								<td><input id="orderNumBtn" class = "orderNum" type = "button" onclick = "layerOrderDetail('open', '<%=ovo.getOrder_num()%>')" value = "<%=ovo.getOrder_num() %>" /></td>
 								<td><%=ovo.getMember_id() %></td>
 								<td><%=ovo.getOrder_name() %></td>
 								<td>20<%=orderDate %></td>
 								<td><%=ovo.getOrder_price() %>원</td>
-								<td><span id = "delivery_num"></span></td>
+								
+								<td><span id = "delivery_num"><%=order_delicode%></span></td>
 								<td><%=ovo.getOrder_status() %></td>
 							</tr>
 						<%} %>
@@ -381,12 +582,12 @@
 					<div id="status-update-div">
 						선택한 주문건을 
 						<select id = "status-select">
-							<option>결제완료</option>
-							<option>수거중</option>
-							<option>서비스중</option>
-							<option>배송중</option>
-							<option>배송완료</option>
-							<option>주문취소</option>
+							<option value = "결제완료">결제완료</option>
+							<option value = "수거중">수거중</option>
+							<option value = "서비스중">서비스중</option>
+							<option value = "배송중">배송중</option>
+							<option value = "배송완료">배송완료</option>
+							<option value = "주문취소">주문취소</option>
 						</select>
 						 상태로 변경
 						<input type = "button" id = "update-btn" value = "변경"/>
@@ -403,21 +604,21 @@
 						<% if(nowpage<=1) { %>
 							< &nbsp;&nbsp;&nbsp;
 							<% } else { %>
-							<a href="./noticeList.do?page=<%=nowpage-1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/left-squared.png"></a>&nbsp;
+							<a href="./admin/order.do?page=<%=nowpage-1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/left-squared.png"></a>&nbsp;
 							<% } %>
 							
 							<% for (int a=startpage; a<=endpage; a++) { 
 									if(a==nowpage) { %>
 										<%=a %>
 										<% } else { %>
-										<a href="./noticeList.do?page=<%=a %>" >&nbsp;<%=a %>&nbsp;</a>
+										<a href="./order.do?page=<%=a %>" >&nbsp;<%=a %>&nbsp;</a>
 								<% } %>
 							<% } %>
 							&nbsp;
 							<% if (nowpage >= maxpage ) { %>
 									&nbsp;&nbsp;&nbsp; >
 								<% } else { %>
-									<a href="./noticeList.do?page=<%=nowpage+1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/right-squared.png"></a>
+									<a href="./order.do?page=<%=nowpage+1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/right-squared.png"></a>
 							<% } %>
 							</td>
 						</tr>
@@ -433,9 +634,7 @@
    	<div id = "layer-div" class = "layer-card">
 		<div id = "popup-div">
 			<div class="popup-title">
-				<h2>주문 상세정보 
-				<button class = "popup-close" onclick = "layerOrderDetail('close')"><img src="https://img.icons8.com/ultraviolet/20/000000/close-window.png"></button>
-				</h2>
+				<h2>주문 상세정보 </h2>
 			</div>
 			<div class="popup-content">
 				
@@ -458,9 +657,18 @@
 							</tr>
 							<tr>
 								<td>주문상태</td>
-								<td><span id = "detailOrderStatus"></span></td>
+								<td>
+									<select id = "detailOrderStatus">
+										<option value = "결제완료">결제완료</option>
+										<option value = "수거중">수거중</option>
+										<option value = "서비스중">서비스중</option>
+										<option value = "배송중">배송중</option>
+										<option value = "배송완료">배송완료</option>
+										<option value = "주문취소">주문취소</option>
+									</select>
+								</td>
 								<td>배송번호</td>
-								<td><input id = "deliveryNum" type = "text"/></td>
+								<td><input id = "deliveryNum" type = "text" /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -474,26 +682,29 @@
 						<tbody>
 							<tr>
 								<td>받는사람</td>
-								<td><input id = "detail-human" type = "text" value = "" /></td>
+								<td><input id = "detail-human" type = "text" style = "width : 80px;"/></td>
 								<td>휴대폰</td>
-								<td><input id = "detail-phone" type = "text" value = "" /></td>
+								<td><input id = "detail-phone" type = "text" style = "width : 100px;" /></td>
 							</tr>
 							<tr>
 								<td>우편번호</td>
 								<td>
-									<input id = "detail-zipcode" type = "text" value = "" readonly />
-									<input type = "button" value = "우편번호 검색" />
+									<input id = "detail-zipcode" type = "text" readonly style = "width : 45px;" />
+									<input type = "button" value = "우편번호 검색" onclick = "execDaumPostcode();"/>
 								</td>
 							<tr>
 								<td>주소</td>
-								<td><input id = "detail-addr1" type = "text" value = "" /></td>
+								<td><input id = "detail-addr1" type = "text" style = "width : 180px;" /></td>
 								<td>상세주소</td>
-								<td><input id = "detail-addr2" type = "text" value = "" /></td>
+								<td>
+									<input id = "detail-addr2" type = "text" style = "width : 230px;" />
+									<input id="extraAddress" type="hidden" placeholder="참고항목">
+								</td>
 							</tr>
 							<tr>
 								<td>요청사항</td>
 								<td colspan = "3">
-									<textarea id = "detail-request" cols = "75" rows = "3"></textarea>
+									<textarea id = "detail-request" cols = "90" rows = "5"></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -503,7 +714,8 @@
 
 				<!-- 버튼 div -->				
 				<div id = "detail-btn-div">
-					<input id = "detail-submit-btn" type = "button" value = "확인 "/>
+					<input id = "detail-submit-btn" type = "button" value = "확인"/>
+					<input id = "detail-close-btn" type = "button" value = "닫기" onclick = "layerOrderDetail('close')"/>
 				</div>
 			</div>
 		</div>

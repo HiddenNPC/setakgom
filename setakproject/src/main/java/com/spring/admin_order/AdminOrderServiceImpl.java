@@ -30,6 +30,19 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		
 		return orderList;
 	}
+	
+	@Override
+	public ArrayList<OrderVO> getOrderList2(HashMap<String, Object> map) {
+		ArrayList<OrderVO> orderList = null;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			orderList = adminOrderMapper.getOrderList2(map);
+		} catch(Exception e) {
+			System.out.println("전체 주문 리스트 검색 실패22222" + e.getMessage());
+		}
+		
+		return orderList;
+	}
 
 	@Override
 	public int getOrderCount() {
@@ -81,6 +94,32 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		}
 		
 		return orderVO; 
+	}
+
+	@Override
+	public int updateOrderInfo(OrderVO ovo) {
+		int res = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			res = adminOrderMapper.updateOrderInfo(ovo);
+		}catch(Exception e) {
+			System.out.println("선택 주문 정보 수정 실패 " + e.getMessage());
+		}
+		
+		return res; 		
+	}
+
+	@Override
+	public int statusUpdate(HashMap<String, Object> map) {
+		int res = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			res = adminOrderMapper.statusUpdate(map);
+		}catch(Exception e) {
+			System.out.println("주문 상태 수정 실패 " + e.getMessage());
+		}
+		
+		return res; 
 	}
 
 

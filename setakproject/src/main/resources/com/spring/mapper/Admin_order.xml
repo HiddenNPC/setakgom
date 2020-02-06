@@ -24,7 +24,14 @@
 	
 	<!-- 전체 주문 테이블  : 시간 역순 -->
 	<select id = "getOrderList" resultMap = "OrderResultMap">
-		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status from memberorder order by member_id, order_date desc
+		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status from memberorder order by order_date desc
+	</select>
+	
+	<!-- 전체 주문 테이블 : startrow, endrow -->
+	<select id="getOrderList2" parameterType="java.util.HashMap" resultMap="OrderResultMap">
+		<![CDATA[select * from (select rownum rnum, order_num, member_id, order_name, order_price, order_date, 
+		order_delicode, order_status from (select * from memberorder order by order_date desc)) 
+		where rnum >= #{startrow} and rnum <= #{endrow}]]>
 	</select>
 	
 	<!-- 전체 주문 개수  -->
@@ -78,5 +85,19 @@
 	<select id = "getOrderInfo" parameterType = "com.spring.order.OrderVO" resultMap = "OrderResultMap">
 		select * from memberorder where order_num = #{order_num}
 	</select>
+	
+	<!-- 선택 주문 정보 수정 -->
+	<update id="updateOrderInfo" parameterType = "com.spring.order.OrderVO">
+		update memberorder set order_phone = #{order_phone, jdbcType = VARCHAR}, order_delicode = #{order_delicode, jdbcType = VARCHAR}, order_status = #{order_status, jdbcType = VARCHAR},
+		order_name = #{order_name, jdbcType = VARCHAR}, order_address = #{order_address, jdbcType = VARCHAR}, order_request = #{order_request, jdbcType = VARCHAR} where order_num = #{order_num}
+	</update>
+	
+	<update id="statusUpdate" parameterType="java.util.HashMap">
+		update memberorder set order_status = #{order_status} 
+		where
+		<foreach collection ='orderNumArr' item='item' separator = 'or'>
+			order_num = #{item} 
+		</foreach>
+	</update>
 
 </mapper>

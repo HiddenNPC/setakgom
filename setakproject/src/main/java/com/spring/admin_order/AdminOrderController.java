@@ -27,7 +27,7 @@ public class AdminOrderController {
 	public String adminOrder(Model model, HttpServletRequest request) {
 		
 		// 전체 주문 개수
-		ArrayList<OrderVO> orderList = adminOrderService.getOrderList();
+		//ArrayList<OrderVO> orderList = adminOrderService.getOrderList();
 		int orderCount = adminOrderService.getOrderCount();
 		
 		// 페이지
@@ -40,6 +40,12 @@ public class AdminOrderController {
 		
 	    int startrow = (page-1)*10 +1;
 	    int endrow = startrow + limit-1;
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("startrow", startrow);
+		map.put("endrow", endrow);
+		
+		ArrayList<OrderVO> orderList = adminOrderService.getOrderList2(map);
 
 	    int maxpage = (int)((double)orderCount/limit+0.95);
 	    int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
@@ -64,6 +70,7 @@ public class AdminOrderController {
 		return "/admin/order";
 	}
 	
+	// 주문 검색 
 	@RequestMapping(value = "/admin/orderSearch.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
 	public Map<String, Object> orderSearch(@RequestParam(value="searchType") String searchType, @RequestParam(value="keyword") String keyword,
@@ -73,6 +80,7 @@ public class AdminOrderController {
 		String start = startDate.replace("-", "/").substring(2, startDate.length());
 		String end = endDate.replace("-", "/").substring(2, endDate.length());
 
+		// 검색어 설정 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
@@ -92,45 +100,40 @@ public class AdminOrderController {
 		
 	}
 	
+	// 주문 상세보기
 	@RequestMapping(value = "/admin/orderSelect.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
-	public Map<String, Object> orderSelect(OrderVO ovo) {
+	public OrderVO orderSelect(OrderVO ovo) {
 		
+		OrderVO orderVO = adminOrderService.getOrderInfo(ovo);		
+		return orderVO; 
+	}
+	
+	// 주문 상세정보 수정
+	@RequestMapping(value = "/admin/orderUpdate.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public OrderVO orderUpdate(OrderVO ovo) {
+		
+		adminOrderService.updateOrderInfo(ovo);
 		OrderVO orderVO = adminOrderService.getOrderInfo(ovo);
+
+		return orderVO; 
+	}
+	
+	// 주문 상태 수정 
+	@RequestMapping(value = "/admin/statusUpdate.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public OrderVO statusUpdate(String[] orderNumArr, OrderVO ovo) {
 		
-		Map<String, Object> retVal = new HashMap<String, Object>();
+		String order_status = ovo.getOrder_status();
 		
-		String order_addr1 = " ", order_addr2 = " ";
-		String addr = orderVO.getOrder_address();
-		String[] addrArr = addr.split("!");
-		order_addr1 = addrArr[0]; 
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("orderNumArr", orderNumArr);
+		map.put("order_status", order_status);
 		
-		if(addrArr.length == 2) {
-			order_addr2 = addrArr[1];
-		}
-		String order_request = " ";
-		if(orderVO.getOrder_request() != null) {
-			order_request = orderVO.getOrder_request();
-		}
-		
-		String order_delicode = " ";
-		if(orderVO.getOrder_delicode() != null) {
-			order_delicode = orderVO.getOrder_delicode();
-		}
-		
-		retVal.put("order_num", orderVO.getOrder_num());
-		retVal.put("order_price", orderVO.getOrder_price());
-		retVal.put("order_date", orderVO.getOrder_date());
-		retVal.put("order_status", orderVO.getOrder_status());
-		retVal.put("order_phone", orderVO.getOrder_phone());
-		retVal.put("order_name", orderVO.getOrder_name());
-		retVal.put("order_zipcode", orderVO.getOrder_zipcode());
-		retVal.put("order_request", orderVO.getOrder_request());
-		retVal.put("order_addr1", order_addr1);
-		retVal.put("order_addr2", order_addr2);
-		retVal.put("order_delicode", order_delicode);
-		
-		return retVal; 
+		int res = adminOrderService.statusUpdate(map);
+
+		return ovo; 
 	}
 
 }
