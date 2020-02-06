@@ -5,12 +5,7 @@
 <%@ page import = "com.spring.setak.*"%>
 <%
 	int maxnum =((Integer)request.getAttribute("maxnum")).intValue();
-	//ArrayList<ReviewVO> reviewlist = (ArrayList<ReviewVO>)request.getAttribute("reviewlist");
-	//Date today = new Date();
-	//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-	
-	
-	
+
 %>
 
 <!DOCTYPE html>
@@ -54,7 +49,7 @@ $(document).ready(function () {
 	$('span .page-number').on("click", function() {
 		$("html, body").animate({scrollTop : 0}, 1000);
 	});
-    
+	
 	// 조건 ()
 	$('input[type="radio"]').on('click', function() {		
 		$('#re_list').empty();
@@ -63,7 +58,7 @@ $(document).ready(function () {
 			url:'/setak/reviewCondition.do', 
 			type:'POST',
 			data: rec,
-			dataType:"json", //리턴 데이터 타입
+			dataType:"json",
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
@@ -74,10 +69,10 @@ $(document).ready(function () {
 					var rphoto=res.substring(1,idx);
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
-													
-					re_list += '<thead class="re_thead">';
+									
+					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db " class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td><p>별점 :</p></td><td height="20px" colspan="3"> ';   
+					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
 					if(i%2 == 1){
 						for(var abc = 0; abc<(i-1)/2; abc++){
 							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -89,8 +84,7 @@ $(document).ready(function () {
 							re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
 							re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 						}
-					}
-					
+					}		
 					if(i%2 == 0){
 						for(var abc = 0; abc<i/2; abc++){
 							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -103,15 +97,16 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+rdate+'</td></tr>';																														
-					re_list += '<tr><td colspan="2"><textarea class="ret" id="ret'+index+'" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
-					re_list += '<td>'+rphoto+'</td></tr>';																	
-					re_list += '<tr><td></td>';																	
-					re_list += '<td style="margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
-					re_list += '<td><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
-					re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
-					re_list += '</thead>';
-					$('#re_list').append(re_list);	
+					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<td rowspan="2">'+rphoto+'</td></tr>';	
+					re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
+					re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
+					re_list += '<td style="text-align:center;">';				
+					re_list += '<input ur_num ="'+item.review_num+'" ur_id="'+item.member_id+'" ur_star="'+item.review_star+'" ur_content="'+item.review_content+'" ur_kind="'+item.review_kind+'" ur_photo="'+item.review_photo+'" class="updateForm" type="button" value="수정">';										
+					re_list += '<input delete_id = "'+item.review_num+'" class="re_delete" type="button" value="삭제">';
+					re_list += '</td></tr></table></form>';					
+					$('#re_list').append(re_list);
+					
 				})
 				page();
 			},
@@ -140,7 +135,7 @@ $(document).ready(function () {
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
 									
-					re_list += '<form class="xx'+item.review_num+'"><table class="re_table'+item.review_num+'">';
+					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db " class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
 					if(i%2 == 1){
@@ -167,19 +162,19 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td></tr>';																														
-					re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
-					re_list += '<td>'+rphoto+'</td></tr>';																	
-					re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
+					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<td rowspan="2">'+rphoto+'</td></tr>';	
+					re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
+					re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
 					re_list += '<td style="text-align:center;">';				
 					re_list += '<input ur_num ="'+item.review_num+'" ur_id="'+item.member_id+'" ur_star="'+item.review_star+'" ur_content="'+item.review_content+'" ur_kind="'+item.review_kind+'" ur_photo="'+item.review_photo+'" class="updateForm" type="button" value="수정">';										
 					re_list += '<input delete_id = "'+item.review_num+'" class="re_delete" type="button" value="삭제">';
-					re_list += '</td></tr></table></form>';
-					
+					re_list += '</td></tr></table></form>';					
 					$('#re_list').append(re_list);	
 									
-					$(document).on('click', '#heart'+index+'', function () {
-				        var that = $('#heart'+index+'');
+					$(document).on('click', '.heart'+index+'', function () {
+				        var that = $('.heart'+index+'');
+				        console.log(that);
 				        var sendData = {'review_num' : item.review_num, 'review_like' : item.review_like};
 				        console.log(sendData);				        
 				        $.ajax({
@@ -191,51 +186,7 @@ $(document).ready(function () {
 							success: function(data){
 				            	console.log(data+"값 잘 넘김  "); //review_like
 				            	$('#heart'+index+'').attr(item.review_like);
-				            	var re_list = '';					
-								var i = item.review_star;
-								var res =JSON.stringify(item.review_photo);			
-								var idx= res.indexOf("/");
-								var rphoto=res.substring(1,idx);
-								var re_d =JSON.stringify(item.review_date);					
-								var rdate= re_d.substr(1 ,16);
-																
-								re_list += '<thead class="re_thead">';
-								re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-								re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
-								if(i%2 == 1){
-									for(var abc = 0; abc<(i-1)/2; abc++){
-										re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
-										re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
-									}
-									re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
-									re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
-									for(var x = 0; x<((10-i)-1)/2; x++){  
-										re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
-										re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
-									}
-								}
-								
-								if(i%2 == 0){
-									for(var abc = 0; abc<i/2; abc++){
-										re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
-										re_list += '<a id="rstar" class="starR4 on" value="'+item.review_star+'">';
-									}
-									for(var x = 0; x<(10-i)/2; x++){  
-										re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
-										re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
-									}
-								}
-								
-								re_list += '</td></tr>';		   																		
-								re_list += '<tr><td name="member_id" style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td class="rkind" style="width:100px;">'+ item.review_kind +'</td><td style="width:450px;"></td><td style="width:120px;">'+rdate+'</td></tr>';																														
-								re_list += '<tr><td colspan="3"><textarea class="ret" id="ret'+index+'" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
-								re_list += '<td>'+rphoto+'</td></tr>';																	
-								re_list += '<tr>';																	
-								re_list += '<td colspan="3" style="text-align:center; margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
-								re_list += '<td style="text-align:center;"><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
-								re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
-								re_list += '</thead>';
-								$('#re_list').append(re_list);	
+				            	location.href='./review.do';	
 				            	
 				            },
 				            error:function() {
@@ -291,32 +242,65 @@ $(document).ready(function () {
 		
 	//수정버튼 - 폼
 	$(document).on('click','.updateForm', function(){
-	    	$("#re_layer").show();	
-	    	$(".dim").show();	
-		
-	    $(".close").on('click', function(){
-	    	$(this).parent().hide();	
-	    	$(".dim").hide();	
+		$("#re_layer2").show();	
+	    $(".dim2").show();			
+	    $(".close2").on('click', function(){	    		    	
+	    	$(this).parent().hide();	    	
+	    	$(".dim2").hide();
 		});
+	    
+	    $('.r_content a').click(function () {
+	    	$(this).parent().children('a').removeClass('on');
+	        $(this).addClass('on').prevAll('a').addClass('on');      
+	        $('#Review_star2').val($(this).attr("value")/2);
+	        return false;
+	    	});	
+	    
 	    var ur_num = $(this).attr("ur_num");			
 		var ur_id = $(this).attr("ur_id");			
-		var ur_star= $(this).attr("ur_star");						
+		var ur_star= $(this).attr("ur_star")/2;						
 		var ur_content=$(this).attr("ur_content"); 						
 		var ur_kind=$(this).attr("ur_kind");					
-		var ur_photo=$(this).attr("ur_photo");
+		var ur_photo=$(this).attr("ur_photo"); //오리지날
+		var res =JSON.stringify(ur_photo);			
+		var idx= res.indexOf("/");
+		var rphoto=res.substring(1,idx);//원래 파일 이름만 
+		if(ur_photo != null){ 
+			$('#upload-name').val(rphoto);
+		}else{
+			$('#upload-name').val("파일이 존재하지 않습니다.");
+		}
 		console.log(ur_num);
 		console.log(ur_id);
 		console.log(ur_star);
 		console.log(ur_content);
 		console.log(ur_kind);
-		console.log(ur_photo);
-	
+		console.log(ur_photo);	
+		console.log(rphoto);
+		
+		$('#Review_num2').attr('value', ur_num);
+		$('#Review_star1').attr('value', ur_star);
+		$('#member_id2').attr('value',ur_id);
+		$('#Review_content2').val(ur_content);
+		$("#Review_kind2").val(ur_kind);/* .attr("selected","selected") */
+		$('#exist_file').val(ur_photo);
+		
+		
+		//파일 업로드 부분 작동
+		var fileTarget = $('.filebox .upload-hidden');
+		fileTarget.on('change', function(){ // 값이 변경되면
+			if(window.FileReader){ // modern browser 
+				var filename = $(this)[0].files[0].name; 
+				console.log("1="+$(this)[0].files[0].name);
+			}else { // old IE 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+				
+				} 
+		// 추출한 파일명 삽입 
+		$(this).siblings('.upload-name').val(filename);	
+		}); 
+
 	});
-	
-	
-	
-	//수정 실시
-	
 
 selectData();		
 });
@@ -341,7 +325,7 @@ function searchCheck() {
 		dataType:"json", //리턴 데이터 타입
 		contentType:'application/x-www-form-urlencoded; charset=utf-8',
 		success:function(data) {				
-			$.each(data, function sd(index, item) {
+			$.each(data, function(index, item) {
 				var re_list = '';					
 				var i = item.review_star;
 				var res =JSON.stringify(item.review_photo);			
@@ -349,10 +333,10 @@ function searchCheck() {
 				var rphoto=res.substring(1,idx);
 				var re_d =JSON.stringify(item.review_date);					
 				var rdate= re_d.substr(1 ,16);
-												
-				re_list += '<thead class="re_thead">';
+								
+				re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db " class="re_table'+item.review_num+'">';
 				re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-				re_list += '<tr><td height="20px" colspan="3">';   
+				re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
 				if(i%2 == 1){
 					for(var abc = 0; abc<(i-1)/2; abc++){
 						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -364,8 +348,7 @@ function searchCheck() {
 						re_list += '<a id="rstar" class="starR3" value="'+item.review_star+'">';
 						re_list += '<a id="rstar" class="starR4" value="'+item.review_star+'">';
 					}
-				}
-				
+				}		
 				if(i%2 == 0){
 					for(var abc = 0; abc<i/2; abc++){
 						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -378,15 +361,16 @@ function searchCheck() {
 				}
 				
 				re_list += '</td></tr>';		   																		
-				re_list += '<tr><td name="member_id">'+ item.member_id +'</td><td>'+ item.review_kind +'</td><td>'+rdate+'</td></tr>';																														
-				re_list += '<tr><td colspan="2"><textarea class="ret" id="ret'+index+'" readonly="readonly" >'+item.review_content+'</textarea></td>';																	
-				re_list += '<td>'+rphoto+'</td></tr>';																	
-				re_list += '<tr><td></td>';																	
-				re_list += '<td style="margin: auto;"><input  class="#heart" id = "heart'+index+'" type="button" name="Review_like'+index+'" value="'+item.review_like+'"></td>';																	
-				re_list += '<td><input id = "re_u'+index+'" type="button" name="Review_u'+index+'" value="수정">';																	
-				re_list += '<input id = "re_d'+index+'" type="button" name="Review_d'+index+'" value="삭제"></td></tr>';																	
-				re_list += '</thead>';
-				$('#re_list').append(re_list);	
+				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+				re_list += '<td rowspan="2">'+rphoto+'</td></tr>';	
+				re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
+				re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
+				re_list += '<td style="text-align:center;">';				
+				re_list += '<input ur_num ="'+item.review_num+'" ur_id="'+item.member_id+'" ur_star="'+item.review_star+'" ur_content="'+item.review_content+'" ur_kind="'+item.review_kind+'" ur_photo="'+item.review_photo+'" class="updateForm" type="button" value="수정">';										
+				re_list += '<input delete_id = "'+item.review_num+'" class="re_delete" type="button" value="삭제">';
+				re_list += '</td></tr></table></form>';					
+				$('#re_list').append(re_list);
+				
 			})
 			page();
 		},
@@ -399,13 +383,14 @@ function searchCheck() {
 //만들어진 테이블에 페이지 처리
 function page(){ 
 	
-	$('div.paginated').each(function() {
+	$('#re_list').each(function() {
 		var pagesu = 10;  //페이지 번호 갯수		
 		var currentPage = 0;		
 		var numPerPage = 10;  //목록의 수		
 		var $table = $(this);    
 		//length로 원래 리스트의 전체길이구함
-		var numRows = $table.find('table').length;//10
+		var numRows = $table.find('form').length;//10
+		console.log(numRows);
 		//Math.ceil를 이용하여 반올림
 		var numPages = Math.ceil(numRows / numPerPage);
 		//리스트가 없으면 종료
@@ -417,9 +402,7 @@ function page(){
 		//페이지를 클릭하면 다시 셋팅
 		$table.bind('repaginate', function() {
 		//기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다
-		$table.find('table').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-				
-		
+		$table.find('form').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();						
 		$("#remo").html("");		
 		if (numPages > 1) { // 한페이지 이상이면
 			if (currentPage < 5 && numPages-currentPage >= 5) { // 현재 5p 이하이면
@@ -506,6 +489,7 @@ function rwchk(){
         document.getElementById('Review_star').focus();
         return false;
     }
+	
 	else if (document.getElementById('Review_kind').value=="") 
 	{
     	alert("이용하신 서비스를 선택해주세요");
@@ -513,8 +497,34 @@ function rwchk(){
         return false;
     }
 	
+	return true;
+	
+}
+
+function ruchk(){	
+
+	if (document.getElementById('Review_content2').value=="") 
+	{
+		alert("리뷰의 내용을 작성하세요.(최대 300자)");
+        document.getElementById('Review_content2').focus();
+        return false;
+        
+    }
+	else if (document.getElementById('Review_star1').value=="") 
+	{
+    	alert("별점을 눌러주세요");
+        document.getElementById('Review_star1').focus();
+        return false;
+    }
+	else if (document.getElementById('Review_kind2').value=="") 
+	{
+    	alert("이용하신 서비스를 선택해주세요");
+        document.getElementById('Review_kind2').focus();
+        return false;
+    }
+	
 	else{
-		document.reviewform.submit()
+		document.re_updateform.submit()
 	}
 }
 //취소
@@ -541,11 +551,11 @@ function rwcancel(){
 <div class="title-text"><h2><a href="javascript:history.go(0)">리뷰 </a></h2></div>
 <div class="review">
 
-<!-- 레이아웃 팝업  -->
+<!-- 리뷰작성 모달 팝업  -->
 <a href="#" class="open">리뷰작성</a>
 <div id="re_layer">
 <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" onsubmit="return rwchk();">
-<h2>세탁곰 리뷰 작성</h2>
+<h2>리뷰 작성</h2>
 <div class="r_content">
 	<p style="margin-bottom:5px;">사용자 평점</p> 
 	<a class="starR1 on" value="1" >별1_왼쪽</a>
@@ -583,25 +593,92 @@ function rwcancel(){
 </form>
 <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
 </div>
-<div class="dim"></div><br><br>     
+<div class="dim"></div>
+
+
+<!-- 리뷰수정 모달 팝업  -->
+
+<div id="re_layer2">
+<form action="./reviewUpdate.do" method="post" enctype="multipart/form-data" name="re_updateform" onsubmit="return ruchk();">
+<h2>리뷰 수정</h2>
+<div class="r_content">
+	<div >작성자 :&nbsp;<label for="member_id2"></label><input onfocus="this.blur()" id="member_id2" name="member_id" value="">기존 별점 : 
+	<input type="text" id="Review_star1" value="" readonly="readonly">점</div> 
+	<small style=" float: left;" >별점 :</small> 
+	<a class="starR1 on" value="1" >별1_왼쪽</a>
+    <a class="starR2" value="2">별1_오른쪽</a>
+    <a class="starR1" value="3">별2_왼쪽</a>
+    <a class="starR2" value="4">별2_오른쪽</a>
+    <a class="starR1" value="5">별3_왼쪽</a>
+    <a class="starR2" value="6">별3_오른쪽</a>
+    <a class="starR1" value="7">별4_왼쪽</a>
+    <a class="starR2" value="8">별4_오른쪽</a>
+    <a class="starR1" value="9">별5_왼쪽</a>
+    <a class="starR2" value="10">별5_오른쪽</a>    
+    <small>(<input type="text" id="Review_star2" name="Review_star" value="" readonly="readonly">) 점</small>
+   	<input type="hidden" id="Review_num2" name="Review_num" value="">  	
+</div>      
+<table class="r_content">
+	<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+    <tr><td colspan="7"><textarea id="Review_content2" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
+    <tr><td>
+    	<div class="filebox" >
+			<input type="hidden" id="exist_file" name="exist_file" value="">
+			<input id="upload-name" class="upload-name" value="" disabled="disabled">
+			<label for="ex_filename">업로드</label>
+			<input type="file" id="ex_filename" name="Review_photo" class="upload-hidden">
+		</div>
+		</td>
+		<td width="40px">
+        	<select name="Review_kind" id="Review_kind2">
+           		<option value="">분류</option>
+                <option value="세탁">세탁</option>
+                <option value="세탁-수선">세탁-수선</option>
+                <option value="세탁-보관">세탁-보관</option>
+                <option value="수선">수선</option>
+                <option value="보관">보관</option>
+                <option value="정기구독">정기구독</option>
+           </select>
+        </td>           
+		<td align="right"  colspan="4">
+			<input id="cbtn" type="submit" name="submit" value="등록" >		
+			<input id="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
+	</tr>
+</table>
+</form>
+<a class="close2"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+</div>
+<div class="dim2"></div>
+
+
+
+
+
+
+
+
+
+
 
 <!-- 글 분류 -->
 <div class="re2">
 
 <%-- <strong id="re2h">리뷰  <%=maxnum %>개</strong> --%>
 
-<div>
+<div class="re2_search">
 <input type="radio" id="radio1" name="radio_val" value="review_date" ><label for="radio1">등록일순</label>
 <input type="radio" id="radio2" name="radio_val" value="review_like"><label for="radio2">좋아요순</label>
 <input type="radio" id="radio3" name="radio_val" value="review_star"><label for="radio3">별점순</label>
  
 <!-- 검색 -->
+<div style="float: right;">
 <select name="keyfield" id="keyfield" size="1">
 	<option value="member_id"> 이름 </option>
 	<option value="review_content"> 내용 </option>
 </select>
 <input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
 <input id="kwbtn" type="button" value="검색" onClick="searchCheck()">
+</div>
 </div>
 
 <!--리뷰 리스트 (ajax) -->  
