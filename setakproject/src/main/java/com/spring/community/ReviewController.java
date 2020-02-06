@@ -234,10 +234,9 @@ import org.springframework.web.servlet.ModelAndView;
 		return retVal;
 	}
 	
-	@RequestMapping(value ="/reviewUpdate.do", method = {RequestMethod.GET, RequestMethod.POST} ) 	
+	@RequestMapping(value ="/reviewUpdate.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 	
 	@ResponseBody public Map<String, Object> reviewUpdate(ReviewVO vo, MultipartHttpServletRequest request) throws Exception {
 		
-		/* produces="application/json; charset=UTF-8", */
 		String reviewe_kind=vo.getReview_kind();
 		Double review_star=vo.getReview_star();
 		String review_content=vo.getReview_content();
