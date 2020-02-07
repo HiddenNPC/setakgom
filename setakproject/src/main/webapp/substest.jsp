@@ -21,7 +21,6 @@
 			
 			var data = {"cid":"minchoi9509","mid":"merchant_15806894981"};
 			
-			
          	$.ajax({
                 type: "POST",
                 url: "/setak/subsres.do",
@@ -37,7 +36,6 @@
 			});
 			
    	     });
-		
    	    
 	});
 	

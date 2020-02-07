@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -515,10 +516,12 @@ public class OrderController {
 	@RequestMapping(value = "/insertSubscribe.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
 	public String insertSubscribe(MemberVO mvo, HttpServletRequest request, HttpServletResponse response, 
-			@RequestParam(value="merchant_uid") String merchant_uid, @RequestParam(value="customer_uid") String customer_uid) throws Exception {
+			@RequestParam(value="merchant_uid") String merchant_uid, @RequestParam(value="customer_uid") String customer_uid,
+			@RequestParam(value="amount") String amount) throws Exception {
 
 		System.out.println("merchant_uid : " + merchant_uid);
 		System.out.println("customer_uid : " + customer_uid);
+		System.out.println(amount);
 		
 		// MemberVO 값 변경 (번호 입력)
 		orderService.updateSubInfo(mvo);
@@ -532,58 +535,19 @@ public class OrderController {
 //		for(int i = 0; i < coupon_num; i++) {
 //			orderService.insertCoupon(mvo);
 //		}
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("imp_uid", customer_uid);
-		String muid = merchant_uid + 1;
-		System.out.println(muid);
-		map.put("merchant_uid", muid);
-		String a = iamportCallback(request, response, map);
+		merchant_uid += "s";
+		subsres(customer_uid, merchant_uid, amount, request, response);
 		
 		
 		return ""; 
 	}
 	
-	// 정기구독 웹훅 설정
-	@RequestMapping(value = "/iamport-callback", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String iamportCallback(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap<String, String> map) throws Exception {
-		System.out.println("여기오니~~ -민경");
-		// 데이터 받기
-		String customer_uid =  map.get("imp_uid");
-		String merchant_uid =  map.get("merchant_uid");
-		//String status =  map.get("status");
+	//정기결제
+	public void subsres(String cid, String mid, String amount, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println("customer_uid 승환 : " + customer_uid);
-		
-		// 정기 결제 예약
-		Iamport iamport = new Iamport();
-		
-		// 아임포트 억세스 토큰생성 
-		String imp_key 		=	URLEncoder.encode("9458449343571602", "UTF-8");
-		String imp_secret	=	URLEncoder.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
-		JSONObject json = new JSONObject();
-		json.put("imp_key", imp_key);
-		json.put("imp_secret", imp_secret);
-		
-		String requestURL = "https://api.iamport.kr/users/getToken";
-		
-		String token = iamport.getToken(request, response, json, requestURL);
-		
-		int res = iamport.subscribeSchedule(token, customer_uid, merchant_uid, 100);
-		
-		return "";
-	}
-	
-	@RequestMapping(value = "/subsres.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	@ResponseBody
-	public String subsres(String cid, String mid,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println(cid +","+ mid);
-		
-		String customer_uid =  cid;
-		String merchant_uid =  mid;
-		//String status =  map.get("status");
-		
-		System.out.println("customer_uid 승환 : " + customer_uid);
+		Calendar c = Calendar.getInstance();
+		long time = c.getTimeInMillis()/1000;
+		time += 2592000;
 		
 		// 정기 결제 예약
 		Iamport iamport = new Iamport();
@@ -603,13 +567,12 @@ public class OrderController {
 				+ "\"schedules\": [\r\n"
 				+ 	  "{"
 				+ 		"\"merchant_uid\":" + "\"" + mid + "\"" + ",\r\n"
-                + 		"\"schedule_at\":\"1581127113\",\r\n"
-                + 		"\"amount\":\"100\""
+                + 		"\"schedule_at\":\""+time+"\",\r\n"
+                + 		"\"amount\":\""+amount+"\""
                 +	  "}\r\n"
                 +	"]\r\n"
                 + "}";
 		
-		System.out.println(body);
 		try {
 
             URL url = new URL("https://api.iamport.kr/subscribe/payments/schedule");
@@ -650,20 +613,7 @@ public class OrderController {
             System.out.println(e);
         }
 		
-		
-		
-		
-		
-		
-		
-		
-		return "";
 	}
-	
-	
-	
-	
-	
 	
 	
 	// 정기구독 결제 성공	

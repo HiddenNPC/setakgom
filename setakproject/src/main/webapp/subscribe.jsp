@@ -71,9 +71,9 @@
              IMP.request_pay({ // param
                pay_method: "card", // "card"만 지원됩니다
                merchant_uid : muid,
-               customer_uid: "minchoi9509", // 카드(빌링키)와 1:1로 대응하는 값
+               customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
                name: "정기 구독 결제 카드 등록 및 최초 결제",
-               amount: 0, 
+               amount: "1000", 
                buyer_email : '<%=memberVO.getMember_email()%>',
                buyer_name : '<%=memberVO.getMember_name()%>',
                buyer_tel : '<%=memberVO.getMember_phone()%>',
@@ -90,11 +90,13 @@
             	        dataType: 'text',
             	        data: {
             	          merchant_uid : muid,
-            	          customer_uid: "minchoi9509",
+            	          customer_uid: cuid,
             	          'member_id' : member_id,
-           				  'subs_num' : subs_num     	          
+           				  'subs_num' : subs_num,
+           				  'amount': "1000"
             	        },
                         success : function() {
+                        	
                             location.href='<%=request.getContextPath()%>/subSuccess.do';
                         } 
             	      });
