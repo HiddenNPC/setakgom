@@ -38,7 +38,7 @@ public class MemberController {
 	  @RequestMapping(value="/chk_id.do", produces = "application/json; charset=utf-8")
 	  @ResponseBody 
 	  public Map<String, Object> check_id(HttpServletRequest request,MemberVO mo) {
-	  //	 System.out.println("컨트롤러mo="+mo.getMember_id());
+	  //System.out.println("컨트롤러mo="+mo.getMember_id());
 	  Map<String,Object> result = new HashMap<String, Object>(); 
 
 		  int res = memberservice.member_id(mo);

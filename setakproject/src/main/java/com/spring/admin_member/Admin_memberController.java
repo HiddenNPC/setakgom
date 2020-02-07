@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.member.MemberVO;
@@ -86,4 +87,68 @@ public class Admin_memberController {
 			}
 		return result;
 	}
+	
+	/*검색*/
+	@RequestMapping(value ="/admin/searchmember.do", produces = "application/json; charset=utf-8", method = {RequestMethod.POST })
+	@ResponseBody // 데이터를 전송(view가 아니다)
+	public Map<String, Object> search (String startDate, String endDate, String searchType, String keyword, String [] statusArr, Model model) {
+		String start = startDate.replace("-", "/").substring(2, startDate.length());
+		String end = endDate.replace("-", "/").substring(2, endDate.length());
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("startDate", start);
+		 map.put("endDate", end);
+		 map.put("searchType", searchType);
+		 map.put("keyword", keyword);
+		 map.put("statusArr", statusArr);
+		 
+		ArrayList<MemberVO> list =  admemberservice.searchlist(map);
+		int searchcount = admemberservice.searchlistcount(map);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		 result.put("list", list);
+		 result.put("searchcount", searchcount);
+		
+		
+		return result;
+	}
+	
+	/*회원상세정보 보기 */
+	@RequestMapping(value ="/admin/admin_detail.do", produces = "application/json; charset=utf-8", method = {RequestMethod.POST })
+	@ResponseBody 
+	public Map<String, Object> detail (String member_id ) {
+		MemberVO memberVO = admemberservice.detail(member_id);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		 result.put("list", memberVO);
+		return result;
+	}
+	
+	/*회원상세정보 수정*/
+	@RequestMapping(value ="/admin/detail_update.do", produces = "application/json; charset=utf-8", method = {RequestMethod.POST })
+	@ResponseBody 
+	public Map<String, Object> detail_update (String member_id, String member_name, String member_phone, 
+											String member_email, String member_zipcode, String member_loc, Integer subs_num ) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("member_id", member_id);
+		 map.put("member_name", member_name);
+		 map.put("member_phone", member_phone);
+		 map.put("member_email", member_email);
+		 map.put("member_zipcode", member_zipcode);
+		 map.put("member_loc", member_loc);
+		 map.put("subs_num", subs_num);
+		 
+		int res = admemberservice.detail_update(map);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		if (res == 1) {
+			result.put("res", "OK");
+		} else {
+			result.put("res", "FAIL");
+			result.put("message", "Failure");
+
+		}
+	return result;
+	}
+	
 }

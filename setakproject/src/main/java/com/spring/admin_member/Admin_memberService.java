@@ -17,4 +17,17 @@ public interface Admin_memberService {
 	 
 	 //메모수정
 	 public int update_memo(MemberVO mo);
+	 
+	//검색
+	 public ArrayList<MemberVO> searchlist(HashMap<String, Object> map); 
+	 
+	//검색 리스트 갯수 
+	public int searchlistcount(HashMap<String, Object> map); 
+	
+	 // 회원상세정보 보기  
+	public MemberVO detail(String member_id);
+	
+	// 회원상세정보 수정 
+	public int detail_update(HashMap<String, Object> map);
+
 }
