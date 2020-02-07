@@ -1,6 +1,7 @@
 package com.spring.setak;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ public class Admin_MendingKeepServiceImpl implements Admin_MendingKeepService{
 		result = keepMapper.getKeepList();
 		
 		return result;
+	}
+	
+	@Override
+	public int updateKeep(KeepVO params){
+		Admin_KeepMapper keepMapper = sqlSession.getMapper(Admin_KeepMapper.class);
+		int res = keepMapper.updateKeep(params);
+		return res;
 	}
 
 }

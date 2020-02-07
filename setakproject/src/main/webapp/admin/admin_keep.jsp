@@ -30,21 +30,24 @@
 							str += '<li class="listtd">' + item.keep_rnum + '</li>';
 							str += '<li class="listtd">' + item.order_num + '</li>';
 							str += '<li class="listtd">' + item.member_id + '</li>';
-							str += '<li class="listtd">' + item.keep_kind + '(' + item.keep_count +')</li>';
-							str += '<li class="listtd">' + item.keep_box + '</li>';
-							str += '<li class="listtd">' + item.keep_start + '</li>';
-							str += '<li class="listtd">' + item.keep_end + '</li>';
+							str += '<li class="listtd"><input type="text" class="keep_kind" value="' + item.keep_kind + '" disabled></li>';
+							str += '<li class="listtd"><input type="number" class="keep_count" value="' + item.keep_count + '" disabled></li>';
+							str += '<li class="listtd"><input type="number" class="keep_box" name="keep_box" min="1" value="' + item.keep_box + '" disabled></li>';
+							str += '<li class="listtd"><input type="date" class="keep_day" name="keep_start" value="' + item.keep_start + '" disabled></li>';
+							str += '<li class="listtd"><input type="date" class="keep_day" name="keep_end" value="' + item.keep_end + '" disabled></li>';
 							str += '<li class="listtd"><select class="keep_now" name="keep_now" disabled>';
 							str += '<option value=' + item.keep_now + '>'+ item.keep_now +'</option>';
 							str += '<option value="보관중">보관중</option>';
 							str += '<option value="부분반환">부분반환</option>';
 							str += '<option value="전체반환">전체반환</option>';
 							str += '</select></li>';
-							str += '<li class="listtd">' + item.keep_file + '</li>';
-							str += '<li class="listtd"><a href="" class="update">수정</a></li>';
+							str += '<li class="listtd"><input type="button" class="keep_img_popup" value="사진"></li>';
+							str += '<li class="listtd"><a class="update">수정</a>';
+							str += '<a style="display: none;" value="/setak/updateKeep.do?keep_seq=' + item.keep_seq + '" class="after">수정</a></li>';
+							str += '<li class="listtd" style="display:none;"><input type="text" class="keep_cate" value="' + item.keep_cate + '" disabled></li>';
 							str += '</ul>';
 							$(".keep_list").append(str);
-						});						
+						});
 						page();
 					},
 					error:function(){
@@ -56,19 +59,116 @@
 			selectData();
 			
 			//수정 눌렀을 때
+			var update_keep_cate ="";
+			var update_keep_kind ="";
 			$(document).on('click','.update',function(event) {
-				event.preventDefault();
-				$(".update").removeClass("after");
-				$(".update").attr("href","");
+				$(".after").css("display","none");
+				$(".update").css("display","block");
+				$(".keep_count").attr("disabled","disabled");
+				$(".keep_box").attr("disabled","disabled");
+				$(".keep_day").attr("disabled","disabled");
 				$(".keep_now").attr("disabled","disabled");
+				$(".keep_count").removeClass("upadte_select");
+				$(".keep_box").removeClass("upadte_select");
+				$(".keep_day").removeClass("upadte_select");
 				$(".keep_now").removeClass("upadte_select");
+				$('.listtd').removeClass("update_count");
 				
-				$(this).addClass("after");
-				$(this).attr("href","/setak/updateKeep.do?");
+				$($(this).parent().children(".after")).css("display","block");
+				$(this).css("display","none");
+				$($(this).parent().parent().children().children('.keep_count')).removeAttr("disabled");
+				$($(this).parent().parent().children().children('.keep_box')).removeAttr("disabled");
+				$($(this).parent().parent().children().children('.keep_day')).removeAttr("disabled");
 				$($(this).parent().parent().children().children('.keep_now')).removeAttr("disabled");
+				$($(this).parent().parent().children().children('.keep_count')).addClass("upadte_select");
+				$($(this).parent().parent().children().children('.keep_box')).addClass("upadte_select");
+				$($(this).parent().parent().children().children('.keep_day')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.keep_now')).addClass("upadte_select");
+				$($(this).parent().parent().children('.listtd:nth-child(5)')).addClass("update_count"); //팝업창 누를 수 있게 됨
+				
+				//나중에 옷종류 값 변경 시키기위해서.
+				update_keep_cate = $($(this).parent().parent().children('.listtd:nth-child(13)').children(".keep_cate"));
+				update_keep_kind = $($(this).parent().parent().children('.listtd:nth-child(5)').children(".keep_kind"));
+				
+				//다른 수정버튼 눌렀을 때 기본값으로 돌리기 위해서
+				$('#keep_form')[0].reset();
 			});
 
+			//수정 활성화 됐을 때 종류 값 클릭시 팝업생성
+			$(document).on('click','.update_count',function(event) {
+				$(".popup_back").addClass("popup_on");
+			});
+			$(document).on('click','.close',function(event) {
+	            $(".popup_back").removeClass("popup_on");
+				$(".keep-list").removeClass("tab_active");
+	        });
+
+			//팝업에서 탭 눌렀을 때
+			$(".tab").on("click", function() {
+				$(".tab").removeClass("tab_active");
+				$(".tab-content").removeClass("show");
+				$(this).addClass("tab_active");
+				$($(this).attr("href")).addClass("show");
+			});
+			$(".keep-list").on("click", function() {
+				$(".keep-list").removeClass("tab_active");
+				$(this).addClass("tab_active");
+			});
+			
+			//팝업에서 확인 눌렀을 때
+			var popup_keep_cate = "";	//큰카테
+			var popup_keep_kind = "";	//작은카테
+			$(document).on('click','.commit',function(event) {
+				popup_keep_cate = document.getElementsByClassName('tab tab_active');
+	            popup_keep_kind = document.getElementsByClassName('keep-list tab_active');
+	            
+	            if(!$(".keep-list").hasClass("tab_active")){
+					alert("종류를 선택하지 않았습니다.");
+					return false;
+				}
+	            
+	            //팝업닫기
+	            $(".popup_back").removeClass("popup_on");
+
+	            //옷종류 바꾼거 적용시키기 
+	            $(update_keep_cate).val(popup_keep_cate[0].innerHTML);
+	            $(update_keep_kind).val(popup_keep_kind[0].innerHTML);
+
+	            $(".keep-list").removeClass("tab_active");
+			});
+			
+			//수정 ajax
+			$(document).on('click','.after', function(event){
+				var cate = $(this).parents().eq(1).children().eq(12).children().val();
+				var kind = $(this).parents().eq(1).children().eq(4).children().val();
+				var count = $(this).parents().eq(1).children().eq(5).children().val();
+				var box = $(this).parents().eq(1).children().eq(6).children().val();
+				var sd = $(this).parents().eq(1).children().eq(7).children().val();
+				var fd = $(this).parents().eq(1).children().eq(8).children().val();
+				var now = $(this).parents().eq(1).children().eq(9).children().val();
+				
+				var params = {"keep_cate":cate,"keep_kind":kind,"keep_box":box,"keep_start":sd,"keep_end":fd,"keep_now":now,"keep_count":count}
+				
+				jQuery.ajax({
+					url : $(this).attr("value"), 
+					type : 'post',
+					data : params,
+					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+					dataType : "json", //서버에서 보내줄 데이터 타입
+					success:function(retVal){
+						if(retVal.res == "OK"){
+							$('.keep_list').empty()
+							selectData();
+						} else {
+							alert("수정 실패");
+						}
+					},
+					error:function(){
+						alert("ajax통신 실패");
+					}
+				});
+				event.preventDefault();
+			}); 
 			
 			//페이징 작업
 			function page(){ 
@@ -159,6 +259,82 @@
 				});
 			}
 		});
+		
+		//사진
+		//이미지 정보들 담을 배열
+		var sel_files = [];
+		
+		$(document).ready(function(){
+			$("#input_imgs").on("change", handleImgFileSelect);	
+		});
+		
+		function fileUploadAction(){
+			consol.log("fileUploadAction");
+			$("#input_imgs").trigger('click');
+		}
+		
+		function handleImgFileSelect(e){
+			
+			//이미지 정보 초기화
+			sel_files = [];
+			$(".imgs_wrap").empty();
+			
+			var files = e.target.files;
+			var filesArr = Array.prototype.slice.call(files);
+			
+			var index = 0;
+			filesArr.forEach(function(f){
+				if(!f.type.match("image.*")){
+					alert("확장자는 이미지 확장자만 가능합니다.");
+					return;
+				}
+				
+				sel_files.push(f);
+				
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name + "' class='selProductFile' title='Click to remove'></a>";
+					$(".imgs_wrap").append(html);
+					index++;
+					
+				}
+				reader.readAsDataURL(f);
+			});
+		}
+		
+		
+		function deleteImageAction(index){
+			consol.log("index : " + index);
+			sel_files.splice(index,1);
+			
+			var img_id = "#img_id_" + index;
+			$(img_id).remove();
+			
+			consol.log(sel_files);
+		}
+		
+		$(document).on("click",".my_button",function(event){
+		           var form = new FormData(document.getElementById('reviewform'));
+		           
+		           $.ajax({
+		              url : "/setak/review_insert.do", 
+		              data : form,
+		              dataType: 'json',
+		              processData : false,
+		              contentType : false,
+		              type : 'POST',
+		              success:function(data) {
+		                 alert('성공!');
+		
+		                 },
+		                 error:function() {
+		                    alert("ajax통신 실패!!!");
+		                 }
+		           });
+		        
+		        event.preventDefault();
+		     });   
+
 	</script>
 </head>
 <body>
@@ -172,17 +348,186 @@
 				<li>주문번호</li>
 				<li>아이디</li>
 				<li>종류</li>
+				<li>의류수량</li>
 				<li>박스수량</li>
 				<li>신청날짜</li>
 				<li>반환날짜</li>
 				<li>상황</li>
-				<li>이미지</li>
+				<li>사진</li>
 				<li>수정</li>
 			</ul>
-			<div class="keep_list paginated">
-				<input type="button" value="선택삭제" class="chkdelete">
+			<form id="keep_form">
+				<div class="keep_list paginated">
+					<input type="button" value="선택삭제" class="chkdelete">
+				</div>
+			</form>
+		</div>
+		<div class="popup_back">
+			<div class="popup">
+			    <div class="tabs">
+					<div class="tab-list">
+						<a href="#one" id="tab" class="tab tab_active">상의</a>
+						<a href="#two" id="tab" class="tab">하의</a>
+						<a href="#three" id="tab" class="tab">아우터</a>
+						<a href="#four" id="tab" class="tab">아동</a>
+					</div>
+					<div class="tab-list">
+						<a href="#five" id="tab" class="tab">침구</a>
+						<a href="#six" id="tab" class="tab">리빙</a>
+						<a href="#seven" id="tab" class="tab">신발</a>
+						<a href="#eight" id="tab" class="tab">잡화</a>
+					</div>
+				</div>
+	
+				<div id="one" class="tab-content show">
+					<ul class="top">
+						<li class="keep-list" value="셔츠">셔츠</li>
+						<li class="keep-list" value="티셔츠">티셔츠</li>
+						<li class="keep-list" value="블라우스">블라우스</li>
+						<li class="keep-list" value="후드티,맨투맨티">후드티,맨투맨티</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="니트,스웨터">니트,스웨터</li>
+						<li class="keep-list" value="원피스/점프수트">원피스/점프수트</li>
+						<li class="keep-list" value="원피스(니트,실크,레자)">원피스(니트,실크,레자)</li>
+						<li class="keep-list" value="후리스">후리스</li>
+					</ul>
+				</div>
+				
+				<div id="two" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="바지">바지</li>
+						<li class="keep-list" value="바지(니트,레자,패딩)">바지(니트,레자,패딩)</li>
+						<li class="keep-list" value="스커트">스커트</li>
+						<li class="keep-list" value="스커트(니트,레자,패딩)">스커트(니트,레자,패딩)</li>
+					</ul>
+				</div>
+				
+				<div id="three" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="가디건">가디건</li>
+						<li class="keep-list" value="롱가디건">롱가디건</li>
+						<li class="keep-list" value="점퍼(야상,청자켓,항공점퍼,집업)">점퍼(야상,청자켓,항공점퍼,집업)</li>
+						<li class="keep-list" value="자켓">자켓</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="패딩">패딩</li>
+						<li class="keep-list" value="롱패딩">롱패딩</li>
+						<li class="keep-list" value="프리미엄패딩">프리미엄패딩</li>
+						<li class="keep-list" value="코트">코트</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="기능성의류(등산용,바람막이)">기능성의류(등산용,바람막이)</li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				
+				<div id="four" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="아동">아동</li>
+						<li class="keep-list" value="아동 바지/치마">아동 바지/치마</li>
+						<li class="keep-list" value="아동 자켓/점퍼">아동 자켓/점퍼</li>
+						<li class="keep-list" value="아동 코트">아동 코트</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="아동 패딩">아동 패딩</li>
+						<li class="keep-list" value="아동 원피스">아동 원피스</li>
+						<li class="keep-list" value="아동 운동화">아동 운동화</li>
+						<li class="keep-list" value="아동 부츠">아동 부츠</li>
+					</ul>
+				</div>
+				
+				<div id="five" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="베개,쿠션 커버">베개,쿠션 커버</li>
+						<li class="keep-list" value="침대,매트리스,이불커버,홑이불">침대,매트리스,이불커버,홑이불</li>
+						<li class="keep-list" value="일반 이불">일반 이불</li>
+						<li class="keep-list" value="극세사,일반 토퍼">극세사,일반 토퍼</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="구스이불,양모이불">구스이불,양모이불</li>
+						<li class="keep-list" value="실크이불">실크이불</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				
+				<div id="six" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="발매트">발매트</li>
+						<li class="keep-list" value="원룸커튼">원룸커튼</li>
+						<li class="keep-list" value="일반커튼">일반커튼</li>
+						<li class="keep-list" value="벨벳커튼">벨벳커튼</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="러그,카펫">러그,카펫</li>
+						<li class="keep-list" value="식탁보">식탁보</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				
+				<div id="seven" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="운동화,스니커즈">운동화,스니커즈</li>
+						<li class="keep-list" value="캐주얼샌들/슬리퍼">캐주얼샌들/슬리퍼</li>
+						<li class="keep-list" value="구두,로퍼">구두,로퍼</li>
+						<li class="keep-list" value="등산화">등산화</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="부츠화">부츠화</li>
+						<li class="keep-list" value="롱부츠">롱부츠</li>
+						<li class="keep-list" value="가죽부츠(발목)">가죽부츠(발목)</li>
+						<li class="keep-list" value="어그부츠">어그부츠</li>
+					</ul>
+				</div>
+				
+				<div id="eight" class="tab-content">
+					<ul class="top">
+						<li class="keep-list" value="니트모자">니트모자</li>
+						<li class="keep-list" value="스카프,장갑">스카프,장갑</li>
+						<li class="keep-list" value="숄">숄</li>
+						<li class="keep-list" value="넥타이">넥타이</li>
+					</ul>
+					<ul class="top">
+						<li class="keep-list" value="에코백">에코백</li>
+						<li class="keep-list" value="목도리">목도리</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				<div class="popup_count">
+				
+				</div>
+				<div class="keep_button">
+					<input type="button" value="취소" class="close">
+					<input type="button" value="확인" class="commit">
+				</div>
 			</div>
 		</div>
+
+		<form id="reviewform" method="post" enctype="multipart/form-data">
+	
+		<div class="popup_img_back" style="margin-left:400px; margin-top:300px;">
+			<h2>이미지 미리보기</h2>
+			<div class="input_wrap">
+				<a href="javascript:" onclick="fileUploadAction();" class="my_button">파일 업로드</a>
+				<input type="file" name="keep_file" id="input_imgs" multiple/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="imgs_wrap" style="margin-left:400px;">
+				<img id="img" />
+			</div>
+
+			<a href="javascript:" class="my_button" style="margin-left:400px;">업로드</a>
+		</div>
+		
+				</form>
+	
 	</div><!-- 지우지마세요 -->
 </body>
 </html>
