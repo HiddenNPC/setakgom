@@ -46,11 +46,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
         int list =reviewLikeService.getReviewLike(vo);
         
         System.out.println("list가 0이면 +1 추가 아니면 -1 ="+list);
+       
         if(list==0) {
         	reviewLikeService.insertReviewLike(vo);
         	reviewLikeService.updateReviewLike1(vo);
         	writer.write("<script> alert('"+member_id+"님이 리뷰를 추천해 주셨습니다'); </script>");
-        	return review_like;
+        	return null;
         	
         	
         }else {
@@ -59,7 +60,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
         	writer.write("<script> alert('"+member_id+"님이  추천을 취소하셨습니다'); </script>");
         }
           
-        return review_like;
+        return null;
            
     }
 }

@@ -16,8 +16,8 @@
 	</script>
 </head>
 <body>
-		<div id="admin"></div>
-		<div class="content">
+<div id="admin"></div>
+<div class="content">
 			<!-- 여기서부터 작업하세요. -->
 			<h1>회원관리</h1>
 			<ul class="example">

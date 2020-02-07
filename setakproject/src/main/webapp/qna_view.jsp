@@ -144,7 +144,9 @@ selectData();
 <table class="qvt2">
 <tr><td colspan="4" width="10%" height="40px">
 	<div>첨부 파일 : <%if(!(vo.getQNA_FILE()==null)){ %>
-	<a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>			
+	<a href="#"><%=vo.getQNA_FILE().split("_")[1]%></a>	
+	<img  src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/1581064179326_세탁곰2.png">		
+<%-- <a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>--%>
 	<%}else{ %>파일이 존재하지 않습니다.<%} %>
 	</div></td>
 </tr>	

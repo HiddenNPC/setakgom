@@ -245,8 +245,7 @@ import org.springframework.web.servlet.ModelAndView;
 		System.out.println("별점="+vo.getReview_star());
 		System.out.println("내용="+vo.getReview_content());
 		System.out.println("리뷰번호="+vo.getReview_num());
-		
-		
+				
 		ModelAndView mav = new ModelAndView();
 		MultipartFile mf = request.getFile("Review_photo");//파일		
 		System.out.println("너의 review_photo은=" + mf);
