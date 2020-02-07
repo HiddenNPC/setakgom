@@ -73,7 +73,7 @@ public class LoginController {
 				 session.setAttribute("member_id", mo.getMember_id());
 				 writer.write("<script>alert('로그인 성공!!'); location.href='"+backurl+"'; </script>");
 			 } else {
-				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
+				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='javascript:history.back()';</script>");
 			 }
 			 
 			 return null;
