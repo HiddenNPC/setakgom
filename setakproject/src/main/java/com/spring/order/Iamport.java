@@ -140,17 +140,16 @@ public class Iamport {
 		
 		System.out.println("mid : " + mid);
 		
-        String schedules = "{\"merchant_uid\":" + "\"" + mid + "\"" + ","
-                + "\"schedule_at\":\"1581075444\","
+        String schedules = "[{\"merchant_uid\":" + "\"" + mid + "\"" + ","
+                + "\"schedule_at\":\"1581127113\","
                 + "\"amount\":\"100\""
-                + "}";
+                + "}]";
         
         System.out.println("schedules : " + schedules);
         
 		post.setHeader("Authorization", token);
 		map.put("customer_uid", cid);
 		map.put("schedules", schedules);
-		map.put("amount", price); 
 		String asd = ""; 
 		
 		try {
