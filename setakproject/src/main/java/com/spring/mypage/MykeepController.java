@@ -122,7 +122,7 @@ public class MykeepController {
 //			System.out.println("추가마지막날"+keepVO.getKeep_end());
 //			keep_now = all;
 //		}
-		
+
 		KeepVO keepVO = (KeepVO)kvolist.get(0);
 		keep_start = keepVO.getKeep_end();
 		System.out.println("keep_start : " + keep_start);
