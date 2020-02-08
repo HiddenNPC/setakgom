@@ -28,6 +28,7 @@ public interface MypageMapper {
 	//보관연장
 	int updateKeepMonth(HashMap<String, Object> map);
 	int all_Return(HashMap<String, Object> map);
+	int part_Return_now(HashMap<String, Object> map);
 	//반환
 	int part_Return(KeepReturnVO krvo);
 	MemberVO getMember(String member_id);

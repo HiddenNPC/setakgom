@@ -132,6 +132,10 @@
 		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
 	</update>
 	
+	<update id="part_Return_now" parameterType="java.util.HashMap">
+		update Keep set Keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+	</update>
+	
 	<select id="getKeepcount" resultType="int">
 		select count(*) from keep
 	</select>

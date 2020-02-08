@@ -27,6 +27,7 @@
 </head>
 <body>
 		<div id="admin"></div>
+		
 		<div class="content">
 			<!-- 여기서부터 작업하세요. -->
 			<h1>전체쿠폰관리</h1>
@@ -42,7 +43,7 @@
 					<input type="button" value="선택삭제" class="checkdelete">
 				</div>
 			</form>
-			</div>
+		</div>
 		<!-- 결과  div 끝-->
 	<!-- 지우지마세요 -->
 </body>

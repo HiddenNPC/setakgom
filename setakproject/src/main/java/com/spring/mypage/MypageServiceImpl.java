@@ -158,6 +158,14 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
+	public int part_Return_now(HashMap<String, Object> map) {
+		int res = 0;
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		
+		res = mypageMapper.part_Return_now(map);
+		
+		return res;
+	}
 	
 
 	//리턴

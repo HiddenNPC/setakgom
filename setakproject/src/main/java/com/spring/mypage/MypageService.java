@@ -27,6 +27,7 @@ public interface MypageService {
 	//보관연장
 	public int updateKeepMonth(HashMap<String, Object> map);
 	public int all_Return(HashMap<String, Object> map);
+	public int part_Return_now(HashMap<String, Object> map);
 	//return
 	public int part_Return(KeepReturnVO krvo);
 	public MemberVO getMember(String member_id);
