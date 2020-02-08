@@ -133,7 +133,6 @@ public class MykeepController {
 		System.out.println("keep_end : " + keep_end);
 		keep_now = "보관연장신청";
 		
-		
 		HashMap<String, Object>map = new HashMap<String, Object>();
 		map.put("order_num", order_num);
 		map.put("keep_start", startDate);
