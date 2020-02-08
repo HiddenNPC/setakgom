@@ -57,7 +57,7 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
@@ -89,7 +89,7 @@
 							%>
 							<tbody align="center">
 								<tr>
-									<%-- <td><%=qvo.getQNA_KIND() %></td>  --%>
+									<td><%=qvo.getORDER_NUM() %></td>
 									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQNA_NUM() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQNA_TITLE() %></a></td>
 									<td><%=sdf.format(qvo.getQNA_DATE()) %></td>
 									<td><%=qvo.getQNA_CHECK() %></td>
