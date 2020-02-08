@@ -388,22 +388,33 @@ table.page td a {
 	margin-left:20px;
 }
 
-#btn_del_row{
+.btn_add_row{
+	border:1px solid #fff;
+	border-radius:5px;
+    background-color:#fff;
+    text-align:center;
+    color:#444;
+    font-size:1rem;
+    margin: 5px 0px 5px 0px;
+    padding: 0 auto;
+}
+
+.btn_del_row{
 	border:1px solid #fff;
 	border-radius:5px;
     background-color:#ccc;
     text-align:center;
     color:#fff;
     font-size:1rem;
-    margin: 0 auto;
-    padding: 0 auto;
+    margin: 5px 0px 5px 0px;
+    padding: 0px 10px 0px 10px;
 }
-#btn_del_row:hover{
+.btn_del_row:hover{
 	background-color:#3498db;
 	color:#fff;
 }
 
-#all_return{
+.part_return{
 	width:120px;
 	height:40px;
 	border-radius:20px;
@@ -414,11 +425,32 @@ table.page td a {
 	float:right;
 	color:#444;
 }
-#all_return:first-child{
+.part_return:first-child{
 	margin-left:10px;
 }
 
-#all_return:hover{
+.part_return:hover{
+	background-color:#3498db;
+	color:#fff;
+	transition:all .4s;
+}
+
+.all_return{
+	width:120px;
+	height:40px;
+	border-radius:20px;
+	border:1px solid #e1e4e4;
+	background-color:#e1e4e4;
+	font-size:0.9rem;
+	font-weight:bold;
+	float:right;
+	color:#444;
+}
+.all_return:first-child{
+	margin-left:10px;
+}
+
+.all_return:hover{
 	background-color:#3498db;
 	color:#fff;
 	transition:all .4s;

@@ -3,6 +3,8 @@ package com.spring.mapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.spring.member.MemberVO;
+import com.spring.mypage.KeepReturnVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
@@ -23,6 +25,11 @@ public interface MypageMapper {
 	WashingVO selectWashing(int wash_seq);
 	int getKeepcount();
 	
-	
+	//보관연장
+	int updateKeepMonth(HashMap<String, Object> map);
+	int all_Return(HashMap<String, Object> map);
+	//반환
+	int part_Return(KeepReturnVO krvo);
+	MemberVO getMember(String member_id);
 	
 }

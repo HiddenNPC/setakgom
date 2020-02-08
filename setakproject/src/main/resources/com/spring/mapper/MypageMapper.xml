@@ -78,6 +78,16 @@
 		<result property="keep_file" column="keep_file"/>
 	</resultMap>
 	
+	<resultMap type="com.spring.member.MemberVO" id="MemberResultMap">
+		<result property="member_name" column="member_name" />
+		<result property="member_id" column="member_id" />
+		<result property="member_password" column="member_password" />
+		<result property="member_phone" column="member_phone" />
+		<result property="member_email" column="member_email" />
+		<result property="member_loc" column="member_loc" />
+		<result property="member_zipcode" column="member_zipcode" />
+	</resultMap>
+	
 	
 	
 	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
@@ -108,6 +118,18 @@
 				where keep_seq = #{keep_seq}
 	</select>
 	
+	<select id="getMember" parameterType="String" resultMap="MemberResultMap">
+			select * from member where member_id = #{member_id}
+	</select>
+	
+	<update id="updateKeepMonth" parameterType="java.util.HashMap" >
+		update keep set keep_start = TO_DATE(#{keep_start}, 'YY/MM/DD'), keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
+		where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+	</update>
+	
+	<update id="all_Return" parameterType="java.util.HashMap">
+		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+	</update>
 	
 	<select id="getKeepcount" resultType="int">
 		select count(*) from keep
@@ -136,6 +158,10 @@
 	<select id="selectWashing" resultMap="WashingResultMap" parameterType="int">
 		select * from washing where wash_seq = #{wash_seq}
 	</select>
+	
+	<insert id="part_Return" parameterType="com.spring.mypage.KeepReturnVO">
+		insert into keep_return values (#{order_num}, #{return_kind}, #{return_content}, #{return_confirm})
+	</insert>
 	
 	
 </mapper>

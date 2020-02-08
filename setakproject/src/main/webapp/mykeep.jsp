@@ -2,24 +2,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.util.Date" %>
-<%@ page import = "java.text.SimpleDateFormat" %> 
-<%@ page import="java.util.*, com.spring.setak.*" %>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Calendar"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.*, com.spring.setak.*"%>
+<%@ page import="java.util.*, com.spring.member.*"%>
 <%
-List<OrderListVO> ordernumlist = (ArrayList<OrderListVO>)request.getAttribute("ordernumlist");
-ArrayList<ArrayList<KeepVO>> keeplist2 = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keeplist2");
-SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-List<Integer> seq_count = (ArrayList<Integer>)request.getAttribute("seq_count");
-long order_num = 0;
-
-for (int i = 0; i <ordernumlist.size(); i++){	
-	OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
-	
-	order_num = olvo.getOrder_num();
-}
-	
+	List<OrderListVO> ordernumlist = (ArrayList<OrderListVO>) request.getAttribute("ordernumlist");
+	ArrayList<ArrayList<KeepVO>> keeplist2 = (ArrayList<ArrayList<KeepVO>>) request.getAttribute("keeplist2");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	List<Integer> seq_count = (ArrayList<Integer>) request.getAttribute("seq_count");
+	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
+	String member_phone1 = (String) request.getAttribute("member_phone1");
+	String member_phone2 = (String) request.getAttribute("member_phone2");
+	String member_phone3 = (String) request.getAttribute("member_phone3");
+	String member_addr1 = (String) request.getAttribute("member_addr1");
+	String member_addr2 = (String) request.getAttribute("member_addr2");
+	String zipcode = (String) request.getAttribute("zipcode");
+	System.out.println("memberVO는?" + memberVO);
+	if ((session.getAttribute("member_id") == null)) {
+		out.println("<script>");
+		out.println("location.href='/'");
+		out.println("</script>");
+		out.close();
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -28,24 +35,22 @@ for (int i = 0; i <ordernumlist.size(); i++){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>세탁곰</title>
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mykeep.css" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<script type="text/javascript"src="./js/controller.js"></script>
+<script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
-
 <script type="text/javascript">
 	$(document).ready(function() {
+		var member_id = "<%=session.getAttribute("member_id")%>";
+		
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
 	});
@@ -59,12 +64,12 @@ for (int i = 0; i <ordernumlist.size(); i++){
 		<!-- id 변경해서 사용하세요. -->
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
-			
+
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
-							<ul class="mypage_list">
+						<ul class="mypage_list">
 							<li>주문관리</li>
 							<li><a href="orderview.do">주문/배송현황</a></li>
 							<li><a href="mykeep.do">보관현황</a></li>
@@ -89,141 +94,198 @@ for (int i = 0; i <ordernumlist.size(); i++){
 			</div>
 			<div class="solmin">
 				<div class="mypage_content">
-				<h2>보관현황</h2>
-				<%
-					for (int i = 0; i <ordernumlist.size(); i++){	
-						OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
-						ArrayList<KeepVO> keeplist = keeplist2.get(i);
-						System.out.println(keeplist);
-						System.out.println("날짜" + keeplist.get(0).getKeep_start());
-						
-						String start = keeplist.get(0).getKeep_start();
-						String[] date = start.split(" ");
-						String start_date = date[0]; 			
-						
-						String end = keeplist.get(0).getKeep_end();
-						String[] date2 = end.split(" ");
-						String end_date = date2[0];
-						
-						System.out.println(end_date); //end_date 출력
-						Date sol = sdf.parse(end_date);
-						
-						Calendar one = Calendar.getInstance();
-						one.setTime(sol);
-						one.add(Calendar.MONTH, 1);
-						String m1 = sdf.format(one.getTime());
+					<h2>보관현황</h2>
+					<%
+						for (int i = 0; i < ordernumlist.size(); i++) {
+							OrderListVO olvo = (OrderListVO) ordernumlist.get(i);
+							ArrayList<KeepVO> keeplist = keeplist2.get(i);
 
-						Calendar three = Calendar.getInstance();
-						three.setTime(sol);
-						three.add(Calendar.MONTH, 3);
-						String m3 = sdf.format(three.getTime());
-	
-						Calendar six = Calendar.getInstance();
-						six.setTime(sol);
-						six.add(Calendar.MONTH, 6);
-						String m6 = sdf.format(six.getTime()); 	
-			%>
-				<div class="accordion2">
-					<div class="accordion-header2">
-						<table class="header" >
-							<tr>
-								<th style="width:30%;">주문번호</th>
-								<th style="width:20%;">박스 수량</th>
-								<th style="width:40%;">보관 기관</th>
-								<th style="width:10%;">상세보기</th>
-							</tr>
-							<tr>
-								<td><%=olvo.getOrder_num() %></td>
-								<td><%=keeplist.get(0).getKeep_box() %></td>
-								<td><%=start_date %>&nbsp;~&nbsp;<%=end_date %></td> 
-								
-								<td>
-									<button id='up' class="up">&#8897;</button>
-								</td>
-							</tr>	
-						</table>
-					</div>
-					<div class="accordion-content2">
-						<table>
-						</table>
-						<div class="keepbox" style="border-right:1px solid rgb(255, 255, 255);">보관 기간 연장</div>
-							<div class="keepbox2">반환 신청</div>
-						<br><br><br>
-						<div class="keep_month">
-						<ul>
-							<li class="month"><h3>1개월</h3><p><%=end_date %> ~ <%=m1 %></p><h1><span class="price">10000</span>원</h1></li>
-							<li class="month"><h3>3개월</h3><p><%=end_date %> ~ <%=m3 %></p><h1><span class="price">28000</span>원</h1></li>
-							<li class="month"><h3>6개월</h3><p><%=end_date %> ~ <%=m6 %></p><h1><span class="price">55000</span>원</h1></li>
-						</ul>
-						<div class="total_price">
-							<p>보관비 총 금액 : <span class="tot_price">0</span>원</p>
-						</div>
-						
-						<button class="pay_btn">결제하기</button> 	
-						</div>
-						<div class="rt-service">
-							<form id="" action="" method="post">
-							<table name="rt-table">
-								<tr style="background-color: #3498db;">
-									<td width="20%">종류</td>
-									<td width="80%" colspan="2">옷의 특징을 상세히 입력해주세요.
-										<input type = "button" value = "+" name='btn_add_row' />
-									</td>
-								</tr>
-								<tbody>
+							String start = keeplist.get(0).getKeep_start();
+							String[] date = start.split(" ");
+							String start_date = date[0];
+
+							String end = keeplist.get(0).getKeep_end();
+							String[] date2 = end.split(" ");
+							String end_date = date2[0];
+
+							Date sol = sdf.parse(end_date);
+
+							Calendar one = Calendar.getInstance();
+							one.setTime(sol);
+							one.add(Calendar.MONTH, 1);
+							String m1 = sdf.format(one.getTime());
+
+							Calendar three = Calendar.getInstance();
+							three.setTime(sol);
+							three.add(Calendar.MONTH, 3);
+							String m3 = sdf.format(three.getTime());
+
+							Calendar six = Calendar.getInstance();
+							six.setTime(sol);
+							six.add(Calendar.MONTH, 6);
+							String m6 = sdf.format(six.getTime());
+							long num = 0;
+					%>
+					<div class="accordion2">
+						<div class="accordion-header2" id="<%=olvo.getOrder_num()%>">
+							<table class="header">
 								<tr>
-									<td>
-										<select id="rt-list">
-										<%
-										for (int m = 0; m < seq_count.size(); m++){
-											int keep_seq = seq_count.get(m);
-											keeplist = keeplist2.get(m);
-											for (int j=0; j < keeplist.size(); j++) {
-												KeepVO kvo2 = (KeepVO)keeplist.get(j);
-										%>
-										<option value="<%=kvo2.getKeep_cate() %>"><%=kvo2.getKeep_cate() %></option>
-										<%
-											}
-										}
-										%>	
-										
-										</select>
-									</td>
-									<td>
-									<textarea rows="2" cols="30" placeholder="상세내용"></textarea></td>
-									<td class="bt_del"><input type="button" value="x" id="btn_del_row"/></td>	
+									<th style="width: 30%;">주문번호</th>
+									<th style="width: 20%;">박스 수량</th>
+									<th style="width: 40%;">보관 기관</th>
+									<th style="width: 10%;">상세보기</th>
 								</tr>
-								</tbody>
+								<tr>
+									<td><%=olvo.getOrder_num()%></td>
+									<td><%=keeplist.get(0).getKeep_box()%></td>
+									<td><%=start_date%>&nbsp;~&nbsp;<%=end_date%></td>
+									<td>
+										<button id='up' class="up">&#8897;</button>
+									</td>
+								</tr>
 							</table>
-							<div class="rt_button">
-								<input type="submit" value="부분 반환" id="all_return" onclick="javascript: form.action='/mykeep/halfupdate';"/>
-								<input type="submit" value="전체 반환" id="all_return" onclick="javascript: form.action='/mykeep/allupdate';"/>
-							</div>
-							<p>※ 부분 반환 신청시 회당 추가 배송비 2,000원이 부과됩니다.<br></p>
-							<p>※ 옷의 특징을 상세히 알려주세요. 부합하는 물품이 없을 시 개인 정보에 적혀있는 전화번호로 연락을 드리며,</p><p>&nbsp;&nbsp;공휴일 제외 5일 이상 부재중 시 결제 및 반환이 취소됩니다.</p>
-							<p>※ 반환 후 재 보관은 불가하며, 보관을 원하실 경우 새로 보관 서비스를 이용하시길 바랍니다.</p>
-							</form>	
 						</div>
-					</div> 
-					<br>
+						<div class="accordion-content2">
+							<table>
+							</table>
+							<div class="keepbox"
+								style="border-right: 1px solid rgb(255, 255, 255);">보관 기간
+								연장</div>
+							<div class="keepbox2">반환 신청</div>
+							<br>
+							<br>
+							<br>
+							<div class="keep_month">
+								<ul>
+									<li class="month" value="<%=m1%>"><h3>1개월</h3>
+										<p><%=end_date%> ~ <%=m1%></p>
+										<h1>
+											<span class="price">10000</span>원
+										</h1>
+									</li>
+									<li class="month" value="<%=m3%>"><h3>3개월</h3>
+										<p><%=end_date%> ~ <%=m3%></p>
+										<h1>
+											<span class="price">100</span>원
+										</h1>
+									</li>
+									<li class="month" value="<%=m6%>"><h3>6개월</h3>
+										<p><%=end_date%> ~ <%=m6%></p>
+										<h1>
+											<span class="price">100</span>원
+										</h1>
+									</li>
+								</ul>
+								<div class="total_price">
+									<p>
+										보관비 총 금액 : <span class="tot_price" id="select_price">0</span>원
+									</p>
+								</div>
+
+								<button class="pay_btn" value="<%=olvo.getOrder_num()%>">결제하기</button>
+							</div>
+							<div class="rt-service">
+								<form name="rt-form" class="rt-form" id="testform">
+									<table id="rt-table" name="rt-table" class="rt-table">
+
+										<tr style="background-color: #3498db;">
+											<td width="20%">종류</td>
+											<td width="80%" colspan="2">옷의 특징을 상세히 입력해주세요. 
+											<input type="button" value="+" name='btn_add_row' class="btn_add_row" id="<%=olvo.getOrder_num()%>" /> 
+											<input type="hidden" name="order_num" value="<%=olvo.getOrder_num()%>"> 
+											<input type="hidden" name="return_confirm" value="반환신청완료">
+											</td>
+										</tr>
+										<tr class="keep_tr">
+											<td>
+												<select class="rt-list" name="return_kind"></select>
+											</td>
+											<td>
+												<textarea rows="2" cols="30" placeholder="상세내용" class="return_content" name="return_content"></textarea>
+											</td>
+											<td class="bt_del">
+												<input type="button" value="x" class="btn_del_row" />
+											</td>
+										</tr>
+									</table>
+								</form>
+								<div class="rt_button">
+									<button class="part_return" name="rt-form" value="<%=olvo.getOrder_num()%>">부분반환</button>
+									<button class="all_return" name="rt-form" value="<%=olvo.getOrder_num()%>">전체반환</button>
+								</div>
+								<p>
+									※ 부분 반환 신청시 회당 추가 배송비 2,000원이 부과됩니다.<br>
+								</p>
+								<p>※ 옷의 특징을 상세히 알려주세요. 부합하는 물품이 없을 시 개인 정보에 적혀있는 전화번호로 연락을
+									드리며,</p>
+								<p>&nbsp;&nbsp;공휴일 제외 5일 이상 부재중 시 결제 및 반환이 취소됩니다.</p>
+								<p>※ 반환 후 재 보관은 불가하며, 보관을 원하실 경우 새로 보관 서비스를 이용하시길 바랍니다.</p>
+							</div>
+						</div>
+						<br>
 					</div>
 					<%
-						} 
+						}
 					%>
 				</div>
 			</div>
-		</div><!-- content -->
+		</div>
+		<!-- content -->
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
-	   <!-- 나의 주소록 레이어 -->
+	<!-- 나의 주소록 레이어 -->
 	<div id="footer"></div>
 </body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>//보관기간연장 아코디언
+//보관품목
 
-//버튼클릭시 
- 
+$(document).ready(function () {
+	
+	function selectData() {
+		
+		$(".accordion-header2").click(function() {
+			var order_num = $(this).attr('id');
+			$(".accordion-content2 > table").empty();
+			$(".rt-list").empty();
+			
+		$.ajax({
+			url : '/setak/keepcatelist.do',
+			type : 'POST',
+			data : {'order_num': order_num},
+			dataType : "json",
+			content : 'application/x-www-form-urlencoded; charset = utf-8',
+			
+			success:function(data) {
+					var output= '';
+					var input='';
+					output += '<tr>';
+					output += '<td style="background-color: #3498db;">보관하신품목</td>';
+					output += '</tr>';
+				$.each(data, function(index, item) {
+					output += '<tr>';
+					output += '<td>' + item.keep_cate + '&nbsp;&nbsp;' + '(' + item.keep_kind + ')' + '&nbsp;&nbsp;' +item.keep_count + '</td>';
+					output += '</tr>';
+				});
+				$.each(data, function(index, item) {
+					input += '<option value='+item.keep_cate+'>' + item.keep_cate + '</option>';
+				})
+				console.log("output : " + output);
+				$('.accordion-content2 > table').append(output);
+				$('.rt-list').append(input);
+			},
+			error:function(){
+				alert("ajax 통신 실패1");
+			}
+			});
+		});  
+	}
+	 selectData();
+});
+
+
 
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;
@@ -243,40 +305,6 @@ $.pricefun = function(n){
 	
 };
 
-//ajax
-	
-$(document).ready(function() {
-	
-	function selectData() {
-	var param = {'order_num': <%=order_num %> };
-	console.log("para?=" + param);
-	$.ajax({
-			url : '/setak/keepcatelist.do',
-			type : 'POST',
-			data : param,
-			dataType:"json",
-			contentType:'application/x-www-form-urlencoded; charset=utf-8',
-			success:function(data) {
-				$.each(data, function (index, item) {
-					var output= '';
-					output += '<tr>';
-					output += '<td style="background-color: #3498db;">보관하신품목</td>';
-					output += '</tr>';
-					output += '<td>' + item.keep_cate + '</td>';
-					output += '</tr>';
-					console.log("output : " + output);
-					$('.accordion-content2 > table').append(output);
-				});
-			},
-			error:function(request,status,error){
-		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				}
-			});
-	}
-});
-
-
-
 	$(document).ready(function() {
 	  jQuery(".accordion-content2").hide();
 	//content 클래스를 가진 div를 표시/숨김(토글)
@@ -289,31 +317,48 @@ $(document).ready(function() {
 	    $('.mypage_content_cover2').find('.accordion2>.accordion-header2').not($except).removeClass("active");
 	  });
 	
-	  $(document).on("click","#btn_del_row", function() {
+	  $(document).on("click",".btn_del_row", function() {
 			$(this).parent().parent().remove();
 		});	
 	  
 	  $(document).on("click","input[name='btn_add_row']", function () {
-		  var str='';
+		  var select_btn = $(this);
+		  var order_num = $(this).attr('id');
+		  	
+			$.ajax({
+			url : '/setak/keepcatelist.do',
+			type : 'POST',
+			data : {'order_num': order_num},
+			dataType : "json",
+			content : 'application/x-www-form-urlencoded; charset = utf-8',
+			success:function(data) {
+				
+					var str='';			
+					str += '<tr>';
+					str += '<td>';
+					str += '<select class="rt-list" name="return_kind">';
+				$.each(data, function(index, item) {
+					str += '<option value='+item.keep_cate+'>' + item.keep_cate + '</option>';
+				})
+					str += '</select>';
+					str += '</td>';
+					str += '<td>';
+					str += '<textarea rows="2" cols="30" placeholder="상세내용" name="return_content"></textarea>';
+					str += '</td>';
+					str += '<td class="bt_del">';
+					str += '<input type="button" value="x" class="btn_del_row"/>';
+					str += '</td>';
+					str += '</tr>'; 
+					
+					var tr = select_btn.parent().parent().parent();
+					tr.append(str);  
+			},
+			error:function(){
+				alert("ajax 통신 실패1");
+			}
+			});
 			
-			str += '<tr>';
-			str += '<td>';
-			str += '<select class="rt-list">';
-			<% for(int i =0; i< keeplist2.size(); i++){
-				ArrayList<KeepVO> keeplist = keeplist2.get(i);%>
-				str += '<option value="<%=keeplist.get(i).getKeep_cate()%>"><%=keeplist.get(i).getKeep_cate() %></option>';	
-			<%}%>
-			str += '</select>';
-			str += '</td>';
-			str += '<td>';
-			str += '<textarea rows="2" cols="30" placeholder="상세내용"></textarea>';
-			str += '</td>';
-			str += '<td class="bt_del">';
-			str += '<input type="button" value="x" class="btn_del_row"/>';
-			str += '</td>';
-			str += '</tr>'; 
-			$(this).closest('table').append(str);
-			//$("table[name='rt-table']:eq("++") > tbody:last").append(str);
+			//$("table[name='rt-table']:eq(-1) > tbody:last").append(str);
 	});
 	});
 
@@ -329,8 +374,9 @@ $(document).ready(function() {
 });
 
 
-//결제 스크립트
+//보관 연장 결제 스크립트
 $(document).ready(function() {
+	
  	  jQuery(".keep_month").hide();
  	//content 클래스를 가진 div를 표시/숨김(토글)
  	  $(".keepbox").click(function(){
@@ -338,84 +384,163 @@ $(document).ready(function() {
 		$except.toggleClass("active");
 		$(".keep_month").slideToggle(200);
 		$(".rt-service").slideUp(0);
- 	  });
+ 	 	});
  	// 결제 : 아임포트 스크립트
- 	 $(".pay_btn").on("click", function(){
- 	    
- 	    // 결제 금액 받아오기 
- 	    var select_price = $(".tot_price").text().slice(0,-1);
-
- 	    
-        var IMP = window.IMP; // 생략가능
-        IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-        var msg;
-        if (select_price == 0){
-        	msg = '금액을 선택해주세요.';
-       		alert(msg);
-        }
-        
-        IMP.request_pay({
-            pg : 'kakaopay',
-            pay_method : 'card',
-            merchant_uid : 'merchant_' + new Date().getTime(),
-            name : '세탁곰 결제',
-            amount : price,
-            buyer_email : 'minchoi9509@gmail.com',
-            buyer_name : '민경',
-            buyer_tel : '010-8848-2996',
-            buyer_addr : '서울',
-            buyer_postcode : '123-456',
-            //m_redirect_url : 'http://www.naver.com'
-        }, function(rsp) {
-            if ( rsp.success ) {
-                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-                jQuery.ajax({
-                    url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        imp_uid : rsp.imp_uid
-                        //기타 필요한 데이터가 있으면 추가 전달
-                    }
-                }).done(function(data) {
-                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-                    if ( everythings_fine ) {
-                        msg = '결제가 완료되었습니다.';
-                        msg += '\n고유ID : ' + rsp.imp_uid;
-                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-                        msg += '\결제 금액 : ' + rsp.paid_amount;
-                        msg += '카드 승인번호 : ' + rsp.apply_num;
-                        
-                        alert(msg);
-                    } else {
-                        //[3] 아직 제대로 결제가 되지 않았습니다.
-                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-                    }
-                });
-                //성공시 이동할 페이지
-                location.href='<%=request.getContextPath()%>/order/paySuccess?msg='+msg;
-            } else {
-                msg = '결제에 실패하였습니다.';
-                msg += '에러내용 : ' + rsp.error_msg;
-                //실패시 이동할 페이지
-                location.href="/setak/mykeep.do";
-                alert(msg);
-            }
-        });
- 	  });
+ 		var end_date; 	
+ 		$(".month").click(function() {
+				end_date = $(this).attr('value');
+ 	    });
+ 		
+ 		$(".pay_btn").on("click", function(){
+ 			
+	 		var select_price = $("#select_price").text();
+			
+	 		var order_num = $(this).attr('value');
+	 	    console.log(order_num);
+	 	    console.log(end_date);
+	 	    
+	        var IMP = window.IMP; // 생략가능
+	        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	        var msg;
+	 	    
+	        if (select_price == 0){
+	        	msg = '금액을 선택해주세요.';
+	       		alert(msg);
+	        }
+	        
+	        IMP.request_pay({
+	            pg : 'inicis',
+	            pay_method : 'card',
+	            merchant_uid : 'merchant_' + new Date().getTime(),
+	            name : '세탁곰 결제',
+	            amount : select_price,
+	            buyer_email : '<%=memberVO.getMember_email()%>',
+	            buyer_name : '<%=memberVO.getMember_name()%>', 
+	            buyer_tel : '<%=memberVO.getMember_phone()%>',
+	            buyer_addr : '<%=memberVO.getMember_loc()%>',
+	            buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
+	            //m_redirect_url : 'http://www.naver.com'
+	        }, function(rsp) {
+	            if (rsp.success) {
+	               //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+	 	  	  	jQuery.ajax({
+		 	    	url: '/setak/update_Month.do',
+		 	    	type:'POST',
+		 	    	data : { 
+		 	    		'order_num' : order_num,
+			        	'keep_end' : end_date
+		 	    	},
+		 	    	dataType : "json",
+					content : 'application/x-www-form-urlencoded; charset = utf-8',
+					success:function(data){
+						msg = '신청을 완료하였습니다.';
+		            	var num = data.order_num;
+		                location.href="/setak/mykeep.do";
+		                alert(msg);
+					}
+	 	    	});
+	 	 		} else {
+					msg = '결제에 실패하였습니다.';
+	           		msg += '에러내용 : ' + rsp.error_msg;
+	            	//실패시 이동할 페이지
+	            	location.href="/setak/mykeep.do";
+	            	alert(msg);
+	 	 		}
+	 		});
  	});
-
-//업다운 이미지 변환
- $(function() {
-	$('.up').on("click",function() {
-		if($(this).html() == '⋁'){
-			$(this).html('&#8896;')
-		}
-		else{
-			$(this).html('&#8897;');
-		}
-	});
 });
- 
+//부분반환 결제
+	$(document).ready(function() {
+	
+ 	//content 클래스를 가진 div를 표시/숨김(토글)
+ 	// 결제 : 아임포트 스크립트
+ 	 $(".part_return").on("click", function(){
+ 		   
+ 		var select_price = 100;
+ 			
+ 		// 테이블 값을 받아오기 (for문)
+ 		// 나눠서 kindArr, contentArr 넣어줌
+ 		var return_keep = $("#testform").serializeArray();
+ 		
+ 	
+ 		// 결제 금액 받아오기 
+ 		  var IMP = window.IMP; // 생략가능
+ 	        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+ 	        var msg;
+ 	        var massage;
+ 	        if (select_price == 0){
+ 	        	msg = '금액을 선택해주세요.';
+ 	       		alert(msg);
+ 	        }
+ 	        
+ 	        IMP.request_pay({
+ 	            pg : 'kakaopay',
+ 	            pay_method : 'card',
+ 	            merchant_uid : 'merchant_' + new Date().getTime(),
+ 	            name : '세탁곰 결제',
+ 	            amount : select_price,
+ 	            buyer_email : '<%=memberVO.getMember_email()%>',
+ 	            buyer_name : '<%=memberVO.getMember_name()%>', 
+ 	            buyer_tel : '<%=memberVO.getMember_phone()%>',
+ 	            buyer_addr : '<%=memberVO.getMember_loc()%>',
+ 	            buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
+ 	            //m_redirect_url : 'http://www.naver.com'
+ 	       		 }, function(rsp) {
+ 	            if ( rsp.success ) {
+ 	                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+ 	                jQuery.ajax({
+ 	                    url: "/setak/part_Return.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
+ 	                    type: 'POST',
+ 	                    dataType: 'json',
+ 	                    data: return_keep,
+ 	                success : function(data) {
+ 	                	massage = '부분반환 결제에 성공하셨습니다';
+ 	                	location.href = "/setak/mykeep.do";
+						}
+					});
+					} else {
+						msg = '결제에 실패하였습니다.';
+						msg += '에러내용 : '+ rsp.error_msg;
+						//실패시 이동할 페이지
+						location.href = "/setak/mykeep.do";
+						alert(msg);
+						}
+					});
+ 	 				});
+				});
+		
+	
+	//전체반환
+	$('.all_return').on("click", function() {
+		var order_num = $(this).attr('value');
+		var msg = '';
+		$.ajax({
+			url : '/setak/all_Return.do',
+			type : 'POST',
+			data : {'order_num' : order_num},
+			dataType : "json",
+			content : 'application/x-www-form-urlencoded; charset = utf-8',
+			success:function(data){
+				msg += '전체반환신청완료';
+				alert(msg);
+				location.href = "/setak/mykeep.do";
+			},
+			error:function(){
+				alert("ajax통신안됌");
+			}
+		});
+	});		
+			
+	//업다운 이미지 변환
+	$(function() {
+		$('.up').on("click", function() {
+			if ($(this).html() == '⋁') {
+				$(this).html('&#8896;')
+			} else {
+				$(this).html('&#8897;');
+			}
+		});
+	});
+
 </script>
 </html>
