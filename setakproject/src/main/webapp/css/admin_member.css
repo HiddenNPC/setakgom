@@ -2,9 +2,12 @@
 	.count {
 		float:right;
 		font-size:1.1rem;
-		margin: -70px 170px 0 0 ;
+		margin: -70px 20px 0 0 ;
 	}
-
+    .count span {
+    	color:#3498db;
+    	font-weight:bold;
+    }
 /*처음*/
 /*회원검색*/
 .search {
@@ -15,8 +18,8 @@
 	font-size:1.4rem;
 }
 .search hr {
-	color:#3498db; /*??*/
-	width:50%;
+	border: 0.9px solid #3498db;
+	width:65%;
 	margin:20px 0 10px 0 ;
 }
 .search-left {
@@ -40,7 +43,6 @@
 	margin-left:10px;
 	height:20px;
 }
-/*?? 체크박스*/
 
 .search-date {
 	height:20px;
@@ -58,7 +60,6 @@
      border:0.9px solid #969191;
 }
 
-/*?? 칸을 띄고싶어ㅠㅠ*/
 .search-date-btn:(1) { 
 	margin-left:20px;
 }
@@ -82,6 +83,45 @@
    
 }
 
+#result-table{
+	width:95%;
+}
+
+#result-table th{
+	height:40px;
+}
+
+#result-table td{
+	height:40px;
+	text-align:center;
+}
+
+#result-table td:nth-child(1) {
+	width:15%;
+}
+
+#result-table td:nth-child(2) {
+	width:15%;
+}
+#result-table td:nth-child(3) {
+	width:12%;
+}
+#result-table td:nth-child(5) {
+	width:12%;
+}
+
+#search-detail{
+	border:0;
+	background-color:#fff;
+	font-size:0.9rem;
+}
+
+#search-detail:hover{
+	cursor: pointer;
+	color:#3498db;
+	font-size:0.9rem;
+	font-weight:bold;
+}
 
 /*전체회원 리스트*/	
     .record_list {
@@ -188,14 +228,11 @@
 #result {
 	background-color:#fff;
 }
+
 #result-num-div {
     font-size:1.1rem;
-    margin-left:95%;
+    margin-left:92%;
     margin-bottom:20px;
-}
-
-#result-div{
-	
 }
 
 #result-div thead {
@@ -203,35 +240,11 @@
 	color:#fff;
 }
 
-
-
-
-
-#result-div thead th:nth-child(1){
-	hight:20px;
-}
-
-#result-div thead th:nth-child(2)  {
-	;
-}
-#result-div thead th:nth-child(3)  {
-	
-}
-#result-div thead th:nth-child(4)  {
-	
-}
-#result-div thead th:nth-child(5)  {
-	
-}
-
-#result-div tbody {
-	
-}
-
 .search-update {
 	border:1px solid #3498db;
 	background-color:#fff;
 	color:#3498db;
+	width:100px;
 }
 
 .search-update:hover {
@@ -239,6 +252,10 @@
     background-color:#3498db;
     color:#fff;
 }
+.search-right input:nth-child(5){
+	margin-left:30px;
+}
+
 
 /*팝업*/
 .back { 
@@ -252,20 +269,35 @@
     background-color:#666666;
     opacity: 0.8;
 }
+
+#detail-table {
+	padding-left:35px;
+	height:350px;
+}
+
+#detail-table input {
+	height:20px;
+	margin-left:10px;
+	padding-left:4px;
+}
+
+#detail-table td {
+	height:30px;
+}
 .detail-member {
 	z-index:99999;
     top : 25%;
     left: 35%;
     position: absolute;
     background: #eeece6b;
-    width: 500px;
+    width: 470px;
     height: 500px;
     display: none; 
     background-color:#fff;
 }
 
 .detail-member h3 {
-	margin:30px 0 35px 25px ;
+	margin:30px 0 35px 40px ;
 }
 
 .detail-member span {
@@ -281,28 +313,49 @@
 	width:100px;
 	margin-left:20px;
 	text-align:center;
-	margin-bottom:2px;
-}
- /*?? 왼쪽으로 살짝*/
-
-.detail-right {
-	background-color:#007fff;
+	font-weight:bold;
+	font-size:0.8rem;
 }
 
 .detail-right input {
 	border:0;
 }
 
+.detail-left:nth-child(6) {
+	height:300px;
+}
+
+.txtInp {
+    width:260px;
+    margin-top:3px;
+}
+
 #detail-update {
-	margin-top:20px;
+	margin:10px 0 0 360px;
 	border:0;
 	background-color:#ecc4e0d4;
 	height:30px;
+	width:60px;
+	
 }
 
 #detail-update:hover {
      cursor: pointer;
      background-color:#fff;
      border:2px solid #ecc4e0d4;
-     color:#ec6bc4;
+     color:#e885c9;
+}
+
+#locbtn {
+	background-color:#ecc4e0d4;
+	border:0;
+	padding:8px 0 20px 0;
+	width:110px; 
+}
+
+#locbtn:hover {
+	 cursor: pointer;
+     background-color:#fff;
+     border:1.5px solid #ecc4e0d4;
+    
 }

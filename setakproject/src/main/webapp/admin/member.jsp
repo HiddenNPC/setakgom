@@ -51,7 +51,7 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 			
 			var select_btn = $(this);
 			var tr = select_btn.parent().parent();
-			var member_id = tr.children().eq(1).text();
+			var member_id = tr.children().eq(1).children().val();
 			var member_memo = tr.children().eq(4).children().val();
 			
 			var params ={
@@ -191,7 +191,7 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 		$(document).on('click', '.search-update', function(event) {
 			var select_btn = $(this);
 			var tr = $(this).parent().parent();
-			var member_id = tr.children().eq(0).text();
+			var member_id = tr.children().eq(0).children().val();
 			var member_memo = tr.children().eq(3).children().val();
 			
 			var params ={
@@ -322,8 +322,8 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 			<!-- 여기서부터 작업하세요. -->
 			<h1>회원관리</h1>
 			<div class ="count">
-				  오늘 가입한 회원수 <span><%=todaycount %>명</span> 
-				 <span> 총 회원수 <%=listcount %>명</span>
+				  오늘 가입한 회원수 <span><%=todaycount %></span> 명
+				     총 회원수 <span>  <%=listcount %></span> 명
 			</div>
 			
 			<!-- 회원검색 -->
@@ -356,9 +356,10 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 							<td class="search-left">검색일자</td>
 							<td class="search-right">
 								<input id = "day1" name = "search_start" class = "search-date" type = "text" size = "10px"/>
+								<img id="today1" src="../images/today.png">
 								~
 								<input id = "day2" name = "search_end" class = "search-date" type = "text" size = "10px"/>
-								
+								<img id="today2" src="../images/today.png">
 								<input type = "button" class = "search-date-btn" name = "member_join" id = "today" value = "오늘"/>
 								<input type = "button"  class = "search-date-btn" name = "member_join" id = "today" value = "일주일"/>
 								<input type = "button"  class = "search-date-btn" name = "member_join" id = "today" value = "1개월"/>
@@ -483,53 +484,49 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 		<div class="detail-member" id="detail-div">
 			<h3>회원 정보 </h3>
 			<span id="detail-close">X</span>
-			<table>
+			<table id="detail-table">
 				<tr>
 					<td class="detail-left">아이디</td>
 					<td>
-						<input id ="detail-id" type="text" readonly class = "" name="member_id"  />
+						<input id ="detail-id" type="text" readonly  name="member_id"  />
 					</td>
 				</tr>
 				<tr>
 					<td class="detail-left">이름</td>
 					<td>
-						<input id = "detail-name" type = "text" class = "" name = "member_name" />
+						<input id = "detail-name"  type = "text" name = "member_name" />
 					</td>
 				</tr>
 				<tr>
 					<td class="detail-left sum" >구독번호</td>
 					<td>
-						<input id = "detail-subnum" type = "text" class = "" name = "subs_num" />
+						<input id = "detail-subnum" type = "text" name = "subs_num" />
 					</td>
 				</tr>
 				<tr>
 					<td class="detail-left">핸드폰</td>
 					<td>
-						<input id = "detail-phone" type = "text" class = "" name = "member_phone" />
+						<input id = "detail-phone"  type = "text" name = "member_phone" />
 					</td>
 				</tr>
 				<tr>
 					<td class="detail-left">이메일</td>
 					<td>
-						<input id = "detail-email" type = "text" class = "" name = "member_email" />
+						<input id = "detail-email" type = "text" name = "member_email" />
 					</td>
 				</tr>
 				<tr>
 					<td class="detail-left">주소</td>
 					<td>
-						<input id="postcode" class="txtInp" type="text" style="width: 60px;" /> 
-                        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"> <br /> 
-                        <input id="address" class="txtInp" type="text" style="width: 270px;" readonly /> 
-                        <input id="address_detail" class="txtInp" type="text" placeholder="상세 주소를 입력해주세요." style="width: 270px;" /> 
+						<input id="postcode" type="text" style="width: 60px;" /> 
+                        <input type="button" id="locbtn" onclick="execDaumPostcode()" value="우편번호 찾기"> <br /> 
+                        <input id="address" class="txtInp" type="text"  readonly /> 
+                        <input id="address_detail" class="txtInp" type="text" placeholder="상세 주소를 입력해주세요." /> 
                         <input id="extraAddress" type="hidden" placeholder="참고항목">
                     </td>
 				</tr>
-				<tr>
-					<td>
-						<input type="button" id="detail-update" value="수정"/>
-					</td>
-				</tr>
 			</table>
+			<button id="detail-update" >수정</button>
 		</div>
 	</section>	
 	
@@ -552,7 +549,7 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 	 	 });
 		
 		//달력1 아이콘으로 포커스하기
-		$('.fa-calendar-alt').click(function(){
+		$('#today1').click(function(){
 			$("#day1").focus();
 		});
 		
@@ -569,7 +566,7 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 		  	yearRange:'c-100:c'// 년도 선택 박스를 현재 년도에서 이전, 이후로 얼마의 범위를 표시할 것인가?
 	 	 });
 		//달력2 아이콘으로 포커스하기
-		$('.fa-calendar-alt').click(function(){
+		$('#today2').click(function(){
 			$("#day2").focus();
 		});
       
