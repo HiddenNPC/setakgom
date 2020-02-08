@@ -644,6 +644,7 @@
 		
 		$('#addrTable tbody').empty();
 		
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
 		var parmas = {'member_id': member_id }; 
 		
 
@@ -714,6 +715,8 @@
 	// 나의주소록 추가
 	function insertAddress() {
 
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		
 		var addrName = $("#newAddrName").val();
 		var name = $("#newName").val();
 		
@@ -878,6 +881,8 @@
 	
 	// 기본 배송지 지정
 	function setDefaultAddr() {
+		
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
 		
 		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
 			
