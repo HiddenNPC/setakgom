@@ -8,13 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.MypageMapper;
+import com.spring.mapper.OrderMapper;
+import com.spring.member.MemberVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
 import com.spring.setak.WashingVO;
 
-@Service
+@Service("mypageService")
 public class MypageServiceImpl implements MypageService {
 	
 	@Autowired
@@ -45,9 +47,21 @@ public class MypageServiceImpl implements MypageService {
 	public ArrayList<KeepVO> selectMykeeplist(long order_num) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
-		keeplist = mypageMapper.selectMykeeplist(order_num);
 		
+		keeplist = mypageMapper.selectMykeeplist(order_num);
+		System.out.println(keeplist + "킵");
 		return keeplist;
+	}
+	
+	@Override
+	public int selectMykeep(long order_num) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int keepVO = 0;
+		
+		
+		keepVO = mypageMapper.selectMykeep(order_num);
+		
+		return keepVO;
 	}
 	
 	@Override
@@ -124,5 +138,54 @@ public class MypageServiceImpl implements MypageService {
 		
 		return washVO;
 	}
+	
+	//보관연장
+	public int updateKeepMonth(HashMap<String, Object> map) {
+		int res = 0;
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		
+		res = mypageMapper.updateKeepMonth(map);
+	
+		return res;
+	}
+	
+	public int all_Return(HashMap<String, Object> map) {
+		int res = 0;
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		
+		res = mypageMapper.all_Return(map);
+		
+		return res;
+	}
+	
+	
+
+	//리턴
+	public int part_Return(KeepReturnVO krvo) {
+		int res = 0;
+		try {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		res = mypageMapper.part_Return(krvo);
+		
+		}catch(Exception e) {
+			System.out.println("반환입력 실패" + e.getMessage());
+		}
+		return res;
+	}
+	
+	
+	public MemberVO getMember(String member_id) {
+		MemberVO mvo = null; 
+		try {
+			MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+			mvo = mypageMapper.getMember(member_id);
+		} catch(Exception e) {
+			System.out.println("멤버 정보 검색 실패 " + e.getMessage());
+		}
+		
+		return mvo; 		
+		
+	}
+
 }
 

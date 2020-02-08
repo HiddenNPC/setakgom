@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.OrderMapper">
+
+	<resultMap type="com.spring.order.OrderVO" id="OrderResultMap">
+		<result property="order_num" column="order_num" />
+		<result property="member_id" column="member_id" />
+		<result property="order_date" column="order_date" />
+		<result property="order_phone" column="order_phone" />
+		<result property="order_price" column="order_price" />
+		<result property="order_payment" column="order_payment" />
+		<result property="order_delicode" column="order_delicode" />
+		<result property="order_cancel" column="order_cancel" />
+		<result property="order_status" column="order_status" />
+		<result property="order_pickup" column="order_pickup" />
+		<result property="order_name" column="order_name" />
+		<result property="order_address" column="order_address" />
+		<result property="order_request" column="order_request" />
+		<result property="order_zipcode" column="order_zipcode" />
+		<result property="order_delete" column="order_delete" />
+	</resultMap>
+	
+	<resultMap type="com.spring.order.WashingCartVO" id="WashingCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="wash_seq" column="wash_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.order.MendingCartVO" id="MendingCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="repair_seq" column="repair_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.order.KeepCartVO" id="KeepCartResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="keep_seq" column="keep_seq" />
+	</resultMap>
+	
+	<resultMap type="com.spring.order.OrderListVO" id="OrderListResultMap">
+		<result property="wash_seq" column="wash_seq" />
+		<result property="wash_seq" column="wash_seq" />
+		<result property="keep_seq" column="keep_seq" />
+		<result property="order_num" column="order_num" />
+	</resultMap>
+	
+	<resultMap type="com.spring.member.MemberVO" id="MemberResultMap">
+		<result property="member_name" column="member_name" />
+		<result property="member_id" column="member_id" />
+		<result property="member_password" column="member_password" />
+		<result property="member_phone" column="member_phone" />
+		<result property="member_email" column="member_email" />
+		<result property="member_loc" column="member_loc" />
+		<result property="member_zipcode" column="member_zipcode" />
+	</resultMap>
+	
+	
+	<!-- 주문 추가  -->
+	<insert id = "insertOrder" parameterType = "com.spring.order.OrderVO">
+		insert into memberorder values (#{order_num}, #{member_id, jdbcType=VARCHAR}, #{order_date, jdbcType=VARCHAR},  
+		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment, jdbcType=VARCHAR}, 
+		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 
+		#{order_pickup, jdbcType=VARCHAR}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
+		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete})
+	</insert>
+	
+	<!-- 세탁 장바구니 비우기  > 결제 이후-->
+	<delete id = "deleteWashCartbyID" parameterType = "String">
+		delete from wash_cart where member_id = #{member_id} 
+	</delete>
+
+	<!-- 수선 장바구니 비우기  > 결제 이후-->
+	<delete id = "deleteMendingCartbyID" parameterType = "String">
+		delete from repair_cart where member_id = #{member_id} 
+	</delete>
+	
+	<!-- 보관 장바구니 비우기  > 결제 이후  -->
+	<delete id = "deleteKeepCartbyID" parameterType = "String">
+		delete from keep_cart where member_id = #{member_id} 
+	</delete>
+	
+	<!-- 주문 목록 추가 -->
+	<insert id = "insertOrderList" parameterType = "com.spring.order.OrderListVO">
+		insert into orderlist values (#{wash_seq}, #{repair_seq}, #{keep_seq}, #{order_num})
+	</insert>
+	
+	<!-- 주문 목록 시퀀스 읽어오기 -->
+	<select id = "getOrderList" parameterType = "com.spring.order.OrderListVO" resultMap = "OrderListResultMap">
+		select * from orderlist where order_num = #{order_num}
+	</select>
+	
+	<!-- 결제 금액 읽어오기 -->
+	<select id = "getOrderPrice" parameterType = "com.spring.order.OrderListVO" resultType = "int">
+		select order_price from memberorder where order_num = #{order_num}
+	</select>	
+	
+	<!-- 회원 정보 읽어오기 -->
+	<select id = "getMemberInfo" parameterType = "String" resultMap = "MemberResultMap">
+		select * from member where member_id = #{member_id}
+	</select>
+			
+	<!-- 기본 배송지 -->
+	<update id="defaultAddrUpdate" parameterType = "com.spring.member.MemberVO">
+		update member set member_phone = #{member_phone}, member_zipcode = #{member_zipcode}, member_loc = #{member_loc} where member_id = #{member_id}
+	</update>
+	
+</mapper>

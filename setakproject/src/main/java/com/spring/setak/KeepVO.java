@@ -1,5 +1,9 @@
 package com.spring.setak;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class KeepVO {
 	int keep_seq;
 	String keep_cate;
