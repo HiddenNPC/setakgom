@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.member.MemberVO;
-import com.spring.order.*;
+import com.spring.order.OrderService;
 
 @Controller
 public class MemberController {
@@ -232,6 +231,23 @@ public class MemberController {
 			return "withdrawform";
 	 }
 
+	 
+	 //아이디 보여주기 
+	 @RequestMapping (value ="/show-id.do", produces = "application/json; charset=utf-8")
+     @ResponseBody 
+	 public Map<String, Object> show_id (String member_name, String member_phone) {
+		 
+		 HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("member_name", member_name);
+		 map.put("member_phone", member_phone);
+		 
+		 String dbid = memberservice.show_id(map);
+		 Map<String, Object> result = new HashMap<String, Object>();
+			result.put("id", dbid);
+		
+			return result;
+		 
+	 }
 	 
 	/*
 	 * //회원삭제

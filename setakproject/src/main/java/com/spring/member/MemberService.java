@@ -1,5 +1,7 @@
 package com.spring.member;
 
+import java.util.HashMap;
+
 public interface MemberService {
 	
 	//아이디 확인(중복여부)
@@ -22,6 +24,9 @@ public interface MemberService {
 
 	//로그인 연동시 회원가입
 	public int linkage(MemberVO mo);
+	
+	//아이디 보여주기   
+	public String show_id(HashMap<String, Object> map);
 	
 	//회원 삭제
 	public int member_delete(String member_id);

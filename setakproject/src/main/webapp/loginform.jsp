@@ -65,7 +65,57 @@
 		$(".naver").click(function(event) {
 			$(location.href = "${naver_url}");
 		});
-
+		
+		/*아이디 보여주기*/
+		$("#show-id").on('click', function(event){
+			
+			var params = {
+					'member_name':$("#member_name").val(),
+					'member_phone':$("#member_phone").val()
+			}
+			
+			$.ajax({
+				url:'/setak/show-id.do',
+				type:'post',
+				data: params,
+				dataType:'json',
+				contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+     			success: function(data) {
+					
+     				$(".popup").css("display", "none");
+					$(".back").css("display", "block");
+					$(".yourid").css("display", "block");
+					
+					
+					var id = data.id;
+					$("#your-id").text(id);
+					
+					$("#member_name").val('');
+					$("#member_phone").val('');
+					$("#member_sns").val('');
+					$(".text #authsucess").css("display","none");
+					$(".text #show-id").css("display","none");
+					
+     			},
+     			  error:function() {
+		               alert("insert ajax 통신 실패");
+		        }			
+			});
+			event.preventDefault();
+			
+		});
+		
+		$("#id-close1").click(function(event) {
+			$(".back").css("display", "none");
+			$(".yourid").css("display", "none");
+		});
+	
+		$("#id-close2").click(function(event) {
+			$(".back").css("display", "none");
+			$(".yourid").css("display", "none");
+		});
+	
+	
 	});
 
 	/*구글로그인*/
@@ -146,12 +196,10 @@
 				<div class="loginform"> <!-- class 변경해서 사용하세요. -->
 						<input type="hidden" name="backurl" value = "<%=backurl%>" />
 					<div>
-						<input class="txtln" type="text" name="member_id"
-							placeholder="아이디" />
+						<input class="txtln" type="text" name="member_id" placeholder="아이디" />
 					</div>
 					<div>
-						<input class="txtln" type="password" name="member_password"
-							placeholder="비밀번호" />
+						<input class="txtln" type="password" name="member_password" placeholder="비밀번호" />
 					</div>
 					<div class="login">
 						<input class="btn" type="submit" value="로그인" />
@@ -211,8 +259,8 @@
 			</div>
 			<div class="text">
 				<h5>회원정보에 등록한 휴대폰번호를 입력하세요</h5>
-				<input type="text" placeholder="이름" />
-				<input type="text" placeholder="휴대폰번호" /> 
+				<input type="text" id="member_name" placeholder="이름" />
+				<input type="text" id="member_phone" placeholder="휴대폰번호 (예시 01012345678)" /> 
 				<input type="button" id="authbtn" class="phone" value="인증번호받기" /> 
                 <h4>핸드폰 번호를 입력해주세요</h4>
                 <input type="text" id="member_sns" placeholder="인증번호" /> 
@@ -220,9 +268,20 @@
                 <span id = "timer"></span>
                 <h4 id = "authsucess">인증번호가 일치합니다.</h4>
                <h4 id = "authfail">인증번호가 일치하지 않습니다.</h4>
+               <input type="button" id="show-id" value="아이디 찾기" />
 			</div>
 		</div>
 	</div>
+	
+	<!-- 아이디 보여주기 -->
+	<div class="yourid">
+		<button type="button" id="id-close1" class="btn-x">X</button>
+		<h3>아이디찾기</h3>
+		<hr>
+		<h6>등록된 회원님의 아이디는 <span id="your-id">  </span> 입니다</h6>
+		<button type="button" id="id-close2" class="btn">확인</button>
+	</div>
+	
 
 	<!-- 비밀번호찾기 -->
 	<div class="check_pw">
@@ -237,15 +296,27 @@
 				<h5>회원정보에 등록한 휴대폰번호를 입력하세요</h5>
 				<input type="text" placeholder="이름" /> 
 				<input type="text" placeholder="아이디" /> 
-				<input type="text" placeholder="휴대폰번호" /> 
+				<input type="text" placeholder="휴대폰번호 (예시 01012345678)" /> 
 				<input type="button" class="phone" value="인증번호받기" /> 
 				<input type="text" placeholder="인증번호" />
-				<input type="button" class="ok" value="확인" />
+				<input type="button" id=""class="ok" value="확인" />
 			</div>
 		</div>
 	</div>
 
-
+	
+	<!-- 비밀번호 교체하기 -->
+	<div class="changepass">
+		<h3>비밀번호 변경하기</h3>
+		<hr>
+		<input type="password" name="member_password" id="member_password" placeholder="비밀번호 " />
+		<h4>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h4>
+		<input type="password" name="pw2" id="pw2" placeholder="비밀번호 확인" />
+		<h4>비밀번호가 일치하지 않습니다.</h4>
+		
+		<input type="button" class="close" value="확인" />
+	
+	</div>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 
 	<div id="footer"></div>
@@ -314,12 +385,15 @@
                $("#authbtn").attr('disabled', false);
                $(".text h4").css("display","none");
                $(".text #authsucess").css("display","block");
+               $(".text #show-id").css("display","block");
                authchk = "1";
             }else{
                console.log("인증실패");
                $("#authbtn").attr('disabled', false);
                $(".text h4").css("display","none");
                $(".text #authfail").css("display","block");
+               $(".text #show-id").css("display","none");
+               
             }
           });
        });

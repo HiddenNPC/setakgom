@@ -29,6 +29,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mysub.css" />
+<link rel="stylesheet" type="text/css" href="./css/review.css" />
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
@@ -337,8 +338,10 @@
 				
             </div><!-- mysub -->
 			</div><!-- mypage_content -->
+			
 		</div><!-- content -->
 	</section>
+	<div></div>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 
 	<div id="footer"></div>

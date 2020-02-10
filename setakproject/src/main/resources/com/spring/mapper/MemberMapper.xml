@@ -53,6 +53,13 @@
 		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_email}, sysdate)
    </insert>
    
+   <!-- 아이디 보여주기 -->
+   <select id="show_id" parameterType="HashMap" resultType="String">
+   		SELECT member_id
+   		FROM member
+   		WHERE member_name= #{member_name, jdbcType=VARCHAR} and member_phone=#{member_phone, jdbcType=VARCHAR}
+   </select> 
+   
    <!-- 회원삭제 -->
    <delete id="member_delete" parameterType="String">
    		DELETE FROM member WHERE member_id= #{member_id, jdbcType=VARCHAR}

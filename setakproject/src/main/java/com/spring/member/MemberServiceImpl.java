@@ -1,5 +1,7 @@
 package com.spring.member;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -132,6 +134,18 @@ public class MemberServiceImpl implements MemberService{
 					 
 				return res;
 			}
+		
+	//아이디 보여주기   
+	public String show_id(HashMap<String, Object> map)	{
+		String dbid = "";
+		try {
+			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+			dbid=mapper.show_id(map);
+	  } catch(Exception e) {
+			System.out.println("아이디 보여주기 실패" + e.getMessage());
+	 }
+		return dbid;
+	}
 		
 		//회원삭제
 		@Override

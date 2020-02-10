@@ -1,5 +1,7 @@
 package com.spring.mapper;
 
+import java.util.HashMap;
+
 import com.spring.member.MemberVO;
 
 public interface MemberMapper {
@@ -24,7 +26,11 @@ public interface MemberMapper {
 	 
 	//로그인 연동시 회원가입
 	 void linkage(MemberVO mo);
+	
+	//아이디 보여주기   
+	 String show_id(HashMap<String, Object> map); 
 	 
 	//회원 삭제
 	void member_delete(String member_id);
+	
 }

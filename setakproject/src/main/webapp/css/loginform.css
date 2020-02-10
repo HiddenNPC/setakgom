@@ -178,7 +178,7 @@
     position: absolute;
     background: #eeece6b;
     width: 450px;
-    height: 420px;
+    height: 450px;
 }
 
 .head button {
@@ -252,7 +252,7 @@
 .text h4 {
 	display:none;
 	color:#f50101;
-	font-size:0.9rem;
+	font-size:0.85rem;
 	margin: 5px 100px;
 }
 
@@ -260,8 +260,73 @@
 	position: absolute;
 	color:#f50101;
 	top:17.2rem;
-	left:19.9rem;
+	left:19.5rem;
 	font-size:0.9rem;
+}
+
+
+#authbtn:disabled {
+    background-color: #bbabab;
+    cursor: default;
+}
+
+#show-id {
+	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+}
+
+/*아이디 보여주기*/
+.yourid {
+	display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 25%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 400px;
+    height: 300px;
+}
+
+
+.yourid h3 {
+	font-size:1.2rem;
+	margin:-30px 0 20px 20px;
+}
+
+.yourid h6 {
+    font-size:0.9rem;
+    margin:60px;
+}
+
+.yourid span {
+	color:#3498db;
+	font-weight:bold;
+	font-size:1.3rem;
+}
+
+.btn-x {
+	border:0;
+	background-color:#fff;
+	font-size:1.4rem;
+	margin: 18px 360px; 
+}
+
+.yourid .btn {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+    margin: 0 160px;
+    width:70px;
+    height:28px;
 }
 
 
@@ -297,4 +362,8 @@
 	margin:30px 0 -50px 100px;
 }
 
+/*비밀번호 교체하기*/
+.changepass {
+	display:none;
+}
 
