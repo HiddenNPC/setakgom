@@ -1,9 +1,15 @@
 package com.spring.order;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -510,10 +516,12 @@ public class OrderController {
 	@RequestMapping(value = "/insertSubscribe.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	@ResponseBody 
 	public String insertSubscribe(MemberVO mvo, HttpServletRequest request, HttpServletResponse response, 
-			@RequestParam(value="merchant_uid") String merchant_uid, @RequestParam(value="customer_uid") String customer_uid) throws Exception {
+			@RequestParam(value="merchant_uid") String merchant_uid, @RequestParam(value="customer_uid") String customer_uid,
+			@RequestParam(value="amount") String amount) throws Exception {
 
 		System.out.println("merchant_uid : " + merchant_uid);
 		System.out.println("customer_uid : " + customer_uid);
+		System.out.println(amount);
 		
 		// MemberVO 값 변경 (번호 입력)
 		orderService.updateSubInfo(mvo);
@@ -527,21 +535,19 @@ public class OrderController {
 //		for(int i = 0; i < coupon_num; i++) {
 //			orderService.insertCoupon(mvo);
 //		}
+		merchant_uid += "s";
+		subsres(customer_uid, merchant_uid, amount, request, response);
 		
 		
 		return ""; 
 	}
 	
-	// 정기구독 웹훅 설정
-	@RequestMapping(value = "/iamport-callback", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String iamportCallback(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap<String, String> map) throws Exception {
+	//정기결제
+	public void subsres(String cid, String mid, String amount, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 데이터 받기
-		String customer_uid =  map.get("imp_uid");
-		String merchant_uid =  map.get("merchant_uid");
-		String status =  map.get("status");
-		
-		System.out.println("customer_uid : " + customer_uid);
+		Calendar c = Calendar.getInstance();
+		long time = c.getTimeInMillis()/1000;
+		time += 2592000;
 		
 		// 정기 결제 예약
 		Iamport iamport = new Iamport();
@@ -557,10 +563,58 @@ public class OrderController {
 		
 		String token = iamport.getToken(request, response, json, requestURL);
 		
-		int res = iamport.subscribeSchedule(token, customer_uid, merchant_uid, 100);
+		String body = "{\"customer_uid\":\""+cid+"\","
+				+ "\"schedules\": [\r\n"
+				+ 	  "{"
+				+ 		"\"merchant_uid\":" + "\"" + mid + "\"" + ",\r\n"
+                + 		"\"schedule_at\":\""+time+"\",\r\n"
+                + 		"\"amount\":\""+amount+"\""
+                +	  "}\r\n"
+                +	"]\r\n"
+                + "}";
 		
-		return "";
+		try {
+
+            URL url = new URL("https://api.iamport.kr/subscribe/payments/schedule");
+
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("content-type", "application/json");
+            con.setRequestProperty("Authorization", token);
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            
+            wr.write(body.getBytes());
+            wr.flush();
+            wr.close();
+
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            System.out.println(responseCode);
+            if(responseCode==200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+
+            String inputLine;
+            StringBuffer responsebuffer = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+            	responsebuffer.append(inputLine);
+            }
+            br.close();
+            
+            System.out.println(responsebuffer.toString());
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+		
 	}
+	
 	
 	// 정기구독 결제 성공	
 	@RequestMapping(value = "/subSuccess.do") 

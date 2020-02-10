@@ -19,7 +19,7 @@
              //stop submit the form, we will post it manually.
              event.preventDefault();
 
-             // Get form
+             /* // Get form
              var form = $('#fileUploadForm')[0];
 
              // Create an FormData object
@@ -29,14 +29,14 @@
              data.set("last_nm", "${last_nm}");
 
              // disabled the submit button
-             $("#btnSubmit").prop("disabled", true);
+             $("#btnSubmit").prop("disabled", true); */
 
              $.ajax({
                  type: "POST",
                  enctype: 'multipart/form-data',
                  //url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}",
-                 url: "/setak/testImage.do",
-                 data: data,
+                 url: "/setak/imageDownload.do",
+                 //data: data,
                  processData: false,
                  contentType: false,
                  cache: false,
