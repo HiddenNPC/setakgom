@@ -185,8 +185,8 @@
 			
 			// 입력창  한글 금지 > 검색어, 배송번호, 휴대폰번호
 			$("#keyword, #deliveryNum, #detail-phone").on("keyup", function() { 
-				$(this).val($(this).val().replace(/[^0-9]/g,"")); 
-			});
+            $(this).val($(this).val().replace(/[^0-9a-z]/g,"")); 
+        	 });
 			
 			// 선택 주문 상태 변경
 			$("#update-btn").click(function(){

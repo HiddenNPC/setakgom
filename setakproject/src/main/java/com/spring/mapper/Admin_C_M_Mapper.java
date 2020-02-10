@@ -1,5 +1,7 @@
 package com.spring.mapper;
 
-public interface Admin_C_M_Mapper {
+import java.util.List;
 
+public interface Admin_C_M_Mapper {
+	List<Object> Admin_CouponList();
 }

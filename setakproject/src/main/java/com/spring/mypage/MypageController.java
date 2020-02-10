@@ -50,11 +50,11 @@ public class MypageController {
 //	SqlSession session; 
 	
 	@RequestMapping("/orderview.do")
-	public String selectMending(HttpServletRequest request, Model model) throws Exception{
+	public String selectMending(HttpServletRequest request, Model model, HttpSession session) throws Exception{
 		
 		ArrayList<OrderVO> orderlist = null;
 		MendingVO mendingVO = new MendingVO();
-		String member_id = "bit";
+		String member_id = (String) session.getAttribute("member_id");
 		OrderVO orderVO = new OrderVO();
 		KeepVO keepVO = new KeepVO();
 		WashingVO washVO = new WashingVO();

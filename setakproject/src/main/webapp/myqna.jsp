@@ -26,6 +26,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
+    	  var member_id = "<%=session.getAttribute("member_id")%>";
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")     
       });
