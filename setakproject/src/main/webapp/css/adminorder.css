@@ -275,6 +275,7 @@ li.check {
 	color : #3498db;
 }
 
+
 /*기타주문관리 페이지 css*/
 #recent5Days-div {
 	border-top : 2px solid #3498db;
@@ -306,10 +307,17 @@ li.check {
 	padding : 15px;
 	background-color : #3498db;
 	color : white; 
+	float : right; 
 
 }
 
 #recentAll5weeks-num {
 	display : inline-block;
-	float : left; 
+	width : 150px;
+	border-radius : 5px;
+	padding : 15px;
+	background-color : #ffac15;
+	color : white; 
+	float : right; 
+	margin-right : 10px; 
 }

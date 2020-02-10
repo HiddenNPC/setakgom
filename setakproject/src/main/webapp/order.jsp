@@ -306,13 +306,16 @@
    });
    
    // 적립금 사용
+   var finalPrice = parseInt($("#final_price").text().slice(0,-1).replace(",",""));
+   
    $('input#usePoint').on('keyup',function(){
       var usePoint = parseInt($("#usePoint").val());
       var havePoint = parseInt($("#havePoint").text().replace(",",""));
       
       var totalPrice = parseInt($("#total_price").text().slice(0,-1).replace(",",""));
       var couponSalePrice = parseInt($("#coupon_sale_price").text().slice(0,-1).replace(",",""));
-      var finalPrice = parseInt($("#final_price").text().slice(0,-1).replace(",",""));
+    
+      console.log(finalPrice);
       
       if($("input#usePoint").val() == '') {
          usePoint = 0; 
@@ -332,7 +335,7 @@
          
          var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
 
-         var asw = totalPrice + couponSalePrice + pointPirice;
+         var asw = finalPrice + couponSalePrice + pointPirice;
          $("#final_price").html(numberFormat(asw+'원'));
          
          return;
@@ -344,9 +347,16 @@
          $("#point_price").text('0원');
       }
       
-      var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
       
-      var asw = totalPrice + couponSalePrice + pointPirice;
+      var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
+      	var delivery_price = 0;
+      	if (totalPrice <= 30000){
+    	 	 delivery_price = 2500;
+      	} else{
+    		  delivery_price = 0;
+      	}
+      
+      var asw = totalPrice + couponSalePrice + pointPirice + delivery_price;
       $("#final_price").html(numberFormat(asw+'원'));
       
       

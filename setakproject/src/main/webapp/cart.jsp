@@ -5,6 +5,7 @@
 <%@ page import = "com.spring.setak.KeepVO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%
+	//요고 때문인데 ..  왜냐면.. 안넘어오잖아... 
 	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
 	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
 	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");

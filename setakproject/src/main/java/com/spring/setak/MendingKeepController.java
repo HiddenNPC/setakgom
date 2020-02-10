@@ -77,7 +77,8 @@ public class MendingKeepController {
 				mendingKeepService.insertMendingCart(mendingcart);
 			}		
 		}
-		return "cart";
+		
+		return "redirect:/order.do";
 	}
 	
 	@RequestMapping("/keepform.do")
@@ -114,7 +115,7 @@ public class MendingKeepController {
 			
 			mendingKeepService.insertKeepCart(keepcart);
 		}
-		return "cart";
+		return "redirect:/order.do";
 	}
 	
 	@RequestMapping(value = "/washingKeepform.do")
@@ -268,6 +269,6 @@ public class MendingKeepController {
 			}
 		}
 		
-		return "cart";
+		return "redirect:/order.do";
 	}
 }
