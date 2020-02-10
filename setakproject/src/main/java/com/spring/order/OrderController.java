@@ -655,7 +655,6 @@ public class OrderController {
 		int res = iamport.cancelPayment(token, order_muid);
 		
 		int res2 = orderService.orderCancel(ovo);
-		System.out.println("res2 : " + res2);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		

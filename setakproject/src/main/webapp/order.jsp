@@ -638,15 +638,15 @@
             
         }
     }
-   
-   // 나의 주소록 목록
-   function selectAddress() {
-      
-      $('#addrTable tbody').empty();
-      
-      var member_id = "<%=session.getAttribute("member_id")%>"; 
-      var parmas = {'member_id': member_id }; 
-      
+	
+	// 나의 주소록 목록
+	function selectAddress() {
+		
+		$('#addrTable tbody').empty();
+		
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		var parmas = {'member_id': member_id }; 
+		
 
         $.ajax({
             url : '/setak/getAddrList.do', // url
@@ -715,17 +715,17 @@
    // 나의주소록 추가
    function insertAddress() {
 
-      var member_id = "<%=session.getAttribute("member_id")%>"; 
-      
-      var addrName = $("#newAddrName").val();
-      var name = $("#newName").val();
-      
-      var newPhone1 = $("#newPhone1").val();
-      var newPhone2 = $("#newPhone2").val();
-      var newPhone3 = $("#newPhone3").val();
-      var phone = newPhone1 + newPhone2 + newPhone3;
-      
-      var postcode = $("#postcode2").val();
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		
+		var addrName = $("#newAddrName").val();
+		var name = $("#newName").val();
+		
+		var newPhone1 = $("#newPhone1").val();
+		var newPhone2 = $("#newPhone2").val();
+		var newPhone3 = $("#newPhone3").val();
+		var phone = newPhone1 + newPhone2 + newPhone3;
+		
+		var postcode = $("#postcode2").val();
 
       var address = $("#address2").val();
       var detailAddress = $("#detailAddress2").val();
@@ -866,72 +866,72 @@
    function modiClose() {
         var modiDiv = $("#modiDiv");
         
-      $('#modiAddrName').val('');
-      $('#modiName').val('');
-      $('#postcode3').val('');
-      $('#address3').val('');
-      $('#detailAddress3').val('');
-      $('#extraAddress3').val('');
-      $('#modiPhone1').val('');
-      $('#modiPhone2').val('');
-      $('#modiPhone3').val('');
-      
-        modiDiv.css('display', 'none');       
-   }
-   
-   // 기본 배송지 지정
-   function setDefaultAddr() {
-      
-      var member_id = "<%=session.getAttribute("member_id")%>"; 
-      
-      if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
-         
-         var phone1 = $("#order_phone1").val();
-         var phone2 = $("#order_phone2").val();
-         var phone3 = $("#order_phone3").val();
-         var postcode = $("#postcode").val();
-         var address = $("#address").val();
-         var detailAddress = $("#detailAddress").val();
-         var request = $("#request").val(); 
-         
-         var phone = phone1 + phone2 + phone3;
-         var addr = address + '!' + detailAddress; 
-         
-         var params = {
-               'member_id' : member_id,
-               'member_phone' : phone,
-               'member_zipcode' : postcode, 
-               'member_loc' : addr,
-         };
-         
-         $.ajax({
-               url : '/setak/defaultAddrUpdate.do', // url
-               type : 'POST',
-               data : params, // 서버로 보낼 데이터
-               contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-               dataType : 'json',
-               success: function(retVal) {
-                  if(retVal.res=="OK") {    
-                     
-                 alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");   
-                 
-                  }
-                  else { // 실패했다면
-                     alert("Update Fail");
-                  }
-               },
-               error:function() {
-                  alert("Update ajax 통신 실패");
-               }         
-         });
-            
-      } else {
-         alert("선택이 취소되었습니다.");
-      }
-      
-   }
-   
-   // 쿠폰적용 레이어 스크립트 
+		$('#modiAddrName').val('');
+		$('#modiName').val('');
+		$('#postcode3').val('');
+		$('#address3').val('');
+		$('#detailAddress3').val('');
+		$('#extraAddress3').val('');
+		$('#modiPhone1').val('');
+		$('#modiPhone2').val('');
+		$('#modiPhone3').val('');
+		
+        modiDiv.css('display', 'none'); 		
+	}
+	
+	// 기본 배송지 지정
+	function setDefaultAddr() {
+		
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		
+		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
+			
+			var phone1 = $("#order_phone1").val();
+			var phone2 = $("#order_phone2").val();
+			var phone3 = $("#order_phone3").val();
+			var postcode = $("#postcode").val();
+			var address = $("#address").val();
+			var detailAddress = $("#detailAddress").val();
+			var request = $("#request").val(); 
+			
+			var phone = phone1 + phone2 + phone3;
+			var addr = address + '!' + detailAddress; 
+			
+			var params = {
+					'member_id' : member_id,
+					'member_phone' : phone,
+					'member_zipcode' : postcode, 
+					'member_loc' : addr,
+			};
+			
+			$.ajax({
+	            url : '/setak/defaultAddrUpdate.do', // url
+	            type : 'POST',
+	            data : params, // 서버로 보낼 데이터
+	            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+	            dataType : 'json',
+	            success: function(retVal) {
+	               if(retVal.res=="OK") {    
+	            	   
+					  alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");	
+					  
+	               }
+	               else { // 실패했다면
+	                  alert("Update Fail");
+	               }
+	            },
+	            error:function() {
+	               alert("Update ajax 통신 실패");
+	            }			
+			});
+				
+		} else {
+			alert("선택이 취소되었습니다.");
+		}
+		
+	}
+	
+	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 
         if(type == 'open') {
