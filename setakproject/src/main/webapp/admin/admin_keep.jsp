@@ -37,6 +37,7 @@
 							str += '<li class="listtd"><input type="date" class="keep_day" name="keep_end" value="' + item.keep_end + '" disabled></li>';
 							str += '<li class="listtd"><select class="keep_now" name="keep_now" disabled>';
 							str += '<option value=' + item.keep_now + '>'+ item.keep_now +'</option>';
+							str += '<option value="입고전">입고전</option>';
 							str += '<option value="보관중">보관중</option>';
 							str += '<option value="부분반환">부분반환</option>';
 							str += '<option value="전체반환">전체반환</option>';
@@ -260,24 +261,23 @@
 			}
 		});
 		
-		//사진
+		//사진 클릭시 팝업생성
+		$(document).on('click','.keep_img_popup',function(event) {
+			$(".popup_img_back").addClass("popup_on");
+		});
+		$(document).on('click','.keep_img_close',function(event) {
+            $(".popup_img_back").removeClass("popup_on");
+            $(".imgs_wrap").empty();
+        });
+		
 		//이미지 정보들 담을 배열
 		var sel_files = [];
-		
 		$(document).ready(function(){
 			$("#input_imgs").on("change", handleImgFileSelect);	
 		});
-		
-		function fileUploadAction(){
-			consol.log("fileUploadAction");
-			$("#input_imgs").trigger('click');
-		}
-		
 		function handleImgFileSelect(e){
-			
 			//이미지 정보 초기화
 			sel_files = [];
-			$(".imgs_wrap").empty();
 			
 			var files = e.target.files;
 			var filesArr = Array.prototype.slice.call(files);
@@ -293,48 +293,82 @@
 				
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name + "' class='selProductFile' title='Click to remove'></a>";
+					var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name + "' title='Click to remove'></a>";
 					$(".imgs_wrap").append(html);
 					index++;
-					
 				}
 				reader.readAsDataURL(f);
 			});
 		}
 		
-		
-		function deleteImageAction(index){
-			consol.log("index : " + index);
+		//이미지 삭제
+ 		function deleteImageAction(index){
 			sel_files.splice(index,1);
 			
 			var img_id = "#img_id_" + index;
 			$(img_id).remove();
 			
-			consol.log(sel_files);
+			alert(img_id);
 		}
 		
-		$(document).on("click",".my_button",function(event){
-		           var form = new FormData(document.getElementById('reviewform'));
-		           
-		           $.ajax({
-		              url : "/setak/review_insert.do", 
-		              data : form,
-		              dataType: 'json',
-		              processData : false,
-		              contentType : false,
-		              type : 'POST',
-		              success:function(data) {
-		                 alert('성공!');
 		
-		                 },
-		                 error:function() {
-		                    alert("ajax통신 실패!!!");
-		                 }
-		           });
-		        
-		        event.preventDefault();
-		     });   
-
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		var filecontent;
+		var filename;
+		var data = new FormData();// key/value로 채워지는것임 참고.
+		var dbfilename = "";
+		
+		$(document).on("change","#input_imgs",function(){
+			filecontent = null;
+			data = new FormData();
+			dbfilename = "";
+			for(i =0; i<$(this)[0].files.length; i++){
+				filecontent = $(this)[0].files[i];
+				filename = Date.now() + "_" + $(this)[0].files[i].name;
+				data.append("files", filecontent);
+				data.append("filename", filename);			
+				dbfilename += filename +",";
+			}
+		}); 
+		
+		$(document).on("submit", "#imgform", function(){
+			if(filecontent != null){
+				data.append("purpose", "keep");
+				
+				$("#input_imgs2").val(dbfilename);
+				$.ajax({
+					type: "POST",
+		            enctype: 'multipart/form-data',
+		            url: "/setak/testImage.do",
+		            data: data,
+		            processData: false,
+		            contentType: false,
+		            cache: false,
+		            dataType: 'text',
+		            success: function (data) {
+					},
+	                error: function (e) {
+	                	alert("실패실패실패!!")
+	                	console.log(e);
+					}
+				});
+			}
+			else{
+				alert("선택된 파일이 없습니다.")
+				event.preventDefault();
+			}
+		});   
 	</script>
 </head>
 <body>
@@ -508,26 +542,31 @@
 			</div>
 		</div>
 
-		<form id="reviewform" method="post" enctype="multipart/form-data">
-	
-		<div class="popup_img_back" style="margin-left:400px; margin-top:300px;">
-			<h2>이미지 미리보기</h2>
-			<div class="input_wrap">
-				<a href="javascript:" onclick="fileUploadAction();" class="my_button">파일 업로드</a>
-				<input type="file" name="keep_file" id="input_imgs" multiple/>
+		<form id="imgform" action=".././keepImg.do" method="post" enctype="multipart/form-data">
+			<div class="popup_img_back">
+				<div class="popup_img">
+					<h2>등록된 사진</h2>
+					<div class="before_img">
+					</div>
+					
+					<hr />
+					<h2>업로드할 사진</h2>
+					<div class="input_wrap">
+						<input type="file" id="input_imgs" accept="image/*" multiple />
+						<input type="hidden" name="keep_file" id="input_imgs2">
+						<input type="hidden" name="keep_seq" value="103" id="input_keep_seq">
+					</div>
+					<div class="imgs_wrap">
+						
+					</div>
+				</div>
+				<div class="keep_button">
+					<input type="button" value="취소" class="keep_img_close">
+					<input type="submit" value="등록">
+				</div>
 			</div>
-		</div>
-		
-		<div>
-			<div class="imgs_wrap" style="margin-left:400px;">
-				<img id="img" />
-			</div>
+		</form>
 
-			<a href="javascript:" class="my_button" style="margin-left:400px;">업로드</a>
-		</div>
-		
-				</form>
-	
 	</div><!-- 지우지마세요 -->
 </body>
 </html>

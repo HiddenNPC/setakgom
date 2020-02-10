@@ -30,5 +30,12 @@ public class Admin_MendingKeepServiceImpl implements Admin_MendingKeepService{
 		int res = keepMapper.updateKeep(params);
 		return res;
 	}
+	
+	@Override
+	public int keepImg(KeepVO keep) {
+		Admin_KeepMapper keepMapper = sqlSession.getMapper(Admin_KeepMapper.class);
+		int res = keepMapper.keepImg(keep);
+		return res;
+	}
 
 }

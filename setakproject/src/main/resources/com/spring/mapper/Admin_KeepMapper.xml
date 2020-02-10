@@ -30,9 +30,12 @@
 		        order by c.keep_seq desc)
 	</select>
 	
-	<update id = "updateKeep" parameterType="com.spring.setak.KeepVO">
+	<update id="updateKeep" parameterType="com.spring.setak.KeepVO">
 		update keep set keep_cate = #{keep_cate}, keep_kind = #{keep_kind}, keep_count = #{keep_count}, keep_box = #{keep_box}, keep_start = #{keep_start}, keep_end = #{keep_end}, keep_now = #{keep_now} where keep_seq=#{keep_seq}
 	</update>
 	
-
+	<update id="keepImg" parameterType="com.spring.setak.KeepVO">
+		update keep set keep_file = #{keep_file} where keep_seq=#{keep_seq}
+	</update>
+	
 </mapper>
