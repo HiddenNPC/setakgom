@@ -13,17 +13,45 @@
 	<select id="getFaqList" parameterType="com.spring.community.FaqVO" resultType="com.spring.community.FaqVO">
 		select * from FAQ order by faq_num asc		
 	</select>
-		<!-- SELECT * FROM (SELECT faq_num, faq_cate, faq_title, faq_content,faq_date FROM 
-		(SELECT * FROM FAQ ORDER BY faq_num ASC )) -->		 
+		
+	<select id="getMaxNum" resultType="int">
+		select max(faq_num) from faq
+	</select>
+	
+	<insert id="qnaInsert" parameterType="com.spring.community.QnaVO">
+		insert into faq values 
+		(
+		#{faq_num}, 
+		#{faq_cate}, 
+		#{faq_title},
+		#{faq_content},
+		
+		sysdate
+		)		
+	</insert>
+	
+	<update id="qnaModify" parameterType="com.spring.community.QnaVO">
+		update QNA set
+		QNA_TYPE=#{QNA_TYPE,jdbcType=VARCHAR},
+		ORDER_NUM=#{ORDER_NUM},
+		QNA_TITLE=#{QNA_TITLE,jdbcType=VARCHAR}, 		
+		QNA_CONTENT=#{QNA_CONTENT,jdbcType=VARCHAR},
+		QNA_FILE=#{QNA_FILE,jdbcType=VARCHAR}, 
+		QNA_CHECK=#{QNA_CHECK,jdbcType=VARCHAR},	
+		QNA_SCR=#{QNA_SCR,jdbcType=VARCHAR},	
+		QNA_PASS=#{QNA_PASS,jdbcType=VARCHAR}	
+		where QNA_NUM=#{QNA_NUM}
+	</update>
+	
+	<delete id="qnaDelete" parameterType="com.spring.community.QnaVO">
+		delete from QNA where QNA_NUM = #{QNA_NUM}
+	</delete>	
+
+
+
+
+
 </mapper>
-
-
-
-
-
-
-
-
 
 
 

@@ -31,6 +31,33 @@ public class FaqServiceImpl implements FaqService
 
 	}
 
+	@Override
+	public void qnaInsert(FaqVO vo) {
+		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
+		int num = faqMapper.getMaxNum()+1;
+		vo.setFaq_num(num);		
+		faqMapper.qnaInsert(vo);
+		
+	}
+
+	@Override
+	public int getMaxNum() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void qnaModify(FaqVO vo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void qnaDelete(int num) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	
