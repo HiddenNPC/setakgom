@@ -54,12 +54,12 @@
 	</delete> 
 	 
 	<update id="reviewUpdate" parameterType="com.spring.community.ReviewVO">
-		UPDATE review SET 
-		review_kind=#{review_kind}, 
-		review_star=#{review_star}, 
-		review_content=#{review_content}, 		
-		review_photo=#{review_photo},
-		sysdate 	
+		update review set 
+		review_kind = #{review_kind, jdbcType=VARCHAR}, 
+		review_star = #{review_star}, 
+		review_content = #{review_content}, 		
+		review_photo = #{review_photo},
+		review_date = sysdate 	
 		WHERE review_num=#{review_num}
 	</update>
 	

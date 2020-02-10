@@ -21,6 +21,50 @@ $(document).ready(function(){
     $("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
     
+    
+    var filecontent;
+	var filename="";
+	
+	$("#QNA_FILE").change(function(){
+		filecontent = $(this)[0].files[0];
+		filename = Date.now() + "_" + $(this)[0].files[0].name;
+	});
+	
+	$("#qnaform").on("submit", function() {
+		if(writechk()){
+			
+			if(filecontent != null){
+				var data = new FormData();
+				data.append("purpose", "qna");
+				data.append("files", filecontent);
+				data.append("filename", filename);
+				
+				$("#QNA_FILE2").val(filename);
+				
+				$.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "/setak/testImage.do",
+	                data: data,
+	                processData: false,
+	                contentType: false,
+	                cache: false,
+	                dataType: 'json',
+	
+	                success: function (data) {
+	                	
+	                },
+	                error: function (e) {
+	
+					}
+	                
+				});
+			}
+			
+		}else{
+			event.preventDefault();
+		}
+	});
   
  });
 
@@ -47,9 +91,7 @@ function writechk(){
         document.getElementById('QNA_PASS').focus();
         return false;
     }
-	else{
-		document.qnaform.submit();
-	}
+	return true;
 }
 //취소
 function wcancel(){
@@ -74,7 +116,7 @@ function wcancel(){
 <div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
-<form action="./qnaInsert.do" method="post" enctype="multipart/form-data" name="qnaform" onsubmit="return writechk();">
+<form action="./qnaInsert.do" method="post" enctype="multipart/form-data" id="qnaform"  name="qnaform">
 <table class="qwt1">				
 	<tr>
 		<td height="30px"><div align="center">작성자</div></td>
@@ -115,7 +157,9 @@ function wcancel(){
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">파일첨부</div></td>
-		<td colspan="2"><input id="QNA_FILE" name="QNA_FILE" type="file"/></td>				
+		<td colspan="2"><input id="QNA_FILE"  type="file"/>
+		<input type="hidden" name="QNA_FILE" id="QNA_FILE2">
+		</td>				
 	</tr>
 	<tr > 
 		<td height="30px"><div align="center">비밀번호</div></td>
@@ -128,6 +172,8 @@ function wcancel(){
 	<tr class="qwt1h">
 		<td colspan="2"><div>
 			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">
+			
+			
 			<!-- <input type="hidden" name="QNA_CHECK" value="답변완료"> -->					
 			</div>
 		</td>

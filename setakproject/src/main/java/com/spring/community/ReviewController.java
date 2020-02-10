@@ -2,7 +2,7 @@ package com.spring.community;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -24,9 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-
-
 
 @Controller public class ReviewController 
 {
@@ -72,8 +69,6 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setReview_num(maxnum); 
 		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
 		vo.setMember_id((String)session.getAttribute("member_id"));
-		//String a = vo.getMember_id();
-		//System.out.println("Member_id=" +a );		
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		System.out.println("분류 = " + vo.getReview_kind());
 		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star")));
@@ -86,6 +81,7 @@ import org.springframework.web.servlet.ModelAndView;
 		ModelAndView mav = new ModelAndView();
 		MultipartFile mf = request.getFile("Review_photo");//파일		
 		System.out.println("너의 review_photo은=" + mf);
+		
 		String uploadPath="C:\\Project138\\upload\\";			
 		if(mf.getSize() != 0)//용량
 		{	
@@ -113,10 +109,10 @@ import org.springframework.web.servlet.ModelAndView;
 		{
 			vo.setReview_photo(null);			
 		}			
-				
+		
 		int res = reviewService.reviewInsert(vo);
 		
-		if(res ==0 ) 
+		if(res == 0 ) 
 		{
 			writer.write("<script> alert('입력실패');location.href='./review.do'; </script>");
 			return null;
@@ -234,16 +230,24 @@ import org.springframework.web.servlet.ModelAndView;
 		return retVal;
 	}
 	
-	@RequestMapping(value ="/reviewUpdate.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} ) 	
-	@ResponseBody public Map<String, Object> reviewUpdate(ReviewVO vo, MultipartHttpServletRequest request) throws Exception {
+	@PostMapping(value ="/reviewUpdate.do") public String reviewUpdate(HttpServletResponse response,  MultipartHttpServletRequest request) throws Exception {
 		
-		String reviewe_kind=vo.getReview_kind();
-		Double review_star=vo.getReview_star();
-		String review_content=vo.getReview_content();
-		int review_num = vo.getReview_num();
-		
+		ReviewVO vo = new ReviewVO();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer  = response.getWriter();	
+				
+		vo.setReview_kind(request.getParameter("Review_kind"));
+		vo.setReview_star(Double.parseDouble(request.getParameter("Review_star"))*2);
+		vo.setReview_content(request.getParameter("Review_content"));
+		vo.setReview_num(Integer.parseInt(request.getParameter("Review_num")));
+		System.out.println("구분="+vo.getReview_kind());
+		System.out.println("별점="+vo.getReview_star());
+		System.out.println("내용="+vo.getReview_content());
+		System.out.println("리뷰번호="+vo.getReview_num());
+				
 		ModelAndView mav = new ModelAndView();
-		MultipartFile mf = request.getFile("review_photo");//파일		
+		MultipartFile mf = request.getFile("Review_photo");//파일		
 		System.out.println("너의 review_photo은=" + mf);
 		String uploadPath="C:\\Project138\\upload\\";			
 		
@@ -273,25 +277,20 @@ import org.springframework.web.servlet.ModelAndView;
 		{
 			vo.setReview_photo("등록한 파일이 없습니다./등록한 파일이 없습니다.");			
 		}			
-						
-		Map<String, Object> retVal = new HashMap<String, Object>();		
-		retVal.put("수정할 떄 review_num", review_num);
-		System.out.println("수정,맵 안에는 뭐가 있을까 ?=" + retVal);
+		int res = reviewService.reivewUpdate(vo);
 		
-		try {
-			int res = reviewService.reivewUpdate(vo);
-			
-			if (res==1)
-				retVal.put("res", "OK");
+		if(res== 0)
+		{
+			writer.write("<script>alert('수정 실패');location.href='./review.do';</script>");
+			return null;				
 		}
-		catch (Exception e) {
-			retVal.put("res", "FAIL");
-			retVal.put("message", "Failure");
+		else
+		{				
+			writer.write("<script> alert('수정 성공');location.href='./review.do'; </script>");
+			//return "redirect:/review.do";						
 		}
-		System.out.println("넘기기 직전 이안에는 뭐가 들어있을까 ?->" + retVal);
-		return retVal;
+		System.out.println("수정 성공하고 리스트로 왓다 .");
+		return null;
 	}
-	
-	
 	
 }

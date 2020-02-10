@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.spring.mapper.CommentMapper;
 import com.spring.mapper.ReviewMapper;
 
 @Service("reviewService")
@@ -33,15 +31,13 @@ public class ReviewServiceImpl implements ReviewService
 		int res=0;
 		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
 		try
-		{
-			res = reviewMapper.reviewInsert(vo);
-			
+		{				
+			res = reviewMapper.reviewInsert(vo);			
 		}
 		catch (Exception e)
 		{
-			throw new Exception(" 원글 쓰기  실패", e);
+			throw new Exception(" 원글 쓰기  실패", e);			
 		}
-		
 		return res;
 	}
 
@@ -102,10 +98,19 @@ public class ReviewServiceImpl implements ReviewService
 	}
 
 	@Override
-	public int reivewUpdate(ReviewVO vo) {
+	public int reivewUpdate(ReviewVO vo)throws Exception {
 		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);		
-		int res = reviewMapper.reviewUpdate(vo.getReview_num());
-		return res;
+		int res =0;
+		try
+		{
+			res = reviewMapper.reviewUpdate(vo);
+			
+		}
+		catch (Exception e)
+		{
+			throw new Exception("수정 실패", e);
+		}
+		return res;		
 	}
 
 	

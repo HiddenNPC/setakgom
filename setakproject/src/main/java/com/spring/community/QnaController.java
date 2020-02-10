@@ -92,36 +92,9 @@ import org.springframework.web.servlet.ModelAndView;
 		qnaVO.setQNA_PASS(request.getParameter("QNA_PASS"));
 		qnaVO.setQNA_SCR(request.getParameter("QNA_SCR"));
 
-		
-		ModelAndView mav = new ModelAndView();
-		MultipartFile mf = request.getFile("QNA_FILE"); //파일		
-		System.out.println("너의 QNA_FILE은=" + mf);
-		String uploadPath="C:\\Project138\\upload\\";			
-		if(mf.getSize() != 0)//용량
-		{	
-		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
-		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "")+originalFileExtention;								
-		mf.transferTo(new File(uploadPath+storedFileName));//파일 전송				
-		//뷰에 출력한 데이터 모델에 저장 
-		mav.setViewName("download");
-		mav.addObject("paramName", mf.getName());
-		mav.addObject("fileName", mf.getOriginalFilename());
-		mav.addObject("fileSize", mf.getSize());
-		mav.addObject("storedFileName",storedFileName);	
-		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);		
-		System.out.println("paramName=" + mf.getName());
-		System.out.println("fileName=" + mf.getOriginalFilename());
-		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);					
-
-		qnaVO.setQNA_FILE(mf.getOriginalFilename().concat("/"+storedFileName));			
-		
-		}else{
-			qnaVO.setQNA_FILE("등록한 파일이 없습니다./등록한 파일이 없습니다.");			
-		}
-		
+		qnaVO.setQNA_FILE(request.getParameter("QNA_FILE"));
 		qnaVO.setQNA_CHECK(request.getParameter("QNA_CHECK"));
+		
 		String b = qnaVO.getQNA_CHECK();
 		System.out.println("getQNA_CHECK()=" + b);
 		
