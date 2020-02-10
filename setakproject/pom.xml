@@ -21,12 +21,6 @@
 			<url>http://maven.jahia.org/maven2</url>
 		</repository>
 		
-		<!-- I'mport 시작 -->
-         <repository>
-          <id>jitpack.io</id>
-          <url>https://jitpack.io</url>
-      </repository>
-   <!-- I'mport 끝 -->
 	</repositories>
 	
 	
@@ -268,13 +262,6 @@
         </dependency>
         <!-- 구글 로그인 연동 끝 -->
         
-           <!-- I'mport -->
-      <dependency>
-          <groupId>com.github.iamport</groupId>
-          <artifactId>iamport-rest-client-java</artifactId>
-          <version>0.2.5</version>
-      </dependency>
-        	 
 	</dependencies>
     <build>
         <plugins>
