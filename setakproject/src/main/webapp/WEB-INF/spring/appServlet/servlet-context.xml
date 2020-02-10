@@ -36,6 +36,7 @@
 	<context:component-scan base-package="com.spring.setak, com.spring.order, com.spring.api, com.spring.community, com.spring.member" />
 	<context:component-scan base-package="com.spring.mypage" />
 	<context:component-scan base-package="com.spring.login" />
+	<context:component-scan base-package="com.spring.admin_member" />
 	
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 <beans:bean id="naverLoginBO" class="com.spring.login.NaverLoginBO" />

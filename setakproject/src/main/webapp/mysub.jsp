@@ -6,9 +6,9 @@
 <%@ page import="com.spring.member.MemberVO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%
-	MemberSubVO ms = (MemberSubVO) request.getAttribute("sub_list");
-	SubscribeVO sv = (SubscribeVO) request.getAttribute("subscribe");
-	MemberVO mo = (MemberVO) request.getAttribute("name");
+	MemberSubVO sub_list = (MemberSubVO) request.getAttribute("sub_list");
+	SubscribeVO subscribe = (SubscribeVO) request.getAttribute("subscribe");
+	MemberVO name = (MemberVO) request.getAttribute("name");
 	ArrayList<HistorySubVO> list = (ArrayList<HistorySubVO>)request.getAttribute("subhistory_list");
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
@@ -16,7 +16,6 @@
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
-	System.out.println("수거취소"+ms.getSubs_cancel());
 %>	
 <!DOCTYPE html>
 <html>
@@ -30,6 +29,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mysub.css" />
+<link rel="stylesheet" type="text/css" href="./css/review.css" />
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
@@ -59,8 +59,8 @@
 		    });
 		
 		//수거취소 클릭
-		
-			var subs_cancel = <%=ms.getSubs_cancel() %>;
+		<% if(sub_list != null) {%>
+			var subs_cancel = <%=sub_list.getSubs_cancel() %>;
 			if(subs_cancel=="0") { // 수거취소 가능
 			 $("#cancle").on("click", function() {  
 		        $("#cancletxt").css({
@@ -77,7 +77,7 @@
 				$('#cancle').css('color','#444');
 				$("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
 			};
-		 
+		 <% }%>
 		
 		
 		//수거취소 - 수거취소
@@ -127,7 +127,7 @@
 		document.getElementById("printday").innerHTML =day;
 		
 		/*리뷰버튼 클릭시*/
-		$("#review").click(function(event){
+		  $(document).on('click', '#review', function(event) {
 			 $(location.href="/setak/profile2.do"); // 리뷰쓰는 주소로 수정하기
 		});
 		
@@ -173,7 +173,7 @@
 			</div>
 			<div class="mypage_content"> 
 				<h2>나의정기구독</h2>
-				<% if(ms == null) {%>
+				<% if(sub_list == null) {%>
 				<h3>정기구독을 이용해 주세요</h3>
 				<% } else { %> 
 				<div class="mysub">
@@ -196,16 +196,16 @@
 					
 					<div class="two">
 						<ul class="mysub_bottom">
-							<li class="cell"><%=ms.getSubsname() %></li>
-							<li class="cell"><%=ms.getWashcnt() %>/<%=sv.getSubs_water() %></li>
-							<li class="cell"><%=ms.getShirtscnt() %>/<%=sv.getSubs_shirts() %></li>
-							<li class="cell"><%=ms.getDrycnt() %>/<%=sv.getSubs_dry() %></li>
-							<li class="cell"><%=ms.getBlacketcnt() %>/<%=sv.getSubs_blanket() %></li>
-							<li class="cell"><%=ms.getDeliverycnt() %>/<%=sv.getSubs_delivery() %></li>
-							<li class="cell"><% String a =ms.getSubs_start();
+							<li class="cell"><%=sub_list.getSubsname() %></li>
+							<li class="cell"><%=sub_list.getWashcnt() %>/<%=subscribe.getSubs_water() %></li>
+							<li class="cell"><%=sub_list.getShirtscnt() %>/<%=subscribe.getSubs_shirts() %></li>
+							<li class="cell"><%=sub_list.getDrycnt() %>/<%=subscribe.getSubs_dry() %></li>
+							<li class="cell"><%=sub_list.getBlacketcnt() %>/<%=subscribe.getSubs_blanket() %></li>
+							<li class="cell"><%=sub_list.getDeliverycnt() %>/<%=subscribe.getSubs_delivery() %></li>
+							<li class="cell"><% String a =sub_list.getSubs_start();
 												String b=a.substring(0,10);
 												%><%=b %></li>
-							<li class="cell"><%String c =ms.getSubs_end(); 
+							<li class="cell"><%String c =sub_list.getSubs_end(); 
 											   String d =c.substring(0,10);
 												%><%=d %></li>
 							<li class="btn">
@@ -224,7 +224,7 @@
 					</div>
 					<%} %>	
 					<!--정기구독내역이 없을 경우 -->		
-						<% if(listcount == 0 ) {%> 
+					<% if(listcount == 0 ) {%> 
 					<% } else { %> 	
 					<div class="myrecord">
 						<div class="text">
@@ -255,38 +255,43 @@
 										</td>
 									</tr>
 								</tbody>
-								<%} %>   
+								<%} %>
+							   
 							</table>
 						</div>
-					</div>	
+					</div>
+					<%} %>  
+						
 					<div class="page_a">
 							<table class="page_a">
                      		<tr align = center height = 20>
-                          <td>
-                          <%if(nowpage <= 1) {%>
-                          <span class="page_a"><a>&#60;</a></span>
-                          <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
-                             <span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
-                          <%} %>
-                          <%for (int af=startpage; af<=endpage; af++) {
-                             if(af==nowpage) {
-                          %>
-                          <span class="page_a"><a><%=af %></a></span>
-                          <%} else {%>
-                             <span class="page_a"><a href="./mysub.do?page=<%=af %>"><%=af %></a></span>
-                          <%} %>
-                          <%} %>
-                          <%if (nowpage >= maxpage) {%>   <!-- 링크 걸지 않겠다.. -->
-                             <span class="page_a"><a>&#62;</a></span>
-                          <%} else { %>   
-                              <span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
-                           <%} %> 
-                       <%} %>  
-                           </td>
-                        </tr>
-              		 </table>
-						</div>
+                          		<td>
+                          		<% if(nowpage <= 1) {%>
+                          			<span class="page_a"><a>&#60;</a></span>
+                         		 <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
+                             		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
+                         		 <%} %>
+                         	
+                         		<%
+                         			for (int af=startpage; af<=endpage; af++) {
+                             			if(af==nowpage) {
+                          		%>
+                          			<span class="page_a"><a><%=af %></a></span>
+                          		<%} else {%>
+                             		<span class="page_a"><a href="./mysub.do?page=<%=af %>"><%=af %></a></span>
+                          			<%} %>
+                          		<%} %>
+                          
+                          		<% if (nowpage >= maxpage) { %>   <!-- 링크 걸지 않겠다.. -->
+                             		<span class="page_a"><a>&#62;</a></span>
+                          		<%} else { %>   
+                              		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
+                           		<%} %> 
+                           		</td>
+                        	</tr>
+              			 </table>
 					</div>
+				</div>
 					
 <!--           popup -->
                 <div class="popup_back"></div> <!-- 팝업 배경 DIV -->
@@ -318,7 +323,7 @@
 	                <div class="back">
 						<img class="sub_image" src="images/back.png">
 						<div class="text">
-							<h2><span><%=mo.getMember_name() %></span>님</h2>
+							<h2><span><%=name.getMember_name() %></span>님</h2>
 							<p>지금 정기구독을 해지하시면,</p>
 							<h4>최대<span>60%</span>저렴한 정기구독권</h4>
 							<h4>보관 1BOX<span>1개월 쿠폰</span></h4>
@@ -333,8 +338,10 @@
 				
             </div><!-- mysub -->
 			</div><!-- mypage_content -->
+			
 		</div><!-- content -->
 	</section>
+	<div></div>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 
 	<div id="footer"></div>

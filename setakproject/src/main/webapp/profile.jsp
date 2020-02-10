@@ -109,7 +109,6 @@
  		$('#update').on('click', function(event) {
 
  			var id = $("#member_id").val();
-			alert(id);
 			var password = $("#member_password").val();
 			var name = $("#member_name").val();
 			var phone = $("#member_phone").val();

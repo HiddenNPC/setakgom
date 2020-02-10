@@ -1,30 +1,18 @@
 package com.spring.member;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.MemberMapper;
-import com.spring.mapper.MemberSubMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private SqlSession sqlsession;
-	
-	@Override
-	public MemberVO member_list(MemberVO mo) {
-		 MemberVO mvo = null;
-		 try {
-			 MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
-			 mvo = mapper.member_list(mo);
-		 } catch(Exception e) {
-				System.out.println("멤버 리스트 검색 실패" + e.getMessage());
-		 }
-		 
-		 return mvo;
-	}
 	
 	//아이디 확인(중복여부)
 	@Override 
@@ -86,6 +74,20 @@ public class MemberServiceImpl implements MemberService{
 		 return res;
 	}
 	
+	// 회원정보 출력
+		@Override
+		public MemberVO member_list(MemberVO mo) {
+			 MemberVO mvo = null;
+			 try {
+				 MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+				 mvo = mapper.member_list(mo);
+			 } catch(Exception e) {
+					System.out.println("멤버 리스트 검색 실패" + e.getMessage());
+			 }
+			 
+			 return mvo;
+		}
+	
 	// 회원정보 수정
 	@Override
 	public int member_update(MemberVO mo) {
@@ -132,6 +134,18 @@ public class MemberServiceImpl implements MemberService{
 					 
 				return res;
 			}
+		
+	//아이디 보여주기   
+	public String show_id(HashMap<String, Object> map)	{
+		String dbid = "";
+		try {
+			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+			dbid=mapper.show_id(map);
+	  } catch(Exception e) {
+			System.out.println("아이디 보여주기 실패" + e.getMessage());
+	 }
+		return dbid;
+	}
 		
 		//회원삭제
 		@Override
