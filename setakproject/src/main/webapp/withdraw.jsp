@@ -74,7 +74,7 @@
                   </ul>
                   <ul class="mypage_list">
                      <li>고객문의</li>
-                     <li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+                     <li><a href="myqna.do">Q&amp;A 문의내역</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>정보관리</li>

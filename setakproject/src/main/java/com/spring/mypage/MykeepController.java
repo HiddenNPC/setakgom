@@ -42,12 +42,13 @@ public class MykeepController {
 	@RequestMapping(value="/part_Return.do", produces = "application/json; charset=UTF-8")
 	public HashMap<String, Object> part_Return(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session, KeepReturnVO krvo) throws Exception {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
-			
+			HashMap<String, Object> map = new HashMap<String, Object>();
 			String kindtest[] = request.getParameterValues("return_kind");
 			String content[] = request.getParameterValues("return_content");
-			
+			String keep_now = "부분반환";
 			long order_num = Long.parseLong(request.getParameter("order_num"));
 			int res = 0;
+			int res2 = 0;
 			
 			for(int i = 0; i<kindtest.length; i++) {
 				KeepReturnVO krVO = new KeepReturnVO();
@@ -58,6 +59,18 @@ public class MykeepController {
 				res += mypageService.part_Return(krVO);
 			}
 			
+			map.put("keep_now", keep_now);
+			map.put("order_num", order_num);
+			
+			res2 = mypageService.part_Return_now(map);
+			
+			if(res2 != 0) {
+				map.put("res2","ok");
+				System.out.println("업뎃성공");
+			} else {
+				map.put("res2","fail");
+				System.out.println("업뎃실패");
+			}
 			
 			if(res != 0) {
 				hm.put("res", "ok");
@@ -76,7 +89,7 @@ public class MykeepController {
 		 int res = 0;  
 		 
 		 kvolist = mypageService.selectMykeeplist(order_num);
-		 String keep_now ="전체반환신청";
+		 String keep_now ="전체반환";
 		 HashMap<String, Object>map = new HashMap<String, Object>();
 		 map.put("order_num", order_num);
 		 map.put("keep_now", keep_now);
@@ -94,7 +107,6 @@ public class MykeepController {
 	public int update_Month(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session, KeepVO kvo, Long order_num) throws Exception {
 		ArrayList<KeepVO> kvolist = new ArrayList<KeepVO>();
 		kvolist = mypageService.selectMykeeplist(order_num);
-		String all = "보관연장신청";
 		String keep_now = null;
 		String keep_start = null;
 		String keep_end = null;
@@ -131,7 +143,7 @@ public class MykeepController {
 		System.out.println("startDate : " + startDate);
 		keep_end = kvo.getKeep_end();
 		System.out.println("keep_end : " + keep_end);
-		keep_now = "보관연장신청";
+		keep_now = "보관중";
 		
 		HashMap<String, Object>map = new HashMap<String, Object>();
 		map.put("order_num", order_num);

@@ -30,12 +30,73 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<link rel="stylesheet" type="text/css" href="./css/review.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		var member_id = "<%=session.getAttribute("member_id")%>";
 		$("#header").load("./header.jsp");
-		$("#footer").load("./footer.jsp");     
+		$("#footer").load("./footer.jsp");  
+		
+		//모달팝업 오픈
+	    $(".open").on('click', function(){
+	    	$("#re_layer").show();	
+	    	$(".dim").show();	
+		});
+	    $(".close").on('click', function(){
+	    	$(this).parent().hide();	
+	    	$(".dim").hide();
+	    	location.href='./orderview.do';
+		});
+		
+	  //별점 구동	
+		$('.r_content a').click(function () {
+		$(this).parent().children('a').removeClass('on');
+	    $(this).addClass('on').prevAll('a').addClass('on');      
+	    $('#Review_star').val($(this).attr("value"));
+	    return false;
+		});	
+		
+		//입력받을곳 확인체크 + 값 컨트롤러로 전달
+		function rwchk(){	
+
+			if (document.getElementById('Review_content').value=="") 
+			{
+				alert("리뷰의 내용을 작성하세요.(최대 300자)");
+		        document.getElementById('Review_content').focus();
+		        return false;
+		        
+		    }
+			else if (document.getElementById('Review_star').value=="") 
+			{
+		    	alert("별점을 눌러주세요");
+		        document.getElementById('Review_star').focus();
+		        return false;
+		    }
+			else if (document.getElementById('Review_kind').value=="") 
+			{
+		    	alert("이용하신 서비스를 선택해주세요");
+		        document.getElementById('Review_kind').focus();
+		        return false;
+		    }
+			return true;
+		}
+		
+		//취소
+		function rwcancel(){
+			  var check = confirm("작성을 취소하시겠습니까");
+			  if(check)
+			  { 
+				  location.href='./orderview.do';
+			  }
+			  else
+			  { 
+				  return false;
+			  }
+		}
+
+	  
 	   
 		jQuery(".accordion-content").hide();
 		//content 클래스를 가진 div를 표시/숨김(토글)
@@ -100,7 +161,7 @@ function cancle() {
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
@@ -147,7 +208,55 @@ function cancle() {
 									<p><%=orderVO.getOrder_address() %></p>
 								</div>
 								<br><br><br><br><br>
+								
 								<div class="order_dateClass">
+									
+								<a href="#" class="open">리뷰작성</a>
+								<div id="re_layer">
+								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
+								<h2>세탁곰 리뷰 작성</h2>
+								<div class="r_content">
+									<p style="margin-bottom:5px;">사용자 평점</p> 
+									<a class="starR1 on" value="1" >별1_왼쪽</a>
+								    <a class="starR2" value="2">별1_오른쪽</a>
+								    <a class="starR1" value="3">별2_왼쪽</a>
+								    <a class="starR2" value="4">별2_오른쪽</a>
+								    <a class="starR1" value="5">별3_왼쪽</a>
+								    <a class="starR2" value="6">별3_오른쪽</a>
+								    <a class="starR1" value="7">별4_왼쪽</a>
+								    <a class="starR2" value="8">별4_오른쪽</a>
+								    <a class="starR1" value="9">별5_왼쪽</a>
+								    <a class="starR2" value="10">별5_오른쪽</a>    
+								    <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly"></small>   
+								   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
+								</div>      
+								<table class="r_content">
+									<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+								    <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
+								    <tr><td width="40px" ><input name="Review_photo" type="file" class="fileupload"/></td>                          
+								        <td width="40px">
+								        	<select name="Review_kind" id="Review_kind">
+								           		<option value="">분류</option>
+								                <option value="세탁">세탁</option>
+								                <option value="세탁-수선">세탁-수선</option>
+								                <option value="세탁-보관">세탁-보관</option>
+								                <option value="수선">수선</option>
+								                <option value="보관">보관</option>
+								                <option value="정기구독">정기구독</option>
+								           </select></td>
+										<td align="right"  colspan="4">
+											<input type="hidden" name = "review_photo" id = "review_photo">
+											<input type="submit" name="submit" value="등록" id="reviewsubmit">
+											<input id="cbtn" type="button" value="취소" onclick="rwcancel()"/>
+										</td> 	
+									</tr></table>
+								</form>
+								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+								</div>
+								<div class="dim"></div>    
+									
+									
+									
 									<%if (orderVO.getOrder_delete().equals(0)) {%>
 									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="true">주문 취소</a>
 									<%} else { %>

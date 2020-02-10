@@ -26,6 +26,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
+    	  var member_id = "<%=session.getAttribute("member_id")%>";
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")     
       });
@@ -57,7 +58,7 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
@@ -89,7 +90,7 @@
 							%>
 							<tbody align="center">
 								<tr>
-									<%-- <td><%=qvo.getQNA_KIND() %></td>  --%>
+									<td><%=qvo.getORDER_NUM() %></td>
 									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQNA_NUM() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQNA_TITLE() %></a></td>
 									<td><%=sdf.format(qvo.getQNA_DATE()) %></td>
 									<td><%=qvo.getQNA_CHECK() %></td>
@@ -106,20 +107,20 @@
               					<%if(nowpage <= 1) {%>
               				<div class="page_a"><a>&#60;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
               				<%for (int a=startpage; a<=endpage; a++) {
               					if(a==nowpage) {
            					%>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
-           						<div class="page_a"><a href="/mysaving.do?page=<%=a %>"><%=a %></a></div>
+           						<div class="page_a"><a href="./mysaving.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
            					<%} %>
            					<%if (nowpage >= maxpage) {%>	
            						<div class="page_a"><a>&#62;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>

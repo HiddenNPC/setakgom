@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.Admin_C_M_Mapper">
+	<resultMap type="java.util.HashMap" id="hashmapVO">
+		<result property="coupon_rnum" column="rnum"/>
+		<result property="member_id" column="member_id"/>
+		<result property="coupon_name" column="coupon_name"/>
+		<result property="coupon_start" column="coupon_start"/>
+		<result property="coupon_end" column="coupon_end"/>
+		<result property="coupon_useday" column="coupon_useday"/>
+		<result property="coupon_use" column="coupon_use"/>
+		<result property="coupon_seq" column="coupon_seq"/>
+	</resultMap>
+	
+	<select id="Admin_CouponList" resultMap="hashmapVO">
+		select rownum rnum, member_id, coupon_name, coupon_start, coupon_end, coupon_useday, coupon_use, coupon_seq from
+			(select rownum rnum, a.coupon_name, b.member_id, TO_CHAR(a.coupon_start, 'YYYY-MM-DD') as coupon_start, TO_CHAR(a.coupon_end, 'YYYY-MM-DD') as coupon_end, TO_CHAR(a.coupon_useday, 'YYYY-MM-DD') as coupon_useday, a.coupon_use, a.coupon_seq
+				from member b
+				join coupon a
+				on a.member_id = b.member_id
+				where a.coupon_seq > 0
+				order by a.coupon_seq desc)
+	</select>
+</mapper>
