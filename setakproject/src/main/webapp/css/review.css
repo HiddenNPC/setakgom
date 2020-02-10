@@ -58,7 +58,7 @@
    	#cbtn { color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
-   		border: none; outline: none; margin-right: 10px
+   		border: none; outline: none; margin-right: 10px; cursor: pointer;
    	}   	 	
   	
   	.re2{margin:auto; width:1000px; }
