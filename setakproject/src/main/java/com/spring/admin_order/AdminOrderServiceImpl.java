@@ -32,19 +32,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 	}
 	
 	@Override
-	public ArrayList<OrderVO> getOrderList2(HashMap<String, Object> map) {
-		ArrayList<OrderVO> orderList = null;
-		try {
-			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
-			orderList = adminOrderMapper.getOrderList2(map);
-		} catch(Exception e) {
-			System.out.println("전체 주문 리스트 검색 실패22222" + e.getMessage());
-		}
-		
-		return orderList;
-	}
-
-	@Override
 	public int getOrderCount() {
 		int cnt = 0;
 		try {
@@ -120,6 +107,45 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		}
 		
 		return res; 
+	}
+
+	@Override
+	public int recentOrderStatusCnt(HashMap<String, Object> map) {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.recentOrderStatusCnt(map);
+		}catch(Exception e) {
+			System.out.println("최근 5일 주문 상태 갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public int recentOrderCnt(HashMap<String, Object> map) {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.recentOrderCnt(map);
+		}catch(Exception e) {
+			System.out.println("최근 5일 주문 갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public int recentOrderWeeklyCnt(HashMap<String, Object> map) {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.recentOrderWeeklyCnt(map);
+		}catch(Exception e) {
+			System.out.println("최근 5주 주문 갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
 	}
 
 

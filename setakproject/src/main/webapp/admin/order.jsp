@@ -8,21 +8,14 @@
 <%
 	ArrayList<OrderVO> orderList = (ArrayList<OrderVO>)request.getAttribute("orderList");
 	int orderCount = (int)request.getAttribute("orderCount"); 
-	
-	int limit = ((Integer)request.getAttribute("limit")).intValue();
-	int nowpage = ((Integer)request.getAttribute("page")).intValue();
-	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
-	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
-	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
-	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
-	
+	 
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>세탁곰 관리자페이지</title>
+	<title>세탁곰 전체주문관리</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -40,6 +33,9 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
+			
+			page(); 
+			
 			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")
 			
@@ -125,6 +121,20 @@
 				searchOrder();
 			});
 			
+    		// 서비스 중 상태에서만 배송번호 입력 가능 
+			$('#detailOrderStatus').change(function() {
+				
+        		var status = $('#detailOrderStatus').val();
+        		console.log(status); 
+        		if(status == '서비스중') {
+        			$('#deliveryNum').prop('readonly', false); 
+        		}else {
+        			$('#deliveryNum').prop('readonly', true);
+        		}
+        			
+			});
+			
+			
 			// 주문 상세 수정
 			$('#detail-submit-btn').on("click", function() {
 				
@@ -185,7 +195,7 @@
 			
 			// 입력창  한글 금지 > 검색어, 배송번호, 휴대폰번호
 			$("#keyword, #deliveryNum, #detail-phone").on("keyup", function() { 
-				$(this).val($(this).val().replace(/[^0-9]/g,"")); 
+				$(this).val($(this).val().replace(/[^0-9a-z]/g,"")); 
 			});
 			
 			// 선택 주문 상태 변경
@@ -224,7 +234,7 @@
 
 		});
 		
-		// 나의주소록 레이어 스크립트
+		// 상세주소 레이어 스크립트 
 		 function layerOrderDetail(type, value) {
 
 	        if(type == 'open') {
@@ -302,6 +312,8 @@
 		// 검색
 		function searchOrder() {
 			
+			$('#result-second-pager').empty(); 
+			
 			var checkbox = $("input[name=check]:checked");
 			
 			var statusArr = []; 
@@ -322,8 +334,6 @@
      			var day = dateObj.getDate();
      			var today = year + "-" + month + "-" + day; 
      			end = today;
-     			
-     			console.log(today); 
      		}     		
      		
 			var orderBy = $("#order-select").val();
@@ -334,7 +344,7 @@
 							statusArr : statusArr, 
 							searchType : $('#searchType').val(),
 							keyword : $('#keyword').val(),
-							orderBy : orderBy
+							orderBy : orderBy,
 						};
 			
 			$.ajax({
@@ -363,13 +373,13 @@
 						 var date = dateArr[0];
 						 
 						 var delicode = item.order_delicode;
-						 console.log(delicode); 
 						 if(delicode == null) {
 							 delicode = "-"; 
 						 }
 						 
 						 var output = '';
 						 
+				
 						 output += '<tr>';
 						 output += '<td class = "check"> <input type = "checkbox"  name = "chk"/> </td>';
 						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('+'\'open\',\''+item.order_num+'\''+')" value="'+item.order_num+'"/></td>';
@@ -382,7 +392,10 @@
 						 output += '</tr>';
 						 
 						 $('#result-table tbody').append(output); 
+						 
 					 });
+					 
+					 page();
 
 				},
 				error: function() {
@@ -443,7 +456,105 @@
 	            }
 	        }).open();
 	    }
-		
+
+		//만들어진 테이블에 페이지 처리
+		function page(){
+						
+			$('#result-table-tbody').each(function() {
+				
+				var pagesu = 10;  //페이지 번호 갯수		
+				var currentPage = 0;		
+				var numPerPage = 20;  //목록의 수		
+				var $table = $(this);
+				var tr = $('#result-table tbody tr');
+				//length로 원래 리스트의 전체길이구함
+				var numRows = tr.length;//10
+				//Math.ceil를 이용하여 반올림
+				var numPages = Math.ceil(numRows / numPerPage);
+				//리스트가 없으면 종료
+				if (numPages==0) return;
+				//pager라는 클래스의 div엘리먼트 작성 > 페이징 하는 부분
+				var $pager = $('<td align="center" id="remo" colspan="10"><div class="pager"></div></td>');
+				var nowp = currentPage;
+				var endp = nowp+10;
+				//페이지를 클릭하면 다시 셋팅
+				$table.bind('repaginate', function() {
+				//기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다
+				$table.find('tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();						
+				$("#remo").html("");		
+				if (numPages > 1) { // 한페이지 이상이면
+					if (currentPage < 5 && numPages-currentPage >= 5) { // 현재 5p 이하이면
+				   		nowp = 0;     // 1부터 
+				    	endp = pagesu;    // 10까지
+					}else{
+				    	nowp = currentPage -5;  // 6넘어가면 2부터 찍고
+				   	 	endp = nowp+pagesu;   // 10까지
+				    	pi = 1;
+					}
+					if (numPages < endp) {   // 10페이지가 안되면
+						endp = numPages;   // 마지막페이지를 갯수 만큼
+				    	nowp = numPages-pagesu;  // 시작페이지를   갯수 -10
+					}
+					if (nowp < 1) {     // 시작이 음수 or 0 이면
+				    	 nowp = 0;     // 1페이지부터 시작
+				 	}
+				}else{       // 한페이지 이하이면
+				    nowp = 0;      // 한번만 페이징 생성
+				    endp = numPages;
+				}
+				
+				// [처음]
+				$('<br /><span class="page-number" style = "cursor: pointer"><img src="https://img.icons8.com/ultraviolet/20/000000/double-left.png"></span>').bind('click', {newPage: page},function(event) {
+					currentPage = 0;   
+				    $table.trigger('repaginate');  
+				    $($(".page-number")[2]).addClass('pageClick').siblings().removeClass('pageClick');
+				    $("html, body").animate({ scrollTop : 0 }, 500);
+				}).appendTo($pager).addClass('clickable');
+				
+				// [이전]
+				$('<span class="page-number" style = "cursor: pointer">&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/back.png">&nbsp;</span>').bind('click', {newPage: page},function(event) {
+				    if(currentPage == 0) return; 
+				    currentPage = currentPage-1;
+				    $table.trigger('repaginate'); 
+				    $($(".page-number")[(currentPage-nowp)+2]).addClass('pageClick').siblings().removeClass('pageClick');
+				    $("html, body").animate({ scrollTop : 0 }, 500);
+				}).appendTo($pager).addClass('clickable');
+				
+				// [1,2,3,4,5,6,7,8]
+				for (var page = nowp ; page < endp; page++) {
+					$('<span class="page-number" style="margin-left: 8px; cursor: pointer;"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
+				    currentPage = event.data['newPage'];
+				    $table.trigger('repaginate');
+				    $($(".page-number")[(currentPage-nowp)+2]).addClass('pageClick').siblings().removeClass('pageClick');
+				    $("html, body").animate({ scrollTop : 0 }, 500);
+				    }).appendTo($pager).addClass('clickable');
+				} 
+				
+				// [다음]
+				$('<span class="page-number" style = "cursor: pointer">&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/forward.png">&nbsp;</span>').bind('click', {newPage: page},function(event) {
+				    if(currentPage == numPages-1) return;
+				    currentPage = currentPage+1;
+				    $table.trigger('repaginate'); 
+				    $($(".page-number")[(currentPage-nowp)+2]).addClass('pageClick').siblings().removeClass('pageClick');
+				    $("html, body").animate({ scrollTop : 0 }, 500);
+				}).appendTo($pager).addClass('clickable');
+				
+				// [끝]
+				$('<span class="page-number" style = "cursor: pointer">&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/double-right.png"></span>').bind('click', {newPage: page},function(event) {
+				    currentPage = numPages-1;
+				    $table.trigger('repaginate');
+				    $($(".page-number")[endp-nowp+1]).addClass('pageClick').siblings().removeClass('pageClick');
+				    $("html, body").animate({ scrollTop : 0 }, 500);
+				}).appendTo($pager).addClass('clickable');
+				$($(".page-number")[2]).addClass('pageClick');
+				
+			 });
+				
+			 $pager.insertAfter($table.find('span.page-number:first').next().next().addClass('pageClick'));   
+			 $pager.appendTo($('#result-second-pager'));
+			 $table.trigger('repaginate');
+		  });
+		}
 
 	</script>
 </head>
@@ -511,7 +622,7 @@
 				<div id="result-first-div">
 					<!-- 검색 결과 수 div-->
 					<div id="result-num-div">
-						검색 <span id="result-num"><b>3</b></span>건
+						검색 <span id="result-num"><b></b></span>건
 					</div>
 					
 					<!-- 검색 정렬 방식 div-->
@@ -529,7 +640,6 @@
 				
 				<!-- 결과 테이블 div 시작 -->
 				<div id=result-second-div>
-				
 					<table id="result-table" class = "example">
 						<thead>
 							<tr>
@@ -543,7 +653,7 @@
 								<th>주문상태</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id = "result-table-tbody" class = "repaginate">
 						<%for(int i = 0; i < orderList.size(); i++) {
 							OrderVO ovo = orderList.get(i);
 							
@@ -572,8 +682,6 @@
 						
 						</tbody>
 					</table>
-
-
 				</div>
 				<!-- 결과 테이블 div 끝-->
 
@@ -598,35 +706,10 @@
 				<!-- 결과 페이징 div 시작 -->
 				<div id="result-paging-div">
 				
-				<table class="nlt3" align="center">	
-					<tr align=center height=35  >
-						<td colspan=7 >
-						<% if(nowpage<=1) { %>
-							< &nbsp;&nbsp;&nbsp;
-							<% } else { %>
-							<a href="./admin/order.do?page=<%=nowpage-1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/left-squared.png"></a>&nbsp;
-							<% } %>
-							
-							<% for (int a=startpage; a<=endpage; a++) { 
-									if(a==nowpage) { %>
-										<%=a %>
-										<% } else { %>
-										<a href="./order.do?page=<%=a %>" >&nbsp;<%=a %>&nbsp;</a>
-								<% } %>
-							<% } %>
-							&nbsp;
-							<% if (nowpage >= maxpage ) { %>
-									&nbsp;&nbsp;&nbsp; >
-								<% } else { %>
-									<a href="./order.do?page=<%=nowpage+1 %>"><img src="https://img.icons8.com/ultraviolet/20/000000/right-squared.png"></a>
-							<% } %>
-							</td>
-						</tr>
-				</table>				
-
+				<div id = "result-second-pager">
 				</div>
-				<!-- 결과 페이징 div 끝 -->
-			</div>
+				
+				</div>
 		<!-- 결과  div 끝-->
 		
 	<!-- 주문 상세보기 레이어 -->
@@ -642,7 +725,7 @@
 				<div id = "detail-order-div">
 					<p class = "detail-title">주문정보</p>
 					<table id = "detail-table">
-						<tbody>
+						<thead>
 							<tr>
 								<td>주문번호</td>
 								<td><span id = "detailOrderNum"></span></td>
@@ -670,6 +753,9 @@
 								<td>배송번호</td>
 								<td><input id = "deliveryNum" type = "text" /></td>
 							</tr>
+						</thead>
+						<tbody>
+
 						</tbody>
 					</table>
 				</div>

@@ -265,3 +265,51 @@ li.check {
 #detail-get-table input {
 	padding-left : 5px;
 }
+
+#result-second-pager {
+	text-align : -webkit-center;
+}
+
+.pageClick {
+	font-weight : bold;
+	color : #3498db;
+}
+
+/*기타주문관리 페이지 css*/
+#recent5Days-div {
+	border-top : 2px solid #3498db;
+	padding-top : 30px;
+	margin : 0 auto; 
+	width: 80%;
+}
+
+#recent5Days-div canvas {
+	margin : 0 auto; 
+	width : 100vh; 
+}
+
+#recentAll-div {
+	margin : 50px auto; 
+	border-top : 2px solid #3498db;
+	padding-top : 30px;
+	width : 80%;
+}
+
+#recentAll-div canvas {
+	width : 100vh;
+}
+
+#recentAll5days-num {
+	display : inline-block;
+	width : 150px;
+	border-radius : 5px;
+	padding : 15px;
+	background-color : #3498db;
+	color : white; 
+
+}
+
+#recentAll5weeks-num {
+	display : inline-block;
+	float : left; 
+}

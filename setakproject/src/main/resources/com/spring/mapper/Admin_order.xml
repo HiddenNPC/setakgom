@@ -27,13 +27,6 @@
 		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status from memberorder order by order_date desc
 	</select>
 	
-	<!-- 전체 주문 테이블 : startrow, endrow -->
-	<select id="getOrderList2" parameterType="java.util.HashMap" resultMap="OrderResultMap">
-		<![CDATA[select * from (select rownum rnum, order_num, member_id, order_name, order_price, order_date, 
-		order_delicode, order_status from (select * from memberorder order by order_date desc)) 
-		where rnum >= #{startrow} and rnum <= #{endrow}]]>
-	</select>
-	
 	<!-- 전체 주문 개수  -->
 	<select id = "getOrderCount" resultType = "int">
 		select count(*) from memberorder
@@ -92,6 +85,7 @@
 		order_name = #{order_name, jdbcType = VARCHAR}, order_address = #{order_address, jdbcType = VARCHAR}, order_request = #{order_request, jdbcType = VARCHAR} where order_num = #{order_num}
 	</update>
 	
+	<!-- 선택 주문 상태 수정  -->
 	<update id="statusUpdate" parameterType="java.util.HashMap">
 		update memberorder set order_status = #{order_status} 
 		where
@@ -99,5 +93,21 @@
 			order_num = #{item} 
 		</foreach>
 	</update>
+	
+	<!-- 최근 5일간 주문 상태별 주문 개수 -->
+	<select id = "recentOrderStatusCnt" parameterType = "java.util.HashMap" resultType="int">
+		select count(*) from memberorder where order_status = #{order_status} and order_date like #{order_date}||'%'
+	</select>
+	
+	<!-- 최근 5일간 주문 개수  -->
+	<select id = "recentOrderCnt" parameterType = "java.util.HashMap" resultType="int">
+		select count(*) from memberorder where order_date like #{order_date}||'%'
+	</select>	
+	
+	<select id = "recentOrderWeeklyCnt" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from memberorder
+		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
+	</select>
 
 </mapper>
