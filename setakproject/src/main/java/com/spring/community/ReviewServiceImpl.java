@@ -41,23 +41,7 @@ public class ReviewServiceImpl implements ReviewService
 		return res;
 	}
 
-	@Override
-	public int getMaxNum() throws Exception 
-	{
-		int res;
-		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
-		try
-		{
-			 res=reviewMapper.getMaxNum();
-			
-		}
-		catch (Exception e)
-		{
-			throw new Exception("리뷰 maxnum 구하기  실패", e);
-		}
-		
-		return res;
-	}
+	
 
 	@Override
 	public ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword) 

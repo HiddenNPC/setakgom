@@ -6,7 +6,7 @@ public interface ReviewService
 {
 	ArrayList<ReviewVO> reviewList() throws Exception;
 	int reviewInsert(ReviewVO vo) throws Exception;
-	int getMaxNum() throws Exception;
+	//int getMaxNum() throws Exception;
 
 	ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword);
 

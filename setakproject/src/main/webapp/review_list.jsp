@@ -4,7 +4,7 @@
 <%@ page import = "java.text.SimpleDateFormat"%>
 <%@ page import = "com.spring.setak.*"%>
 <%
-	int maxnum =((Integer)request.getAttribute("maxnum")).intValue();
+String login_id=(String)session.getAttribute("member_id");	
 
 %>
 
@@ -29,9 +29,17 @@ $(document).ready(function () {
    
     //모달팝업 오픈
     $(".open").on('click', function(){
-    	$("#re_layer").show();	
-    	$(".dim").show();	
+    	var login_id="<%=session.getAttribute("member_id")%>";   	
+    	if(!(login_id=="null")){
+    		$("#re_layer").show();	
+    		$(".dim").show();
+    	}
+    	else{
+    		alert("비회원은 리뷰를 작성 할 수 없습니다.");
+    		location.href="login.do";
+    	}
 	});
+	
     $(".close").on('click', function(){
     	$(this).parent().hide();	
     	$(".dim").hide();	
@@ -173,6 +181,11 @@ $(document).ready(function () {
 					$('#re_list').append(re_list);	
 									
 					$(document).on('click', '.heart'+index+'', function () {
+						var login_id="<%=session.getAttribute("member_id")%>";   	
+				    	if(login_id=="null"){
+				    		alert("비회원은 리뷰를 추천 할 수 없습니다.");
+				    		location.href="login.do";
+				    	}
 				        var that = $('.heart'+index+'');
 				        console.log(that);
 				        var sendData = {'review_num' : item.review_num, 'review_like' : item.review_like};
@@ -209,6 +222,13 @@ $(document).ready(function () {
 		
 	//삭제 버튼 - 삭제 실행
 	$(document).on('click','.re_delete', function(event){ 
+		var login_id="<%=session.getAttribute("member_id")%>";   	
+    	if(login_id=="null"){
+    		alert("비회원은 리뷰를 삭제 할 수 없습니다.");
+    		location.href="login.do";
+    		return false;
+    	}
+    	
 		var result = confirm("리뷰를 삭제하시겠습니까?");
 		if(result){
 			var para = {review_num : $('input[name="review_num"]').val()}; 
@@ -242,6 +262,12 @@ $(document).ready(function () {
 		
 	//수정버튼 - 폼
 	$(document).on('click','.updateForm', function(){
+		var login_id="<%=session.getAttribute("member_id")%>";   	
+    	if(login_id=="null"){
+    		alert("비회원은 리뷰를 수정 할 수 없습니다.");
+    		location.href="login.do";
+    	}
+		
 		$("#re_layer2").show();	
 	    $(".dim2").show();			
 	    $(".close2").on('click', function(){	    		    	
@@ -663,7 +689,7 @@ function rwcancel(){
 <!-- 글 분류 -->
 <div class="re2">
 
-<%-- <strong id="re2h">리뷰  <%=maxnum %>개</strong> --%>
+
 
 <div class="re2_search">
 <input type="radio" id="radio1" name="radio_val" value="review_date" ><label for="radio1">등록일순</label>
