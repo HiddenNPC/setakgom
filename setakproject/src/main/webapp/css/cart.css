@@ -74,6 +74,7 @@
  		padding : 8px;
  		font-size : 1.2rem;  
  		border : none; 
+ 		cursor : pointer; 
 		}
  
     .title-text {
@@ -183,5 +184,8 @@
 		font-weight : bold; 
 	}
 
-
+.repairCode {
+    font-size: 0.8rem;
+    color: #929292;
+}
 	

@@ -16,6 +16,7 @@
 	<resultMap type="com.spring.order.KeepCartVO" id="KeepCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="keep_seq" column="keep_seq" />
+		<result property="keep_group" column="keep_group" />
 	</resultMap>
 	
 	<resultMap type="com.spring.setak.WashingVO" id="WashingResultMap">
@@ -84,6 +85,11 @@
 	<!-- 보관 장바구니 데이터 읽기 -->
 	<select id = "getKeepList" parameterType = "int" resultMap = "KeepResultMap">
 		select * from keep_view where keep_seq = #{keep_seq}
+	</select>
+	
+	<!-- 보관 그룹별 리스트 검색 -->	
+	<select id = "getKeepGroupList" parameterType = "java.util.HashMap" resultMap = "KeepResultMap">
+		select * from keep_view where keep_group = #{keep_group} and member_id = #{member_id}
 	</select>
 	
 	<!-- 세탁 장바구니 비우기  > 장바구니 -->

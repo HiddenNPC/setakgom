@@ -45,5 +45,10 @@ public interface OrderMapper {
 	
 	// 주문 취소 정보 등록
 	int orderCancle(OrderVO ovo);
+	
+	// 보관 장바구니 그룹 읽기
+	int getKeepMaxGroup(String member_id); 
+	// 보관 장바구니 존재 유무 확인
+	int getKeepExist(String member_id); 
 
 }

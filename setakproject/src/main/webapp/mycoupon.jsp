@@ -99,7 +99,7 @@
 										<% }%>
 									</td>
 									<td>
-										<%if (cvo.getCoupon_use().equals(1)){ %>
+										<%if (cvo.getCoupon_use().equals("1")){ %>
 										사용불가
 										<%} else{%>
 										사용가능

@@ -164,5 +164,15 @@
 	<update id="orderCancle" parameterType = "com.spring.order.OrderVO">
 		update memberorder set order_cancel = 1, order_status = '주문취소' where order_muid = #{order_muid}
 	</update>
-			
+	
+	<!-- 보관 장바구니 그룹 읽기 -->
+	<select id = "getKeepMaxGroup" parameterType = "String" resultType = "int">
+		select max(keep_group) from keep_cart where member_id = #{member_id} 
+	</select>	
+	
+	<!-- 보관 장바구니 유무 확인하기 -->
+	<select id = "getKeepExist" parameterType = "String" resultType = "int">
+		select count(*) from keep_cart where member_id = #{member_id} 
+	</select>	
+		
 </mapper>

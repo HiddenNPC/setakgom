@@ -32,4 +32,7 @@ public interface OrderService {
 	
 	public int orderCancle(OrderVO ovo);
 	
+	public int getKeepMaxGroup(String member_id); 
+	public int getKeepExist(String member_id);
+	
 }

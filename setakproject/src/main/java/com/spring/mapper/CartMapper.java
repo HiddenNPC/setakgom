@@ -1,6 +1,8 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.spring.order.KeepCartVO;
 import com.spring.order.MendingCartVO;
@@ -20,6 +22,7 @@ public interface CartMapper {
 	WashingVO getWashingList(int wash_seq); 
 	MendingVO getMendingList(int repair_seq);
 	KeepVO getKeepList(int keep_seq);
+	ArrayList<KeepVO> getKeepGroupList(HashMap<String, Object> map); 
 	
 	// 장바구니 비우기
 	int deleteWashCart(int wash_seq);

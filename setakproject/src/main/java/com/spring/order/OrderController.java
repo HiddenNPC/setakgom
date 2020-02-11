@@ -89,7 +89,8 @@ public class OrderController {
 				int repair_seq = list2.get(i).getRepair_seq();
 				MendingVO mvo = new MendingVO();
 				mvo = cartService.getMendingList(repair_seq);
-				mendingList.add(mvo); 
+				mendingList.add(mvo);
+				System.out.println("mvo 비고 찾기 : " + mvo.getRepair_code());
 			}
 		}
 		
@@ -97,19 +98,26 @@ public class OrderController {
 		// 보관 장바구니 값 읽기
 		List<KeepVO> keepList = new ArrayList<KeepVO>(); 
 		List<KeepCartVO> list = cartService.getKeepSeq(member_id);
-		
+				
 		if(list.size() == 0) {
 			System.out.println("보관 장바구니 아무것도 없음");
-		} else {
-			for(int i = 0; i < list.size(); i++) {
-				
-				int keep_seq = list.get(i).getKeep_seq();
-				KeepVO kvo = new KeepVO();
-				kvo = cartService.getKeepList(keep_seq);
-				keepList.add(kvo);
-
-			}	
 		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id); 
+		
+		int maxGroup = 0; 
+		
+		if(orderService.getKeepExist(member_id) != 0) {
+			maxGroup = orderService.getKeepMaxGroup(member_id);
+		}
+
+		for(int i = 1; i <= maxGroup; i++) {
+			map.put("keep_group", i);
+			ArrayList<KeepVO> kvo =  cartService.getKeepGroupList(map);
+			keepList.add(kvo.get(0));
+		}		
+
 				
 		model.addAttribute("washingList", washingList); 
 		model.addAttribute("mendingList", mendingList);
@@ -324,11 +332,26 @@ public class OrderController {
 			mendingList2.add(mvo);
 		}		
 	
-		for(int i = 0; i < keepList.size(); i++) {
-			int keep_seq = keepList.get(i).getKeep_seq();
-			KeepVO kvo = cartService.getKeepList(keep_seq);
-			keepList2.add(kvo);
-		}				
+		/*
+		 * for(int i = 0; i < keepList.size(); i++) { int keep_seq =
+		 * keepList.get(i).getKeep_seq(); KeepVO kvo =
+		 * cartService.getKeepList(keep_seq); keepList2.add(kvo); }
+		 */
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		
+		int maxGroup = 0; 
+		
+		if(orderService.getKeepExist(member_id) != 0) {
+			maxGroup = orderService.getKeepMaxGroup(member_id);
+		}
+
+		for(int i = 1; i <= maxGroup; i++) {
+			map.put("keep_group", i);
+			ArrayList<KeepVO> kvo =  cartService.getKeepGroupList(map);
+			keepList.add(kvo.get(0));
+		}		
 		
 		// 장바구니 비우기
 		orderService.deleteWashCartbyID(member_id);
@@ -531,10 +554,10 @@ public class OrderController {
 		orderService.insertSubHistory(mvo);
 		
 		// 쿠폰 발급
-//		int coupon_num = orderService.getCouponNum(mvo);
-//		for(int i = 0; i < coupon_num; i++) {
-//			orderService.insertCoupon(mvo);
-//		}
+		int coupon_num = orderService.getCouponNum(mvo);
+		for(int i = 0; i < coupon_num; i++) {
+			orderService.insertCoupon(mvo);
+		}
 		merchant_uid += "s";
 		subsres(customer_uid, merchant_uid, amount, request, response);
 		
@@ -652,10 +675,7 @@ public class OrderController {
 		
 		String order_muid = ovo.getOrder_muid();
 		int res = iamport.cancelPayment(token, order_muid);
-		
-		System.out.println("muid : " + order_muid);
-		int res2 = orderService.orderCancle(ovo);
-		System.out.println("res2 : " + res2);
+		orderService.orderCancle(ovo);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		

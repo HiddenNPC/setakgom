@@ -71,7 +71,7 @@
                merchant_uid : muid,
                customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
                name: "정기 구독 결제 카드 등록 및 최초 결제",
-               amount: "1000", 
+               amount: "100", 
                buyer_email : '<%=memberVO.getMember_email()%>',
                buyer_name : '<%=memberVO.getMember_name()%>',
                buyer_tel : '<%=memberVO.getMember_phone()%>',
