@@ -118,8 +118,6 @@
 			var btn = $(this); 
 			var order_muid = btn.attr('name');
 			
-			alert(order_muid); 
-			
 			if(confirm("선택된 주문을 취소하시겠습니까?")) {
 			    jQuery.ajax({
 				      "url": "/setak/cancelPay.do",
@@ -131,6 +129,7 @@
 				      "dataType": "json"
 				    }).done(function(result) { // 환불 성공시 로직 
 				        alert("주문이 성공적으로 취소 되었습니다.");
+				        window.location.href = "./orderview.do";
 				    }).fail(function(result) { // 환불 실패시 로직
 				      	alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
 				    });	
