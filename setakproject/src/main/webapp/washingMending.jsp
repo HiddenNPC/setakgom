@@ -100,6 +100,7 @@
 					return;
 				}
 				kind = $.attr(this, 'value');
+				var kind_price = $($(this).children('.price')).text();
 				$(".hash").append("<p class='hashvl'>&nbsp;"+kind+"&nbsp;<span>X</span><span style='display:none;'>,"+ kind_price +",</span></p>");
 	            maxAppend++;
 			});
