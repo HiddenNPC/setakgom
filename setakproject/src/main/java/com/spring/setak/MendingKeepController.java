@@ -55,19 +55,14 @@ public class MendingKeepController {
 		String repair_code[] = request.getParameterValues("repair_code");
 		String repair_count[] = request.getParameterValues("repair_count");
 		String repair_price[] = request.getParameterValues("repair_price");
-		//MultipartFile files = (MultipartFile)request.getAttribute("repair_file");
-//		System.out.println(files[0].getName());  /// 여기 민경 주석 처리 해놓음 null 떠서
-		//System.out.println(files);
-		//List<MultipartFile> repair_file = request.getFiles("repair_file");
-		
-		String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정
 		
 		MendingVO mending = new MendingVO();
 		MendingCartVO mendingcart = new MendingCartVO();
 		for(int i =0; i<repair_cate.length; i++) {
 			String kind[] = repair_kind[i].split(",");
-			for(String ki : kind) {
-				mending.setRepair_kind(ki);
+			String price[] = repair_price[i].split(",");
+			for(int j=0; j<kind.length; j++) {
+				mending.setRepair_kind(kind[j]);
 				mending.setRepair_cate(repair_cate[i]);
 				mending.setRepair_var1(Integer.parseInt(repair_var1[i]));
 				mending.setRepair_var2(Integer.parseInt(repair_var2[i]));
@@ -75,7 +70,7 @@ public class MendingKeepController {
 				mending.setRepair_content(repair_content[i]);
 				mending.setRepair_code(repair_code[i]);
 				mending.setRepair_count(Integer.parseInt(repair_count[i]));
-				mending.setRepair_price(Integer.parseInt(repair_price[i]));
+				mending.setRepair_price(Integer.parseInt(price[j]));
 				mending.setRepair_wash(0);
 					
 				mendingKeepService.insertMending(mending);
@@ -86,16 +81,6 @@ public class MendingKeepController {
 				
 				mendingKeepService.insertMendingCart(mendingcart);
 			}
-		
-			/*String originalFileExtension = repair_file.get(i).getOriginalFilename().substring(repair_file.get(i).getOriginalFilename().lastIndexOf("."));
-			String storedFileName = UUID.randomUUID().toString().replaceAll("-", "") + originalFileExtension;
-			
-			mending.setRepair_file(repair_file.get(i).getOriginalFilename());
-			
-			if (repair_file.get(i).getSize() != 0)
-				repair_file.get(i).transferTo(new File(uploadPath + storedFileName));
-			*/
-		
 		}
 		return "redirect:/order.do";
 	}
@@ -147,8 +132,6 @@ public class MendingKeepController {
 			
 			mendingKeepService.insertKeepCart(keepcart);
 		}
-		
-		
 		return "redirect:/order.do";
 	}
 	
@@ -186,16 +169,14 @@ public class MendingKeepController {
 		String repair_code[] = request.getParameterValues("repair_code");
 		String repair_count[] = request.getParameterValues("repair_count");
 		String repair_price[] = request.getParameterValues("repair_price");
-		List<MultipartFile> repair_file = request.getFiles("repair_file");
-
-		String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정
 		
 		if(request.getParameter("repair_cate")!=null) {
 			for(int i =0; i<repair_cate.length; i++) {
 				MendingVO mending = new MendingVO();
 				String kind1[] = repair_kind[i].split(",");
-				for(String ki : kind1) {
-					mending.setRepair_kind(ki);
+				String price1[] = repair_price[i].split(",");
+				for(int j=0; j<kind1.length; j++) {
+					mending.setRepair_kind(kind1[j]);
 					mending.setRepair_cate(repair_cate[i]);
 					mending.setRepair_var1(Integer.parseInt(repair_var1[i]));
 					mending.setRepair_var2(Integer.parseInt(repair_var2[i]));
@@ -203,21 +184,11 @@ public class MendingKeepController {
 					mending.setRepair_content(repair_content[i]);
 					mending.setRepair_code(repair_code[i]);
 					mending.setRepair_count(Integer.parseInt(repair_count[i]));
-					mending.setRepair_price(Integer.parseInt(repair_price[i]));
+					mending.setRepair_price(Integer.parseInt(price1[j]));
+					mending.setRepair_wash(1);
 					
 					mlist.add(mending);
 				}
-	
-			
-				/*String originalFileExtension = repair_file.get(i).getOriginalFilename().substring(repair_file.get(i).getOriginalFilename().lastIndexOf("."));
-				String storedFileName = UUID.randomUUID().toString().replaceAll("-", "") + originalFileExtension;
-				
-				mending.setRepair_file(repair_file.get(i).getOriginalFilename());
-				
-				if (repair_file.get(i).getSize() != 0)
-					repair_file.get(i).transferTo(new File(uploadPath + storedFileName));
-				*/
-			
 			}
 			model.addAttribute("mlist", mlist);
 		} else {
@@ -267,10 +238,7 @@ public class MendingKeepController {
 			String repair_code[] = request.getParameterValues("repair_code");
 			String repair_count[] = request.getParameterValues("repair_count");
 			String repair_price[] = request.getParameterValues("repair_price");
-			List<MultipartFile> repair_file = request.getFiles("repair_file");
-	
-			String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정
-			
+
 			for(int i =0; i<repair_cate.length; i++) {
 				MendingVO mending = new MendingVO();
 				MendingCartVO mendingcart = new MendingCartVO();
