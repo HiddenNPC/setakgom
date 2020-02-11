@@ -257,7 +257,7 @@ function cancle() {
 									
 									
 									
-									<%if (orderVO.getOrder_delete().equals(0)) {%>
+									<%if (orderVO.getOrder_delete().equals("1")) {%>
 									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="true">주문 취소</a>
 									<%} else { %>
 									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="false">주문 취소</a>

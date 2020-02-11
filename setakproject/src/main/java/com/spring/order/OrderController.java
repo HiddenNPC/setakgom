@@ -346,11 +346,14 @@ public class OrderController {
 		if(orderService.getKeepExist(member_id) != 0) {
 			maxGroup = orderService.getKeepMaxGroup(member_id);
 		}
+		
+		System.out.println("keepExist : " + orderService.getKeepExist(member_id));
+		System.out.println("maxGroup : " + maxGroup);
 
 		for(int i = 1; i <= maxGroup; i++) {
 			map.put("keep_group", i);
 			ArrayList<KeepVO> kvo =  cartService.getKeepGroupList(map);
-			keepList.add(kvo.get(0));
+			keepList2.add(kvo.get(0));
 		}		
 		
 		// 장바구니 비우기
@@ -365,10 +368,7 @@ public class OrderController {
 		model.addAttribute("keepList", keepList2);
 		model.addAttribute("price", price);
 		
-		
-		
-		return "order_success";
-		
+		return "order_success";		
 	}
 	
 	// 주문 정보 입력
