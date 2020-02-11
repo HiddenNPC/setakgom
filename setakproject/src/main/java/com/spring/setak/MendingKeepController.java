@@ -130,6 +130,10 @@ public class MendingKeepController {
 			
 			mendingKeepService.insertKeepCart(keepcart);
 		}
+		
+		
+		
+		
 		return "redirect:/order.do";
 	}
 	

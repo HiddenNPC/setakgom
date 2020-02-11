@@ -153,6 +153,19 @@ selectData();
 	<tr>
 		<td colspan="3" width="10%" height="40px">
 		<div><small>첨부 파일 :</small> 
+		<%if(!(vo.getQNA_FILE()==null)) {%>
+		<a href="#"><%int i= vo.getQNA_FILE().indexOf("_");%>
+		<%=vo.getQNA_FILE().substring(i+1)%>
+		</a><%}else{%>파일이 존재하지 않습니다.<%}%>		
+		</div></td>
+	</tr>
+	
+	
+	
+	
+<%-- 	<tr>
+		<td colspan="3" width="10%" height="40px">
+		<div><small>첨부 파일 :</small> 
 		<%if(!(vo.getQNA_FILE()==null)) { %>
 		<%for(int j=1; j < vo.getQNA_FILE().split("_").length ;j++){%>
 		<a href="#"><%b +=vo.getQNA_FILE().split("_")[j]+"_";%>
@@ -160,7 +173,7 @@ selectData();
 		<%=result %></a>	
 		<%} %><%}else{ %>파일이 존재하지 않습니다.<%}%>		
 		</div></td>
-	</tr>
+	</tr> --%>
 
 
 </table>
