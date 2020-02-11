@@ -493,7 +493,7 @@
             pay_method : 'card',
             merchant_uid : muid,
             name : '세탁곰 결제',
-            amount : final_price,
+            amount : 100,
             buyer_email : '<%=memberVO.getMember_email()%>',
             buyer_name : '<%=memberVO.getMember_name()%>', 
             buyer_tel : '<%=memberVO.getMember_phone()%>',
@@ -743,7 +743,7 @@
       
       if(addrName == '' || name == '' || newPhone1 == '' || newPhone2 == '' || newPhone3 == ''
          || postcode == '' || address == '') {
-         alert("제대로 입력하세요.");
+         alert("전부 입력해주세요.");
          return; 
       }
       

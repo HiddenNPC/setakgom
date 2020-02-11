@@ -30,6 +30,6 @@ public interface OrderService {
 	
 	public SubscribeVO getSubscribeInfo(MemberVO mvo);
 	
-	public int orderCancel(OrderVO ovo);
+	public int orderCancle(OrderVO ovo);
 	
 }

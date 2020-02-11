@@ -84,7 +84,6 @@ public class MendingKeepController {
 	@RequestMapping("/keepform.do")
 	public String keepform(HttpSession session) {
 		
-		session.setAttribute("member_id", "bit");//지워야함.
 		return "keep";
 	}
 	
