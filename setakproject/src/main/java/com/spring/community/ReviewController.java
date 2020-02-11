@@ -49,6 +49,7 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	@PostMapping(value = "/reviewInsert.do") public String reviewInsert(HttpSession session ,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
+		
 		ReviewVO vo = new ReviewVO();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -63,48 +64,21 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setReview_content(request.getParameter("Review_content"));
 		System.out.println("내용 = " + vo.getReview_content());
 		vo.setReview_like(request.getParameter("Review_like"));
-		System.out.println("좋아요 = " + vo.getReview_like());		
+		System.out.println("좋아요 = " + vo.getReview_like());	
 		
-		ModelAndView mav = new ModelAndView();
-		MultipartFile mf = request.getFile("Review_photo");//파일		
-		System.out.println("너의 review_photo은=" + mf);
-		
-		String uploadPath="C:\\Project138\\upload\\";			
-		if(mf.getSize() != 0)//용량
-		{	
-		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
-		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "")+originalFileExtention;								
-		mf.transferTo(new File(uploadPath+storedFileName));//파일 전송				
-		//뷰에 출력한 데이터 모델에 저장 
-		mav.setViewName("download");
-		mav.addObject("paramName", mf.getName());
-		mav.addObject("fileName", mf.getOriginalFilename());
-		mav.addObject("fileSize", mf.getSize());
-		mav.addObject("storedFileName",storedFileName);	
-		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
-		
-		System.out.println("paramName=" + mf.getName());
-		System.out.println("fileName=" + mf.getOriginalFilename());
-		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
-		vo.setReview_photo(mf.getOriginalFilename().concat("/"+storedFileName));	
-		
+		if(request.getParameter("Review_photo").equals("")) {
+			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+		}else {
+			vo.setReview_photo(request.getParameter("Review_photo"));
 		}
-		else
-		{
-			vo.setReview_photo(null);			
-		}			
 		
-		int res = reviewService.reviewInsert(vo);
-		
+		int res = reviewService.reviewInsert(vo);		
 		if(res == 0 ) 
 		{
-			writer.write("<script> alert('입력실패');location.href='./review.do'; </script>");
+			writer.write("<script>location.href='./review.do';</script>");			
 			return null;
 		}
-		writer.write("<script> alert('입력 성공');location.href='./review.do'; </script>");
+		writer.write("<script>location.href='./review.do';</script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
@@ -232,38 +206,15 @@ import org.springframework.web.servlet.ModelAndView;
 		System.out.println("별점="+vo.getReview_star());
 		System.out.println("내용="+vo.getReview_content());
 		System.out.println("리뷰번호="+vo.getReview_num());
-				
-		ModelAndView mav = new ModelAndView();
-		MultipartFile mf = request.getFile("Review_photo");//파일		
-		System.out.println("너의 review_photo은=" + mf);
-		String uploadPath="C:\\Project138\\upload\\";			
-		
-		if(mf.getSize() != 0)//용량
-		{	
-		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
-		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "")+originalFileExtention;								
-		mf.transferTo(new File(uploadPath+storedFileName));//파일 전송				
-		//뷰에 출력한 데이터 모델에 저장 
-		mav.setViewName("download");
-		mav.addObject("paramName", mf.getName());
-		mav.addObject("fileName", mf.getOriginalFilename());
-		mav.addObject("fileSize", mf.getSize());
-		mav.addObject("storedFileName",storedFileName);	
-		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
-		
-		System.out.println("paramName=" + mf.getName());
-		System.out.println("fileName=" + mf.getOriginalFilename());
-		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
-		vo.setReview_photo(mf.getOriginalFilename().concat("/"+storedFileName));	
-		
+		if(request.getParameter("Review_photo").equals("")) {
+			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+		}else {
+			vo.setReview_photo(request.getParameter("Review_photo"));
 		}
-		else
-		{
-			vo.setReview_photo("등록한 파일이 없습니다./등록한 파일이 없습니다.");			
-		}			
+		
+		
+		
+		
 		int res = reviewService.reivewUpdate(vo);
 		
 		if(res== 0)
@@ -273,7 +224,7 @@ import org.springframework.web.servlet.ModelAndView;
 		}
 		else
 		{				
-			writer.write("<script> alert('수정 성공');location.href='./review.do'; </script>");
+			writer.write("<script>location.href='./review.do'; </script>");
 			//return "redirect:/review.do";						
 		}
 		System.out.println("수정 성공하고 리스트로 왓다 .");

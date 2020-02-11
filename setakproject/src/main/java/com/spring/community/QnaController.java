@@ -91,8 +91,13 @@ import org.springframework.web.servlet.ModelAndView;
 		qnaVO.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
 		qnaVO.setQNA_PASS(request.getParameter("QNA_PASS"));
 		qnaVO.setQNA_SCR(request.getParameter("QNA_SCR"));
-
-		qnaVO.setQNA_FILE(request.getParameter("QNA_FILE"));
+		
+		if(request.getParameter("QNA_FILE").equals("")) {
+			qnaVO.setQNA_FILE("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+		}else {
+			qnaVO.setQNA_FILE(request.getParameter("QNA_FILE"));
+		}
+		
 		qnaVO.setQNA_CHECK(request.getParameter("QNA_CHECK"));
 		
 		
@@ -218,15 +223,12 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setQNA_SCR(request.getParameter("QNA_SCR"));
 		System.out.println("기존에 DB에 저장되어있던 파일의 이름  ="+request.getParameter("exist_file"));
 		System.out.println("수정할 파일의 이름1  ="+request.getParameter("QNA_FILE"));
+		
 		if(request.getParameter("QNA_FILE").equals("")) {
 			vo.setQNA_FILE(request.getParameter("exist_file"));
 		}else {
 		vo.setQNA_FILE(request.getParameter("QNA_FILE"));
 		}
-		
-		
-		
-		
 		
 		vo.setQNA_CHECK(request.getParameter("QNA_CHECK"));
 		
