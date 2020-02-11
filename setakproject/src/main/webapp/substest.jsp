@@ -45,6 +45,6 @@
 	<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
         <input type="submit" value="Submit" id="btnSubmit"/>
     </form>
-    
+    <a download>fff</a>
 </body>
 </html> 
