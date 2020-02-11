@@ -108,6 +108,7 @@
 			$('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
 		});
 		
+		// 결제 취소		
 		$(document).on('click', '#order_false', function(event) {
 			var btn = $(this); 
 			var order_muid = btn.attr('name');

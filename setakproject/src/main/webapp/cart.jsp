@@ -5,6 +5,7 @@
 <%@ page import = "com.spring.setak.KeepVO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%
+
 	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
 	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
 	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");

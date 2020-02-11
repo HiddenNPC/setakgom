@@ -77,13 +77,13 @@ public class MendingKeepController {
 				mendingKeepService.insertMendingCart(mendingcart);
 			}		
 		}
-		return "cart";
+		
+		return "redirect:/order.do";
 	}
 	
 	@RequestMapping("/keepform.do")
 	public String keepform(HttpSession session) {
 		
-		session.setAttribute("member_id", "bit");//지워야함.
 		return "keep";
 	}
 	
@@ -114,7 +114,7 @@ public class MendingKeepController {
 			
 			mendingKeepService.insertKeepCart(keepcart);
 		}
-		return "cart";
+		return "redirect:/order.do";
 	}
 	
 	@RequestMapping(value = "/washingKeepform.do")
@@ -268,6 +268,6 @@ public class MendingKeepController {
 			}
 		}
 		
-		return "cart";
+		return "redirect:/order.do";
 	}
 }
