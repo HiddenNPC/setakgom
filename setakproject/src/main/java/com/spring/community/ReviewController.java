@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return list;		
 	}
 	
-	@PostMapping("reviewInsert.do") public String reviewInsert(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@PostMapping("reviewInsert.do") public String reviewInsert(MultipartHttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception 
 	{
 		ReviewVO vo = new ReviewVO();
 		response.setCharacterEncoding("utf-8");
@@ -68,7 +69,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 		vo.setReview_num(maxnum); 
 		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
-		vo.setMember_id("bit");
+		vo.setMember_id((String)session.getAttribute("member_id"));
 		//String a = vo.getMember_id();
 		//System.out.println("Member_id=" +a );		
 		vo.setReview_kind(request.getParameter("Review_kind"));	

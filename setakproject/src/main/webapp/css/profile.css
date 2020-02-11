@@ -192,13 +192,22 @@
 
 }
 
-   .update_list h4 {
+   .update_list #authsucess {
+    display:none;
+    color: #3498db;
+	font-size: 0.8rem;
+	text-align:left;
+
+}
+
+   .update_list #authfail {
     display:none;
     color: #ff2222;
 	font-size: 0.8rem;
 	text-align:left;
 
 }
+
    .update_list h5 {
     display:none;
     color: #ff2222;
