@@ -1,8 +1,13 @@
+<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+<%@ page import = "java.util.*" %>
 <html>
 <head>
+<%
+ 	HttpSession session = request.getSession();
+%>
 <link rel="shortcut icon" href="#">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +24,8 @@ var num = 0;
 var cate = "상의";
 
 $(document).ready(function($) {
+	
+	
 	
 	/* 헤더풋터 생성 */
 	$("#header").load("./header.jsp")
@@ -155,6 +162,16 @@ function checkform() {
 		return false;		
 	}
 }
+
+
+$(document).on('click','#gonext',function(event) {
+	var member_id = "<%=session.getAttribute("member_id") %>";
+	if(member_id=="null"){
+		alert('로그인 후 이용 가능합니다.');
+		location.href='login.do';
+		return false;
+	}
+});          
 
 </script>
 <body>
@@ -321,7 +338,7 @@ function checkform() {
 				<input type="hidden" name="wash_tprice" value="" class="wash_tprice">
 			</div>
 			<div class="total-button">
-				<input type="submit" value="다음">
+				<input type="submit" value="다음" id = "gonext">
 				<input type="button" value="선택삭제" id="checkdel">
 			</div>
 			</form>
