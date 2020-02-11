@@ -71,6 +71,12 @@ public class LoginController {
 			
 			 if(res == 1) {
 				 session.setAttribute("member_id", mo.getMember_id());
+//				 writer.println("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@9'></script>");
+//				 writer.flush();
+//				 writer.println("<script type = 'text/javascript'>");
+//				 writer.println("Swal.fire('하하하');");
+//				 writer.println("</script>");
+//				 writer.flush();
 				 writer.write("<script>alert('로그인 성공!!'); location.href='"+backurl+"'; </script>");
 			 } else {
 				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='javascript:history.back()';</script>");
