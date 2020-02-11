@@ -53,6 +53,8 @@ public class MendingKeepController {
 		String repair_count[] = request.getParameterValues("repair_count");
 		String repair_price[] = request.getParameterValues("repair_price");
 		
+		String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정fsdfkjdsfhdjkfshjkh
+		
 		MendingVO mending = new MendingVO();
 		MendingCartVO mendingcart = new MendingCartVO();
 		for(int i =0; i<repair_cate.length; i++) {
