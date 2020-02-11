@@ -23,7 +23,7 @@
 	System.out.println("memberVO는?" + memberVO);
 	if ((session.getAttribute("member_id") == null)) {
 		out.println("<script>");
-		out.println("location.href='/'");
+		out.println("location.href='./setak/'");
 		out.println("</script>");
 		out.close();
 	}
@@ -39,8 +39,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mykeep.css" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -95,6 +93,9 @@
 			<div class="solmin">
 				<div class="mypage_content">
 					<h2>보관현황</h2>
+					<%if(ordernumlist.size() == 0 ) {%>
+					<h3>보관하신 목록이 없습니다.</h3>
+					<%} else { %>
 					<%
 						for (int i = 0; i < ordernumlist.size(); i++) {
 							OrderListVO olvo = (OrderListVO) ordernumlist.get(i);
@@ -228,6 +229,7 @@
 						}
 					%>
 				</div>
+				<%} %>
 			</div>
 		</div>
 		<!-- content -->

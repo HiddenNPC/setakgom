@@ -15,10 +15,11 @@
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
 	
-	WashingVO washVO = (WashingVO)request.getAttribute("washVO");
-	MendingVO mendVO = (MendingVO)request.getAttribute("mendingVO");
-	KeepVO keepVO = (KeepVO)request.getAttribute("keepVO");
-
+	ArrayList<ArrayList<WashingVO>> washVO = (ArrayList<ArrayList<WashingVO>>)request.getAttribute("washVO2");
+	ArrayList<ArrayList<MendingVO>> mendVO = (ArrayList<ArrayList<MendingVO>>)request.getAttribute("mendingVO2");
+	ArrayList<ArrayList<KeepVO>> keepVO = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keepVO2");
+	System.out.println("orderlist = " + orderlist);
+	
 	
 %>    
 <!DOCTYPE html>
@@ -35,7 +36,9 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
 		var member_id = "<%=session.getAttribute("member_id")%>";
+		
 		$("#header").load("./header.jsp");
 		$("#footer").load("./footer.jsp");  
 		
@@ -50,7 +53,7 @@
 	    	location.href='./orderview.do';
 		});
 		
-	  //별점 구동	
+	  	//별점 구동	
 		$('.r_content a').click(function () {
 		$(this).parent().children('a').removeClass('on');
 	    $(this).addClass('on').prevAll('a').addClass('on');      
@@ -106,6 +109,8 @@
 			$(".accordion-content")
 				.not($(this).next(".accordion-content").slideToggle(500)).slideUp();
 			$('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
+			
+			
 		});
 		
 		// 결제 취소		
@@ -176,22 +181,25 @@ function cancle() {
 			
 			<div class="mypage_content">
 				<h2>주문/배송현황</h2>
+				<%if (orderlist.size() == 0) {%>
+					<h3>주문 내역이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 					<p>
-						<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
+						<font size=2.5rem style="color:#3498db;">※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
 					</p>
 					<% 
-							for (int i = 0; i<orderlist.size(); i++){	
+							for (int i = 0; i<orderlist.size(); i++) {	
+								System.out.println("orderlist.size = " + orderlist.size());
 								OrderVO orderVO = (OrderVO)orderlist.get(i);
 								
-								// 리스트 하고 싶으면 for문을 돌려 힘을내 > keepVO도 리스트일거 아녀.. 
-								String start = keepVO.getKeep_start();
-								String[] date = start.split(" ");
-								String start_date = date[0]; 			
+								ArrayList<KeepVO> kvo = keepVO.get(i);			
 								
-								String end = keepVO.getKeep_end();
-								String[] date2 = end.split(" ");
-								String end_date = date2[0];
+								ArrayList<MendingVO> mvo = mendVO.get(i);			
+								ArrayList<WashingVO> wvo = washVO.get(i);			
+								
+								// 리스트 하고 싶으면 for문을 돌려 힘을내 > keepVO도 리스트일거 아녀.. 
+								
 							
 					%>
 					<div class="accordion">
@@ -205,13 +213,12 @@ function cancle() {
 								</div>
 								<div class="addr">
 									<p>주소 :</p>
-									<p><%=orderVO.getOrder_address() %></p>
+									<p><%=orderVO.getOrder_address().replace("!", " ") %></p>
 								</div>
 								<br><br><br><br><br>
 								
 								<div class="order_dateClass">
 									
-								<a href="#" class="open">리뷰작성</a>
 								<div id="re_layer">
 								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
 								<h2>세탁곰 리뷰 작성</h2>
@@ -253,11 +260,10 @@ function cancle() {
 								</form>
 								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
 								</div>
-								<div class="dim"></div>    
-									
-									
-									
-									<%if (orderVO.getOrder_delete().equals("1")) {%>
+								<div class="dim"></div> 
+								   
+									<a href="#" class="open">리뷰작성</a>
+									<%if (orderVO.getOrder_delete().equals("0")) {%>
 									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="true">주문 취소</a>
 									<%} else { %>
 									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="false">주문 취소</a>
@@ -270,15 +276,33 @@ function cancle() {
 								<div class="row_content2">
 								<div class="my_laundry">
 									<p>세탁 :</p>
-									<p><%=washVO.getWash_cate() %>&nbsp;&nbsp;<%=washVO.getWash_method() %>&nbsp;&nbsp;<%=washVO.getWash_count() %></p>
+									<%for (int w = 0; w < wvo.size(); w++){ %>
+									<%if (wvo.get(w).getWash_seq() != 0) { %>
+									<p><%=wvo.get(w).getWash_cate() %> - <%=wvo.get(w).getWash_method() %> - <%=wvo.get(w).getWash_count() %>개</p>
+									<%
+										} 
+									}
+									%>
 								</div>
 								<div class="my_mending">
 									<p>수선 :</p>
-									<p><%=mendVO.getRepair_cate() %>&nbsp;&nbsp;<%=mendVO.getRepair_kind() %>&nbsp;&nbsp;<%=mendVO.getRepair_code() %>&nbsp;&nbsp;<%=mendVO.getRepair_count() %></p>
+									<%for (int m = 0; m<mvo.size(); m++) {%>
+									<%if (mvo.get(m).getRepair_seq() != 0) {%>
+									<p><%=mvo.get(m).getRepair_cate() %> - <%=mvo.get(m).getRepair_kind() %> - 태그(<%=mvo.get(m).getRepair_code() %>) - <%=mvo.get(m).getRepair_count() %>개</p>
+									<%
+										}	
+									} 
+									%>
 								</div>
 								<div class="my_keep">
 									<p>보관 :</p>
-									<p><%=keepVO.getKeep_cate() %>&nbsp;&nbsp;<%=keepVO.getKeep_kind() %>&nbsp;&nbsp;<%=keepVO.getKeep_count() %>&nbsp;&nbsp;<%=keepVO.getKeep_box() %>&nbsp;&nbsp;<%=start_date %>&nbsp;&nbsp;<%=end_date%></p>
+									<%for (int k= 0; k < kvo.size(); k++) {%>
+									<%if (kvo.get(k).getKeep_seq() != 0) {%>
+									<p><%=kvo.get(k).getKeep_cate() %> - <%=kvo.get(k).getKeep_kind() %> - <%=kvo.get(k).getKeep_count() %>개 - <%=kvo.get(k).getKeep_box() %>박스</p>
+									<%
+										} 
+									}
+									%>
 								</div>
 								</div>
 								<div class="price">
@@ -288,9 +312,12 @@ function cancle() {
 						</div>
 					</div>
 					<%
+					
+					System.out.println("여기는 오니2222222222222222");
 						}
 %>
 				</div>
+				
 				<div class="page1">
 				<table class="page">
 					<tr align = center height = 20>
@@ -300,23 +327,24 @@ function cancle() {
               				<%} else {%>
               					<div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
-              					if(a==nowpage) {
-           					%>
-           					<div class="page_a"><a><%=a %></a></div>
-           					<%} else {%>
-           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
-           					<%} %>
+              				<%for (int a=startpage; a<endpage; a++) {
+	              					if(a==nowpage) {
+	           					%>
+	           					<div class="page_a"><a><%=a %></a></div>
+	           					<%} else {%>
+	           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
+	           					<%} %>
            					<%} %>
            					<%if (nowpage >= maxpage) {%>	
-           						<div class="page_a"><a>&#62;</a></div>
+           						<div class="page_a"><a>></a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
                   			<%} %>	
                   			</td>
                		</tr>
 				</table>
 				</div>
+				<%} %>
 			</div>
 			
 		</div>

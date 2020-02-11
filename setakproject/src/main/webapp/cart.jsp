@@ -22,6 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/cart.css"/>
 	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
 
@@ -52,7 +53,7 @@
      		var checkbox = $("input[name=check]:checked");
      		
      		if(checkbox.length == 0) {
-     			alert("선택한 상품이 존재하지 않습니다.");
+     			Swal.fire("", "선택한 상품이 존재하지 않습니다.", "warning");
      			return; 
      		}
      		

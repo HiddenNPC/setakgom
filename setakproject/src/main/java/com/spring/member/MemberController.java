@@ -120,6 +120,7 @@ public class MemberController {
 
    		 	
    		 	return "profile";
+   		 	
 		
 		//일반 로그인시	
 		} else {
@@ -186,7 +187,6 @@ public class MemberController {
 	@RequestMapping(value = "/updateMember.do", produces = "application/json; charset=utf-8")
 	@ResponseBody // 데이터를 전송(view가 아니다)
 	public Map<String, Object> updateMember(MemberVO mo) {
-		System.out.println("여긴 오니?");
 		Map<String, Object> result = new HashMap<String, Object>();
 		int res = memberservice.member_update(mo);
 		System.out.println("res="+res);	
@@ -210,7 +210,7 @@ public class MemberController {
 	 @RequestMapping(value="/withdraw_pass.do", produces = "application/json; charset=utf-8")
 	 @ResponseBody 
 	 public Map<String, Object> withdraw(HttpServletRequest request,MemberVO mo) {
-	  //System.out.println("컨트롤러mo="+mo.getMember_password()); Map<String, Object>
+	  System.out.println("컨트롤러mo="+mo.getMember_password()); 
 	  Map<String, Object> result = new HashMap<String, Object>();
 	  
 	  int res = memberservice.member_password(mo);
@@ -236,7 +236,6 @@ public class MemberController {
 	 @RequestMapping (value ="/show-id.do", produces = "application/json; charset=utf-8")
      @ResponseBody 
 	 public Map<String, Object> show_id (String member_name, String member_phone) {
-		 
 		 HashMap<String, Object> map = new HashMap<String, Object>();
 		 map.put("member_name", member_name);
 		 map.put("member_phone", member_phone);
@@ -248,6 +247,51 @@ public class MemberController {
 			return result;
 		 
 	 }
+	 
+	//비밀번호 찾기- 변경하기 버튼 
+		 @RequestMapping (value ="/find-pw.do", produces = "application/json; charset=utf-8")
+	     @ResponseBody 
+		 public Map<String, Object> find_pw (String member_name, String member_id, String member_phone) {
+			 HashMap<String, Object> map = new HashMap<String, Object>();
+			 map.put("member_name", member_name);
+			 map.put("member_id", member_id);
+			 map.put("member_phone", member_phone);
+			 
+			 Map<String, Object> result = new HashMap<String, Object>();
+			 int res = memberservice.chk_you(map);
+			  if(res == 1) { 
+				  result.put("res", "OK");
+				  result.put("member_id", map.get("member_id"));
+			  } else { 
+				  result.put("res", "FAIL");
+				  result.put("message", "Failure");
+			  
+			  	} 
+			  return result; 
+			  }
+			 
+		 
+		 
+		//비밀번호 변경하기 
+		 @RequestMapping (value ="/change-pw.do", produces = "application/json; charset=utf-8")
+	     @ResponseBody 
+		 public Map<String, Object> change_pw (String member_id, String member_password) {
+			 HashMap<String, Object> map = new HashMap<String, Object>();
+			 map.put("member_id", member_id);
+			 map.put("member_password", member_password);
+			 
+			Map<String, Object> result = new HashMap<String, Object>();
+			int res = memberservice.change_pw(map);
+				if(res==1) {
+					result.put("res", "OK");
+				} else {
+					result.put("res", "FAIL");
+					result.put("message", "Failure");
+				}
+				return result;
+			}	
+			 
+		 	 
 	 
 	/*
 	 * //회원삭제

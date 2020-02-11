@@ -27,7 +27,7 @@
 	<script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
     <script type="text/javascript">
-    
+    var authchk = "0";
     //핸드폰 인증을 위한  난수 설정 함수
    	 randomnum = function() {
 		var array = new Uint32Array(1);
@@ -107,7 +107,49 @@
      		
  		
  		$('#update').on('click', function(event) {
-
+ 			
+ 			var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+ 			var phReg =/^[0-9]{10,11}$/;
+ 			var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
+ 			var poReg = /^[0-9]{5}$/;
+ 				
+ 			 if(authchk == 0){
+             	alert("인증번호 확인이 되지 않았습니다.");
+             	return;
+             }
+ 			
+ 			 if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
+ 	            	$("#member_password").val() == '' || $("#pw2").val() == '' || 
+ 	            	$("#member_phone").val() == ''|| $("#member_sns").val() == '' || 
+ 	            	$("#member_email").val() == '' || $("#postcode").val() == '' || $('#chksns').val() == ''
+ 	            	
+ 	            	
+ 	             ) {
+ 	    			alert("빠짐없이 기입해 주세요");
+ 	    			return; 
+ 	    		};
+ 			
+ 	    	if(!pwReg.test($("#member_password").val())) {
+ 	    		alert("8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
+ 	    		return; 
+ 	    	}
+ 			
+ 	    	if($('#member_password').val() != $('#pw2').val()) {
+ 	    		alert("비밀번호가 일치하지 않습니다.");
+ 	    		return; 
+ 	    	}
+ 	    	
+ 	    	if(!phReg.test($("#member_phone").val())){
+ 	    		alert("핸드폰 번호를 입력해주세요");
+ 	    		return; 
+ 	    	}
+ 	    	
+ 	    	if($("#member_sns").val()==random){
+ 	    		alert("핸드폰 번호를 입력해주세요");
+ 	    		return; 
+ 	    	}
+ 	    	
+ 	    	
  			var id = $("#member_id").val();
 			var password = $("#member_password").val();
 			var name = $("#member_name").val();
@@ -198,8 +240,8 @@
                <li>
                  <ul class="mypage_list">
                      <li>주문관리</li>
-                     <li><a href="orderview.jsp">주문/배송현황</a></li>
-                     <li><a href="mykeep.jsp">보관현황</a></li>
+                     <li><a href="orderview.do">주문/배송현황</a></li>
+                     <li><a href="mykeep.do">보관현황</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>정기구독</li>
@@ -207,7 +249,7 @@
                   </ul>
                   <ul class="mypage_list">
                      <li>고객문의</li>
-                     <li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+                     <li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>정보관리</li>
@@ -246,7 +288,7 @@
 						<h2>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h2>
 					</div>
 					<div class="update_list">
-						<input type="hidden" name="pw2" id="pw2" placeholder="비밀번호 확인" />
+						<input type="hidden" name="pw2" id="pw2" value="" placeholder="비밀번호 확인" />
 						 <h3>비밀번호가 일치하지 않습니다.</h3>
 					</div>
 					<% } else {%>
@@ -293,8 +335,7 @@
 						<h7>주소를 입력해주세요</h7>
 					</div>	
 					<div class="total_button">
-						<input class="btns"  type="reset" value="취소"  style="width: 230px;" />
-						<input class="btns" type="submit" id="update" value="수정"  style="width: 230px;" />
+						<input class="btns" type="submit" id="update" value="수정" />
 					</div>	
 				</form>
 			</div>			
