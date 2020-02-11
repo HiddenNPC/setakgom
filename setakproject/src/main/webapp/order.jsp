@@ -471,13 +471,11 @@
 
       
       // 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
-      /*
       if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
             postcode == '' || address == '') {
          alert("배송지 정보를 모두 입력해주세요.");
          return; 
       }
-      */
       
       // 결제 금액 받아오기 
       var final_price = $('#final_price').text().slice(0,-1).replace(",","");
@@ -505,7 +503,7 @@
                 jQuery.ajax({
                     url: "/setak/insertOrder.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
                     type: 'POST',
-                  traditional : true,
+                  	traditional : true,
                     dataType: 'json',
                     data: {
                         imp_uid : rsp.imp_uid,
@@ -1072,15 +1070,16 @@
                            <td><%=mvo.getRepair_cate()%></td>
                            <td><%=mvo.getRepair_count()%>장</td>
                            <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
-                           <td><%=mvo.getRepair_kind()%></td>
+                           <td><%=mvo.getRepair_kind()%> <span class = "repairCode">[텍코드 : <%=mvo.getRepair_code()%>]</span></td>
                         </tr>   
                         <% } } else { %>
                         <tr></tr>
                         <%} %>
                         
                   <% if(keepList.size() != 0) {
-
-                  KeepVO kvo = keepList.get(0);%>      
+					// 가장 상단만 받아옴 
+						for(int i = 0; i < keepList.size(); i++) {
+						KeepVO kvo = keepList.get(i);%>		     
                     <tr>
                            <%if(kvo.getKeep_wash() == 0) { %>
                            <td>보관</td>
@@ -1092,7 +1091,7 @@
                            <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
                            <td><%=kvo.getKeep_month()%>개월</td>
                         </tr>   
-                        <% } else { %>
+                        <%} } else { %>
                         <tr></tr>
                         <%} %>
                

@@ -28,7 +28,21 @@
 	$(document).ready(function() {
 		$("#header").load("header.jsp")
 		$("#footer").load("footer.jsp")
+		
+		/*회원가입 클릭*/
+		$(".btn_join").click(function(event) {
+			$(location.href = "/setak/join.do");
+		});
 
+		/*다른 서비스 계정으로 로그인*/
+		$(".kakao").click(function(event) {
+			$(location.href = "${kakao_url}");
+		});
+
+		$(".naver").click(function(event) {
+			$(location.href = "${naver_url}");
+		});
+		
 		/*팝업창*/
 		/*아이디찾기*/
 		$(".find_id").click(function(event) {
@@ -36,34 +50,10 @@
 			$(".popup").css("display", "block");
 
 		});
+		
 		$(".close").click(function(event) {
 			$(".back").css("display", "none");
 			$(".popup").css("display", "none");
-		});
-
-		/*비밀번호찾기*/
-		$(".find_pw").click(function(event) {
-			$(".back").css("display", "block");
-			$(".popup2").css("display", "block");
-
-		});
-		$(".close").click(function(event) {
-			$(".back").css("display", "none");
-			$(".popup2").css("display", "none");
-		});
-
-		/*회원가입 클릭*/
-		$(".btn_join").click(function(event) {
-			$(location.href = "/setak/join.do");
-		});
-
-		/*클릭시 사이트이동*/
-		$(".kakao").click(function(event) {
-			$(location.href = "${kakao_url}");
-		});
-
-		$(".naver").click(function(event) {
-			$(location.href = "${naver_url}");
 		});
 		
 		/*아이디 보여주기*/
@@ -95,6 +85,7 @@
 					$("#member_sns").val('');
 					$(".text #authsucess").css("display","none");
 					$(".text #show-id").css("display","none");
+					$(".text #change-pw").css("display","none");
 					
      			},
      			  error:function() {
@@ -115,6 +106,146 @@
 			$(".yourid").css("display", "none");
 		});
 	
+		
+		/*비밀번호찾기*/
+		$(".find_pw").click(function(event) {
+			$(".back").css("display", "block");
+			$(".popup2").css("display", "block");
+
+		});
+		$(".close").click(function(event) {
+			$(".back").css("display", "none");
+			$(".popup2").css("display", "none");
+		});
+		
+		/*비밀번호 변경하기 버튼 클릭*/
+		$("#change-pw").on('click', function(event){
+			
+			var member_id = $("#member_id").val();
+			
+			var params = {
+					'member_name':$("#member_name2").val(),
+					'member_id':$("#member_id").val(),
+					'member_phone':$("#member_phone2").val()
+			}
+			
+			$.ajax({
+				url:'/setak/find-pw.do',
+				type:'post',
+				data: params,
+				dataType:'json',
+				contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+     			success: function(result) {
+					
+					if (result.res == "OK") {
+						
+						//비밀번호 변경 팝업창
+						$(".popup2").css("display", "none");
+						$(".back").css("display", "block");
+						$(".changepass").css("display", "block");
+						
+						$("#member_name2").val('');
+						$("#member_id").val('');
+						$("#member_phone2").val('');
+						$("#member_sns2").val('');
+						$(".text #authsucess2").css("display","none");
+						$(".text #change-pw").css("display","none");
+						
+						
+						
+						 
+						//비밀번호 변경하기
+						$('#update-pw').on('click', function() {
+							
+							//비밀번호 유효성 검사
+							var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+							
+							if( $("#member_password2").val() == '' || $("#pw2").val() == '' ) {
+								alert("빠짐없이 기입해 주세요");
+									
+							} else if(!pwReg.test($("#member_password2").val())) {
+								alert("8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
+
+							} else if($('#member_password2').val() != $('#pw2').val()) {
+							   	alert("비밀번호가 일치하지 않습니다.");
+							   	
+							} else { 
+								
+								$.ajax({
+									url: '/setak/change-pw.do',
+									type: 'POST',
+									contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+									dataType : "json",
+									data : {
+										'member_id':result.member_id,
+										'member_password':$("#member_password2").val()
+									},
+									
+									success : function(result) {
+										if(result.res == "OK") {
+											alert("비밀번호가 수정 되었습니다.");
+											$(location.href = "/setak/login.do");
+											
+											
+											$("#member_name2").val('');
+											$("#member_id").val('');
+											$("#member_phone2").val('');
+											$("#member_sns2").val('');
+											
+											$("#member_password2").val('');
+											$("#pw2").val('');
+											$(".text #authsucess2").css("display","none");
+											$(".text #change-pw").css("display","none");
+											
+											$(".back").css("display", "none");
+											$(".changepass").css("display", "none");
+											
+										} else {
+											
+											alert('비밀번호 수정 실패');
+											$(location.href = "redirect:login.do");
+											
+											$("#member_name2").val('');
+											$("#member_id").val('');
+											$("#member_phone2").val('');
+											$("#member_sns2").val('');
+											
+											$("#member_password2").val('');
+											$("#pw2").val('');
+											$(".text #authsucess2").css("display","none");
+											$(".text #change-pw").css("display","none");
+											
+											$(".back").css("display", "none");
+											$(".changepass").css("display", "none");
+										}
+									},
+									error : function(request, error) {
+										alert("message : " + request.responseText);
+									}
+								});
+							   }
+							
+						});
+												
+					} else {
+						alert("입력하신 정보가 일치하지 않습니다.");
+						$(location.href = "/setak/login.do");
+					}
+					
+     			},
+     			  error:function() {
+		               alert("insert ajax 통신 실패");
+		        }			
+			});
+			event.preventDefault();
+			
+		}); 
+		
+		/*비밀번호 찾기 닫기*/
+		/* $(".close3").click(function(event) {
+			$(".back").css("display", "none");
+			$(".changepass").css("display", "none");
+		}); */
 	
 	});
 
@@ -154,7 +285,7 @@
 	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 	            success: function(result) {
 	               if(result.res=="OK") {
-	            	   location.href="/setak/login.do";
+	            	   location.href="/setak/";
 	               }
 	               else { // 실패했다면
 	            	   location.href="/setak/login.do";
@@ -293,13 +424,18 @@
 				<hr>
 			</div>
 			<div class="text">
-				<h5>회원정보에 등록한 휴대폰번호를 입력하세요</h5>
-				<input type="text" placeholder="이름" /> 
-				<input type="text" placeholder="아이디" /> 
-				<input type="text" placeholder="휴대폰번호 (예시 01012345678)" /> 
-				<input type="button" class="phone" value="인증번호받기" /> 
-				<input type="text" placeholder="인증번호" />
-				<input type="button" id=""class="ok" value="확인" />
+				<h3>회원정보에 등록한 휴대폰번호를 입력하세요</h3>
+				<input type="text" id="member_name2"  placeholder="이름" /> 
+				<input type="text" id="member_id" placeholder="아이디" /> 
+				<input type="text" id="member_phone2" placeholder="휴대폰번호 (예시 01012345678)" /> 
+				<input type="button"  id="authbtn2" class="phone" value="인증번호받기" /> 
+				 <h5>핸드폰 번호를 입력해주세요</h5>
+				<input type="text" id="member_sns2" placeholder="인증번호" /> 
+                <input type="button"  id="smsbtn2" class="ok" value="확인" />
+                <span id = "timer2"></span>
+                <h6 id = "authsucess2">인증번호가 일치합니다.</h6>
+                <h6 id = "authfail2">인증번호가 일치하지 않습니다.</h6>
+				<input type="button" id="change-pw" value="비밀번호 변경하기" />
 			</div>
 		</div>
 	</div>
@@ -307,14 +443,15 @@
 	
 	<!-- 비밀번호 교체하기 -->
 	<div class="changepass">
-		<h3>비밀번호 변경하기</h3>
+		<h2>비밀번호 변경하기</h2>
 		<hr>
-		<input type="password" name="member_password" id="member_password" placeholder="비밀번호 " />
+		<h3>변경하실 비밀번호를 입력해 주세요.</h3>
 		<h4>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h4>
+		<input type="password" name="member_password" id="member_password2" placeholder="새 비밀번호 " />
+		<h5>조합을 확인해주세요.</h5>
 		<input type="password" name="pw2" id="pw2" placeholder="비밀번호 확인" />
-		<h4>비밀번호가 일치하지 않습니다.</h4>
-		
-		<input type="button" class="close" value="확인" />
+		<h6>비밀번호가 일치하지 않습니다.</h6>
+		<input type="button" class="close3" id=update-pw  value="확인" />
 	
 	</div>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
@@ -344,7 +481,8 @@
       $(document).ready(function(){
       
          var AuthTimer = new $ComTimer();
-         //문자보내기
+         
+         //문자보내기 - 아이디찾기
          $("#authbtn").click(function(event){
             $(".text div:nth-child(6) h4").css("display","none");
             AuthTimer.fnStop();
@@ -375,7 +513,8 @@
             
          });   
          
-         //인증번호 확인
+   
+         //인증번호 확인 - 아이디찾기
          $(document).on("click","#smsbtn",function(){
             if($("#member_sns").val()==random){
                console.log("인증성공");
@@ -386,6 +525,7 @@
                $(".text h4").css("display","none");
                $(".text #authsucess").css("display","block");
                $(".text #show-id").css("display","block");
+               $(".text #change-pw").css("display","block");
                authchk = "1";
             }else{
                console.log("인증실패");
@@ -393,9 +533,88 @@
                $(".text h4").css("display","none");
                $(".text #authfail").css("display","block");
                $(".text #show-id").css("display","none");
+               $(".text #change-pw").css("display","none");
                
             }
           });
+         
+       //문자보내기 - 비밀번호찾기
+         $("#authbtn2").click(function(event){
+            $(".text h5").css("display","none");
+            AuthTimer.fnStop();
+            random = randomnum();
+            
+            var phonenum = $("#member_phone").val();
+            
+            var allData = { "pn": phonenum , "randomnum": random };
+            
+            $.ajax({
+                   type: "POST",
+                   url: "/setak/sendSMS.do", 
+                   data: allData,
+                   contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                   dataType: 'text',
+                   
+                   success: function (data) {
+                    AuthTimer.comSecond = 179;
+                    AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+                    AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+                    AuthTimer.domId = document.getElementById("timer2");
+                    $("#authbtn2").attr('disabled', true);
+                   },
+                   error: function (e) {
+                  console.error(e);
+               }
+            });
+            
+         });   
+         
+       //인증번호 확인 - 비밀번호 찾기
+         $(document).on("click","#smsbtn2",function(){
+            if($("#member_sns2").val()==random){
+               console.log("인증성공");
+               AuthTimer.fnStop();
+               AuthTimer.domId = "";
+               document.getElementById('timer2').innerHTML = "";
+               $("#authbtn2").attr('disabled', false);
+               $(".text h5").css("display","none");
+               $(".text #authsucess2").css("display","block");
+               $(".text #authfail2").css("display","none");
+               $(".text #change-pw").css("display","block");
+               authchk = "1";
+            }else{
+               console.log("인증실패");
+               $("#authbtn2").attr('disabled', false);
+               $(".text h5").css("display","none");
+               $(".text #authsucess2").css("display","none");
+               $(".text #authfail2").css("display","block");
+               $(".text #change-pw").css("display","none");
+               
+            }
+          });  
+         
+       
+        var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+   		
+      	//비밀번호체크V
+       	$(document).on("propertychange change keyup paste","#member_password2",function(){
+       		if(!pwReg.test($("#member_password2").val())){
+       			$(".changepass h5").css("display","block");
+       		} else {
+       			$(".changepass h5").css("display","none");
+       		}
+       		
+        	});
+       	
+       	//비밀번호 일치 체크V
+       	  	$(document).on("propertychange change keyup paste","#pw2",function(){
+        	    	if($('#member_password2').val() != $('#pw2').val()) {
+        	    		 $(".changepass h6").css("display","block"); 
+        	    	} else {
+        	    		 $(".changepass h6").css("display","none"); 
+        	    	}
+        	    });
+       	
        });
       
        
@@ -422,6 +641,9 @@
                   clearInterval(this.timer);
               }
           }
+          
+        
+       	
 </script>   
 
 </html>

@@ -31,9 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	@RequestMapping (value = "/review.do") public String review(Model model) throws Exception
 	{	
-		int maxnum = reviewService.getMaxNum();	
+		//int maxnum = reviewService.getMaxNum();	
 		ArrayList<ReviewVO> list = reviewService.reviewList();
-		model.addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
+		//addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
 		model.addAttribute("reviewlist", list); 
 		//System.out.println("reviewlist="+list);
 		return "review_list";			
@@ -54,20 +54,7 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
 				
-		int maxnum = reviewService.getMaxNum();
-		System.out.println("리뷰 maxnum=" + maxnum);
-				
-		if(maxnum != 0) 
-		{
-			maxnum = maxnum+1;
-		}
-		else 
-		{ 
-			maxnum=1;
-		}
-
-		vo.setReview_num(maxnum); 
-		System.out.println("리뷰 갯수 (=maxnum)=" + maxnum);
+		
 		vo.setMember_id((String)session.getAttribute("member_id"));
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		System.out.println("분류 = " + vo.getReview_kind());

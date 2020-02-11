@@ -180,6 +180,7 @@
  
 a#cancle {
 	display: none;
+	color: #fff;
 }
 
 
@@ -291,6 +292,7 @@ a#cancle {
      color: #2196F3;
      font-size: 20px;
      font-weight: bold;
+     cursor:pointer;
 }
 
 .popup .pop_btn:hover {
@@ -299,24 +301,27 @@ a#cancle {
 
 .popup .pop_btn2 {
      margin: 150px 0 0 230px; 
-     color: #2196F3;
+     color:#858688;
      font-size: 20px;
      font-weight: bold;
+
 }
 
 .popup .pop_btn2:hover {
-    color:#858688;
+     color: #2196F3;
+    cursor:pointer;
 }
 
 .popup .pop_btn3 {
      margin: -21px 0 0 333px;  
-     color: #2196F3;
+    color:#858688;
      font-size: 20px;
      font-weight: bold;
+     cursor:pointer;
 }
 
 .popup .pop_btn3:hover {
-    color:#858688;
+     color: #3498db;
 }
 
 /*구독해지 팝업창*/
@@ -331,10 +336,10 @@ a#cancle {
     display: none; 
 }
 .subcancle .back{
-    margin:0 auto;
+    margin:2% auto;
     background:#fff;
     width:500px;
-    margin-top:6%;
+    border: 1px solid #ddd;
 }
 .sub_image{
     width: 500px;
@@ -343,9 +348,7 @@ a#cancle {
 	color:#444;
 	padding:30px 0 0 20px;
 }
-.subcancle .back .text h2{
-    
-}
+
 .subcancle .back .text p{
     color:#444;
     padding:10px 0px;
@@ -377,16 +380,17 @@ a#cancle {
     margin-top:30px;
     color:#fff;
     font-size:0.85rem;
+    cursor:pointer;
 }
 .subcancle .back .pop_btn5{
 	margin-top:10px;
-
 	width:100%;
 	height:40px;
     background-color: #fff;
     border:0px;
     color:#7e7b7b;
     font-size:0.85rem;
+    cursor:pointer;
 }
 .subcancle .back input:hover{
 	transition:all .4s;

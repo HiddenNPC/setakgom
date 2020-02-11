@@ -8,13 +8,16 @@
 	int havePoint = (int) request.getAttribute("havePoint");
 	int totPoint = (int) request.getAttribute("totPoint");
 	int usePoint = (int) request.getAttribute("usePoint");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
 	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -33,11 +36,6 @@
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")     
       });
-    </script>
-    <script language='javascript'>
-    	function cancle() {
-			alert("주문을 취소하시겠습니까?");
-		}
     </script>
 </head>
 <body>
@@ -76,6 +74,9 @@
 			<div style="width: 85%; float: right;">
 				<div class="mypage_content">
 				<h2>적립금 조회</h2>
+				<%if(mile_list.size() == 0) {%>
+				<h3>등록된 적립금이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="savings_point">
 				<% %>
@@ -125,28 +126,28 @@
 							<tr align = center height = 20>
               				<td>
               				<%if(nowpage <= 1) {%>
-              				<div class="page_a"><a>&#60;</a></div>
+              				<div class="page_a"><a> &lt;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage-1 %>"> &lt;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
-              					if(a==nowpage) {
-           					%>
+              				<%for (int a=startpage; a<endpage; a++) {
+              					if(a==nowpage) { %>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
            						<div class="page_a"><a href="./mysavings.do?page=<%=a %>"><%=a %></a></div>
+           						<%} %>
            					<%} %>
-           					<%} %>
-           					<%if (nowpage >= maxpage) {%>	
-           						<div class="page_a"><a>&#62;</a></div>
+           					<%if (nowpage >= maxpage) {	%>	
+           						<div class="page_a"><a>&gt;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage+1 %>">&gt;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>
 					</table>
 					</div>	
 				</div>
+				<%} %>
 			</div>
 			</div>
 		</div>

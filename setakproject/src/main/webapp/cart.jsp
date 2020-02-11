@@ -218,15 +218,15 @@
 		                     <td><%=mvo.getRepair_cate()%></td>
 		                     <td><%=mvo.getRepair_count()%>장</td>
 		                     <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
-		                     <td><%=mvo.getRepair_kind()%></td>
+		                     <td><%=mvo.getRepair_kind()%> <span class = "repairCode">[텍코드 : <%=mvo.getRepair_code()%>]</span></td>
 		                  </tr>   
                   		<% } } else { %>
                   		<tr></tr>
                   		<%} %>
                   		
 						<% if(keepList.size() != 0) {
-
-						KeepVO kvo = keepList.get(0);%>		
+							for(int i = 0; i < keepList.size(); i++) {
+								KeepVO kvo = keepList.get(i);%>			
 						  <tr class="cnt">
 		                     <td>
 		                     	<input type = "checkbox" name = "check" value = "k<%=kvo.getKeep_seq()%>"/>
@@ -241,7 +241,7 @@
 		                     <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
 		                     <td><%=kvo.getKeep_month()%>개월</td>
 		                  </tr>   
-                  		<% } else { %>
+                  		<% } }else { %>
                   		<tr></tr>
                   		<%}
 						}%>

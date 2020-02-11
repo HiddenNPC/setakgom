@@ -67,6 +67,9 @@
 			<div style="width: 85%; float: right;">
 				<div class="mypage_content">
 				<h2>쿠폰 조회</h2>
+				<%if (couponlist.size() == 0) {%>
+				<h3>쿠폰 내역이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="qna-title">
 					<div>
@@ -88,7 +91,7 @@
 									%>
 									<tr>
 									<td><%=cvo.getCoupon_name() %></td>
-									<td><a href="#" style="color:#3498db; font-weiht:bold;">보관1개월 무료</a></td>
+									<td><p style="color:#3498db; font-weiht:bold;">보관1개월 무료</p></td>
 									<td><%=sdf.format(cvo.getCoupon_start()) %></td>
 									<td><%=sdf.format(cvo.getCoupon_start()) %>&nbsp;~&nbsp;<%=sdf.format(cvo.getCoupon_end()) %></td>
 									<td>
@@ -99,7 +102,7 @@
 										<% }%>
 									</td>
 									<td>
-										<%if (cvo.getCoupon_use().equals(1)){ %>
+										<%if (cvo.getCoupon_use().equals("1")){ %>
 										사용불가
 										<%} else{%>
 										사용가능
@@ -112,6 +115,7 @@
 						</table>
 					</div>
 					</div>
+					<%} %>
 			</div>
 		</div>
 	</section>

@@ -3,6 +3,7 @@ package com.spring.mypage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.community.QnaServiceImpl;
 import com.spring.community.QnaVO;
@@ -24,7 +22,6 @@ import com.spring.member.MemberVO;
 import com.spring.member.MileageServiceImpl;
 import com.spring.member.MileageVO;
 import com.spring.order.OrderListVO;
-import com.spring.order.OrderService;
 import com.spring.order.OrderVO;
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
@@ -52,12 +49,16 @@ public class MypageController {
 	@RequestMapping("/orderview.do")
 	public String selectMending(HttpServletRequest request, Model model, HttpSession session) throws Exception{
 		
-		ArrayList<OrderVO> orderlist = null;
-		MendingVO mendingVO = new MendingVO();
+		ArrayList<OrderVO> orderlist = new ArrayList<OrderVO>();
+		
 		String member_id = (String) session.getAttribute("member_id");
 		OrderVO orderVO = new OrderVO();
-		KeepVO keepVO = new KeepVO();
-		WashingVO washVO = new WashingVO();
+		ArrayList<MendingVO> mendingVO = new ArrayList<MendingVO>();
+		ArrayList<ArrayList<MendingVO>> mendingVO2 = new ArrayList<ArrayList<MendingVO>>();
+		ArrayList<WashingVO> washVO = new ArrayList<WashingVO>();
+		ArrayList<ArrayList<WashingVO>> washVO2 = new ArrayList<ArrayList<WashingVO>>();
+		ArrayList<KeepVO> keepVO = new ArrayList<KeepVO>();
+		ArrayList<ArrayList<KeepVO>> keepVO2 = new ArrayList<ArrayList<KeepVO>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		int page = 1;
@@ -70,6 +71,7 @@ public class MypageController {
 		int endrow = startrow + limit-1;
 		int listcount = mypageService.getOrdercount();
 		
+		System.out.println(listcount);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
@@ -86,21 +88,35 @@ public class MypageController {
 			
 		}
 		
-		int wash_seq = 30;
-		int repair_seq = 100;
-		int keep_seq= 26;
-//		long order_num = orderVO.getOrder_num();
+		long order_num = 0;
+		
+		System.out.println(orderlist.size());
 		
 		
-		mendingVO = mypageService.selectMending(repair_seq);
-		washVO = mypageService.selectWashing(wash_seq);
-//		orderVO = mypageService.selectOrder(order_num);
-		keepVO = mypageService.selectKeep(keep_seq);
+		for (int i = 0; i < orderlist.size(); i++) {
+			OrderVO ovo = (OrderVO)orderlist.get(i);
+			
+			order_num = ovo.getOrder_num();
+			System.out.println("주문번호"+order_num);
+			mendingVO = mypageService.selectMending(order_num);
+			washVO = mypageService.selectWashing(order_num);
+//			orderVO = mypageService.selectOrder(order_num);
+			keepVO = mypageService.selectKeep(order_num);
+			System.out.println("수선"+mendingVO);
+			System.out.println("세탁"+washVO);
+			System.out.println("보관"+keepVO);
+			
+			mendingVO2.add(mendingVO);
+			washVO2.add(washVO);
+			keepVO2.add(keepVO);
+			
+		}
+
 		model.addAttribute("orderlist", orderlist);
 //		model.addAttribute("orderVO", orderVO);
-		model.addAttribute("mendingVO", mendingVO);
-		model.addAttribute("washVO", washVO);
-		model.addAttribute("keepVO", keepVO);
+		model.addAttribute("mendingVO2", mendingVO2);
+		model.addAttribute("washVO2", washVO2);
+		model.addAttribute("keepVO2", keepVO2);
 		model.addAttribute("limit", limit);
 		model.addAttribute("page", page);
 		model.addAttribute("maxpage", maxpage);
@@ -215,13 +231,14 @@ public class MypageController {
 		int startrow = (page-1)*10 +1;
 		int endrow = startrow + limit-1;
 		int listcount = mileageService.getListCount();
-		
+		System.out.println();
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
 		
 		
 		mile_list = mileageService.getMileagelist(map);
+		System.out.println(mile_list);
 		
 		int maxpage = (int)((double)listcount/limit+0.95);
 		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
