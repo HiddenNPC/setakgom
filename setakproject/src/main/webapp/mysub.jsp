@@ -1,3 +1,4 @@
+<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.spring.member.MemberSubVO"  %>    
@@ -33,9 +34,15 @@
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
+	<% if(session.getAttribute("id")== null) {%>
+		$(location.href="/setak");
+	<% }%>
 	$(document).ready(function() {
+		//수거취소 클릭
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
+	
+		
 		
 		 //수거고 클릭
 		 $("#go").on("click", function() {  
@@ -126,10 +133,26 @@
 		var day = (d.getMonth()+1)+"월" + (d.getDate()+1)+"일";
 		document.getElementById("printday").innerHTML =day;
 		
-		/*리뷰버튼 클릭시*/
-		  $(document).on('click', '#review', function(event) {
-			 $(location.href="/setak/profile2.do"); // 리뷰쓰는 주소로 수정하기
-		});
+				
+		/*리뷰 관련 스크립트*/	
+			//모달팝업 오픈
+		    $(".open").on('click', function(){
+		    	$("#re_layer").show();	
+		    	$(".dim").show();	
+			});
+		    $(".close").on('click', function(){
+		    	$(this).parent().hide();	
+		    	$(".dim").hide();
+		    	location.href="/setak/mysub.do"
+			});
+			
+		 	 //별점 구동	
+			$('.r_content a').click(function () {
+			$(this).parent().children('a').removeClass('on');
+		    $(this).addClass('on').prevAll('a').addClass('on');      
+		    $('#Review_star').val($(this).attr("value"));
+		    return false;
+			});	
 		
 	});
 	 
@@ -150,8 +173,8 @@
 					<li>
 						<ul class="mypage_list">
                      		<li>주문관리</li>
-                     		<li><a href="orderview.jsp">주문/배송현황</a></li>
-                     		<li><a href="mykeep.jsp">보관현황</a></li>
+                     		<li><a href="orderview.do">주문/배송현황</a></li>
+                     		<li><a href="mykeep.do">보관현황</a></li>
                  	 	</ul>
                   		<ul class="mypage_list">
                      		<li>정기구독</li>
@@ -159,7 +182,7 @@
                   		</ul>
                  		<ul class="mypage_list">
                     		<li>고객문의</li>
-                     		<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+                     		<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정보관리</li>
@@ -251,7 +274,8 @@
 										<td><%=hlist.getHis_price() %>원</td>
 										<td><%=hlist.getHis_date() %></td>
 										<td>
-											<a id="review" href="javascript:">review</a>
+											<a href="#" class="open">리뷰작성</a>
+<!-- 										<a id="review" href="javascript:">review</a> -->
 										</td>
 									</tr>
 								</tbody>
@@ -267,9 +291,9 @@
                      		<tr align = center height = 20>
                           		<td>
                           		<% if(nowpage <= 1) {%>
-                          			<span class="page_a"><a>&#60;</a></span>
+                          			<span class="page_a"><a></a></span>
                          		 <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
-                             		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
+                             		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>"></a></span>
                          		 <%} %>
                          	
                          		<%
@@ -283,9 +307,9 @@
                           		<%} %>
                           
                           		<% if (nowpage >= maxpage) { %>   <!-- 링크 걸지 않겠다.. -->
-                             		<span class="page_a"><a>&#62;</a></span>
+                             		<span class="page_a"><a></a></span>
                           		<%} else { %>   
-                              		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
+                              		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>"></a></span>
                            		<%} %> 
                            		</td>
                         	</tr>
@@ -314,7 +338,7 @@
                     	취소는 신청 당일 저녁 10시까지 가능합니다.
                     </div>
                     <div class="pop_btn2">수거취소</div>
-                    <div class="pop_btn3">수거접수</div>
+                    <div class="pop_btn3">확인</div>
                 </div>
                 
                 <!-- 구독해지 팝업창 -->
@@ -336,12 +360,58 @@
 					</div>
 				</div>
 				
-            </div><!-- mysub -->
-			</div><!-- mypage_content -->
+            </div><!-- mypage_content -->
 			
 		</div><!-- content -->
 	</section>
-	<div></div>
+	
+	<!-- 리뷰 -->
+	<div>
+	<!-- 레이아웃 팝업  -->
+		<a href="#" class="open"></a>
+		<div id="re_layer">
+		<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
+		<h2>세탁곰 리뷰 작성</h2>
+		<div class="r_content">
+			<p style="margin-bottom:5px;">사용자 평점</p> 
+			<a class="starR1 on" value="1" >별1_왼쪽</a>
+		    <a class="starR2" value="2">별1_오른쪽</a>
+		    <a class="starR1" value="3">별2_왼쪽</a>
+		    <a class="starR2" value="4">별2_오른쪽</a>
+		    <a class="starR1" value="5">별3_왼쪽</a>
+		    <a class="starR2" value="6">별3_오른쪽</a>
+		    <a class="starR1" value="7">별4_왼쪽</a>
+		    <a class="starR2" value="8">별4_오른쪽</a>
+		    <a class="starR1" value="9">별5_왼쪽</a>
+		    <a class="starR2" value="10">별5_오른쪽</a>     
+		   	<input type="text" id="Review_star" name="Review_star" value="">
+		   	<input type="text" id="Review_like" name="Review_like" value="0">  	
+		</div>      
+		<table class="r_content">
+			<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+		    <tr><td colspan="7"><textarea name="Review_content" placeholder="궁금하신 사항을 입력해 주세요"></textarea></td></tr>
+		    <tr><td width="40px" ><input name="Review_photo" type="file"/></td>                          
+		        <td width="40px">
+		        	<select name="Review_kind" class="">
+		           		<option value="">분류</option>
+		                <option value="세탁">세탁</option>
+		                <option value="세탁-수선">세탁-수선</option>
+		                <option value="세탁-보관">세탁-보관</option>
+		                <option value="수선">수선</option>
+		                <option value="보관">보관</option>
+		                <option value="정기구독">정기구독</option>
+		           </select></td>           
+				<td align="right"  colspan="4">
+					<button onclick="javascript:reviewform.submit()" >등록</button>
+					<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
+			</tr></table>
+		</form>
+		<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+		</div>
+		<div class="dim"></div><br><br>
+	
+	</div>
+	
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 
 	<div id="footer"></div>
