@@ -2,6 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.spring.member.MemberVO;
 import com.spring.mypage.KeepReturnVO;
@@ -20,9 +21,9 @@ public interface MypageMapper {
 	OrderVO selectOrder(long order_num);
 	int getOrdercount();
 	String selectOrderId(String member_id);
-	MendingVO selectMending(int repair_seq);
-	KeepVO selectKeep(int keep_seq);
-	WashingVO selectWashing(int wash_seq);
+	ArrayList<MendingVO> selectMending(long order_num);
+	ArrayList<KeepVO> selectKeep(long order_num);
+	ArrayList<WashingVO> selectWashing(long order_num);
 	int getKeepcount();
 	
 	//보관연장

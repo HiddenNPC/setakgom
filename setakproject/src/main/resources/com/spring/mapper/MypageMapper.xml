@@ -95,8 +95,8 @@
 			select * 
 			from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
 						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete, order_muid 
-				   from memberorder) 
-  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> and member_id = #{member_id}
+				   from memberorder where member_id = #{member_id} order by order_num desc) 
+  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> 
 	</select>
 
 	
@@ -129,7 +129,7 @@
 	</update>
 	
 	<update id="all_Return" parameterType="java.util.HashMap">
-		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0 
 	</update>
 	
 	<update id="part_Return_now" parameterType="java.util.HashMap">
@@ -152,21 +152,22 @@
 		select * from memberorder where member_id = #{member_id} 
 	</select>	
 	
-	<select id="selectMending" resultMap="MypageResultMap" parameterType="int">
-		select * from repair where repair_seq = #{repair_seq}
+	<select id="selectMending" resultMap="MypageResultMap" parameterType="long">
+		select * from repair where repair_seq in (select repair_seq from orderlist where order_num = #{order_num})
 	</select>
 	
-	<select id="selectKeep" resultMap="KeepResultMap" parameterType="int">
-		select * from keep where keep_seq = #{keep_seq}
+	<select id="selectKeep" resultMap="KeepResultMap" parameterType="long">
+		select * from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num}) 
 	</select>
 	
-	<select id="selectWashing" resultMap="WashingResultMap" parameterType="int">
-		select * from washing where wash_seq = #{wash_seq}
+	<select id="selectWashing" resultMap="WashingResultMap" parameterType="long">
+		select * from washing where wash_seq in (select wash_seq from orderlist where order_num = #{order_num})
 	</select>
 	
 	<insert id="part_Return" parameterType="com.spring.mypage.KeepReturnVO">
 		insert into keep_return values (#{order_num}, #{return_kind}, #{return_content}, #{return_confirm})
 	</insert>
+	
 	
 	
 </mapper>

@@ -102,6 +102,11 @@
 	 .mypage_list li a:hover{
 	 	font-weight:bold;
 	 }
+	 .mypage_content h3 {
+    	color:#3498bd;
+    	text-align:center;
+    	margin-top:150px;
+    }
 
 
 /*??????? ????????? */
@@ -379,14 +384,7 @@ table.page td a {
 	padding:10px 0px 10px 10px;
 }
 
-.rt-service button:first-child{
-	width:30px;
-    height:25px;
-	border:1px solid #fff;
-	border-radius:5px;
-	background-color:#fff;
-	margin-left:20px;
-}
+
 
 .btn_add_row{
 	border:1px solid #fff;
@@ -415,7 +413,7 @@ table.page td a {
 }
 
 .part_return{
-	width:120px;
+	width:120px !important;
 	height:40px;
 	border-radius:20px;
 	border:1px solid #e1e4e4;

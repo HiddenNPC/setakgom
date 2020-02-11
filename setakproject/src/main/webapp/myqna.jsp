@@ -73,6 +73,9 @@
 			<div style="width: 85%; float: right;">
 				<div class="mypage_content">
 				<h2>Q&A 문의내역</h2>
+				<%if (qnalist.size() == 0) {%>
+					<h3>Q&A 문의내역이 없습니다.</h3>
+				<%}else{ %>
 				<div class="mypage_content_cover">
 				<div class="qna-title">
 					<div>
@@ -128,6 +131,7 @@
 					</div>	
 				</div>
 			</div>
+			<%} %>
 			</div>
 		</div>
 	</section>
