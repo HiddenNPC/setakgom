@@ -74,6 +74,11 @@ public class MemberController {
 	@RequestMapping(value = "/profile1.do", produces = "application/json; charset=utf-8", method = { RequestMethod.GET, RequestMethod.POST })
 	public String password(Model model, HttpSession session) {
 		
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}	
+		
+		
 		String str=(String)session.getAttribute("member_id");
 		String last = str.substring(str.length() - 1);
 		
