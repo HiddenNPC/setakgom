@@ -57,7 +57,7 @@ public class MendingKeepController {
 		//System.out.println(files);
 		//List<MultipartFile> repair_file = request.getFiles("repair_file");
 		
-		String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정
+		String uploadPath = "C:\\Project138\\upload\\"; // 직접 업로드 될 위치 지정fsdfkjdsfhdjkfshjkh
 		
 		MendingVO mending = new MendingVO();
 		MendingCartVO mendingcart = new MendingCartVO();

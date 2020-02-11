@@ -143,7 +143,11 @@ selectData();
 			<div class="thumbnail-wrapper">
 			  <div class="thumbnail">
 			    <div class="thumbnail-centered">
-			      <img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQNA_FILE()%>"/>
+			    	<%if (!vo.getQNA_FILE().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
+			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQNA_FILE()%>"/>
+			      	<%}else{ %>
+			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
+			      	<%} %>
 			    </div>
 			  </div>
 			</div>
@@ -159,24 +163,8 @@ selectData();
 		</a><%}else{%>파일이 존재하지 않습니다.<%}%>		
 		</div></td>
 	</tr>
-	
-	
-	
-	
-<%-- 	<tr>
-		<td colspan="3" width="10%" height="40px">
-		<div><small>첨부 파일 :</small> 
-		<%if(!(vo.getQNA_FILE()==null)) { %>
-		<%for(int j=1; j < vo.getQNA_FILE().split("_").length ;j++){%>
-		<a href="#"><%b +=vo.getQNA_FILE().split("_")[j]+"_";%>
-		<%String result= b.substring(0,b.length()-1);%>
-		<%=result %></a>	
-		<%} %><%}else{ %>파일이 존재하지 않습니다.<%}%>		
-		</div></td>
-	</tr> --%>
-
-
 </table>
+
 <form id="only_qna_num" method="post">
 <input type="hidden" value="<%=vo.getQNA_NUM()%>">
 </form>
