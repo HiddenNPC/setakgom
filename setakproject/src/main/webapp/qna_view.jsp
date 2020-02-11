@@ -9,6 +9,7 @@
 	String member_id = vo.getMEMBER_ID();
 	System.out.println("QNA_NUM=" +qna_num);
 	System.out.println("member_id="+member_id);
+	String b = null;
 %>
 
 <!DOCTYPE html>
@@ -39,14 +40,14 @@ $(document).ready(function() {
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {
-					var output = '';							
-					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_seq+'"></tr>';							
-					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></tr>';							
+					var output = '';
+					output += '<tr><td><input type="hidden" value="'+item.qna_seq+'"/></td></tr>';							
+					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></td></tr>';							
 					output += '<tr><td id="cl_td1" colspan="2">세탁곰</td></tr>';							
 					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
-					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';
-					output += '<tr height="15px"><div></div></tr>';						
+					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';				
+					
 					console.log("para="+para);
 					$('#output').append(output);
 				});
@@ -137,21 +138,32 @@ selectData();
 	</tr>
 	<tr height=250 >			
 		<td id="td1" valign=top colspan="1" align="right">&nbsp;Q : &nbsp;</td>
-		<td id="td2" valign=top colspan="3"><%=vo.getQNA_CONTENT()%></td>		
+		<td id="td2" valign=top colspan="1"><%=vo.getQNA_CONTENT()%></td>		
+		<td id="td3" valign=top>
+			<div class="thumbnail-wrapper">
+			  <div class="thumbnail">
+			    <div class="thumbnail-centered">
+			    	<%if (!vo.getQNA_FILE().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
+			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQNA_FILE()%>"/>
+			      	<%}else{ %>
+			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
+			      	<%} %>
+			    </div>
+			  </div>
+			</div>
+		</td>
+				
+	</tr>
+	<tr>
+		<td colspan="3" width="10%" height="40px">
+		<div><small>첨부 파일 :</small> 
+		<%if(!(vo.getQNA_FILE()==null)) {%>
+		<a href="#"><%int i= vo.getQNA_FILE().indexOf("_");%>
+		<%=vo.getQNA_FILE().substring(i+1)%>
+		</a><%}else{%>파일이 존재하지 않습니다.<%}%>		
+		</div></td>
 	</tr>
 </table>
-
-<table class="qvt2">
-<tr><td colspan="4" width="10%" height="40px">
-	<div>첨부 파일 : <%if(!(vo.getQNA_FILE()==null)){ %>
-	<a href="#"><%=vo.getQNA_FILE().split("_")[1]%></a>	
-	<img  src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/1581064179326_세탁곰2.png">		
-<%-- <a href="./fileDownload.do?of=<%=vo.getQNA_FILE().split("/")[1]%>&of2=<%=vo.getQNA_FILE().split("/")[0]%>"><%=vo.getQNA_FILE().split("/")[0] %></a>--%>
-	<%}else{ %>파일이 존재하지 않습니다.<%} %>
-	</div></td>
-</tr>	
-</table> 
-
 
 <form id="only_qna_num" method="post">
 <input type="hidden" value="<%=vo.getQNA_NUM()%>">
@@ -164,7 +176,7 @@ selectData();
 		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
-</table><br>
+</table>
 
 
 
@@ -173,14 +185,13 @@ selectData();
 <table class="cf_t1">
 <tr><th id="cf_label">&nbsp;댓 글</th></tr>
 <tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQNA_NUM()%>"></td></tr>
-<tr><td><textarea class="textarea" name="qna_content" maxlength="300px" cols="130" rows="6" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
+<tr><td><textarea class="textarea" name="qna_content" maxlength="300px" cols="120" rows="6" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
 	<td valign="bottom" width="10%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
 </tr>	
 </table>
 </form>
 <!-- 댓글 작성 폼 끝 -->
 <!-- 댓글리스트  id="output" -->
-<br>
 <form><table id="output" class="comment_list"></table></form>
 <!-- 댓글리스트 끝-->
 </div></div>
