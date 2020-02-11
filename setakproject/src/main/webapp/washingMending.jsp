@@ -117,7 +117,6 @@
 			$(".add_button").on("click", function() {
 				
 				var a = $("#filetest").val();
-				alert(a);
 				var sortation = document.getElementsByClassName('active');
 				var str = "";
 				
@@ -267,6 +266,36 @@
 			}
 			$(".wtot_price").html(numberFormat(parseInt(<%=wash_tprice%>)));
 			$('.tot_price').html(numberFormat(parseInt(<%=wash_tprice%>)));
+			
+			//다음 클릭 시
+			$(document).on('click','.gocart',function(event) {
+				//택 겹칠시
+				function checkDupl() {
+					var temp = [];
+					var obj = $('select[name="repair_code"]');
+					var x = 0;
+			        
+					// 현재 옵션값 임시 배열에 저장
+					$(obj).each(function(i) {
+						temp[i] = $(this).val();
+				    });
+					
+					// 임시 배열값 과 옵션값이 같으면 임시 변수값 증가
+					$(temp).each(function(i) {
+				        $(obj).each(function() {
+				            if(temp[i] == $(this).val() ) {
+								x++;
+				            }
+				        });
+				    });
+	
+					if(x > 2) {
+		                alert('동일한 택이 존재합니다.');
+		                event.preventDefault();
+		            }
+				}
+				checkDupl();
+			});
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
