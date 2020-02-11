@@ -100,7 +100,12 @@
 	 .mypage_list li a:hover{
 	 	font-weight:bold;
 	 }
-
+	
+	.mypage_content h3 {
+    	color:#3498bd;
+    	text-align:center;
+    	margin-top:150px;
+    }
 
 	/*Q&A???? ????*/
 		.savings_point{
