@@ -651,18 +651,18 @@ public class OrderController {
 		String token = iamport.getToken(request, response, json, requestURL);
 		
 		String order_muid = ovo.getOrder_muid();
-
 		int res = iamport.cancelPayment(token, order_muid);
 		
-		int res2 = orderService.orderCancel(ovo);
+		System.out.println("muid : " + order_muid);
+		int res2 = orderService.orderCancle(ovo);
 		System.out.println("res2 : " + res2);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		if(res == 1) {
-			result.put("result", "아주굿");
+			result.put("result", "성공");
 		} else {
-			result.put("result", "흠");
+			result.put("result", "실패");
 		}
 		
 		return result;

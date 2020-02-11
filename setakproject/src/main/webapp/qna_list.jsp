@@ -56,7 +56,7 @@ function q4ba_click(){
 
 <table class="qlt2">
 <%if (listcount > 0) { %>
-	<%for(int i=0; i<qnalist.size(); i++) { QnaVO bl = (QnaVO)qnalist.get(i); System.out.println(bl.getQNA_SCR());%>
+	<%for(int i=0; i<qnalist.size(); i++) { QnaVO bl = (QnaVO)qnalist.get(i);%>
 		<%if (session.getAttribute("member_id")==null) {%> <!-- 비회원이라면  -->
 			<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >	
 			<td height="40px" width="7%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>

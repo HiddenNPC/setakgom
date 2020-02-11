@@ -1,19 +1,14 @@
 package com.spring.community;
 
-import java.util.ArrayList;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.spring.mapper.ReviewLikeMapper;
-
 
 @Service("reviewLikeService")
 public class ReviewLikeServiceImpl implements ReviewLikeService
 {
 	@Autowired (required = false) private SqlSession sqlSession;
-
 	
 	public void insertReviewLike(ReviewLikeVO vo) 
 	{

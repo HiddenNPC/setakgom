@@ -30,6 +30,8 @@ public class MemberSubController {
 		
 		/*나의정기구독*/
 		MemberSubVO sub_list = membersubservice.sub_list(member_id);
+		System.out.println(sub_list);
+		
 		model.addAttribute("sub_list", sub_list);
 		
 		/*해당 정기구독 리스트*/

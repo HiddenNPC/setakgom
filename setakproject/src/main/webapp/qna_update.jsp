@@ -150,7 +150,8 @@ $(document).ready(function() {
 			disabled="disabled">
 			<label for="ex_filename">업로드</label>
 			<input type="file" name="QNA_FILE" id="ex_filename" class="upload-hidden">
-		</div></td>
+		</div>
+		</td>
 			
 	
 	</tr>		

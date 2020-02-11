@@ -212,7 +212,7 @@ public class OrderServiceImpl implements OrderService  {
 	}
 
 	@Override
-	public int orderCancel(OrderVO ovo) {
+	public int orderCancle(OrderVO ovo) {
 		int res = 0;
 		try {
 			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);

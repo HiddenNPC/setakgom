@@ -178,7 +178,7 @@
     position: absolute;
     background: #eeece6b;
     width: 450px;
-    height: 420px;
+    height: 450px;
 }
 
 .head button {
@@ -193,7 +193,7 @@
 	color:#9E9E9E;
 }
 
-.head h4 {
+.head h3 {
 	text-align:center;
 	margin:-25px 0 20px 0 ;
 	font-size:1.2rem;
@@ -229,10 +229,16 @@
 	margin:20px 0 0 100px;
 }
 
-.text input:nth-child(5) {
-	margin:30px 0 0 100px;
+.text input:nth-child(4) {
+	margin:2px 0 0 100px;
 }
 
+.text input:nth-child(6) {
+	margin:30px 0 0 100px;
+}
+.text input:nth-child(7) {
+	margin:2px 0 0 100px;
+}
 .text .ok {
 	background-color: #3498db;
 	border: #3498db;
@@ -243,6 +249,87 @@
     margin-top:20px;
 }
 
+.text h4 {
+	display:none;
+	color:#f50101;
+	font-size:0.85rem;
+	margin: 5px 100px;
+}
+
+#timer {
+	position: absolute;
+	color:#f50101;
+	top:17.2rem;
+	left:19.5rem;
+	font-size:0.9rem;
+}
+
+
+#authbtn:disabled {
+    background-color: #bbabab;
+    cursor: default;
+}
+
+#show-id {
+	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+}
+
+/*아이디 보여주기*/
+.yourid {
+	display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 25%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 400px;
+    height: 300px;
+}
+
+
+.yourid h3 {
+	font-size:1.2rem;
+	margin:-30px 0 20px 20px;
+}
+
+.yourid h6 {
+    font-size:0.9rem;
+    margin:60px;
+}
+
+.yourid span {
+	color:#3498db;
+	font-weight:bold;
+	font-size:1.3rem;
+}
+
+.btn-x {
+	border:0;
+	background-color:#fff;
+	font-size:1.4rem;
+	margin: 18px 360px; 
+}
+
+.yourid .btn {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+    margin: 0 160px;
+    width:70px;
+    height:28px;
+}
+
+
 /*비밀번호찾기*/
 
 .check_pw .back{
@@ -265,34 +352,7 @@
     position: absolute;
     background: #eeece6b;
     width: 450px;
-    height: 420px;
-}
-
-
-
-/*비밀번호찾기*/
-
-.check_pw .back{
-	display:none;
-	z-index:10000;
-    position: fixed;
-    width: 100%;
-    height: 1000px;
-    top: 0px;
-    left: 0px;
-    background-color:#7575749e;
-}
-
-.check_pw .popup2 {
-	display:none;
-	background-color:#fff;
-	z-index:99999;
-    top : 20%;
-    left:35%;
-    position: absolute;
-    background: #eeece6b;
-    width: 450px;
-    height: 470px;
+    height: 480px;
 }
 
 .popup2 .text h5 {
@@ -302,4 +362,8 @@
 	margin:30px 0 -50px 100px;
 }
 
+/*비밀번호 교체하기*/
+.changepass {
+	display:none;
+}
 

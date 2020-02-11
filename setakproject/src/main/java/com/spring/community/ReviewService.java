@@ -15,6 +15,6 @@ public interface ReviewService
 	ArrayList<ReviewVO> reviewCondition2(String re_condition);
 	ArrayList<ReviewVO> reviewCondition3(String re_condition);
 	int reivewDelete(ReviewVO vo);
-	int reivewUpdate(ReviewVO vo);
+	int reivewUpdate(ReviewVO vo) throws Exception;
 	
 }
