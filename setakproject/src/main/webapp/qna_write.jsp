@@ -1,6 +1,6 @@
 <%@page import="com.spring.community.QnaVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import = "com.spring.setak.*"%>  
+<%@ page import = "com.spring.setak.*" %>  
 <%@ page import = "java.util.*"%>
 <%@ page import = "java.text.SimpleDateFormat"%>
 
@@ -148,17 +148,18 @@ function wcancel(){
 		</td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">제목</div></td>
+		<td height="30px"><div align="center">제 목</div></td>
 		<td colspan="2"><input id="QNA_TITLE" name="QNA_TITLE" type="text" size="50" maxlength="50"/></td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">내용</div></td>
+		<td height="30px"><div align="center">내 용</div></td>
 		<td colspan="2"><textarea id="QNA_CONTENT" name="QNA_CONTENT" cols="80" rows="15" maxlength="500" style="resize:none" ></textarea></td>
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">파일첨부</div></td>
-		<td colspan="2"><input id="QNA_FILE"  type="file"/>
-		<input type="hidden" name="QNA_FILE" id="QNA_FILE2">
+		<td colspan="2">
+			<input type="file" id="QNA_FILE" />
+			<input type="hidden" id="QNA_FILE2" name="QNA_FILE" >
 		</td>				
 	</tr>
 	<tr > 
@@ -166,7 +167,7 @@ function wcancel(){
 		<td><input id="QNA_PASS" name="QNA_PASS" type="password" maxlength="10"/></td>							
 		
 		<td><span>공개여부&nbsp;</span>
-			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공개				
+			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공 개				
 			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개</td>					
 	</tr>
 	<tr class="qwt1h">
@@ -180,8 +181,8 @@ function wcancel(){
 	</tr>
 	<tr align="center" valign="middle">
 		<td colspan="5" height="30px">
-			<input type="submit" name="submit" value="등록" >			
-			<input type="button" name="cancel" value="취소" onclick="wcancel();">			
+			<input class="input-button" type="submit" name="submit" value="등록" >			
+			<input class="input-button" type="button" name="cancel" value="취소" onclick="wcancel();">			
 		</td>
 	</tr>			
 </table>

@@ -10,6 +10,8 @@
 	System.out.println("QNA_NUM=" +qna_num);
 	System.out.println("member_id="+member_id);
 	String b = null;
+	String session_id= (String)session.getAttribute("member_id");
+	String qna_scr = vo.getQNA_SCR();
 %>
 
 <!DOCTYPE html>
@@ -59,7 +61,23 @@ $(document).ready(function() {
 	}
 	
 	//댓글 추가
-	$('#cf_insertbtn').on('click', function(event){ 	
+	$('#cf_insertbtn').on('click', function(event){
+		var qna_scr='<%=vo.getQNA_SCR()%>'; 
+		var session_id = <%=(String)session.getAttribute("member_id")%>;
+		var qna_num = <%=vo.getQNA_NUM()%>;
+		if(qna_scr=="공개"){
+			if(session_id==null )
+			{
+				var qna_confirm=confirm("회원만 댓글을 달수 있습니다. 로그인 페이지로 이동하시겠습니까?");
+				if(qna_confirm==true){
+					return false;
+					location.href='./login.do';					
+				}
+				else{
+					return false;	        		       		
+				}
+	    	}
+		}
 		var params=$("#comment_form").serialize();
 		console.log("comment_form="+params);
 		jQuery.ajax({
@@ -131,9 +149,9 @@ selectData();
 
 <table class="qvt1">
 	<tr>					
-		<td align="center" width="10%" height="40px">&nbsp;<%=vo.getQNA_TYPE() %></td>			
-		<td align="left"  height="40px">&nbsp;제목 :&nbsp;<%=vo.getQNA_TITLE()%>
-			<small id="qvt1s">&nbsp;주문번호 :<%if(vo.getORDER_NUM()==0){%>없음 <%}else{%><%=vo.getORDER_NUM()%><%}%></small></td>		
+		<td align="center" width="10%" height="50px">문의유형 :<small><%=vo.getQNA_TYPE() %></small></td>			
+		<td align="left"  height="40px" width="700px">&nbsp;제목 :&nbsp;<%=vo.getQNA_TITLE()%>
+			<small>&nbsp;주문번호 :<%if(vo.getORDER_NUM()==0){%>없음 <%}else{%><%=vo.getORDER_NUM()%><%}%></small></td>		
 		<td align="right" height="40px"> 작성자 : <%=vo.getMEMBER_ID() %>&nbsp;&nbsp;</td>					
 	</tr>
 	<tr height=250 >			
@@ -156,7 +174,7 @@ selectData();
 	</tr>
 	<tr>
 		<td colspan="3" width="10%" height="40px">
-		<div><small>첨부 파일 :</small> 
+		<div style="margin-left: 20px;"><small>첨부 파일 :</small> 
 		<%if(!(vo.getQNA_FILE()==null)) {%>
 		<a href="#"><%int i= vo.getQNA_FILE().indexOf("_");%>
 		<%=vo.getQNA_FILE().substring(i+1)%>
@@ -165,15 +183,11 @@ selectData();
 	</tr>
 </table>
 
-<form id="only_qna_num" method="post">
-<input type="hidden" value="<%=vo.getQNA_NUM()%>">
-</form>
-
 <table class="qvt3">
 	<tr><td>
-		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">수정 </button>					
-		<button type="button" id="btn1" onclick="location.href='./qnaPass2.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">삭제 </button>			
-		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
+		<button style="float: right;" onclick="location.href='./qnaPass2.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">삭제 </button>		
+		<button style="float: right;" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">수정 </button>			
+		<button onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
 </table>

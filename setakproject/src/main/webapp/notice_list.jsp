@@ -62,9 +62,9 @@ $(document).ready(function(){
 <tr align=center height="40px">
 <td colspan=7 >
 <%if(nowpage<=1) {%>
-< &nbsp;&nbsp;&nbsp;
+&#60; &nbsp;&nbsp;&nbsp;
 <%}else{%>
-<a href="./noticeList.do?page=<%=nowpage-1 %>" > < </a>&nbsp; 
+<a href="./noticeList.do?page=<%=nowpage-1 %>" > &#60; </a>&nbsp; 
 <%}%>			
 <%for (int a=startpage; a<=endpage; a++){ 
 	if(a==nowpage) { %>
@@ -74,8 +74,8 @@ $(document).ready(function(){
 	<%}%>
 <%}%>&nbsp;
 <%if(nowpage >= maxpage ) { %>
-&nbsp;&nbsp;&nbsp; >
-<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > > </a>
+&nbsp;&nbsp;&nbsp; &#62;
+<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > &#62; </a>
 <%}%>
 </td>
 </tr>

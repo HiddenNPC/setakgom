@@ -8,13 +8,16 @@
 	int havePoint = (int) request.getAttribute("havePoint");
 	int totPoint = (int) request.getAttribute("totPoint");
 	int usePoint = (int) request.getAttribute("usePoint");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
 	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
+	
 %>
 
 <!DOCTYPE html>
