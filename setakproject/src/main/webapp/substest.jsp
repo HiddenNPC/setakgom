@@ -12,7 +12,12 @@
     <script type="text/javascript">
 	$(document).ready(function(){
 		$("#header").load("./header.jsp")
-		$("#footer").load("./footer.jsp") 
+		$("#footer").load("./footer.jsp")
+		
+		swal({
+			title:"Hello",
+			text: "World"
+		});
 		
 		
 		$("#btnSubmit").click(function (event) {
@@ -45,6 +50,5 @@
 	<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
         <input type="submit" value="Submit" id="btnSubmit"/>
     </form>
-    <a download>fff</a>
 </body>
 </html> 
