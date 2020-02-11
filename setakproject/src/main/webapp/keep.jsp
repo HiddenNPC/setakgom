@@ -94,7 +94,7 @@
 				var n = $('.bt_down').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				if (num == 1) {
-					alert("최저 수량은 1개입니다.");
+					Swal.fire("","최저 수량은 1개입니다.","info");
 				} else {
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
@@ -103,7 +103,7 @@
 			//박스 수량
 			$(document).on('click','.box_up',function(event) {
 				if(monthclick==0){
-					alert('보관하실 기간을 먼저 선택해주세요.');
+					Swal.fire("",'보관하실 기간을 먼저 선택해주세요.',"info");
 					return;
 				}
 				var n = $('.box_up').index(this);
@@ -116,7 +116,7 @@
 				var n = $('.bt_down').index(this);
 				var num = $(".box_count:eq(" + n + ")").val();
 				if (num == 1) {
-					alert("최저 수량은 1박스입니다.");
+					Swal.fire("","최저 수량은 1박스입니다.","info");
 				} else {
 					num = $(".box_count:eq(" + n + ")").val(num * 1 - 1);
 				}
@@ -163,12 +163,12 @@
 			 $(document).on('click','.gocart',function(event) {
 				var member_id = "<%=session.getAttribute("member_id") %>";
 				if(member_id=="null"){
-					alert('로그인 후 이용 가능합니다.');
+					Swal.fire("",'로그인 후 이용 가능합니다.',"info");
 					location.href='login.do';
 					return false;
 				}
 				if(monthclick==0){
-					alert('보관하실 기간을 선택해주세요.');
+					Swal.fire("",'보관하실 기간을 선택해주세요.',"info");
 					return false;
 				}
 			 });
