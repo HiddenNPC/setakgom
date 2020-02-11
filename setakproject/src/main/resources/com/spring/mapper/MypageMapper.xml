@@ -124,7 +124,7 @@
 	</select>
 	
 	<update id="updateKeepMonth" parameterType="java.util.HashMap" >
-		update keep set keep_start = TO_DATE(#{keep_start}, 'YY/MM/DD'), keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
+		update keep set keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
 		where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
 	</update>
 	
