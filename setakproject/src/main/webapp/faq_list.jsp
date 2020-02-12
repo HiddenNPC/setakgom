@@ -56,15 +56,15 @@ $(document).ready(function(){
     //toggle + not 을 사용하라 
     $(function(){
     	$(".ico_ar").on('click',function(){
-    		$except = $(this);		
-    	  	$("#tab_con div ol").slideUp(); //올라간다	
-    	  	$except.css('transform','rotate(180deg)');		 		
-    	  	//$except.css('transform','rotate(180deg)').toggleClass();
-    	  	//.parent()는 어떤 요소의 부모 요소를 선택합니다..next()는선택한 요소의 바로 다음에 위치한 형제 요소를 선택한다.
+    		$except = $(this);
+    		$(".ico_ar").attr('value', '▼');
+    		$("#tab_con div ol").slideUp(); //올라간다	
+    		
     	  	if(!$(this).parent().next().is(":visible"))
     	  	{
-    	  		$(this).parent().next().slideDown();			
-    			$(".ico_ar").not($except).css('transform','none');		
+    	  		$(this).parent().next().slideDown();
+    	  		$except.attr('value', '▲');
+    				
     		}   			  			   		
     	})    		
     }); 
@@ -95,7 +95,7 @@ $(document).ready(function(){
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("기본정보")){%>
 <h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol><li><%=vo.getFaq_content()%></li></ol>
+<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%><%}%>
 </div>	
 
@@ -103,7 +103,7 @@ $(document).ready(function(){
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("이용정보")){%>
 <h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol><li><%=vo.getFaq_content()%></li></ol>
+<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
@@ -111,7 +111,7 @@ $(document).ready(function(){
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("수거/배송")){%>
 <h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol><li><%=vo.getFaq_content()%></li></ol>
+<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
@@ -119,7 +119,7 @@ $(document).ready(function(){
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("세탁")){%>
 <h4>Q.<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol><li><%=vo.getFaq_content()%></li></ol>
+<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
@@ -127,7 +127,7 @@ $(document).ready(function(){
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("요금/결제")){%>
 <h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol><li><%=vo.getFaq_content()%></li></ol>
+<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
@@ -135,7 +135,7 @@ $(document).ready(function(){
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("보관")){%>
 <h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol><li><%=vo.getFaq_content()%></li></ol>
+<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	

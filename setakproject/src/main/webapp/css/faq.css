@@ -38,13 +38,13 @@
 	outline: none; margin-right: 15px; 
 	}
 
-	.tab_con div > ol {}
+	
 	.tab_con div > ol > li 
 	{line-height:30px; list-style-type: none;  
 	padding:10px; margin-right:40px; background-color:#e1e4e4;			
 	}				
 	.tab_con div > h4{padding:15px;}	
-	div > ol {display:none;}	
+		
 	.ico_ar{ float: right;}
 	
 	

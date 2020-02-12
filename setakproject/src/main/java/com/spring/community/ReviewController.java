@@ -59,7 +59,7 @@ import org.springframework.web.servlet.ModelAndView;
 		vo.setMember_id((String)session.getAttribute("member_id"));
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		System.out.println("분류 = " + vo.getReview_kind());
-		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star")));
+		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star"))*2);
 		System.out.println("별점 떳냐? =" +vo.getReview_star());
 		vo.setReview_content(request.getParameter("Review_content"));
 		System.out.println("내용 = " + vo.getReview_content());
@@ -199,7 +199,14 @@ import org.springframework.web.servlet.ModelAndView;
 		PrintWriter writer  = response.getWriter();	
 				
 		vo.setReview_kind(request.getParameter("Review_kind"));
-		vo.setReview_star(Double.parseDouble(request.getParameter("Review_star"))*2);
+		if(request.getParameter("Review_star").equals("")) {
+			System.out.println(request.getParameter("Review_star"));
+			vo.setReview_star(Double.parseDouble(request.getParameter("ex-Review_star"))*2);
+			
+		}else {
+			vo.setReview_star(Double.parseDouble(request.getParameter("Review_star"))*2);
+		}
+		
 		vo.setReview_content(request.getParameter("Review_content"));
 		vo.setReview_num(Integer.parseInt(request.getParameter("Review_num")));
 		System.out.println("구분="+vo.getReview_kind());
@@ -207,9 +214,11 @@ import org.springframework.web.servlet.ModelAndView;
 		System.out.println("내용="+vo.getReview_content());
 		System.out.println("리뷰번호="+vo.getReview_num());
 		if(request.getParameter("Review_photo").equals("")) {
-			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+			vo.setReview_photo(request.getParameter("exist_file"));
+			
 		}else {
 			vo.setReview_photo(request.getParameter("Review_photo"));
+			
 		}
 		
 		

@@ -72,10 +72,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		PrintWriter writer = response.getWriter();
 		
 		if (res !=0 ) {
-			writer.write("<script>alert('공지사항 작성 성공!!');location.href='./noticeList.st';</script>");
+			writer.write("<script>location.href='./noticeList.do';</script>");
 		}
 		else {
-			writer.write("<script>alert('공지사항 작성 실패..');location.href='./noticeWrite.st';</script>");
+			writer.write("<script>alert('공지사항 작성 실패..');location.href='./noticeWrite.do';</script>");
 		}
 		
 		return null;

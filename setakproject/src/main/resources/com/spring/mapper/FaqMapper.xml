@@ -18,19 +18,18 @@
 		select max(faq_num) from faq
 	</select>
 	
-	<insert id="qnaInsert" parameterType="com.spring.community.QnaVO">
+	<insert id="faqInsert" parameterType="com.spring.community.FaqVO">
 		insert into faq values 
 		(
 		#{faq_num}, 
 		#{faq_cate}, 
 		#{faq_title},
-		#{faq_content},
-		
+		#{faq_content},		
 		sysdate
 		)		
 	</insert>
 	
-	<update id="qnaModify" parameterType="com.spring.community.QnaVO">
+	<update id="faqModify" parameterType="com.spring.community.FaqVO">
 		update QNA set
 		QNA_TYPE=#{QNA_TYPE,jdbcType=VARCHAR},
 		ORDER_NUM=#{ORDER_NUM},
@@ -43,7 +42,7 @@
 		where QNA_NUM=#{QNA_NUM}
 	</update>
 	
-	<delete id="qnaDelete" parameterType="com.spring.community.QnaVO">
+	<delete id="faqDelete" parameterType="com.spring.community.FaqVO">
 		delete from QNA where QNA_NUM = #{QNA_NUM}
 	</delete>	
 
