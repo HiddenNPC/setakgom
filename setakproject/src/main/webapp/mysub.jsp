@@ -34,9 +34,7 @@
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
-	<% if(session.getAttribute("id")== null) {%>
-		$(location.href="/setak");
-	<% }%>
+	
 	$(document).ready(function() {
 		//수거취소 클릭
 		$("#header").load("./header.jsp")
@@ -103,25 +101,90 @@
 		        
 		        $("#go").css('display', 'none');
 				$("#cancle").css('display', 'block');
-		    }); 
+		    });
 		
-		//구독해지 클릭
+	/*구독해지*/	
+		//구독해지 신청 클릭 //????? 왜 재 클릭하면 그림이 안뜨냐.....
 		   $("#sub").click(function(event){
 			   $(".subcancle").css('display', 'block');
 			});
 		
-		   $(".pop_btn4").on("click", function() {
+		//구독해지 신청 -> 유지
+		   $(".keep").on("click", function() {
 				$(".subcancle").css('display', 'none');
+				$("#sub").css('display', 'block');
 			});
 		   
 		   
-		 //구독해지하면?????????????????????
-			$(".pop_btn5").on("click", function() {
+		 //구독해지 신청 -> 취소
+			$(".bye").on("click", function() {
 				$(".subcancle").css('display', 'none'); 
+				$("#re-sub").css('display', 'block'); 
+				$("#sub").css('display', 'none'); 
+				
+				$.ajax({
+					url :'/setak/subs_bye1.do',
+					type:'post',
+					data : {
+						'member_id': "<%=session.getAttribute("member_id") %>"
+					},
+					dataType:'json',
+	    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+					success:function(result) {
+						if(result.res=="OK") {            
+							console.log("subs_bye값이 1로 변경되었음");
+		     			}
+		     			else { // 실패했다면
+		     				console.log("subs_bye값이 변경이 안됫어ㅠㅠ");
+		     			}
+					},
+					// 문제가 발생한 경우 
+					error:function (request, status, error) {
+						alert("ajax 통신 실패");
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
 			});
 			
-						
-		/*나의 정기구독이 0/0일 때 -로 바꿈*/
+		 
+		 // 구독해지 취소  클릭
+		 $('#re-sub').on('click',function() {
+			 $('.subback').css('display','block');
+			 $('.reback').css('display','block');
+			 $('#sub').css('display', 'block');
+			 $('#re-sub').css('display', 'none');
+			 
+			 $.ajax({
+					url :'/setak/subs_bye0.do',
+					type:'post',
+					data : {
+						'member_id': "<%=session.getAttribute("member_id") %>"
+					},
+					dataType:'json',
+	    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+					success:function(result) {
+						if(result.res=="OK") {            
+							console.log("subs_bye값이 0로 변경되었음");
+		     			}
+		     			else { // 실패했다면
+		     				console.log("subs_bye값이 변경이 안됫어ㅠㅠ");
+		     			}
+					},
+					// 문제가 발생한 경우 
+					error:function (request, status, error) {
+						alert("ajax 통신 실패");
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
+			});
+		 
+		 //구독해지 취소 팝업창 닫기	
+		 $('#sub-back #close5').on('click', function() {
+			 $('.reback').css('display','none');
+			 $('#sub-back').css('display','none');
+		 })
+		 
+	/*나의 정기구독이 0/0일 때 -로 바꿈*/
 		for(var i = 0; i < 6; i++) {
 			if($('.cell').eq(i).text() == "0/0") {
 				$('.cell').eq(i).text('-');
@@ -182,7 +245,7 @@
                   		</ul>
                  		<ul class="mypage_list">
                     		<li>고객문의</li>
-                     		<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+                     		<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정보관리</li>
@@ -236,7 +299,8 @@
 								<a id="cancle" href="javascript:">수거취소</a>
 							</li>
 							<li class="btn">
-								<a id="sub" href="javascript:" >해지</a>
+								<a id="sub" href="javascript:" >신청</a>
+								<a id="re-sub" href="javascript:" >취소</a>
 							</li>
 						</ul>
 					
@@ -324,7 +388,7 @@
                 <div class="popup" id="gotxt"> 
                 	<img src="images/popup.png">
                     <div class="text">
-                                                     수거 신청이 되었습니다.<br><br>
+                                           수거 신청이 되었습니다.<br><br>
                        	<span id="printday"></span>에 수거됩니다.
                     </div>
                     <div class="pop_btn">확인</div>
@@ -355,10 +419,21 @@
 							<h5>이 모든 세탁곰의 <span>정기구독 전용 혜택</span>이 사라져요<br>그래도 해지하시겠어요?</h5>
 							<h5>구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</h5>
 						</div>
-						<input type="button" class="pop_btn4" value="구독하고 혜택 유지">
-						<input type="button" class="pop_btn5" value="해지하고 혜택 포기">
+						<input type="button" class="keep" value="구독하고 혜택 유지">
+						<input type="button" class="bye" value="해지하고 혜택 포기">
 					</div>
 				</div>
+				
+			<!-- 구독해지 취소 팝업창 -->
+			<div class="reback"></div>
+			<div class="subback" id="sub-back">
+				<h2>정기구독 재구독</h2>
+				<hr>
+				<h4>재구독 해주셔서 감사합니다</h4>
+				<h5>정기구독 재결제는 구독 만료일 다음날에 시행됩니다.</h5>
+				<h6>더욱더 나은 서비스를 제공하겠습니다.</h6>
+				<input type="button" class="btn5" id="close5" value="닫기" />
+			</div>
 				
             </div><!-- mypage_content -->
 			
@@ -411,7 +486,6 @@
 		<div class="dim"></div><br><br>
 	
 	</div>
-	
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 
 	<div id="footer"></div>

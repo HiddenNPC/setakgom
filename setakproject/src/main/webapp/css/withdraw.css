@@ -42,7 +42,6 @@
 /*왼쪽메뉴*/
 
 #test {
-	margin:-150px;
 	height: 850px;
 }
 
@@ -127,21 +126,20 @@
 .test .content{
 	width: 800px;
 	height: 700px;
-	padding:70px;
-	margin: 0 0 0 300px;
+	margin: 0 0 0 400px;
 }
 
-.test h2 {
+.content h4 {
+	padding-top:60px;
 	font-size: 1rem;
-}
-
-.test h2:nth-child(2) {
-	padding-bottom:20px;
+	color:#3498db;
+	margin-bottom:20px;
 }
 
 .content input{
 	width:50%;
 	height:30px;
+	margin-top:10px;
 }
 
 .content .btn {
@@ -159,10 +157,6 @@
 	cursor:pointer;
 	color:#9E9E9E;
 }
-  
-.test h3 {
-	font-size: 0.9rem;
-	color:#3498db;
-} 
+
    
    
