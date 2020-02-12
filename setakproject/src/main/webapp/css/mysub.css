@@ -307,9 +307,9 @@ a#cancle {
 }
 
 .popup .pop_btn2 {
-     margin: 150px 0 0 230px; 
+     margin: 160px 0 0 270px; 
      color:#858688;
-     font-size: 20px;
+     font-size: 17px;
      font-weight: bold;
 
 }
@@ -320,9 +320,9 @@ a#cancle {
 }
 
 .popup .pop_btn3 {
-     margin: -21px 0 0 333px;  
+     margin: -19px 0 0 370px;  
     color:#858688;
-     font-size: 20px;
+     font-size: 16px;
      font-weight: bold;
      cursor:pointer;
 }
