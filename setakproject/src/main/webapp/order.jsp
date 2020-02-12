@@ -50,14 +50,14 @@
    
    <!-- 아코디언 -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-       
+   
     <script type="text/javascript">
 
-   $(document).ready(function() {
-   
-   var member_id = "<%=session.getAttribute("member_id")%>"; 
-   
-   // 헤더, 푸터 
+	$(document).ready(function() {
+	
+	var member_id = "<%=session.getAttribute("member_id")%>"; 
+	
+	// 헤더, 푸터 
     $("#header").load("header.jsp")
     $("#footer").load("footer.jsp") 
     
@@ -230,7 +230,7 @@
       
       if(addrName == '' || name == '' || phone1 == '' || phone2 == '' || phone3 == ''
          || postcode == '' || address == '' || detailAddress == '') {
-         alert("제대로 입력하세요.");
+         alert("빠짐없이 입력해주세요.");
          return; 
       }
       
@@ -306,13 +306,16 @@
    });
    
    // 적립금 사용
+   var finalPrice = parseInt($("#final_price").text().slice(0,-1).replace(",",""));
+   
    $('input#usePoint').on('keyup',function(){
       var usePoint = parseInt($("#usePoint").val());
       var havePoint = parseInt($("#havePoint").text().replace(",",""));
       
       var totalPrice = parseInt($("#total_price").text().slice(0,-1).replace(",",""));
       var couponSalePrice = parseInt($("#coupon_sale_price").text().slice(0,-1).replace(",",""));
-      var finalPrice = parseInt($("#final_price").text().slice(0,-1).replace(",",""));
+    
+      console.log(finalPrice);
       
       if($("input#usePoint").val() == '') {
          usePoint = 0; 
@@ -332,7 +335,7 @@
          
          var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
 
-         var asw = totalPrice + couponSalePrice + pointPirice;
+         var asw = finalPrice + couponSalePrice + pointPirice;
          $("#final_price").html(numberFormat(asw+'원'));
          
          return;
@@ -344,9 +347,16 @@
          $("#point_price").text('0원');
       }
       
-      var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
       
-      var asw = totalPrice + couponSalePrice + pointPirice;
+      var pointPirice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
+      	var delivery_price = 0;
+      	if (totalPrice <= 30000){
+    	 	 delivery_price = 2500;
+      	} else{
+    		  delivery_price = 0;
+      	}
+      
+      var asw = totalPrice + couponSalePrice + pointPirice + delivery_price;
       $("#final_price").html(numberFormat(asw+'원'));
       
       
@@ -378,10 +388,9 @@
       var select_btn = $(this);
       if(select_btn.is(":checked")) {
          
-         // 체크 하는 순간> 
+         // 체크 하는 순간 
           couponPrice += salePrice;     
           dp = discountPrice + couponPrice;
-      
 
       } else {
          
@@ -461,13 +470,11 @@
 
       
       // 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
-      /*
       if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
             postcode == '' || address == '') {
          alert("배송지 정보를 모두 입력해주세요.");
          return; 
       }
-      */
       
       // 결제 금액 받아오기 
       var final_price = $('#final_price').text().slice(0,-1).replace(",","");
@@ -483,7 +490,7 @@
             pay_method : 'card',
             merchant_uid : muid,
             name : '세탁곰 결제',
-            amount : final_price,
+            amount : 100,
             buyer_email : '<%=memberVO.getMember_email()%>',
             buyer_name : '<%=memberVO.getMember_name()%>', 
             buyer_tel : '<%=memberVO.getMember_phone()%>',
@@ -495,7 +502,7 @@
                 jQuery.ajax({
                     url: "/setak/insertOrder.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
                     type: 'POST',
-                  traditional : true,
+                  	traditional : true,
                     dataType: 'json',
                     data: {
                         imp_uid : rsp.imp_uid,
@@ -638,15 +645,15 @@
             
         }
     }
-   
-   // 나의 주소록 목록
-   function selectAddress() {
-      
-      $('#addrTable tbody').empty();
-      
-      var member_id = "<%=session.getAttribute("member_id")%>"; 
-      var parmas = {'member_id': member_id }; 
-      
+	
+	// 나의 주소록 목록
+	function selectAddress() {
+		
+		$('#addrTable tbody').empty();
+		
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		var parmas = {'member_id': member_id }; 
+		
 
         $.ajax({
             url : '/setak/getAddrList.do', // url
@@ -715,17 +722,17 @@
    // 나의주소록 추가
    function insertAddress() {
 
-      var member_id = "<%=session.getAttribute("member_id")%>"; 
-      
-      var addrName = $("#newAddrName").val();
-      var name = $("#newName").val();
-      
-      var newPhone1 = $("#newPhone1").val();
-      var newPhone2 = $("#newPhone2").val();
-      var newPhone3 = $("#newPhone3").val();
-      var phone = newPhone1 + newPhone2 + newPhone3;
-      
-      var postcode = $("#postcode2").val();
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		
+		var addrName = $("#newAddrName").val();
+		var name = $("#newName").val();
+		
+		var newPhone1 = $("#newPhone1").val();
+		var newPhone2 = $("#newPhone2").val();
+		var newPhone3 = $("#newPhone3").val();
+		var phone = newPhone1 + newPhone2 + newPhone3;
+		
+		var postcode = $("#postcode2").val();
 
       var address = $("#address2").val();
       var detailAddress = $("#detailAddress2").val();
@@ -733,7 +740,7 @@
       
       if(addrName == '' || name == '' || newPhone1 == '' || newPhone2 == '' || newPhone3 == ''
          || postcode == '' || address == '') {
-         alert("제대로 입력하세요.");
+         alert("전부 입력해주세요.");
          return; 
       }
       
@@ -844,94 +851,76 @@
       $('#newPhone3').val('');
    }
 
-   
-   // 나의 주소록 클릭 이벤트
-   function callFunction(){
-      
-      var select_addr = $(this).attr('id');
-      alert(select_addr); 
-      var tr = select_addr.parent().parent();
-      var td = tr.children();
-      
-      var newAddrName = td.eq(0).text();
-      alert(newAddrName); 
-      
-      jQuery('#layer-div2').attr('style','display:none');
-      
-      newAddrInit();
-        $("body").css("overflow","scroll");
-   }
-   
    // 주소록 수정창 닫기 
    function modiClose() {
         var modiDiv = $("#modiDiv");
         
-      $('#modiAddrName').val('');
-      $('#modiName').val('');
-      $('#postcode3').val('');
-      $('#address3').val('');
-      $('#detailAddress3').val('');
-      $('#extraAddress3').val('');
-      $('#modiPhone1').val('');
-      $('#modiPhone2').val('');
-      $('#modiPhone3').val('');
-      
-        modiDiv.css('display', 'none');       
-   }
-   
-   // 기본 배송지 지정
-   function setDefaultAddr() {
-      
-      var member_id = "<%=session.getAttribute("member_id")%>"; 
-      
-      if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
-         
-         var phone1 = $("#order_phone1").val();
-         var phone2 = $("#order_phone2").val();
-         var phone3 = $("#order_phone3").val();
-         var postcode = $("#postcode").val();
-         var address = $("#address").val();
-         var detailAddress = $("#detailAddress").val();
-         var request = $("#request").val(); 
-         
-         var phone = phone1 + phone2 + phone3;
-         var addr = address + '!' + detailAddress; 
-         
-         var params = {
-               'member_id' : member_id,
-               'member_phone' : phone,
-               'member_zipcode' : postcode, 
-               'member_loc' : addr,
-         };
-         
-         $.ajax({
-               url : '/setak/defaultAddrUpdate.do', // url
-               type : 'POST',
-               data : params, // 서버로 보낼 데이터
-               contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-               dataType : 'json',
-               success: function(retVal) {
-                  if(retVal.res=="OK") {    
-                     
-                 alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");   
-                 
-                  }
-                  else { // 실패했다면
-                     alert("Update Fail");
-                  }
-               },
-               error:function() {
-                  alert("Update ajax 통신 실패");
-               }         
-         });
-            
-      } else {
-         alert("선택이 취소되었습니다.");
-      }
-      
-   }
-   
-   // 쿠폰적용 레이어 스크립트 
+		$('#modiAddrName').val('');
+		$('#modiName').val('');
+		$('#postcode3').val('');
+		$('#address3').val('');
+		$('#detailAddress3').val('');
+		$('#extraAddress3').val('');
+		$('#modiPhone1').val('');
+		$('#modiPhone2').val('');
+		$('#modiPhone3').val('');
+		
+        modiDiv.css('display', 'none'); 		
+	}
+	
+	// 기본 배송지 지정
+	function setDefaultAddr() {
+		
+		var member_id = "<%=session.getAttribute("member_id")%>"; 
+		
+		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
+			
+			var phone1 = $("#order_phone1").val();
+			var phone2 = $("#order_phone2").val();
+			var phone3 = $("#order_phone3").val();
+			var postcode = $("#postcode").val();
+			var address = $("#address").val();
+			var detailAddress = $("#detailAddress").val();
+			var request = $("#request").val(); 
+			
+			var phone = phone1 + phone2 + phone3;
+			var addr = address + '!' + detailAddress; 
+			
+			var params = {
+					'member_id' : member_id,
+					'member_phone' : phone,
+					'member_zipcode' : postcode, 
+					'member_loc' : addr,
+			};
+			
+			$.ajax({
+	            url : '/setak/defaultAddrUpdate.do', // url
+	            type : 'POST',
+	            data : params, // 서버로 보낼 데이터
+	            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+	            dataType : 'json',
+	            success: function(retVal) {
+	               if(retVal.res=="OK") {    
+	            	   
+					  alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");	
+					  
+	               }
+	               else { // 실패했다면
+	                  return; 
+	               }
+	            },
+	            error:function() {
+	               alert("Update ajax 통신 실패");
+	            }			
+			});
+				
+		} else {
+			alert("선택이 취소되었습니다.");
+		}
+		
+	}
+	
+	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 
         if(type == 'open') {
@@ -1062,15 +1051,16 @@
                            <td><%=mvo.getRepair_cate()%></td>
                            <td><%=mvo.getRepair_count()%>장</td>
                            <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
-                           <td><%=mvo.getRepair_kind()%></td>
+                           <td><%=mvo.getRepair_kind()%> <span class = "repairCode">[텍코드 : <%=mvo.getRepair_code()%>]</span></td>
                         </tr>   
                         <% } } else { %>
                         <tr></tr>
                         <%} %>
                         
                   <% if(keepList.size() != 0) {
-
-                  KeepVO kvo = keepList.get(0);%>      
+					// 가장 상단만 받아옴 
+						for(int i = 0; i < keepList.size(); i++) {
+						KeepVO kvo = keepList.get(i);%>		     
                     <tr>
                            <%if(kvo.getKeep_wash() == 0) { %>
                            <td>보관</td>
@@ -1082,7 +1072,7 @@
                            <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
                            <td><%=kvo.getKeep_month()%>개월</td>
                         </tr>   
-                        <% } else { %>
+                        <%} } else { %>
                         <tr></tr>
                         <%} %>
                
@@ -1329,9 +1319,10 @@
                               KeepVO kvo = keepList.get(0);
                               if(kvo.getKeep_wash() == 0) {
                                  %>
-                                 <li><input type="checkbox" name="checkCoupon" value = "9500" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
+                
+                                 <li><input type="checkbox" name="checkCoupon" value = "9500" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
                               <% } else { %> 
-                                 <li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
+                                 <li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
                               <%} 
                               } 
                         }

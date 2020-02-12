@@ -7,14 +7,14 @@ public class QnaVO
 	private int QNA_NUM;
 	private String MEMBER_ID;
 	private String QNA_TYPE;
-	private String QNA_KIND;
+	private long ORDER_NUM;
 	private String QNA_TITLE;
 	private String QNA_CONTENT;
 	private Date QNA_DATE;
 	private String QNA_FILE;
-	private String QNA_CHECK;
-	
-	
+	private String QNA_CHECK;	
+	private String QNA_SCR;
+	private String QNA_PASS;
 	public int getQNA_NUM() {
 		return QNA_NUM;
 	}
@@ -33,11 +33,11 @@ public class QnaVO
 	public void setQNA_TYPE(String qNA_TYPE) {
 		QNA_TYPE = qNA_TYPE;
 	}
-	public String getQNA_KIND() {
-		return QNA_KIND;
+	public long getORDER_NUM() {
+		return ORDER_NUM;
 	}
-	public void setQNA_KIND(String qNA_KIND) {
-		QNA_KIND = qNA_KIND;
+	public void setORDER_NUM(long oRDER_NUM) {
+		ORDER_NUM = oRDER_NUM;
 	}
 	public String getQNA_TITLE() {
 		return QNA_TITLE;
@@ -69,11 +69,18 @@ public class QnaVO
 	public void setQNA_CHECK(String qNA_CHECK) {
 		QNA_CHECK = qNA_CHECK;
 	}
-	
-	
-	
-	
-	
+	public String getQNA_SCR() {
+		return QNA_SCR;
+	}
+	public void setQNA_SCR(String qNA_SCR) {
+		QNA_SCR = qNA_SCR;
+	}
+	public String getQNA_PASS() {
+		return QNA_PASS;
+	}
+	public void setQNA_PASS(String qNA_PASS) {
+		QNA_PASS = qNA_PASS;
+	}
 	
 	
 }

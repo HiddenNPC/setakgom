@@ -286,6 +286,7 @@ input#point_price {
 	height : 30px;
 	width : 80px;
 	font-size : 0.75rem;
+	cursor : pointer; 
 }
 
 .btnBlue:hover {
@@ -481,3 +482,9 @@ input#point_price {
 .popup-close:active {
 	border : 0px; 
 }
+
+.repairCode {
+    font-size: 0.8rem;
+    color: #929292;
+}
+	

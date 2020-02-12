@@ -20,6 +20,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
+    	  var member_id = "<%=session.getAttribute("member_id")%>";
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")     
       });
@@ -51,7 +52,7 @@
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
@@ -66,6 +67,9 @@
 			<div style="width: 85%; float: right;">
 				<div class="mypage_content">
 				<h2>쿠폰 조회</h2>
+				<%if (couponlist.size() == 0) {%>
+				<h3>쿠폰 내역이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="qna-title">
 					<div>
@@ -73,27 +77,45 @@
 							<thead align="center">
 								<tr>
 									<th width="20">쿠폰명</th>
-									<th width="40">쿠폰 혜택</th>
-									<th width="20">쿠폰 발행일</th>
-									<th width="20">사용가능 기간</th>
+									<th width="20">쿠폰 혜택</th>
+									<th width="15">쿠폰 발행일</th>
+									<th width="15">사용가능 기간</th>
+									<th width="15">쿠폰사용 날짜</th>
+									<th width="15">쿠폰사용여부</th>
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr>
+								
 								<%for(int i=0; i<couponlist.size(); i++){ 
 									CouponVO cvo = (CouponVO)couponlist.get(i);
 									%>
+									<tr>
 									<td><%=cvo.getCoupon_name() %></td>
-									<td><a href="#" style="color:#3498db; font-weiht:bold;">보관1개월 무료</a></td>
+									<td><p style="color:#3498db; font-weiht:bold;">보관1개월 무료</p></td>
 									<td><%=sdf.format(cvo.getCoupon_start()) %></td>
 									<td><%=sdf.format(cvo.getCoupon_start()) %>&nbsp;~&nbsp;<%=sdf.format(cvo.getCoupon_end()) %></td>
+									<td>
+										<%if (cvo.getCoupon_useday()== null){ %>
+											미사용
+										<%} else {%>
+											<%=sdf.format(cvo.getCoupon_useday()) %>
+										<% }%>
+									</td>
+									<td>
+										<%if (cvo.getCoupon_use().equals("1")){ %>
+										사용불가
+										<%} else{%>
+										사용가능
+										<%} %>
+									</td>
+									</tr>
 									<%} %>		
-								</tr>
 							</tbody>					
 							
 						</table>
 					</div>
 					</div>
+					<%} %>
 			</div>
 		</div>
 	</section>

@@ -111,7 +111,8 @@
 						<li><a href="./join.do">회원가입</a></li>
 					<%						
 						} else {
-					%>
+					%>	
+						
 						<li><a href="./logout.do">로그아웃</a></li>
 						<li><a href="./orderview.do">마이페이지</a></li>
 						<li><a href="./order.do">장바구니</a></li>
@@ -241,45 +242,28 @@
 									<div class="sp-thumbnail-title">1. 카테고리 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">2. 치수 밑 데이터 입력</div>
+									<div class="sp-thumbnail-title">2. 옷 수량, 기간 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">3. 수량, 택 선택</div>
+									<div class="sp-thumbnail-title">3. 박스 수량 선택</div>
 								</div>
 								<div class="sp-thumbnail">
 									<div class="sp-thumbnail-title">4. 장바구니</div>
 								</div>
-								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">5. 세탁 진행</div>
-								</div>
-								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">6. 빨래 끝</div>
-								</div>
 							</div>
 							<div class="sp-slides">
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image1_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image2_large.jpg" />
+									<img class="sp-image" src="images/keep2.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image3_large.jpg" />
+									<img class="sp-image" src="images/keep3.jpg" />
 								</div>
 								<div class="sp-slide">
 									<img class="sp-image"
 										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
-								</div>
-								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image5_large.jpg" />
-								</div>
-								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image6_large.jpg" />
 								</div>
 							</div>
 						</div>

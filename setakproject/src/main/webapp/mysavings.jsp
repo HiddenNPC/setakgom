@@ -8,13 +8,16 @@
 	int havePoint = (int) request.getAttribute("havePoint");
 	int totPoint = (int) request.getAttribute("totPoint");
 	int usePoint = (int) request.getAttribute("usePoint");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
 	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -29,14 +32,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-         $("#header").load("./frame/header.jsp")
-         $("#footer").load("./frame/footer.jsp")     
+    	  var member_id = "<%=session.getAttribute("member_id")%>";
+         $("#header").load("./header.jsp")
+         $("#footer").load("./footer.jsp")     
       });
-    </script>
-    <script language='javascript'>
-    	function cancle() {
-			alert("주문을 취소하시겠습니까?");
-		}
     </script>
 </head>
 <body>
@@ -51,16 +50,16 @@
 					<li>
 						<ul class="mypage_list">
 							<li>주문관리</li>
-							<li><a href="orderview.jsp">주문/배송현황</a></li>
-							<li><a href="mykeep.jsp">보관현황</a></li>
+							<li><a href="orderview.do">주문/배송현황</a></li>
+							<li><a href="mykeep.do">보관현황</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정기구독</li>
-							<li><a href="mysub.jsp">나의 정기구독</a></li>
+							<li><a href="mysub.do">나의 정기구독</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
@@ -75,6 +74,9 @@
 			<div style="width: 85%; float: right;">
 				<div class="mypage_content">
 				<h2>적립금 조회</h2>
+				<%if(mile_list.size() == 0) {%>
+				<h3>등록된 적립금이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="savings_point">
 				<% %>
@@ -110,7 +112,7 @@
 							%>
 							<tbody align="center">
 								<tr>
-									<td><%=sdf.format(mivo.getMile_date()) %></td>
+									<td><%=mivo.getMile_date() %></td>
 									<td><%=mivo.getMile_price() %></td>
 									<td><%=mivo.getMile_content() %></td>
 								</tr>
@@ -124,28 +126,28 @@
 							<tr align = center height = 20>
               				<td>
               				<%if(nowpage <= 1) {%>
-              				<div class="page_a"><a>&#60;</a></div>
+              				<div class="page_a"><a> &lt;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage-1 %>"> &lt;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
-              					if(a==nowpage) {
-           					%>
+              				<%for (int a=startpage; a<endpage; a++) {
+              					if(a==nowpage) { %>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
-           						<div class="page_a"><a href="/mysaving.do?page=<%=a %>"><%=a %></a></div>
+           						<div class="page_a"><a href="./mysavings.do?page=<%=a %>"><%=a %></a></div>
+           						<%} %>
            					<%} %>
-           					<%} %>
-           					<%if (nowpage >= maxpage) {%>	
-           						<div class="page_a"><a>&#62;</a></div>
+           					<%if (nowpage >= maxpage) {	%>	
+           						<div class="page_a"><a>&gt;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="/mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage+1 %>">&gt;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>
 					</table>
 					</div>	
 				</div>
+				<%} %>
 			</div>
 			</div>
 		</div>

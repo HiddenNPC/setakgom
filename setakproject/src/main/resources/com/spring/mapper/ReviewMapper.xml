@@ -16,11 +16,11 @@
 		<result property="re_condition" column="re_condition"/>		
 				
 	</resultMap>	
-		
+	<!-- 	
 	<select id="getMaxNum" resultType="int">
 		SELECT MAX(review_num) FROM review
 	</select>
-	
+	 -->
 	<select id="getListCount" resultType="int"> 
 		SELECT COUNT(*) FROM review
 	</select>
@@ -30,7 +30,7 @@
 	</select>
 
 	<insert id="reviewInsert" parameterType="com.spring.community.ReviewVO">
-		INSERT INTO review VALUES (#{review_num},#{member_id,},#{review_kind},#{review_star},
+		INSERT INTO review VALUES (REVIEW_SEQ.NEXTVAL,#{member_id,},#{review_kind},#{review_star},
 		#{review_content},#{review_like},#{review_photo, jdbcType=VARCHAR}, sysdate ) 
 	</insert>
 	
@@ -38,8 +38,7 @@
 	 <bind name="arg1" value="'%'+ arg1 +'%'" />
 		SELECT * FROM REVIEW WHERE ${arg0} like #{arg1} ORDER BY review_date DESC    		
 	</select>
-		
-	
+			
 	<select id="reviewCondition1" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
 		SELECT * FROM REVIEW ORDER BY review_date DESC
 	</select>	
@@ -49,7 +48,23 @@
 	<select id="reviewCondition3" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
 		SELECT * FROM REVIEW ORDER BY review_star DESC
 	</select>
+	
+	<delete id="reviewDelete" parameterType="int" >
+		DELETE FROM review WHERE review_num=#{review_num}
+	</delete> 
 	 
+	<update id="reviewUpdate" parameterType="com.spring.community.ReviewVO">
+		update review set 
+		review_kind = #{review_kind, jdbcType=VARCHAR}, 
+		review_star = #{review_star}, 
+		review_content = #{review_content}, 		
+		review_photo = #{review_photo},
+		review_date = sysdate 	
+		WHERE review_num=#{review_num}
+	</update>
+	
+	
+	
 	
 
 	<!--  

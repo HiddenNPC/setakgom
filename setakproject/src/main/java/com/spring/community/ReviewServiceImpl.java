@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.spring.mapper.ReviewMapper;
 
 @Service("reviewService")
@@ -32,35 +31,17 @@ public class ReviewServiceImpl implements ReviewService
 		int res=0;
 		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
 		try
-		{
-			res = reviewMapper.reviewInsert(vo);
-			
+		{				
+			res = reviewMapper.reviewInsert(vo);			
 		}
 		catch (Exception e)
 		{
-			throw new Exception(" 원글 쓰기  실패", e);
+			throw new Exception(" 원글 쓰기  실패", e);			
 		}
-		
 		return res;
 	}
 
-	@Override
-	public int getMaxNum() throws Exception 
-	{
-		int res;
-		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
-		try
-		{
-			 res=reviewMapper.getMaxNum();
-			
-		}
-		catch (Exception e)
-		{
-			throw new Exception("리뷰 maxnum 구하기  실패", e);
-		}
-		
-		return res;
-	}
+	
 
 	@Override
 	public ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword) 
@@ -90,6 +71,30 @@ public class ReviewServiceImpl implements ReviewService
 		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);			
 		ArrayList<ReviewVO> list = reviewMapper.reviewCondition3(re_condition); 
 		return list; 
+	}
+
+	@Override
+	public int reivewDelete(ReviewVO vo) 
+	{
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);		
+		int res = reviewMapper.reviewDelete(vo.getReview_num());
+		return res;
+	}
+
+	@Override
+	public int reivewUpdate(ReviewVO vo)throws Exception {
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);		
+		int res =0;
+		try
+		{
+			res = reviewMapper.reviewUpdate(vo);
+			
+		}
+		catch (Exception e)
+		{
+			throw new Exception("수정 실패", e);
+		}
+		return res;		
 	}
 
 	

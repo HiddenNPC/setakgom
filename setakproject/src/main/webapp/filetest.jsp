@@ -19,8 +19,8 @@
              //stop submit the form, we will post it manually.
              event.preventDefault();
 
-             // Get form
-             k,r form = $('#fileUploadForm')[0];j
+             /* // Get form
+             var form = $('#fileUploadForm')[0];
 
              // Create an FormData object
              var data = new FormData(form);
@@ -29,13 +29,14 @@
              data.set("last_nm", "${last_nm}");
 
              // disabled the submit button
-             $("#btnSubmit").prop("disabled", true);
+             $("#btnSubmit").prop("disabled", true); */
 
              $.ajax({
                  type: "POST",
                  enctype: 'multipart/form-data',
-                 url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}", 
-                 data: data,
+                 //url: "/setak/uploadImages.do?${_csrf.parameterName}=${_csrf.token}",
+                 url: "/setak/imageDownload.do",
+                 //data: data,
                  processData: false,
                  contentType: false,
                  cache: false,
@@ -77,6 +78,8 @@
 		        <input type="file" name="files" multiple/><br/><br/>
 		        <input type="hidden" name="ssn_num" id="ssn_num" value="testnum"/>
 		        <input type="submit" value="Submit" id="btnSubmit"/>
+		        
+		        <a href = "imageDownload.do">홈</a>
 		    </form>
          </div>
       </div>

@@ -1,5 +1,8 @@
 package com.spring.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,9 @@ public class NaverController {
 	
 	@Autowired
 	public Sens_sms_v2 sms;
+	
+	@Autowired
+	public IPCountService ipcs;
 
 	@RequestMapping(value="sendSMS.do")
     public @ResponseBody String sendsms(String pn, HttpServletRequest request) throws Exception {
@@ -23,9 +29,31 @@ public class NaverController {
 		
 		sms.setPhonenumber(request.getParameter("pn"));
 		sms.setMsgtext("인증번호는 " + request.getParameter("randomnum") + " 입니다.");
-		//sms.sendMessage();
+		sms.sendMessage();
 		
 		return "";
+	}
+	
+	@RequestMapping(value="ipcount.do", produces = "application/json; charset=utf-8")
+    public @ResponseBody Map<String, Object> ipcount(HttpServletRequest request) throws Exception {
+		Map<String,Object> result = new HashMap<String, Object>(); 
+		String member_ip = request.getRemoteAddr();
+		int ipchk = ipcs.getIPList(member_ip);
+		if(ipchk == 0) {
+			ipcs.insertIP(member_ip);
+			result.put("res", "OK");
+			return result;
+		}
+		
+		int ipcount = ipcs.countIP(member_ip);
+		if(ipcount >= 5) {
+			result.put("res", "FAIL");
+		}else {
+			ipcs.plusIPCount(member_ip);
+			result.put("res", "OK");
+		}
+		
+		return result;
 	}
 	
 }

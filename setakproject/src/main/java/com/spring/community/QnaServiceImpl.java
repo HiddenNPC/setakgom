@@ -3,6 +3,8 @@ package com.spring.community;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,27 @@ public class QnaServiceImpl implements QnaService
 	
 	}
 	
+	@Override
+	public ArrayList<QnaVO> onList(String loginId) throws Exception 
+	{
+		ArrayList<QnaVO> onlist = new ArrayList<QnaVO>();		
+		try
+		{			
+			QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+			onlist = qnaMapper.onList(loginId);
+			return onlist;			
+		}
+		catch(Exception e)
+		{
+			throw new Exception("리스트 불러오기 오류남 ㅇㅇ.", e);
+		}
+	
+	}
+	
+	
+	
+	
+	
 	@Override public int qnaInsert(QnaVO qnavo) throws Exception 
 	{
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
@@ -64,32 +87,21 @@ public class QnaServiceImpl implements QnaService
 		}
 	}
 	
-	@Override public int getMaxNum() throws Exception 
-	{
-		int res=0;
-		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
-		try
-		{
-			 res =qnaMapper.getMaxNum();
-			
-		}
-		catch (Exception e)
-		{
-			throw new Exception("최댓값 구하기  실패", e);
-		}
-		return res;
-		
-	}
-	
 	@Override public QnaVO getDetail(QnaVO vo) throws Exception 
 	{
-		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
-		
-		QnaVO qnavo = qnaMapper.getDetail(vo.getQNA_NUM());
-		
-		
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);		
+		QnaVO qnavo = qnaMapper.getDetail(vo.getQNA_NUM());		
 		return qnavo;
 	}
+	
+	@Override public String qnaPassChk(int num) throws Exception
+	{		
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);		
+		String res = qnaMapper.qnaPassChk(num);	
+		System.out.println("res 값은? " + res);
+		return res;
+	}
+	
 	
 	@Override public int qnaModify(QnaVO vo) throws Exception 
 	{
@@ -114,6 +126,33 @@ public class QnaServiceImpl implements QnaService
 		return res;
 	}
 
+	@Override public int getMaxNum() throws Exception 
+	{
+		int res=0;
+		int maxnum=0;
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+		try
+		{	
+			
+			 res =qnaMapper.getMaxNum();
+			
+		}
+		catch (Exception e)
+		{
+			throw new Exception("최댓값 구하기  실패", e);
+		}
+		return res;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	//기응
@@ -127,6 +166,12 @@ public class QnaServiceImpl implements QnaService
 		
 		return qnalist;
 	}
+
+	
+
+	
+
+	
 	
 	
 	

@@ -1,11 +1,12 @@
 <%@page import="com.spring.community.QnaVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.spring.setak.*" %>
+<%@ page import = "com.spring.setak.*" %>
 <%@ page import = "java.util.*"%>
 <%@ page import = "java.text.SimpleDateFormat"%>
 
 <%
 	QnaVO vo = (QnaVO)request.getAttribute("qnadata");
+	ArrayList<QnaVO> onlist = (ArrayList<QnaVO>)request.getAttribute("onList");
 %>
 <!DOCTYPE html>
 <html>
@@ -19,8 +20,119 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $("#header").load("header.jsp")
-    $("#footer").load("footer.jsp")     
- });
+    $("#footer").load("footer.jsp") 
+    
+	
+	var filecontent;
+	var filename="";
+	
+	$("#QNA_FILE").change(function(){
+		filecontent = $(this)[0].files[0];
+		filename = Date.now() + "_" + $(this)[0].files[0].name;
+	});
+	
+	$("#modifyform").on("submit", function() {
+		if(updatechk()){
+			console.log("1");
+			if(filecontent != null){
+				console.log("2");
+				var data = new FormData();
+				data.append("purpose", "qna");
+				data.append("files", filecontent);
+				data.append("filename", filename);
+				
+				$("#QNA_FILE2").val(filename);
+				console.log($("#QNA_FILE2").val());
+				
+				$.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "/setak/testImage.do",
+	                data: data,
+	                processData: false,
+	                contentType: false,
+	                cache: false,
+	                dataType: 'json',
+	
+	                success: function (data) {
+	                	
+	                },
+	                error: function (e) {
+	
+					}
+	                
+				});
+			}
+			
+		}else{
+			event.preventDefault();
+		}
+	});
+
+	
+	
+});
+
+
+function updatechk(){	
+	//입력안한거 입력하도록 
+	if (document.getElementById('QNA_TITLE').value =="") 
+	{
+		alert("제목을 입력하세요.");
+        document.getElementById('QNA_TITLE').focus();
+        return false;
+        
+    }
+	else if (document.getElementById('QNA_CONTENT').value=="") 
+	{
+    	alert("내용을 입력하세요.(최대 500자)");
+        document.getElementById('QNA_CONTENT').focus();
+        return false;
+    }
+	else if(document.getElementById('QNA_PASS').value=="") 
+	{
+    	alert("글의 비밀번호를 다시 설정해 주세요 (최대 10자)");
+        document.getElementById('QNA_PASS').focus();
+        return false;
+    }
+	
+	return true;
+	
+}
+
+function uCancel(){
+	  var check = confirm("수정을 취소하시겠습니까");
+	  /* if(check == true) else false */
+	  if(check)
+	  { 
+		 
+		  location.href='./qnaDetail.do?QNA_NUM=<%=vo.getQNA_NUM() %>';
+	  }
+	  else
+	  { 
+		  return false;
+	  }
+}
+
+/*
+$(document).ready(function() { 	
+	var fileTarget = $('.filebox .upload-hidden');
+	fileTarget.on('change', function(){ // 값이 변경되면
+		if(window.FileReader){ // modern browser 
+			var filename = $(this)[0].files[0].name; 
+		}else { // old IE 
+			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			
+			} 
+	// 추출한 파일명 삽입 
+	$(this).siblings('.upload-name').val(filename);
+	
+	}); 
+
+});
+*/
+
+ 
 </script>
 </head>
 <body>
@@ -30,54 +142,81 @@ $(document).ready(function(){
 <div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
 <div class="qna">
 
-<form action="qnaUpdate.do" method="post" enctype="multipart/form-data" name="modifyform">
+<form action="qnaUpdate.do" method="post" enctype="multipart/form-data" name="modifyform" id="modifyform">
 <input type="hidden" name="QNA_NUM" value="<%=vo.getQNA_NUM() %>">
-<input type="hidden" name="MEMBER_ID" value="<%=vo.getMEMBER_ID()%>">
-<table class="qut1" border="1" bordercolor="#e1e4e4" cellpadding="0" cellspacing="0">
-	<tr><td height="30px"><div align="center"> 문의 유형 </div></td>
-		<td height="30px">
+<table class="qut1">
+	<tr>
+		<td height="30px"><div align="center">작성자</div></td>
+		<td colspan="2"><div>&nbsp;<%=vo.getMEMBER_ID()%></div></td>
+	</tr>
+	<tr><td height="30px"><div align="center">문의유형</div></td>
+		<td colspan="2">
 			<div>
-			<input type="radio" name="QNA_TYPE" value="취소" checked="checked">취소
-			<input type="radio" name="QNA_TYPE" value="배송관련">배송관련
-			<input type="radio" name="QNA_TYPE" value="적립금">적립금
-			<input type="radio" name="QNA_TYPE" value="서비스관련">서비스관련
-			<input type="radio" name="QNA_TYPE" value="회원정보">회원정보
-			<input type="radio" name="QNA_TYPE" value="기타">기타
+			<input type="radio" id="type1" name="QNA_TYPE" value="취소" checked="checked"><label for="type1">취소</label>
+			<input type="radio" id="type2" name="QNA_TYPE" value="배송"><label for="type2">배송</label>
+			<input type="radio" id="type3" name="QNA_TYPE" value="적립금"><label for="type3">적립금</label>
+			<input type="radio" id="type4" name="QNA_TYPE" value="서비스"><label for="type4">서비스</label>
+			<input type="radio" id="type5" name="QNA_TYPE" value="회원정보"><label for="type5">회원정보</label>
+			<input type="radio" id="type6" name="QNA_TYPE" value="기타"><label for="type6">기타</label>
 			</div></td>
 	</tr>
-	<tr><td height="30px"><div align="center"> 구 분 </div></td>
-		<td height="30px">
-			<div>
-			<input type="radio" name="QNA_KIND" value="세탁" checked="checked">세탁
-			<input type="radio" name="QNA_KIND" value="세탁-수선">세탁-수선
-			<input type="radio" name="QNA_KIND" value="세탁-보관">세탁-보관
-			<input type="radio" name="QNA_KIND" value="수선">수선
-			<input type="radio" name="QNA_KIND" value="보관">보관
-			<input type="radio" name="QNA_KIND" value="정기구독">정기구독
-			</div></td>
+	<tr><td height="30px"><div align="center">주문번호</div></td>
+		<td colspan="2"><div>
+		<select class="qwon" name="ORDER_NUM">		
+			<option value="<%=vo.getORDER_NUM()%>"selected><%=vo.getORDER_NUM()%></option>
+			<option value="선택안함">선택안함</option>
+			<%for(int i=0; i<onlist.size(); i++){ QnaVO ol = (QnaVO)onlist.get(i); %>
+			<% if(vo.getORDER_NUM() != ol.getORDER_NUM()){ %>
+   	 		<option value="<%=ol.getORDER_NUM()%>"><%=ol.getORDER_NUM()%></option>    		
+    		<%}%><%}%>
+		</select></div>
+		</td>
 	</tr>
-	<tr><td height="30px"><div align="center"> 제 목 </div></td>
-		<td><input name="QNA_TITLE" type="text" size="50" maxlength="100" value="<%=vo.getQNA_TITLE()%>"></td>
+	<tr><td height="30px"><div align="center">제 목</div></td>
+		<td colspan="2"><input name="QNA_TITLE" id="QNA_TITLE" type="text" size="50" maxlength="100" value="<%=vo.getQNA_TITLE()%>"></td>
 	</tr>
 	<tr><td><div align="center">내 용</div></td>
-		<td><textarea name="QNA_CONTENT" cols="67" rows="15"><%=vo.getQNA_CONTENT() %></textarea></td>
-	</tr>
-	<tr><td><div align="center">파일 첨부&nbsp;</div></td>	
-		<td><input type="hidden" name="exist_file" value="<%=vo.getQNA_FILE()%>" style="display:none;">
-			<input id="QNA_FILE" name="QNA_FILE" type="file">
-			<%if(!(vo.getQNA_FILE()==null)){%><%=vo.getQNA_FILE().split("/")[0]%>
-			<%}else{%>파일이 존재하지 않습니다<%}%></td>
-	</tr>
+		<td colspan="1"><textarea name="QNA_CONTENT" id="QNA_CONTENT"cols="80" rows="15" maxlength="500"><%=vo.getQNA_CONTENT() %></textarea></td>
+		<td ><div class="thumbnail-wrapper">
+			  <div class="thumbnail">
+			    <div class="thumbnail-centered">
+			    	<%if (!vo.getQNA_FILE().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
+			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQNA_FILE()%>"/>
+			      	<%}else{ %>
+			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
+			      	<%} %>
+			    </div>
+			  </div>
+			</div>
+		</td>
+	</tr>	
+	<tr>
+		<td height="30px"><div align="center">파일첨부</div></td>		
+		<td colspan="2">
+			<input type="hidden" name="exist_file" value="<%=vo.getQNA_FILE()%>">
+			<input value="<%if(!(vo.getQNA_FILE()==null)){ %><%int i= vo.getQNA_FILE().indexOf("_");%>
+			<%=vo.getQNA_FILE().substring(i+1)%><%}else{ %>파일이 존재하지 않습니다 .<%}%>" disabled="disabled">
+			<input type="file" id="QNA_FILE" />
+			<input type="hidden" id="QNA_FILE2" name="QNA_FILE" >		
+		</td>
+			
+	
+	</tr>		
 	<tr><td style="display:none;"><div>
 			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">
 			<input type="hidden" name="QNA_CHECK" value="답변완료">
 		</div></td>
 	</tr>	
-</table><br>						
-<table class="qut2">			
-	<tr><td>
-		<button onclick="javascript:modifyqna()">수정</button>&nbsp;		
-		<button type="button" onclick="location.href='getDetail.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">뒤로</button>&nbsp;&nbsp;	
+	<tr > 
+		<td height="30px"><div align="center">비밀번호</div></td>
+		<td ><input id="QNA_PASS" name="QNA_PASS" type="password" maxlength="10" value="<%=vo.getQNA_PASS()%>"/></td>							
+		<td><span>공개여부&nbsp;</span>
+			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공 개				
+			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개</td>				
+	</tr>			
+	<tr><td colspan="3" align="center" valign="middle">
+		<input class="input-button" type="submit" name="submit" value="등록" >			
+		<input class="input-button" type="button" name="cancel" value="취소" onclick="uCancel();">					
 		</td>
 	</tr>
 </table>			

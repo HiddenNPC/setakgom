@@ -7,7 +7,7 @@
     
 <%
 	ArrayList<FaqVO> faqlist = (ArrayList<FaqVO>) request.getAttribute("faqdata");
-System.out.println("faqlist.get(0).getFaq_cate()=" +faqlist.get(0).getFaq_cate());
+	System.out.println("faqlist.get(0).getFaq_cate()=" +faqlist.get(0).getFaq_cate());
 	
 	
 %>    
@@ -69,7 +69,6 @@ $(document).ready(function(){
     	})    		
     }); 
 });
-
 </script>
 </head>
 

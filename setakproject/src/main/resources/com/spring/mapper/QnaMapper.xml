@@ -7,12 +7,14 @@
 		<result property="QNA_NUM" column="qna_num"/>
 		<result property="MEMBER_ID" column="member_id"/>
 		<result property="QNA_TYPE" column="qna_type"/>
-		<result property="QNA_KIND" column="qna_kind"/>
+		<result property="ORDER_NUM" column="order_num"/>
 		<result property="QNA_TITLE" column="qna_title"/>
 		<result property="QNA_CONTENT" column="qna_content"/>
 		<result property="QNA_DATE" column="qna_date"/>
 		<result property="QNA_FILE" column="qna_file"/>
 		<result property="QNA_CHECK" column="qna_check"/>
+		<result property="QNA_SCR" column="qna_scr"/>
+		<result property="QNA_PASS" column="qna_pass"/>
 	</resultMap>
 	
 	<select id="getListCount" resultType="int">
@@ -20,9 +22,13 @@
 	</select>
 	
 	<select id="getQnaList" parameterType="com.spring.community.QnaVO" resultMap="qnaMap">
-		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, QNA_KIND,
-		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc ))
+		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE,
+		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK, QNA_SCR, QNA_PASS FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc ))
 		 WHERE rnum>=#{arg0} and rnum<=#{arg1}]]>
+	</select>
+	
+	<select id="onList" parameterType="String" resultType="com.spring.community.QnaVO">
+		select order_num from memberorder where member_id=#{member_id}
 	</select>
 	
 	<select id="getDetail" parameterType="com.spring.community.QnaVO" resultType="com.spring.community.QnaVO">
@@ -30,31 +36,37 @@
 	</select>
 			
 	<insert id="qnaInsert" parameterType="com.spring.community.QnaVO">
-		insert into QNA values (
-		#{QNA_NUM}, 
+		insert into QNA values 
+		(
+		QNA_SEQ.NEXTVAL, 
 		#{MEMBER_ID, jdbcType=VARCHAR}, 
 		#{QNA_TYPE, jdbcType=VARCHAR},
-		#{QNA_KIND, jdbcType=VARCHAR},
+		#{ORDER_NUM},
 		#{QNA_TITLE, jdbcType=VARCHAR},
 		#{QNA_CONTENT, jdbcType=VARCHAR}, 
 		sysdate, 
 		#{QNA_FILE,jdbcType=VARCHAR}, 
-		#{QNA_CHECK,jdbcType=VARCHAR})	
+		#{QNA_CHECK,jdbcType=VARCHAR},			
+		#{QNA_SCR,jdbcType=VARCHAR},
+		#{QNA_PASS,jdbcType=VARCHAR}
+		)		
 	</insert>
 	
-	<select id="getMaxNum" resultType="int">
+	<!-- <select id="getMaxNum" resultType="int">
 		select max(QNA_NUM) from QNA
-	</select>
+	</select> -->
 
 
 	<update id="qnaModify" parameterType="com.spring.community.QnaVO">
 		update QNA set
 		QNA_TYPE=#{QNA_TYPE,jdbcType=VARCHAR},
-		QNA_KIND=#{QNA_KIND,jdbcType=VARCHAR},
+		ORDER_NUM=#{ORDER_NUM},
 		QNA_TITLE=#{QNA_TITLE,jdbcType=VARCHAR}, 		
 		QNA_CONTENT=#{QNA_CONTENT,jdbcType=VARCHAR},
-		QNA_FILE=#{QNA_FILE,jdbcType=VARCHAR}, 
-		QNA_CHECK=#{QNA_CHECK,jdbcType=VARCHAR}	
+		QNA_FILE=#{QNA_FILE, jdbcType=VARCHAR}, 
+		QNA_CHECK=#{QNA_CHECK,jdbcType=VARCHAR},	
+		QNA_SCR=#{QNA_SCR,jdbcType=VARCHAR},	
+		QNA_PASS=#{QNA_PASS,jdbcType=VARCHAR}	
 		where QNA_NUM=#{QNA_NUM}
 	</update>
 	
@@ -62,11 +74,9 @@
 		delete from QNA where QNA_NUM = #{QNA_NUM}
 	</delete>	
 	
-	
-	
-	<!-- <select id="passwdChk" parameterType="int" resultType="String">
-		SELECT notice_pass FROM notice_board WHERE notice_num=#{notice_num}
-	</select> -->
+	<select id="qnaPassChk" parameterType="int" resultType="String">
+		select qna_pass from qna where qna_num=#{qna_num}
+	</select> 
 	
 	
 	
@@ -85,8 +95,8 @@
 	<!-- 기응 -->
 	
 	<select id="selectQnalist" parameterType="HashMap" resultMap="qnaMap">
-		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, QNA_KIND,
-		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM asc))
+		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, ORDER_NUM,
+		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc))
 		 WHERE rnum>=#{startrow} and rnum<=#{endrow} and member_id = #{member_id}]]>
 	</select>
 </mapper>

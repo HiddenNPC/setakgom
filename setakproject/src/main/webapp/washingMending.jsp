@@ -100,13 +100,9 @@
 					return;
 				}
 				kind = $.attr(this, 'value');
-				$(".hash").append("<p class='hashvl'>&nbsp;"+kind+"&nbsp;<span>X</span></p>");
-				maxAppend++;
-				
-				$(".price").removeClass("each");
-				$($(this).children('.price')).addClass("each");
-				var abc =  document.getElementsByClassName('each');
-				tprice += parseInt(abc[0].innerHTML);
+				var kind_price = $($(this).children('.price')).text();
+				$(".hash").append("<p class='hashvl'>&nbsp;"+kind+"&nbsp;<span>X</span><span style='display:none;'>,"+ kind_price +",</span></p>");
+	            maxAppend++;
 			});
 			$(document).on('click','.hashvl',function(event) {
 				$(this).remove();
@@ -115,6 +111,8 @@
 			
 			//추가 버튼 눌렀을 때
 			$(".add_button").on("click", function() {
+				
+				var a = $("#filetest").val();
 				var sortation = document.getElementsByClassName('active');
 				var str = "";
 				
@@ -124,12 +122,19 @@
 				}
 
 				var hashvl = ($(".hash").html()).split('&nbsp;');
-				var kind_str = "";
-				for(var i=1; i<maxAppend*2-1; i+=2 ){
-					kind_str +=hashvl[i] + ",";
-				};
-				kind_str +=hashvl[i];
+				var pricevl = ($(".hash").html()).split(',');
 				
+				var kind_str = "";
+				var price_str ="";
+				for(var i=1; i<maxAppend*2-1; i+=2 ){
+					kind_str +=hashvl[i] + ",";	//이건 수선할 내용
+					price_str +=pricevl[i] + ",";	//이건 수선할내용에 대한 각 가격들
+					tprice += parseInt(pricevl[i]);	//토탈 가격
+	            };
+	            kind_str +=hashvl[i];
+	            price_str +=pricevl[i];
+	            tprice += parseInt(pricevl[i]);
+	            
 				str += '<tr>';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+sortation[0].innerHTML+'</td>';
@@ -138,7 +143,7 @@
 				str += '<input type="hidden" name="repair_var1" value="'+llength*(-1)+'">';
 				str += '<input type="hidden" name="repair_var2" value="'+rlength*(-1)+'">';
 				str += '<input type="hidden" name="repair_var3" value="'+tlength*(-1)+'">';
-				str += '<input type="file" name="repair_file" class="details_file">';
+				str += '<input type="file" name="repair_file" class="details_file" value="'+a+'">';
 				str += '<textarea name="repair_content">'+details_text+'</textarea></td>';
 				str += '<td>';
 				str += '<select name="repair_code">';
@@ -175,7 +180,7 @@
 				str += '</td>';
 				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
 				str += '</td>';
-				str += '<input class="repair_price" type="hidden" name="repair_price" value="'+tprice+'">';
+				str += '<input class="repair_price" type="hidden" name="repair_price" value="'+price_str+'">';
 				str += '</tr>';		
 				
 				$(".mending_order_title").after(str);
@@ -264,6 +269,36 @@
 			}
 			$(".wtot_price").html(numberFormat(parseInt(<%=wash_tprice%>)));
 			$('.tot_price').html(numberFormat(parseInt(<%=wash_tprice%>)));
+			
+			//다음 클릭 시
+			$(document).on('click','.gocart',function(event) {
+				//택 겹칠시
+				function checkDupl() {
+	               var temp = [];
+	               var obj = $('select[name="repair_code"]');
+	               var x = 0;
+	                 
+	               // 현재 옵션값 임시 배열에 저장
+	               $(obj).each(function(i) {
+	                  temp[i] = $(this).val();
+	                });
+	               // 임시 배열값 과 옵션값이 같으면 임시 변수값 증가
+	               $(temp).each(function(i) {
+	                    $(obj).each(function() {
+	                        if(temp[i] == $(this).val() ) {
+		                        x++;
+	                        }
+	                    });
+	                });
+	  
+	               if(x > temp.length) {
+	                   alert('동일한 택이 존재합니다.');
+	                   event.preventDefault();
+	               }
+	            }
+		            
+		        checkDupl();
+			});
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -327,13 +362,13 @@
 									<p id="length">- <input type="text" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"></p>
 								</div>
 							</div>
-							<form>
+							<form id  ="fileUploadForm" enctype="multipart/form-data">
 								<div class="hash">
 								</div>
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input id="filetest" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>

@@ -10,19 +10,19 @@
 	</insert>
 	
 	<insert id="insertMendingCart" parameterType="com.spring.order.MendingCartVO">
-		insert into repair_cart(member_id, repair_seq)
-		values (#{member_id}, #{repair_seq})
+		insert into repair_cart(member_id, repair_seq, repair_code)
+		values (#{member_id}, #{repair_seq}, #{repair_code, jdbcType=VARCHAR})
 	</insert>
 	
 	<insert id="insertKeep" parameterType="com.spring.setak.KeepVO">
 		<selectKey keyProperty="keep_seq" resultType="Integer" order="AFTER"> SELECT keep_seq.currval FROM dual </selectKey>
-		insert into keep(keep_seq, keep_cate, keep_kind, keep_count, keep_month, keep_box, keep_price, keep_start, keep_end, keep_wash) 
-		values (keep_seq.nextval, #{keep_cate}, #{keep_kind}, #{keep_count}, #{keep_month}, #{keep_box}, #{keep_price}, #{keep_start}, #{keep_end}, #{keep_wash})
+		insert into keep(keep_seq, keep_cate, keep_kind, keep_count, keep_month, keep_box, keep_price, keep_start, keep_end, keep_wash, keep_now) 
+		values (keep_seq.nextval, #{keep_cate}, #{keep_kind}, #{keep_count}, #{keep_month}, #{keep_box}, #{keep_price}, #{keep_start}, #{keep_end}, #{keep_wash}, #{keep_now, jdbcType = VARCHAR})
 	</insert>
 	
 	<insert id="insertKeepCart" parameterType="com.spring.order.KeepCartVO">
-		insert into keep_cart(member_id, keep_seq)
-		values (#{member_id}, #{keep_seq})
+		insert into keep_cart(member_id, keep_seq, keep_group)
+		values (#{member_id}, #{keep_seq}, #{keep_group})
 	</insert>
 	
 	<insert id="insertWash" parameterType="com.spring.setak.WashingVO">

@@ -73,13 +73,13 @@ public class LoginController {
 				 session.setAttribute("member_id", mo.getMember_id());
 				 writer.write("<script>  location.href='"+backurl+"'; </script>");
 			 } else {
-				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
+				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='javascript:history.back()';</script>");
 			 }
 			 
 			 return null;
 			}
 
-/*네이버 로그인 연동 */
+	/*네이버 로그인 연동 */
 	@RequestMapping(value = "/naver",produces="application/json", method= {RequestMethod.GET, RequestMethod.POST})
 	public String callback(Model model, @RequestParam(required = false, defaultValue = "0") String code,
 			@RequestParam String state, HttpSession session, HttpServletResponse response)
@@ -248,8 +248,7 @@ public class LoginController {
 		
 		return result;
 	}
-	
-	
+		
 	//로그아웃
 	@RequestMapping(value="/logout.do", produces = "application/json; charset=utf-8")
 	public String logout(HttpSession session, MemberVO mo) throws Exception {

@@ -1,6 +1,6 @@
 package com.spring.community;
 
-import lombok.Data;
+
 
 
 public class ReviewVO 
@@ -16,6 +16,7 @@ public class ReviewVO
 	private String keyfield;
 	private String keyword;
 	private String re_condition;
+	
 	public int getReview_num() {
 		return review_num;
 	}

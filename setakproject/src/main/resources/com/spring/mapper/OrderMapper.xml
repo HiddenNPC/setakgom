@@ -19,6 +19,7 @@
 		<result property="order_request" column="order_request" />
 		<result property="order_zipcode" column="order_zipcode" />
 		<result property="order_delete" column="order_delete" />
+		<result property="order_muid" column="order_muid" />
 	</resultMap>
 	
 	<resultMap type="com.spring.order.WashingCartVO" id="WashingCartResultMap">
@@ -53,6 +54,28 @@
 		<result property="member_zipcode" column="member_zipcode" />
 	</resultMap>
 	
+	<resultMap type="com.spring.member.SubscribeVO" id="SubscribeResultMap">
+		<result property="subs_num" column="subs_num" />
+		<result property="subs_name" column="subs_name" />
+		<result property="subs_price" column="subs_price" />
+		<result property="subs_water" column="subs_water" />
+		<result property="subs_shirts" column="subs_shirts" />
+		<result property="subs_dry" column="subs_dry" />
+		<result property="subs_blanket" column="subs_blanket" />
+		<result property="subs_coupon" column="subs_coupon" />
+		<result property="subs_delivery" column="subs_delivery" />
+	</resultMap>
+	
+	<resultMap type="com.spring.member.CouponVO" id="CouponResultMap">
+		<result property="member_id" column="member_id" />
+		<result property="coupon_name" column="coupon_name" />
+		<result property="coupon_start" column="coupon_start" />
+		<result property="coupon_end" column="coupon_end" />
+		<result property="coupon_useday" column="coupon_useday" />
+		<result property="coupon_use" column="coupon_use" />
+		<result property="coupon_seq" column="coupon_seq" />
+	</resultMap>
+	
 	
 	<!-- 주문 추가  -->
 	<insert id = "insertOrder" parameterType = "com.spring.order.OrderVO">
@@ -60,7 +83,7 @@
 		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment, jdbcType=VARCHAR}, 
 		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 
 		#{order_pickup, jdbcType=VARCHAR}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
-		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete})
+		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete}, #{order_muid, jdbcType=VARCHAR})
 	</insert>
 	
 	<!-- 세탁 장바구니 비우기  > 결제 이후-->
@@ -102,5 +125,54 @@
 	<update id="defaultAddrUpdate" parameterType = "com.spring.member.MemberVO">
 		update member set member_phone = #{member_phone}, member_zipcode = #{member_zipcode}, member_loc = #{member_loc} where member_id = #{member_id}
 	</update>
+
+	<!-- 회원 정보 구독 번호 등록 -->
+	<update id="updateSubInfo" parameterType = "com.spring.member.MemberVO">
+		update member set subs_num = #{subs_num} where member_id = #{member_id}
+	</update>
 	
+	<!-- 회원 정기구독  정보 등록 -->
+	<insert id = "insertMemberSubInfo" parameterType = "com.spring.member.MemberVO">
+		insert into member_subs 
+		select #{member_id}, subs_water, subs_shirts, subs_dry, subs_blanket, subs_delivery, sysdate, sysdate+30, 
+		subs_name, subs_price, 0, 0 from subscribe where subs_num = #{subs_num}
+	</insert>
+	
+	<!-- 회원 정기구독 결제 정보 등록 -->
+	<insert id = "insertSubHistory" parameterType = "com.spring.member.MemberVO">
+		insert into subs_history
+		select #{member_id}, subs_name, subs_price, sysdate from subscribe where subs_num = #{subs_num}
+	</insert>
+	
+	<!-- 쿠폰 제공 개수 구하기 -->
+	<select id = "getCouponNum" parameterType = "com.spring.member.MemberVO" resultType = "int">
+		select subs_coupon from subscribe where subs_num = #{subs_num}
+	</select>
+	
+	<!-- 쿠폰 발급 -->
+	<insert id = "insertCoupon" parameterType = "com.spring.member.MemberVO">
+		insert into coupon(member_id, coupon_name, coupon_start, coupon_end, coupon_use, coupon_seq) 
+		values(#{member_id}, '정기구독 보관 1개월 무료 쿠폰', sysdate, sysdate+120, '0', coupon_seq.nextval)
+	</insert>
+	
+	<!-- 정기구독 정보 읽어오기 -->
+	<select id = "getSubscribeInfo" parameterType = "com.spring.member.MemberVO" resultMap = "SubscribeResultMap">
+		select * from subscribe where subs_num = #{subs_num}
+	</select>	
+	
+	<!-- 주문 취소 정보 등록  -->
+	<update id="orderCancle" parameterType = "com.spring.order.OrderVO">
+		update memberorder set order_cancel = 1, order_delete = 1, order_status = '주문취소' where order_muid = #{order_muid}
+	</update>
+	
+	<!-- 보관 장바구니 그룹 읽기 -->
+	<select id = "getKeepMaxGroup" parameterType = "String" resultType = "int">
+		select max(keep_group) from keep_cart where member_id = #{member_id} 
+	</select>	
+	
+	<!-- 보관 장바구니 유무 확인하기 -->
+	<select id = "getKeepExist" parameterType = "String" resultType = "int">
+		select count(*) from keep_cart where member_id = #{member_id} 
+	</select>	
+		
 </mapper>

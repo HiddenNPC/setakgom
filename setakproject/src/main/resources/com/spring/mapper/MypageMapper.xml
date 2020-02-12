@@ -32,6 +32,7 @@
 		<result column="order_request" property="order_request"/>
 		<result column="order_zipcode" property="order_zipcode"/>
 		<result column="order_delete" property="order_delete"/>
+		<result column="order_muid" property="order_muid"/>
 	</resultMap>
 	
 	<resultMap type="com.spring.setak.KeepVO" id="KeepResultMap">
@@ -44,6 +45,8 @@
 		<result column="keep_price" property="keep_price"/>
 		<result column="keep_start" property="keep_start"/>
 		<result column="keep_end" property="keep_end"/>
+		<result column="keep_wash" property="keep_wash"/>
+		<result column="keep_file" property="keep_file"/>
 	</resultMap>	
 	
 	<resultMap type="com.spring.setak.WashingVO" id="WashingResultMap">
@@ -62,25 +65,53 @@
 		<result column="order_num" property="order_num"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="KeephashmapVO">
+		<result property="keep_seq" column="keep_seq"/>
+		<result property="keep_cate" column="keep_cate"/>
+		<result property="keep_kind" column="keep_kind"/>
+		<result property="keep_count" column="keep_count" />
+		<result property="keep_month" column="keep_month" />
+		<result property="keep_box" column="keep_box" />
+		<result property="keep_price" column="keep_price" />
+		<result property="keep_start" column="keep_start" />
+		<result property="keep_end" column="keep_end" />
+		<result property="keep_wash" column="keep_wash"/>
+		<result property="keep_file" column="keep_file"/>
+	</resultMap>
+	
+	<resultMap type="com.spring.member.MemberVO" id="MemberResultMap">
+		<result property="member_name" column="member_name" />
+		<result property="member_id" column="member_id" />
+		<result property="member_password" column="member_password" />
+		<result property="member_phone" column="member_phone" />
+		<result property="member_email" column="member_email" />
+		<result property="member_loc" column="member_loc" />
+		<result property="member_zipcode" column="member_zipcode" />
+	</resultMap>
+	
 	
 	
 	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
 			select * 
 			from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
-						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete 
-				   from memberorder) 
-  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> and member_id = #{member_id}
+						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete, order_muid 
+				   from memberorder where member_id = #{member_id} order by order_num desc) 
+  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> 
 	</select>
 
 	
 	<select id="getOrdernumlist" resultMap="OrderlistResultMap" parameterType="String">
 		select DISTINCT order_num from orderlist 
    							where order_num in  (select order_num from memberorder
-													where member_id = #{member_id})  
+													where member_id = #{member_id}) and not keep_seq = 0 
+	</select>
+	
+	<select id="selectMykeep" resultType="int" parameterType="long">
+		select count(*) from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num}) and not keep_seq = 0
 	</select>
 	
 	<select id="selectMykeeplist" resultMap="KeepResultMap" parameterType="long">
-		select * from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})
+		select * from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num}) and not keep_seq = 0
 	</select>
 	
 	<select id="getKeepSeq" resultMap="KeepResultMap" parameterType="int">
@@ -88,6 +119,22 @@
 				where keep_seq = #{keep_seq}
 	</select>
 	
+	<select id="getMember" parameterType="String" resultMap="MemberResultMap">
+			select * from member where member_id = #{member_id}
+	</select>
+	
+	<update id="updateKeepMonth" parameterType="java.util.HashMap" >
+		update keep set keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
+		where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+	</update>
+	
+	<update id="all_Return" parameterType="java.util.HashMap">
+		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0 
+	</update>
+	
+	<update id="part_Return_now" parameterType="java.util.HashMap">
+		update Keep set Keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+	</update>
 	
 	<select id="getKeepcount" resultType="int">
 		select count(*) from keep
@@ -105,17 +152,22 @@
 		select * from memberorder where member_id = #{member_id} 
 	</select>	
 	
-	<select id="selectMending" resultMap="MypageResultMap" parameterType="int">
-		select * from repair where repair_seq = #{repair_seq}
+	<select id="selectMending" resultMap="MypageResultMap" parameterType="long">
+		select * from repair where repair_seq in (select repair_seq from orderlist where order_num = #{order_num})
 	</select>
 	
-	<select id="selectKeep" resultMap="KeepResultMap" parameterType="int">
-		select * from keep where keep_seq = #{keep_seq}
+	<select id="selectKeep" resultMap="KeepResultMap" parameterType="long">
+		select * from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num}) 
 	</select>
 	
-	<select id="selectWashing" resultMap="WashingResultMap" parameterType="int">
-		select * from washing where wash_seq = #{wash_seq}
+	<select id="selectWashing" resultMap="WashingResultMap" parameterType="long">
+		select * from washing where wash_seq in (select wash_seq from orderlist where order_num = #{order_num})
 	</select>
+	
+	<insert id="part_Return" parameterType="com.spring.mypage.KeepReturnVO">
+		insert into keep_return values (#{order_num}, #{return_kind}, #{return_content}, #{return_confirm})
+	</insert>
+	
 	
 	
 </mapper>
