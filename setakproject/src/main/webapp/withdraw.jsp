@@ -17,32 +17,33 @@
          var sessionID = "<%=session.getAttribute("id") %>"
          
          /*비밀번호 일치하면 탈퇴페이지로 이동 */  
-            $('.btn').on('click', function(event){ 
-        		
-     			var params = {	'member_id': sessionID,
-     							'member_password':$("#member_password").val() };
-    			$.ajax({
-    	            url : '/setak/withdraw_pass.do', // url
-    	            type:'post',
-    	            data : params,
-    	            dataType:'json', 
-    	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-    	            success: function(result) {
-    	               if(result.res=="OK") {
-    	            	   $(location.href="/setak/withdrawform.do");
-    	               }
-    	               else { // 실패했다면
-    	                  alert("비밀번호가 다릅니다.");
-    	               }
-    	            },
-    	            error:function() {
-    	               alert("insert ajax 통신 실패");
-    	            }			
-    			});
-    		});
-            
-         });
-    </script>
+         $('.btn').on('click', function(event){ 
+           
+           var params = {   'member_id': "<%=session.getAttribute("member_id") %>",
+                       'member_password':$("#member_password").val() 
+                 };
+          $.ajax({
+                url : '/setak/withdraw_pass.do', // url
+                type:'post',
+                data : params,
+                dataType:'json', 
+                contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function(result) {
+                   if(result.res=="OK") {
+                      $(location.href="/setak/withdrawform.do");
+                   }
+                   else { // 실패했다면
+                      alert("비밀번호가 다릅니다.");
+                   }
+                },
+                error:function() {
+                   alert("insert ajax 통신 실패");
+                }         
+          });
+       });
+         
+      });
+ </script>
 </head>
 <body>
    <div id="header"></div>
@@ -87,12 +88,13 @@
 				</ul>
 			</div>
 			<div class="test"> <!-- class 변경해서 사용하세요. -->
-				<div class="content">
-					<h2>본인 확인을 위해 비밀번호를 입력해 주세요</h2>
-					<input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" />
-					<input class="btn" type="button" name="submit" value="확인"/>
-				</div>
-			</div>
+            <div class="content">
+               <h4>Login ID : <%=session.getAttribute("member_id") %></h4>
+               <h5>본인 확인을 위해 비밀번호를 입력해 주세요</h5>
+               <input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" />
+               <input type="button" class="btn" value="확인"/>
+            </div>
+         </div>
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->

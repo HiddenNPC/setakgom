@@ -15,7 +15,6 @@
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")     
          var sessionID = "<%=session.getAttribute("member_id") %>"
-
          /*비밀번호 일치하면 개인정보 수정 페이지로 이동 */    
          $('.btn').on('click', function(event){ 
         	 

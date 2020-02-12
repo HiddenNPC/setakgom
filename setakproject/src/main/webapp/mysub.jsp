@@ -149,7 +149,7 @@
 		 
 		 // 구독해지 취소  클릭
 		 $('#re-sub').on('click',function() {
-			 $('.re_sub').css('display','block');
+			 $('.subback').css('display','block');
 			 $('.reback').css('display','block');
 			 $('#sub').css('display', 'block');
 			 $('#re-sub').css('display', 'none');
@@ -179,9 +179,9 @@
 			});
 		 
 		 //구독해지 취소 팝업창 닫기	
-		 $('#re_sub #close').on('click', function() {
+		 $('#sub-back #close5').on('click', function() {
 			 $('.reback').css('display','none');
-			 $('#re_sub').css('display','none');
+			 $('#sub-back').css('display','none');
 		 })
 		 
 	/*나의 정기구독이 0/0일 때 -로 바꿈*/
@@ -424,6 +424,16 @@
 					</div>
 				</div>
 				
+			<!-- 구독해지 취소 팝업창 -->
+			<div class="reback"></div>
+			<div class="subback" id="sub-back">
+				<h2>정기구독 재구독</h2>
+				<hr>
+				<h4>재구독 해주셔서 감사합니다</h4>
+				<h5>정기구독 재결제는 구독 만료일 다음날에 시행됩니다.</h5>
+				<h6>더욱더 나은 서비스를 제공하겠습니다.</h6>
+				<input type="button" class="btn5" id="close5" value="닫기" />
+			</div>
 				
             </div><!-- mypage_content -->
 			
@@ -476,33 +486,6 @@
 		<div class="dim"></div><br><br>
 	
 	</div>
-	
-	<!-- 구독해지 취소 팝업창 -->
-	<div class="reback"></div>
-	<div class="re_sub" id="re_sub">
-		<h2>정기구독 재구독</h2>
-		<hr>
-		<h3>재구독 해주셔서 감사합니다</h3>
-		<h4>정기구독 재결제는</h4>
-		<h5>구독 만료일 다음날인 <span id="getSubs_end">구독만료일</span>에 됩니다.</h5>
-		<h6>더욱더 나은 서비스를 보여드리겠습니다.</h6>
-		<input type="button" class="btn" id="close" value="닫기" />
-	</div>
-
-	<!-- 비밀번호 교체하기
-	<div class="changepass">
-		<h2>비밀번호 변경하기</h2>
-		<hr>
-		<h3>변경하실 비밀번호를 입력해 주세요.</h3>
-		<h4>8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.</h4>
-		<input type="password" name="member_password" id="member_password2" placeholder="새 비밀번호 " />
-		<h5>조합을 확인해주세요.</h5>
-		<input type="password" name="pw2" id="pw2" placeholder="비밀번호 확인" />
-		<h6>비밀번호가 일치하지 않습니다.</h6>
-		<input type="button" class="close3" id=update-pw  value="확인" />
-	
-	</div>	
-	 -->
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 
 	<div id="footer"></div>

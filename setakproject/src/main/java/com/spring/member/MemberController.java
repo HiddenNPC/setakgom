@@ -135,22 +135,22 @@ public class MemberController {
 	}
 
 	// 비밀번호 확인
-	@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
+		@ResponseBody
+		public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
+			Map<String, Object> result = new HashMap<String, Object>();
 
-		int res = memberservice.member_password(mo);
+			int res = memberservice.member_password(mo);
 
-		if (res == 1) {
-			result.put("res", "OK");
-		} else {
-			result.put("res", "FAIL");
-			result.put("message", "Failure");
+			if (res == 1) {
+				result.put("res", "OK");
+			} else {
+				result.put("res", "FAIL");
+				result.put("message", "Failure");
 
+			}
+			return result;
 		}
-		return result;
-	}
 
 	// 일반로그인시 비밀번호 입력후 개인정보수정 페이지로 이동
 	@RequestMapping(value = "/profile2.do", produces = "application/json; charset=utf-8")
