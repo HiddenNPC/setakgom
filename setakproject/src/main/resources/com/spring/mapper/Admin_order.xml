@@ -42,19 +42,10 @@
 	<!-- 주문 검색  -->
 	<select id = "orderSearch" parameterType="java.util.HashMap" resultMap="OrderResultMap">
 		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status
-		from memberorder
-		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
-		<if test = 'keyword != null'>
-		and (${searchType} like '%'||#{keyword, jdbcType=VARCHAR }||'%')
-		</if>
-		<if test = 'statusArr != null'>
-			and order_status in
-			<foreach collection='statusArr' index='index' item='item' open='(' close=')' separator=','>
-				#{item}			
-			</foreach>
-		</if>
+		from memberorder where member_id like '%'||#{keyword, jdbcType=VARCHAR }||'%')
+		
 		<if test = "orderBy.equals('byDate')">
-			order by order_date desc
+			order by coupon_use desc
 		</if>
 		<if test = "orderBy.equals('byDateReverse')">
 			order by order_date

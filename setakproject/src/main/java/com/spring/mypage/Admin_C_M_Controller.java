@@ -18,4 +18,6 @@ public class Admin_C_M_Controller {
 		
 		return list;
 	}
+	
+	
 }

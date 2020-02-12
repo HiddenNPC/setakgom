@@ -82,11 +82,7 @@ public class AdminOrderController {
 
 		// 검색어 설정 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("searchType", searchType);
 		map.put("keyword", keyword);
-		map.put("startDate", start);
-		map.put("endDate", end);
-		map.put("statusArr", statusArr);
 		map.put("orderBy", orderBy);
 		
 		ArrayList<OrderVO> orderSearchList = adminOrderService.orderSearch(map);
