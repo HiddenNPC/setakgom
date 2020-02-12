@@ -44,13 +44,12 @@
 		
 		//모달팝업 오픈
 	    $(".open").on('click', function(){
-	    	$("#re_layer").show();	
+	    	$(".re_layer").show();	
 	    	$(".dim").show();	
 		});
 	    $(".close").on('click', function(){
-	    	$(this).parent().hide();	
+	    	$(".re_layer").hide();	
 	    	$(".dim").hide();
-	    	location.href='./orderview.do';
 		});
 		
 	  	//별점 구동	
@@ -182,7 +181,7 @@ function cancle() {
 			<div class="mypage_content">
 				<h2>주문/배송현황</h2>
 				<%if (orderlist.size() == 0) {%>
-					<h3>주문 내역이 없습니다.</h3>
+					<h3 class="null">주문 내역이 없습니다.</h3>
 				<%} else { %>
 				<div class="mypage_content_cover">
 					<p>
@@ -219,7 +218,7 @@ function cancle() {
 								
 								<div class="order_dateClass">
 									
-								<div id="re_layer">
+								<div id="re_layer" class="re_layer">
 								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
 								<h2>세탁곰 리뷰 작성</h2>
 								<div class="r_content">
@@ -260,13 +259,20 @@ function cancle() {
 								</form>
 								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
 								</div>
-								<div class="dim"></div> 
-								   
-									<a href="#" class="open">리뷰작성</a>
-									<%if (orderVO.getOrder_delete().equals("0")) {%>
-									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="true">주문 취소</a>
+								<div class="dim">
+								</div> 
+								   	<tr>
+								   		<td>
+								   	<%if (orderVO.getOrder_cancel().equals("1")) {%>
+									<input type="button" value="리뷰작성" class="open" disabled />
 									<%} else { %>
-									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="false">주문 취소</a>
+									<input type="button" value="리뷰작성" class="open" />
+									<%} %>
+									
+									<%if (orderVO.getOrder_delete().equals("1")) {%>
+									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
+									<%} else { %>
+									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" />
 									<%} %>
 								</div>
 							</div>
@@ -278,7 +284,7 @@ function cancle() {
 									<p>세탁 :</p>
 									<%for (int w = 0; w < wvo.size(); w++){ %>
 									<%if (wvo.get(w).getWash_seq() != 0) { %>
-									<p><%=wvo.get(w).getWash_cate() %> - <%=wvo.get(w).getWash_method() %> - <%=wvo.get(w).getWash_count() %>개</p>
+									<p><%=wvo.get(w).getWash_kind() %> - <%=wvo.get(w).getWash_method() %> - <%=wvo.get(w).getWash_count() %>개</p>
 									<%
 										} 
 									}
@@ -306,7 +312,12 @@ function cancle() {
 								</div>
 								</div>
 								<div class="price">
-									<p>상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
+									<%
+									if(orderVO.getOrder_delicode() == null) 	
+										orderVO.setOrder_delicode("");
+									%>
+										<p class="delicode">송장번호 : <%=orderVO.getOrder_delicode() %></p>
+										<p class="status">	상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
 								</div>
 							</div>
 						</div>

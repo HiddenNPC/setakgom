@@ -1,15 +1,21 @@
 package com.spring.member;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.resource.HttpResource;
 
 @Controller
 public class MemberSubController {
@@ -20,18 +26,20 @@ public class MemberSubController {
 	@Autowired
 	private MemberService memberservice;
 	
-
+	
+	/*나의정기구독*/
 	@RequestMapping(value="mysub.do", produces = "application/json; charset=utf-8")
-	public String mysub(Model model, HttpSession session,HttpServletRequest request) {
+	public String mysub(Model model, HttpSession session,HttpServletRequest request, HttpServletResponse response ) throws IOException {
+
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}	
 		
 		String member_id = (String)session.getAttribute("member_id");
-		//System.out.println("member_id="+member_id);
 		
 		
 		/*나의정기구독*/
 		MemberSubVO sub_list = membersubservice.sub_list(member_id);
-		System.out.println(sub_list);
-		
 		model.addAttribute("sub_list", sub_list);
 		
 		/*해당 정기구독 리스트*/
@@ -92,5 +100,40 @@ public class MemberSubController {
 	*/
 		return "mysub";
 	}
-
+	
+	/*정기구독 해지*/
+	 @RequestMapping (value ="/subs_bye1.do", produces = "application/json; charset=utf-8")
+     @ResponseBody 
+	 public Map<String, Object> subcancle (String member_id) {
+		 HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("member_id", member_id);
+		 
+		 Map<String, Object> result = new HashMap<String, Object>();
+			int res = membersubservice.subcancle(member_id);
+				if(res==1) {
+					result.put("res", "OK");
+				} else {
+					result.put("res", "FAIL");
+					result.put("message", "Failure");
+				}
+		return result;
+	 }
+	 
+	/*재구독*/
+	@RequestMapping (value ="/subs_bye0.do", produces = "application/json; charset=utf-8")
+	@ResponseBody 
+	public Map<String, Object> resub (String member_id) {
+		 HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("member_id", member_id);
+		 
+		 Map<String, Object> result = new HashMap<String, Object>();
+			int res = membersubservice.resub(member_id);
+				if(res==1) {
+					result.put("res", "OK");
+				} else {
+					result.put("res", "FAIL");
+					result.put("message", "Failure");
+				}
+		return result;
+	 }
 }

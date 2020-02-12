@@ -221,11 +221,43 @@
 	border-radius: .25em; -webkit-appearance: none;
 	 /* 네이티브 외형 감추기 */ -moz-appearance: none; appearance: none; }
 	
+	/* 이미지 미리보기 */
+	.thumbnail-wrapper { width:auto; height:auto; }	
+	.thumbnail { position: relative; padding-top: 100%; overflow: hidden; }	
+	.thumbnail-centered { position: absolute;
+	  top: 0;  left: 0;  right: 0;  bottom: 0; transform: translate(25%, 25%);
+	}
+	
+	.thumbnail-img {  max-width:100%; transform: translate(-25%, -25%); }
+	/* 이미지 미리보기 끝 */
+	
+	/* 
+	<div class="filebox" >
+			<input type="hidden" id="exist_file" name="exist_file" value="">
+			<input id="upload-name" class="upload-name" value="" disabled="disabled">
+			<label for="ex_filename">업로드</label>
+			<input type="file" id="ex_filename" name="Review_photo" class="upload-hidden">
+		</div>
+	//파일 업로드 부분 작동
+		var fileTarget = $('.filebox .upload-hidden');
+		fileTarget.on('change', function(){ // 값이 변경되면
+			if(window.FileReader){ // modern browser 
+				var filename = $(this)[0].files[0].name; 
+				console.log("1="+$(this)[0].files[0].name);
+			}else { // old IE 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+				
+				} 
+		// 추출한 파일명 삽입 
+		$(this).siblings('.upload-name').val(filename);	
+		}); 
 	
 	
 	
 	
 	
+	
+	 */
 	
 	
 	

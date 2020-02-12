@@ -58,7 +58,6 @@ public class MemberServiceImpl implements MemberService{
 		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
 		int res = 0;
 		String passwd = mapper.member_password(mo);
-		System.out.println("passwd="+passwd);
 	
 		try {
 			if(passwd != null) {

@@ -124,6 +124,8 @@ public class AdminOrderController {
 //			dateArr[i] = sdf.format(cal.getTime());
 //		}
 		
+		// weekArr 바뀌는거 안해놈.. 
+		
 		String[] dateArr = {"20/01/27", "20/01/28", "20/01/29", "20/01/30", "20/01/31"}; 
 		String[] weekArr = {"20/01/27", "20/01/28", "20/01/28", "20/01/29", "20/01/29", "20/01/30", "20/01/30", "20/01/31", "20/01/31", "20/02/01"}; 
 		
@@ -140,6 +142,9 @@ public class AdminOrderController {
 		// 기간별 배열 : 일별, 주별 
 		int[] dailyArr = new int[5];
 		int[] weeklyArr = new int[5];
+		
+		int dailySum = 0; 
+		int weeklySum = 0; 
 		
 		for(int i = 0; i < statusArr.length; i++) {
 			String status = statusArr[i]; 
@@ -177,6 +182,7 @@ public class AdminOrderController {
 				if(i == statusArr.length - 1) {
 					dailyResult = adminOrderService.recentOrderCnt(map);
 					dailyArr[j] = dailyResult; 
+					dailySum += dailyResult;
 				}
 			}
 			
@@ -192,6 +198,7 @@ public class AdminOrderController {
 			
 			int result = adminOrderService.recentOrderWeeklyCnt(map);
 			weeklyArr[i/2] = result; 
+			weeklySum += result;
 		}
 
 		model.addAttribute("payArr", payArr);
@@ -203,8 +210,17 @@ public class AdminOrderController {
 		
 		model.addAttribute("dailyArr", dailyArr);
 		model.addAttribute("weeklyArr", weeklyArr);
+		model.addAttribute("dailySum", dailySum);
+		model.addAttribute("weeklySum", weeklySum);
 		
 		return "/admin/order_chart";
+	}
+	
+	// 정기구독 관리자 페이지
+	@RequestMapping(value = "/admin/subscribe.do")
+	public String subscribe() {
+		
+		return "/admin/subscribe";
 	}
 
 }

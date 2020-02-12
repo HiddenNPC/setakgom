@@ -37,6 +37,7 @@ $(document).ready(function () {
     	else{
     		alert("비회원은 리뷰를 작성 할 수 없습니다.");
     		location.href="login.do";
+    		return false;
     	}
 	});
 	
@@ -44,6 +45,84 @@ $(document).ready(function () {
     	$(this).parent().hide();	
     	$(".dim").hide();	
 	});
+    
+    //리뷰 insert 파일 업로드   
+    var filecontent;
+	var filename="";
+	
+	$("#Review_photo").change(function(){
+		filecontent = $(this)[0].files[0];
+		filename = Date.now() + "_" + $(this)[0].files[0].name;
+	});	
+	$("#reviewform").on("submit", function() {
+		if(rwchk()){			
+			if(filecontent != null){
+				var data = new FormData();
+				data.append("purpose", "qna");
+				data.append("files", filecontent);
+				data.append("filename", filename);
+				
+				$("#Review_photo2").val(filename);
+				
+				$.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "/setak/testImage.do",
+	                data: data,
+	                processData: false,
+	                contentType: false,
+	                cache: false,
+	                dataType: 'json',	
+	                success: function (data) {	                	
+	                },
+	                error: function (e) {	
+					}	                
+				});
+			}			
+		}else{
+			event.preventDefault();
+		}
+	});
+	
+	//리뷰 update 파일 업로드   
+    var filecontent;
+	var filename="";
+	
+	$("#update-Review_photo").change(function(){
+		filecontent = $(this)[0].files[0];
+		filename = Date.now() + "_" + $(this)[0].files[0].name;
+	});	
+	$("#re_updateform").on("submit", function() {
+		if(ruchk()){			
+			if(filecontent != null){
+				var data = new FormData();
+				data.append("purpose", "qna");
+				data.append("files", filecontent);
+				data.append("filename", filename);
+				
+				$("#update-Review_photo2").val(filename);
+				
+				$.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "/setak/testImage.do",
+	                data: data,
+	                processData: false,
+	                contentType: false,
+	                cache: false,
+	                dataType: 'json',	
+	                success: function (data) {	                	
+	                },
+	                error: function (e) {	
+					}	                
+				});
+			}			
+		}else{
+			event.preventDefault();
+		}
+	});
+	
+	
 
     //별점 구동	
 	$('.r_content a').click(function () {
@@ -138,7 +217,7 @@ $(document).ready(function () {
 					var re_list = '';					
 					var i = item.review_star;
 					var res =JSON.stringify(item.review_photo);			
-					var idx= res.indexOf("/");
+					var idx= res.indexOf("_");
 					var rphoto=res.substring(1,idx);
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
@@ -171,7 +250,15 @@ $(document).ready(function () {
 					
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-					re_list += '<td rowspan="2">'+rphoto+'</td></tr>';	
+					re_list += '<td rowspan="2">';
+					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail"><div class="thumbnail-centered">';				 
+								if (!(rphoto=="등록한 파일이 없습니다.")){ 
+									re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/'+item.review_photo+'"/>';
+								}else{
+									re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+								}
+					re_list += '</td></div></div></div>';	
+					re_list += '</td></tr>';	
 					re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
 					re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
 					re_list += '<td style="text-align:center;">';				
@@ -266,6 +353,7 @@ $(document).ready(function () {
     	if(login_id=="null"){
     		alert("비회원은 리뷰를 수정 할 수 없습니다.");
     		location.href="login.do";
+    		return false;
     	}
 		
 		$("#re_layer2").show();	
@@ -288,9 +376,9 @@ $(document).ready(function () {
 		var ur_content=$(this).attr("ur_content"); 						
 		var ur_kind=$(this).attr("ur_kind");					
 		var ur_photo=$(this).attr("ur_photo"); //오리지날
-		var res =JSON.stringify(ur_photo);			
-		var idx= res.indexOf("/");
-		var rphoto=res.substring(1,idx);//원래 파일 이름만 
+		var res =JSON.parse(ur_photo);			
+		var idx= res.indexOf("_");
+		var rphoto=res.substring(idx+1);//원래 파일 이름만 
 		if(ur_photo != null){ 
 			$('#upload-name').val(rphoto);
 		}else{
@@ -301,7 +389,8 @@ $(document).ready(function () {
 		console.log(ur_star);
 		console.log(ur_content);
 		console.log(ur_kind);
-		console.log(ur_photo);	
+		console.log(ur_photo);
+		console.log("idx="+idx);
 		console.log(rphoto);
 		
 		$('#Review_num2').attr('value', ur_num);
@@ -311,21 +400,6 @@ $(document).ready(function () {
 		$("#Review_kind2").val(ur_kind);/* .attr("selected","selected") */
 		$('#exist_file').val(ur_photo);
 		
-		
-		//파일 업로드 부분 작동
-		var fileTarget = $('.filebox .upload-hidden');
-		fileTarget.on('change', function(){ // 값이 변경되면
-			if(window.FileReader){ // modern browser 
-				var filename = $(this)[0].files[0].name; 
-				console.log("1="+$(this)[0].files[0].name);
-			}else { // old IE 
-				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
-				
-				} 
-		// 추출한 파일명 삽입 
-		$(this).siblings('.upload-name').val(filename);	
-		}); 
-
 	});
 
 selectData();
@@ -570,7 +644,7 @@ function rwchk(){
 	return true;
 	
 }
-
+//리뷰 수정
 function ruchk(){	
 
 	if (document.getElementById('Review_content2').value=="") 
@@ -624,7 +698,7 @@ function rwcancel(){
 <!-- 리뷰작성 모달 팝업  -->
 <a href="#" class="open">리뷰작성</a>
 <div id="re_layer">
-<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" onsubmit="return rwchk();">
+<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
 <h2>리뷰 작성</h2>
 <div class="r_content">
 	<p style="margin-bottom:5px;">사용자 평점</p> 
@@ -644,7 +718,9 @@ function rwcancel(){
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
     <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-    <tr><td width="40px" ><input name="Review_photo" type="file" class="fileupload"/></td>                          
+    <tr><td width="40px">
+     	<input type="file" id="Review_photo"/>                        
+     	<input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
         <td width="40px">
         	<select name="Review_kind" id="Review_kind">
            		<option value="">분류</option>
@@ -656,10 +732,8 @@ function rwcancel(){
                 <option value="정기구독">정기구독</option>
            </select></td>
 		<td align="right"  colspan="4">
-			<input type="hidden" name = "review_photo" id = "review_photo">
-			<input type="submit" name="submit" value="등록" id="reviewsubmit">
-			<!-- <button onclick="javascript:reviewform.submit()">등록</button> -->
-			<input id="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
+			<input class="cbtn" type="submit" name="submit" value="등록" >		
+			<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
 	</tr></table>
 </form>
 <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
@@ -670,7 +744,7 @@ function rwcancel(){
 <!-- 리뷰수정 모달 팝업  -->
 
 <div id="re_layer2">
-<form action="./reviewUpdate.do" method="post" enctype="multipart/form-data" name="re_updateform" onsubmit="return ruchk();">
+<form action="./reviewUpdate.do" method="post" enctype="multipart/form-data" name="re_updateform" id="re_updateform" onsubmit="return ruchk();">
 <h2>리뷰 수정</h2>
 <div class="r_content">
 	<div >작성자 :&nbsp;<label for="member_id2"></label><input onfocus="this.blur()" id="member_id2" name="member_id" value="">기존 별점 : 
@@ -692,14 +766,11 @@ function rwcancel(){
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
     <tr><td colspan="7"><textarea id="Review_content2" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-    <tr><td>
-    	<div class="filebox" >
-			<input type="hidden" id="exist_file" name="exist_file" value="">
-			<input id="upload-name" class="upload-name" value="" disabled="disabled">
-			<label for="ex_filename">업로드</label>
-			<input type="file" id="ex_filename" name="Review_photo" class="upload-hidden">
-		</div>
-		</td>
+    <tr><td width="40px">
+    		<input type="hidden" id="exist_file" name="exist_file" value="">
+			<input id="upload-name" class="upload-name" value="" disabled="disabled">   
+     		<input type="file" id="update-Review_photo"/>                        
+     		<input type="hidden" id="update-Review_photo2" name="Review_photo" /></td>   
 		<td width="40px">
         	<select name="Review_kind" id="Review_kind2">
            		<option value="">분류</option>
@@ -712,8 +783,8 @@ function rwcancel(){
            </select>
         </td>           
 		<td align="right"  colspan="4">
-			<input id="cbtn" type="submit" name="submit" value="등록" >		
-			<input id="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
+			<input class="cbtn" type="submit" name="submit" value="등록" >		
+			<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
 	</tr>
 </table>
 </form>

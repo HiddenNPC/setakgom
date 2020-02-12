@@ -10,7 +10,10 @@
 	int[] cancleArr = (int[])request.getAttribute("cancleArr"); 
 	
 	int[] dailyArr = (int[])request.getAttribute("dailyArr"); 
-	int[] weeklyArr = (int[])request.getAttribute("weeklyArr"); 
+	int[] weeklyArr = (int[])request.getAttribute("weeklyArr");
+	
+	int dailySum = (int)request.getAttribute("dailySum"); 
+	int weeklySum = (int)request.getAttribute("weeklySum"); 
 %>
 <!DOCTYPE html>
 <html>
@@ -171,7 +174,7 @@
 				            }
 				        }], yAxes: [{
 				            ticks: {
-				                fontSize: 18
+				                fontSize: 14
 				            }
 				        }]
 					}
@@ -204,7 +207,7 @@
 					            }
 					        }], yAxes: [{
 					            ticks: {
-					                fontSize: 18
+					                fontSize: 14
 					            }
 					        }]
 						}
@@ -249,11 +252,10 @@
 		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
 		function timeSt(dt) {
 		    var d = new Date(dt);
-		    var yyyy = d.getFullYear();
 		    var MM = d.getMonth()+1;
 		    var dd = d.getDate();
 
-		    return (yyyy + '/' + addzero(MM) + '/' + addzero(dd));
+		    return (addzero(MM) + '/' + addzero(dd));
 		}
 		
 		//Date 개체를 입력받아 yy-MM-dd 형식으로 반환
@@ -284,24 +286,23 @@
 				</div>
 				
 				<!-- 최근  일주일 혹은 하루 총 주문량-->
-				<div id = "recentAll-div">
-					<div id = "recentAll-btn">
-						<button id="weekDataset">주별</button>
-						<button id="dayDataset">일별</button>
-					</div>
-					
+				<div id = "recentAll-div">					
 					<div id = "recentAll-num">
 						<div id = "recentAll5days-num">
-							총<span>500</span>건
+							총 &nbsp;<span id = "dailySum" class = "sum"><%=dailySum %></span>&nbsp;건
 							<br/>
 							<span>5일간 주문</span>							
 						</div>
 						
 						<div id = "recentAll5weeks-num">
-							총<span>1,500</span>건
+							총 &nbsp;<span  id = "dailySum" class = "sum"><%=weeklySum %></span>&nbsp;건
 							<br/>
 							<span>5주간 주문</span>							
 						</div>						
+					</div>
+					<div id = "recentAll-btn">
+						<button id="weekDataset" class = "chartBtn">주별</button>
+						<button id="dayDataset" class = "chartBtn">일별</button>
 					</div>
 							
 					<canvas id="canvas2"></canvas>

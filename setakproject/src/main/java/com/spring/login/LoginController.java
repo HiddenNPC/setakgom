@@ -62,7 +62,7 @@ public class LoginController {
 /* 일반로그인 */
 		@RequestMapping(value="/loginpro.do",produces = "application/json; charset=utf-8")
 		public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response, String backurl) throws Exception  {
-		
+			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter writer = response.getWriter();
@@ -86,8 +86,8 @@ public class LoginController {
 			throws IOException, ParseException {
 		
 		 response.setCharacterEncoding("utf-8");
-		 response.setContentType("text/html; charset=utf-8"); PrintWriter writer =
-		 response.getWriter();
+		 response.setContentType("text/html; charset=utf-8"); 
+		 PrintWriter writer = response.getWriter();
 		 
 		 // 정보동의 취소시 이전페이지로 이동 
 		 if (code.equals("0")) { 

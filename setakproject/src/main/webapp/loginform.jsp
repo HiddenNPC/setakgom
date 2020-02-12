@@ -241,12 +241,6 @@
 			
 		}); 
 		
-		/*비밀번호 찾기 닫기*/
-		/* $(".close3").click(function(event) {
-			$(".back").css("display", "none");
-			$(".changepass").css("display", "none");
-		}); */
-	
 	});
 
 	/*구글로그인*/

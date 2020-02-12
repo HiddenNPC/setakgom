@@ -1,14 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>¼¼Å¹°õ °ü¸®ÀÚÆäÀÌÁö</title>
+	<title>ì„¸íƒê³° ê´€ë¦¬ìí˜ì´ì§€</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- ¿©±â º»ÀÎÀÌ ÁöÁ¤ÇÑ css·Î ¹Ù²ã¾ßÇÔ -->
+	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- ì—¬ê¸° ë³¸ì¸ì´ ì§€ì •í•œ cssë¡œ ë°”ê¿”ì•¼í•¨ -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -19,21 +19,24 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//Çì´õ, ÇªÅÍ¿¬°á
+			//í—¤ë”, í‘¸í„°ì—°ê²°
 			$("#admin").load("./admin.jsp")
 			
 		
-		//°Ë»ö
+		//ê²€ìƒ‰
 		function searchOrder() {
 			
-			var checkbox = $("input[name=check]:checked");
+			var param = {
+					keyword : $('#keyword').val(),
+					//orderBy : orderBy
+				};
+			
 			
 			$.ajax({
 				url:'/setak/admin/memberSearch.do', 
 				type:'POST',
 				data:param,
-				traditional : true,
-				dataType:"json", //¸®ÅÏ µ¥ÀÌÅÍ Å¸ÀÔ
+				dataType:"json", //ë¦¬í„´ ë°ì´í„° íƒ€ì…
 				contentType:'application/x-www-form-urlencoded; charset=utf-8',
 				success:function(data) {	
 					$("#result-table tbody").empty();
@@ -63,7 +66,7 @@
 						 output += '<td>'+item.member_id+'</td>';						 
 						 output += '<td>'+item.order_name+'</td>';						 
 						 output += '<td>20'+date+'</td>';
-						 output += '<td>'+item.order_price+'¿ø</td>';
+						 output += '<td>'+item.order_price+'ì›</td>';
 						 output += '<td><span id = "delivery_num">'+delicode+'</span></td>';	
 						 output += '<td>'+item.order_status+'</td>';
 						 output += '</tr>';
@@ -73,12 +76,12 @@
 
 				},
 				error: function() {
-					alert("ajaxÅë½Å ½ÇÆĞ!!!");
+					alert("ajaxí†µì‹  ì‹¤íŒ¨!!!");
 			    }
 			});
 		}	
 			
-			//¸ñ·Ï ¶ç¿ì±â
+			//ëª©ë¡ ë„ìš°ê¸°
 			function selectData(){
 				
 				$.ajax({
@@ -99,24 +102,24 @@
 							str += '<li class="listtd"><input type="date" class="coupon_day" name="coupon_useday" value="' + item.coupon_useday + '" disabled></li>';
 							str += '<li class="listtd"><select class="coupon_use" name="coupon_use" disabled>';
 							str += '<option value=' + item.coupon_use + '>'+ item.coupon_use +'</option>';
-							str += '<option value="º¸°üÁß">»ç¿ë°¡´É</option>';
-							str += '<option value="ºÎºĞ¹İÈ¯">»ç¿ëºÒ°¡</option>';
+							str += '<option value="ë³´ê´€ì¤‘">ì‚¬ìš©ê°€ëŠ¥</option>';
+							str += '<option value="ë¶€ë¶„ë°˜í™˜">ì‚¬ìš©ë¶ˆê°€</option>';
 							str += '</select></li>';
-							str += '<li class="listtd"><a class="update">¼öÁ¤</a>';
-							str += '<a style="display: none;" value="/setak/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">¼öÁ¤</a></li>';
+							str += '<li class="listtd"><a class="update">ìˆ˜ì •</a>';
+							str += '<a style="display: none;" value="/setak/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">ìˆ˜ì •</a></li>';
 							str += '</ul>';
 							$(".coupon_list").append(str);
 						});
 					},
 					error:function(){
-						alert("ajaxÅë½Å ½ÇÆĞ!!!");
+						alert("ajaxí†µì‹  ì‹¤íŒ¨!!!");
 					}
 				});
 			}
 			
 			selectData();	
 			
-			//¼öÁ¤¹öÆ° Å¬¸¯½Ã
+			//ìˆ˜ì •ë²„íŠ¼ í´ë¦­ì‹œ
 			$(document).on('click','.update',function(event) {
 				$(".after").css("display","none");
 				$(".update").css("display","block");
@@ -140,57 +143,15 @@
 				$($(this).parent().parent().children().children('.coupon_end')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.coupon_useday')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.coupon_use')).addClass("upadte_select");
-				$($(this).parent().parent().children('.listtd:nth-child(5)')).addClass("update_count"); //ÆË¾÷Ã¢ ´©¸¦ ¼ö ÀÖ°Ô µÊ
+				$($(this).parent().parent().children('.listtd:nth-child(5)')).addClass("update_count"); //íŒì—…ì°½ ëˆ„ë¥¼ ìˆ˜ ìˆê²Œ ë¨
 				
 								
-				//´Ù¸¥ ¼öÁ¤¹öÆ° ´­·¶À» ¶§ ±âº»°ªÀ¸·Î µ¹¸®±â À§ÇØ¼­
+				//ë‹¤ë¥¸ ìˆ˜ì •ë²„íŠ¼ ëˆŒë €ì„ ë•Œ ê¸°ë³¸ê°’ìœ¼ë¡œ ëŒë¦¬ê¸° ìœ„í•´ì„œ
 				$('#coupon_form')[0].reset();
 			});
 
-			//¼öÁ¤ È°¼ºÈ­ µÆÀ» ¶§ Á¾·ù °ª Å¬¸¯½Ã ÆË¾÷»ı¼º
-			$(document).on('click','.update_count',function(event) {
-				$(".popup_back").addClass("popup_on");
-			});
-			$(document).on('click','.close',function(event) {
-	            $(".popup_back").removeClass("popup_on");
-				$(".coupon-list").removeClass("tab_active");
-	        });
-
-			//ÆË¾÷¿¡¼­ ÅÇ ´­·¶À» ¶§
-			$(".tab").on("click", function() {
-				$(".tab").removeClass("tab_active");
-				$(".tab-content").removeClass("show");
-				$(this).addClass("tab_active");
-				$($(this).attr("href")).addClass("show");
-			});
-			$(".coupon-list").on("click", function() {
-				$(".coupon-list").removeClass("tab_active");
-				$(this).addClass("tab_active");
-			});
 			
-			//ÆË¾÷¿¡¼­ È®ÀÎ ´­·¶À» ¶§
-			var popup_keep_cate = "";	//Å«Ä«Å×
-			var popup_keep_kind = "";	//ÀÛÀºÄ«Å×
-			$(document).on('click','.commit',function(event) {
-				popup_keep_cate = document.getElementsByClassName('tab tab_active');
-	            popup_keep_kind = document.getElementsByClassName('keep-list tab_active');
-	            
-	            if(!$(".keep-list").hasClass("tab_active")){
-					alert("Á¾·ù¸¦ ¼±ÅÃÇÏÁö ¾Ê¾Ò½À´Ï´Ù.");
-					return false;
-				}
-	            
-	            //ÆË¾÷´İ±â
-	            $(".popup_back").removeClass("popup_on");
-
-	            //¿ÊÁ¾·ù ¹Ù²Û°Å Àû¿ë½ÃÅ°±â 
-	            $(update_keep_cate).val(popup_keep_cate[0].innerHTML);
-	            $(update_keep_kind).val(popup_keep_kind[0].innerHTML);
-
-	            $(".keep-list").removeClass("tab_active");
-			});
-			
-			//¼öÁ¤ ajax
+			//ìˆ˜ì • ajax
 			$(document).on('click','.after', function(event){
 				var cate = $(this).parents().eq(1).children().eq(12).children().val();
 				var kind = $(this).parents().eq(1).children().eq(4).children().val();
@@ -207,21 +168,23 @@
 					type : 'post',
 					data : params,
 					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-					dataType : "json", //¼­¹ö¿¡¼­ º¸³»ÁÙ µ¥ÀÌÅÍ Å¸ÀÔ
+					dataType : "json", //ì„œë²„ì—ì„œ ë³´ë‚´ì¤„ ë°ì´í„° íƒ€ì…
 					success:function(retVal){
 						if(retVal.res == "OK"){
 							$('.keep_list').empty()
 							selectData();
 						} else {
-							alert("¼öÁ¤ ½ÇÆĞ");
+							alert("ìˆ˜ì • ì‹¤íŒ¨");
 						}
 					},
 					error:function(){
-						alert("ajaxÅë½Å ½ÇÆĞ");
+						alert("ajaxí†µì‹  ì‹¤íŒ¨");
 					}
 				});
 				event.preventDefault();
 			}); 
+			
+			
 			
 		});
 	</script>
@@ -230,49 +193,50 @@
 		<div id="admin"></div>
 		
 		<div class="content">
-			<!-- ¿©±â¼­ºÎÅÍ ÀÛ¾÷ÇÏ¼¼¿ä. -->
-			<h1>ÀüÃ¼ÄíÆù°ü¸®</h1>
+			<!-- ì—¬ê¸°ì„œë¶€í„° ì‘ì—…í•˜ì„¸ìš”. -->
+			<h1>ì „ì²´ì¿ í°ê´€ë¦¬</h1>
 			
-			<!-- ÇÊÅÍ -->
+			<!-- í•„í„° -->
 			<div id = "search-div">
-				<h2>ÀüÃ¼ÄíÆù°Ë»ö</h2>
+				<h2>ì „ì²´ì¿ í°ê²€ìƒ‰</h2>
 				<form id = "search-form" action = "">
 					<table id = "search-table">
 						<tr>
-							<td>È¸¿ø °Ë»ö</td>
+							<td>íšŒì› ê²€ìƒ‰</td>
 							<td>
-								<input id = "keyword" type = "text" size = "40px" placeholder = "³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." /> 
+								<input id = "keyword" type = "text" size = "40px" placeholder = "ë‚´ìš©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”." /> 
 							</td>
 						</tr>
 					</table>
 				</form>
 				
 				<div id="search-btn-div">
-					<input type="button" id = "search-btn" value = "°Ë»ö" onclick = "searchOrder();" />
+					<input type="button" id = "search-btn" value = "ê²€ìƒ‰" onclick = "searchOrder();" />
 				</div>
 			</div>			
-			<!-- ÇÊÅÍ ³¡ -->
+			<!-- í•„í„° ë -->
 			
 			
 			<ul class="coupon_title">
 				<li><input type="checkbox" id="allcheck"></li>
-				<li>È¸¿ø¾ÆÀÌµğ</li>
-				<li>ÄíÆùÀÌ¸§</li>
-				<li>ÄíÆùºÎ¿©³¯Â¥</li>
-				<li>ÄíÆù¸¸·á³¯Â¥</li>
-				<li>ÄíÆù»ç¿ë³¯Â¥</li>
-				<li>ÄíÆù»ç¿ë¿©ºÎ</li>
-				<li>¼öÁ¤</li>
+				<li>íšŒì›ì•„ì´ë””</li>
+				<li>ì¿ í°ì´ë¦„</li>
+				<li>ì¿ í°ë¶€ì—¬ë‚ ì§œ</li>
+				<li>ì¿ í°ë§Œë£Œë‚ ì§œ</li>
+				<li>ì¿ í°ì‚¬ìš©ë‚ ì§œ</li>
+				<li>ì¿ í°ì‚¬ìš©ì—¬ë¶€</li>
+				<li>ìˆ˜ì •</li>
 			</ul>
+			
 			<form id="coupon_form">
 				<div class="coupon_list paginated">
-					<input type="button" value="¼±ÅÃ»èÁ¦" class="checkdelete">
+					<input type="button" value="ì„ íƒì‚­ì œ" class="checkdelete">
 				</div>
 			</form>
 
 
 		</div>
-		<!-- °á°ú  div ³¡-->
-	<!-- Áö¿ìÁö¸¶¼¼¿ä -->
+		<!-- ê²°ê³¼  div ë-->
+	<!-- ì§€ìš°ì§€ë§ˆì„¸ìš” -->
 </body>
 </html>

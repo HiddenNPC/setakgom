@@ -65,7 +65,7 @@
      				$(location.href="/setak/login.do");
      			}
      			else { // 실패했다면
-    			 alert("Insert Fail");
+    			 alert("회원가입 실패");
      			}
      		},
      		error:function() {
