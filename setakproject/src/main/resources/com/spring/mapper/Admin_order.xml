@@ -32,7 +32,7 @@
 		select count(*) from memberorder
 	</select>
 	
-	<!-- 주문 검색  -->
+	<!-- 주문 검색 22  -->
 	<select id = "orderSearch" parameterType="java.util.HashMap" resultMap="OrderResultMap">
 		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status
 		from memberorder

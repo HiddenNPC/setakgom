@@ -148,7 +148,7 @@ public class OrderController {
 
 			String member_addr1 = " ", member_addr2 = " ";
 
-			if (memberVO.getMember_loc() != null) {
+			if (memberVO.getMember_loc().equals(("!"))) {
 				String addr = memberVO.getMember_loc();
 				String[] locArr = addr.split("!");
 				member_addr1 = locArr[0];
