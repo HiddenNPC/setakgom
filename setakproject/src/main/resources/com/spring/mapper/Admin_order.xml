@@ -31,22 +31,6 @@
 	<select id = "getOrderCount" resultType = "int">
 		select count(*) from memberorder
 	</select>
-	
-	<!-- 주문 검색 22  -->
-	<select id = "orderSearch" parameterType="java.util.HashMap" resultMap="OrderResultMap">
-		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status
-		from memberorder where member_id like '%'||#{keyword, jdbcType=VARCHAR }||'%')
-		
-		<if test = "orderBy.equals('byDate')">
-			order by coupon_use desc
-		</if>
-		<if test = "orderBy.equals('byDateReverse')">
-			order by order_date
-		</if>
-		<if test = "orderBy.equals('byName')">
-			order by order_name
-		</if>
-	</select>
 
 	<!-- 주문 검색 갯수 -->
 	<select id = "orderSearchCount" parameterType="java.util.HashMap" resultType="int">
