@@ -48,9 +48,11 @@ public class MypageController {
 	
 	@RequestMapping("/orderview.do")
 	public String selectMending(HttpServletRequest request, Model model, HttpSession session) throws Exception{
-		
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
 		ArrayList<OrderVO> orderlist = new ArrayList<OrderVO>();
-		
+		   
 		String member_id = (String) session.getAttribute("member_id");
 		OrderVO orderVO = new OrderVO();
 		ArrayList<MendingVO> mendingVO = new ArrayList<MendingVO>();
@@ -129,13 +131,17 @@ public class MypageController {
 	
 	@RequestMapping("/mykeep.do")
 	public String selectKeep (Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-			ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
-			ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
-			ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }	
+		
+		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
+		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
+		ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
 			
-			String member_id = (String) session.getAttribute("member_id");
-			System.out.println("member_id session : " + member_id);
-			MemberVO memberVO = new MemberVO();
+		String member_id = (String) session.getAttribute("member_id");
+		System.out.println("member_id session : " + member_id);
+		MemberVO memberVO = new MemberVO();
 			
 //		ArrayList<OrderListVO> keepseqlist = new ArrayList<OrderListVO>();
 //		OrderListVO olvo2 = new OrderListVO();
@@ -172,6 +178,10 @@ public class MypageController {
 	
 	@RequestMapping("/myqna.do")
 	public String selectQnalist (Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
 		
 		// 멤버 아이디 구분해서 member_name, phone, loc 값 공백 
 		
@@ -218,6 +228,10 @@ public class MypageController {
 	
 	@RequestMapping("/mysavings.do")
 	public String selectSaving (Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
+		
 		String member_id = (String) session.getAttribute("member_id");
 		ArrayList<MileageVO> mile_list = new ArrayList<MileageVO>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -270,7 +284,10 @@ public class MypageController {
 
 	@RequestMapping("/mycoupon.do")
 	public String getCouponList(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-			
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
+		
 			ArrayList<CouponVO> couponlist = null;
 			String member_id = (String) session.getAttribute("member_id");
 			couponlist = couponService.getCouponList(member_id);

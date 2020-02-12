@@ -5,10 +5,10 @@
 <head>
 <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>��Ź�� ������������</title>
+	<title>세탁곰 관리자페이지</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- ���� ������ ������ css�� �ٲ���� -->
+	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -19,21 +19,24 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//���, Ǫ�Ϳ���
+			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")
 			
 		
-		//�˻�
+		//검색
 		function searchOrder() {
 			
-			var checkbox = $("input[name=check]:checked");
+			var param = {
+					keyword : $('#keyword').val(),
+					//orderBy : orderBy
+				};
+			
 			
 			$.ajax({
 				url:'/setak/admin/memberSearch.do', 
 				type:'POST',
 				data:param,
-				traditional : true,
-				dataType:"json", //���� ������ Ÿ��
+				dataType:"json", //리턴 데이터 타입
 				contentType:'application/x-www-form-urlencoded; charset=utf-8',
 				success:function(data) {	
 					$("#result-table tbody").empty();
@@ -63,7 +66,7 @@
 						 output += '<td>'+item.member_id+'</td>';						 
 						 output += '<td>'+item.order_name+'</td>';						 
 						 output += '<td>20'+date+'</td>';
-						 output += '<td>'+item.order_price+'��</td>';
+						 output += '<td>'+item.order_price+'원</td>';
 						 output += '<td><span id = "delivery_num">'+delicode+'</span></td>';	
 						 output += '<td>'+item.order_status+'</td>';
 						 output += '</tr>';
@@ -73,12 +76,12 @@
 
 				},
 				error: function() {
-					alert("ajax��� ����!!!");
+					alert("ajax통신 실패!!!");
 			    }
 			});
 		}	
 			
-			//��� ����
+			//목록 띄우기
 			function selectData(){
 				
 				$.ajax({
@@ -99,24 +102,24 @@
 							str += '<li class="listtd"><input type="date" class="coupon_day" name="coupon_useday" value="' + item.coupon_useday + '" disabled></li>';
 							str += '<li class="listtd"><select class="coupon_use" name="coupon_use" disabled>';
 							str += '<option value=' + item.coupon_use + '>'+ item.coupon_use +'</option>';
-							str += '<option value="������">��밡��</option>';
-							str += '<option value="�κй�ȯ">���Ұ�</option>';
+							str += '<option value="보관중">사용가능</option>';
+							str += '<option value="부분반환">사용불가</option>';
 							str += '</select></li>';
-							str += '<li class="listtd"><a class="update">����</a>';
-							str += '<a style="display: none;" value="/setak/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">����</a></li>';
+							str += '<li class="listtd"><a class="update">수정</a>';
+							str += '<a style="display: none;" value="/setak/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">수정</a></li>';
 							str += '</ul>';
 							$(".coupon_list").append(str);
 						});
 					},
 					error:function(){
-						alert("ajax��� ����!!!");
+						alert("ajax통신 실패!!!");
 					}
 				});
 			}
 			
 			selectData();	
 			
-			//������ư Ŭ����
+			//수정버튼 클릭시
 			$(document).on('click','.update',function(event) {
 				$(".after").css("display","none");
 				$(".update").css("display","block");
@@ -140,15 +143,15 @@
 				$($(this).parent().parent().children().children('.coupon_end')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.coupon_useday')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.coupon_use')).addClass("upadte_select");
-				$($(this).parent().parent().children('.listtd:nth-child(5)')).addClass("update_count"); //�˾�â ���� �� �ְ� ��
+				$($(this).parent().parent().children('.listtd:nth-child(5)')).addClass("update_count"); //팝업창 누를 수 있게 됨
 				
 								
-				//�ٸ� ������ư ������ �� �⺻������ ������ ���ؼ�
+				//다른 수정버튼 눌렀을 때 기본값으로 돌리기 위해서
 				$('#coupon_form')[0].reset();
 			});
 
 			
-			//���� ajax
+			//수정 ajax
 			$(document).on('click','.after', function(event){
 				var cate = $(this).parents().eq(1).children().eq(12).children().val();
 				var kind = $(this).parents().eq(1).children().eq(4).children().val();
@@ -165,17 +168,17 @@
 					type : 'post',
 					data : params,
 					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-					dataType : "json", //�������� ������ ������ Ÿ��
+					dataType : "json", //서버에서 보내줄 데이터 타입
 					success:function(retVal){
 						if(retVal.res == "OK"){
 							$('.keep_list').empty()
 							selectData();
 						} else {
-							alert("���� ����");
+							alert("수정 실패");
 						}
 					},
 					error:function(){
-						alert("ajax��� ����");
+						alert("ajax통신 실패");
 					}
 				});
 				event.preventDefault();
@@ -190,50 +193,50 @@
 		<div id="admin"></div>
 		
 		<div class="content">
-			<!-- ���⼭���� �۾��ϼ���. -->
-			<h1>��ü��������</h1>
+			<!-- 여기서부터 작업하세요. -->
+			<h1>전체쿠폰관리</h1>
 			
-			<!-- ���� -->
+			<!-- 필터 -->
 			<div id = "search-div">
-				<h2>��ü�����˻�</h2>
+				<h2>전체쿠폰검색</h2>
 				<form id = "search-form" action = "">
 					<table id = "search-table">
 						<tr>
-							<td>ȸ�� �˻�</td>
+							<td>회원 검색</td>
 							<td>
-								<input id = "keyword" type = "text" size = "40px" placeholder = "������ �Է����ּ���." /> 
+								<input id = "keyword" type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
 							</td>
 						</tr>
 					</table>
 				</form>
 				
 				<div id="search-btn-div">
-					<input type="button" id = "search-btn" value = "�˻�" onclick = "searchOrder();" />
+					<input type="button" id = "search-btn" value = "검색" onclick = "searchOrder();" />
 				</div>
 			</div>			
-			<!-- ���� �� -->
+			<!-- 필터 끝 -->
 			
 			
 			<ul class="coupon_title">
 				<li><input type="checkbox" id="allcheck"></li>
-				<li>ȸ�����̵�</li>
-				<li>�����̸�</li>
-				<li>�����ο���¥</li>
-				<li>�������ᳯ¥</li>
-				<li>������볯¥</li>
-				<li>������뿩��</li>
-				<li>����</li>
+				<li>회원아이디</li>
+				<li>쿠폰이름</li>
+				<li>쿠폰부여날짜</li>
+				<li>쿠폰만료날짜</li>
+				<li>쿠폰사용날짜</li>
+				<li>쿠폰사용여부</li>
+				<li>수정</li>
 			</ul>
 			
 			<form id="coupon_form">
 				<div class="coupon_list paginated">
-					<input type="button" value="���û���" class="checkdelete">
+					<input type="button" value="선택삭제" class="checkdelete">
 				</div>
 			</form>
 
 
 		</div>
-		<!-- ���  div ��-->
-	<!-- ������������ -->
+		<!-- 결과  div 끝-->
+	<!-- 지우지마세요 -->
 </body>
 </html>

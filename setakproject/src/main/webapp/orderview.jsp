@@ -44,13 +44,12 @@
 		
 		//모달팝업 오픈
 	    $(".open").on('click', function(){
-	    	$("#re_layer").show();	
+	    	$(".re_layer").show();	
 	    	$(".dim").show();	
 		});
 	    $(".close").on('click', function(){
-	    	$(this).parent().hide();	
+	    	$(".re_layer").hide();	
 	    	$(".dim").hide();
-	    	location.href='./orderview.do';
 		});
 		
 	  	//별점 구동	
@@ -219,7 +218,7 @@ function cancle() {
 								
 								<div class="order_dateClass">
 									
-								<div id="re_layer">
+								<div id="re_layer" class="re_layer">
 								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
 								<h2>세탁곰 리뷰 작성</h2>
 								<div class="r_content">
@@ -260,7 +259,8 @@ function cancle() {
 								</form>
 								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
 								</div>
-								<div class="dim"></div> 
+								<div class="dim">
+								</div> 
 								   	<tr>
 								   		<td>
 								   	<%if (orderVO.getOrder_cancel().equals("1")) {%>
