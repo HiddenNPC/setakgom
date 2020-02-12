@@ -10,6 +10,10 @@
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/withdraw.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+   <!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
@@ -33,7 +37,7 @@
                       $(location.href="/setak/withdrawform.do");
                    }
                    else { // 실패했다면
-                      alert("비밀번호가 다릅니다.");
+                	   Swal.fire("", "비밀번호가 다릅니다.","warning");
                    }
                 },
                 error:function() {

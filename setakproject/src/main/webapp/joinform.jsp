@@ -11,6 +11,9 @@
 <link rel="stylesheet" type="text/css" href="./css/join.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -27,7 +30,7 @@
             var addr = address + '!' + detailAddress;
             
             if(authchk == 0){
-            	alert("인증번호 확인이 되지 않았습니다.");
+            	Swal.fire("","인증번호 확인이 되지 않았습니다.","info");
             	return;
             }
             
@@ -38,7 +41,7 @@
             	($("#clause_use").is(":checked")==false) ||($("#clause_privacy").is(":checked")==false)
             	
              ) {
-    			alert("빠짐없이 기입해 주세요");
+            	Swal.fire("","빠짐없이 기입해 주세요","info");
     			return; 
     		};
     		
@@ -63,7 +66,7 @@
      				$(location.href="/setak/login.do");
      			}
      			else { // 실패했다면
-    			 alert("회원가입 실패");
+     				Swal.fire("","회원가입 실패","warning");
      			}
      		},
      		error:function() {
@@ -268,7 +271,7 @@
                 	if(data.res=="OK") {
                 		daycount = 1;
 		        	 } else {
-		        		 alert("오늘 사용횟수를 초과하였습니다.");
+		        		 Swal.fire("","오늘 사용횟수를 초과하였습니다.","warning");
 		        	 }
                 },
                 error: function (e) {
@@ -292,8 +295,8 @@
 	                dataType: 'text',
 	                
 	                success: function (data) {
-	        			AuthTimer.comSecond = 179;
-	        			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+	        			AuthTimer.comSecond =  179;
+	        			AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
 	        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
 	        			AuthTimer.domId = document.getElementById("timer");
 	        			$("#authbtn").attr('disabled', true);
@@ -508,7 +511,7 @@
     	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
     	            clearInterval(this.timer);		// 타이머 해제
     	            random = randomnum();
-    	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+    	            Swal.fire("","인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.","warning");
     	        }
     	    }
     	    ,fnStop : function(){

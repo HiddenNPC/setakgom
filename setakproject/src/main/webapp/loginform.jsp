@@ -18,8 +18,10 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/loginform.css" />
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <!-- 구글로그인 -->
 <script src="https://apis.google.com/js/api:client.js"></script>
@@ -167,7 +169,7 @@
 								alert("8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
 
 							} else if($('#member_password2').val() != $('#pw2').val()) {
-							   	alert("비밀번호가 일치하지 않습니다.");
+								alert("비밀번호가 일치하지 않습니다.");
 							   	
 							} else { 
 								
@@ -185,7 +187,6 @@
 										if(result.res == "OK") {
 											alert("비밀번호가 수정 되었습니다.");
 											$(location.href = "/setak/login.do");
-											
 											
 											$("#member_name2").val('');
 											$("#member_id").val('');
@@ -495,7 +496,7 @@
                    
                    success: function (data) {
                     AuthTimer.comSecond = 179;
-                    AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+                    AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
                     AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
                     AuthTimer.domId = document.getElementById("timer");
                     $("#authbtn").attr('disabled', true);
@@ -551,7 +552,7 @@
                    
                    success: function (data) {
                     AuthTimer.comSecond = 179;
-                    AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+                    AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
                     AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
                     AuthTimer.domId = document.getElementById("timer2");
                     $("#authbtn2").attr('disabled', true);
@@ -628,7 +629,7 @@
                   if (this.comSecond < 0) {         // 시간이 종료 되었으면..
                       clearInterval(this.timer);      // 타이머 해제
                       random = randomnum();
-                      alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+                      Swal.fire("","인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.","warning");
                   }
               }
               ,fnStop : function(){

@@ -216,7 +216,6 @@
 			});	
 		
 		 	$('#review-submit').on('click',function(){
-		 		alert("나는 눌럿엉");
 		 		$('#review').eq().text('-');
 		 	})
 	});
@@ -381,7 +380,6 @@
               			 </table>
 					</div>
 				</div>
-					
 <!--           popup -->
                 <div class="popup_back"></div> <!-- 팝업 배경 DIV -->
         

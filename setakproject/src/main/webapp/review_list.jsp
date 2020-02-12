@@ -20,6 +20,9 @@ String login_id=(String)session.getAttribute("member_id");
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript"></script>
 <script>
 $(document).ready(function () {	
@@ -35,7 +38,9 @@ $(document).ready(function () {
     		$(".dim").show();
     	}
     	else{
-    		alert("비회원은 리뷰를 작성 할 수 없습니다.");
+
+    		Swal.fire("","비회원은 리뷰를 작성 할 수 없습니다.","info");
+
     		location.href="login.do";
     		return false;
     	}
@@ -270,7 +275,8 @@ $(document).ready(function () {
 					$(document).on('click', '.heart'+index+'', function () {
 						var login_id="<%=session.getAttribute("member_id")%>";   	
 				    	if(login_id=="null"){
-				    		alert("비회원은 리뷰를 추천 할 수 없습니다.");
+				    		Swal.fire("","비회원은 리뷰를 추천 할 수 없습니다.","info");
+
 				    		location.href="login.do";
 				    	}
 				        var that = $('.heart'+index+'');
@@ -311,7 +317,7 @@ $(document).ready(function () {
 	$(document).on('click','.re_delete', function(event){ 
 		var login_id="<%=session.getAttribute("member_id")%>";   	
     	if(login_id=="null"){
-    		alert("비회원은 리뷰를 삭제 할 수 없습니다.");
+    		Swal.fire("","비회원은 리뷰를 삭제 할 수 없습니다.","info");
     		location.href="login.do";
     		return false;
     	}
@@ -328,7 +334,6 @@ $(document).ready(function () {
 				success : function(retVal) {
 					if (retVal.res == "OK") {
 						selectData();	
-						alert("리뷰를 삭제하셨습니다.");
 					}
 					
 					else {
@@ -351,7 +356,7 @@ $(document).ready(function () {
 	$(document).on('click','.updateForm', function(){
 		var login_id="<%=session.getAttribute("member_id")%>";   	
     	if(login_id=="null"){
-    		alert("비회원은 리뷰를 수정 할 수 없습니다.");
+    		Swal.fire("","비회원은 리뷰를 수정 할 수 없습니다.","info");
     		location.href="login.do";
     		return false;
     	}
@@ -454,7 +459,7 @@ selectData();
 function searchCheck() {	
 	//입력안한거 입력하도록 
 	if (document.getElementById('keyword').value=="") {
-		alert("검색어를 입력하세요.");
+		Swal.fire("","검색어를 입력하세요.","info");
         document.getElementById('keyword').focus();
         return;
     }
@@ -622,21 +627,21 @@ function rwchk(){
 
 	if (document.getElementById('Review_content').value=="") 
 	{
-		alert("리뷰의 내용을 작성하세요.(최대 300자)");
+		Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
         document.getElementById('Review_content').focus();
         return false;
         
     }
 	else if (document.getElementById('Review_star').value=="") 
 	{
-    	alert("별점을 눌러주세요");
+		Swal.fire("","별점을 눌러주세요","info");
         document.getElementById('Review_star').focus();
         return false;
     }
 	
 	else if (document.getElementById('Review_kind').value=="") 
 	{
-    	alert("이용하신 서비스를 선택해주세요");
+		Swal.fire("","이용하신 서비스를 선택해주세요","info");
         document.getElementById('Review_kind').focus();
         return false;
     }
@@ -649,20 +654,20 @@ function ruchk(){
 
 	if (document.getElementById('Review_content2').value=="") 
 	{
-		alert("리뷰의 내용을 작성하세요.(최대 300자)");
+		Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
         document.getElementById('Review_content2').focus();
         return false;
         
     }
 	else if (document.getElementById('Review_star1').value=="") 
 	{
-    	alert("별점을 눌러주세요");
+		Swal.fire("","별점을 눌러주세요","info");
         document.getElementById('Review_star1').focus();
         return false;
     }
 	else if (document.getElementById('Review_kind2').value=="") 
 	{
-    	alert("이용하신 서비스를 선택해주세요");
+		Swal.fire("","이용하신 서비스를 선택해주세요","info");
         document.getElementById('Review_kind2').focus();
         return false;
     }
