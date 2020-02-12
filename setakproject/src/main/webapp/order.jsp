@@ -230,7 +230,7 @@
       
       if(addrName == '' || name == '' || phone1 == '' || phone2 == '' || phone3 == ''
          || postcode == '' || address == '' || detailAddress == '') {
-         alert("제대로 입력하세요.");
+         alert("빠짐없이 입력해주세요.");
          return; 
       }
       
@@ -388,10 +388,9 @@
       var select_btn = $(this);
       if(select_btn.is(":checked")) {
          
-         // 체크 하는 순간> 
+         // 체크 하는 순간 
           couponPrice += salePrice;     
           dp = discountPrice + couponPrice;
-      
 
       } else {
          
@@ -852,24 +851,6 @@
       $('#newPhone3').val('');
    }
 
-   
-   // 나의 주소록 클릭 이벤트
-   function callFunction(){
-      
-      var select_addr = $(this).attr('id');
-      alert(select_addr); 
-      var tr = select_addr.parent().parent();
-      var td = tr.children();
-      
-      var newAddrName = td.eq(0).text();
-      alert(newAddrName); 
-      
-      jQuery('#layer-div2').attr('style','display:none');
-      
-      newAddrInit();
-        $("body").css("overflow","scroll");
-   }
-   
    // 주소록 수정창 닫기 
    function modiClose() {
         var modiDiv = $("#modiDiv");
@@ -925,7 +906,7 @@
 					  
 	               }
 	               else { // 실패했다면
-	                  alert("Update Fail");
+	                  return; 
 	               }
 	            },
 	            error:function() {
@@ -1338,9 +1319,10 @@
                               KeepVO kvo = keepList.get(0);
                               if(kvo.getKeep_wash() == 0) {
                                  %>
-                                 <li><input type="checkbox" name="checkCoupon" value = "9500" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
+                
+                                 <li><input type="checkbox" name="checkCoupon" value = "9500" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
                               <% } else { %> 
-                                 <li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><%=coupon.getCoupon_name() %></li>
+                                 <li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
                               <%} 
                               } 
                         }

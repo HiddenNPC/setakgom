@@ -141,6 +141,9 @@ public class AdminOrderController {
 		int[] dailyArr = new int[5];
 		int[] weeklyArr = new int[5];
 		
+		int dailySum = 0; 
+		int weeklySum = 0; 
+		
 		for(int i = 0; i < statusArr.length; i++) {
 			String status = statusArr[i]; 
 			map.put("order_status", status);
@@ -177,6 +180,7 @@ public class AdminOrderController {
 				if(i == statusArr.length - 1) {
 					dailyResult = adminOrderService.recentOrderCnt(map);
 					dailyArr[j] = dailyResult; 
+					dailySum += dailyResult;
 				}
 			}
 			
@@ -192,6 +196,7 @@ public class AdminOrderController {
 			
 			int result = adminOrderService.recentOrderWeeklyCnt(map);
 			weeklyArr[i/2] = result; 
+			weeklySum += result;
 		}
 
 		model.addAttribute("payArr", payArr);
@@ -203,8 +208,17 @@ public class AdminOrderController {
 		
 		model.addAttribute("dailyArr", dailyArr);
 		model.addAttribute("weeklyArr", weeklyArr);
+		model.addAttribute("dailySum", dailySum);
+		model.addAttribute("weeklySum", weeklySum);
 		
 		return "/admin/order_chart";
+	}
+	
+	// 정기구독 관리자 페이지
+	@RequestMapping(value = "/admin/subscribe.do")
+	public String subscribe() {
+		
+		return "/admin/subscribe";
 	}
 
 }

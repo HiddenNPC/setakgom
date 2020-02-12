@@ -162,7 +162,7 @@
 	
 	<!-- 주문 취소 정보 등록  -->
 	<update id="orderCancle" parameterType = "com.spring.order.OrderVO">
-		update memberorder set order_cancel = 1, order_status = '주문취소' where order_muid = #{order_muid}
+		update memberorder set order_cancel = 1, order_delete = 1, order_status = '주문취소' where order_muid = #{order_muid}
 	</update>
 	
 	<!-- 보관 장바구니 그룹 읽기 -->
