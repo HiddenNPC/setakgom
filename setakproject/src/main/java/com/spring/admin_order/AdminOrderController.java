@@ -48,11 +48,6 @@ public class AdminOrderController {
 		
 		String start = startDate.replace("-", "/").substring(2, startDate.length());
 		String end = endDate.replace("-", "/").substring(2, endDate.length());
-
-		// 검색어 설정 
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("keyword", keyword);
-		map.put("orderBy", orderBy);
 		
 		int orderSearchCount = adminOrderService.orderSearchCount(map);
 		ArrayList<OrderVO> orderSearchList = adminOrderService.orderSearch(map);
