@@ -94,7 +94,7 @@
 				<div class="mypage_content">
 					<h2>보관현황</h2>
 					<%if(ordernumlist.size() == 0 ) {%>
-					<h3>보관하신 목록이 없습니다.</h3>
+					<h3 class="null">보관하신 목록이 없습니다.</h3>
 					<%} else { %>
 					<%
 						for (int i = 0; i < ordernumlist.size(); i++) {

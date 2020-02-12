@@ -147,48 +147,6 @@
 				$('#coupon_form')[0].reset();
 			});
 
-			//수정 활성화 됐을 때 종류 값 클릭시 팝업생성
-			$(document).on('click','.update_count',function(event) {
-				$(".popup_back").addClass("popup_on");
-			});
-			$(document).on('click','.close',function(event) {
-	            $(".popup_back").removeClass("popup_on");
-				$(".coupon-list").removeClass("tab_active");
-	        });
-
-			//팝업에서 탭 눌렀을 때
-			$(".tab").on("click", function() {
-				$(".tab").removeClass("tab_active");
-				$(".tab-content").removeClass("show");
-				$(this).addClass("tab_active");
-				$($(this).attr("href")).addClass("show");
-			});
-			$(".coupon-list").on("click", function() {
-				$(".coupon-list").removeClass("tab_active");
-				$(this).addClass("tab_active");
-			});
-			
-			//팝업에서 확인 눌렀을 때
-			var popup_keep_cate = "";	//큰카테
-			var popup_keep_kind = "";	//작은카테
-			$(document).on('click','.commit',function(event) {
-				popup_keep_cate = document.getElementsByClassName('tab tab_active');
-	            popup_keep_kind = document.getElementsByClassName('keep-list tab_active');
-	            
-	            if(!$(".keep-list").hasClass("tab_active")){
-					alert("종류를 선택하지 않았습니다.");
-					return false;
-				}
-	            
-	            //팝업닫기
-	            $(".popup_back").removeClass("popup_on");
-
-	            //옷종류 바꾼거 적용시키기 
-	            $(update_keep_cate).val(popup_keep_cate[0].innerHTML);
-	            $(update_keep_kind).val(popup_keep_kind[0].innerHTML);
-
-	            $(".keep-list").removeClass("tab_active");
-			});
 			
 			//수정 ajax
 			$(document).on('click','.after', function(event){
@@ -222,6 +180,8 @@
 				});
 				event.preventDefault();
 			}); 
+			
+			
 			
 		});
 	</script>
@@ -264,6 +224,7 @@
 				<li>쿠폰사용여부</li>
 				<li>수정</li>
 			</ul>
+			
 			<form id="coupon_form">
 				<div class="coupon_list paginated">
 					<input type="button" value="선택삭제" class="checkdelete">

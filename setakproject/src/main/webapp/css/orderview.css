@@ -110,7 +110,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 	 	font-weight:bold;
 	 }
 	
-	.mypage_content h3 {
+	.null {
     	color:#3498bd;
     	text-align:center;
     	margin-top:150px;
@@ -276,6 +276,12 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 			-webkit-box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
 			box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
 		}
+		.button:disabled{
+			background-color: #e1e4e4;
+			border-color: #e1e4e4;
+			color:#444;
+			text-shadow:none;
+		}
 
   /*취소버튼 끝*/
   /*리뷰 작성버튼*/
@@ -337,6 +343,13 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 			right: -15%;
 			-webkit-box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
 			box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
+		}
+
+		.open:disabled{
+			background-color: #e1e4e4;
+			border-color: #e1e4e4;
+			color:#444;
+			text-shadow:none;
 		}
 		
 		
