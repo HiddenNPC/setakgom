@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -662,5 +663,37 @@ public class OrderController {
 
 		return result;
 	}
-
+	
+	@RequestMapping(value = "/iamport-callback", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public void callback(@RequestBody HashMap<String, Object> map,HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String imp_uid =(String)map.get("imp_uid");
+		String merchant_uid =(String)map.get("merchant_uid");
+		String end_uid = merchant_uid.substring(merchant_uid.length()-1, merchant_uid.length());
+		System.out.println(end_uid);
+		String status = (String)map.get("status");
+		System.out.println(status);
+		
+		if(end_uid.equals("s") && status.equals("paid")) {
+			Iamport iamport = new Iamport();
+			String requestURL = "https://api.iamport.kr/users/getToken";
+			String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
+			String imp_secret = URLEncoder
+					.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
+			JSONObject json = new JSONObject();
+			json.put("imp_key", imp_key);
+			json.put("imp_secret", imp_secret);
+			
+			String token = iamport.getToken(request, response, json, requestURL);
+			
+			HashMap<String, Object> getinfo = iamport.getSchedule(merchant_uid, token); 
+			String customer_uid = (String)getinfo.get("customer_uid");
+			String amount = ""+getinfo.get("amount");
+			Calendar c = Calendar.getInstance();
+			long time = c.getTimeInMillis() / 1000;
+			String muid = "merchant_" + time +"s";
+			
+			subsres(customer_uid, muid, amount, request, response);
+		}
+	}
+	
 }
