@@ -20,6 +20,5 @@ public interface MemberSubMapper {
 
 	 // 정기구독 리스트 갯수
 	 int listcount(String member_id);
-
 	 
 }

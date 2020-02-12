@@ -467,9 +467,16 @@
           console.log(seq); 
           useCoupon.push(seq);               
        });
-
+       
+       var defaultAddrChk = 0;
+	
+      // 기본 배송지 설정
+	  if($("#saveAddr").prop("checked")){
+		  console.log("기본 배송지 설정 체크"); 
+		  defaultAddrChk = 1; 
+	  }
       
-      // 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
+      // 배송지 정보 입력 받기 
       if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
             postcode == '' || address == '') {
          alert("배송지 정보를 모두 입력해주세요.");
@@ -518,7 +525,8 @@
                         'order_zipcode' : postcode,
                         'order_muid' : muid,
                         'usePoint' : usePoint,
-                        'useCoupon' : useCoupon
+                        'useCoupon' : useCoupon,
+                        'defaultAddrChk' : defaultAddrChk
                         //기타 필요한 데이터가 있으면 추가 전달
                     },
                     success : function(data) {
@@ -868,58 +876,6 @@
         modiDiv.css('display', 'none'); 		
 	}
 	
-	// 기본 배송지 지정
-	function setDefaultAddr() {
-		
-		var member_id = "<%=session.getAttribute("member_id")%>"; 
-		
-		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
-			
-			var phone1 = $("#order_phone1").val();
-			var phone2 = $("#order_phone2").val();
-			var phone3 = $("#order_phone3").val();
-			var postcode = $("#postcode").val();
-			var address = $("#address").val();
-			var detailAddress = $("#detailAddress").val();
-			var request = $("#request").val(); 
-			
-			var phone = phone1 + phone2 + phone3;
-			var addr = address + '!' + detailAddress; 
-			
-			var params = {
-					'member_id' : member_id,
-					'member_phone' : phone,
-					'member_zipcode' : postcode, 
-					'member_loc' : addr,
-			};
-			
-			$.ajax({
-	            url : '/setak/defaultAddrUpdate.do', // url
-	            type : 'POST',
-	            data : params, // 서버로 보낼 데이터
-	            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-	            dataType : 'json',
-	            success: function(retVal) {
-	               if(retVal.res=="OK") {    
-	            	   
-					  alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");	
-					  
-	               }
-	               else { // 실패했다면
-	                  return; 
-	               }
-	            },
-	            error:function() {
-	               alert("Update ajax 통신 실패");
-	            }			
-			});
-				
-		} else {
-			alert("선택이 취소되었습니다.");
-		}
-		
-	}
-	
 	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 
@@ -1121,7 +1077,7 @@
                         <td class = "right_col">
                            <input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;" value = "<%=zipcode%>"/> 
                            <input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
-                           <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox" onclick = "setDefaultAddr()"/>기본 배송지로 저장</label>
+                           <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox"/>기본 배송지로 저장</label>
                            <br/>
                            <input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly value = "<%=member_addr1%>"/> &nbsp;
                            <input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;" value = "<%=member_addr2%>"/>

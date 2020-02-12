@@ -339,3 +339,22 @@ li.check {
 	cursor : pointer;
 	border-radius : 3px; 
 }
+
+/*정기구독 회원 관리 css 시작*/
+.statusBtn {
+	border : 1px solid #3498db;
+	background-color : white;
+	padding : 5px; 
+	border-radius : 3px;
+	margin-left : 5px; 	 
+	color : #3498db; 
+	cursor : pointer; 
+}
+
+.statusBtn:hover {
+	background-color: #3498db;
+	color:#fff;
+	cursor:pointer;
+	transition: all .3s;
+}
+

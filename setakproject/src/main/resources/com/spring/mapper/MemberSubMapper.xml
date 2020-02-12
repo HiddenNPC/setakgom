@@ -63,7 +63,6 @@
    <select id="listcount" parameterType="String" resultType="int">
    		SELECT count(*) FROM subs_history WHERE member_id=#{member_id, jdbcType=VARCHAR}
    </select>
-   
-  
+     
 </mapper>
    
