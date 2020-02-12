@@ -129,7 +129,6 @@ public class MemberController {
 		
 		//일반 로그인시	
 		} else {
-			System.out.println("id="+str);
 			return "password";
 		}
 	}
@@ -157,7 +156,6 @@ public class MemberController {
 	public String profile(HttpServletRequest request, Model model, HttpSession session) {
 
 		String ids = (String) session.getAttribute("member_id");
-		 System.out.println("session="+ids);
 
 		MemberVO memberVO = orderService.getMemberInfo(ids);
 	
@@ -194,7 +192,6 @@ public class MemberController {
 	public Map<String, Object> updateMember(MemberVO mo) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		int res = memberservice.member_update(mo);
-		System.out.println("res="+res);	
 		if(res==1) {
 			result.put("res", "OK");
 		} else {
@@ -215,7 +212,6 @@ public class MemberController {
 	 @RequestMapping(value="/withdraw_pass.do", produces = "application/json; charset=utf-8")
 	 @ResponseBody 
 	 public Map<String, Object> withdraw(HttpServletRequest request,MemberVO mo) {
-	  System.out.println("컨트롤러mo="+mo.getMember_password()); 
 	  Map<String, Object> result = new HashMap<String, Object>();
 	  
 	  int res = memberservice.member_password(mo);

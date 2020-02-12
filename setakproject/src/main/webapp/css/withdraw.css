@@ -130,13 +130,16 @@
 }
 
 .content h4 {
-	margin:20px;
+	padding-top:60px;
 	font-size: 1rem;
+	color:#3498db;
+	margin-bottom:20px;
 }
 
 .content input{
 	width:50%;
 	height:30px;
+	margin-top:10px;
 }
 
 .content .btn {
