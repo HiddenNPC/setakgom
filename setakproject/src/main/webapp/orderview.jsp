@@ -312,7 +312,12 @@ function cancle() {
 								</div>
 								</div>
 								<div class="price">
-									<p>송장번호 : <%=orderVO.getOrder_delicode() %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
+									<%
+									if(orderVO.getOrder_delicode() == null) 	
+										orderVO.setOrder_delicode("");
+									%>
+										<p class="delicode">송장번호 : <%=orderVO.getOrder_delicode() %></p>
+										<p class="status">	상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
 								</div>
 							</div>
 						</div>

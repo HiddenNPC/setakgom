@@ -167,13 +167,13 @@
 									<li class="month" value="<%=m3%>"><h3>3개월</h3>
 										<p><%=end_date%> ~ <%=m3%></p>
 										<h1>
-											<span class="price">100</span>원
+											<span class="price">28000</span>원
 										</h1>
 									</li>
 									<li class="month" value="<%=m6%>"><h3>6개월</h3>
 										<p><%=end_date%> ~ <%=m6%></p>
 										<h1>
-											<span class="price">100</span>원
+											<span class="price">55000</span>원
 										</h1>
 									</li>
 								</ul>
@@ -248,8 +248,8 @@ $(document).ready(function () {
 	
 	function selectData() {
 		
-		$(".accordion-header2").click(function() {
-			var order_num = $(this).attr('id');
+		$(".up").click(function() {
+			var order_num = $(this).parent().parent().parent().parent().parent().attr('id');
 			$(".accordion-content2 > table").empty();
 			$(".rt-list").empty();
 			
@@ -311,11 +311,11 @@ $.pricefun = function(n){
 	  jQuery(".accordion-content2").hide();
 	//content 클래스를 가진 div를 표시/숨김(토글)
 	
-	  $(".accordion-header2").click(function(){
-		$except = $(this);
+	  $(".up").click(function(){
+		$except = $(this).parent().parent().parent().parent().parent();
 		$except.toggleClass("active");
 	    $(".accordion-content2")
-	    	.not($(this).next(".accordion-content2").slideToggle(500)).slideUp();
+	    	.not($(this).parent().parent().parent().parent().parent().next(".accordion-content2").slideToggle(500)).slideUp();
 	    $('.mypage_content_cover2').find('.accordion2>.accordion-header2').not($except).removeClass("active");
 	  });
 	
