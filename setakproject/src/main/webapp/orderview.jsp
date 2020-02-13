@@ -15,10 +15,11 @@
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
 	
-	WashingVO washVO = (WashingVO)request.getAttribute("washVO");
-	MendingVO mendVO = (MendingVO)request.getAttribute("mendingVO");
-	KeepVO keepVO = (KeepVO)request.getAttribute("keepVO");
-
+	ArrayList<ArrayList<WashingVO>> washVO = (ArrayList<ArrayList<WashingVO>>)request.getAttribute("washVO2");
+	ArrayList<ArrayList<MendingVO>> mendVO = (ArrayList<ArrayList<MendingVO>>)request.getAttribute("mendingVO2");
+	ArrayList<ArrayList<KeepVO>> keepVO = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keepVO2");
+	System.out.println("orderlist = " + orderlist);
+	
 	
 %>    
 <!DOCTYPE html>
@@ -30,12 +31,74 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<link rel="stylesheet" type="text/css" href="./css/review.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
+		var member_id = "<%=session.getAttribute("member_id")%>";
+		
 		$("#header").load("./header.jsp");
-		$("#footer").load("./footer.jsp");     
+		$("#footer").load("./footer.jsp");  
+		
+		//모달팝업 오픈
+	    $(".open").on('click', function(){
+	    	$(".re_layer").show();	
+	    	$(".dim").show();	
+		});
+	    $(".close").on('click', function(){
+	    	$(".re_layer").hide();	
+	    	$(".dim").hide();
+		});
+		
+	  	//별점 구동	
+		$('.r_content a').click(function () {
+		$(this).parent().children('a').removeClass('on');
+	    $(this).addClass('on').prevAll('a').addClass('on');      
+	    $('#Review_star').val($(this).attr("value"));
+	    return false;
+		});	
+		
+		//입력받을곳 확인체크 + 값 컨트롤러로 전달
+		function rwchk(){	
+
+			if (document.getElementById('Review_content').value=="") 
+			{
+				alert("리뷰의 내용을 작성하세요.(최대 300자)");
+		        document.getElementById('Review_content').focus();
+		        return false;
+		        
+		    }
+			else if (document.getElementById('Review_star').value=="") 
+			{
+		    	alert("별점을 눌러주세요");
+		        document.getElementById('Review_star').focus();
+		        return false;
+		    }
+			else if (document.getElementById('Review_kind').value=="") 
+			{
+		    	alert("이용하신 서비스를 선택해주세요");
+		        document.getElementById('Review_kind').focus();
+		        return false;
+		    }
+			return true;
+		}
+		
+		//취소
+		function rwcancel(){
+			  var check = confirm("작성을 취소하시겠습니까");
+			  if(check)
+			  { 
+				  location.href='./orderview.do';
+			  }
+			  else
+			  { 
+				  return false;
+			  }
+		}
+
+	  
 	   
 		jQuery(".accordion-content").hide();
 		//content 클래스를 가진 div를 표시/숨김(토글)
@@ -45,13 +108,14 @@
 			$(".accordion-content")
 				.not($(this).next(".accordion-content").slideToggle(500)).slideUp();
 			$('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
+			
+			
 		});
 		
+		// 결제 취소		
 		$(document).on('click', '#order_false', function(event) {
 			var btn = $(this); 
 			var order_muid = btn.attr('name');
-			
-			alert(order_muid); 
 			
 			if(confirm("선택된 주문을 취소하시겠습니까?")) {
 			    jQuery.ajax({
@@ -64,6 +128,7 @@
 				      "dataType": "json"
 				    }).done(function(result) { // 환불 성공시 로직 
 				        alert("주문이 성공적으로 취소 되었습니다.");
+				        window.location.href = "./orderview.do";
 				    }).fail(function(result) { // 환불 실패시 로직
 				      	alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
 				    });	
@@ -100,7 +165,7 @@ function cancle() {
 						</ul>
 						<ul class="mypage_list">
 							<li>고객문의</li>
-							<li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
 						</ul>
 						<ul class="mypage_list">
 							<li>정보관리</li>
@@ -115,22 +180,25 @@ function cancle() {
 			
 			<div class="mypage_content">
 				<h2>주문/배송현황</h2>
+				<%if (orderlist.size() == 0) {%>
+					<h3 class="null">주문 내역이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 					<p>
-						<font size=2.5rem>※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
+						<font size=2.5rem style="color:#3498db;">※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
 					</p>
 					<% 
-							for (int i = 0; i<orderlist.size(); i++){	
+							for (int i = 0; i<orderlist.size(); i++) {	
+								System.out.println("orderlist.size = " + orderlist.size());
 								OrderVO orderVO = (OrderVO)orderlist.get(i);
 								
-								// 리스트 하고 싶으면 for문을 돌려 힘을내 > keepVO도 리스트일거 아녀.. 
-								String start = keepVO.getKeep_start();
-								String[] date = start.split(" ");
-								String start_date = date[0]; 			
+								ArrayList<KeepVO> kvo = keepVO.get(i);			
 								
-								String end = keepVO.getKeep_end();
-								String[] date2 = end.split(" ");
-								String end_date = date2[0];
+								ArrayList<MendingVO> mvo = mendVO.get(i);			
+								ArrayList<WashingVO> wvo = washVO.get(i);			
+								
+								// 리스트 하고 싶으면 for문을 돌려 힘을내 > keepVO도 리스트일거 아녀.. 
+								
 							
 					%>
 					<div class="accordion">
@@ -144,14 +212,67 @@ function cancle() {
 								</div>
 								<div class="addr">
 									<p>주소 :</p>
-									<p><%=orderVO.getOrder_address() %></p>
+									<p><%=orderVO.getOrder_address().replace("!", " ") %></p>
 								</div>
 								<br><br><br><br><br>
+								
 								<div class="order_dateClass">
-									<%if (orderVO.getOrder_delete().equals(0)) {%>
-									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="true">주문 취소</a>
+									
+								<div id="re_layer" class="re_layer">
+								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
+								<h2>세탁곰 리뷰 작성</h2>
+								<div class="r_content">
+									<p style="margin-bottom:5px;">사용자 평점</p> 
+									<a class="starR1 on" value="1" >별1_왼쪽</a>
+								    <a class="starR2" value="2">별1_오른쪽</a>
+								    <a class="starR1" value="3">별2_왼쪽</a>
+								    <a class="starR2" value="4">별2_오른쪽</a>
+								    <a class="starR1" value="5">별3_왼쪽</a>
+								    <a class="starR2" value="6">별3_오른쪽</a>
+								    <a class="starR1" value="7">별4_왼쪽</a>
+								    <a class="starR2" value="8">별4_오른쪽</a>
+								    <a class="starR1" value="9">별5_왼쪽</a>
+								    <a class="starR2" value="10">별5_오른쪽</a>    
+								    <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly"></small>   
+								   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
+								</div>      
+								<table class="r_content">
+									<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+								    <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
+								    <tr><td width="40px" ><input name="Review_photo" type="file" class="fileupload"/></td>                          
+								        <td width="40px">
+								        	<select name="Review_kind" id="Review_kind">
+								           		<option value="">분류</option>
+								                <option value="세탁">세탁</option>
+								                <option value="세탁-수선">세탁-수선</option>
+								                <option value="세탁-보관">세탁-보관</option>
+								                <option value="수선">수선</option>
+								                <option value="보관">보관</option>
+								                <option value="정기구독">정기구독</option>
+								           </select></td>
+										<td align="right"  colspan="4">
+											<input type="hidden" name = "review_photo" id = "review_photo">
+											<input type="submit" name="submit" value="등록" id="reviewsubmit">
+											<input id="cbtn" type="button" value="취소" onclick="rwcancel()"/>
+										</td> 	
+									</tr></table>
+								</form>
+								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+								</div>
+								<div class="dim">
+								</div> 
+								   	<tr>
+								   		<td>
+								   	<%if (orderVO.getOrder_cancel().equals("1")) {%>
+									<input type="button" value="리뷰작성" class="open" disabled />
 									<%} else { %>
-									<a href='#' class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>" disabled="false">주문 취소</a>
+									<input type="button" value="리뷰작성" class="open" />
+									<%} %>
+									
+									<%if (orderVO.getOrder_delete().equals("1")) {%>
+									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
+									<%} else { %>
+									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" />
 									<%} %>
 								</div>
 							</div>
@@ -161,27 +282,53 @@ function cancle() {
 								<div class="row_content2">
 								<div class="my_laundry">
 									<p>세탁 :</p>
-									<p><%=washVO.getWash_cate() %>&nbsp;&nbsp;<%=washVO.getWash_method() %>&nbsp;&nbsp;<%=washVO.getWash_count() %></p>
+									<%for (int w = 0; w < wvo.size(); w++){ %>
+									<%if (wvo.get(w).getWash_seq() != 0) { %>
+									<p><%=wvo.get(w).getWash_kind() %> - <%=wvo.get(w).getWash_method() %> - <%=wvo.get(w).getWash_count() %>개</p>
+									<%
+										} 
+									}
+									%>
 								</div>
 								<div class="my_mending">
 									<p>수선 :</p>
-									<p><%=mendVO.getRepair_cate() %>&nbsp;&nbsp;<%=mendVO.getRepair_kind() %>&nbsp;&nbsp;<%=mendVO.getRepair_code() %>&nbsp;&nbsp;<%=mendVO.getRepair_count() %></p>
+									<%for (int m = 0; m<mvo.size(); m++) {%>
+									<%if (mvo.get(m).getRepair_seq() != 0) {%>
+									<p><%=mvo.get(m).getRepair_cate() %> - <%=mvo.get(m).getRepair_kind() %> - 태그(<%=mvo.get(m).getRepair_code() %>) - <%=mvo.get(m).getRepair_count() %>개</p>
+									<%
+										}	
+									} 
+									%>
 								</div>
 								<div class="my_keep">
 									<p>보관 :</p>
-									<p><%=keepVO.getKeep_cate() %>&nbsp;&nbsp;<%=keepVO.getKeep_kind() %>&nbsp;&nbsp;<%=keepVO.getKeep_count() %>&nbsp;&nbsp;<%=keepVO.getKeep_box() %>&nbsp;&nbsp;<%=start_date %>&nbsp;&nbsp;<%=end_date%></p>
+									<%for (int k= 0; k < kvo.size(); k++) {%>
+									<%if (kvo.get(k).getKeep_seq() != 0) {%>
+									<p><%=kvo.get(k).getKeep_cate() %> - <%=kvo.get(k).getKeep_kind() %> - <%=kvo.get(k).getKeep_count() %>개 - <%=kvo.get(k).getKeep_box() %>박스</p>
+									<%
+										} 
+									}
+									%>
 								</div>
 								</div>
 								<div class="price">
-									<p>상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
+									<%
+									if(orderVO.getOrder_delicode() == null) 	
+										orderVO.setOrder_delicode("");
+									%>
+										<p class="delicode">송장번호 : <%=orderVO.getOrder_delicode() %></p>
+										<p class="status">	상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
 								</div>
 							</div>
 						</div>
 					</div>
 					<%
+					
+					System.out.println("여기는 오니2222222222222222");
 						}
 %>
 				</div>
+				
 				<div class="page1">
 				<table class="page">
 					<tr align = center height = 20>
@@ -189,25 +336,26 @@ function cancle() {
               				<%if(nowpage <= 1) {%>
               				<div class="page_a"><a>&#60;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="/orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
-              					if(a==nowpage) {
-           					%>
-           					<div class="page_a"><a><%=a %></a></div>
-           					<%} else {%>
-           						<div class="page_a"><a href="/orderview.do?page=<%=a %>"><%=a %></a></div>
-           					<%} %>
+              				<%for (int a=startpage; a<endpage; a++) {
+	              					if(a==nowpage) {
+	           					%>
+	           					<div class="page_a"><a><%=a %></a></div>
+	           					<%} else {%>
+	           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
+	           					<%} %>
            					<%} %>
            					<%if (nowpage >= maxpage) {%>	
-           						<div class="page_a"><a>&#62;</a></div>
+           						<div class="page_a"><a>></a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="/orderview.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
                   			<%} %>	
                   			</td>
                		</tr>
 				</table>
 				</div>
+				<%} %>
 			</div>
 			
 		</div>

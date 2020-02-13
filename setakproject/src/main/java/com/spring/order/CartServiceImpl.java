@@ -1,6 +1,8 @@
 package com.spring.order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +175,19 @@ public class CartServiceImpl implements CartService {
 		}
 		
 		return res;
+	}
+
+	@Override
+	public ArrayList<KeepVO> getKeepGroupList(HashMap<String, Object> map) {
+		ArrayList<KeepVO> kvo = null; 
+		try {
+			CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+			kvo = cartMapper.getKeepGroupList(map);
+		}catch(Exception e) {
+			System.out.println("보관 그룹별 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return kvo;
 	}		
 	
 

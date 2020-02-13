@@ -1,30 +1,18 @@
 package com.spring.member;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.MemberMapper;
-import com.spring.mapper.MemberSubMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private SqlSession sqlsession;
-	
-	@Override
-	public MemberVO member_list(MemberVO mo) {
-		 MemberVO mvo = null;
-		 try {
-			 MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
-			 mvo = mapper.member_list(mo);
-		 } catch(Exception e) {
-				System.out.println("멤버 리스트 검색 실패" + e.getMessage());
-		 }
-		 
-		 return mvo;
-	}
 	
 	//아이디 확인(중복여부)
 	@Override 
@@ -70,7 +58,6 @@ public class MemberServiceImpl implements MemberService{
 		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
 		int res = 0;
 		String passwd = mapper.member_password(mo);
-		//System.out.println("passwd="+passwd);
 	
 		try {
 			if(passwd != null) {
@@ -85,6 +72,20 @@ public class MemberServiceImpl implements MemberService{
 		}
 		 return res;
 	}
+	
+	// 회원정보 출력
+		@Override
+		public MemberVO member_list(MemberVO mo) {
+			 MemberVO mvo = null;
+			 try {
+				 MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+				 mvo = mapper.member_list(mo);
+			 } catch(Exception e) {
+					System.out.println("멤버 리스트 검색 실패" + e.getMessage());
+			 }
+			 
+			 return mvo;
+		}
 	
 	// 회원정보 수정
 	@Override
@@ -133,11 +134,65 @@ public class MemberServiceImpl implements MemberService{
 				return res;
 			}
 		
-		//회원삭제
+	//아이디 보여주기
+	@Override
+	public String show_id(HashMap<String, Object> map)	{
+		String dbid = "";
+		try {
+			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+			dbid=mapper.show_id(map);
+	  } catch(Exception e) {
+			System.out.println("아이디 보여주기 실패" + e.getMessage());
+	 }
+		return dbid;
+	}
+	
+	
+	// 비밀번호 찾기- 변경하기 버튼
 		@Override
-		public int member_delete(String member_id) {
+		public int chk_you(HashMap<String, Object> map) {
 			int res = 0;
+			
+			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+			String id = mapper.chk_you(map);
+		
 			try {
+				if(id != null) {
+					String dbid = id;
+					if(dbid.equals(map.get("member_id"))) {
+						res = 1; //비밀번호 일치
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("비밀번호 일치 실패" + e.getMessage());
+				 res = -1;
+			}
+			 return res;
+			
+		}
+
+	//비밀번호 변경
+	@Override
+	public int change_pw(HashMap<String, Object> map) {
+		int res = 0;
+		try {
+			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+			mapper.change_pw(map);
+			res = 1;
+		} catch(Exception e) {
+			System.out.println("비밀번호 변경 실패" + e.getMessage());
+			 res = 0;
+		}
+		 return res;
+		
+	}
+		
+		
+	//회원삭제
+	@Override
+	public int member_delete(String member_id) {
+		int res = 0;
+		try {
 				MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
 				mapper.member_delete(member_id);
 				res = 1;

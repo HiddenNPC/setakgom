@@ -51,7 +51,7 @@ public class LoginController {
 
 			
 			//카카오 로그인 인증 URL을 생성하기 위해 getAuthorizetaionUrl 호출 
-			String kakaoUrl = KakaoLoginBO.getAuthorizationUrl(session); 
+			String kakaoUrl = KakaoLoginBO.getAuthorizationUrl(session);  
 			model.addAttribute("kakao_url", kakaoUrl);
 			model.addAttribute("backurl", request.getHeader("referer"));
 			
@@ -60,9 +60,9 @@ public class LoginController {
 		}
 		
 /* 일반로그인 */
-		@RequestMapping(value="loginpro.do",produces = "application/json; charset=utf-8")
+		@RequestMapping(value="/loginpro.do",produces = "application/json; charset=utf-8")
 		public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response, String backurl) throws Exception  {
-		
+			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter writer = response.getWriter();
@@ -71,23 +71,23 @@ public class LoginController {
 			
 			 if(res == 1) {
 				 session.setAttribute("member_id", mo.getMember_id());
-				 writer.write("<script>alert('로그인 성공!!'); location.href='"+backurl+"'; </script>");
+				 writer.write("<script>  location.href='"+backurl+"'; </script>");
 			 } else {
-				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='./login.do';</script>");
+				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='javascript:history.back()';</script>");
 			 }
 			 
 			 return null;
 			}
 
 	/*네이버 로그인 연동 */
-	@RequestMapping(value = "naver",produces="application/json", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/naver",produces="application/json", method= {RequestMethod.GET, RequestMethod.POST})
 	public String callback(Model model, @RequestParam(required = false, defaultValue = "0") String code,
 			@RequestParam String state, HttpSession session, HttpServletResponse response)
 			throws IOException, ParseException {
 		
 		 response.setCharacterEncoding("utf-8");
-		 response.setContentType("text/html; charset=utf-8"); PrintWriter writer =
-		 response.getWriter();
+		 response.setContentType("text/html; charset=utf-8"); 
+		 PrintWriter writer = response.getWriter();
 		 
 		 // 정보동의 취소시 이전페이지로 이동 
 		 if (code.equals("0")) { 
@@ -126,7 +126,7 @@ public class LoginController {
 			session.setAttribute("name", name);
 			session.setAttribute("member_id", id);
 			System.out.println("네이버아이디로 로그인" + id);
-			return "redirect:login.do";
+			return "redirect:/";
 
 		} else { // 등록되지 않은 회원이면 DB에 저장
 			mo.setMember_id(id);
@@ -141,11 +141,11 @@ public class LoginController {
 				
 			} else {
 				System.out.println("등록실패");
-				return "redirect:login.do";
+				return "redirect:/";
 			}
 			
 		}
-		return "redirect:login.do";
+		return "redirect:/";
 	}
 
 	/* 카카오 로그인 연동 */
@@ -207,7 +207,7 @@ public class LoginController {
 				return "redirect:login.do";
 			}
 		}
-		return "redirect:login.do";
+		return "redirect:/";
 	}
 
 	/* 구글로그인 연동 */
@@ -250,7 +250,7 @@ public class LoginController {
 	}
 		
 	//로그아웃
-	@RequestMapping(value="logout.do", produces = "application/json; charset=utf-8")
+	@RequestMapping(value="/logout.do", produces = "application/json; charset=utf-8")
 	public String logout(HttpSession session, MemberVO mo) throws Exception {
 
 		session.removeAttribute("member_id");

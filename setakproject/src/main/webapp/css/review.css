@@ -52,12 +52,12 @@
    	button { color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
-   		border: none; outline: none; 
+   		border: none; outline: none; cursor: pointer;
    	}
    	.cbtn { color: #fff; background-color: #3498db; WIDTH:50pt; HEIGHT:20pt;
    		border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
    		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
-   		border: none; outline: none;
+   		border: none; outline: none;  cursor: pointer;
    	}   	 	
   	/* 검색영역 */
   	.re2{margin:auto; width:1200px; }
@@ -129,7 +129,8 @@
 	border-top-right-radius:5px; border-bottom-right-radius: 5px;
    	border: none; outline: none; padding: 5px;
    	}    
-/* 	#Review_star{width:20px; text-align:center; border:none; color:#aa9fa7;} */
+	#Review_star{width:20px; text-align:center; border:none; color:#aa9fa7;}
+  	
   	#re_layer { display:none; position: fixed; left:50px; top:50px; 
   	width:700px; height:550px;
   	border: 3px solid #444; box-sizing:border-box;

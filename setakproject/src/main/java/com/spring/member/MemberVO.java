@@ -16,5 +16,6 @@ public class MemberVO {
 	String member_zipcode;
 	String member_loc;
 	Date member_join;
-   Integer subs_num; 
+    Integer subs_num;
+    String member_memo;
 }

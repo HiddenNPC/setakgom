@@ -135,7 +135,7 @@
 	<insert id = "insertMemberSubInfo" parameterType = "com.spring.member.MemberVO">
 		insert into member_subs 
 		select #{member_id}, subs_water, subs_shirts, subs_dry, subs_blanket, subs_delivery, sysdate, sysdate+30, 
-		subs_name, subs_price, 0 from subscribe where subs_num = #{subs_num}
+		subs_name, subs_price, 0, 0 from subscribe where subs_num = #{subs_num}
 	</insert>
 	
 	<!-- 회원 정기구독 결제 정보 등록 -->
@@ -161,8 +161,18 @@
 	</select>	
 	
 	<!-- 주문 취소 정보 등록  -->
-	<update id="orderCancel" parameterType = "com.spring.order.OrderVO">
-		update memberorder set order_cancel = 1, order_status = '주문취소' where order_muid = #{order_muid}
+	<update id="orderCancle" parameterType = "com.spring.order.OrderVO">
+		update memberorder set order_cancel = 1, order_delete = 1, order_status = '주문취소' where order_muid = #{order_muid}
 	</update>
-			
+	
+	<!-- 보관 장바구니 그룹 읽기 -->
+	<select id = "getKeepMaxGroup" parameterType = "String" resultType = "int">
+		select max(keep_group) from keep_cart where member_id = #{member_id} 
+	</select>	
+	
+	<!-- 보관 장바구니 유무 확인하기 -->
+	<select id = "getKeepExist" parameterType = "String" resultType = "int">
+		select count(*) from keep_cart where member_id = #{member_id} 
+	</select>	
+		
 </mapper>

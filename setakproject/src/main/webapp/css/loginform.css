@@ -178,7 +178,7 @@
     position: absolute;
     background: #eeece6b;
     width: 450px;
-    height: 420px;
+    height: 450px;
 }
 
 .head button {
@@ -193,7 +193,7 @@
 	color:#9E9E9E;
 }
 
-.head h4 {
+.head h3 {
 	text-align:center;
 	margin:-25px 0 20px 0 ;
 	font-size:1.2rem;
@@ -229,10 +229,16 @@
 	margin:20px 0 0 100px;
 }
 
-.text input:nth-child(5) {
-	margin:30px 0 0 100px;
+.text input:nth-child(4) {
+	margin:2px 0 0 100px;
 }
 
+.text input:nth-child(6) {
+	margin:30px 0 0 100px;
+}
+.text input:nth-child(7) {
+	margin:2px 0 0 100px;
+}
 .text .ok {
 	background-color: #3498db;
 	border: #3498db;
@@ -243,6 +249,90 @@
     margin-top:20px;
 }
 
+.text h4 {
+	display:none;
+	color:#f50101;
+	font-size:0.85rem;
+	margin: 5px 100px;
+}
+
+#timer {
+	position: absolute;
+	color:#f50101;
+	top:18.35rem;
+	left:19.5rem;
+	font-size:0.9rem;
+}
+
+
+#authbtn:disabled {
+    background-color: #bbabab;
+    cursor: default;
+}
+#authsucess{
+	color:#3498db;
+}
+#show-id {
+	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+}
+
+
+/*아이디 보여주기*/
+.yourid {
+	display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 25%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 400px;
+    height: 350px;
+}
+
+.btn-x {
+	border:0;
+	background-color:#fff;
+	font-size:1.4rem;
+	margin: 18px 360px; 
+}
+
+.yourid h3 {
+	font-size:1.2rem;
+	margin:-30px 0 20px 20px;
+}
+
+.yourid h6 {
+    margin:70px 0 70px 50px;
+    font-size:1rem;
+}
+
+.yourid span{
+	color:#3498db;
+	font-size:1.3rem;
+}
+.yourid .btn {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    width:100px;
+    margin : 30px 0 0 150px;
+}
+
+
+
+
+
 /*비밀번호찾기*/
 
 .check_pw .back{
@@ -260,46 +350,156 @@
 	display:none;
 	background-color:#fff;
 	z-index:99999;
-    top : 20%;
+    top : 15%;
     left:35%;
     position: absolute;
     background: #eeece6b;
     width: 450px;
-    height: 420px;
+    height: 500px;
 }
 
-
-
-/*비밀번호찾기*/
-
-.check_pw .back{
-	display:none;
-	z-index:10000;
-    position: fixed;
-    width: 100%;
-    height: 1000px;
-    top: 0px;
-    left: 0px;
-    background-color:#7575749e;
-}
-
-.check_pw .popup2 {
-	display:none;
+.head button {
+	margin: 24px 410px; 
+	border: 0;
 	background-color:#fff;
-	z-index:99999;
-    top : 20%;
-    left:35%;
-    position: absolute;
-    background: #eeece6b;
-    width: 450px;
-    height: 470px;
+	font-size:1.5rem;
+}
+
+.head button:hover {
+	cursor:pointer;
+	color:#9E9E9E;
+}
+
+.head h4 {
+	margin:-34px 0 20px 30px ;
+	font-size:1.2rem;
+
+}
+.popup2 .text h3 {
+	margin:30px 0 0 100px;
+	font-size:0.9rem;
+	
+}
+
+.popup2 .text input:nth-child(2) {
+	margin: 20px 0 3px 100px;
+}
+
+.popup2 .text input:nth-child(5) {
+	margin: 3px 0 20px 100px;
 }
 
 .popup2 .text h5 {
-	margin:20px auto;
+	display:none;
+	color:#f50101;
+	margin:-15px 0 0 -80px;
 }
-.popup2 .text input:nth-child(6) {
-	margin:30px 0 -50px 100px;
+
+.popup2 .text input:nth-child(7){
+	margin:20px 0 0 100px;
+}
+
+.popup2 .text input:nth-child(8) {
+	margin:2px 0 0 100px;
+}
+
+.popup2 .text h6 {
+	display:none;
+	color:#f50101;
+	margin:4px 0 -10px 100px;
+}
+
+#authsucess2 {
+	display:none;
+	color:#3498db;
+}
+
+#change-pw {
+ 	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+ }
+
+#timer2 {
+	position: absolute;
+	color:#f50101;
+	top:21.79rem;
+	left:19.5rem;
+	font-size:0.83rem;
 }
 
 
+#authbtn2:disabled {
+    background-color: #bbabab;
+    cursor: default;
+}
+
+/*비밀번호 교체하기*/
+.changepass {
+    display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 20%;
+    left: 38%;
+    position: absolute;
+    background: #eeece6b;
+    width: 500px;
+    height: 400px;
+}
+
+.changepass h2 {
+	margin:30px 0 20px 30px;
+	font-size:1.2rem; 
+}
+
+.changepass h3 {
+	margin:30px 0 0 90px;
+    font-size:0.9rem;
+}
+
+.changepass h4 {
+	margin:2px 0 0 90px;
+	font-size:0.87rem;
+}
+
+.changepass  input:nth-child(5){
+	margin:30px 0 0 150px;
+	height:22px;
+	width:200px;
+}
+
+.changepass h5 {
+	display:none;
+	font-size:0.74rem;
+	color:#f50101;
+	margin:3px 0 0 154px;
+}
+
+.changepass  input:nth-child(7){
+	margin:20px 0 0 150px;
+	height:22px;
+	width:200px;
+}
+
+.changepass h6 {
+	display:none;
+	font-size:0.75rem;
+	color:#f50101;
+	margin:3px 0 0 154px;
+}
+#update-pw {
+	width:205px;
+	height:30px;
+	margin:35px 150px;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+}

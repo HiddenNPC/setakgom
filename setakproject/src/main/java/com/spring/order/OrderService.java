@@ -30,6 +30,9 @@ public interface OrderService {
 	
 	public SubscribeVO getSubscribeInfo(MemberVO mvo);
 	
-	public int orderCancel(OrderVO ovo);
+	public int orderCancle(OrderVO ovo);
+	
+	public int getKeepMaxGroup(String member_id); 
+	public int getKeepExist(String member_id);
 	
 }

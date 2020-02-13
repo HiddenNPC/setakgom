@@ -1,6 +1,8 @@
 package com.spring.order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.spring.setak.KeepVO;
 import com.spring.setak.MendingVO;
@@ -21,6 +23,8 @@ public interface CartService {
 	public MendingVO getMendingList(int repair_seq);
 	// 보관 장바구니 값 읽어오기
 	public KeepVO getKeepList(int keep_seq); 
+	// 보관 그룹별 리스트 검색
+	public ArrayList<KeepVO> getKeepGroupList(HashMap<String, Object> map); 
 	
 	// 세탁 장바구니 비우기
 	public int deleteWashCart(int wash_seq);	

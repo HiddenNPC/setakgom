@@ -15,7 +15,6 @@
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")     
          var sessionID = "<%=session.getAttribute("member_id") %>"
-
          /*비밀번호 일치하면 개인정보 수정 페이지로 이동 */    
          $('.btn').on('click', function(event){ 
         	 
@@ -66,8 +65,8 @@
 					<li>
 						<ul class="mypage_list">
                      		<li>주문관리</li>
-                     		<li><a href="orderview.jsp">주문/배송현황</a></li>
-                     		<li><a href="mykeep.jsp">보관현황</a></li>
+                     		<li><a href="orderview.do">주문/배송현황</a></li>
+                     		<li><a href="mykeep.do">보관현황</a></li>
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정기구독</li>
@@ -75,7 +74,7 @@
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>고객문의</li>
-                     		<li><a href="qnainquiry.jsp">Q&amp;A 문의내역</a></li>
+                     		<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
                   		</ul>
                   		<ul class="mypage_list">
                      		<li>정보관리</li>

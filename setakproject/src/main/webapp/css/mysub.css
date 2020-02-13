@@ -142,6 +142,7 @@
 	color: #fff;
 }
 
+
 .mysub_bottom {
 	display: flex;
 	justify-content: space-between;
@@ -180,17 +181,20 @@
  
 a#cancle {
 	display: none;
+	color: #fff;
 }
 
 
 .two ul li:last-child a {
 	background-color: #e1e4e4;
 	color: #444;
+	margin: -8px 0 0 19px;
+ 
 }
 
 .two ul li:last-child a:hover {
 	background-color: #201f1fa1;
-	color: #444;
+	color: #fff;
 	transition: all .4s;
 }
 
@@ -201,6 +205,10 @@ a#cancle {
 	color: #3498db;
 }
 
+#re-sub{
+	display:none;
+
+}
 /*정기구독내역*/
 .myrecord .text h2 {
 	margin:70px 0 20px 0;
@@ -291,6 +299,7 @@ a#cancle {
      color: #2196F3;
      font-size: 20px;
      font-weight: bold;
+     cursor:pointer;
 }
 
 .popup .pop_btn:hover {
@@ -299,24 +308,27 @@ a#cancle {
 
 .popup .pop_btn2 {
      margin: 150px 0 0 230px; 
-     color: #2196F3;
+     color:#858688;
      font-size: 20px;
      font-weight: bold;
+
 }
 
 .popup .pop_btn2:hover {
-    color:#858688;
+     color: #2196F3;
+    cursor:pointer;
 }
 
 .popup .pop_btn3 {
      margin: -21px 0 0 333px;  
-     color: #2196F3;
+    color:#858688;
      font-size: 20px;
      font-weight: bold;
+     cursor:pointer;
 }
 
 .popup .pop_btn3:hover {
-    color:#858688;
+     color: #3498db;
 }
 
 /*구독해지 팝업창*/
@@ -331,10 +343,10 @@ a#cancle {
     display: none; 
 }
 .subcancle .back{
-    margin:0 auto;
+    margin:2% auto;
     background:#fff;
     width:500px;
-    margin-top:6%;
+    border: 1px solid #ddd;
 }
 .sub_image{
     width: 500px;
@@ -343,9 +355,7 @@ a#cancle {
 	color:#444;
 	padding:30px 0 0 20px;
 }
-.subcancle .back .text h2{
-    
-}
+
 .subcancle .back .text p{
     color:#444;
     padding:10px 0px;
@@ -369,7 +379,7 @@ a#cancle {
 .subcancle .back .text h5:nth-child(6){
 	padding-top:20px;
 }
-.subcancle .back .pop_btn4{
+.subcancle .back .keep{
 	width:100%;
 	height:40px;
     background-color: #3498db;
@@ -377,16 +387,17 @@ a#cancle {
     margin-top:30px;
     color:#fff;
     font-size:0.85rem;
+    cursor:pointer;
 }
-.subcancle .back .pop_btn5{
+.subcancle .back .bye{
 	margin-top:10px;
-
 	width:100%;
 	height:40px;
     background-color: #fff;
     border:0px;
     color:#7e7b7b;
     font-size:0.85rem;
+    cursor:pointer;
 }
 .subcancle .back input:hover{
 	transition:all .4s;
@@ -394,3 +405,59 @@ a#cancle {
 }
 
 
+/*구독해지 취소 팝업창*/
+.subback {
+    display:none;
+	background-color:#fff;
+	z-index:99999;
+    top : 20%;
+    left: 38%;
+    position: absolute;
+    width: 500px;
+    height: 350px;
+}
+
+.reback{
+	display:none;
+	z-index:10000;
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    top: 0px;
+    left: 0px;
+    background-color:#7575749e;
+}
+
+.subback h2 {
+	margin:30px 0 20px 30px;
+	font-size:1.3rem;
+}
+
+.subback hr {
+	border:1.3px solid #3498db;
+}
+.subback h4 {
+	margin:40px 0 0 90px;
+    font-size:0.9rem;
+}
+
+.subback h5 {
+	margin:2px 0 0 90px;
+	font-size:0.9rem;
+}
+
+.subback h6 {
+	font-size:0.9rem;
+	margin:15px 0 0 90px;
+}
+
+.subback input{
+	width:150px;
+	height:30px;
+	border:0;
+	background-color: #3498db;
+	color:#fff;
+	cursor:pointer;
+	margin: 70px 0 0 170px;
+	font-weight:bold;
+}

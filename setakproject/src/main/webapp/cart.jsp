@@ -5,6 +5,7 @@
 <%@ page import = "com.spring.setak.KeepVO" %>
 <%@ page import = "java.util.ArrayList" %>
 <%
+
 	ArrayList<WashingVO> washingList = (ArrayList<WashingVO>)request.getAttribute("washingList");
 	ArrayList<MendingVO> mendingList = (ArrayList<MendingVO>)request.getAttribute("mendingList");
 	ArrayList<KeepVO> keepList = (ArrayList<KeepVO>)request.getAttribute("keepList");
@@ -21,6 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/cart.css"/>
 	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
 
@@ -51,7 +53,7 @@
      		var checkbox = $("input[name=check]:checked");
      		
      		if(checkbox.length == 0) {
-     			alert("선택한 상품이 존재하지 않습니다.");
+     			Swal.fire("", "선택한 상품이 존재하지 않습니다.", "warning");
      			return; 
      		}
      		
@@ -216,15 +218,15 @@
 		                     <td><%=mvo.getRepair_cate()%></td>
 		                     <td><%=mvo.getRepair_count()%>장</td>
 		                     <td class = "product_price"><%=mvo.getRepair_price()%>원</td>
-		                     <td><%=mvo.getRepair_kind()%></td>
+		                     <td><%=mvo.getRepair_kind()%> <span class = "repairCode">[텍코드 : <%=mvo.getRepair_code()%>]</span></td>
 		                  </tr>   
                   		<% } } else { %>
                   		<tr></tr>
                   		<%} %>
                   		
 						<% if(keepList.size() != 0) {
-
-						KeepVO kvo = keepList.get(0);%>		
+							for(int i = 0; i < keepList.size(); i++) {
+								KeepVO kvo = keepList.get(i);%>			
 						  <tr class="cnt">
 		                     <td>
 		                     	<input type = "checkbox" name = "check" value = "k<%=kvo.getKeep_seq()%>"/>
@@ -239,7 +241,7 @@
 		                     <td class = "product_price"><%=kvo.getKeep_price()%>원</td>
 		                     <td><%=kvo.getKeep_month()%>개월</td>
 		                  </tr>   
-                  		<% } else { %>
+                  		<% } }else { %>
                   		<tr></tr>
                   		<%}
 						}%>

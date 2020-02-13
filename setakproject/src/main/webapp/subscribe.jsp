@@ -55,12 +55,10 @@
         	 
         	 // merchant_uid
         	 var muid = 'merchant_' + new Date().getTime();
-        	 console.log("muid " + muid); 
         	 
         	 // customer_uid를 위한 난수 생성 > 재결제 예약에 사용 
         	 var num = Math.floor(Math.random() * 1000) + 1; 
         	 var cuid = '<%=memberVO.getMember_id()%>' + num;
-        	 console.log("cuid " + cuid); 
 
              var IMP = window.IMP; // 생략가능
              IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -73,7 +71,7 @@
                merchant_uid : muid,
                customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
                name: "정기 구독 결제 카드 등록 및 최초 결제",
-               amount: 100, 
+               amount: "100", 
                buyer_email : '<%=memberVO.getMember_email()%>',
                buyer_name : '<%=memberVO.getMember_name()%>',
                buyer_tel : '<%=memberVO.getMember_phone()%>',
@@ -87,16 +85,18 @@
             	      jQuery.ajax({
             	        url: "/setak/insertSubscribe.do", 
             	        method: "POST",
-            	        dataType: 'json',
+            	        dataType: 'text',
             	        data: {
             	          merchant_uid : muid,
             	          customer_uid: cuid,
             	          'member_id' : member_id,
-           				  'subs_num' : subs_num     	          
+           				  'subs_num' : subs_num,
+           				  'amount': "1000"
             	        },
                         success : function() {
+                        	
                             location.href='<%=request.getContextPath()%>/subSuccess.do';
-                        }
+                        } 
             	      });
                } else {
                  alert("결제가 취소 되었습니다."); 

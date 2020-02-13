@@ -418,9 +418,8 @@ $(document).ready(function () {
 							
 		});
 	 });
+	selectData();
 
-	
-selectData();		
 });
 
 		
@@ -711,7 +710,7 @@ function rwcancel(){
                 <option value="수선">수선</option>
                 <option value="보관">보관</option>
                 <option value="정기구독">정기구독</option>
-           </select></td>           
+           </select></td>
 		<td align="right"  colspan="4">
 			<input class="cbtn" type="submit" name="submit" value="등록" >		
 			<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
@@ -765,7 +764,8 @@ function rwcancel(){
         </td>           
 		<td align="right"  colspan="4">
 			<input class="cbtn" type="submit" name="submit" value="등록" >		
-			<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
+			<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/>
+		</td>	 	
 	</tr>
 </table>
 </form>
@@ -776,8 +776,6 @@ function rwcancel(){
 
 <!-- 글 분류 -->
 <div class="re2">
-
-
 
 <div class="re2_search">
 <input type="radio" id="radio1" name="radio_val" value="review_date" ><label for="radio1">등록일순</label>
@@ -798,7 +796,6 @@ function rwcancel(){
 <!--리뷰 리스트 (ajax) -->  
 <div class="paginated">
 <div id="re_list">
-
 </div>
 </div>
 <!--리뷰 리스트 끝-->
