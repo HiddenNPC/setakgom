@@ -44,14 +44,12 @@ public class Admin_C_M_Controller {
 	//검색
 	@RequestMapping(value="/admin/couponSearch.do", produces = "application/json;charset=UTF-8")
 	public Map<String, Object> couponSearch(@RequestParam(value="keyword") String keyword){
-		System.out.println("연결이 되었니?");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("keyword", keyword);
 			ArrayList<Object> couponlist = admin_C_M_Service.couponSerach(map); 
 			int couponcount = 0; 
 			couponcount = admin_C_M_Service.getCouponCount();
 			
-			System.out.println(couponlist);
 			Map<String, Object> res = new HashMap<String, Object>();
 				res.put("couponlist", couponlist);
 				res.put("couponcount", couponcount);
@@ -142,14 +140,12 @@ public class Admin_C_M_Controller {
 	//검색
 	@RequestMapping(value="/admin/mileSearch.do", produces = "application/json;charset=UTF-8")
 	public Map<String, Object> mileSearch(@RequestParam(value="keyword") String keyword){
-		System.out.println("연결이 되었니?");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("keyword", keyword);
 			ArrayList<Object> milelist = admin_C_M_Service.mileSerach(map); 
 			int milecount = 0; 
 			milecount = admin_C_M_Service.getMileCount();
 			
-			System.out.println(milelist);
 			Map<String, Object> res = new HashMap<String, Object>();
 				res.put("milelist", milelist);
 				res.put("milecount", milecount);

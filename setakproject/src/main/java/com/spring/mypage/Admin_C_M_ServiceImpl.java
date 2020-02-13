@@ -34,7 +34,6 @@ public class Admin_C_M_ServiceImpl implements Admin_C_M_Service {
 		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
 		
 		couponlist = mapper.couponSerach(map);
-		System.out.println("couponlist.size() = "+couponlist.size());
 		return couponlist;
 	}
 	
@@ -51,9 +50,6 @@ public class Admin_C_M_ServiceImpl implements Admin_C_M_Service {
 	public int updateCoupon(CouponVO params) {
 		int res = 0;
 		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
-		System.out.println("왜 값이 안넘어가냐" + params.getCoupon_seq());
-		System.out.println("왜 값이 안넘어가냐" + params.getCoupon_name());
-		System.out.println("왜 값이 안넘어가냐" + params.getCoupon_end());
 		
 		res = mapper.updateCoupon(params);
 		
