@@ -33,6 +33,10 @@
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <link rel="stylesheet" type="text/css" href="./css/review.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -65,20 +69,20 @@
 
 			if (document.getElementById('Review_content').value=="") 
 			{
-				alert("리뷰의 내용을 작성하세요.(최대 300자)");
+				Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","warning");
 		        document.getElementById('Review_content').focus();
 		        return false;
 		        
 		    }
 			else if (document.getElementById('Review_star').value=="") 
 			{
-		    	alert("별점을 눌러주세요");
+				Swal.fire("","별점을 눌러주세요","warning");
 		        document.getElementById('Review_star').focus();
 		        return false;
 		    }
 			else if (document.getElementById('Review_kind').value=="") 
 			{
-		    	alert("이용하신 서비스를 선택해주세요");
+				Swal.fire("","이용하신 서비스를 선택해주세요","warning");
 		        document.getElementById('Review_kind').focus();
 		        return false;
 		    }
@@ -127,10 +131,10 @@
 				      },
 				      "dataType": "json"
 				    }).done(function(result) { // 환불 성공시 로직 
-				        alert("주문이 성공적으로 취소 되었습니다.");
+				    	Swal.fire("","주문이 성공적으로 취소 되었습니다.","success");
 				        window.location.href = "./orderview.do";
 				    }).fail(function(result) { // 환불 실패시 로직
-				      	alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+				    	Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","info");
 				    });	
 			}		    
 		}); 

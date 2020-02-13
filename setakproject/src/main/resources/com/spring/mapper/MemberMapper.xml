@@ -49,8 +49,8 @@
    
     <!-- 로그인 연동시 회원가입 -->
    <insert id="linkage" parameterType="com.spring.member.MemberVO"  >
-   		INSERT INTO member(member_name, member_id, member_email, member_join)
-		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_email}, sysdate)
+   		INSERT INTO member(member_name, member_id, member_email, member_join, member_loc)
+		VALUES (#{member_name}, #{member_id, jdbcType=VARCHAR}, #{member_email}, sysdate, #{member_loc})
    </insert>
    
    <!-- 아이디 보여주기 -->

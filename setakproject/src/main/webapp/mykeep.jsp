@@ -43,6 +43,9 @@
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script type="text/javascript">
@@ -407,7 +410,7 @@ $(document).ready(function() {
 	 	    
 	        if (select_price == 0){
 	        	msg = '금액을 선택해주세요.';
-	       		alert(msg);
+	        	alert(msg);
 	        }
 	        
 	        IMP.request_pay({
@@ -472,7 +475,7 @@ $(document).ready(function() {
  	        var massage;
  	        if (select_price == 0){
  	        	msg = '금액을 선택해주세요.';
- 	       		alert(msg);
+ 	        	alert(msg);
  	        }
  	        
  	        IMP.request_pay({

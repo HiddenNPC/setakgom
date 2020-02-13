@@ -23,6 +23,10 @@ System.out.println("member_id="+member_id);
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
     $("#header").load("header.jsp")
@@ -34,7 +38,7 @@ $(document).ready(function(){
 function passchk(){	
 	//입력안한거 입력하도록 
 	if (document.getElementById('qp1_3').value=="") {
-		alert("비밀번호를 입력하세요.");
+		Swal.fire("","비밀번호를 입력하세요.","info");
         document.getElementById('qp1_3').focus();
         return;
     }else{
