@@ -63,7 +63,7 @@ $(document).ready(function () {
 		if(rwchk()){			
 			if(filecontent != null){
 				var data = new FormData();
-				data.append("purpose", "qna");
+				data.append("purpose", "review");
 				data.append("files", filecontent);
 				data.append("filename", filename);
 				
@@ -101,7 +101,7 @@ $(document).ready(function () {
 		if(ruchk()){			
 			if(filecontent != null){
 				var data = new FormData();
-				data.append("purpose", "qna");
+				data.append("purpose", "review");
 				data.append("files", filecontent);
 				data.append("filename", filename);
 				

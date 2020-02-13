@@ -33,6 +33,10 @@
 <link rel="stylesheet" type="text/css" href="./css/review.css" />
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript">
 	
 	$(document).ready(function() {
@@ -117,7 +121,7 @@
 		    });
 		
 	/*구독해지*/	
-		//구독해지 신청 클릭 //????? 왜 재 클릭하면 그림이 안뜨냐.....
+		//구독해지 신청 클릭 
 		   $("#sub").click(function(event){
 			   $(".subcancle").css('display', 'block');
 			});
@@ -145,10 +149,8 @@
 	    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 					success:function(result) {
 						if(result.res=="OK") {            
-							console.log("subs_bye값이 1로 변경되었음");
 		     			}
 		     			else { // 실패했다면
-		     				console.log("subs_bye값이 변경이 안됫어ㅠㅠ");
 		     			}
 					},
 					// 문제가 발생한 경우 
@@ -177,10 +179,9 @@
 	    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 					success:function(result) {
 						if(result.res=="OK") {            
-							console.log("subs_bye값이 0로 변경되었음");
+							console.log("subs_bye 0");
 		     			}
 		     			else { // 실패했다면
-		     				console.log("subs_bye값이 변경이 안됫어ㅠㅠ");
 		     			}
 					},
 					// 문제가 발생한 경우 
@@ -210,29 +211,111 @@
 		document.getElementById("printday").innerHTML =day;
 		
 				
-		/*리뷰 관련 스크립트*/	
-			//모달팝업 오픈
-		    $(".open").on('click', function(){
-		    	$(".re_layer").show();	
-		    	$(".dim").show();	
-			});
-		    $(".close").on('click', function(){ 
-		    	$(".dim").hide();
-			});
-			
-		 	 //별점 구동	
-			$('.r_content a').click(function () {
-			$(this).parent().children('a').removeClass('on');
-		    $(this).addClass('on').prevAll('a').addClass('on');      
-		    $('#Review_star').val($(this).attr("value"));
-		    return false;
-			});	
-		
-		 	$('#review-submit').on('click',function(){
-		 		$('#review').eq().text('-');
-		 	})
+		 /*리뷰 관련 스크립트*/   
+	      //모달팝업 오픈
+	       $(".open").on('click', function(){
+	          var login_id="<%=session.getAttribute("member_id")%>";      
+	          
+	          if(!(login_id=="null"))
+	          {
+	             $("#re_layer").show();   
+	             $(".dim").show();
+	          }
+	          else{
+	        	 Swal.fire("","비회원은 리뷰를 작성 할 수 없습니다.");
+	             location.href="login.do";
+	             return false;
+	          }   
+	      });
+	       $(".close").on('click', function(){
+	          $(".re_layer").hide();   
+	          $(".dim").hide();
+	          location.href='./mysub.do';
+	          
+	      });
+	      
+	        //별점 구동   
+	      $('.r_content a').click(function () {
+	      $(this).parent().children('a').removeClass('on');
+	       $(this).addClass('on').prevAll('a').addClass('on');      
+	       $('#Review_star').val($(this).attr("value")/2);
+	       return false;
+	      });   
+	        
+	        //파일 인설트 부분
+	      var filecontent;
+	      var filename="";   
+	      $("#Review_photo").change(function(){
+	         filecontent = $(this)[0].files[0];
+	         filename = Date.now() + "_" + $(this)[0].files[0].name;
+	      });   
+	      $("#reviewform").on("submit", function() {
+	         if(rwchk()){         
+	            if(filecontent != null){
+	               var data = new FormData();
+	               data.append("purpose", "review");
+	               data.append("files", filecontent);
+	               data.append("filename", filename);
+	               
+	               $("#Review_photo2").val(filename);
+	              
+	               $.ajax({
+	                      type: "POST",
+	                      enctype: 'multipart/form-data',
+	                      url: "/setak/testImage.do",
+	                      data: data,
+	                      processData: false,
+	                      contentType: false,
+	                      cache: false,
+	                      dataType: 'json',   
+	                      success: function (data) {
+	                    	  
+	                      },
+	                      error: function (e) {   
+	                  }                   
+	               });
+	            }         
+	         }else{
+	            event.preventDefault();
+	         }
+	      });   
+	      
+	      //입력받을곳 확인체크 + 값 컨트롤러로 전달
+	      function rwchk(){   
+
+	         if (document.getElementById('Review_content').value=="") 
+	         {
+	        	 Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
+	              document.getElementById('Review_content').focus();
+	              return false;
+	              
+	          }
+	         else if (document.getElementById('Review_star').value=="") 
+	         {
+	        	 Swal.fire("","별점을 눌러주세요","info");
+	              document.getElementById('Review_star').focus();
+	              return false;
+	          }
+	         
+	         else if (document.getElementById('Review_kind').value=="") 
+	         {
+	        	 Swal.fire("","이용하신 서비스를 선택해주세요","info");
+	              document.getElementById('Review_kind').focus();
+	              return false;
+	          }
+	         
+	         return true;
+	         
+	      }
+
 	});
-	 
+
+	function rwcancel(){
+        location.href='./mysub.do';       
+   }
+
+	
+	
 
 </script>
 </head>
@@ -454,49 +537,50 @@
 	
 	<!-- 리뷰 -->
 	<div>
-	<!-- 레이아웃 팝업  -->
-		<a href="#" class="open"></a>
-		<div id="re_layer" class="re_layer">
-		<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
-		<h2>세탁곰 리뷰 작성</h2>
-		<div class="r_content">
-			<p style="margin-bottom:5px;">사용자 평점</p> 
-			<a class="starR1 on" value="1" >별1_왼쪽</a>
-		    <a class="starR2" value="2">별1_오른쪽</a>
-		    <a class="starR1" value="3">별2_왼쪽</a>
-		    <a class="starR2" value="4">별2_오른쪽</a>
-		    <a class="starR1" value="5">별3_왼쪽</a>
-		    <a class="starR2" value="6">별3_오른쪽</a>
-		    <a class="starR1" value="7">별4_왼쪽</a>
-		    <a class="starR2" value="8">별4_오른쪽</a>
-		    <a class="starR1" value="9">별5_왼쪽</a>
-		    <a class="starR2" value="10">별5_오른쪽</a>     
-		   	<input type="text" id="Review_star" name="Review_star" value="">
-		   	<input type="text" id="Review_like" name="Review_like" value="0">  	
-		</div>      
-		<table class="r_content">
-			<tr><td colspan="7" class = "r_notice"> &nbsp; REVIEW | <p style="display:inline-block; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
-		    <tr><td colspan="7"><textarea name="Review_content" placeholder="궁금하신 사항을 입력해 주세요"></textarea></td></tr>
-		    <tr><td width="40px" ><input name="Review_photo" type="file"/></td>                          
-		        <td width="40px">
-		        	<select name="Review_kind" class="">
-		           		<option value="">분류</option>
-		                <option value="세탁">세탁</option>
-		                <option value="세탁-수선">세탁-수선</option>
-		                <option value="세탁-보관">세탁-보관</option>
-		                <option value="수선">수선</option>
-		                <option value="보관">보관</option>
-		                <option value="정기구독">정기구독</option>
-		           </select></td>           
-				<td align="right"  colspan="4">
-					<button id="review-submit" onclick="javascript:reviewform.submit()" >등록</button>
-					
-					<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
-			</tr></table>
-		</form>
-		<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
-		</div>
-		<div class="dim"></div><br><br>
+	 <!-- 레이아웃 팝업  -->
+      
+      <div id="re_layer" class="re_layer">
+                        <h2>리뷰 작성</h2>
+                        <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
+                        <div class="r_content">
+                           <p style="margin-bottom:5px;">사용자 평점</p> 
+                           <a class="starR1 on" value="1" >별1_왼쪽</a>
+                            <a class="starR2" value="2">별1_오른쪽</a>
+                            <a class="starR1" value="3">별2_왼쪽</a>
+                            <a class="starR2" value="4">별2_오른쪽</a>
+                            <a class="starR1" value="5">별3_왼쪽</a>
+                            <a class="starR2" value="6">별3_오른쪽</a>
+                            <a class="starR1" value="7">별4_왼쪽</a>
+                            <a class="starR2" value="8">별4_오른쪽</a>
+                            <a class="starR1" value="9">별5_왼쪽</a>
+                            <a class="starR2" value="10">별5_오른쪽</a>    
+                            <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly">점</small>   
+                              <input type="hidden" id="Review_like" name="Review_like" value="0">     
+                        </div>      
+                        <table class="r_content">
+                           <tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+                            <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
+                            <tr><td width="40px">
+                                <input type="file" id="Review_photo"/>                        
+                                <input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
+                                <td width="40px">
+                                   <select name="Review_kind" id="Review_kind">
+                                         <option value="">분류</option>
+                                        <option value="세탁">세탁</option>
+                                        <option value="세탁-수선">세탁-수선</option>
+                                        <option value="세탁-보관">세탁-보관</option>
+                                        <option value="수선">수선</option>
+                                        <option value="보관">보관</option>
+                                        <option value="정기구독">정기구독</option>
+                                   </select></td>
+                              <td align="right"  colspan="4">
+                                 <input class="cbtn" type="submit" name="submit" value="등록" >      
+                                 <input class="cbtn" type="button" value="취소" onclick="rwcancel()"/></td>    
+                           </tr></table>
+                        </form>
+                        <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+                        </div>
+                        <div class="dim"></div><br><br>
 	
 	</div>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
