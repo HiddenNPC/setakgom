@@ -52,9 +52,9 @@ $(document).ready(function(){
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >
 		<td height="40px" width="10%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 		<td width="50%"> 
-			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.do?NOTICE_NUM=<%=bl.getNOTICE_NUM() %>">
-			<%=bl.getNOTICE_TITLE() %></a></div></td>
-		<td width="16%"><div align="center"><%=bl.getNOTICE_DATE() %></div></td>
+			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.do?notice_num=<%=bl.getNotice_num() %>">
+			<%=bl.getNotice_title() %></a></div></td>
+		<td width="16%"><div align="center"><%=bl.getNotice_date() %></div></td>
 	</tr>
 </table>
 <%}%>

@@ -6,14 +6,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>세탁곰 관리자페이지</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/admin_keep.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/admin_notice.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")			
-			//목록 띄우기
+			//수정버튼 누르면
+			/*
+			$('.update').on('click', function(){
+				$(this).parent().parent().eq(3).$('input .notice_title').attr('disabled',false);
 			
+			});
+			*/
+			
+			
+			//목록 띄우기
 			function selectData(){				
 				$.ajax({
 					url :'/setak/admin/ad_noticeList.do',
@@ -22,18 +30,20 @@
 					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(data){
 						$.each(data, function(index, item){
+							var re_d =JSON.stringify(item.notice_date);					
+							var rdate= re_d.substr(1 ,16);
 							var str = '';																					
 							str += '<ul>';
 							str += '<li class="listtd"><input type="checkbox"></li>';
-							str += '<li class="listtd">'+item.notice_num+'</li>';
-							str += '<li class="listtd"><input type="text" class="notice_title" value="'+item.notice_title +'"disabled></li>';
-							str += '<li class="listtd"><input type="textr" class="notice_content" value="'+item.notice_content+'"disabled></li>';
-							str += '<li class="listtd"><input type="date" class="notice_date" name="notice_date"  value="'+item.notice_date+'" disabled></li>';							
-							str += '<li class="listtd"><a class="update">수정</a><a style="display: none;" value="" class="after">수정</a></li>';
+							str += '<li class="listtd" name="notice_num">'+item.notice_num+'</li>';
+							str += '<li class="listtd"><input type="text" class="notice_title" value="'+item.notice_title +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="notice_content" value="'+item.notice_content+'"disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="notice_date" name="notice_date"  value="'+ rdate +'" disabled="disabled"></li>';							
+							str += '<li class="listtd"><a class="update">수정</a></li>';
 							str += '</ul>';
 							$(".ad_noticelist").append(str);
 						});
-						/* page(); */
+						page();
 					},
 					error:function(){
 						alert("ajax통신 실패!!!");
@@ -42,7 +52,128 @@
 			}
 			
 			selectData();
-		});			
+			
+			//페이징 작업
+			function page(){ 
+				$('div.paginated').each(function() {
+					var pagesu = 10;  //페이지 번호 갯수
+					var currentPage = 0;
+					var numPerPage = 10;  //목록의 수
+					var $table = $(this);    
+					  
+					//length로 원래 리스트의 전체길이구함
+					var numRows = $table.find('ul').length;
+					//Math.ceil를 이용하여 반올림
+					var numPages = Math.ceil(numRows / numPerPage);
+					//리스트가 없으면 종료
+					if (numPages==0) return;
+					//pager라는 클래스의 div엘리먼트 작성
+					var $pager = $('<div id="remo"></div>');
+					 
+					var nowp = currentPage;
+					var endp = nowp+10;
+				  
+					//페이지를 클릭하면 다시 셋팅
+					$table.bind('repaginate', function() {
+					//기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다
+						$table.find('ul').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+						$("#remo").html("");
+						
+						if (numPages > 1) {     // 한페이지 이상이면
+							if (currentPage < 5 && numPages-currentPage >= 5) {   // 현재 5p 이하이면
+								nowp = 0;     // 1부터 
+								endp = pagesu;    // 10까지
+							}else{
+								nowp = currentPage -5;  // 6넘어가면 2부터 찍고
+								endp = nowp+pagesu;   // 10까지
+								pi = 1;
+							}
+							if (numPages < endp) {   // 10페이지가 안되면
+								endp = numPages;   // 마지막페이지를 갯수 만큼
+								nowp = numPages-pagesu;  // 시작페이지를   갯수 -10
+							}
+							if (nowp < 1) {     // 시작이 음수 or 0 이면
+								nowp = 0;     // 1페이지부터 시작
+							}
+						}else{       // 한페이지 이하이면
+							nowp = 0;      // 한번만 페이징 생성
+							endp = numPages;
+						}
+						
+						// [<<]
+						$('<span class="page-number" cursor: "pointer"><<</span>').bind('click', {newPage: page},function(event) {
+							currentPage = 0;
+							$table.trigger('repaginate');  
+							$($(".page-number")[2]).addClass('active').siblings().removeClass('active');
+						}).appendTo($pager).addClass('clickable');
+						// [<]
+						$('<span class="page-number" cursor: "pointer"><</span>').bind('click', {newPage: page},function(event) {
+							if(currentPage == 0) return;
+							currentPage = currentPage-1;
+							$table.trigger('repaginate');
+							$($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+						}).appendTo($pager).addClass('clickable');
+						// [1,2,3,4,5,6,7,8]
+						for (var page = nowp ; page < endp; page++) {
+							$('<span class="page-number" cursor: "pointer"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
+								currentPage = event.data['newPage'];
+								$table.trigger('repaginate');
+								$($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+							}).appendTo($pager).addClass('clickable');
+						}
+						// [>]
+						$('<span class="page-number" cursor: "pointer">></span>').bind('click', {newPage: page},function(event) {
+							if(currentPage == numPages-1) return;
+							currentPage = currentPage+1;
+							$table.trigger('repaginate'); 
+							$($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+						}).appendTo($pager).addClass('clickable');
+						// [>>]
+						$('<span class="page-number" cursor: "pointer">>></span>').bind('click', {newPage: page},function(event) {
+							currentPage = numPages-1;
+							$table.trigger('repaginate');
+							$($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
+						}).appendTo($pager).addClass('clickable');
+						$($(".page-number")[2]).addClass('active');
+					});
+					$pager.insertAfter($table).find('span.page-number:first').next().next().addClass('active'); 
+					$pager.appendTo($table);
+					$table.trigger('repaginate');
+				});
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		});
+		
+		
 			
  
 	</script>
@@ -61,13 +192,15 @@
 				<li>수정</li>
 			</ul>
 			<form id="ad_notice_form">
-				<div class="ad_noticelist">
+				<div class="ad_noticelist paginated">
 					
 					
 					
 					
-					<input type="button" value="선택삭제" class="chkdelete">
+					
 				</div>
+				<input type="button" value="추가" class="chkinsert">
+				<input type="button" value="선택삭제" class="chkdelete">
 			</form>
 		</div>
 		

@@ -4,8 +4,8 @@
 <%@ page import="com.spring.setak.*" %>
 <%
 	NoticeVO vo = (NoticeVO)request.getAttribute("noticedata");
-	int NOTICE_NUM = vo.getNOTICE_NUM();
-	System.out.println("NOTICE_NUM="+NOTICE_NUM);
+	int notice_num = vo.getNotice_num();
+	System.out.println("NOTICE_NUM="+notice_num);
 %>
 <!DOCTYPE html>
 <html>
@@ -33,11 +33,11 @@ $(document).ready(function(){
 
 <table class="nvt1">
 	<tr height="50px" >
-		<td width="20%" align="left">제  목 : <%=vo.getNOTICE_TITLE() %></td>
-		<td width="20%" align="right" ><%=vo.getNOTICE_DATE() %>&nbsp;&nbsp;</td>
+		<td width="20%" align="left">제  목 : <%=vo.getNotice_title() %></td>
+		<td width="20%" align="right" ><%=vo.getNotice_date() %>&nbsp;&nbsp;</td>
 	</tr>	
 	<tr>
-		<td colspan="2" class="nvc"><div ><%=vo.getNOTICE_CONTENT()%></div></td>
+		<td colspan="2" class="nvc"><div ><%=vo.getNotice_content()%></div></td>
 	</tr>
 </table>
 <table class="nvt2">						

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
@@ -153,8 +155,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	}
 
 	
-	@PostMapping(value = "admin/ad_noticeList.do", produces="application/json;charset=UTF-8") 
-	public List<Object> ad_noticeList()
+	@RequestMapping(value = "admin/ad_noticeList.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@ResponseBody public List<Object> ad_noticeList()
 	{
 		List<Object> list = noticeService.ad_noticeList();
 		System.out.println(list);

@@ -43,7 +43,7 @@
 	</insert>
 	
 	<insert id="insertMileage" parameterType="com.spring.member.MileageVO">
-		INSERT INTO mileage VALUES (#{arg0}, sysdate, #{arg1}, #{arg2}) 
+		INSERT INTO mileage VALUES (#{arg0}, sysdate, #{arg1}, #{arg2}, mile_SEQ.NEXTVAL) 
 	</insert>
 	
 	
