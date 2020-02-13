@@ -63,26 +63,39 @@
 		        $(".popup").css("display","none"); //팝업창 display none
 		    });
 		
-		//수거취소 클릭
-		<% if(sub_list != null) {%>
-			var subs_cancel = <%=sub_list.getSubs_cancel() %>;
-			if(subs_cancel=="0") { // 수거취소 가능
-			 $("#cancle").on("click", function() {  
-		        $("#cancletxt").css({
-		            "top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
-		            "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
-		           
-		            }); 
-		        
-		        $(".popup_back").css("display","block");
-		        $("#cancletxt").css("display","block");
-			 });		
-			} else  { // 수거취소 불가능
-				$('#cancle').css('background-color','#e1e4e4');
-				$('#cancle').css('color','#444');
-				$("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
-			};
-		 <% }%>
+		      <% if(sub_list != null) {%>
+		         
+		         //수거취소
+		         var subs_cancel = <%=sub_list.getSubs_cancel() %>;
+		         if(subs_cancel=="0") { // 수거취소 가능
+		          $("#cancle").on("click", function() {  
+		              $("#cancletxt").css({
+		                  "top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
+		                  "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
+		                 
+		                  }); 
+		              
+		              $(".popup_back").css("display","block");
+		              $("#cancletxt").css("display","block");
+		          });      
+		         } else  { // 수거취소 불가능
+		            $('#cancle').css('background-color','#e1e4e4');
+		            $('#cancle').css('color','#444');
+		            $("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
+		         };
+		         
+		         //구독해지
+		         var subs_bye = <%=sub_list.getSubs_bye() %>;
+		         if(subs_bye =="0") { // 취소 가능 
+		            $("#sub").css("display","block");
+		            $('#re-sub').css("display","none");
+		         } else { // 취소 불가능 
+		            $('#re-sub').css("display","block");
+		            $('#sub').css("display","none");
+		         }
+		         
+		       <% }%>
+		       
 		
 		
 		//수거취소 - 수거취소
