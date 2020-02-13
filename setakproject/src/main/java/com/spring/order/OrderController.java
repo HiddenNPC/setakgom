@@ -550,7 +550,7 @@ public class OrderController {
 
 		Calendar c = Calendar.getInstance();
 		long time = c.getTimeInMillis() / 1000;
-		time += 2592000;
+		time += 2678400;
 
 		// 정기 결제 예약
 		Iamport iamport = new Iamport();
@@ -562,7 +562,7 @@ public class OrderController {
 		JSONObject json = new JSONObject();
 		json.put("imp_key", imp_key);
 		json.put("imp_secret", imp_secret);
-
+		
 		String requestURL = "https://api.iamport.kr/users/getToken";
 
 		String token = iamport.getToken(request, response, json, requestURL);
@@ -666,12 +666,10 @@ public class OrderController {
 	
 	@RequestMapping(value = "/iamport-callback", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public void callback(@RequestBody HashMap<String, Object> map,HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String imp_uid =(String)map.get("imp_uid");
+		//String imp_uid =(String)map.get("imp_uid");
 		String merchant_uid =(String)map.get("merchant_uid");
 		String end_uid = merchant_uid.substring(merchant_uid.length()-1, merchant_uid.length());
-		System.out.println(end_uid);
 		String status = (String)map.get("status");
-		System.out.println(status);
 		
 		if(end_uid.equals("s") && status.equals("paid")) {
 			Iamport iamport = new Iamport();
@@ -694,6 +692,11 @@ public class OrderController {
 			
 			subsres(customer_uid, muid, amount, request, response);
 		}
+		
 	}
+	
+	
+	
+	
 	
 }
