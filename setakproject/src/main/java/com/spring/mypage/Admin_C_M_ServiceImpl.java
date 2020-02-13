@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.mapper.Admin_C_M_Mapper;
 import com.spring.member.CouponVO;
+import com.spring.member.MileageVO;
 
 @Service("admin_C_M_Service")
 public class Admin_C_M_ServiceImpl implements Admin_C_M_Service {
@@ -76,6 +77,69 @@ public class Admin_C_M_ServiceImpl implements Admin_C_M_Service {
 		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
 		
 		res = mapper.deleteCoupon(coupon);
+		
+		return res;
+		
+		
+	}
+	
+	@Override
+	public ArrayList<Object> Admin_MileList(){
+		ArrayList<Object> list = null;
+		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
+		
+		list = mapper.Admin_MileList();
+		
+		return list;
+	}
+	
+	@Override
+	public ArrayList<Object> mileSerach (HashMap<String, Object> map){
+	
+		ArrayList<Object> milelist = null;
+		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
+		
+		milelist = mapper.mileSerach(map);
+		
+		return milelist;
+	}
+	
+	@Override
+	public int getMileCount() {
+		int count = 0;
+		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
+		count = mapper.getMileCount();
+		
+		return count;
+	}
+	
+	@Override
+	public int updateMileage(MileageVO params) {
+		int res = 0;
+		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
+		
+		res = mapper.updateMileage(params);
+		
+		return res;
+	}
+	
+	@Override
+	public int insertMileage(MileageVO cvo) {
+		int res = 0;
+		
+		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
+		
+		res = mapper.insertMileage(cvo);
+		
+		return res;
+	}
+	
+	@Override
+	public int deleteMileage(int mile) {
+		int res = 0;
+		Admin_C_M_Mapper mapper = sqlSession.getMapper(Admin_C_M_Mapper.class);
+		
+		res = mapper.deleteMileage(mile);
 		
 		return res;
 		
