@@ -308,7 +308,7 @@ $(document).ready(function () {
 				success : function(retVal) {
 					if (retVal.res == "OK") {
 						selectData();	
-						alert("리뷰를 삭제하셨습니다.");
+						
 					}
 					
 					else {
@@ -678,8 +678,8 @@ function rwcancel(){
 <!-- 리뷰작성 모달 팝업  -->
 <a href="#" class="open">리뷰작성</a>
 <div id="re_layer">
-<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
 <h2>리뷰 작성</h2>
+<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
 <div class="r_content">
 	<p style="margin-bottom:5px;">사용자 평점</p> 
 	<a class="starR1 on" value="1" >별1_왼쪽</a>

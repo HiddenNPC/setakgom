@@ -131,7 +131,7 @@
    	}    
 	#Review_star{width:20px; text-align:center; border:none; color:#aa9fa7;}
   	
-  	#re_layer { display:none; position: fixed; left:50px; top:50px; 
+  	#re_layer{ display:none; position: fixed; left:50px; top:50px; 
   	width:700px; height:550px;
   	border: 3px solid #444; box-sizing:border-box;
   	left:50%; top:50%; padding: 50px 60px 50px;
@@ -141,7 +141,8 @@
   	
   	#re_layer h2{ font-size: 2rem; color: #444; 
   	text-align: center; line-height: 100%; 
-  	padding-top:30px; padding-bottom:30px;   	
+  	padding-top:30px; padding-bottom:30px; 
+  	height:0; border: none;  	
   	}
 	
 	.close{
@@ -157,6 +158,7 @@
 	background:rgba(0,0,0,0.7); 
 	}
 	/* 모달끝 */
+	
 	/*  수정 모달  */
 	.r_content{ margin:auto; width: 500px; font-family: inherit; }
  	
@@ -177,7 +179,7 @@
   	border: 3px solid #444; box-sizing:border-box;
   	left:50%; top:50%; padding: 50px 60px 50px;
   	transform: translate(-50%,-50%);
-  	z-index: 100; background: #fff;
+  	z-index: 1100; background: #fff;
   	}
   	
   	#re_layer2 h2{ font-size: 2rem; color: #444; 
@@ -193,8 +195,7 @@
 	width:40px; height:40px;
 	}
 	
-	.dim2{z-index: 99; display:none;
-	position:fixed; left:0; top:0; width:100%; height:100%; 
+	.dim2{ z-index:1000; display:none; position:fixed; left:0; top:0; width:100%; height:100%; 
 	background:rgba(0,0,0,0.7); 
 	}
 	
@@ -224,9 +225,7 @@
 	
 	/* 이미지 미리보기 */
 	.thumbnail-wrapper { width:auto; height:auto; }	
-	.thumbnail { position: relative; overflow: hidden; }	
-	
-	
+	.thumbnail { position: relative; overflow: hidden; }			
 	.thumbnail-img { max-width:100%; height:300px; }
 	/* 이미지 미리보기 끝 */
 	
@@ -250,9 +249,6 @@
 		// 추출한 파일명 삽입 
 		$(this).siblings('.upload-name').val(filename);	
 		}); 
-	
-	
-	
 	
 	
 	

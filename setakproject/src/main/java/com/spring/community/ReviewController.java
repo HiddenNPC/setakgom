@@ -54,9 +54,11 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
-				
+		int mile_price = 0;
+		String mile_content	="";		
 		
 		vo.setMember_id((String)session.getAttribute("member_id"));
+		System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		System.out.println("분류 = " + vo.getReview_kind());
 		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star"))*2);
@@ -68,14 +70,24 @@ import org.springframework.web.servlet.ModelAndView;
 		
 		if(request.getParameter("Review_photo").equals("")) {
 			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+			mile_price = 500;
+			mile_content ="리뷰 적립";	
+			reviewService.insertMileage(vo, mile_price, mile_content );
 		}else {
 			vo.setReview_photo(request.getParameter("Review_photo"));
-		}
+			mile_price = 1500;
+			mile_content ="사진 리뷰 적립";
+			reviewService.insertMileage(vo, mile_price, mile_content);
+		}	
 		
 		int res = reviewService.reviewInsert(vo);		
+		
+		
+		
+		
 		if(res == 0 ) 
 		{
-			writer.write("<script>location.href='./review.do';</script>");			
+			writer.write("<script>alert('수정 실패');location.href='./review.do';</script>");			
 			return null;
 		}
 		writer.write("<script>location.href='./review.do';</script>");
@@ -220,10 +232,7 @@ import org.springframework.web.servlet.ModelAndView;
 			vo.setReview_photo(request.getParameter("Review_photo"));
 			
 		}
-		
-		
-		
-		
+
 		int res = reviewService.reivewUpdate(vo);
 		
 		if(res== 0)
