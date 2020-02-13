@@ -2,11 +2,14 @@ package com.spring.community;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -64,8 +67,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	@RequestMapping(value = "/noticeInsert.do") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{				
 		NoticeVO noticevo = new NoticeVO();
-		noticevo.setNOTICE_TITLE(request.getParameter("NOTICE_TITLE"));
-		noticevo.setNOTICE_CONTENT(request.getParameter("NOTICE_CONTENT"));					
+		noticevo.setNotice_title(request.getParameter("NOTICE_TITLE"));
+		noticevo.setNotice_content(request.getParameter("NOTICE_CONTENT"));					
 		int res = noticeService.noticeInsert(noticevo);		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -141,7 +144,23 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		
 		return null;
 	}
+	
+	@RequestMapping(value = "admin/admin_notice.do")public String adminNotice(Model model) throws Exception 
+	{			
+		List<Object> list = noticeService.ad_noticeList();
+		model.addAttribute("noticeList", list);				
+		return "admin/admin_notice";		
+	}
 
+	
+	@PostMapping(value = "admin/ad_noticeList.do", produces="application/json;charset=UTF-8") 
+	public List<Object> ad_noticeList()
+	{
+		List<Object> list = noticeService.ad_noticeList();
+		System.out.println(list);
+		return list;		
+	}
+	
 
 
 

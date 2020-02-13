@@ -31,10 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	@RequestMapping(value = "admin/admin_faq.do")public String adminFaqList(Model model) throws Exception 
 	{	
 		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
-		faqlist = faqService.getFaqList();
-		
-		model.addAttribute("faqdata", faqlist);		
-		
+		faqlist = faqService.getFaqList();		
+		model.addAttribute("faqdata", faqlist);				
 		return "admin/admin_faq";		
 	}
 	

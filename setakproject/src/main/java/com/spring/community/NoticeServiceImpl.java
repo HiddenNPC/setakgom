@@ -1,7 +1,7 @@
 package com.spring.community;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class NoticeServiceImpl implements NoticeService
 		NoticeVO noticevo= new NoticeVO();
 		try
 		{						
-			noticevo = noticeMapper.getDetail(vo.getNOTICE_NUM());
+			noticevo = noticeMapper.getDetail(vo.getNotice_num());
 			
 			
 			return noticevo;
@@ -84,7 +84,7 @@ public class NoticeServiceImpl implements NoticeService
 		{
 			num = 1;
 		}
-		vo.setNOTICE_NUM(num);
+		vo.setNotice_num(num);
 		int res = noticeMapper.noticeInsert(vo);		
 		return res;
 	}
@@ -101,9 +101,18 @@ public class NoticeServiceImpl implements NoticeService
 	{	
 		int res = -1;
 		NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
-		res =noticeMapper.noticeDelete(vo.getNOTICE_NUM());
+		res =noticeMapper.noticeDelete(vo.getNotice_num());
 		return res;
 
+	}
+
+	@Override
+	public List<Object> ad_noticeList() {
+		List<Object> result = null;
+		NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+		result = noticeMapper.ad_noticeList();
+		System.out.println(result);
+		return result;
 	}
 
 }

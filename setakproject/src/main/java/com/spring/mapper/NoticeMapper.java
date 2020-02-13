@@ -1,6 +1,7 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.spring.community.NoticeVO;
 
@@ -16,7 +17,7 @@ public interface NoticeMapper
 	public int noticeModify(NoticeVO vo)throws Exception;	
 	public int noticeDelete(int num)throws Exception;	
 	public int getMaxNum ()throws Exception;
-		
+	public List<Object> ad_noticeList();	
 	
 	
 
