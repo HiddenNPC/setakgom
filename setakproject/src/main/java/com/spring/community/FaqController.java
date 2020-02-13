@@ -1,5 +1,6 @@
 package com.spring.community;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -54,25 +55,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 		return null;
 		
 	}
-	@RequestMapping(value = "admin/admin_faqUpdate.do")public String adminFaqUpdate(Model model) throws Exception 
+	@RequestMapping(value="admin/admin_faqUpdate.do")public void adminFaqUpdate(FaqVO vo, HttpServletResponse response) throws Exception
 	{	
-		//System.out.println(" =" + );
-		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
-		faqlist = faqService.getFaqList();
-		
-		model.addAttribute("faqdata", faqlist);		
-		
-		return "admin/admin_faq";		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		faqService.faqModify(vo);
+		writer.write("<script> location.href='./admin_faq.do'; </script>");
+			
+				
 	}
-	@RequestMapping(value = "admin/admin_faqDelete.do")public String adminFaqDelete(Model model) throws Exception 
+	@RequestMapping(value="admin/admin_faqDelete.do")public void adminFaqDelete(FaqVO vo, HttpServletResponse response) throws Exception 
 	{	
-		//System.out.println(" =" + );
-		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
-		faqlist = faqService.getFaqList();
+		int num = vo.getFaq_num();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		faqService.faqDelete(num);	
+		writer.write("<script> location.href='./admin_faq.do'; </script>");
 		
-		model.addAttribute("faqdata", faqlist);		
-		
-		return "admin/admin_faq";		
+				
 	}
 
 

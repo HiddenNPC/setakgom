@@ -27,8 +27,6 @@ public class FaqServiceImpl implements FaqService
 		{
 			throw new Exception("faq db에 뿌리기  실패", e);
 		}
-		
-
 	}
 
 	@Override
@@ -50,13 +48,14 @@ public class FaqServiceImpl implements FaqService
 
 	@Override
 	public void faqModify(FaqVO vo) {
-		// TODO Auto-generated method stub
-		
+		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
+		faqMapper.faqModify(vo);
 	}
 
 	@Override
 	public void faqDelete(int num) {
-		// TODO Auto-generated method stub
+		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
+		faqMapper.faqDelete(num);
 		
 	}
 

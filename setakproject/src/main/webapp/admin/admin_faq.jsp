@@ -33,43 +33,67 @@
              $(".dim").show();   
             
              
-             $("#ad-faq-setting-btn2").off('click').on('click', function(){                          
-                
-            	 if(!$(".u-faq-form").hasClass("active")){
+             $("#ad-faq-setting-btn2").on('click', function(){  
+            	 if(!$("#ad-faq-form").hasClass("active")){
+            		$('#u-faq-op').prev().prev().show(); 
             		$("#ad-faq-setting-btn2").text("수정취소");
-                	$(".u-faq-form").addClass("active");
-                	$(".u-faq-form").attr('action', "admin/admin_faqUpdate.do");
-                	$('#ad-faq-submit').before('<tr id="u-faq-op" ><td colspan="2"><span>글 번호:<input type="text" id="u-faq_num" name="faq_num" value="" readonly="readonly"></span></td></tr>');
+            		$("#ad-faq-setting-btn3").text("삭제");
+                	$("#ad-faq-form").addClass("active");
+                	$("#ad-faq-form").attr('action', "./admin_faqUpdate.do");       	
+                	$('#ad-faq-submit').before('<tr id="u-faq-op" ><td colspan="2"><span><input type="hidden" id="u-faq_num" name="faq_num" value="" readonly="readonly"></span></td></tr>');
+                	$('#u-faq-op').children().hide();
                 	$("span #u-faq_num").val(fnum);
                 	$("tr #u-faq-cate").val(fcate);               
                 	$('tr #u-faq-title').val(ftitle);
-                	$('tr #u-faq-con').val(fcon);                	                
+                	$('tr #u-faq-con').val(fcon); 
+                	$('#u-faq-op').prev().prev().show();
+                	$('#u-faq-submit').attr('disabled', false ); 
                 }
                 else{
+                	$('#u-faq-op').prev().prev().show();
                 	$("#ad-faq-setting-btn2").text("수정");
-                	$(".u-faq-form").removeClass("active");
+                	$("#ad-faq-setting-btn3").text("삭제");
+                	$("#ad-faq-form").removeClass("active");
                 	$('#u-faq-op').detach();
                 	$("span #u-faq_num").val("");
                 	$("tr #u-faq-cate").val("");               
                 	$('tr #u-faq-title').val("");
                 	$('tr #u-faq-con').val("");
+                	$('#u-faq-submit').attr('disabled', true);
                 }
             
              });
           
-             $("#ad-faq-setting-btn3").on('click', function(){ 
-            	$("#ad-faq-setting-btn2").text("수정");
-            	$("span #u-faq_num").val("");
-            	$("tr #u-faq-cate").val("");               
-            	$('tr #u-faq-title').val("");
-            	$('tr #u-faq-con').val("");
-                $(".u-faq-form").attr('action', "admin/admin_faqDelete.do");
-                $(".u-faq-form").removeClass("active");
-                $('#u-faq-op').detach();
-                
-                
-                
+             $("#ad-faq-setting-btn3").on('click', function(){
+            	 if(!$("#ad-faq-form").hasClass("active")){   	 
+	            	$("#ad-faq-setting-btn3").text("삭제취소");
+	            	$("#ad-faq-setting-btn2").text("수정");
+	            	$("#ad-faq-form").addClass("active");
+	                $("#ad-faq-form").attr('action', "./admin_faqDelete.do");
+	                $('#ad-faq-submit').before('<tr id="u-faq-op" ><td colspan="2"><span><input type="hidden" id="u-faq_num" name="faq_num" value="" readonly="readonly"></span></td></tr>');
+	            	$('#u-faq-op').children().hide();
+	            	$("span #u-faq_num").val(fnum);
+	            	$("tr #u-faq-cate").val("");               
+                	$('tr #u-faq-title').val("");
+                	$('tr #u-faq-con').val("");
+                	$('#u-faq-op').prev().prev().hide();
+	            	$('tr #u-faq-con').val("삭제합니다");
+	            	$('#u-faq-submit').attr('disabled',  false); 
+            	 }
+            	 else{
+            		 $('#u-faq-op').prev().prev().show();
+            		 $("#ad-faq-setting-btn3").text("삭제");
+            		 $("#ad-faq-setting-btn2").text("수정");
+                 	 $("#ad-faq-form").removeClass("active");
+                 	 $('#u-faq-op').detach();
+                	 $("span #u-faq_num").val("");
+                	 $('tr #u-faq-con').val("");                	
+                	 $('#u-faq-submit').attr('disabled', true);
+            	 }	            	
+	            	
              });
+ 
+             
              
           });
           
@@ -89,18 +113,6 @@
               $(".dim2").hide();
               location.reload();
           });
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
           
           
          $("#admin").load("./admin.jsp")
@@ -129,18 +141,6 @@
                 });
               }
           });
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       
       });
    </script>
@@ -199,6 +199,7 @@
          <td><%=vo.getFaq_date() %></td> 
          <td><input type="hidden" name="faq_num" id="faq_num" value="<%=vo.getFaq_num()%>" >
             <input type="button" class="open" name="setting-button" value="설정"></td></tr>      
+                
       </tbody><%} %><%} %>
    </table>
    
@@ -338,7 +339,7 @@
 	<button id="ad-faq-setting-btn2">수정</button>   
 	<button id="ad-faq-setting-btn3">삭제</button>   
 </div>
-<form action="" class="u-faq-form" method="post" enctype="multipart/form-data" name="u-faq-form" >   
+<form action="" id="ad-faq-form" class="ad-faq-form" method="post" enctype="multipart/form-data" name="ad-faq-form" >   
 <table id="ad-faq-table">
    <tr><td>
       <select id="u-faq-cate" name="faq_cate">
@@ -353,7 +354,7 @@
       <td>제목 :&nbsp;<input name="faq_title" id="u-faq-title" type="text"></td></tr>
     <tr><td colspan="2" ><p>내용 &nbsp;</p><textarea name="faq_content" id="u-faq-con"></textarea></td></tr>                 
    <tr id="ad-faq-submit"><td colspan="2">
-      <input id="u-faq-submit" type="submit" name="submit" value="등록" >      
+      <input id="u-faq-submit" type="submit" name="submit" value="확인" disabled="disabled">      
       <input id="cbtn" type="button" value="취소" onclick="location.reload();"/></td>    
    </tr>
 </table>
