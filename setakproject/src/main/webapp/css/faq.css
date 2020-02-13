@@ -24,7 +24,7 @@
     .tab li.on { background-color: #3498db; color:#fff; }		
 	.tab_con {
 	border-top:2px solid #3498db; color:#444;
-	clear:both; width:1000px; margin:auto; height:500px;
+	clear:both; width:1000px; margin:auto; 
 	}	
 	
 	.tab_con div {display:none;}	
