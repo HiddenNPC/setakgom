@@ -54,7 +54,7 @@
 			$(".keep-list").on("click", function() {
 				var str = "";
 				
-				str += '<tr>';
+				str += '<tr class="keepclick true">';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+$.attr(this, 'value')+'</td>';
 				str += '<td style="display:none;"><input type="hidden" name="keep_cate" value="'+sortation[0].innerHTML+'">';
@@ -150,8 +150,7 @@
 				checkbox.each(function(){
 					var tr = checkbox.parent().parent();
 					tr.remove();
-				}) 
-				sumprice();
+				})
 			});
 			
 			/* 숫자 3자리마다 쉼표 넣어줌 */
@@ -165,6 +164,10 @@
 				if(member_id=="null"){
 					alert('로그인 후 이용 가능합니다.');
 					location.href='login.do';
+					return false;
+				}
+	            if(!$(".keepclick").hasClass("true")){
+					alert("보관하실 의류를 선택하지 않았습니다.");
 					return false;
 				}
 				if(monthclick==0){
