@@ -114,6 +114,7 @@ public class LoginController {
 		String bid = (String) response_obj.get("id");
 		String name = (String) response_obj.get("name");
 		String email = (String) response_obj.get("email");
+		String loc = "!";
 		String id = bid + "_N";
 		//System.out.println(id + "/" + name + "/" + email);
 
@@ -132,6 +133,7 @@ public class LoginController {
 			mo.setMember_id(id);
 			mo.setMember_name(name);
 			mo.setMember_email(email);
+			mo.setMember_loc(loc);
 
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { // 이미 네이버로 로그인 한 경우
@@ -180,6 +182,7 @@ public class LoginController {
 		email = kakao_account.path("email").asText();
 		nickname = properties.path("nickname").asText();
 		String id = bid + "_K";
+		String loc = "!";
 		//System.out.println(nickname + "/" + id + "/" + email);
 
 		/* 4. 데이터 DB에 저장 */
@@ -196,7 +199,8 @@ public class LoginController {
 			mo.setMember_id(id);
 			mo.setMember_email(email);
 			mo.setMember_name(nickname);
-
+			mo.setMember_loc(loc);
+			
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { // 이미 카카오로 회원가입 경우
 				session.setAttribute("name", nickname);
@@ -219,6 +223,7 @@ public class LoginController {
 		String g_id = mo.getMember_id();
 		String g_name = mo.getMember_name();
 		String g_email = mo.getMember_email();
+		String g_loc = mo.getMember_loc();
 
 		// DB에 아이디가 있는지 확인
 		int res = memberservice.member_id(mo); 
@@ -232,6 +237,7 @@ public class LoginController {
 			mo.setMember_id(g_id);
 			mo.setMember_name(g_name);
 			mo.setMember_email(g_email);
+			mo.setMember_loc(g_loc);
 
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { 

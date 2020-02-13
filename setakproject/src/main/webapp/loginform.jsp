@@ -259,9 +259,6 @@
 	function attachSignin(element) {
 		auth2.attachClickHandler(element, {}, function(googleUser) {
 			var profile = googleUser.getBasicProfile();
-			console.log("ID: " + profile.getId()); 
-			console.log('Full Name: ' + profile.getName());
-			console.log("Email: " + profile.getEmail());
 			
 			var g_id = profile.getId();
 			var g_nickname = profile.getName();
@@ -269,7 +266,8 @@
 			var params = { 
 					'member_id' : g_id+"_G",
 					'member_name' : g_nickname,
-					'member_email' : g_email
+					'member_email' : g_email,
+					'member_loc' : "!"
  			}
 			
 			$.ajax({
