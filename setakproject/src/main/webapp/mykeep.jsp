@@ -20,7 +20,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	System.out.println("memberVO는?" + memberVO);
 	if ((session.getAttribute("member_id") == null)) {
 		out.println("<script>");
 		out.println("location.href='./setak/'");

@@ -35,7 +35,6 @@ public class MykeepController {
 	public List<KeepVO> keepcatelist(OrderVO orderVO){
 			long order_num = orderVO.getOrder_num();
 			List<KeepVO> keeplist = mypageService.selectMykeeplist(order_num);
-			System.out.println("ajaxlist" + keeplist);
 			return keeplist;
 	}
 	
@@ -66,18 +65,14 @@ public class MykeepController {
 			
 			if(res2 != 0) {
 				map.put("res2","ok");
-				System.out.println("업뎃성공");
 			} else {
 				map.put("res2","fail");
-				System.out.println("업뎃실패");
 			}
 			
 			if(res != 0) {
 				hm.put("res", "ok");
-				System.out.println("입력성공!");
 			}else {
 				hm.put("res", "fail");
-				System.out.println("입력 실패!");
 			}
 		
 		return hm;
@@ -137,20 +132,16 @@ public class MykeepController {
 		KeepVO keepVO = (KeepVO)kvolist.get(0);
 		
 		keep_end = kvo.getKeep_end();
-		System.out.println("keep_end : " + keep_end);
 		keep_now = "보관중";
 		
 		HashMap<String, Object>map = new HashMap<String, Object>();
 		map.put("order_num", order_num);
 		map.put("keep_end", keep_end);
 		map.put("keep_now", keep_now);
-		System.out.println(map);
 		
 		int res = mypageService.updateKeepMonth(map);
 		if (res != 0) {
-			System.out.println("입력성공");
 		} else {
-			System.out.println("입력실패");
 		}
 		
 		return res;
