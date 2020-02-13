@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mapper.Admin_subscribe">
+	
+	<resultMap type = "java.util.HashMap" id="hashmapVO">
+		<result property="member_id" column="member_id" />
+		<result property="washcnt" column="washcnt" />
+		<result property="shirtscnt" column="shirtscnt" />
+		<result property="drycnt" column="drycnt" />
+		<result property="blacketcnt" column="blacketcnt" />
+		<result property="deliverycnt" column="deliverycnt" />
+		<result property="subs_start" column="subs_start" />
+		<result property="subs_end" column="subs_end" />
+		<result property="subsname" column="subsname" />
+		<result property="subs_water" column="subs_water" />
+		<result property="subs_shirts" column="subs_shirts" />
+		<result property="subs_dry" column="subs_dry" />
+		<result property="subs_blanket" column="subs_blanket" />
+		<result property="subs_delivery" column="subs_delivery" />
+	</resultMap>
+
+	<!-- 정기구독 회원 리스트 -->
+	<select id="getMemberSubList" resultMap="hashmapVO">
+		select * from subs_view order by subs_start desc
+	</select>
+	
+	<!-- 정기구독 검색   -->
+	<select id = "subMemberSearch" parameterType="java.util.HashMap" resultMap="hashmapVO">
+		select *
+		from subs_view
+		<trim prefix="WHERE" prefixOverrides="and|or">
+			<if test = 'keyword != null'>
+			and (member_id like '%'||#{keyword, jdbcType=VARCHAR }||'%')
+			</if>		
+			<if test = 'planArr != null'>
+				and (
+				<foreach collection='planArr' index='index' item='item' open='(' close=')' separator='or'>
+					subsname like #{item}||'%'		
+				</foreach>
+				)
+			</if>
+		</trim>
+		<if test = "orderBy.equals('byDate')">
+			order by subs_start desc
+		</if>
+		<if test = "orderBy.equals('byDateReverse')">
+			order by subs_start
+		</if>
+	</select>
+
+
+</mapper>

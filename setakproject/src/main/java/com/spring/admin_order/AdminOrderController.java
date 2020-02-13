@@ -1,10 +1,8 @@
 package com.spring.admin_order;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.member.MemberSubService;
+import com.spring.member.MemberSubVO;
 import com.spring.order.OrderVO;
 
 @Controller
@@ -24,6 +24,8 @@ public class AdminOrderController {
 	
 	@Autowired
 	private AdminOrderService adminOrderService; 
+	@Autowired
+	private AdminSubscribeService adminMemberSubService; 
 	
 	//전체 주문 관리자 페이지
 	@RequestMapping(value = "/admin/order.do")
@@ -221,6 +223,34 @@ public class AdminOrderController {
 	public String subscribe() {
 		
 		return "/admin/subscribe";
+		
 	}
-
+	
+	// 정기구독 관리자 리스트 띄우기
+	@RequestMapping(value = "/admin/getMemberSubList.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public List<Object> getMemberSubList() {
+		
+		List<Object> memberSubList = adminMemberSubService.getMemberSubList();
+		return memberSubList;
+		
+	}
+	
+	@RequestMapping(value = "/admin/subMemberSearch.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public List<Object> subMemberSearch(@RequestParam(value="keyword") String keyword, String[] planArr, @RequestParam(value="orderBy") String orderBy) {
+				
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("orderBy", orderBy);
+		map.put("keyword", keyword);
+		map.put("planArr", planArr);
+		
+		List<Object> memberSubList = adminMemberSubService.subMemberSearch(map);
+		
+		return memberSubList;
+		
+	}
+		
+		
+	
 }

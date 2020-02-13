@@ -148,8 +148,9 @@ public class OrderController {
 			}
 
 			String member_addr1 = " ", member_addr2 = " ";
+			System.out.println("loc : " + memberVO.getMember_loc());
 
-			if (memberVO.getMember_loc().equals(("!"))) {
+			if (!(memberVO.getMember_loc().equals(("!")))) {
 				String addr = memberVO.getMember_loc();
 				String[] locArr = addr.split("!");
 				member_addr1 = locArr[0];
@@ -358,7 +359,7 @@ public class OrderController {
 	@RequestMapping(value = "/insertOrder.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public OrderVO insertOrder(OrderVO ovo, @RequestParam(value = "usePoint") String usePoint, String[] useCoupon,
-			HttpSession session) {
+			HttpSession session, @RequestParam(value = "defaultAddrChk") String defaultAddrChk) {
 
 		String member_id = (String) session.getAttribute("member_id");
 
@@ -471,6 +472,17 @@ public class OrderController {
 			OrderListVO olv = orderList.get(i);
 			orderService.insertOrderList(olv);
 		}
+		
+		// 기본 배송지 저장	
+		if(defaultAddrChk.equals("1")) {
+			MemberVO mvo = new MemberVO();
+			mvo.setMember_id(member_id);
+			mvo.setMember_phone(ovo.getOrder_phone());
+			mvo.setMember_zipcode(ovo.getOrder_zipcode());
+			mvo.setMember_loc(ovo.getOrder_address());
+			
+			int res3 = orderService.defaultAddrUpdate(mvo);
+		}
 
 		// 사용 적립금 차감
 		if (usePoint != "") {
@@ -495,23 +507,6 @@ public class OrderController {
 		}
 
 		return ovo;
-	}
-
-	// 기본 배송지 저장
-	@RequestMapping(value = "/defaultAddrUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public Map<String, Object> defaultAddrUpdate(MemberVO mvo) {
-		Map<String, Object> retVal = new HashMap<String, Object>();
-		try {
-			int res = orderService.defaultAddrUpdate(mvo);
-			retVal.put("res", "OK");
-		} catch (Exception e) {
-			retVal.put("res", "FAIL");
-			retVal.put("message", "Failure");
-		}
-
-		return retVal;
-
 	}
 
 	// 정기구독 정보 입력
