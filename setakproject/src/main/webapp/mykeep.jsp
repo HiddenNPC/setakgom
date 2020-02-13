@@ -20,7 +20,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	System.out.println("memberVO는?" + memberVO);
 	if ((session.getAttribute("member_id") == null)) {
 		out.println("<script>");
 		out.println("location.href='./setak/'");
@@ -42,6 +41,9 @@
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
@@ -407,7 +409,7 @@ $(document).ready(function() {
 	 	    
 	        if (select_price == 0){
 	        	msg = '금액을 선택해주세요.';
-	       		alert(msg);
+	        	alert(msg);
 	        }
 	        
 	        IMP.request_pay({
@@ -472,7 +474,7 @@ $(document).ready(function() {
  	        var massage;
  	        if (select_price == 0){
  	        	msg = '금액을 선택해주세요.';
- 	       		alert(msg);
+ 	        	alert(msg);
  	        }
  	        
  	        IMP.request_pay({

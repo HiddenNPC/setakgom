@@ -63,26 +63,39 @@
 		        $(".popup").css("display","none"); //팝업창 display none
 		    });
 		
-		//수거취소 클릭
-		<% if(sub_list != null) {%>
-			var subs_cancel = <%=sub_list.getSubs_cancel() %>;
-			if(subs_cancel=="0") { // 수거취소 가능
-			 $("#cancle").on("click", function() {  
-		        $("#cancletxt").css({
-		            "top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
-		            "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
-		           
-		            }); 
-		        
-		        $(".popup_back").css("display","block");
-		        $("#cancletxt").css("display","block");
-			 });		
-			} else  { // 수거취소 불가능
-				$('#cancle').css('background-color','#e1e4e4');
-				$('#cancle').css('color','#444');
-				$("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
-			};
-		 <% }%>
+		      <% if(sub_list != null) {%>
+		         
+		         //수거취소
+		         var subs_cancel = <%=sub_list.getSubs_cancel() %>;
+		         if(subs_cancel=="0") { // 수거취소 가능
+		          $("#cancle").on("click", function() {  
+		              $("#cancletxt").css({
+		                  "top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
+		                  "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
+		                 
+		                  }); 
+		              
+		              $(".popup_back").css("display","block");
+		              $("#cancletxt").css("display","block");
+		          });      
+		         } else  { // 수거취소 불가능
+		            $('#cancle').css('background-color','#e1e4e4');
+		            $('#cancle').css('color','#444');
+		            $("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
+		         };
+		         
+		         //구독해지
+		         var subs_bye = <%=sub_list.getSubs_bye() %>;
+		         if(subs_bye =="0") { // 취소 가능 
+		            $("#sub").css("display","block");
+		            $('#re-sub').css("display","none");
+		         } else { // 취소 불가능 
+		            $('#re-sub').css("display","block");
+		            $('#sub').css("display","none");
+		         }
+		         
+		       <% }%>
+		       
 		
 		
 		//수거취소 - 수거취소
@@ -200,13 +213,11 @@
 		/*리뷰 관련 스크립트*/	
 			//모달팝업 오픈
 		    $(".open").on('click', function(){
-		    	$("#re_layer").show();	
+		    	$(".re_layer").show();	
 		    	$(".dim").show();	
 			});
-		    $(".close").on('click', function(){
-		    	$(this).parent().hide();	
+		    $(".close").on('click', function(){ 
 		    	$(".dim").hide();
-		    	location.href="/setak/mysub.do"
 			});
 			
 		 	 //별점 구동	
@@ -217,6 +228,9 @@
 		    return false;
 			});	
 		
+		 	$('#review-submit').on('click',function(){
+		 		$('#review').eq().text('-');
+		 	})
 	});
 	 
 
@@ -323,7 +337,7 @@
 										<th>요금제</th>
 										<th>결제금액</th>
 										<th>결제일</th>
-										<th>리뷰쓰기</th>
+										<th>리뷰</th>
 									</tr>
 								</thead>
 						
@@ -338,8 +352,7 @@
 										<td><%=hlist.getHis_price() %>원</td>
 										<td><%=hlist.getHis_date() %></td>
 										<td>
-											<a href="#" class="open">리뷰작성</a>
-<!-- 										<a id="review" href="javascript:">review</a> -->
+											<a id="review" href="#" class="open">리뷰작성</a>
 										</td>
 									</tr>
 								</tbody>
@@ -380,7 +393,6 @@
               			 </table>
 					</div>
 				</div>
-					
 <!--           popup -->
                 <div class="popup_back"></div> <!-- 팝업 배경 DIV -->
         
@@ -402,7 +414,7 @@
                     	취소는 신청 당일 저녁 10시까지 가능합니다.
                     </div>
                     <div class="pop_btn2">수거취소</div>
-                    <div class="pop_btn3">확인</div>
+                    <div class="pop_btn3">닫기</div>
                 </div>
                 
                 <!-- 구독해지 팝업창 -->
@@ -444,7 +456,7 @@
 	<div>
 	<!-- 레이아웃 팝업  -->
 		<a href="#" class="open"></a>
-		<div id="re_layer">
+		<div id="re_layer" class="re_layer">
 		<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform">
 		<h2>세탁곰 리뷰 작성</h2>
 		<div class="r_content">
@@ -477,7 +489,8 @@
 		                <option value="정기구독">정기구독</option>
 		           </select></td>           
 				<td align="right"  colspan="4">
-					<button onclick="javascript:reviewform.submit()" >등록</button>
+					<button id="review-submit" onclick="javascript:reviewform.submit()" >등록</button>
+					
 					<input id="cbtn" type="button" value="취소" onclick="javascript:location.reload()"/></td> 	
 			</tr></table>
 		</form>

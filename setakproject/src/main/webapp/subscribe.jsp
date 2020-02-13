@@ -25,6 +25,9 @@
    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
    
+   <!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+   
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -79,7 +82,8 @@
                buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
              }, function (rsp) { // callback
                if (rsp.success) {
-            	   alert("결제가 성공적으로 완료되었습니다."); 
+
+            	   Swal.fire("","결제가 성공적으로 완료되었습니다.","success");
             	      // 빌링키 발급 성공
             	      // jQuery로 HTTP 요청
             	      jQuery.ajax({
@@ -99,7 +103,7 @@
                         } 
             	      });
                } else {
-                 alert("결제가 취소 되었습니다."); 
+            	   Swal.fire("","결제가 취소 되었습니다.","info");
                }
              });
              

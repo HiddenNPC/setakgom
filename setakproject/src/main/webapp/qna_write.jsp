@@ -16,6 +16,10 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
     $("#header").load("header.jsp")
@@ -74,20 +78,20 @@ function writechk(){
 
 	if (document.getElementById('QNA_TITLE').value=="") 
 	{
-		alert("제목을 입력하세요.");
+		Swal.fire("","제목을 입력하세요.","info");
         document.getElementById('QNA_TITLE').focus();
         return false;
         
     }
 	else if (document.getElementById('QNA_CONTENT').value=="") 
 	{
-    	alert("내용을 입력하세요.(최대 500자)");
+		Swal.fire("","내용을 입력하세요.(최대 500자)","info");
         document.getElementById('QNA_CONTENT').focus();
         return false;
     }
 	else if(document.getElementById('QNA_PASS').value=="") 
 	{
-    	alert("작성하신 글의 비밀번호를 설정해 주세요 (최대 10자)");
+		Swal.fire("","작성하신 글의 비밀번호를 설정해 주세요 (최대 10자)","info");
         document.getElementById('QNA_PASS').focus();
         return false;
     }

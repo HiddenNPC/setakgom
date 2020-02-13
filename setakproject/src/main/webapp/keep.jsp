@@ -21,6 +21,10 @@
 	<link rel="stylesheet" type="text/css" href="./css/keep.css"/>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -55,7 +59,7 @@
 			$(".keep-list").on("click", function() {
 				var str = "";
 				
-				str += '<tr>';
+				str += '<tr class="keepclick true">';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+$.attr(this, 'value')+'</td>';
 				str += '<td style="display:none;"><input type="hidden" name="keep_cate" value="'+sortation[0].innerHTML+'">';
@@ -104,7 +108,7 @@
 			//박스 수량
 			$(document).on('click','.box_up',function(event) {
 				if(monthclick==0){
-					Swal.fire("",'보관하실 기간을 먼저 선택해주세요.',"info");
+					Swal.fire("","보관하실 기간을 먼저 선택해주세요.","info");
 					return;
 				}
 				var n = $('.box_up').index(this);
@@ -151,8 +155,7 @@
 				checkbox.each(function(){
 					var tr = checkbox.parent().parent();
 					tr.remove();
-				}) 
-				sumprice();
+				})
 			});
 			
 			/* 숫자 3자리마다 쉼표 넣어줌 */
@@ -164,12 +167,16 @@
 			 $(document).on('click','.gocart',function(event) {
 				var member_id = "<%=session.getAttribute("member_id") %>";
 				if(member_id=="null"){
-					Swal.fire("",'로그인 후 이용 가능합니다.',"info");
+					Swal.fire("","로그인 후 이용 가능합니다.","warning");
 					location.href='login.do';
 					return false;
 				}
+	            if(!$(".keepclick").hasClass("true")){
+					alert("보관하실 의류를 선택하지 않았습니다.");
+					return false;
+				}
 				if(monthclick==0){
-					Swal.fire("",'보관하실 기간을 선택해주세요.',"info");
+					Swal.fire("","보관하실 기간을 선택해주세요.","info");
 					return false;
 				}
 			 });

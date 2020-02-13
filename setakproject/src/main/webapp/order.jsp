@@ -45,6 +45,9 @@
    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
    
+   <!--sweetalert2 -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+   
    <!-- 우편번호 api -->
    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>   
    
@@ -230,7 +233,8 @@
       
       if(addrName == '' || name == '' || phone1 == '' || phone2 == '' || phone3 == ''
          || postcode == '' || address == '' || detailAddress == '') {
-         alert("빠짐없이 입력해주세요.");
+
+    	  alert("빠짐없이 입력해주세요.");
          return; 
       }
       
@@ -253,8 +257,8 @@
                if(retVal.res=="OK") {    
                   
                  selectAddress();
-              alert("주소가 정상적으로 수정 되었습니다.");   
-              modiClose();
+                 alert("주소가 정상적으로 수정 되었습니다.");  
+              	 modiClose();
               
                }
                else { // 실패했다면
@@ -286,7 +290,7 @@
              success:function(data) {
                 
                 selectAddress();
-                alert("주소가 성공적으로 삭제되었습니다."); 
+                alert("주소가 성공적으로 삭제되었습니다.");
              },            
                 // 문제 발생한 경우
                 error:function(request,status,error) {
@@ -323,13 +327,13 @@
 
       if(usePoint > havePoint) {
          finalPrice += usePoint; 
-         alert("사용 가능한 최대 포인트는 " + havePoint + "Point 입니다.");
+         Swal.fire("","사용 가능한 최대 포인트는 " + havePoint + "Point 입니다.","info");
          usePoint = havePoint; 
          $("#usePoint").val(havePoint);
       }
       
       if(usePoint > finalPrice) {
-         alert("결제 금액 이상 사용 할 수 없습니다.");
+    	 Swal.fire("","결제 금액 이상 사용 할 수 없습니다.","warning");
          $("#usePoint").val('0');
          $("#point_price").text('0원');
          
@@ -401,7 +405,7 @@
       }
               
         if(dp < 0) {
-         alert("결제 금액보다 할인 금액이 더 큰 경우");
+         Swal.fire("","결제 금액보다 할인 금액이 더 큰 경우","info");
          select_btn.attr('checked', false);
          return;    
         }
@@ -424,7 +428,7 @@
          
          if($('input:checkbox[name="checkCoupon"]:checked').length == 0) {
             
-            alert("쿠폰을 선택해주세요.");
+        	Swal.fire("","쿠폰을 선택해주세요.","info");
             return; 
          }
 
@@ -467,12 +471,19 @@
           console.log(seq); 
           useCoupon.push(seq);               
        });
-
+       
+       var defaultAddrChk = 0;
+	
+      // 기본 배송지 설정
+	  if($("#saveAddr").prop("checked")){
+		  console.log("기본 배송지 설정 체크"); 
+		  defaultAddrChk = 1; 
+	  }
       
-      // 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
+      // 배송지 정보 입력 받기 
       if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
             postcode == '' || address == '') {
-         alert("배송지 정보를 모두 입력해주세요.");
+    	  Swal.fire("","배송지 정보를 모두 입력해주세요.","warning");
          return; 
       }
       
@@ -518,7 +529,8 @@
                         'order_zipcode' : postcode,
                         'order_muid' : muid,
                         'usePoint' : usePoint,
-                        'useCoupon' : useCoupon
+                        'useCoupon' : useCoupon,
+                        'defaultAddrChk' : defaultAddrChk
                         //기타 필요한 데이터가 있으면 추가 전달
                     },
                     success : function(data) {
@@ -532,7 +544,7 @@
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
                 location.href="/setak/order.do?type=pay";
-                alert(msg);
+                Swal.fire("",msg,"error");
             }
         });
         
@@ -740,7 +752,7 @@
       
       if(addrName == '' || name == '' || newPhone1 == '' || newPhone2 == '' || newPhone3 == ''
          || postcode == '' || address == '') {
-         alert("전부 입력해주세요.");
+    	 Swal.fire("","전부 입력해주세요.","warning");
          return; 
       }
       
@@ -763,13 +775,13 @@
                if(retVal.res=="OK") {    
                   
                  selectAddress();
-              alert("주소가 정상적으로 추가 되었습니다.");              
-              newAddrInit();
+                 Swal.fire("","주소가 정상적으로 추가 되었습니다.","success");          
+              	 newAddrInit();
               
                }
                else { // 실패했다면
                  if(retVal.res == "CNTFAIL") {
-                    alert(retVal.message);
+                	 Swal.fire("",retVal.message,"warning");
                  }
                }
             },
@@ -866,58 +878,6 @@
 		$('#modiPhone3').val('');
 		
         modiDiv.css('display', 'none'); 		
-	}
-	
-	// 기본 배송지 지정
-	function setDefaultAddr() {
-		
-		var member_id = "<%=session.getAttribute("member_id")%>"; 
-		
-		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
-			
-			var phone1 = $("#order_phone1").val();
-			var phone2 = $("#order_phone2").val();
-			var phone3 = $("#order_phone3").val();
-			var postcode = $("#postcode").val();
-			var address = $("#address").val();
-			var detailAddress = $("#detailAddress").val();
-			var request = $("#request").val(); 
-			
-			var phone = phone1 + phone2 + phone3;
-			var addr = address + '!' + detailAddress; 
-			
-			var params = {
-					'member_id' : member_id,
-					'member_phone' : phone,
-					'member_zipcode' : postcode, 
-					'member_loc' : addr,
-			};
-			
-			$.ajax({
-	            url : '/setak/defaultAddrUpdate.do', // url
-	            type : 'POST',
-	            data : params, // 서버로 보낼 데이터
-	            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-	            dataType : 'json',
-	            success: function(retVal) {
-	               if(retVal.res=="OK") {    
-	            	   
-					  alert("기본 배송지 주소가 정상적으로 수정 되었습니다.");	
-					  
-	               }
-	               else { // 실패했다면
-	                  return; 
-	               }
-	            },
-	            error:function() {
-	               alert("Update ajax 통신 실패");
-	            }			
-			});
-				
-		} else {
-			alert("선택이 취소되었습니다.");
-		}
-		
 	}
 	
 	// 쿠폰적용 레이어 스크립트 
@@ -1121,7 +1081,7 @@
                         <td class = "right_col">
                            <input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;" value = "<%=zipcode%>"/> 
                            <input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
-                           <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox" onclick = "setDefaultAddr()"/>기본 배송지로 저장</label>
+                           <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox"/>기본 배송지로 저장</label>
                            <br/>
                            <input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly value = "<%=member_addr1%>"/> &nbsp;
                            <input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;" value = "<%=member_addr2%>"/>

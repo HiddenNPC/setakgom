@@ -6,8 +6,8 @@ import com.spring.community.FaqVO;
 public interface FaqMapper 
 {
 	public ArrayList<FaqVO> getFaqList();
-	public void qnaInsert(FaqVO vo);	
+	public void faqInsert(FaqVO vo);	
 	public int getMaxNum();	
-	public void qnaModify(FaqVO vo);
-	public void qnaDelete(int num);
+	public void faqModify(FaqVO vo);
+	public void faqDelete(int num);
 }

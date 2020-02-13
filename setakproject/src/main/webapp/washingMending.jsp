@@ -25,6 +25,10 @@
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/mending.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -32,31 +36,40 @@
 			$("#footer").load("./footer.jsp")
 			
 			//세탁, 수선, 보관 탭 눌렀을 때
-			$(".tab").on("click", function() {
-				$(".tab").removeClass("active");
-				$(".hash").empty();
-				$(".size_input p input").val('');
-				$(".details form")[0].reset();
-				$(".details form")[1].reset();
-				$(".details form")[2].reset();
-				maxAppend = 0;
-				$(".tab-content").removeClass("show");
-				$(this).addClass("active");
-				$($(this).attr("href")).addClass("show");
-				llength ="";
-				rlength ="";
-				tlength ="";
-				details_text = "";
+			$(".tab").on("click", function(event) {
+				if($(this).hasClass("nonono")){
+					event.preventDefault();
+					alert("해당되는 세탁물이 없습니다.");
+				}else{
+					$(".tab").removeClass("active");
+					$(".hash").empty();
+					$(".size_input p input").val('');
+					$(".details form")[0].reset();
+					$(".details form")[1].reset();
+					$(".details form")[2].reset();
+					maxAppend = 0;
+					$(".tab-content").removeClass("show");
+					$(this).addClass("active");
+					$($(this).attr("href")).addClass("show");
+					llength ="";
+					rlength ="";
+					tlength ="";
+					details_text = "";
+				}
 			});
 			
 			//세탁, 수선, 보관 탭 눌렀을 때 위로 올라가는 제이쿼리
 			var windowWidth = $(window).width();
 			if (windowWidth > 769) {
 				$('.tab-list a').click(function() {
-					$('html, body').animate({
-						scrollTop : $($.attr(this, 'href')).offset().top - 200
-					}, 500);
-					return false;
+					if($(this).hasClass("nonono")){
+						
+					}else{
+						$('html, body').animate({
+							scrollTop : $($.attr(this, 'href')).offset().top - 200
+						}, 500);
+						return false;
+					}
 				});
 			} else {
 				$('.tab-list a').click(function() {
@@ -96,7 +109,7 @@
 			
 			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
-					alert("최대 10개 선택 가능합니다.");
+					Swal.fire("","최대 10개 선택 가능합니다.","info");
 					return;
 				}
 				kind = $.attr(this, 'value');
@@ -117,7 +130,8 @@
 				var str = "";
 				
 				if(maxAppend==0){
-					alert('선택 된 수선내용이 없습니다.');
+					Swal.fire("","선택 된 수선내용이 없습니다.","info");
+
 					return;
 				}
 
@@ -224,7 +238,7 @@
 				var n = $('.bt_down').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				if (num == 1) {
-					alert("최저 수량은 1개입니다.");
+					Swal.fire("","최저 수량은 1개입니다.","info");
 				} else {
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
@@ -292,13 +306,75 @@
 	                });
 	  
 	               if(x > temp.length) {
-	                   alert('동일한 택이 존재합니다.');
+	            	   Swal.fire("",'동일한 택이 존재합니다.',"info");
 	                   event.preventDefault();
 	               }
 	            }
-		            
 		        checkDupl();
 			});
+
+			//세탁물중에 해당사항없으면 탭 비활성화
+			<% 
+			String[] sol = new String[list.size()];
+			for (int j = 0; j < list.size(); j++) {
+				sol[j] =  list.get(j).getWash_cate();
+			}
+			boolean sol_top = Arrays.asList(sol).contains("상의");
+			boolean sol_bot = Arrays.asList(sol).contains("하의");
+			boolean sol_out = Arrays.asList(sol).contains("아우터");
+			
+			System.out.println("상의가 있다?" + sol_top);
+			System.out.println("하의가 있다?" + sol_bot);
+			System.out.println("아우터가 있다?" + sol_out);
+			
+			if(sol_top == false){//상의가 없다.
+			%>
+				$(".tab").removeClass("active");
+				$(".tab-content").removeClass("show");
+				
+				$(".tab:nth-child(1)").addClass("nonono");
+			<%	
+				if(sol_bot == false && sol_out == true){	//상의가 없는데 하의도없다 근데 아우터는 있다.
+			%>
+					$(".tab:nth-child(2)").addClass("nonono");
+					$(".tab:nth-child(3)").addClass("active");
+					$($(".tab:nth-child(3)").attr("href")).addClass("show");
+			<%
+				} else if(sol_bot == true && sol_out == false){	//상의가 없는데 하의는 있고, 아우터가 없다.
+			%>	
+					$(".tab:nth-child(3)").addClass("nonono");
+					$(".tab:nth-child(2)").addClass("active");
+					$($(".tab:nth-child(2)").attr("href")).addClass("show");
+			<%
+				} else if(sol_bot == false && sol_out == false){	//싹다 없다
+			%>
+					$(".tab:nth-child(2)").addClass("nonono");
+					$(".tab:nth-child(3)").addClass("nonono");
+					$($(".tab:nth-child(4)").attr("href")).addClass("show");
+			<%
+				} else { //상의빼고 다 있다.
+			%>
+					$(".tab:nth-child(2)").addClass("active");
+					$($(".tab:nth-child(2)").attr("href")).addClass("show");
+			<%
+				}
+			
+			} else if(sol_bot == false){ //하의가 없다. 상의랑 아우터는 있다.
+			%>
+				$(".tab:nth-child(2)").addClass("nonono");
+			<%
+				if(sol_out == false){ //하의가 없는데 아우터도 없다. 상의는 있다.
+			%>
+					$(".tab:nth-child(3)").addClass("nonono");
+			<%
+				}
+			
+			} else if(sol_out == false){ // 아우터가 없다. 상의랑 하의는 있다.
+			%>
+				$(".tab:nth-child(3)").addClass("nonono");
+			<%
+			}
+			%>
 		});
 		//한글, 영어 금지
 		function onlyNumber(event) {
@@ -336,6 +412,7 @@
 						<a href="#one" id="tab" class="tab active">상의</a>
 						<a href="#two" id="tab" class="tab">하의</a>
 						<a href="#three" id="tab" class="tab">아우터</a>
+						<a href="#four" id="tab" class="tab" style="display:none;"></a>
 					</div>
 				</div>
 
@@ -451,6 +528,12 @@
 						</li>
 					</ul>
 					<p>※ 단추 수선은 헐렁이거나 떨어진 단추를 달아드리는 상품이며, 단추가 없을 시 유사한 단추로 달아드립니다. 수선하실 단추 수량만큼 추가해 주세요.<br><br><br></p>
+				</div>
+				
+				<div id="four" class="tab-content">
+					<ul class="top">
+						<li>※수선 가능한 세탁물이 없습니다.</li>
+					</ul>
 				</div>
 				
 				<p>※ 받으신 웰컴키트 안 '택'에  선택하신 택 코드를 동일하게 적어서 보내주세요.</p>

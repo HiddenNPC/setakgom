@@ -67,7 +67,7 @@
    <select id="listcount" parameterType="String" resultType="int">
    		SELECT count(*) FROM subs_history WHERE member_id=#{member_id, jdbcType=VARCHAR}
    </select>
-   
+ 
    <!-- 구독해지함 -->
    <update id="subcancle" parameterType="String">
    	UPDATE member_subs
