@@ -13,9 +13,17 @@
 		<result property="review_date" column="review_date"/>
 		<result property="keyfield" column="keyfield"/>		
 		<result property="keyword" column="keyword"/>		
-		<result property="re_condition" column="re_condition"/>		
-				
-	</resultMap>	
+		<result property="re_condition" column="re_condition"/>						
+	</resultMap>
+	
+	<resultMap type="com.spring.member.MileageVO" id="mileageMap">
+		<result property="member_id" column="member_id"	/>
+		<result property="mile_date" column="mile_date"	/>
+		<result property="mile_price" column="mile_price"	/>
+		<result property="mile_content" column="mile_content"	/>	
+	</resultMap>
+	
+		
 	<!-- 	
 	<select id="getMaxNum" resultType="int">
 		SELECT MAX(review_num) FROM review
@@ -30,9 +38,17 @@
 	</select>
 
 	<insert id="reviewInsert" parameterType="com.spring.community.ReviewVO">
-		INSERT INTO review VALUES (REVIEW_SEQ.NEXTVAL,#{member_id,},#{review_kind},#{review_star},
+		INSERT INTO review VALUES (REVIEW_SEQ.NEXTVAL,#{member_id},#{review_kind},#{review_star},
 		#{review_content},#{review_like},#{review_photo, jdbcType=VARCHAR}, sysdate ) 
 	</insert>
+	
+	<insert id="insertMileage" parameterType="com.spring.member.MileageVO">
+		INSERT INTO mileage VALUES (#{arg0}, sysdate, #{arg1}, #{arg2}) 
+	</insert>
+	
+	
+	
+	
 	
 	<select id="reviewSearch" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
 	 <bind name="arg1" value="'%'+ arg1 +'%'" />

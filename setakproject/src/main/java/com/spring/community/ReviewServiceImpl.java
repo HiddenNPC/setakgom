@@ -97,6 +97,15 @@ public class ReviewServiceImpl implements ReviewService
 		return res;		
 	}
 
+	@Override
+	public void insertMileage(ReviewVO vo, int mile_price, String mile_content) {
+		System.out.println(vo.getMember_id());
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
+		reviewMapper.insertMileage(vo.getMember_id(), mile_price, mile_content);
+		System.out.println(1);
+		
+	}
+
 	
 
 	

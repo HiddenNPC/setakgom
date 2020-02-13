@@ -27,38 +27,37 @@ public class FaqServiceImpl implements FaqService
 		{
 			throw new Exception("faq db에 뿌리기  실패", e);
 		}
-		
-
 	}
 
 	@Override
-	public void qnaInsert(FaqVO vo) {
+	public void faqInsert(FaqVO vo) {
 		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
 		int num = faqMapper.getMaxNum()+1;
+		System.out.println(num);
 		vo.setFaq_num(num);		
-		faqMapper.qnaInsert(vo);
+		faqMapper.faqInsert(vo);
 		
 	}
 
 	@Override
 	public int getMaxNum() {
-		// TODO Auto-generated method stub
-		return 0;
+		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
+		int num = faqMapper.getMaxNum();
+		return num;
 	}
 
 	@Override
-	public void qnaModify(FaqVO vo) {
-		// TODO Auto-generated method stub
-		
+	public void faqModify(FaqVO vo) {
+		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
+		faqMapper.faqModify(vo);
 	}
 
 	@Override
-	public void qnaDelete(int num) {
-		// TODO Auto-generated method stub
+	public void faqDelete(int num) {
+		FaqMapper faqMapper = sqlSession.getMapper(FaqMapper.class);
+		faqMapper.faqDelete(num);
 		
 	}
 
-	
-	
 	
 }
