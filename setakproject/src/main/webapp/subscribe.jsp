@@ -95,7 +95,7 @@
             	          customer_uid: cuid,
             	          'member_id' : member_id,
            				  'subs_num' : subs_num,
-           				  'amount': "1000"
+           				  'amount': final_price
             	        },
                         success : function() {
                         	

@@ -204,4 +204,60 @@ public class Iamport {
 		return paramList;
 	}
 	
+	public HashMap<String, Object> getSchedule(String muid,String token) throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>(); 
+		try{
+			
+			String requestString = "";
+			String urlport = "https://api.iamport.kr/subscribe/payments/schedule/" + muid+"?_token="+token;
+			System.out.println(urlport);
+			URL url = new URL(urlport);
+			
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setDoOutput(true); 				
+			connection.setInstanceFollowRedirects(false);  
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Content-Type", "application/json");
+
+			OutputStream os= connection.getOutputStream();
+
+			//os.write(json.toString().getBytes());
+			connection.connect();
+
+			StringBuilder sb = new StringBuilder(); 
+			System.out.println(connection.getResponseCode());
+			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+				String line = null;  
+
+				while ((line = br.readLine()) != null) {  
+					sb.append(line + "\n");  
+				}
+
+				br.close();
+				requestString = sb.toString();
+				System.out.println(requestString);
+
+			}
+
+			os.flush();
+			connection.disconnect();
+
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObj = (JSONObject) jsonParser.parse(requestString);
+
+			if((Long)jsonObj.get("code")  == 0){
+				JSONObject getinfo = (JSONObject) jsonObj.get("response");
+				map.put("customer_uid", (String)getinfo.get("customer_uid"));
+				map.put("amount", (long)getinfo.get("amount"));
+			}
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return map;
+	}
+	
 }

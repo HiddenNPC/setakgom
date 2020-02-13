@@ -108,7 +108,7 @@ import org.springframework.web.servlet.ModelAndView;
 			writer.write("<script> alert('글 작성을 실패하습니다.');location.href='./qnaWrite.do'; </script>");
 			return null;
 		}
-		writer.write("<script> alert('글 작성이 완료되었습니다.');location.href='./qnaList.do'; </script>");
+			writer.write("<script> alert('글 작성이 완료되었습니다.');location.href='./qnaList.do'; </script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
