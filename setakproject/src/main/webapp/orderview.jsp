@@ -56,8 +56,12 @@
              $(".dim").show();
           }
           else{
-             alert("비회원은 리뷰를 작성 할 수 없습니다.");
-             location.href="login.do";
+             Swal.fire({
+					text: "비회원은 리뷰를 작성 할 수 없습니다.",
+					icon: "error",
+				}) .then(function(){
+					location.href='login.do';
+				});
              return false;
           }   
       });
@@ -142,11 +146,15 @@
                     "order_muid" : order_muid
                   },
                   "dataType": "json"
-                }).done(function(result) { // 환불 성공시 로직 
-                    alert("주문이 성공적으로 취소 되었습니다.");
-                    window.location.href = "./orderview.do";
+                }).done(function(result) { // 환불 성공시 로직
+                	Swal.fire({
+						text: "주문이 성공적으로 취소 되었습니다.",
+						icon: "success",
+					}) .then(function(){
+						location.href='./orderview.do';
+					});
                 }).fail(function(result) { // 환불 실패시 로직
-                     alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+                    Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","error");
                 });   
          }          
       }); 
@@ -158,7 +166,7 @@
 
       if (document.getElementById('Review_content').value=="") 
       {
-         alert("리뷰의 내용을 작성하세요.(최대 300자)");
+           Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
            document.getElementById('Review_content').focus();
            return false;
            

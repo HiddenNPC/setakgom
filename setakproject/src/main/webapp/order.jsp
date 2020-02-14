@@ -234,7 +234,7 @@
       if(addrName == '' || name == '' || phone1 == '' || phone2 == '' || phone3 == ''
          || postcode == '' || address == '' || detailAddress == '') {
 
-    	  alert("빠짐없이 입력해주세요.");
+    	 Swal.fire("","빠짐없이 입력해주세요.",'info');
          return; 
       }
       
@@ -257,7 +257,7 @@
                if(retVal.res=="OK") {    
                   
                  selectAddress();
-                 alert("주소가 정상적으로 수정 되었습니다.");  
+                 Swal.fire("","주소가 정상적으로 수정 되었습니다.","success");  
               	 modiClose();
               
                }
@@ -278,30 +278,38 @@
        var select_btn = $(this);
         var tr = select_btn.parent().parent(); 
         var address_num = tr.attr("id").replace("addr", "");
-       
-        if(confirm("이 주소를 삭제하시겠습니까?")) {
-           
-          $.ajax({
-             url : '/setak/deleteAddr.do',
-             type : 'post',
-             data : {'address_num':address_num},
-             dataType : 'json',
-             contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-             success:function(data) {
-                
-                selectAddress();
-                alert("주소가 성공적으로 삭제되었습니다.");
-             },            
-                // 문제 발생한 경우
-                error:function(request,status,error) {
-                   // ajax를 통한 작업 송신 실패 
-                   alert("ajax 통신 실패  ");
-                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }
-          }); 
-          
-          event.preventDefault(); 
-        }
+        Swal.fire({
+        	  text: "이 주소를 삭제하시겠습니까?",
+        	  icon: 'warning',
+        	  showCancelButton: true,
+        	  confirmButtonColor: '#3085d6',
+        	  cancelButtonColor: '#d33',
+        	  confirmButtonText: '네, 삭제하겠습니다.',
+        	  cancelButtonText: '삭제하지않겠습니다.'
+        	}).then((result) => {
+        	  if (result.value) {
+		          $.ajax({
+		             url : '/setak/deleteAddr.do',
+		             type : 'post',
+		             data : {'address_num':address_num},
+		             dataType : 'json',
+		             contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+		             success:function(data) {
+		                
+		                selectAddress();
+		                Swal.fire("","주소가 성공적으로 삭제되었습니다.","success");
+		             },            
+		                // 문제 발생한 경우
+		                error:function(request,status,error) {
+		                   // ajax를 통한 작업 송신 실패 
+		                   alert("ajax 통신 실패  ");
+		                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		                }
+		          }); 
+		          
+		          event.preventDefault(); 
+       	  }
+       	});
     });
     
    // 적립금  > 한글 금지
@@ -540,11 +548,13 @@
                 });
                 
             } else {
-                msg = '결제에 실패하였습니다.';
-                msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="/setak/order.do?type=pay";
-                Swal.fire("",msg,"error");
+                Swal.fire({
+					text: "결제에 실패하였습니다.",
+					icon: "error",
+				}) .then(function(){
+					location.href='/setak/order.do?type=pay';
+				});
             }
         });
         
