@@ -79,9 +79,7 @@ public class CommentController
 		
 		
 		try {
-			int res = commentService.commentUpdate(vo);
-			
-
+			int res = commentService.commentUpdate(vo);			
 			if (res==1)
 				retVal.put("res", "OK");
 			else if (res==-1)

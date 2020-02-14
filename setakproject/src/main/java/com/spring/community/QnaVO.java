@@ -1,86 +1,86 @@
 package com.spring.community;
 
-import java.sql.Date;
-
 public class QnaVO 
 {
-	private int QNA_NUM;
-	private String MEMBER_ID;
-	private String QNA_TYPE;
-	private long ORDER_NUM;
-	private String QNA_TITLE;
-	private String QNA_CONTENT;
-	private Date QNA_DATE;
-	private String QNA_FILE;
-	private String QNA_CHECK;	
-	private String QNA_SCR;
-	private String QNA_PASS;
-	public int getQNA_NUM() {
-		return QNA_NUM;
-	}
-	public void setQNA_NUM(int qNA_NUM) {
-		QNA_NUM = qNA_NUM;
-	}
-	public String getMEMBER_ID() {
-		return MEMBER_ID;
-	}
-	public void setMEMBER_ID(String mEMBER_ID) {
-		MEMBER_ID = mEMBER_ID;
-	}
-	public String getQNA_TYPE() {
-		return QNA_TYPE;
-	}
-	public void setQNA_TYPE(String qNA_TYPE) {
-		QNA_TYPE = qNA_TYPE;
-	}
-	public long getORDER_NUM() {
-		return ORDER_NUM;
-	}
-	public void setORDER_NUM(long oRDER_NUM) {
-		ORDER_NUM = oRDER_NUM;
-	}
-	public String getQNA_TITLE() {
-		return QNA_TITLE;
-	}
-	public void setQNA_TITLE(String qNA_TITLE) {
-		QNA_TITLE = qNA_TITLE;
-	}
-	public String getQNA_CONTENT() {
-		return QNA_CONTENT;
-	}
-	public void setQNA_CONTENT(String qNA_CONTENT) {
-		QNA_CONTENT = qNA_CONTENT;
-	}
-	public Date getQNA_DATE() {
-		return QNA_DATE;
-	}
-	public void setQNA_DATE(Date qNA_DATE) {
-		QNA_DATE = qNA_DATE;
-	}
-	public String getQNA_FILE() {
-		return QNA_FILE;
-	}
-	public void setQNA_FILE(String qNA_FILE) {
-		QNA_FILE = qNA_FILE;
-	}
-	public String getQNA_CHECK() {
-		return QNA_CHECK;
-	}
-	public void setQNA_CHECK(String qNA_CHECK) {
-		QNA_CHECK = qNA_CHECK;
-	}
-	public String getQNA_SCR() {
-		return QNA_SCR;
-	}
-	public void setQNA_SCR(String qNA_SCR) {
-		QNA_SCR = qNA_SCR;
-	}
-	public String getQNA_PASS() {
-		return QNA_PASS;
-	}
-	public void setQNA_PASS(String qNA_PASS) {
-		QNA_PASS = qNA_PASS;
-	}
+	private int qna_num;
+	private String member_id;
+	private String qna_type;
+	private long order_num;
+	private String qna_title;
+	private String qna_content;
+	private String qna_date;
+	private String qna_file;
+	private String qna_check;	
+	private String qna_scr;
+	private String qna_pass;
 	
+	
+	public int getQna_num() {
+		return qna_num;
+	}
+	public void setQna_num(int qna_num) {
+		this.qna_num = qna_num;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	public String getQna_type() {
+		return qna_type;
+	}
+	public void setQna_type(String qna_type) {
+		this.qna_type = qna_type;
+	}
+	public long getOrder_num() {
+		return order_num;
+	}
+	public void setOrder_num(long order_num) {
+		this.order_num = order_num;
+	}
+	public String getQna_title() {
+		return qna_title;
+	}
+	public void setQna_title(String qna_title) {
+		this.qna_title = qna_title;
+	}
+	public String getQna_content() {
+		return qna_content;
+	}
+	public void setQna_content(String qna_content) {
+		this.qna_content = qna_content;
+	}
+	public String getQna_date() {
+		return qna_date;
+	}
+	public void setQna_date(String qna_date) {
+		this.qna_date = qna_date;
+	}
+	public String getQna_file() {
+		return qna_file;
+	}
+	public void setQna_file(String qna_file) {
+		this.qna_file = qna_file;
+	}
+	public String getQna_check() {
+		return qna_check;
+	}
+	public void setQna_check(String qna_check) {
+		this.qna_check = qna_check;
+	}
+	public String getQna_scr() {
+		return qna_scr;
+	}
+	public void setQna_scr(String qna_scr) {
+		this.qna_scr = qna_scr;
+	}
+	public String getQna_pass() {
+		return qna_pass;
+	}
+	public void setQna_pass(String qna_pass) {
+		this.qna_pass = qna_pass;
+	}
+
 	
 }

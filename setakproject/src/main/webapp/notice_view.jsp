@@ -33,8 +33,8 @@ $(document).ready(function(){
 
 <table class="nvt1">
 	<tr height="50px" >
-		<td width="20%" align="left">제  목 : <%=vo.getNotice_title() %></td>
-		<td width="20%" align="right" ><%=vo.getNotice_date() %>&nbsp;&nbsp;</td>
+		<td width="20%" align="left" id="no_title" >제  목 : <%=vo.getNotice_title() %></td>
+		<td width="20%" align="right" ><%=vo.getNotice_date().substring(0,11) %>&nbsp;&nbsp;</td>
 	</tr>	
 	<tr>
 		<td colspan="2" class="nvc"><div ><%=vo.getNotice_content()%></div></td>

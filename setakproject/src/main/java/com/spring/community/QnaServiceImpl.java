@@ -2,6 +2,7 @@ package com.spring.community;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -90,7 +91,7 @@ public class QnaServiceImpl implements QnaService
 	@Override public QnaVO getDetail(QnaVO vo) throws Exception 
 	{
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);		
-		QnaVO qnavo = qnaMapper.getDetail(vo.getQNA_NUM());		
+		QnaVO qnavo = qnaMapper.getDetail(vo.getQna_num());		
 		return qnavo;
 	}
 	
@@ -122,7 +123,7 @@ public class QnaServiceImpl implements QnaService
 	@Override public int qnaDelete(QnaVO vo) throws Exception {
 		
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
-		int res = qnaMapper.qnaDelete(vo.getQNA_NUM());
+		int res = qnaMapper.qnaDelete(vo.getQna_num());
 		return res;
 	}
 
@@ -145,6 +146,13 @@ public class QnaServiceImpl implements QnaService
 		
 	}
 	
+	@Override
+	public List<Object> ad_qnalist() {		
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+		List<Object> list = qnaMapper.ad_qnalist();
+		return list;
+	}
+
 	
 	
 	
@@ -167,6 +175,7 @@ public class QnaServiceImpl implements QnaService
 		return qnalist;
 	}
 
+	
 	
 
 	

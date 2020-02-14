@@ -6,16 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>세탁곰 관리자페이지</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/admin_notice.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/admin_qna.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#admin").load("./admin.jsp")			
-		
-			
-			//수정버튼 누르면		
-			/* 	$('.update').on('click', function(){ */
+			$("#admin").load("./admin.jsp")					
+			/*
+			//수정버튼 누르면					
 			$(document).on('click', 'li .update', function () { 
 				 if(!$(this).hasClass("active")){
 					$(this).attr('value', '수정 확인 ');
@@ -32,8 +30,7 @@
 					$(this).parent().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
 					$(this).parent().prev().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
 										
-				 }
-				
+				 }				
 				
 			});
 			
@@ -54,48 +51,9 @@
 				}
 				
 			});
+			*/
 			
-			
-			
-			//목록 띄우기
-			function selectData(){				
-				$.ajax({
-					url :'/setak/admin/ad_noticeList.do',
-					type :'POST',
-					dataType :'json',
-					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
-					success:function(data){
-						$.each(data, function(index, item){
-							var re_d =JSON.stringify(item.notice_date);					
-							var rdate= re_d.substr(1 ,10);
-							var str = '';																					
-							str += '<ul>';
-							str += '<li class="listtd"><input type="text" class="notice_num" value="'+item.notice_num+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="notice_title" value="'+item.notice_title +'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="notice_content" value="'+item.notice_content+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="notice_date"  value="'+ rdate +'" disabled="disabled"></li>';														
-							str += '<li class="listtd"><input type="button" class="update" value="수정"></li>';
-							str += '<li class="listtd"><input type="button" class="a-n-delete" value="삭제"></li>';
-							str += '</ul>';
-							$(".ad_noticelist").append(str);
-						});
-						page();
-					},
-					error:function(){
-						alert("ajax통신 실패!!!");
-					}
-				});
-			}
-			
-			selectData();
-			
-			function test(){
-				var title = $(this).parents().eq(1).children().val();
-				console.log(title);
-			}
-			
-			
-			
+			/*
 			$(document).on('click','.update.active', function(event){
 				var num = $(this).parent().parent().find('.notice_num').val();
 				var title = $(this).parent().parent().find('.notice_title').val();
@@ -146,11 +104,40 @@
 				});
 				event.preventDefault();
 			}); 
+			*/
+			/*
+			//목록 띄우기
+			function selectData(){				
+				$.ajax({
+					url :'/setak/admin/ad_noticeList.do',
+					type :'POST',
+					dataType :'json',
+					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(data){
+						$.each(data, function(index, item){
+							var re_d =JSON.stringify(item.notice_date);					
+							var rdate= re_d.substr(1 ,10);
+							var str = '';																					
+							str += '<ul>';
+							str += '<li class="listtd"><input type="text" class="notice_num" value="'+item.notice_num+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="notice_title" value="'+item.notice_title +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="notice_content" value="'+item.notice_content+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="notice_date"  value="'+ rdate +'" disabled="disabled"></li>';														
+							str += '<li class="listtd"><input type="button" class="update" value="수정"></li>';
+							str += '<li class="listtd"><input type="button" class="a-n-delete" value="삭제"></li>';
+							str += '</ul>';
+							$(".ad_noticelist").append(str);
+						});
+						page();
+					},
+					error:function(){
+						alert("ajax통신 실패!!!");
+					}
+				});
+			}
 			
-			
-			
-			
-			
+			selectData();
+						
 			//페이징 작업
 			function page(){ 
 				$('div.paginated').each(function() {
@@ -239,8 +226,7 @@
 					$table.trigger('repaginate');
 				});
 			}
-			
-			
+*/
 		});
 
 	</script>
@@ -249,26 +235,32 @@
 		<div id="admin"></div>
 		<div class="content">
 			<!-- 여기서부터 작업하세요. -->
-			<h1>공지사항 관리</h1>
-			<ul class="notice_title">
+			<h1>QNA 관리</h1>
+			<ul class="ad-qna-title">
 				<li>NO</li>
+				<li>회원아이디</li>
+				<li>문의유형</li>
+				<li>주문번호</li>
 				<li>제목</li>
 				<li>내용</li>
-				<li>날짜</li>
-				<li>수정</li>
-				<li>삭제</li>
+				<li>작성날짜</li>
+				<li>파일</li>
+				<li>답변유무</li>
+				<li>공개설정</li>
+				<li>글 비밀번호</li>
 			</ul>
-			<form id="ad_notice_form" action="">
-				<div class="ad_noticelist paginated"></div>
+			<form id="ad_qna_form" action="">
+				<div class="ad_qnalist paginated"></div>
 				
 			</form>
 			
+			<!-- 
 			<form action="" id="ad-notice-insert-form" method="post" enctype="multipart/form-data">			
 				<input type="button" value="추가" id="ad-notice-insert-btn">
 				<div id=ad-notice-insert><div>제목:<input id="a-n-i-text" name="notice_title" type="text" value="[공지]"></div><span id="a-n-i-tarea">내용:<textarea name="notice_content"></textarea></span>
 				<input type="submit" value="등록"> 
 				</div>		
-			</form>
+			</form> -->
 		
 		</div>
 	

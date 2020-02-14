@@ -31,7 +31,7 @@ where rnum>=#{arg0} and rnum<=#{arg1}]]>
 	<update id="noticeModify" parameterType="com.spring.community.NoticeVO">
 		update NOTICE set notice_title=#{notice_title}, 
 		notice_content=#{notice_content, jdbcType=VARCHAR},
-		notice_date= sysdate 
+		notice_date=#{notice_date} 
 		where  NOTICE_NUM=#{notice_num}
 	</update>
 
@@ -48,6 +48,11 @@ where rnum>=#{arg0} and rnum<=#{arg1}]]>
 		SELECT * FROM notice ORDER BY notice_num desc       		
 	</select>	
 	
+	<delete id="ad_noticeDelete" parameterType="com.spring.community.NoticeVO">
+		delete from NOTICE where notice_num in ( notice_num=#{notice_num},)
+		
+		<!-- delete from NOTICE where notice_num in( 5, 8) -->
+	</delete>
 	
 
 </mapper>
