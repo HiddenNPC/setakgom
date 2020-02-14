@@ -318,10 +318,6 @@
 			boolean sol_bot = Arrays.asList(sol).contains("하의");
 			boolean sol_out = Arrays.asList(sol).contains("아우터");
 			
-			System.out.println("상의가 있다?" + sol_top);
-			System.out.println("하의가 있다?" + sol_bot);
-			System.out.println("아우터가 있다?" + sol_out);
-			
 			if(sol_top == false){//상의가 없다.
 			%>
 				$(".tab").removeClass("active");

@@ -1,5 +1,6 @@
 package com.spring.setak;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,4 +39,19 @@ public class Admin_MendingKeepServiceImpl implements Admin_MendingKeepService{
 		return res;
 	}
 
+	@Override
+	public int deleteKeep(int keep) {
+		Admin_KeepMapper keepMapper = sqlSession.getMapper(Admin_KeepMapper.class);
+		int res = keepMapper.deleteKeep(keep);
+		return res;
+	}
+	
+	@Override
+	public List<Object> keepSerach(HashMap<String, Object> map){
+		List<Object> keeplist = null;
+		Admin_KeepMapper keepMapper = sqlSession.getMapper(Admin_KeepMapper.class);
+		keeplist = keepMapper.keepSerach(map);
+		
+		return keeplist;
+	}
 }

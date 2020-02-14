@@ -20,7 +20,7 @@
 	
 	<select id="getKeepList" resultMap="hashmapVO">
 		select rownum rnum, keep_seq, member_id, order_num, keep_cate, keep_kind, keep_count, keep_box, keep_start, keep_end, keep_now, keep_file
-		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now, c.keep_file
+		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now, c.keep_file 
 		        from memberorder a
 		        join orderlist b
 		        on a.order_num = b.order_num
@@ -37,5 +37,24 @@
 	<update id="keepImg" parameterType="com.spring.setak.KeepVO">
 		update keep set keep_file = #{keep_file} where keep_seq=#{keep_seq}
 	</update>
+
+	<delete id="deleteKeep" parameterType="int">
+		delete from keep where keep_seq = #{keep_seq}
+	</delete>
+	
+	<select id="keepSerach" parameterType="java.util.HashMap" resultMap="hashmapVO">
+		select rownum rnum, keep_seq, member_id, order_num, keep_cate, keep_kind, keep_count, keep_box, keep_start, keep_end, keep_now, keep_file
+		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now, c.keep_file 
+		        from memberorder a
+		        join orderlist b
+		        on a.order_num = b.order_num
+		        right join keep c
+		        on b.keep_seq = c.keep_seq
+		        where b.keep_seq > 0
+			<if test = "keyword != null">
+				and (a.member_id like '%'||#{keyword, jdbcType=VARCHAR}||'%')
+			</if>
+			order by c.keep_seq desc)
+	</select>
 	
 </mapper>

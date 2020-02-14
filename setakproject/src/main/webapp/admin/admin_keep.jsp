@@ -26,7 +26,7 @@
 							var str = '';
 							
 							str += '<ul>'
-							str += '<li class="listtd"><input type="checkbox"></li>';
+							str += '<li class="listtd"><input type="checkbox" name="chk"></li>';
 							str += '<li class="listtd">' + item.keep_rnum + '</li>';
 							str += '<li class="listtd">' + item.order_num + '</li>';
 							str += '<li class="listtd">' + item.member_id + '</li>';
@@ -44,11 +44,13 @@
 							str += '</select></li>';
 							str += '<li class="listtd"><input type="button" class="keep_img_popup" value="사진"></li>';
 							str += '<li class="listtd"><a class="update">수정</a>';
-							str += '<a style="display: none;" value="/setak/updateKeep.do?keep_seq=' + item.keep_seq + '" class="after">수정</a></li>';
+							str += '<a style="display: none;" value="/setak/updateKeep.do?keep_seq=' + item.keep_seq + '" class="after">확인</a></li>';
 							str += '<li class="listtd" style="display:none;"><input type="text" class="keep_cate" value="' + item.keep_cate + '" disabled></li>';
+							str += '<li class="listtd" style="display:none;"><input type="text" class="keep_seq" value="' + item.keep_seq + '" disabled></li>';
 							str += '</ul>';
 							$(".keep_list").append(str);
 						});
+						$(".keep_list").append('<input type="button" value="선택삭제" class="chkdelete">');
 						page();
 					},
 					error:function(){
@@ -259,15 +261,113 @@
 					$table.trigger('repaginate');
 				});
 			}
+			
+			
+			//삭제 ajax
+			$(document).on('click', '.chkdelete', function(){
+				var keep_seq = [];
+				var checkbox = $("input[name=chk]:checked");
+				
+				checkbox.each(function() {
+					var seq = $(this).parents().eq(1).children().eq(13).children().val();
+					keep_seq.push(seq);
+				});
+				
+			 	$.ajax({
+					url:'/setak/admin/deleteKeep.do',
+					type:'POST',
+					data : {keep_seq : keep_seq},
+					traditional : true,
+					dataType:"json",
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(retVal) {
+						if(retVal.res == "OK"){
+							alert("삭제되었습니다.");
+							$('.keep_list').empty();
+							selectData();
+						} else {
+							alert("삭제 실패.");
+						}            
+					},
+					error: function() {
+						alert("ajax통신 실패!!실패!!!!!!!!!");
+					}
+				}); 
+			});
+			
+			// 전체선택
+			$("#allcheck").click(function(){
+				if($("#allcheck").prop("checked")){
+					$("input[name=chk]").prop("checked",true);
+				}else{
+					$("input[name=chk]").prop("checked",false);
+				}
+			});
+			
+			//검색 ajax
+			$(document).on('click', '#search-btn', function(){
+				var param = {keyword : $('#keyword').val()};
+				$.ajax({
+					url:'/setak/admin/keepSearch.do', 
+					type:'POST',
+					data:param,
+					dataType:"json", //리턴 데이터 타입
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(data) {	
+						$(".keep_list").empty();
+						var list = data.keeplist;				
+						if (list.length == 0){
+							var str = '';
+							str += '<h3 >결과값이 없습니다.</h3>'
+							$(".keep_list").append(str);
+						}
+						$.each(list, function(index, item) {
+							var str = '';
+							str += '<ul>'
+								str += '<li class="listtd"><input type="checkbox" name="chk"></li>';
+								str += '<li class="listtd">' + item.keep_rnum + '</li>';
+								str += '<li class="listtd">' + item.order_num + '</li>';
+								str += '<li class="listtd">' + item.member_id + '</li>';
+								str += '<li class="listtd"><input type="text" class="keep_kind" value="' + item.keep_kind + '" disabled></li>';
+								str += '<li class="listtd"><input type="number" class="keep_count" value="' + item.keep_count + '" disabled></li>';
+								str += '<li class="listtd"><input type="number" class="keep_box" name="keep_box" min="1" value="' + item.keep_box + '" disabled></li>';
+								str += '<li class="listtd"><input type="date" class="keep_day" name="keep_start" value="' + item.keep_start + '" disabled></li>';
+								str += '<li class="listtd"><input type="date" class="keep_day" name="keep_end" value="' + item.keep_end + '" disabled></li>';
+								str += '<li class="listtd"><select class="keep_now" name="keep_now" disabled>';
+								str += '<option value=' + item.keep_now + '>'+ item.keep_now +'</option>';
+								str += '<option value="입고전">입고전</option>';
+								str += '<option value="보관중">보관중</option>';
+								str += '<option value="부분반환">부분반환</option>';
+								str += '<option value="전체반환">전체반환</option>';
+								str += '</select></li>';
+								str += '<li class="listtd"><input type="button" class="keep_img_popup" value="사진"></li>';
+								str += '<li class="listtd"><a class="update">수정</a>';
+								str += '<a style="display: none;" value="/setak/updateKeep.do?keep_seq=' + item.keep_seq + '" class="after">확인</a></li>';
+								str += '<li class="listtd" style="display:none;"><input type="text" class="keep_cate" value="' + item.keep_cate + '" disabled></li>';
+								str += '<li class="listtd" style="display:none;"><input type="text" class="keep_seq" value="' + item.keep_seq + '" disabled></li>';
+								str += '</ul>';
+							$(".keep_list").append(str);
+						});
+						$(".keep_list").append('<input type="button" value="선택삭제" class="chkdelete">');
+						page();
+					},
+					error: function() {
+						alert("통신실패!");
+				    }
+				});
+			});
 		});
 		
 		//사진 클릭시 팝업생성
 		$(document).on('click','.keep_img_popup',function(event) {
 			$(".popup_img_back").addClass("popup_on");
+			$(".imgs_wrap").empty();
+			var seqseq = $(this).parents().eq(1).children().eq(13).children().val();
+			$('#input_keep_seq').val(seqseq);
 		});
 		$(document).on('click','.keep_img_close',function(event) {
             $(".popup_img_back").removeClass("popup_on");
-            $(".imgs_wrap").empty();
+            img_index = 0;
         });
 		
 		//이미지 정보들 담을 배열
@@ -275,6 +375,7 @@
 		$(document).ready(function(){
 			$("#input_imgs").on("change", handleImgFileSelect);	
 		});
+		var img_index = 0;
 		function handleImgFileSelect(e){
 			//이미지 정보 초기화
 			sel_files = [];
@@ -282,48 +383,32 @@
 			var files = e.target.files;
 			var filesArr = Array.prototype.slice.call(files);
 			
-			var index = 0;
 			filesArr.forEach(function(f){
 				if(!f.type.match("image.*")){
 					alert("확장자는 이미지 확장자만 가능합니다.");
 					return;
 				}
-				
 				sel_files.push(f);
 				
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name + "' title='Click to remove'></a>";
+					var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+img_index+")\" id=\"img_id_"+img_index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name + "' title='Click to remove'></a>";
 					$(".imgs_wrap").append(html);
-					index++;
+					img_index++;
 				}
 				reader.readAsDataURL(f);
 			});
 		}
 		
 		//이미지 삭제
- 		function deleteImageAction(index){
-			sel_files.splice(index,1);
+ 		function deleteImageAction(img_index){
+			sel_files.splice(img_index,1);
 			
-			var img_id = "#img_id_" + index;
+			var img_id = "#img_id_" + img_index;
 			$(img_id).remove();
-			
-			alert(img_id);
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		//사진 업로드 ajax
 		var filecontent;
 		var filename;
 		var data = new FormData();// key/value로 채워지는것임 참고.
@@ -341,8 +426,9 @@
 				dbfilename += filename +",";
 			}
 		}); 
-		
 		$(document).on("submit", "#imgform", function(){
+			img_index = 0;
+
 			if(filecontent != null){
 				data.append("purpose", "keep");
 				
@@ -368,7 +454,7 @@
 				alert("선택된 파일이 없습니다.")
 				event.preventDefault();
 			}
-		});   
+		});
 	</script>
 </head>
 <body>
@@ -376,6 +462,22 @@
 		<div class="content">
 			<!-- 여기서부터 작업하세요. -->
 			<h1>보관관리</h1>
+			
+			<div id = "search-div">
+				<form id="search-form">
+					<table id = "search-table">
+						<tr>
+							<td>
+								<input id="keyword" type="text" size="40px" placeholder = "아이디를 입력하세요." />
+							</td>
+							<td>
+								<input type="button" id="search-btn" value="검색" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>			
+			
 			<ul class="keep_title">
 				<li><input type="checkbox" id = "allcheck"></li>
 				<li>NO</li>
@@ -392,7 +494,7 @@
 			</ul>
 			<form id="keep_form">
 				<div class="keep_list paginated">
-					<input type="button" value="선택삭제" class="chkdelete">
+					
 				</div>
 			</form>
 		</div>
@@ -554,7 +656,7 @@
 					<div class="input_wrap">
 						<input type="file" id="input_imgs" accept="image/*" multiple />
 						<input type="hidden" name="keep_file" id="input_imgs2">
-						<input type="hidden" name="keep_seq" value="103" id="input_keep_seq">
+						<input type="hidden" name="keep_seq" value="" id="input_keep_seq">
 					</div>
 					<div class="imgs_wrap">
 						
