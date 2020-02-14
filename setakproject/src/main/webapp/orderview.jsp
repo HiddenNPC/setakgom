@@ -201,6 +201,9 @@ function cancle() {
    <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
    <section id="test"> <!-- id 변경해서 사용하세요. -->
       <div class="content"> <!-- 변경하시면 안됩니다. -->
+         <div class="title-text">
+            <h2>주문/배송현황</h2>
+         </div>
          <div class="mypage_head">
             <ul>
                <li class="mypage-title">마이페이지</li>
@@ -331,7 +334,6 @@ function cancle() {
                </div>
                <%
                
-               System.out.println("여기는 오니2222222222222222");
                   }
 %>
             </div>

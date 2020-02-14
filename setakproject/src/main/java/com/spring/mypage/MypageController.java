@@ -1,5 +1,7 @@
 package com.spring.mypage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -272,10 +274,16 @@ public class MypageController {
 		if(session.getAttribute("member_id")==null) {
 	           return "redirect:/";
 	      }
-		
+			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			ArrayList<CouponVO> couponlist = null;
 			String member_id = (String) session.getAttribute("member_id");
 			couponlist = couponService.getCouponList(member_id);
+			for (int i = 0; i < couponlist.size(); i++) {
+				System.out.println(couponlist.get(i).getCoupon_start());
+				System.out.println(couponlist.get(i).getCoupon_end());
+				System.out.println(couponlist.get(i).getCoupon_useday());
+			}
+
 			
 			model.addAttribute("couponlist", couponlist);
 		return "mycoupon";

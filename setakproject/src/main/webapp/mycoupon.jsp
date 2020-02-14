@@ -81,20 +81,36 @@
 							</thead>
 							<tbody align="center">
 								
-								<%for(int i=0; i<couponlist.size(); i++){ 
+								<%
+								System.out.println("size : " + couponlist.size());
+								for(int i=0; i<couponlist.size(); i++){ 
 									CouponVO cvo = (CouponVO)couponlist.get(i);
-									%>
+								
+									String start = couponlist.get(i).getCoupon_start();
+									String[] date = start.split(" ");
+									String start_date = date[0];
+									
+									String end = couponlist.get(i).getCoupon_end();
+									String[] date2 = end.split(" ");
+									String start_end = date2[0];
+									
+									String useday = couponlist.get(i).getCoupon_useday();
+									String useday_date = "";
+									if (useday != null){
+									String[] date3 = useday.split(" ");
+										useday_date = date3[0];
+									} else {
+										useday_date = "미사용";
+									}
+									
+								%>
 									<tr>
 									<td><%=cvo.getCoupon_name() %></td>
 									<td><p style="color:#3498db; font-weiht:bold;">보관1개월 무료</p></td>
-									<td><%=sdf.format(cvo.getCoupon_start()) %></td>
-									<td><%=sdf.format(cvo.getCoupon_start()) %>&nbsp;~&nbsp;<%=sdf.format(cvo.getCoupon_end()) %></td>
+									<td><%=start_date %></td>
+									<td><%=start_date %>&nbsp;~&nbsp;<%=start_end %></td>
 									<td>
-										<%if (cvo.getCoupon_useday()== null){ %>
-											미사용
-										<%} else {%>
-											<%=sdf.format(cvo.getCoupon_useday()) %>
-										<% }%>
+											<%=useday_date %>
 									</td>
 									<td>
 										<%if (cvo.getCoupon_use().equals("1")){ %>

@@ -152,35 +152,8 @@
 }
 
 /*이미지 슬라이드*/
-.accordion2 .accordion-content2 div .slides{
-	width: 100%;
-	height: 500px;
-	position: relative;
-}
-.accordion2 .accordion-content2 div .slides * {
-	user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	-webkit-touch-callout: none;
-}
 
- 
-.carousel-inner img{
-	display: block;
-	border:0;
-	width:1035px;
-	height:400px;
-}
 
-.slide{
-    width:1035px;
-    height:400px;
-    margin:0 auto;
-    overflow:hidden;
-    position:relative;
-} 
 
 
 /**보관기간연장, 반환신청 **/

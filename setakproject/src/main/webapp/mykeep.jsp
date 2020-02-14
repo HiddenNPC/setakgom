@@ -20,12 +20,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	if ((session.getAttribute("member_id") == null)) {
-		out.println("<script>");
-		out.println("location.href='./setak/'");
-		out.println("</script>");
-		out.close();
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -51,6 +45,7 @@
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
 	});
+	
 </script>
 </head>
 <body>
@@ -146,11 +141,16 @@
 							</table>
 						</div>
 						<div class="accordion-content2">
-							<table>
-							</table>
-							<div class="keepbox"
-								style="border-right: 1px solid rgb(255, 255, 255);">보관 기간
-								연장</div>
+							<div class="photo">
+								<tr>
+								<%for(int p = 0; p<keeplist2.size(); p++) {%>
+								<td width="255" height="280">
+									<img src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">
+								</td>
+								<%} %>
+								</tr>
+							</div>
+							<div class="keepbox" style="border-right: 1px solid rgb(255, 255, 255);">보관 기간 연장</div>
 							<div class="keepbox2">반환 신청</div>
 							<br>
 							<br>
