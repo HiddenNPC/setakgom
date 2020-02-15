@@ -307,8 +307,7 @@ $(document).ready(function () {
 				dataType : "json",
 				success : function(retVal) {
 					if (retVal.res == "OK") {
-						selectData();	
-						
+						selectData();						
 					}
 					
 					else {

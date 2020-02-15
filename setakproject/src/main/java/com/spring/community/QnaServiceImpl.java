@@ -71,9 +71,6 @@ public class QnaServiceImpl implements QnaService
 	}
 	
 	
-	
-	
-	
 	@Override public int qnaInsert(QnaVO qnavo) throws Exception 
 	{
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);

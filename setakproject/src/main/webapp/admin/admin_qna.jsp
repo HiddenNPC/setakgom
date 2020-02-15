@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page import = "java.util.*"%>
+<%@ page import = "java.text.SimpleDateFormat"%>
+<%@ page import = "com.spring.setak.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +14,84 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
-			$("#admin").load("./admin.jsp")					
+			$("#admin").load("./admin.jsp")	
+			
+			//class="a-q-reply" value="답변"  class="a-q-delete" value="삭제"
+			$(document).on('click', 'li .a-q-delete', function () { 
+				var num = $(this).parent().parent().find('.qna_num').val();	
+				var param = {"qna_num": num}
+				jQuery.ajax({
+					url : './ad_qnaDelete.do', 
+					type : 'post',
+					data : param,
+					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+					dataType : "json", //서버에서 보내줄 데이터 타입
+					success:function(retVal){
+						if(retVal.res == "OK"){
+							$('.ad_qnalist').empty();
+							selectData();	
+						}
+					},
+					error:function(){
+						alert("ajax통신 실패");
+					}
+				});
+				event.preventDefault();
+			}); 
+			
+			//추가버튼 누르면 
+			$(document).on('click', '.a-q-reply', function () { 			
+				var rnum = $(this).parent().parent().children().children().val();
+				var rcontent = 
+				if(!$(this).hasClass("active")){					
+					$(this).attr('value', '답변 등록');
+					$(this).addClass("active");	
+					$(this).parent().parent().after('<ul id="test1"><li> 글번호: <input id="a-q-rnum" type="text" disabled="disabled" value=""> 내용: <textarea value="안녕하세요 세탁곰입니다."></textarea></li></ul>');			
+					$('#a-q-rnum').attr('value',rnum);									
+					$('#ad_qna_form').attr('action', './admin/commentInsert.do');
+						
+				}else{
+					$(this).removeClass("active");
+					$(this).attr('value','답변');
+					$('#ad_qna_form').attr('action', '');
+					$('#test1').detach();			
+
+				}
+				var params = {"qna_num": rnum, "qna_content" : rcontent}
+				jQuery.ajax({
+					url : './noticeUpdate.do', 
+					type : 'post',
+					data : params,
+					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+					dataType : "json", //서버에서 보내줄 데이터 타입
+					success:function(retVal){
+						if(retVal.res == "OK"){
+							$('.ad_noticelist').empty()
+							selectData();
+						} else {
+							alert("수정 실패");
+						}
+					},
+					error:function(){
+						alert("ajax통신 실패");
+					}
+				});
+				event.preventDefault();
+			}); 
+				
+				
+				
+				
+				
+				
+				
+			});
+			
+			
+			
+			
+			
+			
 			/*
 			//수정버튼 누르면					
 			$(document).on('click', 'li .update', function () { 
@@ -105,28 +185,35 @@
 				event.preventDefault();
 			}); 
 			*/
-			/*
+			
 			//목록 띄우기
 			function selectData(){				
 				$.ajax({
-					url :'/setak/admin/ad_noticeList.do',
+					url :'/setak/admin/ad_qnalist.do',
 					type :'POST',
 					dataType :'json',
 					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(data){
 						$.each(data, function(index, item){
-							var re_d =JSON.stringify(item.notice_date);					
-							var rdate= re_d.substr(1 ,10);
+							var qna_d =JSON.stringify(item.qna_date);					
+							var qdate= qna_d.substring(1 , 11).trim();
 							var str = '';																					
 							str += '<ul>';
-							str += '<li class="listtd"><input type="text" class="notice_num" value="'+item.notice_num+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="notice_title" value="'+item.notice_title +'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="notice_content" value="'+item.notice_content+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="notice_date"  value="'+ rdate +'" disabled="disabled"></li>';														
-							str += '<li class="listtd"><input type="button" class="update" value="수정"></li>';
-							str += '<li class="listtd"><input type="button" class="a-n-delete" value="삭제"></li>';
+							str += '<li><input type="text" class="qna_num" value="'+item.qna_num+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="member_id" value="'+item.member_id +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_type" value="'+item.qna_type +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="order_num" value="'+item.order_num +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_title" value="'+item.qna_title +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_content" value="'+item.qna_content +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_date"  value="'+ qdate +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_file" value="'+item.qna_file +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_check" value="'+item.qna_check+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_scr" value="'+item.qna_scr+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="qna_pass" value="'+item.qna_pass+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="button" class="a-q-reply" value="답변"></li>';
+							str += '<li class="listtd"><input type="button" class="a-q-delete" value="삭제"></li>';
 							str += '</ul>';
-							$(".ad_noticelist").append(str);
+							$(".ad_qnalist").append(str);
 						});
 						page();
 					},
@@ -226,7 +313,35 @@
 					$table.trigger('repaginate');
 				});
 			}
-*/
+			
+			function replylist(){				
+				$.ajax({
+					url :'/setak/admin/ad_commentList.do',
+					type :'POST',
+					dataType :'json',
+					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(data){
+						$.each(data, function(index, item){
+							var str = '';																					
+							str += '<ul>';
+							str += '<li class="listtd"><input type="text" class="r-qna_seq" value="'+item.qna_seq+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="r-qna_num" value="'+item.qna_num+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="r-qna_content" value="'+item.qna_content +'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="button" class="a-q-rupdate" value="수정"></li>';
+							str += '<li class="listtd"><input type="button" class="a-q-rdelete" value="삭제"></li>';
+							str += '</ul>';
+							$(".ad_q_relist").append(str);
+						});
+						page();
+					},
+					error:function(){
+						alert("ajax통신 실패!!!");
+					}
+				});
+			}
+			replylist();
+			
+
 		});
 
 	</script>
@@ -236,32 +351,41 @@
 		<div class="content">
 			<!-- 여기서부터 작업하세요. -->
 			<h1>QNA 관리</h1>
+			<h4>qna 문의 내역</h4>
 			<ul class="ad-qna-title">
-				<li>NO</li>
-				<li>회원아이디</li>
-				<li>문의유형</li>
-				<li>주문번호</li>
-				<li>제목</li>
-				<li>내용</li>
-				<li>작성날짜</li>
-				<li>파일</li>
-				<li>답변유무</li>
-				<li>공개설정</li>
-				<li>글 비밀번호</li>
+				<li>NO</li><!-- x -->
+				<li>아이디</li><!-- x -->
+				<li>문의유형</li><!-- 셀섹트 옵션 -->
+				<li>주문번호</li><!--셀섹트 옵션 -->
+				<li>제목</li><!-- 텍스트 -->
+				<li>내용</li><!--에어리어  -->
+				<li>작성날짜</li><!-- 텍스트 -->
+				<li>파일</li><!-- 파일수정 -->
+				<li>답변유무</li><!-- 셀옵 -->
+				<li>공개설정</li><!-- 셀옵 -->
+				<li>비밀번호</li><!-- 텍스트 -->
+				<li>답글</li><!-- 텍스트 -->
+				<li>삭제</li><!-- 텍스트 -->
 			</ul>
 			<form id="ad_qna_form" action="">
 				<div class="ad_qnalist paginated"></div>
 				
 			</form>
 			
-			<!-- 
-			<form action="" id="ad-notice-insert-form" method="post" enctype="multipart/form-data">			
-				<input type="button" value="추가" id="ad-notice-insert-btn">
-				<div id=ad-notice-insert><div>제목:<input id="a-n-i-text" name="notice_title" type="text" value="[공지]"></div><span id="a-n-i-tarea">내용:<textarea name="notice_content"></textarea></span>
-				<input type="submit" value="등록"> 
-				</div>		
-			</form> -->
+			<h4>qna 답변</h4>
+			<ul class="ad-q-r-title">
+				<li>시퀀스</li><!-- x -->
+				<li>번호</li><!-- x -->
+				<li>내용</li><!-- 셀섹트 옵션 -->				
+				<li>수정</li><!-- 텍스트 -->
+				<li>삭제</li><!-- 텍스트 -->
+			</ul>
+			<form id="ad_q-r_form" action="">
+				<div class="ad_q_relist paginated"></div>
+				
+			</form>
 		
+		<br><br><br><br><br><br><br><br><br>
 		</div>
 	
 

@@ -12,7 +12,7 @@
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
-	//String id = (String)session.getAttribute("MEMBER_ID");	
+	
 	
 %>
 <!DOCTYPE html>
@@ -62,12 +62,12 @@ function q4ba_click(){
 			<td height="40px" width="7%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 			<td width="15%"> <div align="center"><%=bl.getQna_type() %></div></td>
 			<%if(bl.getQna_scr().equals("비공개")){%> <!-- 모든 비공개글은 볼수 없다. -->
-				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaPass.do?QNA_NUM=<%=bl.getQna_num() %>"><i class="fas fa-unlock-alt" style="color:#444;"></i>&nbsp;비공개 글입니다.</a></div></td>
+				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaPass.do?qna_num=<%=bl.getQna_num() %>"><i class="fas fa-unlock-alt" style="color:#444;"></i>&nbsp;비공개 글입니다.</a></div></td>
 			<%}else{%> <!-- 오직 공개글만 볼 수 있다. -->
-				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?QNA_NUM=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
+				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?qna_num=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
 			<%}%>
 			<td width="15%"> <div align="center"><%=bl.getMember_id() %></div></td>
-			<td width="15%"> <div align="center"><%=bl.getQna_date() %></div> </td>		
+			<td width="15%"> <div align="center"><%=bl.getQna_date().substring(0,11).trim() %></div> </td>		
 		</tr>
 
 		<%}else{%> <!-- 회원이라면  -->
@@ -77,15 +77,15 @@ function q4ba_click(){
 			<!-- 다른 회원의 비공개글만 볼수 없다 . -->
 			<%if(!session.getAttribute("member_id").equals(bl.getMember_id())){%> <!-- 회원인 나와 글의 작성자와 아이디가 다르면 , -->
 				<%if(bl.getQna_scr().equals("비공개")){%>
-					<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaPass.do?QNA_NUM=<%=bl.getQna_num() %>"><i class="fas fa-unlock-alt"></i>&nbsp;비공개 글입니다.</a></div></td>										
+					<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaPass.do?qna_num=<%=bl.getQna_num() %>"><i class="fas fa-unlock-alt"></i>&nbsp;비공개 글입니다.</a></div></td>										
 				<%}else{ %> <!-- 공개라면 , -->
-					<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?QNA_NUM=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
+					<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?qna_num=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
 				<%}%>
 			<%}else{%>
-				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?QNA_NUM=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
+				<td width="45%"> <div align="left"> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?qna_num=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
 			<%} %>
-			<td width="15%"> <div align="left">&nbsp;<%=bl.getMember_id() %></div></td>
-			<td width="15%"> <div align="center"><%=bl.getQna_date() %></div> </td>		
+			<td width="15%"> <div align="center">&nbsp;<%=bl.getMember_id() %></div></td>
+			<td width="15%"> <div align="center"><%=bl.getQna_date().substring(0,11).trim() %></div> </td>		
 		</tr>
 		<%}%>
 	<%}%> 

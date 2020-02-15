@@ -5,8 +5,8 @@
 <%@ page import = "com.spring.community.*"%>   
 <%
 QnaVO vo = (QnaVO)request.getAttribute("qnadata");
-int qna_num = vo.getQNA_NUM();
-String member_id = vo.getMEMBER_ID();
+int qna_num = vo.getQna_num();
+String member_id = vo.getMember_id();
 System.out.println("QNA_NUM=" +qna_num);
 System.out.println("member_id="+member_id);
 
@@ -29,7 +29,6 @@ $(document).ready(function(){
     $("#footer").load("footer.jsp")  
     
 });
-
 
 function passchk(){	
 	//입력안한거 입력하도록 
@@ -57,8 +56,8 @@ function passchk(){
 <div style=" height:300px;">
 	<div id="qp1_1"><p>비밀번호를 입력하세요</p>
 		<div id="qp1_2">
-			<input type="hidden" name="QNA_NUM" value="<%=vo.getQNA_NUM()%>">		
-			<input type="hidden" name="MEMBER_ID" value="<%=vo.getMEMBER_ID()%>">		
+			<input type="hidden" name="QNA_NUM" value="<%=vo.getQna_num()%>">		
+			<input type="hidden" name="MEMBER_ID" value="<%=vo.getMember_id()%>">		
 			<input type="hidden" name="loginId" value="<%=session.getAttribute("member_id")%>">		
 			<input id="qp1_3" type="password" name="QNA_PASS" placeholder="비밀번호">
 			<input id="qp1_4" type="button" onclick="passchk()" value="확인">			

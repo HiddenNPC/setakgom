@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.community.CommentVO;
@@ -49,13 +52,13 @@ public class CommentController
 		return retVal;
 	}
 	
-	@PostMapping(value="/commentDelete.do", produces="application/json; charset=UTF-8")
+	@PostMapping(value="admin/commentDelete.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentDelete(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
 		try {
-			int res = commentService.commentDelete(vo);
-			
+			int res = commentService.commentDelete(vo);		
+			System.out.println(1);
 			if (res==1)
 				retVal.put("res", "OK");
 			else
@@ -93,9 +96,24 @@ public class CommentController
 		return retVal;
 	}
 	
+	@RequestMapping(value="admin/ad_commentList.do", produces="application/json; charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody public List<CommentVO> ad_commentList() 
+	{	
+		List<CommentVO> list = commentService.ad_commentList();
+		return list;
+
+	}
 	
+	/*
+	@PostMapping(value="admin/commentList.do", produces="application/json; charset=UTF-8")
+	public List<CommentVO> ad_commentList(CommentVO vo) 
+	{	
+		List<CommentVO> list = commentService.commentList(vo);
+		return list;
+		
+	}
 	
-	
+	*/
 	
 	
 	

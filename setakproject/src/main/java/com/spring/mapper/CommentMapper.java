@@ -14,5 +14,6 @@ public interface CommentMapper
 	int cntListCount();
 	int maxNum();
 	
+	List<CommentVO> ad_commentList();
 
 }

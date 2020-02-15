@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -16,7 +18,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -136,6 +140,7 @@ import org.springframework.web.servlet.ModelAndView;
 		return "qna_pass2";
 	}
 	
+	
 	@RequestMapping(value = "/qnaPassChk.do") public String qnaPassChk(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{	
 		
@@ -162,17 +167,16 @@ import org.springframework.web.servlet.ModelAndView;
 			if(loginId.equals(writerId)) 
 			//if(loginId.equals(writerId)&&loginId.equals(어드민)) 
 			{
-				writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?QNA_NUM="+num+"'; </script>");				
+				writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?qna_num="+num+"'; </script>");				
 			}
 			writer.write("<script> alert('작성자만 열람가능합니다.');location.href='qnaList.do'</script>");	
 		 }else { 
-			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?QNA_NUM="+num+"'; </script>"); 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?qna_num="+num+"'; </script>"); 
 		 }
 		
-		return null; 	
-		
+		return null; 			
 	}
-
+	
 	@RequestMapping(value = "/updateform.do") public String updateForm(HttpServletRequest request ,HttpServletResponse response ,HttpSession session, QnaVO qnavo, Model model) throws Exception {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -187,13 +191,13 @@ import org.springframework.web.servlet.ModelAndView;
 		System.out.println("qna_num="+qna_num);
 		
 		if(loginId==null) {
-			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?QNA_NUM="+qna_num+"';</script>");
+			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?qna_num="+qna_num+"';</script>");
 		}
 		ArrayList<QnaVO> onlist = qnaService.onList(loginId);
 		
 		if(!loginId.equals(memberId))
 		{
-			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?QNA_NUM="+qna_num+"';</script>");
+			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?qna_num="+qna_num+"';</script>");
 			/* ./qnaDetail.do?QNA_NUM=<%=bl.getQNA_NUM() %> */
 			return null;				
 		}
@@ -263,6 +267,9 @@ import org.springframework.web.servlet.ModelAndView;
 		String loginId= request.getParameter("loginId");
 		String pass= request.getParameter("QNA_PASS");
 		int num = Integer.parseInt(request.getParameter("QNA_NUM"));
+		vo.setQna_num(num);
+		
+		
 		
 		System.out.println("writerId 잘 넘어왔나? = " + writerId);
 		System.out.println("pass 잘 넘어왔나? = " + pass);
@@ -281,7 +288,7 @@ import org.springframework.web.servlet.ModelAndView;
 			}
 			writer.write("<script> alert('작성자만 삭제 가능합니다.');location.href='qnaList.do'</script>");	
 		 }else { 
-			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?QNA_NUM="+num+"'; </script>"); 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?qna_num="+num+"'; </script>"); 
 		 }
 		
 		return null; 	
@@ -343,13 +350,39 @@ import org.springframework.web.servlet.ModelAndView;
 	{							
 		return "admin/admin_qna";		
 	}
-   @RequestMapping(value = "admin/admin_qnalist.do")
-   @ResponseBody public List<Object> adminQnalist() throws Exception 
+  
+   @RequestMapping(value = "admin/ad_qnalist.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
+   @ResponseBody public List<Object> adminQnalist() 
    {			
 	   List<Object> list = qnaService.ad_qnalist();
 	   	
 	   return list;		
    }
+   
+   
+   @RequestMapping(value="admin/ad_qnaDelete.do", produces="application/json; charset=UTF-8")
+   @ResponseBody public Map<String, Object> ad_qnaDelete(QnaVO vo) {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		
+		try {
+			int res = qnaService.qnaDelete(vo);	
+			if (res==1)
+				retVal.put("res", "OK");
+			else
+				retVal.put("res", "Err");
+		}
+		catch (Exception e) {
+			retVal.put("res", "FAIL");
+		}
+		
+		return retVal;
+	}
+   
+   
+   
+   
+   
+   
    
    
    
