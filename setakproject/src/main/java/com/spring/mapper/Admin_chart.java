@@ -13,7 +13,7 @@ public interface Admin_chart {
 	// 보관건수-하루단위 
 	int keep_count(HashMap<String, Object> map);
 	
-	// 세탁건수-일주일단위
-	int wash_count_week(HashMap<String, Object> map);
+	// 세탁건수-한달단위
+	int wash_count_month(HashMap<String, Object> map);
 
 }

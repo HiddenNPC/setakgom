@@ -83,7 +83,7 @@
 		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment, jdbcType=VARCHAR}, 
 		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 
 		#{order_pickup, jdbcType=VARCHAR}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
-		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete}, #{order_muid, jdbcType=VARCHAR})
+		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete}, #{order_muid, jdbcType=VARCHAR}, '0')
 	</insert>
 	
 	<!-- 세탁 장바구니 비우기  > 결제 이후-->

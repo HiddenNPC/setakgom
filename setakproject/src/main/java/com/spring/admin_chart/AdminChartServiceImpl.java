@@ -56,14 +56,14 @@ public class AdminChartServiceImpl implements AdminChartService {
 			return cnt; 
 		}
 	
-	// 세탁건수-일주일단위
-		public	int wash_count_week(HashMap<String, Object> map) {
+	// 세탁건수-한달단위
+		public	int wash_count_month(HashMap<String, Object> map) {
 			int cnt = 0;  
 			try {
 				Admin_chart mapper = sqlSession.getMapper(Admin_chart.class);
-				cnt = mapper.wash_count_week(map);
+				cnt = mapper.wash_count_month(map);
 			}catch(Exception e) {
-				System.out.println("세탁건수-일주일단위 검색실패 " + e.getMessage());
+				System.out.println("세탁건수-한달단위 검색실패 " + e.getMessage());
 			}
 			
 			return cnt; 

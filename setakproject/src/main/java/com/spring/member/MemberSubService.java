@@ -22,4 +22,5 @@ public interface MemberSubService {
 		 
     //재구독함
 	public int resub(String member_id);
+	
 }

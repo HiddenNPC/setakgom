@@ -16,12 +16,10 @@ public class AdminChartController {
 	@Autowired
 	private AdminChartService adminchartService; 
 	
-	
-	// 하루당 세탁, 수선, 보관 그래프
 	@RequestMapping(value = "/admin/adminChart.do")
 	public String adminOrder(Model model) {
 	
-		//오늘 날짜를 기준으로 최근 5일간의 주문 상태변화  
+		/*하루당 세탁, 수선, 보관 그래프*/
 	      Calendar cal = Calendar.getInstance();
 	      SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
 	     
@@ -36,30 +34,30 @@ public class AdminChartController {
 	      
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
-			// 기간별 배열 : 세탁
+			// 하루당 기간별 배열 : 세탁
 			int[] washArr = new int[5];
 			int wash_dailyResult = 0; 
 			
-			// 기간별 배열 : 수선
+			// 하루당 기간별 배열 : 수선
 			int[]repairArr = new int[5];
 			int repair_dailyResult = 0;
 			
-			// 기간별 배열 : 보관
+			// 하루당 기간별 배열 : 보관
 			int[] keepArr = new int[5];
 			int keep_dailyResult = 0; 
 			
 			for(int j = 0;  j < dateArr.length; j++) {
 				map.put("order_date", dateArr[j]);
 										
-				// 일별 주문량 계산 : 세탁
+				// 하루당 주문량 계산 : 세탁
 				wash_dailyResult = adminchartService.wash_count(map);
 				washArr[j] += wash_dailyResult; 
 				
-				// 일별 주문량 계산 : 수선
+				// 하루당 주문량 계산 : 수선
 				repair_dailyResult = adminchartService.repair_count(map);
 				repairArr[j] += repair_dailyResult; 
 				
-				// 일별 주문량 계산 : 보관
+				// 하루당 주문량 계산 : 보관
 				keep_dailyResult = adminchartService.keep_count(map);
 				keepArr[j] += keep_dailyResult; 
 				

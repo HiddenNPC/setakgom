@@ -121,6 +121,20 @@
     }
 
 /*나의 정기구독*/
+.mypage_content h7 {
+	margin:70px 0 20px 0;
+	font-size:1.5rem;
+}
+
+.mypage_content h7:before {
+	content: '';
+	display: block;
+	width: 4%;
+	height: 6px;
+	background-color: #3498db;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
 .mysub {
 	padding-top: 40px;
 	}

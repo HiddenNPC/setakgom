@@ -282,7 +282,6 @@
 	      
 	      //입력받을곳 확인체크 + 값 컨트롤러로 전달
 	      function rwchk(){   
-
 	         if (document.getElementById('Review_content').value=="") 
 	         {
 	        	 Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
@@ -307,16 +306,12 @@
 	         return true;
 	         
 	      }
-
 	});
-
 	function rwcancel(){
         location.href='./mysub.do';       
    }
-
 	
 	
-
 </script>
 </head>
 <body>
@@ -355,7 +350,8 @@
 				</ul>
 			</div>
 			<div class="mypage_content"> 
-				<h2>나의정기구독</h2>
+				<h2>정기구독</h2>
+				<h7>나의 정기구독</h7>
 				<% if(sub_list == null) {%>
 				<h3>정기구독을 이용해 주세요</h3>
 				<% } else { %> 

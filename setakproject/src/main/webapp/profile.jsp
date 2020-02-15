@@ -8,7 +8,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	
 	String session_id=(String)session.getAttribute("member_id");
 %>
 <!DOCTYPE html>

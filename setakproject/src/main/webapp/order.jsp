@@ -471,9 +471,16 @@
           console.log(seq); 
           useCoupon.push(seq);               
        });
-
+       
+       var defaultAddrChk = 0;
+	
+      // 기본 배송지 설정
+	  if($("#saveAddr").prop("checked")){
+		  console.log("기본 배송지 설정 체크"); 
+		  defaultAddrChk = 1; 
+	  }
       
-      // 배송지 정보 입력 받기 > 귀찮아서 잠깐 쉬는 중 
+      // 배송지 정보 입력 받기 
       if(human == '' || phone1 == '' || phone2 == '' || phone3 == '' ||
             postcode == '' || address == '') {
     	  Swal.fire("","배송지 정보를 모두 입력해주세요.","warning");
@@ -522,7 +529,8 @@
                         'order_zipcode' : postcode,
                         'order_muid' : muid,
                         'usePoint' : usePoint,
-                        'useCoupon' : useCoupon
+                        'useCoupon' : useCoupon,
+                        'defaultAddrChk' : defaultAddrChk
                         //기타 필요한 데이터가 있으면 추가 전달
                     },
                     success : function(data) {
@@ -1123,7 +1131,7 @@
                         <td class = "right_col">
                            <input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;" value = "<%=zipcode%>"/> 
                            <input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
-                           <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox" onclick = "setDefaultAddr()"/>기본 배송지로 저장</label>
+                           <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox"/>기본 배송지로 저장</label>
                            <br/>
                            <input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly value = "<%=member_addr1%>"/> &nbsp;
                            <input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;" value = "<%=member_addr2%>"/>

@@ -20,7 +20,11 @@
 	<!-- Chart.js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
 	<script src="./utils.js"></script>
-		
+	
+	<!-- toast chart -->
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
+	<script src="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.js"></script>	
+
 </head>
 
 <body>

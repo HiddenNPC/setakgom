@@ -46,8 +46,8 @@
 			 and keep_seq not like '0'
 	</select>
 	
-	<!-- 세탁건수-일주일단위 -->
-	<select id="wash_count_week" parameterType = "java.util.HashMap" resultType="int" >
+	<!-- 세탁건수-한달단위 -->
+	<select id="wash_count_month" parameterType = "java.util.HashMap" resultType="int" >
 		SELECT count (wash_seq) 
 		FROM orderlist
 		WHERE order_num IN (SELECT order_num
