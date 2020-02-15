@@ -42,7 +42,7 @@
 			//추가버튼 누르면 
 			$(document).on('click', '.a-q-reply', function () { 			
 				var rnum = $(this).parent().parent().children().children().val();
-				var rcontent = 
+				var rcontent = $(this).parent().parent().children().children().val();
 				if(!$(this).hasClass("active")){					
 					$(this).attr('value', '답변 등록');
 					$(this).addClass("active");	
