@@ -54,7 +54,7 @@
 					borderWidth: 1,
 					data: [
 						// 5일간의 결제완료 수 
-						<%=payArr[0]%>, <%=payArr[1]%>, <%=payArr[2]%>, <%=payArr[3]%>, <%=payArr[4]%>
+						<%=payArr[4]%>, <%=payArr[3]%>, <%=payArr[2]%>, <%=payArr[1]%>, <%=payArr[0]%>
 					]
 				}, {
 					label: '수거중',
@@ -62,7 +62,7 @@
 					borderColor: window.chartColors.blue,
 					borderWidth: 1,
 					data: [
-						<%=pickArr[0]%>, <%=pickArr[1]%>, <%=pickArr[2]%>, <%=pickArr[3]%>, <%=pickArr[4]%>
+						<%=pickArr[4]%>, <%=pickArr[3]%>, <%=pickArr[2]%>, <%=pickArr[1]%>, <%=pickArr[0]%>
 					]
 				}, {
 					label: '서비스중',
@@ -70,7 +70,7 @@
 					borderColor: window.chartColors.yellow,
 					borderWidth: 1,
 					data: [
-						<%=serviceArr[0]%>, <%=serviceArr[1]%>, <%=serviceArr[2]%>, <%=serviceArr[3]%>, <%=serviceArr[4]%>
+						<%=serviceArr[4]%>, <%=serviceArr[3]%>, <%=serviceArr[2]%>, <%=serviceArr[1]%>, <%=serviceArr[0]%>
 					]
 				}, {
 					label: '배송중',
@@ -78,7 +78,7 @@
 					borderColor: window.chartColors.green,
 					borderWidth: 1,
 					data: [
-						<%=deliveryArr[0]%>, <%=deliveryArr[1]%>, <%=deliveryArr[2]%>, <%=deliveryArr[3]%>, <%=deliveryArr[4]%>
+						<%=deliveryArr[4]%>, <%=deliveryArr[3]%>, <%=deliveryArr[2]%>, <%=deliveryArr[1]%>, <%=deliveryArr[0]%>
 					]
 				}, {
 					label: '배송완료',
@@ -86,7 +86,7 @@
 					borderColor: window.chartColors.orange,
 					borderWidth: 1,
 					data: [
-						<%=completeArr[0]%>, <%=completeArr[1]%>, <%=completeArr[2]%>, <%=completeArr[3]%>, <%=completeArr[4]%>
+						<%=completeArr[4]%>, <%=completeArr[3]%>, <%=completeArr[2]%>, <%=completeArr[1]%>, <%=completeArr[0]%>
 					]
 				}, {
 					label: '주문취소',
@@ -94,7 +94,7 @@
 					borderColor: window.chartColors.grey,
 					borderWidth: 1,
 					data: [
-						<%=cancleArr[0]%>, <%=cancleArr[1]%>, <%=cancleArr[2]%>, <%=cancleArr[3]%>, <%=cancleArr[4]%>
+						<%=cancleArr[4]%>, <%=cancleArr[3]%>, <%=cancleArr[2]%>, <%=cancleArr[1]%>, <%=cancleArr[0]%>
 					]
 				}]
 
@@ -106,7 +106,7 @@
 					label: '최근 5주간 어짜구저짜구',
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
-					data: [<%=weeklyArr[0]%>, <%=weeklyArr[1]%>, <%=weeklyArr[2]%>, <%=weeklyArr[3]%>, <%=weeklyArr[4]%>],
+					data: [<%=weeklyArr[4]%>, <%=weeklyArr[3]%>, <%=weeklyArr[2]%>, <%=weeklyArr[1]%>, <%=weeklyArr[0]%>],
 					fill: false
 				};
 			
@@ -114,7 +114,7 @@
 					label: '최근 5일간 어짜구저짜구',
 					backgroundColor: window.chartColors.blue,
 					borderColor: window.chartColors.blue,
-					data: [<%=dailyArr[0]%>, <%=dailyArr[1]%>, <%=dailyArr[2]%>, <%=dailyArr[3]%>, <%=dailyArr[4]%>],
+					data: [<%=dailyArr[4]%>, <%=dailyArr[3]%>, <%=dailyArr[2]%>, <%=dailyArr[1]%>, <%=dailyArr[0]%>],
 					fill: false
 				};		
 		
@@ -144,7 +144,8 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Chart.js Line Chart'
+						text: '주간, 일간 주문량 ',
+						fontSize : 15
 					},
 					tooltips: {
 						mode: 'index',

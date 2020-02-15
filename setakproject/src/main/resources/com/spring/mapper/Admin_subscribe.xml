@@ -48,6 +48,31 @@
 			order by subs_start
 		</if>
 	</select>
-
-
+	
+	<!-- 정기구독 관리자 페이지 수정 -->
+	<update id="updateMemberSubList" parameterType = "com.spring.member.MemberSubVO">
+		update member_subs set washcnt = #{washcnt}, shirtscnt = #{shirtscnt}, drycnt = #{drycnt},
+		blacketcnt = #{blacketcnt}, deliverycnt = #{deliverycnt} where member_id = #{member_id}
+	</update>
+	
+	<!-- 정기구독 관리자 페이지 삭제  : member_subs 테이블에서 삭제-->
+	<delete id = "deleteMemberSubList" parameterType = "String">
+		delete from member_subs where member_id = #{member_id} 
+	</delete>	
+	
+	<!-- 정기구독 관리자 페이지 삭제 : member 테이블에서 컬럼 값 변경 -->
+	<update id="updateSubNum" parameterType = "java.util.HashMap">
+		update member set subs_num = #{subs_num, jdbcType = INTEGER} where member_id = #{member_id}
+	</update>
+	
+	<!-- 정기구독 차트 > 전체 유형 비율 -->
+	<select id="getMemberSubCnt" resultType = "int" parameterType = "String">
+		select count(*) from member_subs where subsname like #{subsname}||'%'
+	</select>
+	
+	<!-- 정기구독 차트 > 일별 정기구독 신청 수 + 유형 비율 -->
+ 	<select id="getMemberDailySubCnt" resultType = "int" parameterType = "java.util.HashMap">
+ 		select count(*) from member_subs where subsname like #{subsname}||'%' and subs_start = #{subs_start}
+	</select>
+	
 </mapper>

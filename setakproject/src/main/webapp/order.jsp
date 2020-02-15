@@ -62,6 +62,22 @@
     $("#footer").load("footer.jsp") 
     
     getTotal();
+	
+	// 모바일 이미지 
+	var windowWidth = $(window).width();
+	if (windowWidth > 769) {
+		$('.tab').click(function() {
+			$('html, body').animate({
+				scrollTop : 300
+			}, 500);
+			return false;
+		});
+	} else {
+		$('.tab-list a').click(function() {
+			event.preventDefault();
+		});
+		$('.arrow-img').attr("src","images/m_order2.png")
+	}
         
    // 직접 입력 버튼 클릭시 빈 칸 만들기 스크립트
    $("#init_addr").on("click", function() {
@@ -314,9 +330,7 @@
       
       var totalPrice = parseInt($("#total_price").text().slice(0,-1).replace(",",""));
       var couponSalePrice = parseInt($("#coupon_sale_price").text().slice(0,-1).replace(",",""));
-    
-      console.log(finalPrice);
-      
+          
       if($("input#usePoint").val() == '') {
          usePoint = 0; 
       }
@@ -364,52 +378,32 @@
    
    // 쿠폰 레이아웃 > 쿠폰 선택
    $("input:checkbox[name='checkCoupon']").change(function() {
-      
-       // 쿠폰 레이아웃
-       // product_price : 상품금액
-       // coupon_price : 쿠폰 할인 금액
-       // discount_price : 할인 적용 금액
+	   
+       var select_btn = $(this);
+       var salePrice = parseInt(select_btn.val()) * (-1);
        
-       // 결제 금액
-       // total_price : 총 주문금액
-       // point_price : 적립금 사용 금액
-       // final_price : 결제 금액 
-       
-        var select_btn = $(this);
-        var salePrice = parseInt(select_btn.val()) * (-1);
-        var discountPrice = parseInt($("#discount_price").text().slice(0,-1).replace(",", ""));
-        var couponPrice = parseInt($("#coupon_price").text().slice(0,-1).replace(",", ""));
-        var productPrice =  parseInt($("#product_price").text().slice(0,-1).replace(",", ""));
-        
-        // salePrice : 할인 될 금액
-        // productPrice : 할인 적용 금액 값 
-      
-        var dp; 
-      var select_btn = $(this);
-      if(select_btn.is(":checked")) {
-         
-         // 체크 하는 순간 
-          couponPrice += salePrice;     
-          dp = discountPrice + couponPrice;
-
-      } else {
-         
-         // 체크 떼는 순간
-         dp = discountPrice - couponPrice;
-         couponPrice -= salePrice;
-         
-      }
-              
-        if(dp < 0) {
-         alert("결제 금액보다 할인 금액이 더 큰 경우");
-         select_btn.attr('checked', false);
-         return;    
+       var orderPrice = parseInt($('#product_price').text().replace(",",""));
+       var deliPrice = parseInt($('#delivery_price').text().replace(",","").slice(0, -1));
+       var couponSalePrice = parseInt($('#coupon_price').text().replace(",",""));
+       var pointPrice = parseInt($("#mileage_price").text().slice(0,-1).replace(",",""));
+                     
+       if(select_btn.is(":checked")) {         
+       	   couponSalePrice += salePrice; 
+        } else {         
+           couponSalePrice -= salePrice; 
         }
-        
-        $("#coupon_price").html(numberFormat(couponPrice+'원'));
-        $("#discount_price").html(numberFormat(dp+'원'));
-
-      
+       
+       var finalPrice = orderPrice + deliPrice + couponSalePrice + pointPrice;
+       
+       if(finalPrice < 0) {
+           alert("결제 금액보다 할인 금액이 더 큰 경우");
+           select_btn.attr('checked', false);
+           return;    
+          }
+       
+       $("#coupon_price").html(numberFormat(couponSalePrice+'원'));
+       $("#discount_price").html(numberFormat(finalPrice+'원'));
+       
    }); 
    
    // 쿠폰 레이아웃 > 쿠폰 적용 선택
@@ -487,7 +481,7 @@
       var final_price = $('#final_price').text().slice(0,-1).replace(",","");
       
         var IMP = window.IMP; // 생략가능
-        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+        IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         
         var muid = 'merchant_' + new Date().getTime();
@@ -502,10 +496,11 @@
             buyer_name : '<%=memberVO.getMember_name()%>', 
             buyer_tel : '<%=memberVO.getMember_phone()%>',
             buyer_addr : '<%=memberVO.getMember_loc()%>',
-            buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
+            buyer_postcode : '<%=memberVO.getMember_zipcode()%>'
         }, function(rsp) {
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+                console.log("여기도 안들어가는거지 지금 "); 
                 jQuery.ajax({
                     url: "/setak/insertOrder.do", //cross-domain error가 발생하지 않도록 주의해주세요. 결제 완료 이후
                     type: 'POST',
@@ -876,7 +871,7 @@
         modiDiv.css('display', 'none'); 		
 	}
 	
-	// 쿠폰적용 레이어 스크립트 
+	// 쿠폰 레이어 스크립트 
     function layerPopup(type) {
 
         if(type == 'open') {
@@ -901,11 +896,12 @@
             var couponSalePrice = parseInt($('#coupon_sale_price').text().replace(",",""));
             $('#coupon_price').html(numberFormat(couponSalePrice+'원'));
             
+            var pointPrice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
+            $("#mileage_price").html(numberFormat(pointPrice+'원'));
+            
             var finalPrice = parseInt($('#final_price').text().replace(",",""));
             $('#discount_price').html(numberFormat(finalPrice+'원'));
             
-            var pointPrice = parseInt($("#point_price").text().slice(0,-1).replace(",",""));
-            $("#mileage_price").html(numberFormat(pointPrice+'원'));
 
         }
        
@@ -1075,12 +1071,12 @@
                      <tr>
                         <td class = "left_col">배송지 주소</td>
                         <td class = "right_col">
-                           <input id = "postcode" class = "txtInp" type = "text" style = "width : 60px;" value = "<%=zipcode%>"/> 
+                           <input id = "postcode" class = "txtInp" type = "text"  value = "<%=zipcode%>"/> 
                            <input type = "button" onclick="execDaumPostcode('origin')" value = "우편번호 찾기">
                            <label id = "saveAddrLabel" for = "saveAddr"><input id = "saveAddr" type="checkbox"/>기본 배송지로 저장</label>
                            <br/>
-                           <input id = "address" class = "txtInp" type = "text" style = "width : 270px;" readonly value = "<%=member_addr1%>"/> &nbsp;
-                           <input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요." style = "width : 300px;" value = "<%=member_addr2%>"/>
+                           <input id = "address" class = "txtInp" type = "text" readonly value = "<%=member_addr1%>"/> &nbsp;
+                           <input id= "detailAddress" class = "txtInp" type = "text" placeholder = "상세 주소를 입력해주세요."  value = "<%=member_addr2%>"/>
                            <input id="extraAddress" type="hidden" placeholder="참고항목">
                            
                         </td>
@@ -1089,7 +1085,7 @@
                      <tr>
                         <td class = "left_col">배송 요청 사항</td>
                         <td class = "right_col">
-                           <input id = "request" class = "txtInp" type = "text" placeholder = "배송 시 요청사항을 입력해주세요." style = "width : 650px;" maxlength = "60"/>
+                           <input id = "request" class = "txtInp" type = "text" placeholder = "배송 시 요청사항을 입력해주세요."  maxlength = "60"/>
                         </td>
                      </tr>                  
                   </tbody>
@@ -1273,12 +1269,11 @@
                             if(keepList.size() != 0) {
 
                               KeepVO kvo = keepList.get(0);
-                              if(kvo.getKeep_wash() == 0) {
+                              if(kvo.getKeep_wash() == 1) {
                                  %>
-                
                                  <li><input type="checkbox" name="checkCoupon" value = "9500" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
                               <% } else { %> 
-                                 <li><input type="checkbox" name="checkCoupon" value = "9000" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
+                                 <li><input type="checkbox" name="checkCoupon" value = "10000" id = "<%=coupon.getCoupon_seq()%>"/><label for = "<%=coupon.getCoupon_seq()%>"><%=coupon.getCoupon_name() %></label></li>
                               <%} 
                               } 
                         }

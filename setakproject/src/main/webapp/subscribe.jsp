@@ -36,11 +36,76 @@
          var sub_num = '<%=sub_num%>';
          
          if(sub_num == "null") {
-        	 $('.pay_td').show(); 
+        	 $('.pay_td').show();
+
+             // 아임포트 정기 결제 모바일
+             $(document).on('click', '.subImg', function(event) {
+            	 
+            	 if(member_id == "null") {
+            		 window.location.href = "./login.do";
+            		 return; 
+            	 }
+            	 
+            	 var tr = $(this).parent().parent();
+            	 var subs_num = $(tr).attr('id'); 
+            	 var final_price = $(tr).attr('class'); 
+
+            	 // merchant_uid
+            	 var muid = 'merchant_' + new Date().getTime();
+            	 
+            	 // customer_uid를 위한 난수 생성 > 재결제 예약에 사용 
+            	 var num = Math.floor(Math.random() * 1000) + 1; 
+            	 var cuid = '<%=memberVO.getMember_id()%>' + num;
+
+                 var IMP = window.IMP; // 생략가능
+                 IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+                 var msg;
+                              
+                 // IMP.request_pay(param, callback) 호출
+                 // amount 바꿔야함  **** > 최초 결제 동시에
+                 IMP.request_pay({ // param
+                   pay_method: "card", // "card"만 지원됩니다
+                   merchant_uid : muid,
+                   customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
+                   name: "정기 구독 결제 카드 등록 및 최초 결제",
+                   amount: "100", 
+                   buyer_email : '<%=memberVO.getMember_email()%>',
+                   buyer_name : '<%=memberVO.getMember_name()%>',
+                   buyer_tel : '<%=memberVO.getMember_phone()%>',
+                   buyer_addr : '<%=memberVO.getMember_loc()%>',
+                   buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
+                 }, function (rsp) { // callback
+                   if (rsp.success) {
+                	   alert("결제가 성공적으로 완료되었습니다."); 
+                	      // 빌링키 발급 성공
+                	      // jQuery로 HTTP 요청
+                	      jQuery.ajax({
+                	        url: "/setak/insertSubscribe.do", 
+                	        method: "POST",
+                	        dataType: 'text',
+                	        data: {
+                	          merchant_uid : muid,
+                	          customer_uid: cuid,
+                	          'member_id' : member_id,
+               				  'subs_num' : subs_num,
+               				  'amount': "1000"
+                	        },
+                            success : function() {
+                            	
+                                location.href='<%=request.getContextPath()%>/subSuccess.do';
+                            } 
+                	      });
+                   } else {
+                     alert("결제가 취소 되었습니다."); 
+                   }
+                 });
+                 
+             });
+             
          }else {
         	 $('.pay_td').hide();
          }
-         
+                  
          // 아임포트 정기 결제
          $(document).on('click', '.pay_button', function(event) {
         	 
@@ -105,6 +170,8 @@
              
          });
          
+ 
+         
          
       });
     </script>
@@ -125,7 +192,7 @@
 		         <p class = "p_subtitle">정기구독을 하시면 최대 60% 저렴합니다.</p> 	
 		        
 		        <p class = "sub_title">올인원</p>
-				<table class = "sub_table" border = "solid 1px">
+				<table class = "sub_table" border = "solid 1px" data-role="table">
 					<thead>
 						<tr>
 							<th width = "10%">요금제</th>
@@ -234,6 +301,41 @@
 							<td>3장</td>
 							<td>12회</td>
 							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
+						</tr>
+							
+					</tbody>
+				</table>
+				
+				<table class = "sub_table_mobile" border = "solid 1px" data-role="table">
+					<tbody align = "center">
+						<tr id = "1" class = "59000">
+						</tr>
+						
+						<tr id = "2" class = "74000">
+						</tr>
+						
+						<tr id = "3" class = "89000">
+							<td>
+								<img class = "subImg" src = "images/sub-all3.png" />
+							</td>
+						</tr>
+						
+						<tr id = "4" class = "104000">
+							<td>
+								<img class = "subImg" src = "images/sub-all4.png" />
+							</td>
+						</tr>
+						
+						<tr id = "5" class = "119000">
+							<td>
+								<img class = "subImg" src = "images/sub-all5.png" />
+							</td>
+						</tr>
+						
+						<tr id = "6" class = "134000">
+							<td>
+								<img class = "subImg" src = "images/sub-all6.png" />
+							</td>
 						</tr>
 							
 					</tbody>
