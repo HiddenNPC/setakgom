@@ -97,12 +97,11 @@
 
 /*나의 정기구독*/
 .mypage_content {
-	width: 100%;
+	width: 1000px;
 	float: right;
 }
 
 .mypage_content h5 {
-	display:none;
 	height: 130px;
 	line-height: 130px;
 	text-align: center;
