@@ -135,8 +135,7 @@ function wcancel(){
 			<input type="radio" id="type3" name="QNA_TYPE" value="적립금"><label for="type3">적립금</label>
 			<input type="radio" id="type4" name="QNA_TYPE" value="서비스이용"><label for="type4">서비스이용</label>
 			<input type="radio" id="type5" name="QNA_TYPE" value="회원정보"><label for="type5">회원정보</label>
-			<input type="radio" id="type5" name="QNA_TYPE" value="결제"><label for="type5">회원정보</label>
-			<input type="radio" id="type7" name="QNA_TYPE" value="기타"><label for="type7">기타</label>			
+			<input type="radio" id="type6" name="QNA_TYPE" value="기타"><label for="type7">기타</label>			
 		</div>
 		</td>
 	</tr>
@@ -146,7 +145,7 @@ function wcancel(){
 		<select class="qwon" name="ORDER_NUM">		
 			<option value="선택안함">선택안함</option>
 			<%for(int i=0; i<onlist.size(); i++){ QnaVO ol = (QnaVO)onlist.get(i); %>
-   	 		<option value="<%=ol.getORDER_NUM()%>"><%=ol.getORDER_NUM()%></option>    		
+   	 		<option value="<%=ol.getOrder_num()%>"><%=ol.getOrder_num()%></option>    		
     		<%} %>
 		</select></div>
 		</td>
