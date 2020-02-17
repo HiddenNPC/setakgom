@@ -48,9 +48,11 @@ public class MypageController {
 	
 	@RequestMapping("/orderview.do")
 	public String selectMending(HttpServletRequest request, Model model, HttpSession session) throws Exception{
-		
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
 		ArrayList<OrderVO> orderlist = new ArrayList<OrderVO>();
-		
+		   
 		String member_id = (String) session.getAttribute("member_id");
 		OrderVO orderVO = new OrderVO();
 		ArrayList<MendingVO> mendingVO = new ArrayList<MendingVO>();
@@ -71,7 +73,6 @@ public class MypageController {
 		int endrow = startrow + limit-1;
 		int listcount = mypageService.getOrdercount();
 		
-		System.out.println(listcount);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
@@ -90,21 +91,14 @@ public class MypageController {
 		
 		long order_num = 0;
 		
-		System.out.println(orderlist.size());
-		
 		
 		for (int i = 0; i < orderlist.size(); i++) {
 			OrderVO ovo = (OrderVO)orderlist.get(i);
 			
 			order_num = ovo.getOrder_num();
-			System.out.println("주문번호"+order_num);
 			mendingVO = mypageService.selectMending(order_num);
 			washVO = mypageService.selectWashing(order_num);
-//			orderVO = mypageService.selectOrder(order_num);
 			keepVO = mypageService.selectKeep(order_num);
-			System.out.println("수선"+mendingVO);
-			System.out.println("세탁"+washVO);
-			System.out.println("보관"+keepVO);
 			
 			mendingVO2.add(mendingVO);
 			washVO2.add(washVO);
@@ -113,7 +107,6 @@ public class MypageController {
 		}
 
 		model.addAttribute("orderlist", orderlist);
-//		model.addAttribute("orderVO", orderVO);
 		model.addAttribute("mendingVO2", mendingVO2);
 		model.addAttribute("washVO2", washVO2);
 		model.addAttribute("keepVO2", keepVO2);
@@ -129,16 +122,17 @@ public class MypageController {
 	
 	@RequestMapping("/mykeep.do")
 	public String selectKeep (Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-			ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
-			ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
-			ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }	
+		
+		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
+		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
+		ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
 			
-			String member_id = (String) session.getAttribute("member_id");
-			System.out.println("member_id session : " + member_id);
-			MemberVO memberVO = new MemberVO();
+		String member_id = (String) session.getAttribute("member_id");
+		MemberVO memberVO = new MemberVO();
 			
-//		ArrayList<OrderListVO> keepseqlist = new ArrayList<OrderListVO>();
-//		OrderListVO olvo2 = new OrderListVO();
 			
 		ordernumlist = mypageService.getOrdernumlist(member_id);
 		
@@ -151,7 +145,6 @@ public class MypageController {
 				OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
 				
 				order_num = olvo.getOrder_num();
-				System.out.println(order_num + "주문번호");
 				keeplist = mypageService.selectMykeeplist(order_num);
 				
 				keep_seq = mypageService.selectMykeep(order_num);
@@ -172,6 +165,10 @@ public class MypageController {
 	
 	@RequestMapping("/myqna.do")
 	public String selectQnalist (Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
 		
 		// 멤버 아이디 구분해서 member_name, phone, loc 값 공백 
 		
@@ -218,6 +215,10 @@ public class MypageController {
 	
 	@RequestMapping("/mysavings.do")
 	public String selectSaving (Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
+		
 		String member_id = (String) session.getAttribute("member_id");
 		ArrayList<MileageVO> mile_list = new ArrayList<MileageVO>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -231,14 +232,12 @@ public class MypageController {
 		int startrow = (page-1)*10 +1;
 		int endrow = startrow + limit-1;
 		int listcount = mileageService.getListCount();
-		System.out.println();
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
 		
 		
 		mile_list = mileageService.getMileagelist(map);
-		System.out.println(mile_list);
 		
 		int maxpage = (int)((double)listcount/limit+0.95);
 		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
@@ -270,7 +269,10 @@ public class MypageController {
 
 	@RequestMapping("/mycoupon.do")
 	public String getCouponList(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-			
+		if(session.getAttribute("member_id")==null) {
+	           return "redirect:/";
+	      }
+		
 			ArrayList<CouponVO> couponlist = null;
 			String member_id = (String) session.getAttribute("member_id");
 			couponlist = couponService.getCouponList(member_id);

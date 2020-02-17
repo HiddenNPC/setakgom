@@ -10,39 +10,45 @@
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/withdraw.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+   <!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
     <script type="text/javascript">
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp") 
+                
          var sessionID = "<%=session.getAttribute("id") %>"
          
          /*비밀번호 일치하면 탈퇴페이지로 이동 */  
-            $('.btn').on('click', function(event){ 
-        		
-     			var params = {	'member_id': sessionID,
-     							'member_password':$("#member_password").val() };
-    			$.ajax({
-    	            url : '/setak/withdraw_pass.do', // url
-    	            type:'post',
-    	            data : params,
-    	            dataType:'json', 
-    	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-    	            success: function(result) {
-    	               if(result.res=="OK") {
-    	            	   $(location.href="/setak/withdrawform.do");
-    	               }
-    	               else { // 실패했다면
-    	                  alert("비밀번호가 다릅니다.");
-    	               }
-    	            },
-    	            error:function() {
-    	               alert("insert ajax 통신 실패");
-    	            }			
-    			});
-    		});
-            
-         });
-    </script>
+         $('.btn').on('click', function(event){ 
+           
+           var params = {   'member_id': "<%=session.getAttribute("member_id") %>",
+                       'member_password':$("#member_password").val() 
+                 };
+          $.ajax({
+                url : '/setak/withdraw_pass.do', // url
+                type:'post',
+                data : params,
+                dataType:'json', 
+                contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+                success: function(result) {
+                   if(result.res=="OK") {
+                      $(location.href="/setak/withdrawform.do");
+                   }
+                   else { // 실패했다면
+                	   Swal.fire("", "비밀번호가 다릅니다.","warning");
+                   }
+                },
+                error:function() {
+                   alert("insert ajax 통신 실패");
+                }         
+          });
+       });
+         
+      });
+ </script>
 </head>
 <body>
    <div id="header"></div>
@@ -53,20 +59,20 @@
 			<!-- 변경하시면 안됩니다. -->
 			<div class="title-text">
 				<!-- 변경하시면 안됩니다. -->
+				<h2>회원탈퇴</h2>
 			</div>
 		</div>
 	</section>
 	
 	<section id="test">	<!-- id 변경해서 사용하세요. -->
-		<div class="content">	<!-- class 변경해서 사용하세요. -->
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
 						<ul class="mypage_list">
                      <li>주문관리</li>
-                     <li><a href="orderview.jsp">주문/배송현황</a></li>
-                     <li><a href="mykeep.jsp">보관현황</a></li>
+                     <li><a href="orderview.do">주문/배송현황</a></li>
+                     <li><a href="mykeep.do">보관현황</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>정기구독</li>
@@ -86,14 +92,14 @@
 				</li>
 				</ul>
 			</div>
-			<div class="test"> <!-- class 변경해서 사용하세요. -->
-				<div class="content">
-					<h2>본인 확인을 위해 비밀번호를 입력해 주세요</h2>
-					<input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" />
-					<input class="btn" type="button" name="submit" value="확인"/>
-				</div>
-			</div>
-		</div>
+			
+		<div class="withdraw">	<!-- class 변경해서 사용하세요. -->	
+           	 <h2>회원탈퇴</h2>
+               <h4>Login ID : <%=session.getAttribute("member_id") %></h4>
+               <h5>본인 확인을 위해 비밀번호를 입력해 주세요</h5>
+               <input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" /><br>
+               <input type="button" class="btn" value="확인"/>
+         </div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
    

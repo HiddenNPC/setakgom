@@ -1,6 +1,7 @@
 package com.spring.community;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public interface NoticeService 
@@ -14,6 +15,7 @@ public interface NoticeService
 	public int noticeInsert(NoticeVO vo) throws Exception;	
 	public int noticeModify(NoticeVO vo) throws Exception;
 	public int noticeDelete(NoticeVO vo) throws Exception;
+	public List<Object> ad_noticeList();
 	
 
 }

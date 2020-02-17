@@ -1,4 +1,9 @@
 @charset "UTF-8";
+
+	.swal2-confirm{
+		width: auto;
+		height: auto;
+	}
 	.title-text { position: absolute; right: 0; left: 0; align-items: center; justify-content: center;
       display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;      
       -webkit-align-items: center; -webkit-justify-content: center; -webkit-box-pack: center; -webkit-box-align: center;
@@ -28,11 +33,6 @@
 		border: none; outline: none; margin: 3px;
 		font-family: inherit; cursor: pointer;}	
 	small{ margin: 3px; color:#aa9fa7; font-size: 0.7rem; font-family: inherit; }
-	
-	
-	
-	
-	
 	
 	.qlt1 { width:1200px; background-color:#3498db; align-content: center;
 		margin: auto;  border: none; color:#fff; }	
@@ -130,7 +130,8 @@
 	.cf_t1{ width: 1200px; padding:8px; border:3px solid #e1e4e4; 
 	margin-top: 12px; margin-bottom: 12px;}
 	#cf_label { text-align:left; padding-left:10px; padding:auto;}
-	.textarea{ margin:10px; border:1px solid #e1e4e4; resize:none; 
+	
+	#q-c-tarea{ margin:10px; border:1px solid #e1e4e4; resize:none; 
 	font-family :"Nanum Gothic"; letter-spacing:1px;}
 	#cf_content { border:1px solid #e1e4e4; }	
 	#cf_insertbtn {	font-family: inherit; cursor: pointer;	

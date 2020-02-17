@@ -37,5 +37,5 @@ public interface MemberService {
 	
 	//회원 삭제
 	public int member_delete(String member_id);
-	
+
 }

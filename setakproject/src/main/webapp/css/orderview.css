@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.swal2-container {
+	  z-index: 2000;
+	}
+
 .title-text {
 	position: absolute;
 	right: 0;
@@ -51,7 +55,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 		margin-left:15px;
 	    box-sizing:border-box;
 	}
-	.mypage_content h2{
+	.content_h2{
 		height:130px;
 		line-height:130px;
 		text-align:center;
@@ -110,7 +114,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 	 	font-weight:bold;
 	 }
 	
-	.mypage_content h3 {
+	.null {
     	color:#3498bd;
     	text-align:center;
     	margin-top:150px;
@@ -196,10 +200,14 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
         	font-weight:700;
         }
 
-
-		.price{
+        
+		.delicode{
+			margin-left:20px ;
+            float:left;
+		}
+		.status{
 			float:right;
-			margin-right:10%;
+		    margin-right:10%;
 		}
 
         /*내용*/
@@ -276,6 +284,12 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 			-webkit-box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
 			box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
 		}
+		.button:disabled{
+			background-color: #e1e4e4;
+			border-color: #e1e4e4;
+			color:#444;
+			text-shadow:none;
+		}
 
   /*취소버튼 끝*/
   /*리뷰 작성버튼*/
@@ -337,6 +351,13 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 			right: -15%;
 			-webkit-box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
 			box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
+		}
+
+		.open:disabled{
+			background-color: #e1e4e4;
+			border-color: #e1e4e4;
+			color:#444;
+			text-shadow:none;
 		}
 		
 		

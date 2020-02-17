@@ -20,7 +20,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	System.out.println("memberVO는?" + memberVO);
 	if ((session.getAttribute("member_id") == null)) {
 		out.println("<script>");
 		out.println("location.href='./setak/'");
@@ -42,6 +41,9 @@
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
@@ -94,7 +96,7 @@
 				<div class="mypage_content">
 					<h2>보관현황</h2>
 					<%if(ordernumlist.size() == 0 ) {%>
-					<h3>보관하신 목록이 없습니다.</h3>
+					<h3 class="null">보관하신 목록이 없습니다.</h3>
 					<%} else { %>
 					<%
 						for (int i = 0; i < ordernumlist.size(); i++) {
@@ -167,13 +169,13 @@
 									<li class="month" value="<%=m3%>"><h3>3개월</h3>
 										<p><%=end_date%> ~ <%=m3%></p>
 										<h1>
-											<span class="price">100</span>원
+											<span class="price">28000</span>원
 										</h1>
 									</li>
 									<li class="month" value="<%=m6%>"><h3>6개월</h3>
 										<p><%=end_date%> ~ <%=m6%></p>
 										<h1>
-											<span class="price">100</span>원
+											<span class="price">55000</span>원
 										</h1>
 									</li>
 								</ul>
@@ -248,8 +250,8 @@ $(document).ready(function () {
 	
 	function selectData() {
 		
-		$(".accordion-header2").click(function() {
-			var order_num = $(this).attr('id');
+		$(".up").click(function() {
+			var order_num = $(this).parent().parent().parent().parent().parent().attr('id');
 			$(".accordion-content2 > table").empty();
 			$(".rt-list").empty();
 			
@@ -311,11 +313,11 @@ $.pricefun = function(n){
 	  jQuery(".accordion-content2").hide();
 	//content 클래스를 가진 div를 표시/숨김(토글)
 	
-	  $(".accordion-header2").click(function(){
-		$except = $(this);
+	  $(".up").click(function(){
+		$except = $(this).parent().parent().parent().parent().parent();
 		$except.toggleClass("active");
 	    $(".accordion-content2")
-	    	.not($(this).next(".accordion-content2").slideToggle(500)).slideUp();
+	    	.not($(this).parent().parent().parent().parent().parent().next(".accordion-content2").slideToggle(500)).slideUp();
 	    $('.mypage_content_cover2').find('.accordion2>.accordion-header2').not($except).removeClass("active");
 	  });
 	
@@ -406,8 +408,8 @@ $(document).ready(function() {
 	        var msg;
 	 	    
 	        if (select_price == 0){
-	        	msg = '금액을 선택해주세요.';
-	       		alert(msg);
+	        	Swal.fire("","연장 기간을 선택해 주시기 바랍니다.","info");
+	        	return false;
 	        }
 	        
 	        IMP.request_pay({
@@ -435,18 +437,23 @@ $(document).ready(function() {
 		 	    	dataType : "json",
 					content : 'application/x-www-form-urlencoded; charset = utf-8',
 					success:function(data){
-						msg = '신청을 완료하였습니다.';
 		            	var num = data.order_num;
-		                location.href="/setak/mykeep.do";
-		                alert(msg);
+		            	Swal.fire({
+							text: "신청을 완료하였습니다.",
+							icon: "info",
+						}) .then(function(){
+							location.href='/setak/mykeep.do';
+						});
 					}
 	 	    	});
 	 	 		} else {
-					msg = '결제에 실패하였습니다.';
-	           		msg += '에러내용 : ' + rsp.error_msg;
 	            	//실패시 이동할 페이지
-	            	location.href="/setak/mykeep.do";
-	            	alert(msg);
+	            	Swal.fire({
+						text: "결제에 실패하였습니다.",
+						icon: "error",
+					}) .then(function(){
+						location.href='/setak/mykeep.do';
+					});
 	 	 		}
 	 		});
  	});
@@ -458,7 +465,7 @@ $(document).ready(function() {
  	// 결제 : 아임포트 스크립트
  	 $(".part_return").on("click", function(){
  		   
- 		var select_price = 100;
+ 		var select_price = 2000;
  			
  		// 테이블 값을 받아오기 (for문)
  		// 나눠서 kindArr, contentArr 넣어줌
@@ -470,10 +477,10 @@ $(document).ready(function() {
  	        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
  	        var msg;
  	        var massage;
- 	        if (select_price == 0){
- 	        	msg = '금액을 선택해주세요.';
- 	       		alert(msg);
- 	        }
+ 	       if (select_price == 0){
+	        	Swal.fire("","금액을 선택해주십시오.","info");
+	        	return false;
+	        }
  	        
  	        IMP.request_pay({
  	            pg : 'kakaopay',
@@ -501,12 +508,14 @@ $(document).ready(function() {
 						}
 					});
 					} else {
-						msg = '결제에 실패하였습니다.';
-						msg += '에러내용 : '+ rsp.error_msg;
 						//실패시 이동할 페이지
-						location.href = "/setak/mykeep.do";
-						alert(msg);
-						}
+						Swal.fire({
+							text: "결제에 실패하였습니다.",
+							icon: "error",
+						}) .then(function(){
+							location.href='/setak/mykeep.do';
+						});
+					  }
 					});
  	 				});
 				});
@@ -523,9 +532,12 @@ $(document).ready(function() {
 			dataType : "json",
 			content : 'application/x-www-form-urlencoded; charset = utf-8',
 			success:function(data){
-				msg += '전체반환신청완료';
-				alert(msg);
-				location.href = "/setak/mykeep.do";
+				Swal.fire({
+					text: "전체반환신청완료",
+					icon: "success",
+				}) .then(function(){
+					location.href='/setak/mykeep.do';
+				});
 			},
 			error:function(){
 				alert("ajax통신안됌");

@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import java.io.PrintWriter;
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller public class ReviewController 
 {
@@ -49,62 +49,48 @@ import org.springframework.web.servlet.ModelAndView;
 	
 	@PostMapping(value = "/reviewInsert.do") public String reviewInsert(HttpSession session ,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
+		
 		ReviewVO vo = new ReviewVO();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
-				
+		int mile_price = 0;
+		String mile_content	="";		
 		
 		vo.setMember_id((String)session.getAttribute("member_id"));
+		System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		System.out.println("분류 = " + vo.getReview_kind());
-		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star")));
+		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star"))*2);
 		System.out.println("별점 떳냐? =" +vo.getReview_star());
 		vo.setReview_content(request.getParameter("Review_content"));
 		System.out.println("내용 = " + vo.getReview_content());
 		vo.setReview_like(request.getParameter("Review_like"));
-		System.out.println("좋아요 = " + vo.getReview_like());		
+		System.out.println("좋아요 = " + vo.getReview_like());	
 		
-		ModelAndView mav = new ModelAndView();
-		MultipartFile mf = request.getFile("Review_photo");//파일		
-		System.out.println("너의 review_photo은=" + mf);
+		if(request.getParameter("Review_photo").equals("")) {
+			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+			mile_price = 500;
+			mile_content ="리뷰 적립";	
+			reviewService.insertMileage(vo, mile_price, mile_content );
+		}else {
+			vo.setReview_photo(request.getParameter("Review_photo"));
+			mile_price = 1500;
+			mile_content ="사진 리뷰 적립";
+			reviewService.insertMileage(vo, mile_price, mile_content);
+		}	
 		
-		String uploadPath="C:\\Project138\\upload\\";			
-		if(mf.getSize() != 0)//용량
-		{	
-		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
-		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "")+originalFileExtention;								
-		mf.transferTo(new File(uploadPath+storedFileName));//파일 전송				
-		//뷰에 출력한 데이터 모델에 저장 
-		mav.setViewName("download");
-		mav.addObject("paramName", mf.getName());
-		mav.addObject("fileName", mf.getOriginalFilename());
-		mav.addObject("fileSize", mf.getSize());
-		mav.addObject("storedFileName",storedFileName);	
-		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
+		int res = reviewService.reviewInsert(vo);		
 		
-		System.out.println("paramName=" + mf.getName());
-		System.out.println("fileName=" + mf.getOriginalFilename());
-		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
-		vo.setReview_photo(mf.getOriginalFilename().concat("/"+storedFileName));	
 		
-		}
-		else
-		{
-			vo.setReview_photo(null);			
-		}			
 		
-		int res = reviewService.reviewInsert(vo);
 		
 		if(res == 0 ) 
 		{
-			writer.write("<script> alert('입력실패');location.href='./review.do'; </script>");
+			writer.write("<script>alert('수정 실패');location.href='./review.do';</script>");			
 			return null;
 		}
-		writer.write("<script> alert('입력 성공');location.href='./review.do'; </script>");
+		writer.write("<script>location.href='./review.do';</script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
@@ -225,45 +211,28 @@ import org.springframework.web.servlet.ModelAndView;
 		PrintWriter writer  = response.getWriter();	
 				
 		vo.setReview_kind(request.getParameter("Review_kind"));
-		vo.setReview_star(Double.parseDouble(request.getParameter("Review_star"))*2);
+		if(request.getParameter("Review_star").equals("")) {
+			System.out.println(request.getParameter("Review_star"));
+			vo.setReview_star(Double.parseDouble(request.getParameter("ex-Review_star"))*2);
+			
+		}else {
+			vo.setReview_star(Double.parseDouble(request.getParameter("Review_star"))*2);
+		}
+		
 		vo.setReview_content(request.getParameter("Review_content"));
 		vo.setReview_num(Integer.parseInt(request.getParameter("Review_num")));
 		System.out.println("구분="+vo.getReview_kind());
 		System.out.println("별점="+vo.getReview_star());
 		System.out.println("내용="+vo.getReview_content());
 		System.out.println("리뷰번호="+vo.getReview_num());
-				
-		ModelAndView mav = new ModelAndView();
-		MultipartFile mf = request.getFile("Review_photo");//파일		
-		System.out.println("너의 review_photo은=" + mf);
-		String uploadPath="C:\\Project138\\upload\\";			
-		
-		if(mf.getSize() != 0)//용량
-		{	
-		String originalFileExtention = mf.getOriginalFilename().substring(mf.getOriginalFilename().lastIndexOf("."));
-		String storedFileName = UUID.randomUUID().toString().replaceAll("-", "")+originalFileExtention;								
-		mf.transferTo(new File(uploadPath+storedFileName));//파일 전송				
-		//뷰에 출력한 데이터 모델에 저장 
-		mav.setViewName("download");
-		mav.addObject("paramName", mf.getName());
-		mav.addObject("fileName", mf.getOriginalFilename());
-		mav.addObject("fileSize", mf.getSize());
-		mav.addObject("storedFileName",storedFileName);	
-		String downlink = "fileDownload?of="+URLEncoder.encode(storedFileName,"UTF-8")+"&of2=" + URLEncoder.encode(mf.getOriginalFilename(), "UTF-8");
-		mav.addObject("downlink", downlink);
-		
-		System.out.println("paramName=" + mf.getName());
-		System.out.println("fileName=" + mf.getOriginalFilename());
-		System.out.println("fileSize=" + mf.getSize());
-		System.out.println("storedFileName=" + storedFileName);
-					
-		vo.setReview_photo(mf.getOriginalFilename().concat("/"+storedFileName));	
-		
+		if(request.getParameter("Review_photo").equals("")) {
+			vo.setReview_photo(request.getParameter("exist_file"));
+			
+		}else {
+			vo.setReview_photo(request.getParameter("Review_photo"));
+			
 		}
-		else
-		{
-			vo.setReview_photo("등록한 파일이 없습니다./등록한 파일이 없습니다.");			
-		}			
+
 		int res = reviewService.reivewUpdate(vo);
 		
 		if(res== 0)
@@ -273,7 +242,7 @@ import org.springframework.web.servlet.ModelAndView;
 		}
 		else
 		{				
-			writer.write("<script> alert('수정 성공');location.href='./review.do'; </script>");
+			writer.write("<script>location.href='./review.do'; </script>");
 			//return "redirect:/review.do";						
 		}
 		System.out.println("수정 성공하고 리스트로 왓다 .");

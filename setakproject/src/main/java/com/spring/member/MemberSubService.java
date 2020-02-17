@@ -11,15 +11,15 @@ public interface MemberSubService {
 	// 해당 정기구독 리스트
 	public SubscribeVO subscribe_list (String member_id);
 	
-	/*
-	 * // 정기구독 내역 리스트 public ArrayList<HistorySubVO>subhistory_list(String
-	 * member_id);
-	 */
-	
 	// 정기구독 내역 리스트
 	public ArrayList<HistorySubVO> subhistory_list(HashMap<String, Object> map); 
 
 	// 정기구독 리스트 갯수
 	public int listcount(String member_id); 	
 	
+	//구독해지함
+	public int subcancle(String member_id);
+		 
+    //재구독함
+	public int resub(String member_id);
 }

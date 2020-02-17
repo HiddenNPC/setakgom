@@ -20,6 +20,10 @@
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/keep.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -54,7 +58,7 @@
 			$(".keep-list").on("click", function() {
 				var str = "";
 				
-				str += '<tr>';
+				str += '<tr class="keepclick true">';
 				str += '<td><input type="checkbox" name="check" value="yes" checked></td>';
 				str += '<td>'+$.attr(this, 'value')+'</td>';
 				str += '<td style="display:none;"><input type="hidden" name="keep_cate" value="'+sortation[0].innerHTML+'">';
@@ -94,7 +98,7 @@
 				var n = $('.bt_down').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				if (num == 1) {
-					alert("최저 수량은 1개입니다.");
+					Swal.fire("","최저 수량은 1개입니다.","info");
 				} else {
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
@@ -103,7 +107,7 @@
 			//박스 수량
 			$(document).on('click','.box_up',function(event) {
 				if(monthclick==0){
-					alert('보관하실 기간을 먼저 선택해주세요.');
+					Swal.fire("","보관하실 기간을 먼저 선택해주세요.","info");
 					return;
 				}
 				var n = $('.box_up').index(this);
@@ -116,7 +120,7 @@
 				var n = $('.bt_down').index(this);
 				var num = $(".box_count:eq(" + n + ")").val();
 				if (num == 1) {
-					alert("최저 수량은 1박스입니다.");
+					Swal.fire("","최저 수량은 1박스입니다.","info");
 				} else {
 					num = $(".box_count:eq(" + n + ")").val(num * 1 - 1);
 				}
@@ -150,8 +154,7 @@
 				checkbox.each(function(){
 					var tr = checkbox.parent().parent();
 					tr.remove();
-				}) 
-				sumprice();
+				})
 			});
 			
 			/* 숫자 3자리마다 쉼표 넣어줌 */
@@ -163,14 +166,22 @@
 			 $(document).on('click','.gocart',function(event) {
 				var member_id = "<%=session.getAttribute("member_id") %>";
 				if(member_id=="null"){
-					alert('로그인 후 이용 가능합니다.');
-					location.href='login.do';
+					Swal.fire({
+						text: "로그인 후 이용 가능합니다.",
+						icon: "warning",
+					}) .then(function(){
+						location.href='login.do';
+					});
 					return false;
-				}
+				};
+	            if(!$(".keepclick").hasClass("true")){
+					Swal.fire("","보관하실 의류를 선택하지 않았습니다.","info");
+					return false;
+				};
 				if(monthclick==0){
-					alert('보관하실 기간을 선택해주세요.');
+					Swal.fire("","보관하실 기간을 선택해주세요.","info");
 					return false;
-				}
+				};
 			 });
 		});
 		//한글, 영어 금지

@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.swal2-container {
+  z-index: 11;
+}
+
 .title-text {
 	position: absolute;
 	right: 0;
@@ -243,7 +247,7 @@ input#point_price {
 /*팝업 레이어 공통*/
 .layer-card {
 	display : none; 
-	z-index : 10000;
+	z-index : 10;
 	position : absolute;
 	top : 0;
 	left : 0;

@@ -17,6 +17,9 @@
 	<link rel="stylesheet" type="text/css" href="./css/washing.css"/>
 </head> 
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <!-- http://www.webmadang.net/javascript/javascript.do?action=read&boardid=8001&page=14&seq=190 : 테이블 클릭시 색-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
@@ -158,7 +161,7 @@ $(document).ready(function($) {
 
 function checkform() {
 	if($("#pricetable tr").length == "1"){
-		alert("세탁물을 선택해 주시기 바랍니다.");
+		Swal.fire("","세탁물을 선택해 주시기 바랍니다.","info");
 		return false;		
 	}
 }
@@ -167,8 +170,12 @@ function checkform() {
 $(document).on('click','#gonext',function(event) {
 	var member_id = "<%=session.getAttribute("member_id") %>";
 	if(member_id=="null"){
-		alert('로그인 후 이용 가능합니다.');
-		location.href='login.do';
+		Swal.fire({
+			text: "로그인 후 이용 가능합니다.",
+			icon: "info",
+		}) .then(function(){
+			location.href='login.do';
+		});
 		return false;
 	}
 });          

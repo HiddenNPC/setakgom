@@ -40,7 +40,7 @@
 				<%						
 					} else {
 				%>
-					<li><a href="./orderview.do"><%=session.getAttribute("member_id")%>&nbsp;님 환영합니다</a></li>
+					
 					<li><a href="./logout.do">로그아웃</a></li>
 					<li><a href="./orderview.do">마이페이지</a></li>
 					<li><a href="./order.do">장바구니</a></li>

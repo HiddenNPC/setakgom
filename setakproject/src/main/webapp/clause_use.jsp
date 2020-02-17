@@ -1,13 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/htm14/loose.dtd">
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript">
-function closes(){
-    window.open('','_self').close();
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>세탁곰</title>
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+   <link rel="stylesheet" type="text/css" href="./css/default.css"/>
+   <style>
+textarea.autosize { min-height: 265px; }
+
+@media screen and (max-width:768px) {
+	textarea.autosize { min-height: 450px; }
 }
+
+</style>
+<script type="text/javascript">
+
+
 </script>
 </head>
 <body>
@@ -15,11 +26,10 @@ function closes(){
 <div class="modal-header">
     <!-- 닫기(x) 버튼 -->
   <font color="#f67001" size=4>01</font> <font size=3>이용약관</font>
-  <span><button type="button" onclick="closes()" style="margin-left: 465px;">×</button></span>
 </div>
 <!-- body -->
 <div class="modal-body">
-<td align=center><textarea name="tos" rows=15 cols=80>
+ <textarea name="tos" class="autosize" style="width:90%;" >  
 제1조(목적)
  이 약관은 oooo 회사(전자상거래 사업자)가 운영하는 oooo 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련
  서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리ㆍ의무 및 책임사항을 규정함을 목적으로 합니다.
@@ -242,8 +252,7 @@ function closes(){
  ①“몰”과 이용자간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
 
  ②“몰”과 이용자간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-                </textarea></td>
+                </textarea>
 </div>
-
 </body>
 </html>

@@ -74,6 +74,11 @@ public class MemberController {
 	@RequestMapping(value = "/profile1.do", produces = "application/json; charset=utf-8", method = { RequestMethod.GET, RequestMethod.POST })
 	public String password(Model model, HttpSession session) {
 		
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}	
+		
+		
 		String str=(String)session.getAttribute("member_id");
 		String last = str.substring(str.length() - 1);
 		
@@ -124,35 +129,33 @@ public class MemberController {
 		
 		//일반 로그인시	
 		} else {
-			System.out.println("id="+str);
 			return "password";
 		}
 	}
 
 	// 비밀번호 확인
-	@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
+		@ResponseBody
+		public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
+			Map<String, Object> result = new HashMap<String, Object>();
 
-		int res = memberservice.member_password(mo);
+			int res = memberservice.member_password(mo);
 
-		if (res == 1) {
-			result.put("res", "OK");
-		} else {
-			result.put("res", "FAIL");
-			result.put("message", "Failure");
+			if (res == 1) {
+				result.put("res", "OK");
+			} else {
+				result.put("res", "FAIL");
+				result.put("message", "Failure");
 
+			}
+			return result;
 		}
-		return result;
-	}
 
 	// 일반로그인시 비밀번호 입력후 개인정보수정 페이지로 이동
 	@RequestMapping(value = "/profile2.do", produces = "application/json; charset=utf-8")
 	public String profile(HttpServletRequest request, Model model, HttpSession session) {
 
 		String ids = (String) session.getAttribute("member_id");
-		 System.out.println("session="+ids);
 
 		MemberVO memberVO = orderService.getMemberInfo(ids);
 	
@@ -189,7 +192,6 @@ public class MemberController {
 	public Map<String, Object> updateMember(MemberVO mo) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		int res = memberservice.member_update(mo);
-		System.out.println("res="+res);	
 		if(res==1) {
 			result.put("res", "OK");
 		} else {
@@ -210,7 +212,6 @@ public class MemberController {
 	 @RequestMapping(value="/withdraw_pass.do", produces = "application/json; charset=utf-8")
 	 @ResponseBody 
 	 public Map<String, Object> withdraw(HttpServletRequest request,MemberVO mo) {
-	  System.out.println("컨트롤러mo="+mo.getMember_password()); 
 	  Map<String, Object> result = new HashMap<String, Object>();
 	  
 	  int res = memberservice.member_password(mo);

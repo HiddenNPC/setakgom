@@ -11,12 +11,13 @@
     
     a{ text-decoration:none; }
 	a:link { color: #444; text-decoration: none;}
-	a:visited { color: #444; text-decoration: none;}  	
+	a:visited { color: #444; text-decoration: none;}  
+		
 	.faq{ font-size:0.9rem; font-weight:bold; padding-top:150px; }			
-	.tab { text-align:center; color:#444;  width:1000px; margin:auto; }	
+	.tab { text-align:center; color:#444;  width:1200px; margin:auto; }	
 	.tab #tab{ display:flex; justify-content:space-between;}
 	#tab li { 
-	width:100%; box-sizing:content-box; display:inline-block; padding:15px; cursor:pointer; 
+	width:1200px; box-sizing:content-box; display:inline-block; padding:15px; cursor:pointer; 
 	border-top-left-radius: 5px; border-bottom-left-radius: 5px; 
 	border-top-right-radius: 5px; border-bottom-right-radius: 5px; border:none;	
 	margin-bottom:20px;	
@@ -24,37 +25,92 @@
     .tab li.on { background-color: #3498db; color:#fff; }		
 	.tab_con {
 	border-top:2px solid #3498db; color:#444;
-	clear:both; width:1000px; margin:auto; height:500px;
+	clear:both; width:1200px; margin:auto; 
 	}	
 	
 	.tab_con div {display:none;}	
-	.tab_con div > h4 {border-bottom:2px solid #e1e4e4;}
+	.tab_con div > h4 {border-bottom:2px solid #e1e4e4; padding:15px;}
 
 	.tab_con div > h4 > input { 
-	cursor:pointer; WIDTH:20pt; HEIGHT:17pt;	
-	color:#fff; background-color:#3498db;
-	border-top-left-radius: 5px; border-bottom-left-radius: 5px; 
-	border-top-right-radius: 5px; border-bottom-right-radius: 5px; border:none;
-	outline: none; margin-right: 15px; 
+		cursor:pointer; WIDTH:20pt; HEIGHT:17pt;	
+		color:#fff; background-color:#3498db;
+		border-top-left-radius: 5px; border-bottom-left-radius: 5px; 
+		border-top-right-radius: 5px; border-bottom-right-radius: 5px; border:none;
+		outline: none; margin-right: 15px; 
 	}
 
-	.tab_con div > ol {}
+	
 	.tab_con div > ol > li 
-	{line-height:30px; list-style-type: none;  
-	padding:10px; margin-right:40px; background-color:#e1e4e4;			
+	{
+		line-height:30px; list-style-type: none;  
+		padding:10px; margin-right:40px; background-color:#e1e4e4;			
 	}				
-	.tab_con div > h4{padding:15px;}	
-	div > ol {display:none;}	
+	
+		
 	.ico_ar{ float: right;}
 	
+
+@media screen and (max-width:768px) {
+	.content{
+		width:95%;
+		margin:0 2.5%;
+		font-family: inherit;	
+	}	
+	
+	.faq { font-size: 0.73rem; font-weight:bold; padding-top:150px; }			
+	.tab { text-align:center; color:#444;  width:95%; margin:auto; }	
+	.tab #tab{ display:flex; justify-content:space-between;}
+	#tab li { 
+		width:95%; box-sizing:content-box; display:inline-block; padding:15px; cursor:pointer; 
+		border-top-left-radius: 5px; border-bottom-left-radius: 5px; 
+		border-top-right-radius: 5px; border-bottom-right-radius: 5px; border:none;	
+		margin-bottom: 0px;	
+	}
+
+    .tab li.on { background-color: #3498db; color:#fff; }		
+	.tab_con {
+		border-top:2px solid #3498db; color:#444;
+		clear:both; width:95%; margin:auto; 
+	}	
+	
+	.tab_con div {display:none;}	
+	.tab_con div > h4 {	
+		text-overflow: ellipsis;
+	    white-space: nowrap;
+	    word-wrap: normal;  
+	    overflow: hidden;
+	    height: 25px;		
+	}
+			
+	
+	.tab_con div > h4 > input { 
+	font-family: inherit;
+	cursor: pointer;
+    WIDTH: 20pt;
+    HEIGHT: 17pt;
+    color: #fff;
+    background-color: #3498db;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    outline: none;
+    margin-top: -17px;
+    margin-left: 270px;
+    margin-right: -10px;
+	}
 	
 	
-		
-		
-		
-		
-		
-		
-		
-		
+	.tab_con div > ol > li {
+		line-height:30px; list-style-type: none;  
+		padding:10px; margin-right:40px; background-color:#e1e4e4;			
+	}				
+	.ico_ar {
+    float: right;
+    position: sticky;
+}
+	
+}
+
 		

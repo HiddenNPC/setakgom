@@ -8,12 +8,13 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	
 	String session_id=(String)session.getAttribute("member_id");
 %>
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>세탁곰</title>
@@ -22,7 +23,10 @@
 	<link rel="stylesheet" type="text/css" href="./css/profile.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-		
+
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>		
+	
 	<!-- 우편번호 api -->
 	<script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
@@ -73,7 +77,7 @@
                     
                     success: function (data) {
             			AuthTimer.comSecond = 179;
-            			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+            			AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
             			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
             			AuthTimer.domId = document.getElementById("timer");
             			$("#authbtn").attr('disabled', true);
@@ -114,8 +118,8 @@
  			var poReg = /^[0-9]{5}$/;
  				
  			 if(authchk == 0){
-             	alert("인증번호 확인이 되지 않았습니다.");
-             	return;
+ 				Swal.fire("","인증번호 확인이 되지 않았습니다.","warning");
+             	return false;
              }
  			
  			 if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
@@ -125,29 +129,22 @@
  	            	
  	            	
  	             ) {
- 	    			alert("빠짐없이 기입해 주세요");
- 	    			return; 
+ 					Swal.fire("","빠짐없이 기입해 주세요","warning");
+ 	    			return false; 
  	    		};
  			
  	    	if(!pwReg.test($("#member_password").val())) {
- 	    		alert("8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
- 	    		return; 
+ 	    		Swal.fire("","8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.","info");
+ 	    		return false; 
  	    	}
  			
  	    	if($('#member_password').val() != $('#pw2').val()) {
- 	    		alert("비밀번호가 일치하지 않습니다.");
- 	    		return; 
+ 	    		Swal.fire("","비밀번호가 일치하지 않습니다.","warning");
+ 	    		return false; 
  	    	}
  	    	
- 	    	if(!phReg.test($("#member_phone").val())){
- 	    		alert("핸드폰 번호를 입력해주세요");
- 	    		return; 
- 	    	}
+ 	    
  	    	
- 	    	if($("#member_sns").val()==random){
- 	    		alert("핸드폰 번호를 입력해주세요");
- 	    		return; 
- 	    	}
  	    	
  	    	
  			var id = $("#member_id").val();
@@ -177,18 +174,22 @@
 	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 	            success: function(result) {
 	               if(result.res=="OK") {
-	            	   alert("수정 성공");
-	            	   window.location.href = "./profile2.do";
+	            	   Swal.fire({
+							text: "수정 성공",
+							icon: "success",
+						}).then(function(){
+							location.href='./profile2.do';
+						});
 	               }
 	               else { // 실패했다면
-	                  alert("개인정보수정 실패");
+	            	   Swal.fire("","개인정보수정 실패","warning");
 	               }
 	            },
 	            error:function() {
 	               alert("insert ajax 통신 실패");
 	            }			
 			});
-			
+			return false;
 		});
          
       });
@@ -209,7 +210,7 @@
     	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
     	            clearInterval(this.timer);		// 타이머 해제
     	            random = randomnum();
-    	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+    	            Swal.fire("","인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.","warning");
     	        }
     	    }
     	    ,fnStop : function(){
@@ -249,7 +250,7 @@
                   </ul>
                   <ul class="mypage_list">
                      <li>고객문의</li>
-                     <li><a href="qnainquiry.do">Q&amp;A 문의내역</a></li>
+                     <li><a href="myqna.do">Q&amp;A 문의내역</a></li>
                   </ul>
                   <ul class="mypage_list">
                      <li>정보관리</li>
@@ -338,7 +339,8 @@
 						<input class="btns" type="submit" id="update" value="수정" />
 					</div>	
 				</form>
-			</div>			
+			</div>	
+			</div>		
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->

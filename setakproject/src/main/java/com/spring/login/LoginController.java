@@ -44,6 +44,10 @@ public class LoginController {
 /*로그인 이동 */
 		@RequestMapping(value = "/login.do", produces = "application/json; charset=utf-8", method = {RequestMethod.GET, RequestMethod.POST })
 		public String login(Model model, HttpSession session, HttpServletRequest request) {
+			
+			if(!(session.getAttribute("member_id")==null)) {
+		           return "redirect:/";
+		      }
 
 			/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 			String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -62,7 +66,7 @@ public class LoginController {
 /* 일반로그인 */
 		@RequestMapping(value="/loginpro.do",produces = "application/json; charset=utf-8")
 		public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response, String backurl) throws Exception  {
-		
+			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter writer = response.getWriter();
@@ -86,8 +90,8 @@ public class LoginController {
 			throws IOException, ParseException {
 		
 		 response.setCharacterEncoding("utf-8");
-		 response.setContentType("text/html; charset=utf-8"); PrintWriter writer =
-		 response.getWriter();
+		 response.setContentType("text/html; charset=utf-8"); 
+		 PrintWriter writer = response.getWriter();
 		 
 		 // 정보동의 취소시 이전페이지로 이동 
 		 if (code.equals("0")) { 
@@ -114,6 +118,7 @@ public class LoginController {
 		String bid = (String) response_obj.get("id");
 		String name = (String) response_obj.get("name");
 		String email = (String) response_obj.get("email");
+		String loc = "!";
 		String id = bid + "_N";
 		//System.out.println(id + "/" + name + "/" + email);
 
@@ -132,6 +137,7 @@ public class LoginController {
 			mo.setMember_id(id);
 			mo.setMember_name(name);
 			mo.setMember_email(email);
+			mo.setMember_loc(loc);
 
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { // 이미 네이버로 로그인 한 경우
@@ -180,6 +186,7 @@ public class LoginController {
 		email = kakao_account.path("email").asText();
 		nickname = properties.path("nickname").asText();
 		String id = bid + "_K";
+		String loc = "!";
 		//System.out.println(nickname + "/" + id + "/" + email);
 
 		/* 4. 데이터 DB에 저장 */
@@ -196,7 +203,8 @@ public class LoginController {
 			mo.setMember_id(id);
 			mo.setMember_email(email);
 			mo.setMember_name(nickname);
-
+			mo.setMember_loc(loc);
+			
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { // 이미 카카오로 회원가입 경우
 				session.setAttribute("name", nickname);
@@ -219,6 +227,7 @@ public class LoginController {
 		String g_id = mo.getMember_id();
 		String g_name = mo.getMember_name();
 		String g_email = mo.getMember_email();
+		String g_loc = mo.getMember_loc();
 
 		// DB에 아이디가 있는지 확인
 		int res = memberservice.member_id(mo); 
@@ -232,6 +241,7 @@ public class LoginController {
 			mo.setMember_id(g_id);
 			mo.setMember_name(g_name);
 			mo.setMember_email(g_email);
+			mo.setMember_loc(g_loc);
 
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { 
