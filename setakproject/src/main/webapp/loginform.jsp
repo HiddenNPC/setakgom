@@ -111,6 +111,7 @@
 		
 		/*비밀번호찾기*/
 		$(".find_pw").click(function(event) {
+			
 			$(".back").css("display", "block");
 			$(".popup2").css("display", "block");
 
@@ -163,13 +164,13 @@
 							var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
 							
 							if( $("#member_password2").val() == '' || $("#pw2").val() == '' ) {
-								alert("빠짐없이 기입해 주세요");
+								Swal.fire("","빠짐없이 기입해 주세요","info");
 									
 							} else if(!pwReg.test($("#member_password2").val())) {
-								alert("8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
+								Swal.fire("","8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.","info");
 
 							} else if($('#member_password2').val() != $('#pw2').val()) {
-								alert("비밀번호가 일치하지 않습니다.");
+								Swal.fire("","비밀번호가 일치하지 않습니다.","info");
 							   	
 							} else { 
 								
@@ -185,8 +186,12 @@
 									
 									success : function(result) {
 										if(result.res == "OK") {
-											alert("비밀번호가 수정 되었습니다.");
-											$(location.href = "/setak/login.do");
+											Swal.fire({
+												text: "비밀번호가 수정 되었습니다.",
+												icon: "success",
+											}).then(function(){
+												location.href='/setak/login.do';
+											});
 											
 											$("#member_name2").val('');
 											$("#member_id").val('');
@@ -202,9 +207,12 @@
 											$(".changepass").css("display", "none");
 											
 										} else {
-											
-											alert('비밀번호 수정 실패');
-											$(location.href = "redirect:login.do");
+											Swal.fire({
+												text: "비밀번호 수정 실패",
+												icon: "error",
+											}).then(function(){
+												location.href='redirect:login.do';
+											});
 											
 											$("#member_name2").val('');
 											$("#member_id").val('');
@@ -229,8 +237,12 @@
 						});
 												
 					} else {
-						alert("입력하신 정보가 일치하지 않습니다.");
-						$(location.href = "/setak/login.do");
+						Swal.fire({
+							text: "입력하신 정보가 일치하지 않습니다.",
+							icon: "warning",
+						}).then(function(){
+							location.href='/setak/login.do';
+						});
 					}
 					
      			},

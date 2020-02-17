@@ -286,8 +286,12 @@
          $(document).on('click','.gocart',function(event) {
             var member_id = "<%=session.getAttribute("member_id") %>";
             if(member_id=="null"){
-               alert('로그인 후 이용 가능합니다.');
-               location.href='login.do';
+            	Swal.fire({
+					text: "로그인 후 이용 가능합니다.",
+					icon: "warning",
+				}) .then(function(){
+					location.href='login.do';
+				});
                return false;
             }
             if($(".tot_price").text()==0){

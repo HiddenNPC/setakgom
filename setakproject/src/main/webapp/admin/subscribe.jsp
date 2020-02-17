@@ -56,27 +56,27 @@
 							 if(subs_water == 0) {
 								 output += '<td>-</td>';	
 							 }else {
-								 output += '<td><input type = "text" value ="'+washcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_water+'</td>';									 
+								 output += '<td><input class = "inputNum" type = "text" value ="'+washcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_water+'</span></td>';									 
 							 }					 		
 							 
 							 if(subs_shirts == 0) {
 								 output += '<td>-</td>';
 							 }else {
-								 output += '<td><input type = "text" value ="'+shirtscnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_shirts+'</td>';
+								 output += '<td><input class = "inputNum" type = "text" value ="'+shirtscnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_shirts+'</span></td>';
 							 }
 							 
 							 if(subs_dry == 0) {
 								 output += '<td>-</td>';
 							 }else {
-								 output += '<td><input type = "text" value ="'+drycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_dry+'</td>';
+								 output += '<td><input class = "inputNum" type = "text" value ="'+drycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_dry+'</span></td>';
 							 }
 							 
 							 if(subs_blanket == 0) {
 								 output += '<td>-</td>'; 
 							 }else {
-								 output += '<td><input type = "text" value ="'+blancketcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_blanket+'</td>';
+								 output += '<td><input class = "inputNum" type = "text" value ="'+blancketcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_blanket+'</span></td>';
 							 }
-							 output += '<td><input type = "text" value ="'+deliverycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_delivery+'</td>';
+							 output += '<td><input class = "inputNum" type = "text" value ="'+deliverycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_delivery+'</span></td>';
 							 output += '<td>'+timeSt(startDate)+'</td>';
 							 output += '<td>'+timeSt(endDate)+'</td>';
 							 output += '<td><input id = "updateBtn" class = "statusBtn" name="'+item.member_id+'" type = "button" value = "수정" />';
@@ -91,20 +91,114 @@
 
 					},
 					error: function() {
-						alert("ajax통신 실패!!!");
+						alert("ajax통신 실패");
 				    }
 				});				
 			}
 			
-			$('#updateBtn').on("click", function() {
-				var select_btn = $(this);
-				// 여기 수정해야하는 부분...
+			// 수정
+			$(document).on('click', '#updateBtn', function(event) {
+				var tr = $(this).parent().parent(); 
+				
+				var member_id = $(this).attr("name");
+				var washcnt = tr.children().eq(2).children('input').val();
+				var shirtscnt = tr.children().eq(3).children('input').val();
+				var drycnt = tr.children().eq(4).children('input').val();
+				var blacketcnt = tr.children().eq(5).children('input').val(); 
+				var deliverycnt = tr.children().eq(6).children('input').val();
+				
+				var subs_wash = tr.children().eq(2).children('span').text();
+				var subs_shirts = tr.children().eq(3).children('span').text();
+				var subs_dry = tr.children().eq(4).children('span').text();
+				var subs_blanket = tr.children().eq(5).children('span').text();
+				var subs_delivery = tr.children().eq(6).children('span').text();
+				
+				if(washcnt > subs_wash || shirtscnt > subs_shirts || drycnt > subs_dry || blacketcnt > subs_blanket || deliverycnt > subs_delivery) {
+					alert("입력 값을 확인해주세요.");
+					return; 
+				}
+				
+				
+				if(washcnt == null) {
+					washcnt = 0;
+				}				
+				if(shirtscnt == null) {
+					shirtscnt = 0;
+				}				
+				if(drycnt == null) {
+					drycnt = 0;
+				}				
+				if(blacketcnt == null) {
+					blacketcnt = 0;
+				}				
+				if(deliverycnt == null) {
+					deliverycnt = 0; 
+				}
+				
+				var param = {
+						member_id : member_id,
+						washcnt : washcnt,
+						shirtscnt : shirtscnt,
+						drycnt : drycnt, 
+						blacketcnt : blacketcnt,
+						deliverycnt : deliverycnt
+				};
+				
+				$.ajax({
+					url:'/setak/admin/updateMemberSubList.do', 
+					type:'POST',
+					data: param,
+					dataType:"json", //리턴 데이터 타입
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(data) {	
+						alert(""); 
+					},
+					error: function() {
+						alert("ajax통신 실패");
+				    }
+				}); 
+			});
+			
+			// 삭제
+			$(document).on('click', '#deleteBtn', function(event) {
+				var member_id = $(this).attr("name");
+				console.log(member_id);
+				
+				$.ajax({
+					url:'/setak/admin/deleteMemberSubList.do', 
+					type:'POST',
+					data: { member_id : member_id },
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function() {	
+						// 성공했다고 alert창이 안떠요..?
+						alert("delete 성공"); 
+						subMemberSearch(); 
+					},
+					error: function() {
+						alert("ajax통신 실패");
+				    }
+				});
+				
+			});
+
+			// 입력창  한글 금지 > 검색어, 배송번호, 휴대폰번호
+			$(".inputNum").on("keyup", function() { 
+				$(this).val($(this).val().replace(/[^0-9a-z]/g,"")); 
+			});
+			
+			// 초기화 버튼
+			$("#reset-btn").on("click", function() {
+				$("#order-select").val("byDate"); 
+				$("#keyword").val(""); 
+				$("input[name=check]").prop("checked",false);
 			});
 
 		});
 		
 		// 검색
 		function subMemberSearch() {
+			
+			console.log($('#keyword').val());
 			
 			$('#result-second-pager').empty(); 
 			
@@ -114,11 +208,9 @@
      		checkbox.each(function(){
      			var plan = $(this).val(); 
      			planArr.push(plan);
-     			console.log(plan); 
      		});
      		
      		var orderBy = $("#order-select").val();
-     		console.log(orderBy); 
      		
 			$('#result-table tbody').empty();
 			
@@ -137,8 +229,6 @@
 				contentType:'application/x-www-form-urlencoded; charset=utf-8',
 				success:function(data) {	
 					$("#result-table tbody").empty();
-
-					console.log("성공 들어옴.."); 
 					
 					 $.each(data, function(index, item) {
 						 
@@ -168,29 +258,29 @@
 						 output += '<td>'+item.subsname+'</td>';
 						 
 						 if(subs_water == 0) {
-							 output += '<td>-</td>';	
+							 output += '<td>-</td>';
 						 }else {
-							 output += '<td><input type = "text" value ="'+washcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_water+'</td>';									 
+							 output += '<td><input class = "inputNum" type = "text" value ="'+washcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_water+'</span></td>';									 
 						 }					 		
 						 
 						 if(subs_shirts == 0) {
 							 output += '<td>-</td>';
 						 }else {
-							 output += '<td><input type = "text" value ="'+shirtscnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_shirts+'</td>';
+							 output += '<td><input class = "inputNum" type = "text" value ="'+shirtscnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_shirts+'</span></td>';
 						 }
 						 
 						 if(subs_dry == 0) {
 							 output += '<td>-</td>';
 						 }else {
-							 output += '<td><input type = "text" value ="'+drycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_dry+'</td>';
+							 output += '<td><input class = "inputNum" type = "text" value ="'+drycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_dry+'</span></td>';
 						 }
 						 
 						 if(subs_blanket == 0) {
 							 output += '<td>-</td>'; 
 						 }else {
-							 output += '<td><input type = "text" value ="'+blancketcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_blanket+'</td>';
+							 output += '<td><input class = "inputNum" type = "text" value ="'+blancketcnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_blanket+'</span></td>';
 						 }
-						 output += '<td><input type = "text" value ="'+deliverycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;'+subs_delivery+'</td>';
+						 output += '<td><input class = "inputNum" type = "text" value ="'+deliverycnt+'" style = "width : 20px;"/>&nbsp;/&nbsp;<span>'+subs_delivery+'</span></td>';
 						 output += '<td>'+timeSt(startDate)+'</td>';
 						 output += '<td>'+timeSt(endDate)+'</td>';
 						 output += '<td><input id = "updateBtn" class = "statusBtn" name="'+item.member_id+'" type = "button" value = "수정" />';
@@ -208,13 +298,6 @@
 					alert("ajax통신 실패!!!");
 			    }
 			});
-		}
-		
-        // 엔터키가 눌렸을 때 실행할 내용
-		function enterkey() {
-	        if (window.event.keyCode == 13) {
-	        	subMemberSearch(); 
-	        }
 		}
         
 		function timeSt(dt) {
@@ -330,6 +413,14 @@
 		  });
 		}
 		
+		
+        // 엔터키가 눌렸을 때 실행할 내용 >> 왜 이게 안 먹지? 무슨 일이지? 
+		function enterkey() {
+	        if (window.event.keyCode == 13) {
+	        	subMemberSearch(); 
+	        }
+		}
+		
 	</script>
 </head>
 <body>
@@ -341,7 +432,6 @@
 			<!--필터 div 시작 -->
 			<div id = "search-div">
 				<h2>회원검색</h2>
-				<form id = "search-form" action = "">
 					<table id = "search-table">
 						<tr>
 							<td>회원 아이디</td>
@@ -369,7 +459,6 @@
 							</td>
 						</tr>
 					</table>
-				</form>
 				
 				<div id="search-btn-div">
 					<input type="button" id = "search-btn" value = "검색" onclick = "subMemberSearch();" />

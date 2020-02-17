@@ -94,7 +94,7 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("기본정보")){%>
-<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
 <ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%><%}%>
 </div>	
@@ -102,7 +102,7 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("이용정보")){%>
-<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
 <ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
@@ -110,7 +110,7 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("수거/배송")){%>
-<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
 <ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
@@ -118,7 +118,7 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("세탁")){%>
-<h4>Q.<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<h4 id="m_faq_title">Q.<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
 <ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
@@ -126,7 +126,7 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("요금/결제")){%>
-<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
 <ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
@@ -134,7 +134,7 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("보관")){%>
-<h4>Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
 <ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>

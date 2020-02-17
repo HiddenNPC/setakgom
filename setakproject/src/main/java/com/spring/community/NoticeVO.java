@@ -1,13 +1,12 @@
 package com.spring.community;
 
-import java.sql.Date;
-
 public class NoticeVO 
 {
 	private int notice_num;
 	private String notice_title;
 	private String notice_content;
-	private Date notice_date;
+	private String notice_date;
+	
 	public int getNotice_num() {
 		return notice_num;
 	}
@@ -26,10 +25,10 @@ public class NoticeVO
 	public void setNotice_content(String notice_content) {
 		this.notice_content = notice_content;
 	}
-	public Date getNotice_date() {
+	public String getNotice_date() {
 		return notice_date;
 	}
-	public void setNotice_date(Date notice_date) {
+	public void setNotice_date(String notice_date) {
 		this.notice_date = notice_date;
 	}
 	

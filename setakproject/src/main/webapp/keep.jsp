@@ -19,7 +19,6 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/keep.css"/>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<!--sweetalert2 -->
@@ -167,18 +166,22 @@
 			 $(document).on('click','.gocart',function(event) {
 				var member_id = "<%=session.getAttribute("member_id") %>";
 				if(member_id=="null"){
-					Swal.fire("","로그인 후 이용 가능합니다.","warning");
-					location.href='login.do';
+					Swal.fire({
+						text: "로그인 후 이용 가능합니다.",
+						icon: "warning",
+					}) .then(function(){
+						location.href='login.do';
+					});
 					return false;
-				}
+				};
 	            if(!$(".keepclick").hasClass("true")){
-					alert("보관하실 의류를 선택하지 않았습니다.");
+					Swal.fire("","보관하실 의류를 선택하지 않았습니다.","info");
 					return false;
-				}
+				};
 				if(monthclick==0){
 					Swal.fire("","보관하실 기간을 선택해주세요.","info");
 					return false;
-				}
+				};
 			 });
 		});
 		//한글, 영어 금지

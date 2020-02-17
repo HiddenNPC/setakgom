@@ -1,4 +1,13 @@
 @charset "UTF-8";	
+	
+	.swal2-container {
+	  z-index: 2000;
+	}
+	.swal2-styled.swal2-confirm{
+		width: auto;
+		height: auto;
+	}
+
 	.title-text { position: absolute; right: 0; left: 0; align-items: center; justify-content: center;
       display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;      
       -webkit-align-items: center; -webkit-justify-content: center; -webkit-box-pack: center; -webkit-box-align: center;
