@@ -10,8 +10,8 @@
 				<li><a>보관관리</a></li>
 				<li><a>주문관리</a></li>
 				<li><a>정기구독</a></li>
-				<li><a>적립금</a></li>
-				<li><a>쿠폰</a></li>
+				<li><a href="admin_mile.do">적립금</a></li>
+				<li><a href="admin_coupon.do">쿠폰</a></li>
 				<li><a>공지사항</a></li>
 				<li><a>리뷰</a></li>
 				<li><a>FAQ</a></li>

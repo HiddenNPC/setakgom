@@ -38,6 +38,9 @@
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
 		<div class="content"> <!-- 변경하시면 안됩니다. -->
+		<div class="title-text">
+			<h2>Q&A 문의내역</h2>
+		</div>
 			<div class="mypage_head" style="width: 12%; float: left;">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -65,7 +68,7 @@
 					</li>
 				</ul>
 			</div>
-			<div style="width: 85%; float: right;">
+			<div>
 				<div class="mypage_content">
 				<h2>Q&A 문의내역</h2>
 				<%if (qnalist.size() == 0) {%>

@@ -167,7 +167,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					success:function(retVal) {
 						if(retVal.res == "OK"){
 							$('.coupon_list').empty();
-							location.href = "/setak/admin/coupon.jsp";
+							location.href = "/setak/admin/admin_coupon.do";
 						} else {
 							alert("삭제 실패.");
 						}				
@@ -324,7 +324,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							str += '</ul>';
 							$(".coupon_list").append(str);
 					 });
-
+					page();
 				},
 				error: function() {
 					alert("통신실패!");
@@ -347,7 +347,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				success:function(retVal){
 					if(retVal.res == "OK"){
 						$('.coupon_list').empty();
-						location.href = "/setak/admin/coupon.jsp";
+						location.href = "/setak/admin/admin_coupon.do";
 					
 					} else {
 						alert("회원 아이디가 없습니다.");

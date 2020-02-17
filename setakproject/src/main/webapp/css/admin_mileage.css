@@ -110,12 +110,14 @@
 	border:none;
 }
 
-.coupon_irum{
+.mile_price{
 	border:none;
 	background: none;
+	padding-left:40px;
+
 }
 
-.coupon_end{
+.mile_content{
 	border:none;
 	text-align:center;
 	background: none;
@@ -142,31 +144,25 @@
 		width:3%;
 	}
 	.content ul li:nth-child(2){
-		width:12%;
+		width:25%;
 	}
 	.content ul li:nth-child(3){
-		width:25%;
+		width:15%;
 	}
 	.content ul li:nth-child(4){
 		width:12%;
 	}
 	.content ul li:nth-child(5){
-		width:12%;
+		width:35%;
 	}
 	.content ul li:nth-child(6){
-		width:12%;
-	}
-	.content ul li:nth-child(7){
-		width:12%;
-	}
-	.content ul li:nth-child(8){
 		width:10%;
 	}
-
-	.coupon_title{
+	
+	.mile_title{
 		border-bottom:0px !important;
 	}
-	.coupon_title li{
+	.mile_title li{
 		background:#3498db;
 		color:#fff;
 		font-size:1rem;
@@ -180,10 +176,10 @@
     	background:#3498db;
     	color:white;
     }
-    .coupon_list{
+    .mile_list{
     	position:relative;
     }
-    .coupon_list ul li a{
+    .mile_list ul li a{
     	color:#444;
     	cursor:pointer;
     }
@@ -224,7 +220,7 @@
     	font-weight:bold;
     	cursor:pointer;
     }
-    .coupon_default{
+    .mile_default{
 		text-align:center;
 		border:0px;
 		background:none;
@@ -232,34 +228,6 @@
 		color:#444;
 		width:100%;
 	}
-	.coupon_kind{
-		width:95%;
-		text-align:center;
-		background:none;
-		border:0px;
-		color:#444;
-	}
-    .coupon_count, .coupon_box{
-    	width:70px;
-    	text-align:center;
-    	background:none;
-	    border:0px;
-	    padding:7px 0 6px 10px ;
-	    color:#444;
-    }
-    .coupon_day{
-    	width:123px;
-    	background:none;
-    	text-align:center;
-    	border:0px;
-    	padding:5px 0 3px 15px ;
- 	    color:#444;
-    }
-    .coupon_now{
-    	padding:3px 2px 8px;
-        border:0px;
-   	    color:#444;
-    }
     .upadte_select{
     	border:1px solid #3498db;
     	color:#3498db;
@@ -316,7 +284,7 @@
 	.popup .tabs .tab-list .tab:nth-child(3){
 		border-right:0px;
 	}
-	.popup .tabs .tab-list .tab.tab_active, .coupon-list.tab_active{
+	.popup .tabs .tab-list .tab.tab_active, .mile-list.tab_active{
 		background-color: #3498db;
 		color:#fff;
 	}
@@ -349,7 +317,7 @@
 	.top:nth-child(2) li, .top:nth-child(3) li{
 		border-top:0px solid;
 	}
-	.coupon-list:hover{
+	.mile-list:hover{
 		background-color: #3498db;
 		color:#fff;
 		cursor:pointer;
@@ -374,14 +342,14 @@
 		margin-left:8px;
 		width:45px;
 	}
-	.coupon_button{
+	.mile_button{
 		position:absolute;
 		bottom:-38px;
 		display:flex;
 		justify-content:space-between;
 		width:100%;
 	}
-	.coupon_button input{
+	.mile_button input{
 		width:49.9%;
     	background:#3498db;
     	color:#fff;
@@ -393,7 +361,7 @@
     	border:1px solid #3498db;
  		transition:all .3s;
 	}
-	.coupon_button input:hover{
+	.mile_button input:hover{
 		background:#fff;
 		color:#3498db;
 		border:1px solid #3498db;

@@ -18,7 +18,6 @@
    ArrayList<ArrayList<WashingVO>> washVO = (ArrayList<ArrayList<WashingVO>>)request.getAttribute("washVO2");
    ArrayList<ArrayList<MendingVO>> mendVO = (ArrayList<ArrayList<MendingVO>>)request.getAttribute("mendingVO2");
    ArrayList<ArrayList<KeepVO>> keepVO = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keepVO2");
-   System.out.println("orderlist = " + orderlist);
    
    
 %>    
@@ -165,143 +164,145 @@ function cancle() {
 </script>
 </head>
 <body>
-	<div id="header"></div>
-	
-	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
-	<section id="test"> <!-- id 변경해서 사용하세요. -->
-		<div class="content"> <!-- 변경하시면 안됩니다. -->
-			<div class="mypage_head">
-				<ul>
-					<li class="mypage-title">마이페이지</li>
-					<li>
-							<ul class="mypage_list">
-							<li>주문관리</li>
-							<li><a href="orderview.do">주문/배송현황</a></li>
-							<li><a href="mykeep.do">보관현황</a></li>
-						</ul>
-						<ul class="mypage_list">
-							<li>정기구독</li>
-							<li><a href="mysub.do">나의 정기구독</a></li>
-						</ul>
-						<ul class="mypage_list">
-							<li>고객문의</li>
-							<li><a href="myqna.do">Q&amp;A 문의내역</a></li>
-						</ul>
-						<ul class="mypage_list">
-							<li>정보관리</li>
-							<li><a href="profile1.do">개인정보수정</a></li>
-							<li><a href="mycoupon.do">쿠폰조회</a></li>
-							<li><a href="mysavings.do">적립금 조회</a></li>
-							<li><a href="withdraw.do">회원탈퇴</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-			
-			<div class="mypage_content">
-				<h2>주문/배송현황</h2>
-				<%if (orderlist.size() == 0) {%>
-					<h3 class="null">주문 내역이 없습니다.</h3>
-				<%} else { %>
-				<div class="mypage_content_cover">
-					<p>
-						<font size=2.5rem style="color:#3498db;">※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
-					</p>
-					<% 
-							for (int i = 0; i<orderlist.size(); i++) {	
-								System.out.println("orderlist.size = " + orderlist.size());
-								OrderVO orderVO = (OrderVO)orderlist.get(i);
-								
-								ArrayList<KeepVO> kvo = keepVO.get(i);			
-								
-								ArrayList<MendingVO> mvo = mendVO.get(i);			
-								ArrayList<WashingVO> wvo = washVO.get(i);			
-								
-								// 리스트 하고 싶으면 for문을 돌려 힘을내 > keepVO도 리스트일거 아녀.. 
-								
-							
-					%>
-					<div class="accordion">
-						<div class="accordion-header">주문일자 : <%=orderVO.getOrder_date() %></div>
-						<div class="accordion-content">
-							<!--snb -->
-							<div class="snb">
-								<div class="ordernumber">
-									<p>주문 번호 :</p>
-									<p><%=orderVO.getOrder_num() %></p>
-								</div>
-								<div class="addr">
-									<p>주소 :</p>
-									<p><%=orderVO.getOrder_address().replace("!", " ") %></p>
-								</div>
-								<br><br><br><br><br>
-								
-								<div class="order_dateClass">
-									
-									<%if (orderVO.getOrder_cancel().equals("1")) {%>
-									<input type="button" value="리뷰작성" class="open" disabled />
-									<%} else { %>
-									<input type="button" value="리뷰작성" class="open" />
-									<%} %>
-									
-									<%if (orderVO.getOrder_delete().equals("1")) {%>
-									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
-									<%} else { %>
-									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" />
-									<%} %>
-									
-								</div>
-							</div>
-							<!--//snb -->
-							<!--content -->
-							<div class="row_content">
-								<div class="row_content2">
-								<div class="my_laundry">
-									<p>세탁 :</p>
-									<%for (int w = 0; w < wvo.size(); w++){ %>
-									<%if (wvo.get(w).getWash_seq() != 0) { %>
-									<p><%=wvo.get(w).getWash_kind() %> - <%=wvo.get(w).getWash_method() %> - <%=wvo.get(w).getWash_count() %>개</p>
-									<%
-										} 
-									}
-									%>
-								</div>
-								<div class="my_mending">
-									<p>수선 :</p>
-									<%for (int m = 0; m<mvo.size(); m++) {%>
-									<%if (mvo.get(m).getRepair_seq() != 0) {%>
-									<p><%=mvo.get(m).getRepair_cate() %> - <%=mvo.get(m).getRepair_kind() %> - 태그(<%=mvo.get(m).getRepair_code() %>) - <%=mvo.get(m).getRepair_count() %>개</p>
-									<%
-										}	
-									} 
-									%>
-								</div>
-								<div class="my_keep">
-									<p>보관 :</p>
-									<%for (int k= 0; k < kvo.size(); k++) {%>
-									<%if (kvo.get(k).getKeep_seq() != 0) {%>
-									<p><%=kvo.get(k).getKeep_cate() %> - <%=kvo.get(k).getKeep_kind() %> - <%=kvo.get(k).getKeep_count() %>개 - <%=kvo.get(k).getKeep_box() %>박스</p>
-									<%
-										} 
-									}
-									%>
-								</div>
-								</div>
-								<div class="price">
-									<%
-									if(orderVO.getOrder_delicode() == null) 	
-										orderVO.setOrder_delicode("");
-									%>
-										<p class="delicode">송장번호 : <%=orderVO.getOrder_delicode() %></p>
-										<p class="status">	상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<%
-					
-					System.out.println("여기는 오니2222222222222222");
-						}
+   <div id="header"></div>
+   
+   <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
+   <section id="test"> <!-- id 변경해서 사용하세요. -->
+      <div class="content"> <!-- 변경하시면 안됩니다. -->
+         <div class="title-text">
+            <h2>주문/배송현황</h2>
+         </div>
+         <div class="mypage_head">
+            <ul>
+               <li class="mypage-title">마이페이지</li>
+               <li>
+                     <ul class="mypage_list">
+                     <li>주문관리</li>
+                     <li><a href="orderview.do">주문/배송현황</a></li>
+                     <li><a href="mykeep.do">보관현황</a></li>
+                  </ul>
+                  <ul class="mypage_list">
+                     <li>정기구독</li>
+                     <li><a href="mysub.do">나의 정기구독</a></li>
+                  </ul>
+                  <ul class="mypage_list">
+                     <li>고객문의</li>
+                     <li><a href="myqna.do">Q&amp;A 문의내역</a></li>
+                  </ul>
+                  <ul class="mypage_list">
+                     <li>정보관리</li>
+                     <li><a href="profile1.do">개인정보수정</a></li>
+                     <li><a href="mycoupon.do">쿠폰조회</a></li>
+                     <li><a href="mysavings.do">적립금 조회</a></li>
+                     <li><a href="withdraw.do">회원탈퇴</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+         
+         <div class="mypage_content">
+            <h2 class="content_h2">주문/배송현황</h2>
+            <%if (orderlist.size() == 0) {%>
+               <h3 class="null">주문 내역이 없습니다.</h3>
+            <%} else { %>
+            <div class="mypage_content_cover">
+               <p>
+                  <font size=2.5rem style="color:#3498db;">※ 취소 버튼은 신청 당일 밤 10시 전까지만 활성화됩니다. 이후 취소는 불가합니다.</font>
+               </p>
+               <% 
+                     for (int i = 0; i<orderlist.size(); i++) {   
+                    	 
+                        OrderVO orderVO = (OrderVO)orderlist.get(i);
+                        
+                        ArrayList<KeepVO> kvo = keepVO.get(i);         
+                        
+                        ArrayList<MendingVO> mvo = mendVO.get(i);         
+                        ArrayList<WashingVO> wvo = washVO.get(i);         
+                        
+                        // 리스트 하고 싶으면 for문을 돌려 힘을내 > keepVO도 리스트일거 아녀.. 
+                        
+                     
+               %>
+               <div class="accordion">
+                  <div class="accordion-header">주문일자 : <%=orderVO.getOrder_date() %></div>
+                  <div class="accordion-content">
+                     <!--snb -->
+                     <div class="snb">
+                        <div class="ordernumber">
+                           <p>주문 번호 :</p>
+                           <p><%=orderVO.getOrder_num() %></p>
+                        </div>
+                        <div class="addr">
+                           <p>주소 :</p>
+                           <p><%=orderVO.getOrder_address().replace("!", " ") %></p>
+                        </div>
+                        <br><br><br><br><br>
+                        
+                        <div class="order_dateClass">
+                           
+                           <%if (orderVO.getOrder_cancel().equals("1")) {%>
+                           <input type="button" value="리뷰작성" class="open" disabled />
+                           <%} else { %>
+                           <input type="button" value="리뷰작성" class="open" />
+                           <%} %>
+                           
+                           <%if (orderVO.getOrder_delete().equals("1")) {%>
+                           <input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
+                           <%} else { %>
+                           <input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" />
+                           <%} %>
+                           
+                        </div>
+                     </div>
+                     <!--//snb -->
+                     <!--content -->
+                     <div class="row_content">
+                        <div class="row_content2">
+                        <div class="my_laundry">
+                           <p>세탁 :</p>
+                           <%for (int w = 0; w < wvo.size(); w++){ %>
+                           <%if (wvo.get(w).getWash_seq() != 0) { %>
+                           <p><%=wvo.get(w).getWash_kind() %> - <%=wvo.get(w).getWash_method() %> - <%=wvo.get(w).getWash_count() %>개</p>
+                           <%
+                              } 
+                           }
+                           %>
+                        </div>
+                        <div class="my_mending">
+                           <p>수선 :</p>
+                           <%for (int m = 0; m<mvo.size(); m++) {%>
+                           <%if (mvo.get(m).getRepair_seq() != 0) {%>
+                           <p><%=mvo.get(m).getRepair_cate() %> - <%=mvo.get(m).getRepair_kind() %> - 태그(<%=mvo.get(m).getRepair_code() %>) - <%=mvo.get(m).getRepair_count() %>개</p>
+                           <%
+                              }   
+                           } 
+                           %>
+                        </div>
+                        <div class="my_keep">
+                           <p>보관 :</p>
+                           <%for (int k= 0; k < kvo.size(); k++) {%>
+                           <%if (kvo.get(k).getKeep_seq() != 0) {%>
+                           <p><%=kvo.get(k).getKeep_cate() %> - <%=kvo.get(k).getKeep_kind() %> - <%=kvo.get(k).getKeep_count() %>개 - <%=kvo.get(k).getKeep_box() %>박스</p>
+                           <%
+                              } 
+                           }
+                           %>
+                        </div>
+                        </div>
+                        <div class="price">
+                           <%
+                           if(orderVO.getOrder_delicode() == null)    
+                              orderVO.setOrder_delicode("");
+                           %>
+                              <p class="delicode">송장번호 : <%=orderVO.getOrder_delicode() %></p>
+                              <p class="status">   상태 : <%=orderVO.getOrder_status() %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 합계 : <%=orderVO.getOrder_price() %>&nbsp;원</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <%
+               
+                  }
 %>
 				</div>
 				

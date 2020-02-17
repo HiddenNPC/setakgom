@@ -11,5 +11,6 @@ public class MileageVO {
 	private String mile_date;
 	private int mile_price;
 	private String mile_content;
+	private int mile_seq;
 	
 }
