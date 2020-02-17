@@ -125,9 +125,14 @@ public class OrderController {
 		} else {
 
 			MemberVO memberVO = orderService.getMemberInfo(member_id);
-			// 멤버 아이디 구분해서 member_name, phone, loc 값 공백
-
 			String member_name = memberVO.getMember_name();
+			String last = member_id.substring(member_id.length() - 1);
+			System.out.println("last : " + last);
+			if(last.equals("K")|| last.equals("N")||last.equals("G")) {
+				System.out.println("여기 들어옴?");
+				member_name = " "; 
+			}		
+			System.out.println("member_name : " + member_name );
 
 			String member_phone1 = " ", member_phone2 = " ", member_phone3 = " ";
 

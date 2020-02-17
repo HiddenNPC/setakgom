@@ -144,6 +144,24 @@ label#saveAddrLabel {
 	margin-bottom : 10px; 
 }
 
+#postcode.txtInp {
+	width : 50px;
+}
+
+#address.txtInp {
+	width : 220px; 
+}
+
+#detailAddress.txtInp {
+	width : 305px;
+}
+
+#request.txtInp {
+	width : 550px;
+}
+
+
+
 /*결제 테이블*/
 .pay-div {
 	margin-bottom : 70px; 
@@ -591,7 +609,7 @@ input#point_price {
 	
 	label#saveAddrLabel {
 	    font-size: 0.7rem;
-	    margin-left: 30px;
+	    margin-left: 0px;
 	}
 	
 	/*배송지 테이블 */
@@ -637,6 +655,24 @@ input#point_price {
 		margin-top : 10px; 
 		margin-bottom : 10px; 
 	}
+
+	#postcode.txtInp {
+	    width : 50px;
+	}
+
+	#address.txtInp {
+		display : block;
+		width : 70%; 
+	}
+
+	#detailAddress.txtInp {
+		width : 90%;
+	}
+
+	#request.txtInp {
+		width : 90%;
+}
+
 	
 	/*결제 테이블*/
 	.pay-div {

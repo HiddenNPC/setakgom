@@ -70,6 +70,10 @@
 		select count(*) from member_subs where subsname like #{subsname}||'%'
 	</select>
 	
+	<select id = "getMemberSubCnt2" resultType = "int" parameterType = "String">
+		select count(*) from member_subs where subsname = #{subsname} 
+	</select>
+	
 	<!-- 정기구독 차트 > 일별 정기구독 신청 수 + 유형 비율 -->
  	<select id="getMemberDailySubCnt" resultType = "int" parameterType = "java.util.HashMap">
  		select count(*) from member_subs where subsname like #{subsname}||'%' and subs_start = #{subs_start}

@@ -107,4 +107,17 @@ public class AdminSubscribeServiceImpl implements AdminSubscribeService {
 		return res;
 	}
 
+	@Override
+	public int getMemberSubCnt2(String subsname) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.getMemberSubCnt2(subsname);
+		} catch(Exception e) {
+			System.out.println("정기구독 차트 > 전체 유형 비율 검색 실패2" + e.getMessage());
+		}
+		
+		return res;
+	}
+
 }

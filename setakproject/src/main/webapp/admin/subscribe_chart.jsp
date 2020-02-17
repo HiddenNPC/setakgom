@@ -4,6 +4,7 @@
 
 <%
 	int[] subArr = (int[])request.getAttribute("subArr"); 
+	int[] sub2Arr = (int[])request.getAttribute("sub2Arr"); 
 
 	int[] allArr = (int[])request.getAttribute("allArr"); 
 	int[] shirtsArr = (int[])request.getAttribute("shirtsArr"); 
@@ -22,53 +23,28 @@
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
 	
+	<!-- toast ui -->
+    <link rel="stylesheet" type="text/css" href="./chart/tui-chart.css" />
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css'/>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/addon/lint/lint.css'/>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/theme/neo.css'/>
+    <link rel='stylesheet' type='text/css' href='./chart/example.css'/>
+    
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/core.js'></script>
+	<script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
+	<script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
+	<script src='./chart/tui-chart.js'></script>
+    
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<!-- Chart.js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
 	<script src="./utils.js"></script>
 	
-		<script type="text/javascript">
+		<script type="text/javascript" class='code-js' id='code-js'>
 		$(document).ready(function() {
 			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")
-		
-			// 정기구독 유형별 차트
-			var config = {
-				type: 'doughnut',
-				data: {
-					datasets: [{
-						data: [
-							<%=subArr[0]%>, <%=subArr[1]%>, <%=subArr[2]%>, <%=subArr[3]%>, <%=subArr[4]%>
-						],
-						backgroundColor: [
-							window.chartColors.red,
-							window.chartColors.orange,
-							window.chartColors.yellow,
-							window.chartColors.green,
-							window.chartColors.blue,
-						],
-						label: 'Dataset 1'
-					}],
-					labels: [
-						'올인원', '와이셔츠', '드라이', '물빨래', '물빨래&드라이'
-					]
-				},
-				options: {
-					responsive: true,
-					legend: {
-						position: 'left',
-					},
-					title: {
-						display: true,
-						text: '정기구독 신청 유형 비율'
-					},
-					animation: {
-						animateScale: true,
-						animateRotate: true
-					}
-				}
-			};
 			
 			// 정기구독 일 별 신청자 및 유형별 차트
 			var today = new Date();
@@ -83,7 +59,6 @@
 					label: '올인원',
 					backgroundColor: window.chartColors.red,
 					data: [
-						// 02/09~02/13
 						<%=allArr[4]%>, <%=allArr[3]%>, <%=allArr[2]%>, <%=allArr[1]%>, <%=allArr[0]%>
 					]
 				}, {
@@ -115,8 +90,6 @@
 			};
 
 			window.onload = function() {
-				var ctx = document.getElementById('chart-area').getContext('2d');
-				window.myDoughnut = new Chart(ctx, config);
 				
 				var ctx2 = document.getElementById('canvas').getContext('2d');
 				window.myBar = new Chart(ctx2, {
@@ -144,6 +117,178 @@
 				});
 			};
 			
+			var container = document.getElementById('chart-area');
+			var data = {
+			    categories: ['정기구독유형'],
+			    seriesAlias: {
+			        pie1: 'pie',
+			        pie2: 'pie'
+			    },
+			    series: {
+			        pie1: [
+			            {
+			                name: '올인원',
+			                data: <%=subArr[0]%>
+			            },
+			            {
+			                name: '와이셔츠',
+			                data: <%=subArr[1]%>
+			            },
+			            {
+			                name: '드라이',
+			                data: <%=subArr[2]%>
+			            },
+			            {
+			                name: '물빨래',
+			                data: <%=subArr[3]%>
+			            },
+			            {
+			                name: '물빨래&드라이',
+			                data: <%=subArr[4]%>
+			            }
+			        ],
+			        pie2: [
+			            {
+			                name: '올인원59',
+			                data: <%=sub2Arr[0]%>
+			            },
+			            {
+			                name: '올인원74',
+			                data: <%=sub2Arr[1]%>
+			            },
+			            {
+			                name: '올인원89',
+			                data: <%=sub2Arr[2]%>
+			            },
+			            {
+			                name: '올인원104',
+			                data: <%=sub2Arr[3]%>
+			            }, {
+			                name: '올인원119',
+			                data: <%=sub2Arr[4]%>
+			            },
+			            {
+			                name: '올인원134',
+			                data: <%=sub2Arr[5]%>
+			            },
+			            {
+			                name: '와이29',
+			                data: <%=sub2Arr[6]%>
+			            },
+			            {
+			                name: '와이44',
+			                data: <%=sub2Arr[7]%>
+			            },
+			            {
+			                name: '와이55',
+			                data: <%=sub2Arr[8]%>
+			            },
+			            {
+			                name: '드라이44',
+			                data: <%=sub2Arr[9]%>
+			            },
+			            {
+			                name: '드라이59',
+			                data: <%=sub2Arr[10]%>
+			            },
+			            {
+			                name: '드라이74',
+			                data: <%=sub2Arr[11]%>
+			            },
+			            {
+			                name: '물빨래34',
+			                data: <%=sub2Arr[12]%>
+			            },
+			            {
+			                name: '물빨래49',
+			                data: <%=sub2Arr[13]%>
+			            },
+			            {
+			                name: '물빨래64',
+			                data: <%=sub2Arr[14]%>
+			            },
+			            {
+			                name: '물빨래79',
+			                data: <%=sub2Arr[15]%>
+			            },
+			            {
+			                name: '물빨래84',
+			                data: <%=sub2Arr[16]%>
+			            },
+			            {
+			                name: '물빨래99',
+			                data: <%=sub2Arr[17]%>
+			            },
+			            {
+			                name: '물드44',
+			                data: <%=sub2Arr[18]%>
+			            },
+			            {
+			                name: '물드59',
+			                data: <%=sub2Arr[19]%>
+			            },
+			            {
+			                name: '물드74',
+			                data: <%=sub2Arr[20]%>
+			            },
+			            {
+			                name: '물드89',
+			                data: <%=sub2Arr[21]%>
+			            }
+			        ]
+			    }
+			};
+			var options = {
+			    chart: {
+			        title: '정기구독 유형별 회원'
+			    },
+			    series: {
+			        pie1: {
+			            radiusRange: ['57%'],
+			            labelAlign: 'center',
+			            showLegend: true
+			        },
+			        pie2: {
+			            radiusRange: ['70%', '100%'],
+			            labelAlign: 'outer',
+			            showLegend: true
+			        }
+			    },
+			    legend: {
+			        visible: false
+			    },
+			    tooltip: {
+			        suffix: '%'
+			    },
+			    theme: 'newTheme'
+			};
+
+			tui.chart.registerTheme('newTheme', {
+			    series: {
+			        pie1: {
+			            colors: ['#00a9ff', '#ffb840', '#ff5a46', '#00bd9f', '#785fff', '#f28b8c', '#989486', '#516f7d', '#29dbe3', '#dddddd'],
+			            label: {
+			                color: '#fff',
+			                fontFamily: 'sans-serif'
+			            }
+			        },
+			        pie2: {
+			            colors: [
+			                '#33baff', '#66ccff','#81BEF7', '#2E9AFE','#0080FF', '#81DAF5',
+			                '#ffc666', '#ffd48c', '#FFDB9F',
+			                '#ff7b6b', '#ff9c90','#F5A9A9',
+			                '#33cab2', '#72CD8F', '#66BE8B', '#419B66', '#198D49', '#75B791',
+			                '#937fff', '#B669DF', '#CEB2DE','#BC8ED5'
+			                ],
+			            label: {
+			                color: '#fff',
+			                fontFamily: 'sans-serif'
+			            }
+			        }
+			    }
+			});
+
+			tui.chart.comboChart(container, data, options);			
 		});
 		
 		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
@@ -180,13 +325,11 @@
 				<h1>기타정기구독관리</h1>
 				
 			<!-- 전체 차트 div 시작 -->
-			<div id = "all-sub-chart-div">
-			<div id="canvas-holder" style="display : inline-block; width:40%">
-				<canvas id="chart-area"></canvas>
-			</div>
-			<div style="display : inline-block; width: 50%">
-				<canvas id="canvas"></canvas>
-			</div>
+			<div id = "all-sub-chart-div" style = "display: inline-block;" >
+	  			<div id='chart-area' style = 'display: inline-block;'></div>
+				<div style = "display: inline-block">
+					<canvas id="canvas" style = "width: 600px;height: 500px;"></canvas>
+				</div>
 			</div>
 			<!-- 전체 차트 div 끝-->
 			

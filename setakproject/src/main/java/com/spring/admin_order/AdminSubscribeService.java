@@ -16,6 +16,7 @@ public interface AdminSubscribeService {
 	int updateSubNum(HashMap<String, Object> map);
 	
 	int getMemberSubCnt(String subsname);
+	int getMemberSubCnt2(String subsname);
 	int getMemberDailySubCnt(HashMap<String, Object> map);
 	
 }

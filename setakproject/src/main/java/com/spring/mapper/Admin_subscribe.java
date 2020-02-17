@@ -21,6 +21,7 @@ public interface Admin_subscribe {
 	
 	// 정기구독 차트 > 전체 유형 비율 
 	int getMemberSubCnt(String subsname); 
+	int getMemberSubCnt2(String subsname); 
 	// 정기구독 차트 > 일별 정기구독 신청 수 + 유형 비율 
 	int getMemberDailySubCnt(HashMap<String, Object> map);
 	
