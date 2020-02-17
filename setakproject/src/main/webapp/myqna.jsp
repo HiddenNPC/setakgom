@@ -88,13 +88,17 @@
 							</thead>
 							<%for (int i=0; i<qnalist.size(); i++){ 
 								QnaVO qvo = (QnaVO)qnalist.get(i);
+							String date = qnalist.get(0).getQna_date();
+							String[] date2 = date.split(" ");
+							String date3 = date2[0];
+								
 							%>
 							<tbody align="center">
 								<tr>
-									<td><%=qvo.getQNA_TYPE() %></td>
-									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQNA_NUM() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQNA_TITLE() %></a></td>
-									<td><%=sdf.format(qvo.getQNA_DATE()) %></td>
-									<td><%=qvo.getQNA_CHECK() %></td>
+									<td><%=qvo.getQna_type() %></td>
+									<td><a href="./qnaDetail.do?qna_num=<%=qvo.getQna_num() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQna_title() %></a></td>
+									<td><%=date3 %></td>
+									<td><%=qvo.getQna_check() %></td>
 								</tr>
 							</tbody>					
 							<%} %>	
