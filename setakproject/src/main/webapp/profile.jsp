@@ -335,7 +335,8 @@
 						<input class="btns" type="submit" id="update" value="수정" />
 					</div>	
 				</form>
-			</div>			
+			</div>	
+			</div>		
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->

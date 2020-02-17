@@ -350,10 +350,10 @@
 				</ul>
 			</div>
 			<div class="mypage_content"> 
-				<h2>정기구독</h2>
-				<h7>나의 정기구독</h7>
+				<h5>정기구독</h5>
+				<h3>나의 정기구독</h3>
 				<% if(sub_list == null) {%>
-				<h3>정기구독을 이용해 주세요</h3>
+				<h4>정기구독을 이용해 주세요</h4>
 				<% } else { %> 
 				<div class="mysub">
 					<!-- class 변경해서 사용하세요. -->
@@ -526,7 +526,7 @@
 				<input type="button" class="btn5" id="close5" value="닫기" />
 			</div>
 				
-            </div><!-- mypage_content -->
+        </div><!-- mypage_content -->
 			
 		</div><!-- content -->
 	</section>
