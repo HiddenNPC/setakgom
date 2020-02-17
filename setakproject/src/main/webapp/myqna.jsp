@@ -108,20 +108,20 @@
               					<%if(nowpage <= 1) {%>
               				<div class="page_a"><a>&#60;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./myqna.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
+              				<%for (int a=startpage; a<endpage; a++) {
               					if(a==nowpage) {
            					%>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
-           						<div class="page_a"><a href="./mysaving.do?page=<%=a %>"><%=a %></a></div>
+           						<div class="page_a"><a href="./myqna.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
            					<%} %>
            					<%if (nowpage >= maxpage) {%>	
            						<div class="page_a"><a>&#62;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./myqna.do?page=<%=nowpage+1 %>">&#62;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>
