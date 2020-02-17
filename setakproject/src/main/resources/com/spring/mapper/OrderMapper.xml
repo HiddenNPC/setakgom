@@ -132,11 +132,11 @@
 	</update>
 	
 	<!-- 회원 정기구독  정보 등록 -->
-	<insert id = "insertMemberSubInfo" parameterType = "com.spring.member.MemberVO">
+	<insert id = "insertMemberSubInfo" parameterType = "java.util.HashMap">
 		insert into member_subs 
 		select #{member_id}, subs_water, subs_shirts, subs_dry, subs_blanket, subs_delivery, trunc(sysdate), trunc(sysdate)+30, 
-		subs_name, subs_price, 0, 0 from subscribe where subs_num = #{subs_num}
-	</insert>
+		subs_name, subs_price, 0, 0, #{customer_uid} from subscribe where subs_num = #{subs_num}
+	</insert>	
 	
 	<!-- 회원 정기구독 결제 정보 등록 -->
 	<insert id = "insertSubHistory" parameterType = "com.spring.member.MemberVO">

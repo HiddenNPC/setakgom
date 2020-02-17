@@ -519,11 +519,16 @@ public class OrderController {
 			@RequestParam(value = "merchant_uid") String merchant_uid,
 			@RequestParam(value = "customer_uid") String customer_uid, @RequestParam(value = "amount") String amount)
 			throws Exception {
-
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", mvo.getMember_id());
+		map.put("subs_num", mvo.getSubs_num());
+		map.put("customer_uid", customer_uid);
+		
 		// MemberVO 값 변경 (번호 입력)
 		orderService.updateSubInfo(mvo);
 		// member_subs 테이블 값 추가
-		orderService.insertMemberSubInfo(mvo);
+		orderService.insertMemberSubInfo(map);
 		// history_sub 테이블 값 추가
 		orderService.insertSubHistory(mvo);
 
@@ -656,6 +661,39 @@ public class OrderController {
 		}
 
 		return result;
+	}
+	
+	// 정기 결제 취소
+	@RequestMapping(value = "/cancelSub.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> cancelSub(OrderVO ovo, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		Iamport iamport = new Iamport();
+
+		// 아임포트 억세스 토큰생성
+		String imp_key = URLEncoder.encode("1270405352722195", "UTF-8");
+		String imp_secret = URLEncoder
+				.encode("IjB6jSFvaqvDw123fNlvZk3jqw2AwGHf0jljb0Pmrk0Xm20BQm7PHb87IaIeRptRJObVP0hglidIlejb", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+
+		String requestURL = "https://api.iamport.kr/users/getToken";
+
+		String token = iamport.getToken(request, response, json, requestURL);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		if (res == 1) {
+			result.put("result", "성공");
+		} else {
+			result.put("result", "실패");
+		}
+
+		return result;
+		
+		
 	}
 
 }

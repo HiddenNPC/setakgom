@@ -305,16 +305,16 @@
 						<input type="text" name="member_name"  id="member_name" placeholder="이름" value="<%=member_name %>" />	
 					</div>
 					<div class="update_list">
-						<input type="text" name="member_phone"  id="member_phone" placeholder="핸드폰" value="<%=member_phone %>" style="width: 320px;"  />	
-						<input class="btn" id="authbtn" type="button" value="인증번호 받기" style="width: 120px;" />
+						<input type="text" name="member_phone"  id="member_phone" placeholder="핸드폰" value="<%=member_phone %>"  />	
+						<input class="btn" id="authbtn" type="button" value="인증번호 받기"  />
 						<h5>핸드폰 번호를 입력해주세요</h5>
 					</div>
 					<div class="update_list">
 						<ul id = "auth_ul"> 
 							<li>
 							<span class = "input">
-								<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
-								<input id="smsbtn" class="btn" type="button" value="인증번호 확인" style="width: 120px;" />
+								<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
+								<input id="smsbtn" class="btn" type="button" value="인증번호 확인" />
 								<span id = "timer"></span>
 							</span>
 							</li>
@@ -327,8 +327,8 @@
 						<h6>메일주소를 입력해주세요</h6>	
 					</div>
 					<div class="update_list">
-						<input id="postcode" class="txt_info" type="text" name="member_post" value="<%=zipcode %>"  style="width: 320px;"/> 
-						<input type="button" class="btn" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"   /> <br />
+						<input id="postcode" class="txt_info" type="text" name="member_post" value="<%=zipcode %>"  /> 
+						<input type="button" class="btn" onclick="execDaumPostcode()" value="우편번호 찾기" /> <br />
 						<input id="address"  class="txt_info" type="text" name="member_loc"   value="<%=member_addr1 %>" readonly/> 
 						<input id="address_detail" class="txt_info" type="text" name="member_locdetail"  value="<%=member_addr2 %>" />
 						<input id="extraAddress" type="hidden" placeholder="참고항목"><br>
