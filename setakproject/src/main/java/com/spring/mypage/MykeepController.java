@@ -35,6 +35,7 @@ public class MykeepController {
 	public List<KeepVO> keepcatelist(OrderVO orderVO){
 			long order_num = orderVO.getOrder_num();
 			List<KeepVO> keeplist = mypageService.selectMykeeplist(order_num);
+			
 			return keeplist;
 	}
 	

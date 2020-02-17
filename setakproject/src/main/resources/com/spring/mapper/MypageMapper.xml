@@ -89,6 +89,11 @@
 		<result property="member_zipcode" column="member_zipcode" />
 	</resultMap>
 	
+	<resultMap type="com.spring.mypage.KeepPhotoVO" id="KeepPhoto">
+		<result property="order_num" column="order_num"/>
+		<result property="keep_photo" column="keep_photo"/>
+	</resultMap>
+	
 	
 	
 	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
@@ -168,6 +173,9 @@
 		insert into keep_return values (#{order_num}, #{return_kind}, #{return_content}, #{return_confirm})
 	</insert>
 	
+	<select id="selectPhoto" parameterType="long" resultMap="KeepPhoto">
+		select * from keep_photo where order_num = #{order_num}
+	</select>
 	
 	
 	

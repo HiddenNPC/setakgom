@@ -18,7 +18,6 @@
    ArrayList<ArrayList<WashingVO>> washVO = (ArrayList<ArrayList<WashingVO>>)request.getAttribute("washVO2");
    ArrayList<ArrayList<MendingVO>> mendVO = (ArrayList<ArrayList<MendingVO>>)request.getAttribute("mendingVO2");
    ArrayList<ArrayList<KeepVO>> keepVO = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keepVO2");
-   System.out.println("orderlist = " + orderlist);
    
    
 %>    
@@ -243,7 +242,7 @@ function cancle() {
                </p>
                <% 
                      for (int i = 0; i<orderlist.size(); i++) {   
-                        System.out.println("orderlist.size = " + orderlist.size());
+                    	 
                         OrderVO orderVO = (OrderVO)orderlist.get(i);
                         
                         ArrayList<KeepVO> kvo = keepVO.get(i);         

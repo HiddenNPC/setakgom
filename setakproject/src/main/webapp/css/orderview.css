@@ -437,6 +437,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 		display:block;
 		font-size: 1.8rem !important;
 		color: #444;
+
 	}
 
 	.title-text h2:before {
@@ -463,6 +464,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 			width:100%;
 			margin-left:0px;
 			box-sizing:border-box;
+			padding-top:60px;
 		}
 		.content_h2{
 			display:none;
@@ -472,13 +474,9 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 			font-size:1.7rem;
 			/* border:3px solid #e1e4e4; */
 			box-sizing:border-box;
+
 		}
-		.mypage_content .mypage_content_cover> p{
-			-top:15px;
-			margin-top:0px;
-			font-size:0.8rem;
-			padding-top:75px;
-		}
+		
 		.mypage_content_cover p:last-child {
 			color:#444;
 		}
