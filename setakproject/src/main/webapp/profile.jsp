@@ -8,7 +8,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	
 	String session_id=(String)session.getAttribute("member_id");
 %>
 <!DOCTYPE html>
@@ -340,7 +339,8 @@
 						<input class="btns" type="submit" id="update" value="수정" />
 					</div>	
 				</form>
-			</div>			
+			</div>	
+			</div>		
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
