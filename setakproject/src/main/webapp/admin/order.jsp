@@ -71,7 +71,7 @@
                 }
             });                    
             $("#datepicker2").datepicker({
-                onClose: function( electedDate) {
+                onClose: function(selectedDate) {
                     $("#datepicker").datepicker( "option", "maxDate", selectedDate );
                     $("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
                 }    

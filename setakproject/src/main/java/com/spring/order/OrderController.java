@@ -65,7 +65,7 @@ public class OrderController {
 		List<WashingCartVO> list3 = cartService.getWashSeq(member_id);
 
 		if (list3.size() == 0) {
-			System.out.println("세탁 장바구니에 아무것도 없음");
+			System.out.println("");
 		} else {
 			for (int i = 0; i < list3.size(); i++) {
 
@@ -81,7 +81,7 @@ public class OrderController {
 		List<MendingCartVO> list2 = cartService.getMendingSeq(member_id);
 
 		if (list2.size() == 0) {
-			System.out.println("수선 장바구니에 아무것도 없음");
+			System.out.println("");
 		} else {
 			for (int i = 0; i < list2.size(); i++) {
 
@@ -97,7 +97,7 @@ public class OrderController {
 		List<KeepCartVO> list = cartService.getKeepSeq(member_id);
 
 		if (list.size() == 0) {
-			System.out.println("보관 장바구니 아무것도 없음");
+			System.out.println("");
 		}
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -126,9 +126,14 @@ public class OrderController {
 		} else {
 
 			MemberVO memberVO = orderService.getMemberInfo(member_id);
-			// 멤버 아이디 구분해서 member_name, phone, loc 값 공백
-
 			String member_name = memberVO.getMember_name();
+			String last = member_id.substring(member_id.length() - 1);
+			System.out.println("last : " + last);
+			if(last.equals("K")|| last.equals("N")||last.equals("G")) {
+				System.out.println("여기 들어옴?");
+				member_name = " "; 
+			}		
+			System.out.println("member_name : " + member_name );
 
 			String member_phone1 = " ", member_phone2 = " ", member_phone3 = " ";
 
@@ -148,7 +153,6 @@ public class OrderController {
 			}
 
 			String member_addr1 = " ", member_addr2 = " ";
-			System.out.println("loc : " + memberVO.getMember_loc());
 
 			if (!(memberVO.getMember_loc().equals(("!")))) {
 				String addr = memberVO.getMember_loc();
@@ -370,7 +374,7 @@ public class OrderController {
 		List<WashingCartVO> list3 = cartService.getWashSeq(member_id);
 
 		if (list3.size() == 0) {
-			System.out.println("세탁 장바구니에 아무것도 없음");
+			System.out.println("");
 		} else {
 			for (int i = 0; i < list3.size(); i++) {
 
@@ -386,7 +390,7 @@ public class OrderController {
 		List<MendingCartVO> list2 = cartService.getMendingSeq(member_id);
 
 		if (list2.size() == 0) {
-			System.out.println("수선 장바구니에 아무것도 없음");
+			System.out.println("");
 		} else {
 			for (int i = 0; i < list2.size(); i++) {
 
@@ -402,7 +406,7 @@ public class OrderController {
 		List<KeepCartVO> list = cartService.getKeepSeq(member_id);
 
 		if (list.size() == 0) {
-			System.out.println("보관 장바구니 아무것도 없음");
+			System.out.println("");
 		} else {
 			for (int i = 0; i < list.size(); i++) {
 
@@ -516,10 +520,6 @@ public class OrderController {
 			@RequestParam(value = "merchant_uid") String merchant_uid,
 			@RequestParam(value = "customer_uid") String customer_uid, @RequestParam(value = "amount") String amount)
 			throws Exception {
-
-		System.out.println("merchant_uid : " + merchant_uid);
-		System.out.println("customer_uid : " + customer_uid);
-		System.out.println(amount);
 
 		// MemberVO 값 변경 (번호 입력)
 		orderService.updateSubInfo(mvo);

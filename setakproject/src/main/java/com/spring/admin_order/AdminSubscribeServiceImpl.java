@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.Admin_subscribe;
+import com.spring.member.MemberSubVO;
 
 @Service
 public class AdminSubscribeServiceImpl implements AdminSubscribeService {
@@ -39,6 +40,84 @@ public class AdminSubscribeServiceImpl implements AdminSubscribeService {
 		}
 		
 		return memberSubList;
+	}
+
+	@Override
+	public int updateMemberSubList(MemberSubVO msv) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.updateMemberSubList(msv);
+		} catch(Exception e) {
+			System.out.println("관리자 페이지 회원 정보 수정 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int deleteMemberSubList(String member_id) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.deleteMemberSubList(member_id);
+		} catch(Exception e) {
+			System.out.println("관리자 페이지 회원 정보 삭제 실패 > member_subs 정보 삭제 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int updateSubNum(HashMap<String, Object> map) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.updateSubNum(map);
+		} catch(Exception e) {
+			System.out.println("관리자 페이지 회원 정보 삭제 실패 > member 테이블 정보 수정 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int getMemberSubCnt(String subsname) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.getMemberSubCnt(subsname);
+		} catch(Exception e) {
+			System.out.println("정기구독 차트 > 전체 유형 비율 검색 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int getMemberDailySubCnt(HashMap<String, Object> map) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.getMemberDailySubCnt(map);
+		} catch(Exception e) {
+			System.out.println("정기구독 차트 > 일별 정기구독 신청 수 + 유형 비율  검색 실패" + e.getMessage());
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int getMemberSubCnt2(String subsname) {
+		int res = 0; 
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			res = adminSubscribeMapper.getMemberSubCnt2(subsname);
+		} catch(Exception e) {
+			System.out.println("정기구독 차트 > 전체 유형 비율 검색 실패2" + e.getMessage());
+		}
+		
+		return res;
 	}
 
 }
