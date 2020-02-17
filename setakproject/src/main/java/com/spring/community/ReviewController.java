@@ -249,19 +249,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return null;
 	}
 
-	@RequestMapping(value = "admin/admin_review.do")public String adminReview(Model model) throws Exception 
+	@RequestMapping(value = "/admin/admin_review.do")public String adminReview(Model model) throws Exception 
 	{							
 		return "admin/admin_review";		
 	}
 	
-	@RequestMapping (value="admin/ad_reviewlist.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/admin/ad_reviewlist.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> ad_reviewList() throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
 		return list;		
 	}
 	
-	@RequestMapping (value="admin/ad_reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/admin/ad_reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public Map<String, Object> ad_reviewDelete(ReviewVO vo) throws Exception
 	{
 		Map<String, Object> retVal = new HashMap<String, Object>();		

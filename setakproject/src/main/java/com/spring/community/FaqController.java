@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 {
 	@Autowired private FaqService faqService;
 	
-	@RequestMapping(value = "/faqList.do") public String faqList(FaqVO vo, Model model) throws Exception 
+	@RequestMapping(value="/faqList.do") public String faqList(FaqVO vo, Model model) throws Exception 
 	{	
 		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
 		faqlist = faqService.getFaqList();	
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 		
 	}
 	
-	@RequestMapping(value = "admin/admin_faq.do")public String adminFaqList(Model model) throws Exception 
+	@RequestMapping(value="/admin/admin_faq.do")public String adminFaqList(Model model) throws Exception 
 	{	
 		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
 		faqlist = faqService.getFaqList();		
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 		return "admin/admin_faq";		
 	}
 	
-	@RequestMapping(value = "admin/admin_faqInsert.do")public String adminFaqInsert(FaqVO vo, HttpServletResponse response) throws Exception 
+	@RequestMapping(value="/admin/admin_faqInsert.do")public String adminFaqInsert(FaqVO vo, HttpServletResponse response) throws Exception 
 	{	
 		String cate = vo.getFaq_cate();
 		System.out.println(cate);
@@ -53,7 +53,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 		return null;
 		
 	}
-	@RequestMapping(value="admin/admin_faqUpdate.do")public void adminFaqUpdate(FaqVO vo, HttpServletResponse response) throws Exception
+	@RequestMapping(value="/admin/admin_faqUpdate.do")public void adminFaqUpdate(FaqVO vo, HttpServletResponse response) throws Exception
 	{	
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -63,7 +63,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 			
 				
 	}
-	@RequestMapping(value="admin/admin_faqDelete.do")public void adminFaqDelete(FaqVO vo, HttpServletResponse response) throws Exception 
+	@RequestMapping(value="/admin/admin_faqDelete.do")public void adminFaqDelete(FaqVO vo, HttpServletResponse response) throws Exception 
 	{	
 		int num = vo.getFaq_num();
 		response.setCharacterEncoding("utf-8");
