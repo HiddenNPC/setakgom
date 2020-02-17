@@ -170,8 +170,12 @@ function checkform() {
 $(document).on('click','#gonext',function(event) {
 	var member_id = "<%=session.getAttribute("member_id") %>";
 	if(member_id=="null"){
-		Swal.fire("",'로그인 후 이용 가능합니다.',"info");
-		location.href='login.do';
+		Swal.fire({
+			text: "로그인 후 이용 가능합니다.",
+			icon: "info",
+		}) .then(function(){
+			location.href='login.do';
+		});
 		return false;
 	}
 });          

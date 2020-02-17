@@ -136,7 +136,12 @@ public class MendingKeepController {
 	}
 	
 	@RequestMapping(value = "/washingKeepform.do")
-	public String washingKeepform(MultipartHttpServletRequest request, Model model) throws Exception{
+	public String washingKeepform(HttpServletRequest request, Model model, HttpSession session) throws Exception{
+		
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}
+		
 		ArrayList<WashingVO> wlist = new ArrayList<WashingVO>();
 		ArrayList<MendingVO> mlist = new ArrayList<MendingVO>();
 		
