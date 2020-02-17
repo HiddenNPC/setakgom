@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.swal2-container {
+	  z-index: 2000;
+	}
+
 .title-text {
 	position: absolute;
 	right: 0;

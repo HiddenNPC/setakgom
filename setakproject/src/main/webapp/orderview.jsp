@@ -28,6 +28,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>세탁곰</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
@@ -35,7 +36,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 
 <script type="text/javascript">
 
@@ -56,8 +57,12 @@
              $(".dim").show();
           }
           else{
-             alert("비회원은 리뷰를 작성 할 수 없습니다.");
-             location.href="login.do";
+             Swal.fire({
+					text: "비회원은 리뷰를 작성 할 수 없습니다.",
+					icon: "error",
+				}) .then(function(){
+					location.href='login.do';
+				});
              return false;
           }   
       });
@@ -142,11 +147,15 @@
                     "order_muid" : order_muid
                   },
                   "dataType": "json"
-                }).done(function(result) { // 환불 성공시 로직 
-                    alert("주문이 성공적으로 취소 되었습니다.");
-                    window.location.href = "./orderview.do";
+                }).done(function(result) { // 환불 성공시 로직
+                	Swal.fire({
+						text: "주문이 성공적으로 취소 되었습니다.",
+						icon: "success",
+					}) .then(function(){
+						location.href='./orderview.do';
+					});
                 }).fail(function(result) { // 환불 실패시 로직
-                     alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+                    Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","error");
                 });   
          }          
       }); 
@@ -158,21 +167,21 @@
 
       if (document.getElementById('Review_content').value=="") 
       {
-         alert("리뷰의 내용을 작성하세요.(최대 300자)");
+           Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
            document.getElementById('Review_content').focus();
            return false;
            
        }
       else if (document.getElementById('Review_star').value=="") 
       {
-          alert("별점을 눌러주세요");
+          Swal.fire("","별점을 눌러주세요","info");
            document.getElementById('Review_star').focus();
            return false;
        }
       
       else if (document.getElementById('Review_kind').value=="") 
       {
-          alert("이용하신 서비스를 선택해주세요");
+          Swal.fire("","이용하신 서비스를 선택해주세요","info");
            document.getElementById('Review_kind').focus();
            return false;
        }

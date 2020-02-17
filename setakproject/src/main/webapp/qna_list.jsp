@@ -18,6 +18,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
 <title>세탁곰 Q&A</title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -26,8 +28,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
 
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -35,9 +36,13 @@ $(document).ready(function(){
     $("#footer").load("footer.jsp")        
 });
 function q4ba_click(){
-	Swal.fire("","로그인 하신 후 글을 작성하실수 있습니다 .","info");
-	 location.href="login.do";
-	}
+	Swal.fire({
+		text: "로그인 하신 후 글을 작성하실수 있습니다.",
+		icon: "info",
+	}) .then(function(){
+		location.href='login.do';
+	});
+}
 
 </script>
 </head>

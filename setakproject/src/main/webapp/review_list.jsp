@@ -296,8 +296,7 @@ $(document).ready(function () {
 		var ur_id = $(this).prev().attr("ur_id");
 		console.log(ur_id);
     	if(login_id=="null"||!(login_id==ur_id)){
-    		alert("권한이 없습니다.");
-    		location.href="review.do";
+    		Swal.fire("","권한이 없습니다.","warning");
     		return false;
     	} 
     	
@@ -348,8 +347,7 @@ $(document).ready(function () {
 		var rphoto2=rphoto.replace('"',"").trim();//원래 파일 이름만 
     	
 		if(login_id=="null" || !(login_id==ur_id)){
-    		alert("권한이 없습니다.");
-    		location.href="review.do";
+    		Swal.fire("","권한이 없습니다.","warning");
     		return false;
     	} 
 		
@@ -395,8 +393,8 @@ $(document).ready(function () {
 		
 		var login_id="<%=session.getAttribute("member_id")%>";   	
 		if(login_id=="null"){
-			alert("비회원은 리뷰를 추천 할 수 없습니다.");
-			location.href="login.do";
+			Swal.fire("","비회원은 리뷰를 추천 할 수 없습니다.","warning");
+			return false;
 		}
 		
 		var re_num=$(this).parent().next().children().attr("ur_num");

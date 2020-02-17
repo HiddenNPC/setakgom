@@ -120,7 +120,7 @@
  				
  			 if(authchk == 0){
  				Swal.fire("","인증번호 확인이 되지 않았습니다.","warning");
-             	return;
+             	return false;
              }
  			
  			 if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
@@ -131,17 +131,17 @@
  	            	
  	             ) {
  					Swal.fire("","빠짐없이 기입해 주세요","warning");
- 	    			return; 
+ 	    			return false; 
  	    		};
  			
  	    	if(!pwReg.test($("#member_password").val())) {
  	    		Swal.fire("","8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.","info");
- 	    		return; 
+ 	    		return false; 
  	    	}
  			
  	    	if($('#member_password').val() != $('#pw2').val()) {
  	    		Swal.fire("","비밀번호가 일치하지 않습니다.","warning");
- 	    		return; 
+ 	    		return false; 
  	    	}
  	    	
  	    
@@ -175,8 +175,12 @@
 	            contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 	            success: function(result) {
 	               if(result.res=="OK") {
-	            	   Swal.fire("","수정 성공","success");
-	            	   window.location.href = "./profile2.do";
+	            	   Swal.fire({
+							text: "수정 성공",
+							icon: "success",
+						}).then(function(){
+							location.href='./profile2.do';
+						});
 	               }
 	               else { // 실패했다면
 	            	   Swal.fire("","개인정보수정 실패","warning");
@@ -186,7 +190,7 @@
 	               alert("insert ajax 통신 실패");
 	            }			
 			});
-			
+			return false;
 		});
          
       });
