@@ -150,7 +150,13 @@ public class QnaServiceImpl implements QnaService
 		return list;
 	}
 
-	
+	@Override
+	public int ad_qnaModify(QnaVO vo) {
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+		int res = qnaMapper.ad_qnaModify(vo);
+		return res;
+	}
+
 	
 	
 	
@@ -172,6 +178,7 @@ public class QnaServiceImpl implements QnaService
 		return qnalist;
 	}
 
+	
 	
 	
 

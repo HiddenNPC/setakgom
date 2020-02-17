@@ -19,9 +19,13 @@ public interface QnaService
 	
 	
 	//관리자의 권한 (추가 , 수정 , 삭제 )
-	public List<Object> ad_qnalist();
+	public List<Object> ad_qnalist();	
+	public int ad_qnaModify(QnaVO vo); 
+	
+	
 	public int qnaInsert(QnaVO vo) throws Exception;	
 	public int qnaModify(QnaVO vo) throws Exception;
+	
 	public int qnaDelete(QnaVO vo) throws Exception;
 	public int getMaxNum()throws Exception ;
 	

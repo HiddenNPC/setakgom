@@ -363,7 +363,7 @@ import org.springframework.web.servlet.ModelAndView;
    @RequestMapping(value="admin/ad_qnaDelete.do", produces="application/json; charset=UTF-8")
    @ResponseBody public Map<String, Object> ad_qnaDelete(QnaVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
-		
+		System.out.println(1);
 		try {
 			int res = qnaService.qnaDelete(vo);	
 			if (res==1)

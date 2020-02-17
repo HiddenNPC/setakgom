@@ -67,6 +67,7 @@ public class CommentServiceImpl implements CommentService
 		int res = 0;
 		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
 		res = commentMapper.commentUpdate(vo);
+		System.out.println(res);
 		return res;
 	}
 

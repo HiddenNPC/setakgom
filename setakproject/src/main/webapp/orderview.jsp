@@ -44,8 +44,18 @@
 		
 		//모달팝업 오픈
 	    $(".open").on('click', function(){
-	    	$(".re_layer").show();	
-	    	$(".dim").show();	
+	    	var login_id="<%=session.getAttribute("member_id")%>";   	
+	    	
+	    	if(!(login_id=="null"))
+	    	{
+	    		$("#re_layer").show();	
+	    		$(".dim").show();
+	    	}
+	    	else{
+	    		alert("비회원은 리뷰를 작성 할 수 없습니다.");
+	    		location.href="login.do";
+	    		return false;
+	    	}	
 		});
 	    $(".close").on('click', function(){
 	    	$(".re_layer").hide();	
@@ -56,47 +66,49 @@
 		$('.r_content a').click(function () {
 		$(this).parent().children('a').removeClass('on');
 	    $(this).addClass('on').prevAll('a').addClass('on');      
-	    $('#Review_star').val($(this).attr("value"));
+	    $('#Review_star').val($(this).attr("value")/2);
 	    return false;
 		});	
+	  	
+	  	//파일 인설트 부분
+		var filecontent;
+		var filename="";	
+		$("#Review_photo").change(function(){
+			filecontent = $(this)[0].files[0];
+			filename = Date.now() + "_" + $(this)[0].files[0].name;
+		});	
+		$("#reviewform").on("submit", function() {
+			if(rwchk()){			
+				if(filecontent != null){
+					var data = new FormData();
+					data.append("purpose", "review");
+					data.append("files", filecontent);
+					data.append("filename", filename);
+					
+					$("#Review_photo2").val(filename);
+					
+					$.ajax({
+		                type: "POST",
+		                enctype: 'multipart/form-data',
+		                url: "/setak/testImage.do",
+		                data: data,
+		                processData: false,
+		                contentType: false,
+		                cache: false,
+		                dataType: 'json',	
+		                success: function (data) {	                	
+		                },
+		                error: function (e) {	
+						}	                
+					});
+				}			
+			}else{
+				event.preventDefault();
+			}
+		});
 		
-		//입력받을곳 확인체크 + 값 컨트롤러로 전달
-		function rwchk(){	
-
-			if (document.getElementById('Review_content').value=="") 
-			{
-				alert("리뷰의 내용을 작성하세요.(최대 300자)");
-		        document.getElementById('Review_content').focus();
-		        return false;
-		        
-		    }
-			else if (document.getElementById('Review_star').value=="") 
-			{
-		    	alert("별점을 눌러주세요");
-		        document.getElementById('Review_star').focus();
-		        return false;
-		    }
-			else if (document.getElementById('Review_kind').value=="") 
-			{
-		    	alert("이용하신 서비스를 선택해주세요");
-		        document.getElementById('Review_kind').focus();
-		        return false;
-		    }
-			return true;
-		}
 		
-		//취소
-		function rwcancel(){
-			  var check = confirm("작성을 취소하시겠습니까");
-			  if(check)
-			  { 
-				  location.href='./orderview.do';
-			  }
-			  else
-			  { 
-				  return false;
-			  }
-		}
+		
 
 	  
 	   
@@ -137,8 +149,47 @@
 	    
 	});
 
+	//입력받을곳 확인체크 + 값 컨트롤러로 전달
+	function rwchk(){	
 
-    
+		if (document.getElementById('Review_content').value=="") 
+		{
+			alert("리뷰의 내용을 작성하세요.(최대 300자)");
+	        document.getElementById('Review_content').focus();
+	        return false;
+	        
+	    }
+		else if (document.getElementById('Review_star').value=="") 
+		{
+	    	alert("별점을 눌러주세요");
+	        document.getElementById('Review_star').focus();
+	        return false;
+	    }
+		
+		else if (document.getElementById('Review_kind').value=="") 
+		{
+	    	alert("이용하신 서비스를 선택해주세요");
+	        document.getElementById('Review_kind').focus();
+	        return false;
+	    }
+		
+		return true;
+		
+	}
+	
+	function rwcancel(){
+		  var check = confirm("작성을 취소하시겠습니까");
+		  /* if(check == true) else false */
+		  if(check)
+		  { 
+			  location.href='./orderview.do';
+		  }
+		  else
+		  { 
+			  return false;
+		  }
+	}	
+
 function cancle() {
 	confirm("주문을 취소하시겠습니까?");
 }
@@ -218,52 +269,7 @@ function cancle() {
 								
 								<div class="order_dateClass">
 									
-								<div id="re_layer" class="re_layer">
-								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id ="reviewform">
-								<h2>세탁곰 리뷰 작성</h2>
-								<div class="r_content">
-									<p style="margin-bottom:5px;">사용자 평점</p> 
-									<a class="starR1 on" value="1" >별1_왼쪽</a>
-								    <a class="starR2" value="2">별1_오른쪽</a>
-								    <a class="starR1" value="3">별2_왼쪽</a>
-								    <a class="starR2" value="4">별2_오른쪽</a>
-								    <a class="starR1" value="5">별3_왼쪽</a>
-								    <a class="starR2" value="6">별3_오른쪽</a>
-								    <a class="starR1" value="7">별4_왼쪽</a>
-								    <a class="starR2" value="8">별4_오른쪽</a>
-								    <a class="starR1" value="9">별5_왼쪽</a>
-								    <a class="starR2" value="10">별5_오른쪽</a>    
-								    <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly"></small>   
-								   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
-								</div>      
-								<table class="r_content">
-									<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
-								    <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-								    <tr><td width="40px" ><input name="Review_photo" type="file" class="fileupload"/></td>                          
-								        <td width="40px">
-								        	<select name="Review_kind" id="Review_kind">
-								           		<option value="">분류</option>
-								                <option value="세탁">세탁</option>
-								                <option value="세탁-수선">세탁-수선</option>
-								                <option value="세탁-보관">세탁-보관</option>
-								                <option value="수선">수선</option>
-								                <option value="보관">보관</option>
-								                <option value="정기구독">정기구독</option>
-								           </select></td>
-										<td align="right"  colspan="4">
-											<input type="hidden" name = "review_photo" id = "review_photo">
-											<input type="submit" name="submit" value="등록" id="reviewsubmit">
-											<input id="cbtn" type="button" value="취소" onclick="rwcancel()"/>
-										</td> 	
-									</tr></table>
-								</form>
-								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
-								</div>
-								<div class="dim">
-								</div> 
-								   	<tr>
-								   		<td>
-								   	<%if (orderVO.getOrder_cancel().equals("1")) {%>
+									<%if (orderVO.getOrder_cancel().equals("1")) {%>
 									<input type="button" value="리뷰작성" class="open" disabled />
 									<%} else { %>
 									<input type="button" value="리뷰작성" class="open" />
@@ -274,6 +280,7 @@ function cancle() {
 									<%} else { %>
 									<input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" />
 									<%} %>
+									
 								</div>
 							</div>
 							<!--//snb -->
@@ -356,6 +363,51 @@ function cancle() {
 				</table>
 				</div>
 				<%} %>
+				<!-- 리뷰 추가 -->
+				<div id="re_layer" class="re_layer">
+								<h2>리뷰 작성</h2>
+								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
+								<div class="r_content">
+									<p style="margin-bottom:5px;">사용자 평점</p> 
+									<a class="starR1 on" value="1" >별1_왼쪽</a>
+								    <a class="starR2" value="2">별1_오른쪽</a>
+								    <a class="starR1" value="3">별2_왼쪽</a>
+								    <a class="starR2" value="4">별2_오른쪽</a>
+								    <a class="starR1" value="5">별3_왼쪽</a>
+								    <a class="starR2" value="6">별3_오른쪽</a>
+								    <a class="starR1" value="7">별4_왼쪽</a>
+								    <a class="starR2" value="8">별4_오른쪽</a>
+								    <a class="starR1" value="9">별5_왼쪽</a>
+								    <a class="starR2" value="10">별5_오른쪽</a>    
+								    <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly">점</small>   
+								   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
+								</div>      
+								<table class="r_content">
+									<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+								    <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
+								    <tr><td width="40px">
+								     	<input type="file" id="Review_photo"/>                        
+								     	<input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
+								        <td width="40px">
+								        	<select name="Review_kind" id="Review_kind">
+								           		<option value="">분류</option>
+								                <option value="세탁">세탁</option>
+								                <option value="세탁-수선">세탁-수선</option>
+								                <option value="세탁-보관">세탁-보관</option>
+								                <option value="수선">수선</option>
+								                <option value="보관">보관</option>
+								                <option value="정기구독">정기구독</option>
+								           </select></td>
+										<td align="right"  colspan="4">
+											<input class="cbtn" type="submit" name="submit" value="등록" >		
+											<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
+									</tr></table>
+								</form>
+								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+								</div>
+								<div class="dim"></div>	
+						<!-- 리뷰 추가 끝 -->
+
 			</div>
 			
 		</div>

@@ -77,6 +77,24 @@
 		select * from qna order by qna_num desc 		 
 	</select>
 	
+	<update id="ad_qnaModify" parameterType="com.spring.community.QnaVO">
+		update QNA set
+		qna_check=#{qna_check,jdbcType=VARCHAR}				
+		where qna_num=#{qna_num}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 기응 -->
 	
 	<select id="selectQnalist" parameterType="HashMap" resultMap="qnaMap">
