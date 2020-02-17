@@ -51,7 +51,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 		margin-left:15px;
 	    box-sizing:border-box;
 	}
-	.mypage_content h2{
+	.content_h2{
 		height:130px;
 		line-height:130px;
 		text-align:center;
@@ -196,10 +196,14 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
         	font-weight:700;
         }
 
-
-		.price{
+        
+		.delicode{
+			margin-left:20px ;
+            float:left;
+		}
+		.status{
 			float:right;
-			margin-right:10%;
+		    margin-right:10%;
 		}
 
         /*내용*/

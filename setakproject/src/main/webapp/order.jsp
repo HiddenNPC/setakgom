@@ -880,56 +880,6 @@
         modiDiv.css('display', 'none'); 		
 	}
 	
-	// 기본 배송지 지정
-	function setDefaultAddr() {
-		
-		var member_id = "<%=session.getAttribute("member_id")%>"; 
-		
-		if(confirm("이 주소를 기본 배송지로 저장하시겠습니까?")) {
-			
-			var phone1 = $("#order_phone1").val();
-			var phone2 = $("#order_phone2").val();
-			var phone3 = $("#order_phone3").val();
-			var postcode = $("#postcode").val();
-			var address = $("#address").val();
-			var detailAddress = $("#detailAddress").val();
-			var request = $("#request").val(); 
-			
-			var phone = phone1 + phone2 + phone3;
-			var addr = address + '!' + detailAddress; 
-			
-			var params = {
-					'member_id' : member_id,
-					'member_phone' : phone,
-					'member_zipcode' : postcode, 
-					'member_loc' : addr,
-			};
-			
-			$.ajax({
-	            url : '/setak/defaultAddrUpdate.do', // url
-	            type : 'POST',
-	            data : params, // 서버로 보낼 데이터
-	            contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
-	            dataType : 'json',
-	            success: function(retVal) {
-	               if(retVal.res=="OK") {    
-	            	   Swal.fire("","기본 배송지 주소가 정상적으로 수정 되었습니다.","success");	
-	               }
-	               else { // 실패했다면
-	                  return; 
-	               }
-	            },
-	            error:function() {
-	               alert("Update ajax 통신 실패");
-	            }			
-			});
-				
-		} else {
-			Swal.fire("","선택이 취소되었습니다.","warning");
-		}
-		
-	}
-	
 	// 쿠폰적용 레이어 스크립트 
     function layerPopup(type) {
 

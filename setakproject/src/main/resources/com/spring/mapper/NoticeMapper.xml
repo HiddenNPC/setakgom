@@ -3,10 +3,10 @@
 <mapper namespace="com.spring.mapper.NoticeMapper">
 	
 	<resultMap type="com.spring.community.NoticeVO" id="noticeMap">
-		<result property="NOTICE_NUM" column="notice_num"/>
-		<result property="NOTICE_TITLE" column="notice_title"/>
-		<result property="NOTICE_CONTENT" column="notice_content"/>		
-		<result property="NOTICE_DATE" column="notice_date"/>	
+		<result property="notice_num" column="notice_num"/>
+		<result property="notice_title" column="notice_title"/>
+		<result property="notice_content" column="notice_content"/>		
+		<result property="notice_date" column="notice_date"/>	
 	</resultMap>
 	
 	
@@ -41,6 +41,13 @@ where rnum>=#{arg0} and rnum<=#{arg1}]]>
 	<select id="getMaxNum" resultType="int">
 		select max(NOTICE_NUM) from NOTICE
 	</select>
+	
+<!-- 어드민 Mapper -->
+	<select id="ad_noticeList" parameterType="com.spring.community.NoticeVO" resultMap="noticeMap">
+		SELECT * FROM notice ORDER BY notice_num desc       		
+	</select>	
+	
+	
 
 </mapper>
 

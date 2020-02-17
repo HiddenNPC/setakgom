@@ -16,21 +16,26 @@
 	a:visited { color: #444; text-decoration: none;}		
 	.notice { font-size:0.9rem; font-weight:bold; padding-top:150px;}
 		
-	.nlt1 { background-color:#3498db; color:#fff; width:1000px; margin:auto;}	
+	.nlt1 { background-color:#3498db; color:#fff; width:1200px; margin:auto;}	
 	.nlt1 tr{ margin: auto; height: 45px; /* valign="middle" */
 	}
 	
 	.nlt2 { margin:auto; 
-		color:#444; width:1000px; border-bottom :1px solid #e1e4e4; 
+		color:#444; width:1200px; border-bottom :1px solid #e1e4e4; 
 	}			
 	
 	.nlt3 { margin: auto; color:#444; width:1000px; }
    
-   	.nvt1 { color:#444; width:1000px; margin:auto; border-top: 3px solid #3498db;  border-collapse: collapse; }   
+   	.nvt1 { color:#444; height:450px; width:1200px; margin:auto; border-top: 3px solid #3498db;  border-collapse: collapse; }   
 	.nvt1 tr td { padding:10px;  border-bottom:1px solid #e1e4e4;    }	
-	.nvt2 { border-top: 3px solid #3498db; width:1000px; margin:auto; padding-top:20px; color:#444;}
-	.nvc { padding:5px; line-height:25px; text-align:left; }
+	.nvt2 { border-top: 3px solid #3498db; width:1200px; margin:auto; padding-top:20px; color:#444;}
+	.nvc {     line-height: 25px;
+    text-align: -webkit-match-parent;
+    vertical-align: baseline; }
 	
-	
-	
+	button { color:#fff; background-color:#3498db; WIDTH: 43pt; HEIGHT: 22pt;
+		border-top-left-radius: 5px;  border-bottom-left-radius: 5px; 		
+		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
+		border: none; outline: none; margin: 3px;
+		font-family: inherit; cursor: pointer;}
 	
