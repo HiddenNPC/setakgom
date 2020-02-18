@@ -12,4 +12,5 @@ public class HistorySubVO {
    private String his_name;
    private int his_price;
    private Date his_date; 
+   private String review_chk;
 }

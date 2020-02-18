@@ -1,5 +1,6 @@
 package com.spring.mypage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -192,5 +193,16 @@ public class MypageServiceImpl implements MypageService {
 		
 	}
 
+
+	public ArrayList<KeepPhotoVO> selectPhoto(long order_num){
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		ArrayList<KeepPhotoVO> kpvo = new ArrayList<KeepPhotoVO>();
+		
+		kpvo = mypageMapper.selectPhoto(order_num);
+		
+		return kpvo;
+	}
+
 }
+
 

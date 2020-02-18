@@ -319,6 +319,7 @@ $(document).ready(function() {
 							str += '<ul id="a-q-r-list">';
 							str += '<li class="listtd"><input type="text" class="r-qna_seq" value="'+item.qna_seq+'" disabled="disabled"></li>';
 							str += '<li class="listtd"><input type="text" class="r-qna_num" value="'+item.qna_num+'" disabled="disabled"></li>';
+							str += '<li class="listtd"><input type="text" class="r-member_id" value="'+item.member_id+'" disabled="disabled"></li>';
 							str += '<li class="listtd"><input type="text" class="r-qna_content" value="'+item.qna_content +'" disabled="disabled"></li>';
 							str += '<li class="listtd"><input type="button" class="a-q-rupdate" value="수정"></li>';
 							str += '<li class="listtd"><input type="button" class="a-q-rdelete" value="삭제"></li>';
@@ -348,7 +349,7 @@ $(document).ready(function() {
 						$(this).parent().parent().siblings().children().children('.r-qna_num').attr('disabled',true).css({'background':'none', 'border' : 'none'});
 						$(this).parent().parent().siblings().children().children('.r-qna_content').attr('disabled',true).css({'background':'none', 'border' : 'none'});
 						$(this).parent().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
-						$(this).parent().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
+						//$(this).parent().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
 						//$(this).parent().prev().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});										
 					 }else{
 						$(this).attr('value','수정');
@@ -357,7 +358,7 @@ $(document).ready(function() {
 						$(this).parent().parent().siblings().children().children('.r-qna_num').attr('disabled',true).css({'background':'none', 'border' : 'none'});
 						$(this).parent().parent().siblings().children().children('.r-qna_content').attr('disabled',true).css({'background':'none', 'border' : 'none'});		
 						$(this).parent().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
-						$(this).parent().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+						//$(this).parent().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
 						//$(this).parent().prev().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
 											
 					 }
@@ -371,9 +372,9 @@ $(document).ready(function() {
 			
 			//수정 누르면  //var num	
 			$(document).on('click', '.a-q-rupdate.active', function () { 
-				var a = $(this).parent().prev().prev().children().val();				
+				var a = $(this).parent().prev().prev().prev().prev().children().val();				
 				var b= $(this).parent().prev().children().val();			 
-				var param={"qna_num": a, "qna_content": b };
+				var param={"qna_seq": a, "qna_content": b };
 				console.log(param); 	
 				jQuery.ajax({
 					url : './commentUpdate.do', 
@@ -468,6 +469,7 @@ $(document).ready(function() {
 			<ul class="ad-q-r-title">
 				<li>시퀀스</li><!-- x -->
 				<li>번호</li><!-- x -->
+				<li>작성자</li><!-- x -->
 				<li>내용</li><!-- 셀섹트 옵션 -->				
 				<li>수정</li><!-- 텍스트 -->
 				<li>삭제</li><!-- 텍스트 -->

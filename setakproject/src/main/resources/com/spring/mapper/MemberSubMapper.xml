@@ -32,6 +32,7 @@
    		 <result property="his_name" column="his_name"/>
    		 <result property="his_price" column="his_price"/>
    		 <result property="his_date" column="his_date"/>
+   		 <result property="review_chk" column="review_chk"/>
    </resultMap>
    
    <resultMap type="com.spring.member.MemberSubVO" id="subsbye">
@@ -82,6 +83,13 @@
    	SET subs_bye = '0'
    	WHERE member_id =#{member_id, jdbcType=VARCHAR}
    </update>
-  
+   
+   <!-- 리뷰 작성 -->
+   <update id="review_chk" parameterType="HashMap">
+   	UPDATE subs_history
+   	SET review_chk = '1'
+   	WHERE member_id =#{member_id, jdbcType=VARCHAR} and trunc(his_date) =#{his_date, jdbcType=DATE}
+   </update>
+   
 </mapper>
    

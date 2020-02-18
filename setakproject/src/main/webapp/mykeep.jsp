@@ -8,9 +8,11 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.*, com.spring.setak.*"%>
 <%@ page import="java.util.*, com.spring.member.*"%>
+<%@ page import="java.util.*, com.spring.mypage.*"%>
 <%
 	List<OrderListVO> ordernumlist = (ArrayList<OrderListVO>) request.getAttribute("ordernumlist");
 	ArrayList<ArrayList<KeepVO>> keeplist2 = (ArrayList<ArrayList<KeepVO>>) request.getAttribute("keeplist2");
+	ArrayList<ArrayList<KeepPhotoVO>> kpvolist2 = (ArrayList<ArrayList<KeepPhotoVO>>) request.getAttribute("kpvolist2");
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	List<Integer> seq_count = (ArrayList<Integer>) request.getAttribute("seq_count");
 	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
@@ -20,12 +22,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	if ((session.getAttribute("member_id") == null)) {
-		out.println("<script>");
-		out.println("location.href='./setak/'");
-		out.println("</script>");
-		out.close();
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -54,6 +50,7 @@
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
 	});
+	
 </script>
 </head>
 <body>
@@ -64,7 +61,9 @@
 		<!-- id 변경해서 사용하세요. -->
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
-
+         <div class="title-text">
+            <h2>보관현황</h2>
+         </div>
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -102,6 +101,7 @@
 						for (int i = 0; i < ordernumlist.size(); i++) {
 							OrderListVO olvo = (OrderListVO) ordernumlist.get(i);
 							ArrayList<KeepVO> keeplist = keeplist2.get(i);
+							ArrayList<KeepPhotoVO> kpvo = kpvolist2.get(i);
 
 							String start = keeplist.get(0).getKeep_start();
 							String[] date = start.split(" ");
@@ -133,10 +133,10 @@
 						<div class="accordion-header2" id="<%=olvo.getOrder_num()%>">
 							<table class="header">
 								<tr>
-									<th style="width: 30%;">주문번호</th>
-									<th style="width: 20%;">박스 수량</th>
-									<th style="width: 40%;">보관 기관</th>
-									<th style="width: 10%;">상세보기</th>
+									<th style="width: 30%;" class="num">주문번호</th>
+									<th style="width: 20%;" class="box">박스 수량</th>
+									<th style="width: 40%;" class="day">보관 기관</th>
+									<th style="width: 10%;" class="detail">상세보기</th>
 								</tr>
 								<tr>
 									<td><%=olvo.getOrder_num()%></td>
@@ -149,11 +149,28 @@
 							</table>
 						</div>
 						<div class="accordion-content2">
-							<table>
-							</table>
-							<div class="keepbox"
-								style="border-right: 1px solid rgb(255, 255, 255);">보관 기간
-								연장</div>
+						<table>
+						</table>
+							<div class="photo">
+								<tr>
+								<%for(int p = 0; p<kpvo.size(); p++) {
+									KeepPhotoVO kpvo2 = (KeepPhotoVO) kpvo.get(p);
+									if (kpvo2.getKeep_path()== null){								
+								%>
+								<td>
+									<img src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">
+								</td>
+								<%} else {%>	
+								<td>
+									<img src="https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>" onclick="window.open('https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');" class="keep_photo">
+								</td>
+								<%
+									} 
+								}
+								%>
+								</tr>
+							</div>
+							<div class="keepbox" style="border-right: 1px solid rgb(255, 255, 255);">보관 기간 연장</div>
 							<div class="keepbox2">반환 신청</div>
 							<br>
 							<br>

@@ -12,6 +12,7 @@ public class MendingVO {
 	int repair_count;
 	int repair_price;
 	String repair_file;
+	String repair_now;
 	int repair_wash;
 	
 	public int getRepair_seq() {
@@ -80,12 +81,16 @@ public class MendingVO {
 	public void setRepair_file(String repair_file) {
 		this.repair_file = repair_file;
 	}
+	public String getRepair_now() {
+		return repair_now;
+	}
+	public void setRepair_now(String repair_now) {
+		this.repair_now = repair_now;
+	}
 	public int getRepair_wash() {
 		return repair_wash;
 	}
 	public void setRepair_wash(int repair_wash) {
 		this.repair_wash = repair_wash;
 	}
-	
-	
 }

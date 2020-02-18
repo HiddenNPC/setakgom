@@ -33,4 +33,6 @@ public interface MypageService {
 	public int part_Return(KeepReturnVO krvo);
 	public MemberVO getMember(String member_id);
 	
+	public ArrayList<KeepPhotoVO> selectPhoto(long order_num);
+	
 }

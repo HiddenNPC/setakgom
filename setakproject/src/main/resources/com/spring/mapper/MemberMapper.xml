@@ -79,4 +79,5 @@
    		DELETE FROM member WHERE member_id= #{member_id, jdbcType=VARCHAR}
    </delete>
    
+   <!-- 탈퇴신청 -->
 </mapper>

@@ -1,14 +1,10 @@
 package com.spring.member;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.resource.HttpResource;
 
 import com.spring.order.Iamport;
 
@@ -93,7 +88,6 @@ public class MemberSubController {
 	         
 	      }
 	      
-	      
 	      model.addAttribute("subhistory_list", subhistory_list);
 	      model.addAttribute("limit", limit);
 	      model.addAttribute("page", page);
@@ -102,11 +96,11 @@ public class MemberSubController {
 	      model.addAttribute("endpage", endpage);
 	      model.addAttribute("listcount", listcount);
 		
-		/*
-		for(int i = 0; i <subhistory_list.size(); i++) {
-			System.out.println(subhistory_list.get(i).getHis_name());
+		
+		/*for(int i = 0; i <subhistory_list.size(); i++) {
+			System.out.println(subhistory_list.get(i).getHis_date()+":"+subhistory_list.get(i).getReview_chk());
 		}
-	*/
+		 */
 		return "mysub";
 	}
 	
@@ -150,4 +144,27 @@ public class MemberSubController {
 		return result;
 	 }
 	 
+	/*리뷰 작성*/
+	@RequestMapping (value ="/review_chk.do", produces = "application/json; charset=utf-8")
+	@ResponseBody 
+    public Map<String, Object> review_chk(String member_id, String his_date) throws Exception {
+		
+		String ndate = his_date;
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(ndate);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("his_date", date);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int res = membersubservice.review_chk(map);
+			if(res==1) {
+				result.put("res", "OK");
+			} else {
+				result.put("res", "FAIL");
+				result.put("message", "Failure");
+			}
+		return result;
+    	
+    }
 }

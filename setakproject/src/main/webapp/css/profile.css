@@ -155,9 +155,6 @@
    font-size:0.7rem;
    color:#3498db;
 }
-
-
- 
    
 #auth_ul{
    position: relative;
@@ -166,7 +163,7 @@
 #timer{
    position: absolute;
    top: 1.3rem;
-   right: 35.5rem;
+   right: 10.2rem!important;
    color: #ef3e3e;
    font-weight: bold;
    font-size:0.9rem;
@@ -242,7 +239,9 @@
 input.btn{
    width: 150px;
    padding-left:10px;
-   border: 1px solid #7b7979;
+   border: 1px solid #fff;
+   background-color:#3498db;
+   color:#fff;
    border-radius: 3px;
    line-height: 35px;
    font-size: 0.8rem;
@@ -255,6 +254,7 @@ input.btn{
  }
  .btn:disabled {
    background-color: #bbabab;
+   color:#fff;
    cursor: default; 
  }
 
@@ -289,67 +289,37 @@ input.btn{
    font-weight:initial;
 }
 
- 
- 
-
 /****반응형UI****/
 @media screen and (max-width:768px) {
 
-       .title-text {
-      position: absolute;
-      right: 0;
-      left: 0;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-align-items: center;
-      -webkit-justify-content: center;
-      -webkit-box-pack: center;
-      -webkit-box-align: center;
-      -moz-box-pack: center;
-      -moz-box-align: center;
-      -ms-box-pack: center;
-      -ms-box-align: center;
-   }
-   .title-text h2 {
-      font-size: 1.8rem;
+	.title-text h2 {
+      font-size: 1.6rem;
       color: #444;
    }
    /*아래의 width로 파란 줄 길이 조절 가능*/
    .title-text h2:before {
       content: '';
       display: block;
-      width: 40%;
-      height: 6px;
+      width: 30%;
+      height: 5px;
       background-color: #3498db;
       margin-bottom: 6px;
       vertical-align: middle;
    }
-   
-   /*
-   default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
-   content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
-   폰트사이즈는 무조건 rem으로 작업해주세요.
-   */ 
-   
+ 
    
    /*변경된 클래스와 아이디로 작업하세요*/
    #test {
+   	  width:100%;
       height:800px;
    }
    
     /*마이페이지 메뉴창*/
    .mypage_content{
-      display ; none;
-      width:100%;
-      clear : both;
-      float:right;
+      width:1035px;
    }
    .mypage_content>h2{
+   	  display:none;
       height:130px;
       line-height:130px;
       text-align:center;
@@ -365,7 +335,7 @@ input.btn{
       font-size:0.9rem;
    }
    .mypage_head{
-      display : none;
+   	display:none;
       width:150px;
       box-sizing:border-box;
       clear : both;
@@ -409,198 +379,181 @@ input.btn{
     }
     
     
-   
-    /*개인정보수정*/
-    .mypage_content {
-        width: 100%;
-        margin-buttom:70px;
-    }
-
-    .profile {
-       width : 100%;
-       padding-top:90px;
-       padding-left: 0px;
-    }
-    .profile input {
-       width:120px;
-       padding-left:10px;
-       border: 1px solid #7b7979;
-       border-radius: 3px;
-       line-height: 35px;
-       font-size: 0.8rem;
-       margin:10px auto;
-    }
-
-    .input_list input{
-       margin-bottom : 20px; 
-    }
-    .profile input:hover::-webkit-input-placeholder {
-        transition: all.4s;
-       font-size:0.7rem;
-       color:#3498db;
-
-    }
-
-    /*input size */
+   /*개인정보수정*/
+	.mypage_content {
+		width: 100%;
+	    margin-buttom:50px;
+	}
+	   
+	.profile {
+	   width : 100%;
+	   padding-top:90px;
+	   padding-left:0px;
+	}
+	.profile input {
+	   width: 120px;
+	   padding-left:10px;
+	   border: 1px solid #7b7979;
+	   border-radius: 3px;
+	   line-height: 35px;
+	   font-size: 0.8rem;
+	   margin:5px auto;
+	}
+	
+	/*input size */
     #member_id, #member_password,#pw2, #member_name, #member_email, #address, #address_detail {
         width : 96%;
-        margin : 10px auto;
+        margin : 7px auto;
     }
 
     #member_phone, #member_sns, #postcode {
         width : 60%;
     }
-    .profile input:hover::-ms-input-placeholder {
-        transition: all.4s;
-       font-size:0.7rem;
-       color:#3498db;
+	.input_list input{
+	   margin-bottom : 10px; 
+	}
+	.profile input:hover::-webkit-input-placeholder {
+	    transition: all.4s;
+	   font-size:0.7rem;
+	   color:#3498db;
+	
+	}
+	.profile input:hover::-ms-input-placeholder {
+	    transition: all.4s;
+	   font-size:0.7rem;
+	   color:#3498db;
+	   
+	}
+	
+	.profile input:hover::-moz-input-placeholder {
+	    transition: all.4s;
+	   font-size:0.7rem;
+	   color:#3498db;
+	}
+	   
+	#auth_ul{
+	   width : 100%;
+	   position: relative;
+	}
 
-    }
-
-    .profile input:hover::-moz-input-placeholder 
-        transition: all.4s;
-       font-size:0.7rem;
-       color:#3498db;
-    }
-
-
-    #auth_ul{
-        width : 100%;
-       position: relative;
-    }
-
-    #auth_ul li {
+	 #auth_ul li {
         width: 100%;
     }
-
-    #timer{
-       /* position: absolute; */
-       top: 1.3rem;
-       /* right: 8.5rem; */
-       color: #ef3e3e;
-       font-weight: bold;
-       font-size:0.9rem;
-    }
-
-        .update_list h1 {
-       color: #3498db;
-       font-weight:bold;
-       font-size: 1.1rem;
-       text-align:left;
-       margin: 30px 0 -10px 0;
-    }
-
-
-       .update_list h2 {
-        display:none;
-        color: #ff2222;
-       font-size: 0.8rem;
-       text-align:left;
-
-    }
-
-
-       .update_list h3 {
-        display:none;
-        color: #ff2222;
-       font-size: 0.8rem;
-       text-align:left;
-
-    }
-
-       .update_list #authsucess {
-        display:none;
-        color: #3498db;
-       font-size: 0.8rem;
-       text-align:left;
-
-    }
-
-       .update_list #authfail {
-        display:none;
-        color: #ff2222;
-       font-size: 0.8rem;
-       text-align:left;
-
-    }
-
-       .update_list h5 {
-        display:none;
-        color: #ff2222;
-       font-size: 0.8rem;
-       text-align:left;
-
-    }
-
-       .update_list h6 {
-        display:none;
-        color: #ff2222;
-       font-size: 0.8rem;
-       text-align:left;
-
-    }
-
-    .update_list h7 {
-       display:none;
-        color: #ff2222;
-       font-size: 0.8rem;
-       text-align:left;
-       font-weight:bold;
-    }
-
-
-    .btn{
-          font-size:0.95rem; 
-          width:90px;
-          margin-left:5px;
-         background-color: #3498db;
-       color:#fff;
-           border-radius:30px;
-          height:4-px;
-          line-height:40px;
-     }
-
-    .btn:hover {
-          cursor: pointer;
-          transition: all .4s;
-     }
-     .btn:disabled {
-       background-color: #bbabab;
-       cursor: default; 
-     }
-
-     input#update {
-         width : 100%;
-     }
-
-     .btns {
-        width:100%;
-        background-color:#fff;
-       border:2px solid #3498db !important;
-       color:#3498db;
-       line-height: 45px;
-       border-radius: 6px;
-       font-size:1rem;
-       cursor:pointer;
-       font-weight:bold;
-      }
-
-    .btns:hover {
-       font-size:1rem;
-       transition:all .4s;
-       background-color: #3498db;
-       border:2px solid #fff;
-       color:#fff;
-       font-weight:initial;
-    }
-
 	
-	div.total_button {
-	    margin-top: 30px;
-	    width:100%;
-	    float: left;
+	#timer{
+	   position: absolute;
+	   top: 1rem;
+	   right: 8.7rem!important;
+	   color: #ef3e3e;
+	   font-weight: bold;
+	   font-size:0.85rem;
 	}
-	 
+	
+	    .update_list h1 {
+	   color: #3498db;
+	   font-weight:bold;
+	   font-size: 1.1rem;
+	   text-align:left;
+	   margin: 30px 0 -10px 0;
+	}
+	
+	   
+	   .update_list h2 {
+	    display:none;
+	    color: #ff2222;
+	   font-size: 0.75rem;
+	   text-align:left;
+	
+	}
+	   
+	   
+	   .update_list h3 {
+	    display:none;
+	    color: #ff2222;
+	   font-size: 0.75rem;
+	   text-align:left;
+	
+	}
+	
+	   .update_list #authsucess {
+	    display:none;
+	    color: #3498db;
+	   font-size: 0.75rem;
+	   text-align:left;
+	
+	}
+	
+	   .update_list #authfail {
+	    display:none;
+	    color: #ff2222;
+	   font-size: 0.75rem;
+	   text-align:left;
+	
+	}
+	
+	   .update_list h5 {
+	    display:none;
+	    color: #ff2222;
+	   font-size: 0.75rem;
+	   text-align:left;
+	
+	}
+	
+	   .update_list h6 {
+	    display:none;
+	    color: #ff2222;
+	   font-size: 0.75rem;
+	   text-align:left;
+	
+	}
+	
+	.update_list h7 {
+	   display:none;
+	    color: #ff2222;
+	   font-size: 0.75rem;
+	   text-align:left;
+	   font-weight:bold;
+	}
+	
+	   
+	input.btn{
+	    font-size:0.9rem; 
+        width:115px;
+        margin-left:5px;
+        background-color: #3498db;
+        color:#fff;
+        height:40px;
+        line-height:35px;
+	 }
+	   
+	.btn:hover {
+	      cursor: pointer;
+	      transition: all .4s;
+	 }
+	 .btn:disabled {
+	   background-color: #bbabab;
+	   color:#fff;
+	   cursor: default; 
+	 }
+	
+	 div.total_button {
+	    margin-top: 30px;
+	    width: 100%;
+	    float: left;
+	 }
+	 #update {
+        width:350px !important;   
+    }
 
- 
+	 .btns {
+	 	
+	    background-color:#fff;
+	   border:2px solid #3498db !important;
+	   color:#3498db;
+	   line-height: 45px;
+	   border-radius: 6px;
+	   font-size:1rem;
+	   cursor:pointer;
+	   font-weight:bold;
+	  }
 }

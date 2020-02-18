@@ -46,6 +46,7 @@ public class CommentServiceImpl implements CommentService
 		System.out.println("DB에 업데이트된 댓글의 수="+vo.getQna_seq());
 		System.out.println("유지되어야할 원글의 번호="+vo.getQna_num());
 		System.out.println("DB에 업데이트된 내용="+vo.getQna_content());
+		System.out.println("작성자 누구냐="+vo.getMember_id());
 		int res = commentMapper.commentInsert(vo);
 		System.out.println("인설트하고 뭐 들어감? ="+res);
 		return res;

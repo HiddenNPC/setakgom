@@ -44,7 +44,10 @@
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
 		<div class="content"> <!-- 변경하시면 안됩니다. -->
-			<div class="mypage_head" style="width: 12%; float: left;">
+		<div class="title-text">
+			<h2>적립금 조회</h2>
+		</div>
+			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
@@ -71,7 +74,7 @@
 					</li>
 				</ul>
 			</div>
-			<div style="width: 85%; float: right;">
+
 				<div class="mypage_content">
 				<h2>적립금 조회</h2>
 				<%if(mile_list.size() == 0) {%>
@@ -79,7 +82,6 @@
 				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="savings_point">
-				<% %>
 					<table>
 						<tr>
 							<td class="point1">-&nbsp;총 적립금</td>
@@ -109,10 +111,13 @@
 							</thead>
 							<%for (int i=0; i<mile_list.size(); i++){ 
 								MileageVO mivo=(MileageVO)mile_list.get(i);
+								String date = mile_list.get(0).getMile_date();
+								String[] date2 = date.split(" ");
+								String date3 = date2[0];
 							%>
 							<tbody align="center">
 								<tr>
-									<td><%=mivo.getMile_date() %></td>
+									<td><%=date3 %></td>
 									<td><%=mivo.getMile_price() %></td>
 									<td><%=mivo.getMile_content() %></td>
 								</tr>
@@ -149,7 +154,7 @@
 				</div>
 				<%} %>
 			</div>
-			</div>
+
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
