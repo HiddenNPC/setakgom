@@ -1,7 +1,6 @@
 package com.spring.setak;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.order.KeepCartVO;
@@ -24,12 +21,12 @@ public class MendingKeepController {
 	@Autowired()//required = false
 	private MendingKeepService mendingKeepService;
 	
-	
 	@RequestMapping("/history.do")
 	public String history() {
 		
 		return "history";
 	}
+	
 	@RequestMapping(value ="/")
 	public String home(){
 		return "main";
@@ -40,9 +37,9 @@ public class MendingKeepController {
 
 		return "mending";
 	}
-	
+
 	@RequestMapping("/mending.do")
-	public String insertMending(MultipartHttpServletRequest request, HttpSession session,@RequestParam("repair_file") MultipartFile[] files) throws Exception{
+	public String insertMending(MultipartHttpServletRequest request, HttpSession session) throws Exception{
 		String repair_cate[] = request.getParameterValues("repair_cate");
 		String repair_kind[] = request.getParameterValues("repair_kind");
 		String repair_var1[] = request.getParameterValues("repair_var1");
@@ -52,6 +49,8 @@ public class MendingKeepController {
 		String repair_code[] = request.getParameterValues("repair_code");
 		String repair_count[] = request.getParameterValues("repair_count");
 		String repair_price[] = request.getParameterValues("repair_price");
+		String repair_file[] = request.getParameterValues("repair_file");
+		System.out.println(repair_file[0]);
 		
 		MendingVO mending = new MendingVO();
 		MendingCartVO mendingcart = new MendingCartVO();
@@ -68,7 +67,9 @@ public class MendingKeepController {
 				mending.setRepair_code(repair_code[i]);
 				mending.setRepair_count(Integer.parseInt(repair_count[i]));
 				mending.setRepair_price(Integer.parseInt(price[j]));
+				mending.setRepair_file(repair_file[j]);
 				mending.setRepair_wash(0);
+				mending.setRepair_now("입고전");
 					
 				mendingKeepService.insertMending(mending);
 
@@ -200,6 +201,7 @@ public class MendingKeepController {
 			washing.setWash_method(method[i]);
 			washing.setWash_count(Integer.parseInt(count[i]));
 			washing.setWash_price(Integer.parseInt(price[i]));
+			washing.setWash_now("입고전");
 			
 			mendingKeepService.insertWash(washing);
 			
@@ -233,6 +235,7 @@ public class MendingKeepController {
 				mending.setRepair_count(Integer.parseInt(repair_count[i]));
 				mending.setRepair_price(Integer.parseInt(repair_price[i]));
 				mending.setRepair_wash(1);
+				mending.setRepair_now("입고전");
 				
 				mendingKeepService.insertMending(mending);
 	

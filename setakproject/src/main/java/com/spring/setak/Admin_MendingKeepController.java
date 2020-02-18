@@ -14,13 +14,144 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class Admin_MendingKeepController {
 
 	@Autowired()
 	private Admin_MendingKeepService mendingKeepService;
+	
+	@RequestMapping("/admin/admin_wash.do")
+	public ModelAndView admin_wash() {
+		ModelAndView result = new ModelAndView();
+		result.setViewName("./admin/admin_wash");
+		return result;
+	}
+	
+	@RequestMapping("/admin/admin_mending.do")
+	public ModelAndView admin_mending() {
+		ModelAndView result = new ModelAndView();
+		result.setViewName("./admin/admin_mending");
+		return result;
+	}
+	
+	@RequestMapping("/admin/admin_keep.do")
+	public ModelAndView admin_keep() {
+		ModelAndView result = new ModelAndView();
+		result.setViewName("./admin/admin_keep");
+		return result;
+	}
+	
+	//세탁
+	@RequestMapping(value="/getWashList.do", produces="application/json;charset=UTF-8")
+	public List<Object> getWashList() {
+		List<Object> list = mendingKeepService.getWashList();
 		
+		return list;
+	}
+
+	@RequestMapping(value="/updateWash.do", produces="application/json;charset=UTF-8")
+	public Map<String, Object> updateWash(WashingVO params){
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			int res = mendingKeepService.updateWash(params);
+			retVal.put("res", "OK");
+		}
+		catch(Exception e) {
+			retVal.put("res", "FAIL");
+			retVal.put("message", "Failure");
+		}
+		return retVal;
+	}
+	
+	@RequestMapping(value = "/admin/deleteWash.do", produces = "application/json;charset=UTF-8")
+	public Map<String, Object> deleteWash(@RequestParam(value = "wash_seq") List<Integer> wash) {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			ArrayList<Integer> washlist = new ArrayList<Integer>();
+			for (int i = 0; i < wash.size(); i++) {
+				washlist.add(wash.get(i));
+			}
+			
+			for (int j = 0; j < washlist.size(); j++) {
+				mendingKeepService.deleteWash(washlist.get(j));
+			}
+			retVal.put("res", "OK");
+		} catch (Exception e) {
+			retVal.put("res", "fail");
+			retVal.put("message", "fail");
+		}
+		return retVal;
+	}
+	
+	@RequestMapping(value="/admin/washSearch.do", produces = "application/json;charset=UTF-8")
+	public Map<String, Object> washSearch(@RequestParam(value="keyword") String keyword){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("keyword", keyword);
+		List<Object> washlist = mendingKeepService.washSearch(map); 
+		
+		Map<String, Object> res = new HashMap<String, Object>();
+		res.put("washlist", washlist);
+	
+		return res;
+	}
+	
+	//수선
+	@RequestMapping(value="/getMendingList.do", produces="application/json;charset=UTF-8")
+	public List<Object> getMendingList() {
+		List<Object> list = mendingKeepService.getMendingList();
+		
+		return list;
+	}
+	
+	@RequestMapping(value="/updateMending.do", produces="application/json;charset=UTF-8")
+	public Map<String, Object> updateMending(MendingVO params){
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			int res = mendingKeepService.updateMending(params);
+			retVal.put("res", "OK");
+		}
+		catch(Exception e) {
+			retVal.put("res", "FAIL");
+			retVal.put("message", "Failure");
+		}
+		return retVal;
+	}
+	
+	@RequestMapping(value = "/admin/deleteMending.do", produces = "application/json;charset=UTF-8")
+	public Map<String, Object> deleteMending(@RequestParam(value = "mending_seq") List<Integer> mending) {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			ArrayList<Integer> mendinglist = new ArrayList<Integer>();
+			for (int i = 0; i < mending.size(); i++) {
+				mendinglist.add(mending.get(i));
+			}
+			
+			for (int j = 0; j < mendinglist.size(); j++) {
+				mendingKeepService.deleteMending(mendinglist.get(j));
+			}
+			retVal.put("res", "OK");
+		} catch (Exception e) {
+			retVal.put("res", "fail");
+			retVal.put("message", "fail");
+		}
+		return retVal;
+	}
+	
+	@RequestMapping(value="/admin/mendingSearch.do", produces = "application/json;charset=UTF-8")
+	public Map<String, Object> mendingSearch(@RequestParam(value="keyword") String keyword){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("keyword", keyword);
+		List<Object> mendinglist = mendingKeepService.mendingSearch(map); 
+		
+		Map<String, Object> res = new HashMap<String, Object>();
+		res.put("mendinglist", mendinglist);
+	
+		return res;
+	}
+	
+	//보관
 	@RequestMapping(value="/getKeepList.do", produces="application/json;charset=UTF-8")
 	public List<Object> getKeepList() {
 		List<Object> list = mendingKeepService.getKeepList();
@@ -48,28 +179,44 @@ public class Admin_MendingKeepController {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter writer = response.getWriter();
 		
-		String keep_file[] = request.getParameterValues("keep_file");
+		String keep_path[] = request.getParameterValues("keep_path");
+		String order_num = request.getParameter("order_num");
 		
-		KeepVO keep = new KeepVO();
-		for(int i =0; i<keep_file.length; i++) {
-			System.out.println(keep_file[i]);
-		}
-		keep.setKeep_seq(Integer.parseInt(request.getParameter("keep_seq")));
-		keep.setKeep_file(request.getParameter("keep_file"));
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int res = 0;
+		for(int i =0; i<keep_path.length; i++) {
+			String keep[] = keep_path[i].split(",");
+			for(int j=0; j<keep.length; j++) {
+				map.put("keep_path",keep[j]);	
+				map.put("order_num",order_num);
 
-		System.out.println(request.getParameter("keep_file"));
-		System.out.println(request.getParameter("keep_seq"));
-		
-		int res = mendingKeepService.keepImg(keep);
-		
-		if(res ==0 ) 
-		{
-			writer.write("<script>alert('사진 업로드 실패!'); location.href='javascript:history.back()';</script>");
-		}
-		if(res==1) {
-			writer.write("<script>alert('사진 업로드가 정상적으로 이루어 졌습니다.'); location.href='javascript:history.back()'; </script>");
+				res = mendingKeepService.keepImg(map);
+			}
+			if(res ==0 ) 
+			{
+				writer.write("<script>alert('사진 업로드 실패!'); location.href='javascript:history.back()';</script>");
+			}
+			if(res==1) {
+				writer.write("<script>alert('사진 업로드가 정상적으로 이루어 졌습니다.'); location.href='javascript:history.back()'; </script>");
+			}
 		}
 		return null;
+	}
+	
+	@RequestMapping(value="/admin/deleteImg.do", produces = "application/json;charset=UTF-8")
+	public void deleteImg(@RequestParam(value="keep_path") String keep_path){
+		mendingKeepService.deleteImg(keep_path);	
+	}
+	
+	@RequestMapping(value="/admin/loadImg.do", produces = "application/json;charset=UTF-8")
+	public Map<String, Object> loadImg(@RequestParam(value="order_num") String order_num){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("order_num", order_num);
+		List<Object> imglist = mendingKeepService.loadImg(map);
+		Map<String, Object> res = new HashMap<String, Object>();
+		res.put("imglist", imglist);
+	
+		return res;
 	}
 	
 	@RequestMapping(value = "/admin/deleteKeep.do", produces = "application/json;charset=UTF-8")

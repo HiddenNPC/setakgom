@@ -15,12 +15,12 @@
 		<result property="keep_start" column="keep_start" />
 		<result property="keep_end" column="keep_end" />
 		<result property="keep_now" column="keep_now" />
-		<result property="keep_file" column="keep_file" />
+		<result property="keep_path" column="keep_path" />
 	</resultMap>
 	
 	<select id="getKeepList" resultMap="hashmapVO">
-		select rownum rnum, keep_seq, member_id, order_num, keep_cate, keep_kind, keep_count, keep_box, keep_start, keep_end, keep_now, keep_file
-		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now, c.keep_file 
+		select rownum rnum, keep_seq, member_id, order_num, keep_cate, keep_kind, keep_count, keep_box, keep_start, keep_end, keep_now
+		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now
 		        from memberorder a
 		        join orderlist b
 		        on a.order_num = b.order_num
@@ -34,17 +34,25 @@
 		update keep set keep_cate = #{keep_cate}, keep_kind = #{keep_kind}, keep_count = #{keep_count}, keep_box = #{keep_box}, keep_start = #{keep_start}, keep_end = #{keep_end}, keep_now = #{keep_now} where keep_seq=#{keep_seq}
 	</update>
 	
-	<update id="keepImg" parameterType="com.spring.setak.KeepVO">
-		update keep set keep_file = #{keep_file} where keep_seq=#{keep_seq}
-	</update>
-
+	<insert id="keepImg" parameterType="java.util.HashMap">
+		 insert into keep_photo(order_num, keep_path) values(#{order_num}, #{keep_path})
+	</insert>
+		
+	<delete id="deleteImg" parameterType="string">
+		delete from keep_photo where keep_path = #{keep_path}
+	</delete>
+	
+	<select id="loadImg" parameterType="java.util.HashMap" resultMap="hashmapVO">
+		select keep_path from keep_photo where order_num = #{order_num}	
+	</select>
+	
 	<delete id="deleteKeep" parameterType="int">
 		delete from keep where keep_seq = #{keep_seq}
 	</delete>
 	
 	<select id="keepSerach" parameterType="java.util.HashMap" resultMap="hashmapVO">
-		select rownum rnum, keep_seq, member_id, order_num, keep_cate, keep_kind, keep_count, keep_box, keep_start, keep_end, keep_now, keep_file
-		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now, c.keep_file 
+		select rownum rnum, keep_seq, member_id, order_num, keep_cate, keep_kind, keep_count, keep_box, keep_start, keep_end, keep_now
+		from (select rownum rnum, b.keep_seq, b.order_num, a.member_id, c.keep_cate, c.keep_kind, c.keep_count, c.keep_box, TO_CHAR(c.keep_start, 'YYYY-MM-DD') as keep_start,  TO_CHAR(c.keep_end, 'YYYY-MM-DD') as keep_end, c.keep_now 
 		        from memberorder a
 		        join orderlist b
 		        on a.order_num = b.order_num
