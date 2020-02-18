@@ -11,7 +11,7 @@
 	</resultMap>
 	
 	<select id="commentList" parameterType="com.spring.community.CommentVO" resultMap="commentMap">
-		SELECT * FROM QNA_REQUEST WHERE qna_num=#{qna_num} ORDER BY QNA_SEQ DESC
+		SELECT * FROM QNA_REQUEST WHERE qna_num=#{qna_num} ORDER BY QNA_SEQ ASC
 	</select>
 	
 	<select id="cntListCount" resultType="int">
@@ -36,7 +36,7 @@
 	</update>
 
  	<select id="ad_commentList" parameterType="com.spring.community.CommentVO" resultMap="commentMap">
-		SELECT * FROM QNA_REQUEST ORDER BY qna_seq DESC
+		SELECT * FROM QNA_REQUEST ORDER BY qna_seq ASC
 	</select>
  
  
