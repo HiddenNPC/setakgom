@@ -35,6 +35,7 @@ public class MykeepController {
 	public List<KeepVO> keepcatelist(OrderVO orderVO){
 			long order_num = orderVO.getOrder_num();
 			List<KeepVO> keeplist = mypageService.selectMykeeplist(order_num);
+			
 			return keeplist;
 	}
 	
@@ -105,29 +106,9 @@ public class MykeepController {
 		String keep_now = null;
 		String keep_end = null;
 		
-		System.out.println("주문번호" + order_num);
 		kvo.getKeep_end(); // 받아온 값 
-		System.out.println(kvo.getKeep_end());
 		
 		
-//		
-//		for (int i = 0; i < kvolist.size(); i++) {
-//			
-//			KeepVO keepVO = (KeepVO)kvolist.get(i);
-//			
-//			keepVO.setKeep_now(all); // 이걸 왜해? 
-//			keepVO.setKeep_start(keepVO.getKeep_end());
-//			
-//			keep_start = keepVO.getKeep_end();
-//			
-//			
-//			System.out.println("추가시작된날"+keep_start);
-//		
-//			keepVO.setKeep_end(kvo.getKeep_end());
-//			keep_end = keepVO.getKeep_end();
-//			System.out.println("추가마지막날"+keepVO.getKeep_end());
-//			keep_now = all;
-//		}
 
 		KeepVO keepVO = (KeepVO)kvolist.get(0);
 		

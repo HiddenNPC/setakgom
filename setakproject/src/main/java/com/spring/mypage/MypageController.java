@@ -1,9 +1,11 @@
 package com.spring.mypage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.community.QnaServiceImpl;
 import com.spring.community.QnaVO;
@@ -129,7 +132,10 @@ public class MypageController {
 		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
 		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
 		ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
-			
+		ArrayList<KeepPhotoVO> kpvolist = new ArrayList<KeepPhotoVO>();
+		
+		ArrayList<ArrayList<KeepPhotoVO>> kpvolist2 = new ArrayList<ArrayList<KeepPhotoVO>>();
+		
 		String member_id = (String) session.getAttribute("member_id");
 		MemberVO memberVO = new MemberVO();
 			
@@ -149,12 +155,17 @@ public class MypageController {
 				
 				keep_seq = mypageService.selectMykeep(order_num);
 				
+				kpvolist = mypageService.selectPhoto(order_num);
+				
 				seq_count.add(keep_seq);
 				keeplist2.add(keeplist);
+				
+				kpvolist2.add(kpvolist);
 			}
 			
 		model.addAttribute("seq_count", seq_count);
 		model.addAttribute("keeplist2", keeplist2);
+		model.addAttribute("kpvolist2", kpvolist2);
 		model.addAttribute("ordernumlist", ordernumlist);
 		model.addAttribute("memberVO", memberVO);
 		
@@ -272,13 +283,38 @@ public class MypageController {
 		if(session.getAttribute("member_id")==null) {
 	           return "redirect:/";
 	      }
-		
+			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			ArrayList<CouponVO> couponlist = null;
 			String member_id = (String) session.getAttribute("member_id");
 			couponlist = couponService.getCouponList(member_id);
+			for (int i = 0; i < couponlist.size(); i++) {
+				System.out.println(couponlist.get(i).getCoupon_start());
+				System.out.println(couponlist.get(i).getCoupon_end());
+				System.out.println(couponlist.get(i).getCoupon_useday());
+			}
+
 			
 			model.addAttribute("couponlist", couponlist);
 		return "mycoupon";
+	}
+	
+	@RequestMapping(value="/updatereview.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> updatereview(long order_num) throws Exception{
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String review_chk = "1";
+		
+		try {
+				map.put("review_chk", review_chk);
+				map.put("order_num", order_num);
+				mypageService.updateReview(map);
+				retVal.put("res", "OK");
+		}catch(Exception e) {
+			retVal.put("res", "fail");
+			retVal.put("message", "fail");
+		}
+		return retVal;
 	}
 	
 }

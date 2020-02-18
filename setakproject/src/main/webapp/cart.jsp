@@ -34,6 +34,22 @@
          
          getTotal();
          deliveryFee();
+         
+     	// 모바일 이미지 
+     	var windowWidth = $(window).width();
+     	if (windowWidth > 769) {
+     		$('.tab').click(function() {
+     			$('html, body').animate({
+     				scrollTop : 300
+     			}, 500);
+     			return false;
+     		});
+     	} else {
+     		$('.tab-list a').click(function() {
+     			event.preventDefault();
+     		});
+     		$('.arrow-img').attr("src","images/m_order1.png")
+     	}
                   
 	    /* 체크박스 전체선택 */
 		$("#allcheck").click(function(){

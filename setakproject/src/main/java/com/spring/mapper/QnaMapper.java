@@ -2,6 +2,7 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.spring.community.QnaVO;
 
@@ -17,6 +18,9 @@ public interface QnaMapper
 	public int qnaDelete(int num);
 	public String qnaPassChk(int num) throws Exception;
 	public ArrayList<QnaVO> onList (String loginId); 
+	
+	public List<Object> ad_qnalist();	
+	public int ad_qnaModify(QnaVO vo); 
 	
 	
 	

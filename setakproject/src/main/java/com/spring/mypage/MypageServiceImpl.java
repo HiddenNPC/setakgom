@@ -1,5 +1,6 @@
 package com.spring.mypage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -60,6 +61,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		return keepVO;
 	}
+	
 	
 	@Override
 	public KeepVO getKeepSeq(int keep_seq) {
@@ -137,6 +139,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	//보관연장
+	@Override
 	public int updateKeepMonth(HashMap<String, Object> map) {
 		int res = 0;
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -146,6 +149,7 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
+	@Override
 	public int all_Return(HashMap<String, Object> map) {
 		int res = 0;
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -155,6 +159,7 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
+	@Override
 	public int part_Return_now(HashMap<String, Object> map) {
 		int res = 0;
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -166,6 +171,7 @@ public class MypageServiceImpl implements MypageService {
 	
 
 	//리턴
+	@Override
 	public int part_Return(KeepReturnVO krvo) {
 		int res = 0;
 		try {
@@ -178,7 +184,7 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
-	
+	@Override
 	public MemberVO getMember(String member_id) {
 		MemberVO mvo = null; 
 		try {
@@ -192,5 +198,25 @@ public class MypageServiceImpl implements MypageService {
 		
 	}
 
+	@Override
+	public ArrayList<KeepPhotoVO> selectPhoto(long order_num){
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		ArrayList<KeepPhotoVO> kpvo = new ArrayList<KeepPhotoVO>();
+		
+		kpvo = mypageMapper.selectPhoto(order_num);
+		
+		return kpvo;
+	}
+
+	public int updateReview(HashMap<String, Object> map) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int res = 0;
+		res = mypageMapper.updateReview(map);
+		
+		return res;
+	}
+	
+	
 }
+
 

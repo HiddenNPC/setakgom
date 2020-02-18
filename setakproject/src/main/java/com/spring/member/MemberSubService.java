@@ -22,4 +22,7 @@ public interface MemberSubService {
 		 
     //재구독함
 	public int resub(String member_id);
+	
+	//리뷰 작성
+    public int review_chk(HashMap<String, Object> map);
 }

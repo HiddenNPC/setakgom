@@ -399,15 +399,3 @@
 		border:1px solid #3498db;
 	}
 
-	/*사진*/
-	.coupon_img_popup{
-		background:none;
-		border:0px;
-		color:#444;
-		cursor:pointer;
-		font-size:0.9rem;
-	}
-	.coupon_img_popup:hover{
-		color:#3498db;
-		font-weight:bold;
-	}

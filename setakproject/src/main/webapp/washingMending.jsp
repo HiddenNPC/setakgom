@@ -55,6 +55,8 @@
 					rlength ="";
 					tlength ="";
 					details_text = "";
+					filename="";
+					data = new FormData();
 				}
 			});
 			
@@ -75,7 +77,11 @@
 				$('.tab-list a').click(function() {
 					event.preventDefault();
 				});
-				$('.step img').attr("src","images/ms2.png")
+				$('.step img').attr("src","images/ms2.png");
+	            //모바일에서는 여기서 치수 입력
+	            $('.left_length').removeAttr("disabled");
+	            $('.right_length').removeAttr("disabled");
+	            $('.total_length').removeAttr("disabled");
 			}
 			
 			//치수 입력 시 폼에도 값 넘기기
@@ -122,16 +128,53 @@
 				maxAppend--;
 			});
 			
+			//사진 업로드 ajax - 클라우드로 저장됨.
+			var filecontent;
+	 		var filename;
+	 		var data = new FormData();
+	 		
+	 		$(document).on("change",".fileupload",function(){
+	 			filecontent = $(this)[0].files[0];
+	 			filename = Date.now() + "_" + $(this)[0].files[0].name;
+	 			data.append("files", filecontent);
+	 			data.append("filename", filename);
+	 		}); 
+	 		function photo(){
+	 			if(filecontent != null){
+	 				data.append("purpose", "mending");
+	 				
+	 				$.ajax({
+	 					type: "POST",
+	 		            enctype: 'multipart/form-data',
+	 		            url: "/setak/testImage.do",
+	 		            data: data,
+	 		            processData: false,
+	 		            contentType: false,
+	 		            cache: false,
+	 		            dataType: 'text',
+	 		            success: function (data) {
+	 					},
+	 	                error: function (e) {
+	 	                	alert("실패실패실패!!")
+	 	                	console.log(e);
+	 					}
+	 				});
+	 			}
+	 			else{
+	 				event.preventDefault();
+	 			}
+	 			filecontent = null;
+	 			data = new FormData();
+	 			$(".fileupload").val("");
+			};
+			
 			//추가 버튼 눌렀을 때
 			$(".add_button").on("click", function() {
-				
-				var a = $("#filetest").val();
 				var sortation = document.getElementsByClassName('active');
 				var str = "";
 				
 				if(maxAppend==0){
 					Swal.fire("","선택 된 수선내용이 없습니다.","info");
-
 					return;
 				}
 
@@ -157,7 +200,6 @@
 				str += '<input type="hidden" name="repair_var1" value="'+llength*(-1)+'">';
 				str += '<input type="hidden" name="repair_var2" value="'+rlength*(-1)+'">';
 				str += '<input type="hidden" name="repair_var3" value="'+tlength*(-1)+'">';
-				str += '<input type="file" name="repair_file" class="details_file" value="'+a+'">';
 				str += '<textarea name="repair_content">'+details_text+'</textarea></td>';
 				str += '<td>';
 				str += '<select name="repair_code">';
@@ -195,14 +237,19 @@
 				str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
 				str += '</td>';
 				str += '<input class="repair_price" type="hidden" name="repair_price" value="'+price_str+'">';
+				str += '<td><input type="hidden" name="repair_file" id="repair_file" value="'+filename+'"></td>';
 				str += '</tr>';		
 				
+	    		photo();
+	            
 				$(".mending_order_title").after(str);
 				$(".hash").empty();
 				$(".size_input p input").val('');
 				$(".details form")[0].reset();
 				$(".details form")[1].reset();
 				$(".details form")[2].reset();
+				filecontent = null;
+	            filename = "";
 				maxAppend = 0;
 				tprice = parseInt(0);
 				sumprice();
@@ -323,10 +370,6 @@
 			boolean sol_bot = Arrays.asList(sol).contains("하의");
 			boolean sol_out = Arrays.asList(sol).contains("아우터");
 			
-			System.out.println("상의가 있다?" + sol_top);
-			System.out.println("하의가 있다?" + sol_bot);
-			System.out.println("아우터가 있다?" + sol_out);
-			
 			if(sol_top == false){//상의가 없다.
 			%>
 				$(".tab").removeClass("active");
@@ -445,8 +488,8 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input id="filetest" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<p>※ <input type="file" class="fileupload" name="file" accept="image/*" style="width:92%; display:inline;"></p>
+                        		<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -483,8 +526,8 @@
 								<p>※ 왼쪽 기장 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<p>※ <input type="file" class="fileupload" name="file" accept="image/*" style="width:92%; display:inline;"></p>
+                        		<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>
@@ -521,8 +564,8 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
-								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
+								<p>※ <input type="file" class="fileupload" name="file" accept="image/*" style="width:92%; display:inline;"></p>
+                        		<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
 						</li>

@@ -7,10 +7,11 @@
 		<result property="qna_num" column="qna_num"/> <!-- 원글의 번호  -->
 		<result property="qna_seq" column="qna_seq"/> <!-- 답변의 갯수(원글에 대한) -->	
 		<result property="qna_content" column="qna_content"/> <!-- 답변의 내용 --> 	
+		<result property="memebr_id" column="memebr_id"/> <!-- 작성자 ID --> 	
 	</resultMap>
 	
 	<select id="commentList" parameterType="com.spring.community.CommentVO" resultMap="commentMap">
-		SELECT * FROM QNA_REQUEST WHERE QNA_NUM=#{qna_num} ORDER BY QNA_SEQ DESC
+		SELECT * FROM QNA_REQUEST WHERE qna_num=#{qna_num} ORDER BY QNA_SEQ DESC
 	</select>
 	
 	<select id="cntListCount" resultType="int">
@@ -18,7 +19,7 @@
 	</select>
 	
 	<insert id="commentInsert" parameterType="com.spring.community.CommentVO">
-		INSERT INTO QNA_REQUEST VALUES (#{qna_seq},#{qna_num}, #{qna_content}) 
+		INSERT INTO QNA_REQUEST VALUES (#{qna_seq}, #{qna_num}, #{qna_content}, #{member_id}) 
 	</insert>
 	
 	<select id="maxNum" resultType="int">
@@ -29,9 +30,17 @@
 		DELETE FROM QNA_REQUEST WHERE qna_seq=#{qna_seq}
 	</delete>
 	
-	<!-- 
+	 
 	<update id="commentUpdate" parameterType="com.spring.community.CommentVO">
-		UPDATE QNA_REQUEST SET QNA_CONTENT=#{QNA_CONTENT} WHERE QNA_SEQ=#{QNA_SEQ}
+		UPDATE QNA_REQUEST SET qna_content=#{qna_content} WHERE qna_seq=#{qna_seq}
 	</update>
- -->
+
+ 	<select id="ad_commentList" parameterType="com.spring.community.CommentVO" resultMap="commentMap">
+		SELECT * FROM QNA_REQUEST ORDER BY qna_seq DESC
+	</select>
+ 
+ 
+ 
+ 
+ 
 </mapper>	

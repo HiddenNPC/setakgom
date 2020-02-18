@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import java.io.PrintWriter;
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
+
 
 @Controller public class ReviewController 
 {
@@ -58,15 +58,15 @@ import org.springframework.web.servlet.ModelAndView;
 		String mile_content	="";		
 		
 		vo.setMember_id((String)session.getAttribute("member_id"));
-		System.out.println("작성자 = " + vo.getMember_id());
+		//System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
-		System.out.println("분류 = " + vo.getReview_kind());
+		//System.out.println("분류 = " + vo.getReview_kind());
 		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star"))*2);
-		System.out.println("별점 떳냐? =" +vo.getReview_star());
+		//System.out.println("별점 떳냐? =" +vo.getReview_star());
 		vo.setReview_content(request.getParameter("Review_content"));
-		System.out.println("내용 = " + vo.getReview_content());
+		//System.out.println("내용 = " + vo.getReview_content());
 		vo.setReview_like(request.getParameter("Review_like"));
-		System.out.println("좋아요 = " + vo.getReview_like());	
+		//System.out.println("좋아요 = " + vo.getReview_like());	
 		
 		if(request.getParameter("Review_photo").equals("")) {
 			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");
@@ -81,6 +81,7 @@ import org.springframework.web.servlet.ModelAndView;
 		}	
 		
 		int res = reviewService.reviewInsert(vo);		
+		
 		
 		
 		
@@ -248,5 +249,63 @@ import org.springframework.web.servlet.ModelAndView;
 		System.out.println("수정 성공하고 리스트로 왓다 .");
 		return null;
 	}
+
+	@RequestMapping(value = "/admin/admin_review.do")public String adminReview(Model model) throws Exception 
+	{							
+		return "admin/admin_review";		
+	}
+	
+	@RequestMapping (value="/admin/ad_reviewlist.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public ArrayList<ReviewVO> ad_reviewList() throws Exception
+	{
+		ArrayList<ReviewVO> list = reviewService.reviewList();
+		return list;		
+	}
+	
+	@RequestMapping (value="/admin/ad_reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public Map<String, Object> ad_reviewDelete(ReviewVO vo) throws Exception
+	{
+		Map<String, Object> retVal = new HashMap<String, Object>();		
+		try {
+			int res = reviewService.reivewDelete(vo);
+			
+			if (res==1)
+				retVal.put("res", "OK");
+		}
+		catch (Exception e) {
+			retVal.put("res", "FAIL");
+			
+		}
+		System.out.println("넘기기 직전 이안에는 뭐가 들어있을까 ?->" + retVal);
+		return retVal;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -18,7 +18,6 @@
    ArrayList<ArrayList<WashingVO>> washVO = (ArrayList<ArrayList<WashingVO>>)request.getAttribute("washVO2");
    ArrayList<ArrayList<MendingVO>> mendVO = (ArrayList<ArrayList<MendingVO>>)request.getAttribute("mendingVO2");
    ArrayList<ArrayList<KeepVO>> keepVO = (ArrayList<ArrayList<KeepVO>>)request.getAttribute("keepVO2");
-   System.out.println("orderlist = " + orderlist);
    
    
 %>    
@@ -47,9 +46,15 @@
       $("#header").load("./header.jsp");
       $("#footer").load("./footer.jsp");  
       
+      var order_num;
+      
       //모달팝업 오픈
        $(".open").on('click', function(){
           var login_id="<%=session.getAttribute("member_id")%>";      
+          
+          //작성여부
+          var select_btn = $(this);
+          order_num = select_btn.parent().parent().children().eq(0).children().eq(2).val();          
           
           if(!(login_id=="null"))
           {
@@ -57,12 +62,8 @@
              $(".dim").show();
           }
           else{
-             Swal.fire({
-					text: "비회원은 리뷰를 작성 할 수 없습니다.",
-					icon: "error",
-				}) .then(function(){
-					location.href='login.do';
-				});
+             alert("비회원은 리뷰를 작성 할 수 없습니다.");
+             location.href="login.do";
              return false;
           }   
       });
@@ -87,6 +88,27 @@
          filename = Date.now() + "_" + $(this)[0].files[0].name;
       });   
       $("#reviewform").on("submit", function() {
+    	   $.ajax({
+    		 url :'updatereview.do',
+    		 type : 'POST',
+    		 data : {
+    			 "order_num" : order_num
+    		 },
+    		 dataType : 'json',
+    		 contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+    		 success:function(retVal){
+    			 if(retVal.res=="OK"){
+    				 console.log("수정성공");
+    			 }
+    			 else{
+    				 console.log("수정 실패");
+    			 }
+    		 },
+    		 error: function() {
+				alert("통신실패");
+			}
+    	  });
+    	   
          if(rwchk()){         
             if(filecontent != null){
                var data = new FormData();
@@ -116,11 +138,7 @@
          }
       });
       
-      
-      
 
-     
-      
       jQuery(".accordion-content").hide();
       //content 클래스를 가진 div를 표시/숨김(토글)
       $(".accordion-header").click(function(){
@@ -147,15 +165,11 @@
                     "order_muid" : order_muid
                   },
                   "dataType": "json"
-                }).done(function(result) { // 환불 성공시 로직
-                	Swal.fire({
-						text: "주문이 성공적으로 취소 되었습니다.",
-						icon: "success",
-					}) .then(function(){
-						location.href='./orderview.do';
-					});
+                }).done(function(result) { // 환불 성공시 로직 
+                    alert("주문이 성공적으로 취소 되었습니다.");
+                    window.location.href = "./orderview.do";
                 }).fail(function(result) { // 환불 실패시 로직
-                    Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","error");
+                     alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
                 });   
          }          
       }); 
@@ -167,21 +181,21 @@
 
       if (document.getElementById('Review_content').value=="") 
       {
-           Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
+         alert("리뷰의 내용을 작성하세요.(최대 300자)");
            document.getElementById('Review_content').focus();
            return false;
            
        }
       else if (document.getElementById('Review_star').value=="") 
       {
-          Swal.fire("","별점을 눌러주세요","info");
+          alert("별점을 눌러주세요");
            document.getElementById('Review_star').focus();
            return false;
        }
       
       else if (document.getElementById('Review_kind').value=="") 
       {
-          Swal.fire("","이용하신 서비스를 선택해주세요","info");
+          alert("이용하신 서비스를 선택해주세요");
            document.getElementById('Review_kind').focus();
            return false;
        }
@@ -214,6 +228,9 @@ function cancle() {
    <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
    <section id="test"> <!-- id 변경해서 사용하세요. -->
       <div class="content"> <!-- 변경하시면 안됩니다. -->
+         <div class="title-text">
+            <h2>주문/배송현황</h2>
+         </div>
          <div class="mypage_head">
             <ul>
                <li class="mypage-title">마이페이지</li>
@@ -253,7 +270,7 @@ function cancle() {
                </p>
                <% 
                      for (int i = 0; i<orderlist.size(); i++) {   
-                        System.out.println("orderlist.size = " + orderlist.size());
+                    	 
                         OrderVO orderVO = (OrderVO)orderlist.get(i);
                         
                         ArrayList<KeepVO> kvo = keepVO.get(i);         
@@ -270,9 +287,10 @@ function cancle() {
                   <div class="accordion-content">
                      <!--snb -->
                      <div class="snb">
-                        <div class="ordernumber">
+                        <div class="ordernumber" >
                            <p>주문 번호 :</p>
                            <p><%=orderVO.getOrder_num() %></p>
+                           <input type="hidden" value="<%=orderVO.getOrder_num() %>">
                         </div>
                         <div class="addr">
                            <p>주소 :</p>
@@ -284,10 +302,11 @@ function cancle() {
                            
                            <%if (orderVO.getOrder_cancel().equals("1")) {%>
                            <input type="button" value="리뷰작성" class="open" disabled />
+                           <%} else if (orderVO.getReview_chk().equals("1")){ %>
+                           	<input type="button" value="리뷰작성" class="open" disabled />
                            <%} else { %>
-                           <input type="button" value="리뷰작성" class="open" />
+                            <input type="button" value="리뷰작성" class="open" />
                            <%} %>
-                           
                            <%if (orderVO.getOrder_delete().equals("1")) {%>
                            <input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
                            <%} else { %>
@@ -344,7 +363,6 @@ function cancle() {
                </div>
                <%
                
-               System.out.println("여기는 오니2222222222222222");
                   }
 %>
             </div>
@@ -358,7 +376,7 @@ function cancle() {
                           <%} else {%>
                              <div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
                           <%} %>
-                          <%for (int a=startpage; a<endpage; a++) {
+                          <%for (int a=startpage; a< endpage; a++) {
                                 if(a==nowpage) {
                              %>
                              <div class="page_a"><a><%=a %></a></div>
@@ -375,7 +393,7 @@ function cancle() {
                      </tr>
             </table>
             </div>
-            <%} %>
+           <%} %>
             <!-- 리뷰 추가 -->
             <div id="re_layer" class="re_layer">
                         <h2>리뷰 작성</h2>
@@ -420,7 +438,7 @@ function cancle() {
                         </div>
                         <div class="dim"></div>   
                   <!-- 리뷰 추가 끝 -->
-
+				 
          </div>
          
       </div>

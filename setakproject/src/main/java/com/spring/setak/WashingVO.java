@@ -11,4 +11,5 @@ public class WashingVO {
 	String wash_method;
 	int wash_count;
 	int wash_price;
+	String wash_now;
 }

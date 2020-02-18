@@ -1,4 +1,27 @@
 @charset "utf-8";
+    /*검색 */
+    #search-div{
+    	background:#eee;
+    	height:40px;
+    	line-height:34px;
+    	margin-bottom:10px;
+    }
+    #search-table{
+    	float:right;
+    }
+    #search-table tr td #keyword{
+    	padding:4px 10px;
+    	width:150px;
+    	border:1px solid #3498db;
+    }
+	#search-table tr td #search-btn{
+	    margin-right:20px;
+	    padding:2px 18px 5px;
+	    background:#3498db;
+	    border:0px;
+	    color:#fff;
+	    cursor:pointer;
+	}
 	.content ul{
 		width:100%;
 		display:flex;
@@ -48,6 +71,12 @@
     	color:#444;
     	cursor:pointer;
     }
+    .keep_list h3{
+    	color:#3498db;
+    	text-align:center;
+    	padding:209.5px 0;
+    	border-bottom:1px solid #3498db;
+    }
     #remo{
     	position:absolute;
     	color:#444;
@@ -73,6 +102,10 @@
     	border-radius:5px;
     	cursor:pointer;
     	z-index:30;
+    }
+    .listtd{
+    	overflow:hidden;
+    	text-overflow:ellipsis;
     }
     .update:hover{
         color:#3498db;
@@ -215,25 +248,6 @@
 		cursor:pointer;
 		transition: all .3s;
 	}
-	.popup_count{
-        position:absolute;
-        width:100%;
-        border-top:1px solid #3498db;
-        line-height:40px;
-        bottom:0px;
-        text-align:center;
-	}
-	.popup_count p{
-		display:inline-block;
-		color:#3498db;
-		font-weight:bold;
-		font-size:1.1rem;
-	}
-	.popup_count input{
-		padding:2px 0 2px 30px;
-		margin-left:8px;
-		width:45px;
-	}
 	.keep_button{
 		position:absolute;
 		bottom:-38px;
@@ -292,15 +306,44 @@
 		transform: translate(-50%, -50%);
 		overflow:auto;
     }
-    .imgs_wrap{
+    .before_img >h3{
+    	color:#3498db;
+    	text-align:center;
+    	padding:75px 0 65px;
+    	border-top:1px solid #e1e4e4;
+    	margin:0 5px;
+    	font-size:1.1rem;
+    }
+    .imgs_wrap, .before_img{
     	width:100%;
     }
-    .imgs_wrap img{
+    .imgs_wrap img, .before_img img{
     	width:19.6%;
     	margin:0 2px;
     	height:180px;
         box-sizing:border-box;
     }
+    .imgs_wrap a, .before_img a{
+		position:relative;
+	}
+	.imgs_wrap a h3, .before_img a h3{
+		position:absolute;
+		top:-165px;
+		left:0px;
+		width:99%;
+		margin:0 1px;
+		font-size:1.3rem;
+		display:none;
+		padding:80px 0px 77px;
+		background:#000000c4;
+	}
+	.imgs_wrap a:hover h3, .before_img a:hover h3{
+		color:#3498db;
+		opacity:1;
+		display:block;
+		letter-spacing:10px;
+		text-align:center;
+	}
     .popup_img_back .keep_button{
 		display:flex;
 		justify-content:space-between;

@@ -99,8 +99,9 @@ public class NoticeServiceImpl implements NoticeService
 
 	@Override public int noticeDelete(NoticeVO vo) throws Exception 
 	{	
-		int res = -1;
+		int res = 0;
 		NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+		
 		res =noticeMapper.noticeDelete(vo.getNotice_num());
 		return res;
 
@@ -111,7 +112,7 @@ public class NoticeServiceImpl implements NoticeService
 		List<Object> result = null;
 		NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 		result = noticeMapper.ad_noticeList();
-		System.out.println(result);
+		
 		return result;
 	}
 

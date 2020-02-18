@@ -1,13 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/htm14/loose.dtd">
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript">
-function closes(){
-    window.open('','_self').close();
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>세탁곰</title>
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+   <link rel="stylesheet" type="text/css" href="./css/default.css"/>
+   <style>
+textarea.autosize { min-height: 265px; }
+
+@media screen and (max-width:768px) {
+	textarea.autosize { min-height: 450px; }
 }
+
+</style>
+<script type="text/javascript">
+
 
 </script>
 </head>
@@ -17,11 +27,10 @@ function closes(){
 <div class="modal-header">
     <!-- 닫기(x) 버튼 -->
   <font color="#f67001" size=4>02</font> <font size=3>개인정보</font>
-   <button type="button" onclick="closes()" style="margin-left: 450px;">×</button>
 </div>
 <!-- body -->
 <div class="modal-body">
-<td align=center><textarea name="tos" rows=15 cols=78>
+<textarea name="tos" class="autosize" style="width:90%;">
 수집하는 개인정보의 항목
 회사는 회원가입, 상담, 서비스 신청 및 제공 등을 위해 아래와 같은 개인정보를 수집하고 있습니다.
 - 이름, 이메일, 주소, 연락처, 핸드폰 번호, 아이디, 비밀번호, 닉네임, 팩스번호, 홈페이지 주소 또한 서비스 이용과정이나 사업
@@ -119,7 +128,7 @@ NICE신용평가정보㈜(이하 “대행사”)가 “대행사”에서 제�
 단, 관련 법령 및 회사방침에 의해 보존하는 정보의 경우 아래 목적으로만 이용하며 보존기간은
 다음과 같습니다.
 '정보통신망 이용촉진 및 정보보호 등에 관한 법률'의 거래기록 보존 의무에 따른 보존: 1년
-                </textarea></td>
+</textarea>
 </div>
 
 </body>

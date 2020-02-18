@@ -21,7 +21,24 @@
 		<result property="coupon_use" column="coupon_use"/>
 		<result property="coupon_seq" column="coupon_seq"/>
    </resultMap>
+   
+   <resultMap type="com.spring.member.MileageVO" id="MileageResultMap">
+   		<result property="member_id" column="member_id"/>
+   		<result property="mile_date" column="mile_date"/>
+   		<result property="mile_price" column="mile_price"/>
+   		<result property="mile_content" column="mile_content"/>
+   		<result property="mile_seq" column="mile_seq"/>
+   </resultMap>
+   
+   <resultMap type="java.util.HashMap" id="hashmapVO2">
+   		<result property="member_id" column="member_id"/>
+   		<result property="mile_date" column="mile_date"/>
+   		<result property="mile_price" column="mile_price"/>
+   		<result property="mile_content" column="mile_content"/>
+   		<result property="mile_seq" column="mile_seq"/>
+   </resultMap>
 	
+	<!-- 쿠폰 시작 -->
 	<select id="Admin_CouponList" resultMap="hashmapVO">
 		select  member_id, coupon_name, coupon_start, coupon_end, coupon_useday, coupon_use, coupon_seq from
 			(select  a.coupon_name, b.member_id, TO_CHAR(a.coupon_start, 'YYYY-MM-DD') as coupon_start, TO_CHAR(a.coupon_end, 'YYYY-MM-DD') as coupon_end, TO_CHAR(a.coupon_useday, 'YYYY-MM-DD') as coupon_useday, a.coupon_use, a.coupon_seq
@@ -61,4 +78,51 @@
 	<delete id="deleteCoupon" parameterType="int">
 		delete from coupon where coupon_seq = #{coupon_seq}
 	</delete>
+	<!-- 쿠폰 끝 -->
+	
+	
+	
+	
+	
+	<!-- 마일리지 -->
+	<select id="Admin_MileList" resultMap="hashmapVO2">
+		select member_id, mile_date, mile_price, mile_content, mile_seq from
+			(select b.member_id, TO_CHAR(a.mile_date, 'YYYY-MM-DD') as mile_date, a.mile_content, a.mile_price, a.mile_seq
+				from member b
+				join mileage a
+				on a.member_id = b.member_id
+				where a.mile_seq > 0
+				order by a.mile_seq desc)
+	</select>
+	
+	<select id="getMileCount" resultType="int">
+		select count(*) from mileage
+	</select>
+	
+	<select id="mileSerach" parameterType="java.util.HashMap" resultMap="hashmapVO2">
+		select * from 
+		(select a.mile_content, b.member_id, TO_CHAR(a.mile_date, 'YYYY-MM-DD') as mile_date, a.mile_price, a.mile_seq
+			from member b
+			join mileage a
+			on a.member_id = b.member_id
+			where a.mile_seq > 0
+			<if test = "keyword != null">
+				and (a.member_id like '%'||#{keyword, jdbcType=VARCHAR}||'%')
+			</if>
+			order by a.mile_seq desc)
+	</select>
+	
+	<update id="updateMileage" parameterType="com.spring.member.MileageVO">
+		update mileage set mile_price = #{mile_price}, mile_content = #{mile_content} where mile_seq = #{mile_seq}
+	</update>
+	
+	<insert id="insertMileage" parameterType="com.spring.member.MileageVO">
+		insert into mileage(member_id, mile_date, mile_price, mile_content, mile_seq)
+		values(#{member_id}, sysdate, #{mile_price}, #{mile_content}, mile_seq.nextval)	
+	</insert>	
+	
+	<delete id="deleteMileage" parameterType="int">
+		delete from mileage where mile_seq = #{mile_seq}
+	</delete>
+	
 </mapper>

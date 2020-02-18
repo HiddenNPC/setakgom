@@ -18,6 +18,7 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp") 
+                
          var sessionID = "<%=session.getAttribute("id") %>"
          
          /*비밀번호 일치하면 탈퇴페이지로 이동 */  
@@ -64,7 +65,6 @@
 	</section>
 	
 	<section id="test">	<!-- id 변경해서 사용하세요. -->
-		<div class="content">	<!-- class 변경해서 사용하세요. -->
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -92,15 +92,14 @@
 				</li>
 				</ul>
 			</div>
-			<div class="test"> <!-- class 변경해서 사용하세요. -->
-            <div class="content">
+			
+		<div class="withdraw">	<!-- class 변경해서 사용하세요. -->	
+           	 <h2>회원탈퇴</h2>
                <h4>Login ID : <%=session.getAttribute("member_id") %></h4>
                <h5>본인 확인을 위해 비밀번호를 입력해 주세요</h5>
-               <input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" />
+               <input class="pw" type="password" id="member_password" placeholder="비밀번호를 입력해주세요" /><br>
                <input type="button" class="btn" value="확인"/>
-            </div>
          </div>
-		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
    
