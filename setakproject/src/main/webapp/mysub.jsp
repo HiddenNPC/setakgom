@@ -214,9 +214,6 @@
 		/*리뷰작성여부*/
 		var payDate = "";
 		
-		/*리뷰비활성화*/
-		
-
 		 /*리뷰 관련 스크립트*/   
 	      //모달팝업 오픈
 	       $(".open").on('click', function(){
@@ -458,7 +455,7 @@
 								</thead>
 						
 						
-								 <%for (int i=0; i<list.size(); i++) {
+								 <% for (int i=0; i<list.size(); i++) {
 									HistorySubVO hlist = (HistorySubVO)list.get(i);
 								%>
 								<tbody>
@@ -468,7 +465,11 @@
 										<td><%=hlist.getHis_price() %>원</td>
 										<td><%=hlist.getHis_date() %></td>
 										<td>
+										<% if(!(hlist.getReview_chk().equals("1"))) {  %>
 											<a id="review" href="#" class="open">리뷰작성</a>
+										<% } else { %>	
+										     -
+										<% } %>
 										</td>
 									</tr>
 								</tbody>

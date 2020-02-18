@@ -85,7 +85,6 @@ public class MemberSubController {
 	         
 	      }
 	      
-	      
 	      model.addAttribute("subhistory_list", subhistory_list);
 	      model.addAttribute("limit", limit);
 	      model.addAttribute("page", page);
@@ -94,11 +93,11 @@ public class MemberSubController {
 	      model.addAttribute("endpage", endpage);
 	      model.addAttribute("listcount", listcount);
 		
-		/*
-		for(int i = 0; i <subhistory_list.size(); i++) {
-			System.out.println(subhistory_list.get(i).getHis_name());
+		
+		/*for(int i = 0; i <subhistory_list.size(); i++) {
+			System.out.println(subhistory_list.get(i).getHis_date()+":"+subhistory_list.get(i).getReview_chk());
 		}
-	*/
+		 */
 		return "mysub";
 	}
 	
