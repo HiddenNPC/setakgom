@@ -144,7 +144,14 @@
 	border-top: 3px solid #3498db; border-collapse: collapse;	
 	}
 	.qut1 tr td { border:2px solid #e1e4e4;  
-	padding:8px; color:#444;  }
+	padding:8px; color:#444; width: 35px; }
+  
+  	#qutd1{
+  	
+  	}
+  
+  
+  
   
 		
 	#comment_form{ width:1200px; margin:auto; color:#444; }
@@ -352,7 +359,7 @@
 			border: none; outline: none; float:right; margin-rigth:20px;
 		}
 			
-		.comment_list{ width:1200px; margin: auto; color:#444;}	
+		.comment_list{ width:100%; margin: auto; color:#444;}	
 		.comment_list td{ line-height:21px;}
 		#cl_td1{ padding:8px; }
 		#cl_td2{ border-bottom:3px solid #e1e4e4;}	

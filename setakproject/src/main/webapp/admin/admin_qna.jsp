@@ -105,6 +105,7 @@ $(document).ready(function() {
 				});
 			};	
 			
+			/*
 			function page2(){ 
 				$('div.paginated2').each(function() {
 					var pagesu = 10;  //페이지 번호 갯수
@@ -192,7 +193,7 @@ $(document).ready(function() {
 					$table.trigger('repaginate');
 				});
 			};
-			
+			*/
 								
 			//목록 띄우기
 			function selectData(){				
@@ -306,6 +307,7 @@ $(document).ready(function() {
 			
 			});
 			
+			/*
 			//답변 목록
 			function replylist(){				
 				$.ajax({
@@ -336,7 +338,7 @@ $(document).ready(function() {
 								
 			} 
 			replylist();
-			
+			*/
 			
 			//수정 버튼 누르면 
 			$(document).on('click', '.a-q-rupdate', function () {
@@ -422,15 +424,7 @@ $(document).ready(function() {
 			
 			});
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 
 });				
 
@@ -461,27 +455,7 @@ $(document).ready(function() {
 			</ul>
 			<form id="ad_qna_form" action="">
 				<div class="ad_qnalist paginated"></div>				
-			</form>
-			
-			
-			
-			<h4>qna 답변</h4>
-			<ul class="ad-q-r-title">
-				<li>시퀀스</li><!-- x -->
-				<li>번호</li><!-- x -->
-				<li>작성자</li><!-- x -->
-				<li>내용</li><!-- 셀섹트 옵션 -->				
-				<li>수정</li><!-- 텍스트 -->
-				<li>삭제</li><!-- 텍스트 -->
-			</ul>
-			
-			<form id="a-q-rform" method="post" action="">
-				<div class="ad_q_relist paginated2"></div>				
-			</form>			
-			
-		
-		
-		<br><br><br><br><br><br><br><br><br>
+			</form><br><br><br><br><br><br><br><br><br>
 		</div>
 	
 

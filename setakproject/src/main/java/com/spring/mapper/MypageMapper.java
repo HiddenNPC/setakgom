@@ -36,5 +36,7 @@ public interface MypageMapper {
 	
 	//사진
 	ArrayList<KeepPhotoVO> selectPhoto(long order_num);
+	
+	int updateReview(HashMap<String, Object> map);
 
 }

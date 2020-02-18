@@ -61,7 +61,7 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 		line-height:130px;
 		text-align:center;
 		font-size:1.7rem;
-		/* border:3px solid #e1e4e4; */
+		border:3px solid #e1e4e4;
 		box-sizing:border-box;
 	}
     .mypage_content .mypage_content_cover p{
