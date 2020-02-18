@@ -379,20 +379,19 @@
 			}
 		});
 	</script>
-	
 	<div id="frogue-container" class="position-right-bottom"
       data-chatbot="f5f4d84c-cc74-490c-96b2-6b2994010204"
       data-user="setakgom"
       data-init-key="value"
       ></div>
-<script>
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed')); 
-</script>
+	<script>
+	(function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed')); 
+	</script>
 </body>
 </html>
