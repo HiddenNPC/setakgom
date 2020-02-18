@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <meta charset="UTF-8">
+	<style>
+		#frogue-container{
+			bottom : 120px !important;
+		}
+	</style>
 	<body>
 	<div id="frogue-container" class="position-right-bottom"
       data-chatbot="f5f4d84c-cc74-490c-96b2-6b2994010204"
