@@ -22,7 +22,10 @@
    <link rel="stylesheet" type="text/css" href="./css/profile.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-      
+   
+   <!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+   
    <!-- 우편번호 api -->
    <script   src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
@@ -60,30 +63,56 @@
              AuthTimer.fnStop();
              random = randomnum();
              
-             var phonenum = $("#member_phone").val();
-             
-             var allData = { "pn": phonenum , "randomnum": random };
-             
-             $.ajax({
-                    type: "POST",
-                    url: "/setak/sendSMS.do", 
-                    data: allData,
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    dataType: 'text',
-                    
-                    success: function (data) {
-                     AuthTimer.comSecond = 179;
-                     AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
-                     AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
-                     AuthTimer.domId = document.getElementById("timer");
-                     $("#authbtn").attr('disabled', true);
-                    },
-                    error: function (e) {
-                   console.error(e);
-                }
-             });
-             
-          });
+             var daycount = 0; 
+ 			
+ 			$.ajax({
+                 type: "POST",
+                 url: "/setak/ipcount.do",
+                 async:false,
+                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                 dataType: 'json',
+                 
+                 success: function (data) {
+                 	if(data.res=="OK") {
+                 		daycount = 1;
+ 		        	 } else {
+ 		        		 Swal.fire("","오늘 사용횟수를 초과하였습니다.","warning");
+ 		        	 }
+                 },
+                 error: function (e) {
+ 					console.error(e);
+ 				}
+ 			});
+ 			
+ 			if(daycount == 1){
+ 				var phonenum = $("#member_phone").val();
+ 				
+ 				var allData = { "pn": phonenum , "randomnum": random };
+ 				
+ 				
+ 				
+ 				
+ 				$.ajax({
+ 	                type: "POST",
+ 	                url: "/setak/sendSMS.do", 
+ 	                data: allData,
+ 	                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+ 	                dataType: 'text',
+ 	                
+ 	                success: function (data) {
+ 	        			AuthTimer.comSecond =  179;
+ 	        			AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
+ 	        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+ 	        			AuthTimer.domId = document.getElementById("timer");
+ 	        			$("#authbtn").attr('disabled', true);
+ 	                },
+ 	                error: function (e) {
+ 						console.error(e);
+ 					}
+ 				});
+ 			}
+ 			
+ 		});
           
           
           //인증번호 확인
