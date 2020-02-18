@@ -147,7 +147,6 @@ $(document).ready(function() {
 			$(document).on('click', 'li .a-q-delete', function () { 
 				var num = $(this).parent().parent().find('.qna_num').val();	
 				var param = {"qna_num": num}
-				console.log(param);
 				jQuery.ajax({
 					url : './ad_qnaDelete.do', 
 					type : 'post',
@@ -172,10 +171,9 @@ $(document).ready(function() {
 			$(document).on('click', '.a-q-reply', function () { 
 				var a = $(this).parent().parent().children().find('.qna_num').val();	
 				var b = $(this).parent().parent().children().find('.member_id').val();					
+				
 				function replylist(){
 					var params={'qna_num' : a , 'member_id': b}
-					console.log(a);				
-					console.log(b);				
 					$.ajax({
 						url :'/setak/admin/ad_commentList.do',
 						type :'POST',
@@ -185,13 +183,13 @@ $(document).ready(function() {
 						success:function(data){
 							$.each(data, function(index, item){
 								var str = '';																					
-								str += '<tr><td><input type="hidden" class="r-qna_seq" value="'+item.qna_seq+'" disabled="disabled"></td>';
-								str += '<td><input type="hidden" class="r-qna_num" value="'+item.qna_num+'" disabled="disabled"></td>';
-								str += '<td class="r-member_id" ><input type="text" value="'+item.member_id+'" disabled="disabled"></td>';
-								str += '<td class="r-qna_content"><textarea value="" disabled="disabled">'+item.qna_content +'</textarea></td>';
-								str += '<td class="a-q-rinsert" ><input type="button"  value="추가"></td>';
-								str += '<td class="a-q-rupdate" ><input type="button" value="수정"></td>';
-								str += '<td class="a-q-rdelete"><input type="button" value="삭제"></td></tr>';								
+								str += '<tr><td><input class="r-qna_seq" type="hidden"  value="'+item.qna_seq+'" disabled="disabled"></td>';
+								str += '<td><input class="r-qna_num" type="hidden" value="'+item.qna_num+'" disabled="disabled"></td>';
+								str += '<td><input class="r-member_id" type="text" value="'+item.member_id+'" disabled="disabled"></td>';
+								str += '<td><textarea class="r-qna_content" value="" disabled="disabled">'+item.qna_content +'</textarea></td>';
+								str += '<td><input class="a-q-rinsert" type="button"  value="추가"></td>';
+								str += '<td><input class="a-q-rupdate" type="button" value="수정"></td>';
+								str += '<td><input class="a-q-rdelete" type="button" value="삭제"></td></tr>';								
 								$("#a-q-r-list").append(str);
 							});
 							//page2();
@@ -202,29 +200,95 @@ $(document).ready(function() {
 						}
 					});
 									
-				} 
-				replylist();
+				} 				
 							
 				if(!$(this).hasClass("active")){						
 					$(this).attr('value', '작성중');
 					$(this).addClass("active");	
-					$(this).parent().parent().siblings().children().children('.a-q-reply').removeClass("active");
-					$(this).parent().parent().siblings().children().children('.a-q-reply').attr('value', '답글 ');	
+					$(this).parent().parent().siblings().children().children('.a-q-reply').removeClass("active").attr('value', '답글 ');
+					$(this).parent().parent().siblings().remove('#a-q-r');
 					$(this).parent().parent().after('<div id="a-q-r"><table id="a-q-r-t"><tbody id="a-q-r-list"></tbody></table></div>');	
-					
+					replylist();
 				
 				}else{
 					$(this).removeClass("active");
 					$(this).attr('value','답글');				
-					$(this).parent().parent().nextAll().remove('#a-q-r');
-					$(this).parent().parent().prevAll().remove('#a-q-r');
-					
-					
-				}
+					$(this).parent().parent().siblings().remove('#a-q-r');
+
+				}								
+				
+				//답변 삭제
+				$(document).on('click', '.a-q-rdelete', function () { 
+					var a = $(this).parent().prev().prev().prev().prev().prev().prev().children().val();
+					var param = {"qna_seq": a}
+					jQuery.ajax({
+						url : './commentDelete.do', 
+						type : 'post',
+						data : param,
+						contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+						dataType : "json", //서버에서 보내줄 데이터 타입
+						success:function(retVal){
+							if(retVal.res == "OK"){
+								 $('#a-q-r-list').empty();
+								 replylist();	
+							}
+						},
+						error:function(){
+							alert("ajax통신 실패");
+						}
+					});
+					event.preventDefault();			
+				
+				});
+				
+				//수정 버튼 누르면 
+				$(document).on('click', '.a-q-rupdate', function () {
+					console.log(1);
+					 if(!$(this).hasClass("active")){
+							$(this).attr('value', '수정 중 ');
+							$(this).addClass("active");
+							$(this).parent().parent().siblings().children().children('.a-q-rupdate').removeClass("active");
+							$(this).parent().parent().siblings().children().children('.a-q-rupdate').attr('value', '수정 ');
+							$(this).parent().parent().siblings().children().children('.r-qna_seq').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							$(this).parent().parent().siblings().children().children('.r-qna_num').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							$(this).parent().parent().siblings().children().children('.r-qna_content').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							$(this).parent().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
+							//$(this).parent().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
+							//$(this).parent().prev().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});										
+						 }else{
+							$(this).attr('value','수정');
+							$(this).removeClass("active");
+							$(this).parent().parent().siblings().children().children('.r-qna_seq').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							$(this).parent().parent().siblings().children().children('.r-qna_num').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							$(this).parent().parent().siblings().children().children('.r-qna_content').attr('disabled',true).css({'background':'none', 'border' : 'none'});		
+							$(this).parent().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							//$(this).parent().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+							//$(this).parent().prev().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+												
+						 }
+						var param = $(this).parent().prev().prev().children().attr('value');
+						console.log(param); 
+						var param2= $(this).parent().prev().children().attr('value');
+						console.log(param2); 								
+				});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 			});
-				
-				
+			
+			/*	
 				//qna에 대한 답변 달기 
 				$(document).on('click', '#a-q-rinsert', function () { 
 					var rcontent = $(this).parent().find('#a-q-rcontent').val();
@@ -251,51 +315,7 @@ $(document).ready(function() {
 					});
 					event.preventDefault(); 
 				});
-			
-			
-			
-
-			
-			//답변 목록 $(document).on('click', '#a-q-rinsert', function
-			/*
-					function replylist(){	
-				
-				var a =$(this).parent().parent().children().('.qna_num').val();
-				console.log(a);				
-				$.ajax({
-					url :'/setak/admin/ad_commentList.do',
-					type :'POST',
-					dataType :'json',
-					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
-					success:function(data){
-						$.each(data, function(index, item){
-							var str = '';																					
-							str += '<ul id="a-q-r-list">';
-							str += '<li class="listtd"><input type="text" class="r-qna_seq" value="'+item.qna_seq+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="r-qna_num" value="'+item.qna_num+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="r-member_id" value="'+item.member_id+'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="text" class="r-qna_content" value="'+item.qna_content +'" disabled="disabled"></li>';
-							str += '<li class="listtd"><input type="button" class="a-q-rupdate" value="수정"></li>';
-							str += '<li class="listtd"><input type="button" class="a-q-rdelete" value="삭제"></li>';
-							str += '</ul>';
-							$(".ad_q_relist").append(str);
-						});
-						page2();
-						
-					},
-					error:function(){
-						alert("ajax통신 실패!!!");
-					}
-				});
-								
-			} 
-			replylist();
-			
-			
-			
-			
-			
-			
+			*/
 			
 			/*
 			//수정 버튼 누르면 
@@ -325,9 +345,7 @@ $(document).ready(function() {
 					var param = $(this).parent().prev().prev().children().attr('value');
 					console.log(param); 
 					var param2= $(this).parent().prev().children().attr('value');
-					console.log(param2); 
-					
-			
+					console.log(param2); 								
 			});
 			
 			//수정 누르면  //var num	
@@ -355,34 +373,9 @@ $(document).ready(function() {
 				event.preventDefault();			
 			
 			});
-			
-			
-			//삭제
-			$(document).on('click', 'li .a-q-rdelete', function () { 
-				var a = $(this).parent().prev().prev().prev().prev().children().val();
-				var param = {"qna_seq": a}
-				console.log(param);
-				jQuery.ajax({
-					url : './commentDelete.do', 
-					type : 'post',
-					data : param,
-					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-					dataType : "json", //서버에서 보내줄 데이터 타입
-					success:function(retVal){
-						if(retVal.res == "OK"){
-							 $('.ad_q_relist').empty();
-								replylist();	
-						}
-					},
-					error:function(){
-						alert("ajax통신 실패");
-					}
-				});
-				event.preventDefault();			
-			
-			});
 			*/
-
+			
+			
 
 });				
 

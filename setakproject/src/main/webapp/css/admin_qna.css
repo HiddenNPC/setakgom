@@ -155,6 +155,7 @@
 	}
 	.qna_title{
 		width:inherit;
+		cursor:pointer;
 		/* text-align:center; */
 		background:none;
 		/*  background: #e1e4e4; */
@@ -166,6 +167,7 @@
 		overflow: hidden;
 	}
 	.qna_content{
+		cursor:pointer;
 		/* padding-left:10px; */
 		width:inherit;
 		/* text-align:left; */
@@ -241,24 +243,24 @@
 	   .r-member_id{ vertical-align:top;
 	   
 	   }
-	   .r-member_id input {
+	   .r-member_id {
 	   margin: 2px;
 	   }
 	   
-	   .r-qna_content textarea{
+	   .r-qna_content {
 	    margin: 2px;
     	width: 798px;
    		height: 50px;
 	   
 	   }
 	   
-	   .a-q-rinsert input {   
+	   .a-q-rinsert {   
 	   margin: 2px;
 	   }
-	   .a-q-rupdate input {   
+	   .a-q-rupdate {   
 	   margin: 2px;
 	   }
-	   .a-q-rdelete input {   
+	   .a-q-rdelete  {   
 	   margin: 2px;
 	   }
 	   
