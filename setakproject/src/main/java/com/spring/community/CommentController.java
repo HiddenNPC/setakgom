@@ -112,6 +112,7 @@ public class CommentController
 		vo.setQna_num(Integer.parseInt(request.getParameter("qna_num")));
 		System.out.println(vo.getQna_num());
 		vo.setQna_content(request.getParameter("qna_content"));
+		vo.setMember_id("관리자");
 		System.out.println(vo.getQna_content());
 		
 		qvo.setQna_check(request.getParameter("qna_check"));

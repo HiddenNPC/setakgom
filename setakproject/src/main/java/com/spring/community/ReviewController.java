@@ -57,6 +57,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		int mile_price = 0;
 		String mile_content	="";		
 		
+		int order_num = Integer.parseInt(request.getParameter("order_num"));
+		System.out.println(order_num);
 		vo.setMember_id((String)session.getAttribute("member_id"));
 		//System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
@@ -81,6 +83,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		}	
 		
 		int res = reviewService.reviewInsert(vo);		
+		
 		
 		
 		
@@ -249,19 +252,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return null;
 	}
 
-	@RequestMapping(value = "admin/admin_review.do")public String adminReview(Model model) throws Exception 
+	@RequestMapping(value = "/admin/admin_review.do")public String adminReview(Model model) throws Exception 
 	{							
 		return "admin/admin_review";		
 	}
 	
-	@RequestMapping (value="admin/ad_reviewlist.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/admin/ad_reviewlist.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public ArrayList<ReviewVO> ad_reviewList() throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
 		return list;		
 	}
 	
-	@RequestMapping (value="admin/ad_reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping (value="/admin/ad_reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
 	@ResponseBody public Map<String, Object> ad_reviewDelete(ReviewVO vo) throws Exception
 	{
 		Map<String, Object> retVal = new HashMap<String, Object>();		
