@@ -1,5 +1,7 @@
 package com.spring.mypage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +75,6 @@ public class MypageController {
 		int endrow = startrow + limit-1;
 		int listcount = mypageService.getOrdercount();
 		
-		System.out.println(listcount);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
@@ -92,21 +93,14 @@ public class MypageController {
 		
 		long order_num = 0;
 		
-		System.out.println(orderlist.size());
-		
 		
 		for (int i = 0; i < orderlist.size(); i++) {
 			OrderVO ovo = (OrderVO)orderlist.get(i);
 			
 			order_num = ovo.getOrder_num();
-			System.out.println("주문번호"+order_num);
 			mendingVO = mypageService.selectMending(order_num);
 			washVO = mypageService.selectWashing(order_num);
-//			orderVO = mypageService.selectOrder(order_num);
 			keepVO = mypageService.selectKeep(order_num);
-			System.out.println("수선"+mendingVO);
-			System.out.println("세탁"+washVO);
-			System.out.println("보관"+keepVO);
 			
 			mendingVO2.add(mendingVO);
 			washVO2.add(washVO);
@@ -115,7 +109,6 @@ public class MypageController {
 		}
 
 		model.addAttribute("orderlist", orderlist);
-//		model.addAttribute("orderVO", orderVO);
 		model.addAttribute("mendingVO2", mendingVO2);
 		model.addAttribute("washVO2", washVO2);
 		model.addAttribute("keepVO2", keepVO2);
@@ -138,13 +131,13 @@ public class MypageController {
 		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
 		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
 		ArrayList<ArrayList<KeepVO>> keeplist2 = new ArrayList<ArrayList<KeepVO>>();
-			
+		ArrayList<KeepPhotoVO> kpvolist = new ArrayList<KeepPhotoVO>();
+		
+		ArrayList<ArrayList<KeepPhotoVO>> kpvolist2 = new ArrayList<ArrayList<KeepPhotoVO>>();
+		
 		String member_id = (String) session.getAttribute("member_id");
-		System.out.println("member_id session : " + member_id);
 		MemberVO memberVO = new MemberVO();
 			
-//		ArrayList<OrderListVO> keepseqlist = new ArrayList<OrderListVO>();
-//		OrderListVO olvo2 = new OrderListVO();
 			
 		ordernumlist = mypageService.getOrdernumlist(member_id);
 		
@@ -157,17 +150,21 @@ public class MypageController {
 				OrderListVO olvo = (OrderListVO)ordernumlist.get(i);
 				
 				order_num = olvo.getOrder_num();
-				System.out.println(order_num + "주문번호");
 				keeplist = mypageService.selectMykeeplist(order_num);
 				
 				keep_seq = mypageService.selectMykeep(order_num);
 				
+				kpvolist = mypageService.selectPhoto(order_num);
+				
 				seq_count.add(keep_seq);
 				keeplist2.add(keeplist);
+				
+				kpvolist2.add(kpvolist);
 			}
 			
 		model.addAttribute("seq_count", seq_count);
 		model.addAttribute("keeplist2", keeplist2);
+		model.addAttribute("kpvolist2", kpvolist2);
 		model.addAttribute("ordernumlist", ordernumlist);
 		model.addAttribute("memberVO", memberVO);
 		
@@ -245,14 +242,12 @@ public class MypageController {
 		int startrow = (page-1)*10 +1;
 		int endrow = startrow + limit-1;
 		int listcount = mileageService.getListCount();
-		System.out.println();
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
 		
 		
 		mile_list = mileageService.getMileagelist(map);
-		System.out.println(mile_list);
 		
 		int maxpage = (int)((double)listcount/limit+0.95);
 		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
@@ -287,10 +282,16 @@ public class MypageController {
 		if(session.getAttribute("member_id")==null) {
 	           return "redirect:/";
 	      }
-		
+			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			ArrayList<CouponVO> couponlist = null;
 			String member_id = (String) session.getAttribute("member_id");
 			couponlist = couponService.getCouponList(member_id);
+			for (int i = 0; i < couponlist.size(); i++) {
+				System.out.println(couponlist.get(i).getCoupon_start());
+				System.out.println(couponlist.get(i).getCoupon_end());
+				System.out.println(couponlist.get(i).getCoupon_useday());
+			}
+
 			
 			model.addAttribute("couponlist", couponlist);
 		return "mycoupon";

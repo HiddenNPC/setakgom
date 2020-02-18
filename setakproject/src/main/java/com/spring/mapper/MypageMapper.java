@@ -2,9 +2,9 @@ package com.spring.mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.spring.member.MemberVO;
+import com.spring.mypage.KeepPhotoVO;
 import com.spring.mypage.KeepReturnVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
@@ -34,4 +34,7 @@ public interface MypageMapper {
 	int part_Return(KeepReturnVO krvo);
 	MemberVO getMember(String member_id);
 	
+	//사진
+	ArrayList<KeepPhotoVO> selectPhoto(long order_num);
+
 }

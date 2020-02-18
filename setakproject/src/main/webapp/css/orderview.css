@@ -22,6 +22,7 @@
 }
 
 .title-text h2 {
+	display:none;
 	font-size: 2rem;
 	color: #444;
 }
@@ -51,12 +52,12 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 		margin-left:15px;
 	    box-sizing:border-box;
 	}
-	.mypage_content h2{
+	.content_h2{
 		height:130px;
 		line-height:130px;
 		text-align:center;
 		font-size:1.7rem;
-		border:3px solid #e1e4e4;
+		/* border:3px solid #e1e4e4; */
 		box-sizing:border-box;
 	}
     .mypage_content .mypage_content_cover p{
@@ -408,6 +409,422 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 		/* <라뷰 작성> */
 		
 		
+	@media screen and (max-width:768px) {
+	   
+	    
+    .title-text {
+		position: absolute;
+		right: 0;
+		left: 0;
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		-webkit-align-items: center;
+		-webkit-justify-content: center;
+		-webkit-box-pack: center;
+		-webkit-box-align: center;
+		-moz-box-pack: center;
+		-moz-box-align: center;
+		-ms-box-pack: center;
+		-ms-box-align: center;
+	}
+
+	.title-text h2 {
+		display:block;
+		font-size: 1.8rem !important;
+		color: #444;
+
+	}
+
+	.title-text h2:before {
+		content: '';
+		display: block;
+		width: 30% !important;
+		height: 6px;
+		background-color: #3498db;
+		margin-bottom: 6px;
+		vertical-align: middle;
+	}
+
+	/*
+	default.css에 body와 a랑 뭐 기타등등 속성들 기본값 저장해놨으니 한번확인해주세요
+	content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼서 출력될겁니다. 참고 >_-(찡긋)
+	폰트사이즈는 무조건 rem으로 작업해주세요.
+	*/ 
+
+		/*변경된 클래스와 아이디로 작업하세요*/
+		#test > .content{
+			display:block;
+		}
+		.mypage_content{
+			width:100%;
+			margin-left:0px;
+			box-sizing:border-box;
+			padding-top:60px;
+		}
+		.content_h2{
+			display:none;
+			height:130px;
+			line-height:130px;
+			text-align:center;
+			font-size:1.7rem;
+			/* border:3px solid #e1e4e4; */
+			box-sizing:border-box;
+
+		}
 		
-		
-		
+		.mypage_content_cover p:last-child {
+			color:#444;
+		}
+
+		.mypage_head{
+			width:150px;
+			box-sizing:border-box;
+			display:none;
+		}
+		.mypage_head > ul > li:nth-child(2){
+			display:none;
+			border:2px solid #e1e4e4;
+			border-top:0px;
+			padding-bottom:60px;
+		}
+		.mypage-title{
+			display:none;
+			height:130px;
+			background-color:#3498db;
+			width:100%;
+			color:#fff;
+			line-height:130px;
+			text-align:center;
+			font-weight:bold;
+			font-size:1rem;
+		}
+		.mypage_list{
+			display:none;
+			padding:20px 0 0 15px;
+			color:#444;
+		}
+		.mypage_list li{
+			font-size:0.86rem;
+			padding-top:5px;
+			display:block;
+		}
+		.mypage_list li:first-child{
+			font-weight:bold;
+			font-size:1rem;
+		}
+
+		.mypage_list li a{
+		   color:#444;
+		 }
+		 .mypage_list li a:hover{
+			font-weight:bold;
+		 }
+
+		.null {
+			color:#3498bd;
+			text-align:center;
+			margin-top:150px;
+		}
+
+		/*하단 슬라이드*/
+		.accordion {
+				width:100%;
+				background-color:#fff;
+
+				margin-top:15px;
+				box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+			}
+
+			.accordion-header {
+				font-weight:bold;
+				padding:15px;
+				border:2px solid #e1e4e4;
+				color:#2a313a;
+				cursor: pointer;
+			}
+
+			.accordion-header::before {
+				content:'';
+				display:inline-block;
+				width:12px;
+				height:12px;
+				background-color:#b1b5be;
+				border-radius:50%;
+				margin-right:10px;
+			}
+			.accordion-header:hover {
+				background-color:#f7f7f7;
+			}
+
+			.accordion-content {
+				border-right:2px solid #e1e4e4;
+				border-left:2px solid #e1e4e4;
+				border-bottom:2px solid #e1e4e4;
+				background-color: rgb(255,255,255);
+				width: 100;
+				height: 350px;
+				color:#4a5666;
+				display:none;
+			}
+            .accordion p{
+   				font-size:0.8rem !important;
+            }
+			.active.accordion-header::before {
+				background-color:#3498db;
+			}
+
+			.snb {
+				border-right:2px solid #e1e4e4;
+				width:30%;
+				height:350px;
+				float:left;
+			}
+			.snb p:first-child{
+				color:#444;
+				font-size:0.9rem;
+				font-weight:bold;
+			}
+			.snb p:last-child{
+				color:#3498db;
+				font-weight:600;
+			}
+
+			.row_content{
+				width:69%;
+				height:350px;
+				float:left;
+				color: #444;
+			}
+
+			.row_content2{
+				width:100%;
+				height:290px;
+				overflow:scroll;
+				overflow-x:hidden;
+				border-bottom:1px solid #e1e4e4;
+			}
+			.row_content2 div p:first-child{
+				font-weight:700;
+			}
+
+			.delicode{
+				margin-left:10px ;
+				float:left;
+			}
+			.status{
+				float:left;
+				margin-right:0px;
+				margin-left:10px;
+			}
+
+			/*내용*/
+			.my_laundry{
+				float:none;
+				width:100%;
+				padding:0  5px 10px;
+			}
+			.my_mending{
+				float:none;
+				width:100%;
+				padding:0  5px 10px;
+			}
+			.my_keep{
+				float:none;
+				width:100%;
+				padding:0  5px 10px;
+			}
+
+			/*취소 버튼*/
+			.button {
+				display: inline-block;
+				vertical-align: top;
+				position:relative;
+				top:0px;
+				left:5px;
+				overflow: hidden;
+				min-width: 56px;
+				line-height: 35px;
+				padding: 0 15px;
+				font-size: 14px;
+				color: white;
+				text-align: center;
+				text-decoration: none;
+				text-shadow: 0 1px #154c86;
+				background-color: #3498db;
+				background-clip: padding-box;
+				border: 1px solid;
+				border-color: #1c65b2 #18589c #18589c;
+				border-radius: 25px;
+				-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+				box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+
+			}
+			.button:before {
+				content: '';
+				position: absolute;
+				top: -25%;
+				bottom: -25%;
+				left: -20%;
+				right: -20%;
+				border-radius: 50%;
+				background: transparent;
+				-webkit-box-shadow: inset 0 0 38px rgba(255, 255, 255, 0.5);
+				box-shadow: inset 0 0 38px rgba(255, 255, 255, 0.5);
+			}
+			.button:hover {
+				background-color: #1a74d3;
+			}
+			.button:active {
+				color: rgba(255, 255, 255, 0.9);
+				text-shadow: 0 -1px #154c86;
+				background: #1f71c8;
+				border-color: #113f70 #154c86 #1c65b2;
+				-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.4);
+				box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.4);
+				background-image: -webkit-linear-gradient(top, #1a5da5, #3a8be0);
+				background-image: -moz-linear-gradient(top, #1a5da5, #3a8be0);
+				background-image: -o-linear-gradient(top, #1a5da5, #3a8be0);
+				background-image: linear-gradient(to bottom, #1a5da5, #3a8be0);
+			}
+			.button:active:before {
+				top: -50%;
+				bottom: -125%;
+				left: -15%;
+				right: -15%;
+				-webkit-box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
+				box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
+			}
+			.button:disabled{
+				background-color: #e1e4e4;
+				border-color: #e1e4e4;
+				color:#444;
+				text-shadow:none;
+			}
+
+	  /*취소버튼 끝*/
+	  /*리뷰 작성버튼*/
+			.open {
+				display: inline-block;
+				vertical-align: top;
+				position:relative;
+				top:0px;
+				left:5px;
+				overflow: hidden;
+				min-width: 56px;
+				line-height: 35px;
+					padding: 0 15px;
+				font-size: 14px;
+				color: white;
+				text-align: center;
+				text-decoration: none;
+				text-shadow: 0 1px #154c86;
+				background-color: #3498db;
+				background-clip: padding-box;
+				border: 1px solid;
+				border-color: #1c65b2 #18589c #18589c;
+				border-radius: 25px;
+				-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+				box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+
+			}
+			.open:before {
+				content: '';
+				position: absolute;
+				top: -25%;
+				bottom: -25%;
+				left: -20%;
+				right: -20%;
+				border-radius: 50%;
+				background: transparent;
+				-webkit-box-shadow: inset 0 0 38px rgba(255, 255, 255, 0.5);
+				box-shadow: inset 0 0 38px rgba(255, 255, 255, 0.5);
+			}
+			.open:hover {
+				background-color: #1a74d3;
+			}
+			.open:active {
+				color: rgba(255, 255, 255, 0.9);
+				text-shadow: 0 -1px #154c86;
+				background: #1f71c8;
+				border-color: #113f70 #154c86 #1c65b2;
+				-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.4);
+				box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.4);
+				background-image: -webkit-linear-gradient(top, #1a5da5, #3a8be0);
+				background-image: -moz-linear-gradient(top, #1a5da5, #3a8be0);
+				background-image: -o-linear-gradient(top, #1a5da5, #3a8be0);
+				background-image: linear-gradient(to bottom, #1a5da5, #3a8be0);
+			}
+			.open:active:before {
+				top: -50%;
+				bottom: -125%;
+				left: -15%;
+				right: -15%;
+				-webkit-box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
+				box-shadow: inset 0 0 96px rgba(0, 0, 0, 0.2);
+			}
+
+			.open:disabled{
+				background-color: #e1e4e4;
+				border-color: #e1e4e4;
+				color:#444;
+				text-shadow:none;
+			}
+
+            /*주문번호, 주소*/
+			.ordernumber{	
+				padding-top:20px;
+				padding-left:5px;
+				padding-bottom:70px;
+				height:0%;
+			}
+			.ordernumber p{
+				width:100%;
+			}
+
+			.addr{
+				padding-left:5px;
+				height:20%;
+			}
+
+            /*페이징*/
+			.page_a{
+				text-align: center;
+				font-size:15px;
+				border: 1px solid #eeefef;
+				margin:5px;
+				padding:5px;
+				background-color: #eeefef;
+				font-weight:bold;
+				color:#3498db;
+		}
+
+			/*
+			.page1{
+				padding-left:45%;
+				display: inline-block;
+				margin-bottom : 50px; 
+			}
+			*/
+			.page1{
+				margin-top:50px;
+				text-align: center;
+			}
+			.page1 table {
+				width: 100%;
+			}
+
+			.page1 table tr td div{
+				display: inline-block;
+			}
+			table.page td a{
+				text-decoration: none;
+				color:#3498db;
+			}		
+
+			/* <라뷰 작성> */
+}

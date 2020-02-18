@@ -1,5 +1,6 @@
 package com.spring.mypage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,7 +39,6 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
 		
 		ordernumlist = mypageMapper.getOrdernumlist(member_id);
-		System.out.println("service" + ordernumlist);
 		return ordernumlist;
 	}
 	
@@ -48,7 +48,6 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
 		
 		keeplist = mypageMapper.selectMykeeplist(order_num);
-		System.out.println(keeplist + "킵");
 		return keeplist;
 	}
 	
@@ -124,7 +123,6 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<KeepVO> keepVO = new ArrayList<KeepVO>();
 			
 		keepVO = mypageMapper.selectKeep(order_num);
-		System.out.println("keepVO.get(0).getKeep_start() 서비스 = " + keepVO.get(0).getKeep_start());
 		
 		return keepVO;
 	}
@@ -195,5 +193,16 @@ public class MypageServiceImpl implements MypageService {
 		
 	}
 
+
+	public ArrayList<KeepPhotoVO> selectPhoto(long order_num){
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		ArrayList<KeepPhotoVO> kpvo = new ArrayList<KeepPhotoVO>();
+		
+		kpvo = mypageMapper.selectPhoto(order_num);
+		
+		return kpvo;
+	}
+
 }
+
 

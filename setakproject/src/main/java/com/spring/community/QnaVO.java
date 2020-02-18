@@ -1,5 +1,11 @@
 package com.spring.community;
 
+import java.sql.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class QnaVO 
 {
 	private int qna_num;

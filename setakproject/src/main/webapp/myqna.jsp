@@ -38,6 +38,9 @@
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
 		<div class="content"> <!-- 변경하시면 안됩니다. -->
+		<div class="title-text">
+			<h2>Q&A 문의내역</h2>
+		</div>
 			<div class="mypage_head" style="width: 12%; float: left;">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -65,7 +68,7 @@
 					</li>
 				</ul>
 			</div>
-			<div style="width: 85%; float: right;">
+			<div>
 				<div class="mypage_content">
 				<h2>Q&A 문의내역</h2>
 				<%if (qnalist.size() == 0) {%>
@@ -85,13 +88,17 @@
 							</thead>
 							<%for (int i=0; i<qnalist.size(); i++){ 
 								QnaVO qvo = (QnaVO)qnalist.get(i);
+							String date = qnalist.get(0).getQna_date();
+							String[] date2 = date.split(" ");
+							String date3 = date2[0];
+								
 							%>
 							<tbody align="center">
 								<tr>
-									<td><%=qvo.getORDER_NUM() %></td>
-									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQNA_NUM() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQNA_TITLE() %></a></td>
-									<td><%=sdf.format(qvo.getQNA_DATE()) %></td>
-									<td><%=qvo.getQNA_CHECK() %></td>
+									<td><%=qvo.getQna_type() %></td>
+									<td><a href="./qnaDetail.do?qna_num=<%=qvo.getQna_num() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQna_title() %></a></td>
+									<td><%=date3 %></td>
+									<td><%=qvo.getQna_check() %></td>
 								</tr>
 							</tbody>					
 							<%} %>	
@@ -105,20 +112,20 @@
               					<%if(nowpage <= 1) {%>
               				<div class="page_a"><a>&#60;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./myqna.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
+              				<%for (int a=startpage; a<endpage; a++) {
               					if(a==nowpage) {
            					%>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
-           						<div class="page_a"><a href="./mysaving.do?page=<%=a %>"><%=a %></a></div>
+           						<div class="page_a"><a href="./myqna.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
            					<%} %>
            					<%if (nowpage >= maxpage) {%>	
            						<div class="page_a"><a>&#62;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./myqna.do?page=<%=nowpage+1 %>">&#62;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>
