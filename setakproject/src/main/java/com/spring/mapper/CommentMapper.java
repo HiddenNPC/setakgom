@@ -9,10 +9,12 @@ public interface CommentMapper
 	List<CommentVO> commentList(int i);
 	int commentInsert(CommentVO vo);
 	int commentDelete(CommentVO vo);
-	int commentUpdate(CommentVO vo);	
-	
+	int commentUpdate(CommentVO vo);		
 	int cntListCount();
 	int maxNum();
 	
+	
+	//관리자
+	List<CommentVO> ad_commentList();
 
 }

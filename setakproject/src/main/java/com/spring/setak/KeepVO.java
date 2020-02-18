@@ -15,7 +15,6 @@ public class KeepVO {
 	String keep_start;
 	String keep_end;
 	int keep_wash;
-	String keep_file;
 	String keep_now;
 	
 	public int getKeep_seq() {
@@ -77,12 +76,6 @@ public class KeepVO {
 	}
 	public void setKeep_wash(int keep_wash) {
 		this.keep_wash = keep_wash;
-	}
-	public String getKeep_file() {
-		return keep_file;
-	}
-	public void setKeep_file(String keep_file) {
-		this.keep_file = keep_file;
 	}
 	public String getKeep_now() {
 		return keep_now;

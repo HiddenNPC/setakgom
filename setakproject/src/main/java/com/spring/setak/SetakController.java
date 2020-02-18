@@ -3,6 +3,7 @@ package com.spring.setak;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,14 @@ public class SetakController {
 	}
 	
 	@RequestMapping(value = "/washmending.do")
-	public ModelAndView washmending(HttpServletRequest request) {
+	public ModelAndView washmending(HttpServletRequest request, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		
+		if(session.getAttribute("member_id")==null) {
+			mav.setViewName("/");
+			return mav;
+		}
+		
 		ArrayList<WashingVO> list = new ArrayList<WashingVO>();
 		
 		String cate[] = request.getParameterValues("wash_cate");

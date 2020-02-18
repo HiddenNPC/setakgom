@@ -38,6 +38,9 @@
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script type="text/javascript">
@@ -422,8 +425,8 @@ $(document).ready(function() {
 	        var msg;
 	 	    
 	        if (select_price == 0){
-	        	msg = '금액을 선택해주세요.';
-	       		alert(msg);
+	        	Swal.fire("","연장 기간을 선택해 주시기 바랍니다.","info");
+	        	return false;
 	        }
 	        
 	        IMP.request_pay({
@@ -451,18 +454,23 @@ $(document).ready(function() {
 		 	    	dataType : "json",
 					content : 'application/x-www-form-urlencoded; charset = utf-8',
 					success:function(data){
-						msg = '신청을 완료하였습니다.';
 		            	var num = data.order_num;
-		                location.href="/setak/mykeep.do";
-		                alert(msg);
+		            	Swal.fire({
+							text: "신청을 완료하였습니다.",
+							icon: "info",
+						}) .then(function(){
+							location.href='/setak/mykeep.do';
+						});
 					}
 	 	    	});
 	 	 		} else {
-					msg = '결제에 실패하였습니다.';
-	           		msg += '에러내용 : ' + rsp.error_msg;
 	            	//실패시 이동할 페이지
-	            	location.href="/setak/mykeep.do";
-	            	alert(msg);
+	            	Swal.fire({
+						text: "결제에 실패하였습니다.",
+						icon: "error",
+					}) .then(function(){
+						location.href='/setak/mykeep.do';
+					});
 	 	 		}
 	 		});
  	});
@@ -474,7 +482,7 @@ $(document).ready(function() {
  	// 결제 : 아임포트 스크립트
  	 $(".part_return").on("click", function(){
  		   
- 		var select_price = 100;
+ 		var select_price = 2000;
  			
  		// 테이블 값을 받아오기 (for문)
  		// 나눠서 kindArr, contentArr 넣어줌
@@ -486,10 +494,10 @@ $(document).ready(function() {
  	        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
  	        var msg;
  	        var massage;
- 	        if (select_price == 0){
- 	        	msg = '금액을 선택해주세요.';
- 	       		alert(msg);
- 	        }
+ 	       if (select_price == 0){
+	        	Swal.fire("","금액을 선택해주십시오.","info");
+	        	return false;
+	        }
  	        
  	        IMP.request_pay({
  	            pg : 'kakaopay',
@@ -517,12 +525,14 @@ $(document).ready(function() {
 						}
 					});
 					} else {
-						msg = '결제에 실패하였습니다.';
-						msg += '에러내용 : '+ rsp.error_msg;
 						//실패시 이동할 페이지
-						location.href = "/setak/mykeep.do";
-						alert(msg);
-						}
+						Swal.fire({
+							text: "결제에 실패하였습니다.",
+							icon: "error",
+						}) .then(function(){
+							location.href='/setak/mykeep.do';
+						});
+					  }
 					});
  	 				});
 				});
@@ -539,9 +549,12 @@ $(document).ready(function() {
 			dataType : "json",
 			content : 'application/x-www-form-urlencoded; charset = utf-8',
 			success:function(data){
-				msg += '전체반환신청완료';
-				alert(msg);
-				location.href = "/setak/mykeep.do";
+				Swal.fire({
+					text: "전체반환신청완료",
+					icon: "success",
+				}) .then(function(){
+					location.href='/setak/mykeep.do';
+				});
 			},
 			error:function(){
 				alert("ajax통신안됌");

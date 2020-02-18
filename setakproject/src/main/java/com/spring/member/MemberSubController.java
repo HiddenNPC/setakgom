@@ -1,8 +1,10 @@
 package com.spring.member;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.resource.HttpResource;
+
+import com.spring.order.Iamport;
 
 @Controller
 public class MemberSubController {
@@ -84,7 +88,6 @@ public class MemberSubController {
 	         
 	      }
 	      
-	      
 	      model.addAttribute("subhistory_list", subhistory_list);
 	      model.addAttribute("limit", limit);
 	      model.addAttribute("page", page);
@@ -93,24 +96,46 @@ public class MemberSubController {
 	      model.addAttribute("endpage", endpage);
 	      model.addAttribute("listcount", listcount);
 		
-		/*
-		for(int i = 0; i <subhistory_list.size(); i++) {
-			System.out.println(subhistory_list.get(i).getHis_name());
+		
+		/*for(int i = 0; i <subhistory_list.size(); i++) {
+			System.out.println(subhistory_list.get(i).getHis_date()+":"+subhistory_list.get(i).getReview_chk());
 		}
-	*/
+		 */
 		return "mysub";
 	}
 	
 	/*정기구독 해지*/
+	//민경 추가 부분 정기 구독 해지 > 아임포트 연동 
 	 @RequestMapping (value ="/subs_bye1.do", produces = "application/json; charset=utf-8")
      @ResponseBody 
-	 public Map<String, Object> subcancle (String member_id) {
+	 public Map<String, Object> subcancle (String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 
+		Map<String, Object> result = new HashMap<String, Object>();
+		 
+		//정기구독 결제 해지
+		Iamport iamport = new Iamport();
+
+		String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
+		String imp_secret = URLEncoder
+				.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+
+		String requestURL = "https://api.iamport.kr/users/getToken";
+
+		String token = iamport.getToken(request, response, json, requestURL);
+		String customer_uid = membersubservice.sub_list(member_id).getCustomer_uid();
+		
+		int res2 = iamport.cancelSub(token, customer_uid);
+
+		
+		 // 주희 언니 코드 > member_subs 테이블 subs_bye 1로 바꿈
 		 HashMap<String, Object> map = new HashMap<String, Object>();
 		 map.put("member_id", member_id);
 		 
-		 Map<String, Object> result = new HashMap<String, Object>();
 			int res = membersubservice.subcancle(member_id);
-				if(res==1) {
+				if(res==1 && res2 == 1) {
 					result.put("res", "OK");
 				} else {
 					result.put("res", "FAIL");
@@ -119,21 +144,27 @@ public class MemberSubController {
 		return result;
 	 }
 	 
-	/*재구독*/
-	@RequestMapping (value ="/subs_bye0.do", produces = "application/json; charset=utf-8")
+	/*리뷰 작성*/
+	@RequestMapping (value ="/review_chk.do", produces = "application/json; charset=utf-8")
 	@ResponseBody 
-	public Map<String, Object> resub (String member_id) {
-		 HashMap<String, Object> map = new HashMap<String, Object>();
-		 map.put("member_id", member_id);
-		 
-		 Map<String, Object> result = new HashMap<String, Object>();
-			int res = membersubservice.resub(member_id);
-				if(res==1) {
-					result.put("res", "OK");
-				} else {
-					result.put("res", "FAIL");
-					result.put("message", "Failure");
-				}
+    public Map<String, Object> review_chk(String member_id, String his_date) throws Exception {
+		
+		String ndate = his_date;
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(ndate);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("his_date", date);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		int res = membersubservice.review_chk(map);
+			if(res==1) {
+				result.put("res", "OK");
+			} else {
+				result.put("res", "FAIL");
+				result.put("message", "Failure");
+			}
 		return result;
-	 }
+    	
+    }
 }

@@ -67,11 +67,13 @@
             $("#datepicker").datepicker({
             	onClose: function(selectedDate) {    
                     $("#datepicker2").datepicker( "option", "minDate", selectedDate );
+                    $("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
                 }
             });                    
             $("#datepicker2").datepicker({
-                onClose: function( electedDate) {
+                onClose: function(selectedDate) {
                     $("#datepicker").datepicker( "option", "maxDate", selectedDate );
+                    $("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
                 }    
             });
             
@@ -740,6 +742,7 @@
 				</div>
 				
 				</div>
+				<!-- 결과 페이징 div 끝 -->
 		<!-- 결과  div 끝-->
 		
 	<!-- 주문 상세보기 레이어 -->

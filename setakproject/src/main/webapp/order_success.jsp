@@ -32,6 +32,24 @@
          
          var price = '<%=price%>'; 
          $("#pay_price").html(numberFormat(price));
+         
+      	// 모바일 이미지 
+      	var windowWidth = $(window).width();
+      	if (windowWidth > 769) {
+      		$('.tab').click(function() {
+      			$('html, body').animate({
+      				scrollTop : 300
+      			}, 500);
+      			return false;
+      		});
+      	} else {
+      		$('.tab-list a').click(function() {
+      			event.preventDefault();
+      		});
+      		$('.arrow-img').attr("src","images/m_order3.png")
+      	}
+             
+      	
       });
       	
   	// 콤마      

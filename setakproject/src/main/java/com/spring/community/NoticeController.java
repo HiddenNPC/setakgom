@@ -2,12 +2,19 @@ package com.spring.community;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
@@ -53,29 +60,22 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return "notice_list";
 
 	}
-	
-	@RequestMapping(value = "/noticeWrite.do") public String writeForm(NoticeVO noticevo, Model model) throws Exception
-	{
-		model.addAttribute("noticevo", noticevo);
-		return "notice_write";
 		
-	}
-	
-	@RequestMapping(value = "/noticeInsert.do") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping(value = "/admin/noticeInsert.do") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{				
 		NoticeVO noticevo = new NoticeVO();
-		noticevo.setNOTICE_TITLE(request.getParameter("NOTICE_TITLE"));
-		noticevo.setNOTICE_CONTENT(request.getParameter("NOTICE_CONTENT"));					
+		noticevo.setNotice_title(request.getParameter("notice_title"));
+		noticevo.setNotice_content(request.getParameter("notice_content"));	
 		int res = noticeService.noticeInsert(noticevo);		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		
 		if (res !=0 ) {
-			writer.write("<script>alert('공지사항 작성 성공!!');location.href='./noticeList.st';</script>");
+			writer.write("<script>location.href='./admin_notice.do';</script>");
 		}
 		else {
-			writer.write("<script>alert('공지사항 작성 실패..');location.href='./noticeWrite.st';</script>");
+			writer.write("<script>alert('공지사항 작성 실패..');location.href='./admin_notice.do';</script>");
 		}
 		
 		return null;
@@ -85,63 +85,64 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	{
 		NoticeVO vo = noticeService.getDetail(noticevo);
 		model.addAttribute("noticedata", vo);
-		System.out.println("글 보기 정상작동");	
-		System.out.println("noticedata =" + vo);	
 		return "notice_view";
 	}
-
-	@RequestMapping(value = "/updateForm.do") public String updateForm(NoticeVO noticevo, Model model) throws Exception {
-		NoticeVO vo = noticeService.getDetail(noticevo);
-		model.addAttribute("noticedata", vo);
-		
-		return "notice_modify";
-	}
-
-	@RequestMapping (value = "/noticeModify.do") public String noticeModify (NoticeVO noticevo, HttpServletResponse response, HttpServletRequest request) throws Exception
+	
+	@RequestMapping (value = "/admin/noticeUpdate.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@ResponseBody public  Map<String, Object> noticeModify (NoticeVO vo)
 	{
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer = response.getWriter();
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			int res = noticeService.noticeModify(vo);		
+			if (res==1)
+				retVal.put("res", "OK");
+			else {
+				retVal.put("res", "Err");}
+			}
+			catch (Exception e) {
+				retVal.put("res", "FAIL");
+				retVal.put("message", "Failure");
+			}
 		
-		int res = noticeService.noticeModify(noticevo);		
-		
-		
-		if (res == 1 ) {
-			writer.write("<script>alert('게시글 수정 성공!!'); location.href='./noticeList.st';</script>");
-		}
-		
-		else {
-			writer.write("<script>alert('게시글 수정 실패..'); location.href='history.go(-1)'</script>");
-		}				
-		return null;				
+			return retVal;		
 	}
 	
-	@RequestMapping(value = "/deleteForm.do") public String deleteForm(NoticeVO noticevo, Model model) throws Exception 
-	{
-		NoticeVO vo = noticeService.getDetail(noticevo);
-		model.addAttribute("noticedata", vo);		
-		return "notice_delete";
+	@RequestMapping(value = "/admin/noticeDelete.do", produces="application/json;charset=UTF-8", method = { RequestMethod.GET, RequestMethod.POST } ) 
+	@ResponseBody public Map<String, Object> noticeDelete(NoticeVO vo) throws Exception 
+	{	
+		
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		try {
+			int res = noticeService.noticeDelete(vo);				
+			if (res==1) {
+				System.out.println(res);
+				retVal.put("res", "OK");
+			}else {
+				retVal.put("res", "PassErr");}
+			}
+			catch (Exception e) {
+				retVal.put("res", "FAIL");
+				retVal.put("message", "Failure");
+			}
+		
+			return retVal;		
+	}
+	
+	@RequestMapping(value = "/admin/admin_notice.do")public String adminNotice(Model model) throws Exception 
+	{			
+		List<Object> list = noticeService.ad_noticeList();
+		model.addAttribute("noticeList", list);				
+		return "admin/admin_notice";		
 	}
 
-	@RequestMapping(value = "/noticeDelete.do") public String noticeDelete(NoticeVO noticevo, HttpServletResponse response) throws Exception 
+	
+	@RequestMapping(value = "/admin/ad_noticeList.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@ResponseBody public List<Object> ad_noticeList()
 	{
-		int res = noticeService.noticeDelete(noticevo);		
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer = response.getWriter();
-		
-		if (res == 1 ) {
-			writer.write("<script>alert('게시글 삭제 성공!!'); location.href='./noticeList.st';</script>");
-		}
-		
-		else {
-			writer.write("<script>alert('게시글 삭제 실패..'); location.href='deleteForm.st'</script>");
-		}
-		
-		
-		return null;
+		List<Object> list = noticeService.ad_noticeList();
+		return list;		
 	}
-
+	
 
 
 

@@ -14,7 +14,7 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
-         var sessionID = "<%=session.getAttribute("id") %>"
+         var sessionID = "<%=session.getAttribute("member_id") %>";
          
          /*탈퇴신청 버튼 클릭*/
          $(".btn").click(function(event){
@@ -25,31 +25,28 @@
          $(".close").click(function(event){
         	  $(".alert_withdraw").css('display', 'none');
         	  $(".back").css('display', 'none');
+        	  
+        	  $.ajax({
+      		 	url : '/setak/request-withdraw.do', 
+      		 	type:'post',
+      		 	data : {	'member_id': "<%=session.getAttribute("member_id") %>",
+      		 				'member_memo':'탈퇴 신청' },
+      		 	dataType:'json', 
+     			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+      		 	
+     			success: function(result) {
+          			if(result.res=="OK") {
+          			} else { 
+          				// 실패했다면
+          			}
+       			},
+       			error:function() {
+          			alert("insert ajax 통신 실패");
+       			}			
+  			});
+        	  
           });
          
-         /*탈퇴 ???????
-          $(".btn").click(function(event){
-         var params = {	'member_id': sessionID };
-			$.ajax({
-    		 url : '/setak/deleteMember.do', 
-    		 type:'post',
-    		 data : params,
-    		 dataType:'json', 
-   			 contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-    		 success: function(result) {
-        		if(result.res=="OK") {
-     	  			alert("탈퇴완료");
-        		} else { 
-        			// 실패했다면
-           			alert("탈퇴실패.");
-        				}
-     			},
-     			error:function() {
-        			alert("insert ajax 통신 실패");
-     			}			
-			});
-		});*/
-          
      });
     </script>
 </head>
@@ -98,7 +95,6 @@
 			</div>
 			
 			<div class="withdraw">
-				<div class="text">
 					<h3>회원탈퇴 안내<span>(탈퇴신청에 앞서 아래의 사항을 반드시 확인하시기 바랍니다)</span></h3>
 					<hr>
 					<h4>1. 탈퇴 후 고객님의 정보는 전자상거래 소비자보호법에 의거한<span> 세탁곰 개인정보보호정책(1조 4항 개인정보의 보유 및 이용기간)</span> 에 따라 관리됩니다.</h4>
@@ -109,7 +105,7 @@
 					<h5>회원탈퇴 안내를 모두 확인하였으며 탈퇴에 동의합니다.</h5>
 					<input type="button" class="btn" value="탈퇴신청" />
 				</div>
-		</div>	
+		</div>
 	</section>
 	
 	<!--탈퇴신청 팝업 -->

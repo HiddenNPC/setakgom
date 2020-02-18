@@ -11,6 +11,9 @@
 <link rel="stylesheet" type="text/css" href="./css/join.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -21,13 +24,19 @@
 		/*회원가입 버튼 클릭*/
 		$('#join').on('click', function(event){
 	        
+			var regExp = /[가-힣]/;
+			var idReg = /^[a-z0-9_-]{5,20}$/;
+			var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+			var phReg =/^[0-9]{10,11}$/;
+			var emReg =/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
+			var poReg = /^[0-9]{5}$/;
 			
             var address = $("#address").val();
             var detailAddress = $("#detailAddress").val();
             var addr = address + '!' + detailAddress;
             
             if(authchk == 0){
-            	alert("인증번호 확인이 되지 않았습니다.");
+            	Swal.fire("","인증번호 확인이 되지 않았습니다.","info");
             	return;
             }
             
@@ -38,10 +47,42 @@
             	($("#clause_use").is(":checked")==false) ||($("#clause_privacy").is(":checked")==false)
             	
              ) {
-    			alert("빠짐없이 기입해 주세요");
+            	Swal.fire("","빠짐없이 기입해 주세요","info");
     			return; 
     		};
     		
+    		if(!regExp.test($("#member_name").val())){
+    			Swal.fire("","이름을 입력해주세요.","info");
+ 	    		return;
+    		}
+    		
+    		if(!idReg.test($("#member_id").val())){
+    			Swal.fire("","아이디를 5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.","info");
+ 	    		return; 
+    		}
+    		if(!pwReg.test($("#member_password").val())) {
+ 	    		Swal.fire("","비밀번호를 8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.","info");
+ 	    		return; 
+ 	    	}
+ 			
+ 	    	if($('#member_password').val() != $('#pw2').val()) {
+ 	    		Swal.fire("","비밀번호가 일치하지 않습니다.","info");
+ 	    		return; 
+ 	    	}
+ 	    	
+ 	    	if(!phReg.test($("#member_phone").val())){
+ 	    		Swal.fire("","핸드폰 번호를 입력해주세요.","info");
+ 	    		return; 
+ 	    	}
+ 	    	
+ 	    	if(!emReg.test($("#member_email").val())){
+ 	    		Swal.fire("","이메일을 입력해주세요.","info");
+ 	    		return; 
+ 	    	}
+ 	    	if(!poReg.test($("#member_zipcode").val())){
+ 	    		Swal.fire("","우편 번호를 입력해주세요.","info");
+ 	    		return; 
+ 	    	}
             var params = {
                      'member_name':$("#member_name").val(),
                      'member_id':$("#member_id").val(),
@@ -63,12 +104,12 @@
      				$(location.href="/setak/login.do");
      			}
      			else { // 실패했다면
-    			 alert("회원가입 실패");
+     				Swal.fire("","회원가입 실패","warning");
      			}
      		},
      		error:function() {
-     		alert("insert ajax 통신 실패");
-     		}           
+     			alert("insert ajax 통신 실패");
+     			}           
             });
             
         });
@@ -140,16 +181,16 @@
 					 <h4>비밀번호가 일치하지 않습니다.</h4>
 				</div>
 				<div class="input_list">
-						<input type="text" name="member_phone" id="member_phone" style="width: 320px;" placeholder="핸드폰 번호 (예시 01012345678)" />
-						<input class="button" id="authbtn" type="button" value="인증번호 받기" style="width: 120px;" />
+						<input type="text" name="member_phone" id="member_phone" placeholder="핸드폰 번호 (예시 01012345678)" />
+						<input class="button" id="authbtn" type="button" value="인증번호 받기" />
 						<h4>핸드폰 번호를 입력해주세요</h4>
 				</div>
 				<div class="input_list">
 				<ul id = "auth_ul"> 
 					<li>
 					<span class = "input">
-						<input type="text" name="" size="20" id="member_sns"  style="width: 320px;" placeholder="SNS 인증번호" />
-						<input id="smsbtn" class="button" type="button" value="인증번호 확인" style="width: 120px;" />
+						<input type="text" name="" size="20" id="member_sns"  placeholder="SNS 인증번호" />
+						<input id="smsbtn" class="button" type="button" value="인증번호 확인"  />
 						<span id = "timer"></span>
 					</span>
 					</li>
@@ -163,8 +204,8 @@
 					<h4>메일주소를 입력해주세요</h4>				
 				</div>
 				<div class="input_list">
-					<input id="member_zipcode" type="text" name="member_zipcode" style="width: 320px;"  /> 
-					<input class="button" type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"> 
+					<input id="member_zipcode" type="text" name="member_zipcode" placeholder="우편번호"  /> 
+					<input class="button" type="button" id="zip"onclick="execDaumPostcode()" value="우편번호 찾기" > 
 					<h4>우편번호를 입력해주세요</h4>
 					<input id="address" type="text" name="" readonly />
 					<input id="detailAddress" type="text" name="" placeholder="상세 주소"/> 
@@ -182,13 +223,13 @@
 				</div>
 				<div>
 					<input type="checkbox" id="clause_use" /><span> 이용약관</span>
-    				<input class="button" id="clause_use" type="button" onclick="window.open('clause_use.jsp', '', 'width=600, height=300,location=no,status=no,scrollbars=no');" value="전체보기"/>
+    				<input class="button" id="clause_use" type="button" onclick="window.open('clause_use.jsp', '', 'width=600, height=500,location=no,status=no,scrollbars=no');" value="전체보기"/>
 					<h4>이용약관을 선택해주세요</h4>
 				</div>
 				<div>
 					<input type="checkbox" id="clause_privacy" />
 					<span>개인정보 수집 및 이용</span>
-					<input class="button" id="clause_privacy" type="button" onclick="window.open('clause_privacy.jsp', '', 'width=590, height=300,location=no,status=no,scrollbars=yes');" value="전체보기"/>
+					<input class="button" id="clause_privacy" type="button" onclick="window.open('clause_privacy.jsp', '', 'width=600, height=500,location=no,status=no,scrollbars=no');" value="전체보기"/>
 					<h4>개인정보 수집 및 이용을 선택해주세요</h4>
 				</div>
 				
@@ -268,7 +309,7 @@
                 	if(data.res=="OK") {
                 		daycount = 1;
 		        	 } else {
-		        		 alert("오늘 사용횟수를 초과하였습니다.");
+		        		 Swal.fire("","오늘 사용횟수를 초과하였습니다.","warning");
 		        	 }
                 },
                 error: function (e) {
@@ -292,8 +333,8 @@
 	                dataType: 'text',
 	                
 	                success: function (data) {
-	        			AuthTimer.comSecond = 179;
-	        			AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+	        			AuthTimer.comSecond =  179;
+	        			AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
 	        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
 	        			AuthTimer.domId = document.getElementById("timer");
 	        			$("#authbtn").attr('disabled', true);
@@ -508,7 +549,7 @@
     	        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
     	            clearInterval(this.timer);		// 타이머 해제
     	            random = randomnum();
-    	            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+    	            Swal.fire("","인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.","warning");
     	        }
     	    }
     	    ,fnStop : function(){

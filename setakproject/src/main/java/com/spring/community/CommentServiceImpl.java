@@ -19,8 +19,7 @@ public class CommentServiceImpl implements CommentService
 	public List<CommentVO> commentList(CommentVO vo) 
 	{
 		
-		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);		
-		System.out.println("Impl원글번호="+vo.getQna_num()); 
+		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);		 
 		List<CommentVO> list = null;
 		list =commentMapper.commentList(vo.getQna_num()); 
 		return list; 
@@ -47,6 +46,7 @@ public class CommentServiceImpl implements CommentService
 		System.out.println("DB에 업데이트된 댓글의 수="+vo.getQna_seq());
 		System.out.println("유지되어야할 원글의 번호="+vo.getQna_num());
 		System.out.println("DB에 업데이트된 내용="+vo.getQna_content());
+		System.out.println("작성자 누구냐="+vo.getMember_id());
 		int res = commentMapper.commentInsert(vo);
 		System.out.println("인설트하고 뭐 들어감? ="+res);
 		return res;
@@ -56,7 +56,6 @@ public class CommentServiceImpl implements CommentService
 	public int commentDelete(CommentVO vo) 
 	{
 		int res = 0;
-		System.out.println("Im,삭,Qna_seq="+ vo.getQna_seq());
 		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
 		res = commentMapper.commentDelete(vo);	
 		System.out.println("Im,삭,여기까지"+ res);
@@ -69,7 +68,15 @@ public class CommentServiceImpl implements CommentService
 		int res = 0;
 		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
 		res = commentMapper.commentUpdate(vo);
+		System.out.println(res);
 		return res;
+	}
+
+	@Override
+	public List<CommentVO> ad_commentList() {
+		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);				
+		List<CommentVO> list = commentMapper.ad_commentList(); 
+		return list; 
 	}
 
 	

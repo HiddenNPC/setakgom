@@ -25,6 +25,9 @@
    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
    
+   <!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+   
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -36,11 +39,76 @@
          var sub_num = '<%=sub_num%>';
          
          if(sub_num == "null") {
-        	 $('.pay_td').show(); 
+        	 $('.pay_td').show();
+
+             // 아임포트 정기 결제 모바일
+             $(document).on('click', '.subImg', function(event) {
+            	 
+            	 if(member_id == "null") {
+            		 window.location.href = "./login.do";
+            		 return; 
+            	 }
+            	 
+            	 var tr = $(this).parent().parent();
+            	 var subs_num = $(tr).attr('id'); 
+            	 var final_price = $(tr).attr('class'); 
+
+            	 // merchant_uid
+            	 var muid = 'merchant_' + new Date().getTime();
+            	 
+            	 // customer_uid를 위한 난수 생성 > 재결제 예약에 사용 
+            	 var num = Math.floor(Math.random() * 1000) + 1; 
+            	 var cuid = '<%=memberVO.getMember_id()%>' + num;
+
+                 var IMP = window.IMP; // 생략가능
+                 IMP.init('imp04669035'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+                 var msg;
+                              
+                 // IMP.request_pay(param, callback) 호출
+                 // amount 바꿔야함  **** > 최초 결제 동시에
+                 IMP.request_pay({ // param
+                   pay_method: "card", // "card"만 지원됩니다
+                   merchant_uid : muid,
+                   customer_uid: cuid, // 카드(빌링키)와 1:1로 대응하는 값
+                   name: "정기 구독 결제 카드 등록 및 최초 결제",
+                   amount: "100", 
+                   buyer_email : '<%=memberVO.getMember_email()%>',
+                   buyer_name : '<%=memberVO.getMember_name()%>',
+                   buyer_tel : '<%=memberVO.getMember_phone()%>',
+                   buyer_addr : '<%=memberVO.getMember_loc()%>',
+                   buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
+                 }, function (rsp) { // callback
+                   if (rsp.success) {
+                	   alert("결제가 성공적으로 완료되었습니다."); 
+                	      // 빌링키 발급 성공
+                	      // jQuery로 HTTP 요청
+                	      jQuery.ajax({
+                	        url: "/setak/insertSubscribe.do", 
+                	        method: "POST",
+                	        dataType: 'text',
+                	        data: {
+                	          merchant_uid : muid,
+                	          customer_uid: cuid,
+                	          'member_id' : member_id,
+               				  'subs_num' : subs_num,
+               				  'amount': "1000"
+                	        },
+                            success : function() {
+                            	
+                                location.href='<%=request.getContextPath()%>/subSuccess.do';
+                            } 
+                	      });
+                   } else {
+                     alert("결제가 취소 되었습니다."); 
+                   }
+                 });
+                 
+             });
+             
          }else {
         	 $('.pay_td').hide();
          }
-         
+                  
          // 아임포트 정기 결제
          $(document).on('click', '.pay_button', function(event) {
         	 
@@ -79,7 +147,8 @@
                buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
              }, function (rsp) { // callback
                if (rsp.success) {
-            	   alert("결제가 성공적으로 완료되었습니다."); 
+
+            	   Swal.fire("","결제가 성공적으로 완료되었습니다.","success");
             	      // 빌링키 발급 성공
             	      // jQuery로 HTTP 요청
             	      jQuery.ajax({
@@ -91,7 +160,7 @@
             	          customer_uid: cuid,
             	          'member_id' : member_id,
            				  'subs_num' : subs_num,
-           				  'amount': "1000"
+           				  'amount': final_price
             	        },
                         success : function() {
                         	
@@ -99,11 +168,13 @@
                         } 
             	      });
                } else {
-                 alert("결제가 취소 되었습니다."); 
+            	   Swal.fire("","결제가 취소 되었습니다.","info");
                }
              });
              
          });
+         
+ 
          
          
       });
@@ -125,7 +196,7 @@
 		         <p class = "p_subtitle">정기구독을 하시면 최대 60% 저렴합니다.</p> 	
 		        
 		        <p class = "sub_title">올인원</p>
-				<table class = "sub_table" border = "solid 1px">
+				<table class = "sub_table" border = "solid 1px" data-role="table">
 					<thead>
 						<tr>
 							<th width = "10%">요금제</th>
@@ -239,6 +310,45 @@
 					</tbody>
 				</table>
 				
+				<table class = "sub_table_mobile" border = "solid 1px" data-role="table">
+					<tbody align = "center">
+						<tr id = "1" class = "59000">
+							<td>
+								<img class = "subImg" src = "images/sub-all1.png" />
+							</td>
+						</tr>
+						<tr id = "2" class = "74000">
+							<td>
+								<img class = "subImg" src = "images/sub-all2.png" />
+							</td>
+						</tr>						
+						<tr id = "3" class = "89000">
+							<td>
+								<img class = "subImg" src = "images/sub-all3.png" />
+							</td>
+						</tr>
+						
+						<tr id = "4" class = "104000">
+							<td>
+								<img class = "subImg" src = "images/sub-all4.png" />
+							</td>
+						</tr>
+						
+						<tr id = "5" class = "119000">
+							<td>
+								<img class = "subImg" src = "images/sub-all5.png" />
+							</td>
+						</tr>
+						
+						<tr id = "6" class = "134000">
+							<td>
+								<img class = "subImg" src = "images/sub-all6.png" />
+							</td>
+						</tr>
+							
+					</tbody>
+				</table>
+				
 				<p/>
 				<p class = "sub_title">와이셔츠</p>
 				<table class = "sub_table" border = "solid 1px">
@@ -306,6 +416,27 @@
 					</tbody>
 				</table>
 				
+				<table class = "sub_table_mobile" border = "solid 1px" data-role="table">
+					<tbody align = "center">
+						<tr id = "7" class = "29000">
+							<td>
+								<img class = "subImg" src = "images/sub-shirt1.png" />
+							</td>
+						</tr>				
+						<tr id = "8" class = "44000">
+							<td>
+								<img class = "subImg" src = "images/sub-shirt2.png" />
+							</td>
+						</tr>				
+						<tr id = "9" class = "59000">
+							<td>
+								<img class = "subImg" src = "images/sub-shirt3.png" />
+							</td>
+						</tr>
+							
+					</tbody>
+				</table>
+				
 				<p/>
 				<p class = "sub_title">드라이</p>
 				<table class = "sub_table" border = "solid 1px">
@@ -370,6 +501,27 @@
 							<td>3회</td>
 							<td class = "pay_td"><button class = "pay_button"><i class="far fa-credit-card"></i>&nbsp;결제</button></td>
 						</tr>	
+					</tbody>
+				</table>
+				
+				<table class = "sub_table_mobile" border = "solid 1px" data-role="table">
+					<tbody align = "center">
+						<tr id = "10" class = "44000">
+							<td>
+								<img class = "subImg" src = "images/sub-dry1.png" />
+							</td>
+						</tr>				
+						<tr id = "11" class = "59000">
+							<td>
+								<img class = "subImg" src = "images/sub-dry2.png" />
+							</td>
+						</tr>				
+						<tr id = "12" class = "74000">
+							<td>
+								<img class = "subImg" src = "images/sub-dry3.png" />
+							</td>
+						</tr>
+							
 					</tbody>
 				</table>
 				
@@ -489,6 +641,42 @@
 					</tbody>
 				</table>
 				
+				<table class = "sub_table_mobile" border = "solid 1px" data-role="table">
+					<tbody align = "center">
+						<tr id = "13" class = "34000">
+							<td>
+								<img class = "subImg" src = "images/sub-wash1.png" />
+							</td>
+						</tr>				
+						<tr id = "14" class = "49000">
+							<td>
+								<img class = "subImg" src = "images/sub-wash2.png" />
+							</td>
+						</tr>				
+						<tr id = "15" class = "64000">
+							<td>
+								<img class = "subImg" src = "images/sub-wash3.png" />
+							</td>
+						</tr>
+						<tr id = "16" class = "79000">
+							<td>
+								<img class = "subImg" src = "images/sub-wash4.png" />
+							</td>
+						</tr>				
+						<tr id = "17" class = "84000">
+							<td>
+								<img class = "subImg" src = "images/sub-wash5.png" />
+							</td>
+						</tr>				
+						<tr id = "18" class = "99000">
+							<td>
+								<img class = "subImg" src = "images/sub-wash6.png" />
+							</td>
+						</tr>
+							
+					</tbody>
+				</table>
+				
 				<p/>
 				<p class = "sub_title">물빨래&드라이</p>
 				<table class = "sub_table" border = "solid 1px" style = "margin-bottom : 150px; ">
@@ -559,7 +747,7 @@
 							<td>
 								<span class = "origin_price">99,900원</span>
 								<br/>
-								<span class = "sale_price">89,000원</span>
+								<span class = "sale_price">149,000원</span>
 							</td>
 							<td>7개</td>
 							<td>-</td>
@@ -572,6 +760,33 @@
 						
 					</tbody>
 				</table>
+				
+				<table class = "sub_table_mobile" border = "solid 1px" data-role="table">
+					<tbody align = "center">
+						<tr id = "19" class = "44000">
+							<td>
+								<img class = "subImg" src = "images/sub-washDry1.png" />
+							</td>
+						</tr>				
+						<tr id = "20" class = "59000">
+							<td>
+								<img class = "subImg" src = "images/sub-washDry2.png" />
+							</td>
+						</tr>				
+						<tr id = "21" class = "74000">
+							<td>
+								<img class = "subImg" src = "images/sub-washDry3.png" />
+							</td>
+						</tr>
+						<tr id = "22" class = "89000">
+							<td>
+								<img class = "subImg" src = "images/sub-washDry4.png" />
+							</td>
+						</tr>
+							
+					</tbody>
+				</table>
+				
 			</div>
 		</div>
       </div>

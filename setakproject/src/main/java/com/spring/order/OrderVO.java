@@ -24,4 +24,5 @@ public class OrderVO {
 	private String order_muid;
 	private String review_chk;
 	
+	
 }

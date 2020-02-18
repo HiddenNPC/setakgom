@@ -1,10 +1,11 @@
-package com.spring.admin_order;
+ package com.spring.admin_order;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.member.MemberSubVO;
 import com.spring.order.OrderVO;
 
 @Controller
@@ -24,6 +26,8 @@ public class AdminOrderController {
 	
 	@Autowired
 	private AdminOrderService adminOrderService; 
+	@Autowired
+	private AdminSubscribeService adminMemberSubService; 
 	
 	//전체 주문 관리자 페이지
 	@RequestMapping(value = "/admin/order.do")
@@ -112,23 +116,29 @@ public class AdminOrderController {
 		
 		String[] statusArr = {"결제완료", "수거중", "서비스중", "배송중", "배송완료", "주문취소"};
 		
-//		 오늘 날짜를 기준으로 최근 5일간의 주문 상태변화  > 근데 테스트 해야되니까 일단 1/27~1/31 고정
-//		Calendar cal = Calendar.getInstance();
-//		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
-//		
-//		String today = sdf.format(cal.getTime());
-//		String[] dateArr = new String[5];
-//		dateArr[0] = today; 
-//		for(int i = 1; i < 5; i++) {
-//			cal.add(Calendar.DATE, -1);
-//			dateArr[i] = sdf.format(cal.getTime());
-//		}
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
 		
-		// weekArr 바뀌는거 안해놈.. 
-		
-		String[] dateArr = {"20/01/27", "20/01/28", "20/01/29", "20/01/30", "20/01/31"}; 
-		String[] weekArr = {"20/01/27", "20/01/28", "20/01/28", "20/01/29", "20/01/29", "20/01/30", "20/01/30", "20/01/31", "20/01/31", "20/02/01"}; 
-		
+		String today = sdf.format(cal.getTime());
+		String[] dateArr = new String[5];
+		dateArr[0] = today; 
+		for(int i = 1; i < 5; i++) {
+			cal.add(Calendar.DATE, -1);
+			dateArr[i] = sdf.format(cal.getTime());
+		}
+				
+		String[] weekArr = new String[10]; 
+		weekArr[0] = today;
+		cal = Calendar.getInstance();
+		for(int i = 1; i < 10; i++) {
+			if(i%2 == 0) {
+				cal.add(Calendar.DATE, -1);
+			}else {
+				cal.add(Calendar.DATE, -6);
+			}
+			weekArr[i] = sdf.format(cal.getTime());
+		}
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		// 상태별 배열 
@@ -155,7 +165,7 @@ public class AdminOrderController {
 				map.put("order_date", dateArr[j]);
 				int dailyResult = 0; 
 				int result = adminOrderService.recentOrderStatusCnt(map);
-				
+
 				// 상태별 총 주문량 계산
 				switch(i) {
 				case 0 :
@@ -190,9 +200,9 @@ public class AdminOrderController {
 				
 		// 주별 총 주문량 계산 
 		for(int i = 0; i < weekArr.length; i+=2) {
-			String start = weekArr[i];
-			String end = weekArr[i+1];
-			
+			String end = weekArr[i];
+			String start = weekArr[i+1];
+
 			map.put("startDate", start);
 			map.put("endDate", end);
 			
@@ -221,6 +231,151 @@ public class AdminOrderController {
 	public String subscribe() {
 		
 		return "/admin/subscribe";
+		
 	}
+	
+	// 정기구독 관리자 리스트 띄우기
+	@RequestMapping(value = "/admin/getMemberSubList.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public List<Object> getMemberSubList() {
+		
+		List<Object> memberSubList = adminMemberSubService.getMemberSubList();
+		return memberSubList;
+		
+	}
+	
+	// 정기구독 관리자 검색 
+	@RequestMapping(value = "/admin/subMemberSearch.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public List<Object> subMemberSearch(@RequestParam(value="keyword") String keyword, String[] planArr, @RequestParam(value="orderBy") String orderBy) {
+				
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("orderBy", orderBy);
+		map.put("keyword", keyword);
+		map.put("planArr", planArr);
+		
+		List<Object> memberSubList = adminMemberSubService.subMemberSearch(map);
+		
+		return memberSubList;
+		
+	}
+	
+	// 정기구독 관리자 수정 
+	@RequestMapping(value = "/admin/updateMemberSubList.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public Map<String, String> updateMemberSubList(MemberSubVO msv) {
+		
+		int res = adminMemberSubService.updateMemberSubList(msv);
+		Map<String, String> retVal = new HashMap<String, String>();
+		if(res == 1) {
+			retVal.put("res", "OK");
+		}else {
+			retVal.put("res", "fail");
+		}
+		
+		return retVal;
+	}
+		
+	// 정기구독 관리자 삭제
+	@RequestMapping(value = "/admin/deleteMemberSubList.do", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@ResponseBody 
+	public Map<String, String> deleteMemberSubList(String member_id) {
 
+		// member_subs table update 
+		int res = adminMemberSubService.deleteMemberSubList(member_id);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		Integer subs_num = null; 
+		map.put("subs_num", subs_num);
+		map.put("member_id", member_id); 
+		// member table update
+		adminMemberSubService.updateSubNum(map); 
+		
+		Map<String, String> retVal = new HashMap<String, String>();
+		if(res == 1) {
+			retVal.put("res", "OK");
+		}else {
+			retVal.put("res", "fail");
+		}
+		
+		return retVal;
+	}
+	
+	// 기타 정기구독 관리 > 차트
+	@RequestMapping(value = "/admin/subscribeChart.do")
+	public String subscribeChart(Model model) {
+		
+		String[] planArr = {"올인원", "와이", "드라이", "물빨래", "물드"};
+		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", "와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
+				"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"}; 
+			
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+		
+		String today = sdf.format(cal.getTime());
+		String[] dateArr = new String[5];
+		dateArr[0] = today; 
+		for(int i = 1; i < 5; i++) {
+			cal.add(Calendar.DATE, -1);
+			dateArr[i] = sdf.format(cal.getTime());
+		}
+				
+		int[] subArr = new int[5]; 
+		int[] sub2Arr = new int[22];
+	
+		int[] allArr = new int[5];
+		int[] shirtsArr = new int[5];
+		int[] dryArr = new int[5];
+		int[] washArr = new int[5];
+		int[] washDryArr = new int[5];
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		for(int i = 0; i < planArr.length; i++) {
+			int cnt = adminMemberSubService.getMemberSubCnt(planArr[i]);
+			subArr[i] = cnt;
+			
+			map.put("subsname", planArr[i]); 
+			for(int j = 0; j < dateArr.length; j++) {
+				map.put("subs_start", dateArr[j]);
+				
+				int result = adminMemberSubService.getMemberDailySubCnt(map);
+
+				switch(i) {
+				case 0 :
+					allArr[j] = result; 
+					break;
+				case 1 :
+					shirtsArr[j] = result; 
+					break;
+				case 2 :
+					dryArr[j] = result; 
+					break;
+				case 3 :
+					washArr[j] = result; 
+					break;
+				case 4 :
+					washDryArr[j] = result; 
+					break;
+				}
+			}
+		}
+		
+		for(int i = 0; i < plan2Arr.length; i++) {
+			int cnt = adminMemberSubService.getMemberSubCnt2(plan2Arr[i]);
+			sub2Arr[i] = cnt;
+		}
+		
+		model.addAttribute("subArr", subArr); 
+		model.addAttribute("sub2Arr", sub2Arr); 
+		
+		model.addAttribute("allArr", allArr); 
+		model.addAttribute("shirtsArr", shirtsArr); 
+		model.addAttribute("dryArr", dryArr); 
+		model.addAttribute("washArr", washArr); 
+		model.addAttribute("washDryArr", washDryArr); 
+		
+		return "/admin/subscribe_chart";
+	}
+	
 }

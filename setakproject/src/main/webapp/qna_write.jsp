@@ -16,6 +16,10 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
     $("#header").load("header.jsp")
@@ -74,20 +78,20 @@ function writechk(){
 
 	if (document.getElementById('QNA_TITLE').value=="") 
 	{
-		alert("제목을 입력하세요.");
+		Swal.fire("","제목을 입력하세요.","info");
         document.getElementById('QNA_TITLE').focus();
         return false;
         
     }
 	else if (document.getElementById('QNA_CONTENT').value=="") 
 	{
-    	alert("내용을 입력하세요.(최대 500자)");
+		Swal.fire("","내용을 입력하세요.(최대 500자)","info");
         document.getElementById('QNA_CONTENT').focus();
         return false;
     }
 	else if(document.getElementById('QNA_PASS').value=="") 
 	{
-    	alert("작성하신 글의 비밀번호를 설정해 주세요 (최대 10자)");
+		Swal.fire("","작성하신 글의 비밀번호를 설정해 주세요 (최대 10자)","info");
         document.getElementById('QNA_PASS').focus();
         return false;
     }
@@ -131,8 +135,7 @@ function wcancel(){
 			<input type="radio" id="type3" name="QNA_TYPE" value="적립금"><label for="type3">적립금</label>
 			<input type="radio" id="type4" name="QNA_TYPE" value="서비스이용"><label for="type4">서비스이용</label>
 			<input type="radio" id="type5" name="QNA_TYPE" value="회원정보"><label for="type5">회원정보</label>
-			<input type="radio" id="type5" name="QNA_TYPE" value="결제"><label for="type5">회원정보</label>
-			<input type="radio" id="type7" name="QNA_TYPE" value="기타"><label for="type7">기타</label>			
+			<input type="radio" id="type6" name="QNA_TYPE" value="기타"><label for="type7">기타</label>			
 		</div>
 		</td>
 	</tr>
@@ -142,18 +145,18 @@ function wcancel(){
 		<select class="qwon" name="ORDER_NUM">		
 			<option value="선택안함">선택안함</option>
 			<%for(int i=0; i<onlist.size(); i++){ QnaVO ol = (QnaVO)onlist.get(i); %>
-   	 		<option value="<%=ol.getORDER_NUM()%>"><%=ol.getORDER_NUM()%></option>    		
+   	 		<option value="<%=ol.getOrder_num()%>"><%=ol.getOrder_num()%></option>    		
     		<%} %>
 		</select></div>
 		</td>
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">제 목</div></td>
-		<td colspan="2"><input id="QNA_TITLE" name="QNA_TITLE" type="text" size="50" maxlength="50"/></td>
+		<td colspan="2"><input id="QNA_TITLE" name="QNA_TITLE" type="text" size="35" maxlength="50"/></td>
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">내 용</div></td>
-		<td colspan="2"><textarea id="QNA_CONTENT" name="QNA_CONTENT" cols="80" rows="15" maxlength="500" style="resize:none" ></textarea></td>
+		<td colspan="2"><textarea id="QNA_CONTENT" name="QNA_CONTENT" maxlength="500"></textarea></td>
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">파일첨부</div></td>
@@ -166,15 +169,15 @@ function wcancel(){
 		<td height="30px"><div align="center">비밀번호</div></td>
 		<td><input id="QNA_PASS" name="QNA_PASS" type="password" maxlength="10"/></td>							
 		
-		<td><span>공개여부&nbsp;</span>
+		<td><div id="msp">공개여부&nbsp;</div>
 			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공 개				
-			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개</td>					
+			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개
+			</td>
+								
 	</tr>
 	<tr class="qwt1h">
 		<td colspan="2"><div>
-			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">
-			
-			
+			<input type="hidden" name="QNA_CHECK" value="답변대기" checked="checked">						
 			<!-- <input type="hidden" name="QNA_CHECK" value="답변완료"> -->					
 			</div>
 		</td>

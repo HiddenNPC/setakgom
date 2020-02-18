@@ -17,6 +17,10 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/mycoupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -24,6 +28,11 @@
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")     
       });
+    </script>
+    <script language='javascript'>
+    	function cancle() {
+    		Swal.fire("","주문을 취소하시겠습니까?","info");
+		}
     </script>
 </head>
 <body>

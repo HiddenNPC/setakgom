@@ -18,14 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 {
 	@Autowired private ReviewLikeService reviewLikeService;
 	 
-    @RequestMapping(value = "/heart.do", method = RequestMethod.POST, produces = "application/json")
-    @ResponseBody public String heart(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception 
-    {   	
-    	response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer  = response.getWriter();	
-		
-        int review_num = Integer.parseInt(request.getParameter("review_num"));  
+    @RequestMapping(value = "/heart.do", method = {RequestMethod.GET, RequestMethod.POST} , produces = "application/json")
+    @ResponseBody public int heart(HttpServletRequest request, HttpSession session) throws Exception 
+    {   
+    	int review_num = Integer.parseInt(request.getParameter("review_num"));  
         System.out.println("review_num="+review_num);
         String review_like = request.getParameter("review_like"); 
         System.out.println("review_like="+review_like);
@@ -50,17 +46,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
         if(list==0) {
         	reviewLikeService.insertReviewLike(vo);
         	reviewLikeService.updateReviewLike1(vo);
-        	writer.write("<script> alert('"+member_id+"님이 리뷰를 추천해 주셨습니다'); </script>");
-        	return null;
+        	System.out.println("if 까지");
+        	System.out.println("if return 직전 까지");
+        	System.out.println("인설트 ,리턴값은?="+list);
+        	return list;
         	
         	
-        }else {
+        }else 
         	reviewLikeService.deleteReviewLike(vo);
         	reviewLikeService.updateReviewLike2(vo);
-        	writer.write("<script> alert('"+member_id+"님이  추천을 취소하셨습니다'); </script>");
-        }
-          
-        return null;
+        	System.out.println("else 까지");
+        	System.out.println("else return 직전까지");
+        	System.out.println("딜리트 ,리턴값은?="+list);
+        	return list;
            
     }
 }
