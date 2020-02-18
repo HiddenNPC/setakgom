@@ -78,6 +78,8 @@
 		        <input type="file" name="files" multiple/><br/><br/>
 		        <input type="hidden" name="ssn_num" id="ssn_num" value="testnum"/>
 		        <input type="submit" value="Submit" id="btnSubmit"/>
+		        
+		        <a href = "imageDownload.do">홈</a>
 		    </form>
          </div>
       </div>

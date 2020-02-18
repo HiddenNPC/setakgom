@@ -1,6 +1,7 @@
  package com.spring.order;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.spring.member.MemberVO;
 import com.spring.member.SubscribeVO;
@@ -23,7 +24,7 @@ public interface OrderService {
 	public int defaultAddrUpdate(MemberVO mvo); 
 	
 	public int updateSubInfo(MemberVO mvo); 
-	public int insertMemberSubInfo(MemberVO mvo); 
+	public int insertMemberSubInfo(Map<String, Object> map); 
 	public int insertSubHistory(MemberVO mvo); 
 	public int getCouponNum(MemberVO mvo);
 	public int insertCoupon(MemberVO mvo);
@@ -31,5 +32,8 @@ public interface OrderService {
 	public SubscribeVO getSubscribeInfo(MemberVO mvo);
 	
 	public int orderCancle(OrderVO ovo);
+	
+	public int getKeepMaxGroup(String member_id); 
+	public int getKeepExist(String member_id);
 	
 }

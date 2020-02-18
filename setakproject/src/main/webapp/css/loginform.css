@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+
+.swal2-container {
+  z-index: 100;
+}
+
 #title {
 	height: 140px;
 }
@@ -160,7 +165,7 @@
 
 .check_id .back{
 	display:none;
-	z-index:10000;
+	z-index:10;
     position: fixed;
     width: 100%;
     height: 1000px;
@@ -172,7 +177,7 @@
 .check_id .popup {
 	display:none;
 	background-color:#fff;
-	z-index:99999;
+	z-index:20;
     top : 20%;
     left:35%;
     position: absolute;
@@ -259,7 +264,7 @@
 #timer {
 	position: absolute;
 	color:#f50101;
-	top:17.2rem;
+	top:18.35rem;
 	left:19.5rem;
 	font-size:0.9rem;
 }
@@ -269,7 +274,9 @@
     background-color: #bbabab;
     cursor: default;
 }
-
+#authsucess{
+	color:#3498db;
+}
 #show-id {
 	display:none;
 	background-color: #3498db;
@@ -281,34 +288,18 @@
     margin-top:20px;
 }
 
+
 /*아이디 보여주기*/
 .yourid {
 	display:none;
 	background-color:#fff;
-	z-index:99999;
+	z-index:20;
     top : 25%;
     left:35%;
     position: absolute;
     background: #eeece6b;
     width: 400px;
-    height: 300px;
-}
-
-
-.yourid h3 {
-	font-size:1.2rem;
-	margin:-30px 0 20px 20px;
-}
-
-.yourid h6 {
-    font-size:0.9rem;
-    margin:60px;
-}
-
-.yourid span {
-	color:#3498db;
-	font-weight:bold;
-	font-size:1.3rem;
+    height: 350px;
 }
 
 .btn-x {
@@ -318,15 +309,525 @@
 	margin: 18px 360px; 
 }
 
+.yourid h3 {
+	font-size:1.2rem;
+	margin:-30px 0 20px 20px;
+}
+
+.yourid h6 {
+    margin:70px 0 70px 50px;
+    font-size:1rem;
+}
+
+.yourid span{
+	color:#3498db;
+	font-size:1.3rem;
+}
 .yourid .btn {
 	background-color: #3498db;
 	border: #3498db;
 	color:#fff;
 	font-size:1rem;
 	cursor:pointer;
-    margin: 0 160px;
-    width:70px;
-    height:28px;
+	font-weight:bold;
+    width:100px;
+    margin : 30px 0 0 150px;
+}
+
+
+
+
+
+/*비밀번호찾기*/
+
+.check_pw .back{
+	display:none;
+	z-index:10;
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    top: 0px;
+    left: 0px;
+    background-color:#7575749e;
+}
+
+.check_pw .popup2 {
+	display:none;
+	background-color:#fff;
+	z-index:20;
+    top : 15%;
+    left:35%;
+    position: absolute;
+    background: #eeece6b;
+    width: 450px;
+    height: 500px;
+}
+
+.head button {
+	margin: 24px 410px; 
+	border: 0;
+	background-color:#fff;
+	font-size:1.5rem;
+}
+
+.head button:hover {
+	cursor:pointer;
+	color:#9E9E9E;
+}
+
+.head h4 {
+	margin:-34px 0 20px 30px ;
+	font-size:1.2rem;
+
+}
+.popup2 .text h3 {
+	margin:30px 0 0 100px;
+	font-size:0.9rem;
+	
+}
+
+.popup2 .text input:nth-child(2) {
+	margin: 20px 0 3px 100px;
+}
+
+.popup2 .text input:nth-child(5) {
+	margin: 3px 0 20px 100px;
+}
+
+.popup2 .text h5 {
+	display:none;
+	color:#f50101;
+	margin:-15px 0 0 -80px;
+}
+
+.popup2 .text input:nth-child(7){
+	margin:20px 0 0 100px;
+}
+
+.popup2 .text input:nth-child(8) {
+	margin:2px 0 0 100px;
+}
+
+.popup2 .text h6 {
+	display:none;
+	color:#f50101;
+	margin:4px 0 -10px 100px;
+}
+
+#authsucess2 {
+	display:none;
+	color:#3498db;
+}
+
+#change-pw {
+ 	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+ }
+
+#timer2 {
+	position: absolute;
+	color:#f50101;
+	top:21.79rem;
+	left:19.5rem;
+	font-size:0.83rem;
+}
+
+
+#authbtn2:disabled {
+    background-color: #bbabab;
+    cursor: default;
+}
+
+/*비밀번호 교체하기*/
+.changepass {
+    display:none;
+	background-color:#fff;
+	z-index:20;
+    top : 20%;
+    left: 38%;
+    position: absolute;
+    background: #eeece6b;
+    width: 500px;
+    height: 400px;
+}
+
+.changepass h2 {
+	margin:30px 0 20px 30px;
+	font-size:1.2rem; 
+}
+
+.changepass h3 {
+	margin:30px 0 0 90px;
+    font-size:0.9rem;
+}
+
+.changepass h4 {
+	margin:2px 0 0 90px;
+	font-size:0.87rem;
+}
+
+.changepass  input:nth-child(5){
+	margin:30px 0 0 150px;
+	height:22px;
+	width:200px;
+}
+
+.changepass h5 {
+	display:none;
+	font-size:0.74rem;
+	color:#f50101;
+	margin:3px 0 0 154px;
+}
+
+.changepass  input:nth-child(7){
+	margin:20px 0 0 150px;
+	height:22px;
+	width:200px;
+}
+
+.changepass h6 {
+	display:none;
+	font-size:0.75rem;
+	color:#f50101;
+	margin:3px 0 0 154px;
+}
+#update-pw {
+	width:205px;
+	height:30px;
+	margin:35px 150px;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+
+/****반응형UI****/
+@media screen and (max-width:768px) {
+
+.title-text {
+	position: absolute;
+	right: 0;
+	left: 0;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+}
+
+.title-text h2 {
+	font-size: 2rem;
+	color: #444;
+}
+/*아래의 width로 파란 줄 길이 조절 가능*/
+.title-text h2:before {
+	content: '';
+	display: block;
+	width: 40%;
+	height: 6px;
+	background-color: #3498db;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
+
+
+/*로그인*/
+#test .content{
+	margin:0 auto;
+}
+
+.loginform{
+	height:540px;
+    width:100%;
+    margin: -50px auto;
+    text-align:center;	
+}
+
+.loginform div input {
+	width:100%;
+}
+
+.loginform .txtln {
+	height:40px;
+	margin-top:20px;
+	padding-left:10px;
+	border:1.4px solid #9E9E9E;
+	box-sizing:border-box;
+}
+
+.login .btn {
+	margin-top:20px;
+	background-color: #3498db;
+	border:2px solid #3498db;
+	color:#fff;
+	line-height: 45px;
+	border-radius: 6px;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+	text-align:center;
+}
+
+.login input.btn:hover {
+	background-color:#fff;
+	color:#3498db;
+	font-weight:initial;
+	transition:all .4s;
+}
+
+.loginform hr {
+	margin:40px auto;
+    width:100%;
+}
+
+.loginform .find{
+	margin:40px auto;
+	font-size:1.0rem;
+	color:#444;
+}
+.loginform .find div{
+	display:inline;
+	cursor:pointer;
+}
+.loginform .find div:before {
+	content:' | ';
+	color:#999;
+	font-size:0.9rem;
+}
+.loginform .find div:first-child:before {
+	content:'';
+}
+.loginform .find div:hover {
+	color:#3498db;
+	transition:all .3s;
+}
+
+.extra h4 {
+	margin-bottom:30px;
+	font-size:0.9rem;
+	background-color:#3498db;
+	color:#fff;
+	font-weight:initial;
+	line-height:30px;
+}
+
+.extra div {
+	display:inline;
+	margin:18px;
+}
+
+
+.extra  img{
+	width:40px;
+}
+
+.extra img:hover {
+	cursor:pointer;
+}
+
+.extra hr {
+	margin-top:26px;
+	border:1px solid #3498db;
+}
+
+/*구글로그인버튼*/
+  #customBtn {
+      background: white;
+      color: #444;
+      width: 190px;    
+    }
+    
+    #customBtn:hover {
+      cursor: pointer;
+    }
+  
+
+/*팝업창*/
+/*아이디찾기*/
+
+.check_id .back{
+	display:none;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background-color:#7575749e;
+}
+
+.check_id .popup {
+	position: fixed;
+	display:none;
+	background-color:#fff;
+    background: #eeece6b;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.check_id .close {   
+	border:0;
+	background-color:#fff;
+	font-size:1.4rem;
+	margin: 17px 335px; 
+}
+
+.head button:hover {
+	cursor:pointer;
+	color:#9E9E9E;
+}
+
+.head h3 {
+	text-align:center;
+	font-size:1.35rem;
+}
+.popup hr {
+	border:1px solid #3498db;;
+	width:100%;
+	margin: 40px auto;
+}
+
+.text h5 {
+	margin-top:40px;
+	text-align:center;
+	color:#333;
+}
+.text input {
+	width:60%;
+	height:30px;
+	margin: 0 0 0 80px;
+}
+
+.text .phone {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:10px;
+
+}
+.text input:nth-child(2) {
+	margin:50px 0 0 80px;
+}
+
+.text input:nth-child(4) {
+	margin:2px 0 0 80px;
+}
+
+.text input:nth-child(6) {
+	margin:40px 0 0 80px;
+}
+.text input:nth-child(7) {
+	margin:2px 0 0 80px;
+}
+.text .ok {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:20px;
+}
+
+.text h4 {
+	display:none;
+	color:#f50101;
+	font-size:0.8rem;
+	margin: 5px 80px;
+}
+#timer {
+	position: absolute;
+	color:#f50101;
+	top:22.7rem;
+	left:15.3rem;
+	font-size:0.9rem;
+}
+#authbtn:disabled {
+    background-color: #bbabab;
+    cursor: default;
+}
+#authsucess{
+	color:#3498db;
+}
+#show-id {
+	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:30px;
+}
+
+
+/*아이디 보여주기*/
+.yourid {
+	position: fixed;
+	display:none;
+	background-color:#fff;
+    background: #eeece6b;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+} 
+.btn-x {
+	border:0;
+	background-color:#fff;
+	font-size:0rem;
+	margin: 18px 340px; 
+}
+.yourid h3 {
+	margin:12px;
+	text-align:center;
+	font-size:1.4rem;
+}
+
+.yourid hr {
+	border:1px solid #3498db;;
+	width:100%;
+	margin: 40px auto;
+}
+
+.yourid h6 {
+    margin:80px 0 70px 45px;
+    font-size:0.9rem;
+}
+
+.yourid span{
+	color:#3498db;
+	font-size:1.3rem;
+}
+.yourid .btn {
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1.4rem;
+    width:100px;
+    margin : 40px 0 0 140px;
 }
 
 
@@ -344,26 +845,166 @@
 }
 
 .check_pw .popup2 {
+	position: fixed;
 	display:none;
 	background-color:#fff;
-	z-index:99999;
-    top : 20%;
-    left:35%;
-    position: absolute;
     background: #eeece6b;
-    width: 450px;
-    height: 480px;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.check_pw .close {   
+	border:0;
+	background-color:#fff;
+	font-size:1.4rem;
+	margin: 25px 335px; 
+}
+
+.head h4 {
+	text-align:center;
+	font-size:1.35rem;
+}
+
+.check_pw hr{
+    border:1px solid #3498db;;
+	width:100%;
+	margin: 40px auto;
+}
+
+.popup2 .text h3 {
+	font-size:0.8rem;
+	margin:0 0 15px 75px;
+}
+
+.popup2 .text input:nth-child(2) {
+	margin: 20px 0 3px 80px;
+}
+
+.popup2 .text input:nth-child(5) {
+	margin: 3px 0 20px 80px;
 }
 
 .popup2 .text h5 {
-	margin:20px auto;
+	display:none;
+	color:#f50101;
+	margin:-15px 0 0 -80px;
 }
-.popup2 .text input:nth-child(6) {
-	margin:30px 0 -50px 100px;
+
+.popup2 .text input:nth-child(7){
+	margin:20px 0 0 80px;
+}
+
+.popup2 .text input:nth-child(8) {
+	margin:2px 0 0 80px;
+}
+
+.popup2 .text h6 {
+	display:none;
+	color:#f50101;
+	margin:4px 0 -10px 85px;
+}
+
+#authsucess2 {
+	display:none;
+	color:#3498db;
+}
+
+#change-pw {
+ 	display:none;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+    margin-top:50px;
+ }
+
+#timer2 {
+	position: absolute;
+	color:#f50101;
+	top:24.8rem;
+	left:15.6rem;
+	font-size:0.83rem;
+}
+
+#authbtn2:disabled {
+    background-color: #bbabab;
+    cursor: default;
 }
 
 /*비밀번호 교체하기*/
 .changepass {
+    position: fixed;
 	display:none;
+	background-color:#fff;
+    background: #eeece6b;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
 }
 
+.changepass h2 {
+	margin:45px auto;
+	text-align:center;
+	font-size:1.35rem;
+}
+.changepass hr{
+    border:1px solid #3498db;;
+	width:100%;
+	margin: 10px auto;
+}
+
+.changepass h3 {
+	margin:40px 0 0 80px;
+    font-size:0.83rem;
+}
+
+.changepass h4 {
+	margin:3px 0 10px 40px;
+	font-size:0.8rem;
+}
+
+.changepass input:nth-child(5){
+	margin:30px 0 0 95px;
+	height:22px;
+	width:200px;
+}
+
+.changepass h5 {
+	display:none;
+	font-size:0.74rem;
+	color:#f50101;
+	margin:4px 0 0 100px;
+}
+
+.changepass  input:nth-child(7){
+	margin:20px 0 0 95px;
+	height:22px;
+	width:200px;
+}
+
+.changepass h6 {
+	display:none;
+	font-size:0.74rem;
+	color:#f50101;
+	margin:4px 0 0 100px;
+}
+#update-pw {
+	width:205px;
+	height:30px;
+	margin:35px 0 0 95px;
+	background-color: #3498db;
+	border: #3498db;
+	color:#fff;
+	font-size:1rem;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+
+
+}

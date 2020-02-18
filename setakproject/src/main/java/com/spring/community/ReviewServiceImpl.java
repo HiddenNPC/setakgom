@@ -41,23 +41,7 @@ public class ReviewServiceImpl implements ReviewService
 		return res;
 	}
 
-	@Override
-	public int getMaxNum() throws Exception 
-	{
-		int res;
-		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
-		try
-		{
-			 res=reviewMapper.getMaxNum();
-			
-		}
-		catch (Exception e)
-		{
-			throw new Exception("리뷰 maxnum 구하기  실패", e);
-		}
-		
-		return res;
-	}
+	
 
 	@Override
 	public ArrayList<ReviewVO> reviewSearch(String keyfield, String keyword) 
@@ -111,6 +95,15 @@ public class ReviewServiceImpl implements ReviewService
 			throw new Exception("수정 실패", e);
 		}
 		return res;		
+	}
+
+	@Override
+	public void insertMileage(ReviewVO vo, int mile_price, String mile_content) {
+		System.out.println(vo.getMember_id());
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
+		reviewMapper.insertMileage(vo.getMember_id(), mile_price, mile_content);
+		System.out.println(1);
+		
 	}
 
 	

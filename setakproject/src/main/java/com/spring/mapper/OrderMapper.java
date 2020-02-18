@@ -1,6 +1,7 @@
 package com.spring.mapper;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.spring.member.MemberVO;
 import com.spring.member.SubscribeVO;
@@ -32,7 +33,7 @@ public interface OrderMapper {
 	// 회원 정보 수정 > 정기구독 번호 등록
 	int updateSubInfo(MemberVO mvo); 
 	// 회원 정기구독 정보 등록
-	int insertMemberSubInfo(MemberVO mvo);
+	int insertMemberSubInfo(Map<String, Object> map);
 	// 회원 정기구독 결제 정보 등록
 	int insertSubHistory(MemberVO mvo); 
 	// 쿠폰 제공 개수 구하기
@@ -45,5 +46,10 @@ public interface OrderMapper {
 	
 	// 주문 취소 정보 등록
 	int orderCancle(OrderVO ovo);
+	
+	// 보관 장바구니 그룹 읽기
+	int getKeepMaxGroup(String member_id); 
+	// 보관 장바구니 존재 유무 확인
+	int getKeepExist(String member_id); 
 
 }

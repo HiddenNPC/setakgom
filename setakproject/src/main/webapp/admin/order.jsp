@@ -64,8 +64,18 @@
             });
 			 
             //input을 datepicker로 선언
-            $("#datepicker").datepicker();                    
-            $("#datepicker2").datepicker();
+            $("#datepicker").datepicker({
+            	onClose: function(selectedDate) {    
+                    $("#datepicker2").datepicker( "option", "minDate", selectedDate );
+                    $("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
+                }
+            });                    
+            $("#datepicker2").datepicker({
+                onClose: function(selectedDate) {
+                    $("#datepicker").datepicker( "option", "maxDate", selectedDate );
+                    $("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
+                }    
+            });
             
 			$("img.ui-datepicker-trigger").attr("style", "margin-left:2px; vertical-align:middle; cursor: Pointer;"); 
 			
@@ -365,6 +375,19 @@
 					 $("#result-num").text(count); 
 					 
 					 var list = data.orderSearchList;
+
+					 
+					 if(list.length == 0) {
+						 var output = '';
+						 
+						 output += '<tr>';
+						 output += '<td colspan = "8">검색 결과가 없습니다.</td>';
+						 output += '</tr>';
+						 
+						 $('#result-table tbody').append(output); 
+						 return; 
+					 }
+					 
 					 
 					 $.each(list, function(index, item) {
 						 
@@ -556,6 +579,15 @@
 		  });
 		}
 
+        // 엔터키가 눌렸을 때 실행할 내용
+		function enterkey() {
+	        if (window.event.keyCode == 13) {
+	             searchOrder();
+	        }
+		}
+
+
+
 	</script>
 </head>
 <body>
@@ -576,7 +608,7 @@
 									<option value = "order_num">주문 번호</option>
 									<option value = "member_id">회원 아이디</option>
 								</select>
-								<input id = "keyword" type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
+								<input id = "keyword" type = "text" size = "40px" placeholder = "내용을 입력해주세요." onkeyup="enterkey();" /> 
 							</td>
 						</tr>
 						<tr>
@@ -710,6 +742,7 @@
 				</div>
 				
 				</div>
+				<!-- 결과 페이징 div 끝 -->
 		<!-- 결과  div 끝-->
 		
 	<!-- 주문 상세보기 레이어 -->

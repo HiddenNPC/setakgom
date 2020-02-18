@@ -278,7 +278,6 @@ li.check {
 
 /*기타주문관리 페이지 css*/
 #recent5Days-div {
-	border-top : 2px solid #3498db;
 	padding-top : 30px;
 	margin : 0 auto; 
 	width: 80%;
@@ -290,8 +289,7 @@ li.check {
 }
 
 #recentAll-div {
-	margin : 50px auto; 
-	border-top : 2px solid #3498db;
+	margin : 50px auto 100px auto;
 	padding-top : 30px;
 	width : 80%;
 }
@@ -301,6 +299,7 @@ li.check {
 }
 
 #recentAll5days-num {
+	text-align: right;
 	display : inline-block;
 	width : 150px;
 	border-radius : 5px;
@@ -312,6 +311,7 @@ li.check {
 }
 
 #recentAll5weeks-num {
+	text-align: right;
 	display : inline-block;
 	width : 150px;
 	border-radius : 5px;
@@ -320,4 +320,41 @@ li.check {
 	color : white; 
 	float : right; 
 	margin-right : 10px; 
+	margin-bottom : 20px; 
 }
+
+.sum {
+	font-size : 1.2rem; 
+	font-weight : bold; 
+}
+
+.chartBtn {
+	font-size : 0.8rem;
+	background-color : #3498db;
+	box-shadow : none;
+	border : 0px; 
+	padding : 6px 10px; 
+	color : white;
+	margin-top : 30px;
+	cursor : pointer;
+	border-radius : 3px; 
+}
+
+/*정기구독 회원 관리 css 시작*/
+.statusBtn {
+	border : 1px solid #3498db;
+	background-color : white;
+	padding : 5px; 
+	border-radius : 3px;
+	margin-left : 5px; 	 
+	color : #3498db; 
+	cursor : pointer; 
+}
+
+.statusBtn:hover {
+	background-color: #3498db;
+	color:#fff;
+	cursor:pointer;
+	transition: all .3s;
+}
+

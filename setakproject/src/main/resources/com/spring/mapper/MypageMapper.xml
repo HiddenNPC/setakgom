@@ -89,14 +89,19 @@
 		<result property="member_zipcode" column="member_zipcode" />
 	</resultMap>
 	
+	<resultMap type="com.spring.mypage.KeepPhotoVO" id="KeepPhoto">
+		<result property="order_num" column="order_num"/>
+		<result property="keep_photo" column="keep_photo"/>
+	</resultMap>
+	
 	
 	
 	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
-			select * 
-			from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
-						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete, order_muid 
-				   from memberorder) 
-  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> and member_id = #{member_id}
+			select *
+				from (select rownum rnum, a.*
+					from (select *
+				 	  from memberorder where member_id = #{member_id} order by order_num desc) a)
+  <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> 
 	</select>
 
 	
@@ -124,12 +129,12 @@
 	</select>
 	
 	<update id="updateKeepMonth" parameterType="java.util.HashMap" >
-		update keep set keep_start = TO_DATE(#{keep_start}, 'YY/MM/DD'), keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
+		update keep set keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
 		where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
 	</update>
 	
 	<update id="all_Return" parameterType="java.util.HashMap">
-		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0
+		update Keep set keep_now = #{keep_now} where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0 
 	</update>
 	
 	<update id="part_Return_now" parameterType="java.util.HashMap">
@@ -152,21 +157,26 @@
 		select * from memberorder where member_id = #{member_id} 
 	</select>	
 	
-	<select id="selectMending" resultMap="MypageResultMap" parameterType="int">
-		select * from repair where repair_seq = #{repair_seq}
+	<select id="selectMending" resultMap="MypageResultMap" parameterType="long">
+		select * from repair where repair_seq in (select repair_seq from orderlist where order_num = #{order_num})
 	</select>
 	
-	<select id="selectKeep" resultMap="KeepResultMap" parameterType="int">
-		select * from keep where keep_seq = #{keep_seq}
+	<select id="selectKeep" resultMap="KeepResultMap" parameterType="long">
+		select * from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num}) 
 	</select>
 	
-	<select id="selectWashing" resultMap="WashingResultMap" parameterType="int">
-		select * from washing where wash_seq = #{wash_seq}
+	<select id="selectWashing" resultMap="WashingResultMap" parameterType="long">
+		select * from washing where wash_seq in (select wash_seq from orderlist where order_num = #{order_num})
 	</select>
 	
 	<insert id="part_Return" parameterType="com.spring.mypage.KeepReturnVO">
 		insert into keep_return values (#{order_num}, #{return_kind}, #{return_content}, #{return_confirm})
 	</insert>
+	
+	<select id="selectPhoto" parameterType="long" resultMap="KeepPhoto">
+		select * from keep_photo where order_num = #{order_num}
+	</select>
+	
 	
 	
 </mapper>

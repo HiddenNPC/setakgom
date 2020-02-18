@@ -30,7 +30,7 @@
 	
 	<!-- 쿠폰 사용 -->
 	<update id="useCoupon" parameterType = "int">
-		update coupon set coupon_use = 1 where coupon_seq = #{coupon_seq}
+		update coupon set coupon_useday = sysdate, coupon_use = 1 where coupon_seq = #{coupon_seq}
 	</update>
 	
 	

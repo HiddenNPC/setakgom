@@ -16,6 +16,7 @@
 	<resultMap type="com.spring.order.KeepCartVO" id="KeepCartResultMap">
 		<result property="member_id" column="member_id" />
 		<result property="keep_seq" column="keep_seq" />
+		<result property="keep_group" column="keep_group" />
 	</resultMap>
 	
 	<resultMap type="com.spring.setak.WashingVO" id="WashingResultMap">
@@ -58,32 +59,37 @@
 	
 	<!-- 세탁 장바구니 시퀀스 읽기 -->
 	<select id = "getWashSeq" parameterType = "String" resultMap = "WashingCartResultMap">
-		select wash_seq from wash_cart where member_id = #{member_id}
+		select wash_seq from wash_cart where member_id = #{member_id} order by wash_seq
 	</select>
 	
 	<!-- 수선 장바구니 시퀀스 읽기 -->
 	<select id = "getMendingSeq" parameterType = "String" resultMap = "MendingCartResultMap">
-		select repair_seq from repair_cart where member_id = #{member_id}
+		select repair_seq from repair_cart where member_id = #{member_id} order by repair_seq
 	</select>
 	
 	<!-- 보관 장바구니 시퀀스 읽기 -->
 	<select id = "getKeepSeq" parameterType = "String" resultMap = "KeepCartResultMap">
-		select keep_seq from keep_cart where member_id = #{member_id}
+		select keep_seq from keep_cart where member_id = #{member_id} order by keep_seq
 	</select>
 
 	<!-- 세탁 장바구니 데이터 읽기 --> 
 	<select id = "getWashingList" parameterType = "int" resultMap = "WashingResultMap">
-		select * from wash_view where wash_seq = #{wash_seq}
+		select * from wash_view where wash_seq = #{wash_seq} order by wash_seq
 	</select>	
 
 	<!-- 수선 장바구니 데이터 읽기 -->
 	<select id = "getMendingList" parameterType = "int" resultMap = "MendingResultMap">
-		select * from repair_view where repair_seq = #{repair_seq}
+		select * from repair_view where repair_seq = #{repair_seq} order by repair_seq
 	</select>
 	
 	<!-- 보관 장바구니 데이터 읽기 -->
 	<select id = "getKeepList" parameterType = "int" resultMap = "KeepResultMap">
-		select * from keep_view where keep_seq = #{keep_seq}
+		select * from keep_view where keep_seq = #{keep_seq} order by keep_seq
+	</select>
+	
+	<!-- 보관 그룹별 리스트 검색 -->	
+	<select id = "getKeepGroupList" parameterType = "java.util.HashMap" resultMap = "KeepResultMap">
+		select * from keep_view where keep_group = #{keep_group} and member_id = #{member_id}
 	</select>
 	
 	<!-- 세탁 장바구니 비우기  > 장바구니 -->

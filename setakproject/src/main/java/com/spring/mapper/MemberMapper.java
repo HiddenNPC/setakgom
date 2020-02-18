@@ -30,6 +30,12 @@ public interface MemberMapper {
 	//아이디 보여주기   
 	 String show_id(HashMap<String, Object> map); 
 	 
+	// 비밀번호 찾기- 변경하기 버튼
+	String chk_you(HashMap<String, Object> map); 
+
+	//비밀번호 변경
+	void change_pw(HashMap<String, Object> map); 
+	 
 	//회원 삭제
 	void member_delete(String member_id);
 	

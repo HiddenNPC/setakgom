@@ -4,8 +4,8 @@
 <%@ page import="com.spring.setak.*" %>
 <%
 	NoticeVO vo = (NoticeVO)request.getAttribute("noticedata");
-	int NOTICE_NUM = vo.getNOTICE_NUM();
-	System.out.println("NOTICE_NUM="+NOTICE_NUM);
+	int notice_num = vo.getNotice_num();
+	System.out.println("NOTICE_NUM="+notice_num);
 %>
 <!DOCTYPE html>
 <html>
@@ -32,20 +32,17 @@ $(document).ready(function(){
 
 
 <table class="nvt1">
-	<tr height="40" >
-		<td width="20%" align="center">제  목</td>	
-		<td><%=vo.getNOTICE_TITLE() %></td>
-		<td width="20%" align="right" ><%=vo.getNOTICE_DATE() %>&nbsp;&nbsp;</td>
+	<tr height="50px" >
+		<td width="20%" align="left" id="no_title" >제  목 : <%=vo.getNotice_title() %></td>
+		<td width="20%" align="right" ><%=vo.getNotice_date().substring(0,11) %>&nbsp;&nbsp;</td>
 	</tr>	
-	<tr><td align="center">내 용</td>
-		<td><div class="nvc"><%=vo.getNOTICE_CONTENT()%></div></td>
+	<tr>
+		<td colspan="2" class="nvc"><div ><%=vo.getNotice_content()%></div></td>
 	</tr>
 </table>
 <table class="nvt2">						
-	<tr align="right" ><td colspan="5">
-		<%-- <a href="./updateForm.st?NOTICE_NUM=<%=vo.getNOTICE_NUM() %>">[수정]</a>&nbsp;&nbsp;
-		<a href="./noticeDelete.st?NOTICE_NUM=<%=vo.getNOTICE_NUM() %>">[삭제]</a>&nbsp;&nbsp; --%>		
-		<a href="./noticeList.do">[목록]</a>&nbsp;&nbsp;</td>
+	<tr align="right" ><td colspan="5">	
+		<button onclick="location.href='./noticeList.do'">목록</button></td>
 	</tr>		
 </table><br>
 

@@ -1,8 +1,10 @@
 package com.spring.community;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 {
 	@Autowired private FaqService faqService;
 	
-	@RequestMapping(value = "/faqList.do") public String faqList(FaqVO vo, Model model) throws Exception 
+	@RequestMapping(value="/faqList.do") public String faqList(FaqVO vo, Model model) throws Exception 
 	{	
 		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
 		faqlist = faqService.getFaqList();	
@@ -26,43 +28,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 		
 	}
 	
-	@RequestMapping(value = "admin/admin_faq.do")public String adminFaqList(Model model) throws Exception 
+	@RequestMapping(value="/admin/admin_faq.do")public String adminFaqList(Model model) throws Exception 
 	{	
-		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
-		faqlist = faqService.getFaqList();
-		
-		model.addAttribute("faqdata", faqlist);		
-		
-		return "admin/admin_faq";		
-	}
-	
-	@RequestMapping(value = "admin/admin_faqInsert.do")public String adminFaqInsert(FaqVO vo,Model model) throws Exception 
-	{	
-		faqService.qnaInsert(vo);
 		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
 		faqlist = faqService.getFaqList();		
 		model.addAttribute("faqdata", faqlist);				
 		return "admin/admin_faq";		
 	}
-	@RequestMapping(value = "admin/admin_faqUpdate.do")public String adminFaqUpdate(Model model) throws Exception 
+	
+	@RequestMapping(value="/admin/admin_faqInsert.do")public String adminFaqInsert(FaqVO vo, HttpServletResponse response) throws Exception 
 	{	
-		//System.out.println(" =" + );
-		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
-		faqlist = faqService.getFaqList();
+		String cate = vo.getFaq_cate();
+		System.out.println(cate);
+		String title = vo.getFaq_content();
+		System.out.println(title);
+		String content = vo.getFaq_content();		
+		System.out.println(content);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		faqService.faqInsert(vo);	
+		writer.write("<script> location.href='./admin_faq.do'; </script>");	
 		
-		model.addAttribute("faqdata", faqlist);		
+		return null;
 		
-		return "admin/admin_faq";		
 	}
-	@RequestMapping(value = "admin/admin_faqDelete.do")public String adminFaqDelete(Model model) throws Exception 
+	@RequestMapping(value="/admin/admin_faqUpdate.do")public void adminFaqUpdate(FaqVO vo, HttpServletResponse response) throws Exception
 	{	
-		//System.out.println(" =" + );
-		ArrayList<FaqVO> faqlist = new ArrayList<FaqVO>();
-		faqlist = faqService.getFaqList();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		faqService.faqModify(vo);
+		writer.write("<script> location.href='./admin_faq.do'; </script>");
+			
+				
+	}
+	@RequestMapping(value="/admin/admin_faqDelete.do")public void adminFaqDelete(FaqVO vo, HttpServletResponse response) throws Exception 
+	{	
+		int num = vo.getFaq_num();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		faqService.faqDelete(num);	
+		writer.write("<script> location.href='./admin_faq.do'; </script>");
 		
-		model.addAttribute("faqdata", faqlist);		
-		
-		return "admin/admin_faq";		
+				
 	}
 
 

@@ -1,6 +1,7 @@
 package com.spring.order;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,11 +148,11 @@ public class OrderServiceImpl implements OrderService  {
 	}
 
 	@Override
-	public int insertMemberSubInfo(MemberVO mvo) {
+	public int insertMemberSubInfo(Map<String, Object> map) {
 		int res = 0;
 		try {
 			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
-			res = orderMapper.insertMemberSubInfo(mvo);
+			res = orderMapper.insertMemberSubInfo(map);
 		} catch(Exception e) {
 			System.out.println("회원 정기구독 정보 등록 실패 " + e.getMessage());
 		}
@@ -222,6 +223,32 @@ public class OrderServiceImpl implements OrderService  {
 		}
 		
 		return res; 
+	}
+
+	@Override
+	public int getKeepMaxGroup(String member_id) {
+		int res = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			res = orderMapper.getKeepMaxGroup(member_id);
+		} catch(Exception e) {
+			System.out.println("보관 keep_group 검색 실패 " + e.getMessage());
+		}
+		
+		return res; 
+	}
+
+	@Override
+	public int getKeepExist(String member_id) {
+		int cnt = 0;
+		try {
+			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+			cnt = orderMapper.getKeepExist(member_id);
+		} catch(Exception e) {
+			System.out.println("보관 장바구니 유무 존재 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt;
 	}
 
 	

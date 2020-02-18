@@ -2,6 +2,7 @@ package com.spring.mypage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.spring.member.MemberVO;
 import com.spring.order.OrderListVO;
@@ -20,9 +21,9 @@ public interface MypageService {
 	public String selectOrderId(String member_id);
 	public int getOrdercount();
 	public int getKeepcount();
-	public MendingVO selectMending(int repair_seq);
-	public KeepVO selectKeep(int keep_seq);
-	public WashingVO selectWashing(int wash_seq);
+	public ArrayList<MendingVO> selectMending(long order_num);
+	public ArrayList<KeepVO> selectKeep(long order_num);
+	public ArrayList<WashingVO> selectWashing(long order_num);
 	
 	//보관연장
 	public int updateKeepMonth(HashMap<String, Object> map);
@@ -31,4 +32,7 @@ public interface MypageService {
 	//return
 	public int part_Return(KeepReturnVO krvo);
 	public MemberVO getMember(String member_id);
+	
+	public ArrayList<KeepPhotoVO> selectPhoto(long order_num);
+	
 }

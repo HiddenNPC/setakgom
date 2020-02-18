@@ -25,6 +25,10 @@
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/mending.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -109,7 +113,7 @@
 			
 			$(".mending-list").on("click", function() {
 				if (maxAppend >= 10){
-					alert("최대 10개 선택 가능합니다.");
+					Swal.fire("","최대 10개 선택 가능합니다.","info");
 					return;
 				}
 				kind = $.attr(this, 'value');
@@ -130,7 +134,8 @@
 				var str = "";
 				
 				if(maxAppend==0){
-					alert('선택 된 수선내용이 없습니다.');
+					Swal.fire("","선택 된 수선내용이 없습니다.","info");
+
 					return;
 				}
 
@@ -237,7 +242,7 @@
 				var n = $('.bt_down').index(this);
 				var num = $(".count:eq(" + n + ")").val();
 				if (num == 1) {
-					alert("최저 수량은 1개입니다.");
+					Swal.fire("","최저 수량은 1개입니다.","info");
 				} else {
 					num = $(".count:eq(" + n + ")").val(num * 1 - 1);
 				}
@@ -305,7 +310,7 @@
 	                });
 	  
 	               if(x > temp.length) {
-	                   alert('동일한 택이 존재합니다.');
+	            	   Swal.fire("",'동일한 택이 존재합니다.',"info");
 	                   event.preventDefault();
 	               }
 	            }

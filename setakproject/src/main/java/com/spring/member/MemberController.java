@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.admin_member.Admin_memberService;
 import com.spring.order.OrderService;
 
 @Controller
@@ -24,7 +25,9 @@ public class MemberController {
 	@Autowired
 	private OrderService orderService; 
 
-	    
+	@Autowired
+	private Admin_memberService admemberservice;
+	
 	// 회원가입 클릭 (메인, 로그인페이지)
 	@RequestMapping(value = "/join.do", produces = "application/json; charset=utf-8")
 	public String join() {
@@ -74,6 +77,11 @@ public class MemberController {
 	@RequestMapping(value = "/profile1.do", produces = "application/json; charset=utf-8", method = { RequestMethod.GET, RequestMethod.POST })
 	public String password(Model model, HttpSession session) {
 		
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}	
+		
+		
 		String str=(String)session.getAttribute("member_id");
 		String last = str.substring(str.length() - 1);
 		
@@ -95,16 +103,15 @@ public class MemberController {
 			
 			String member_addr1 = " ";
 			String member_addr2 = " ";
-   		 	if(memberVO.getMember_loc() != null) {
-   		 		String addr = memberVO.getMember_loc();
-   		 		
-   		 		String[] locArr = addr.split("!");
-   		 		member_addr1 = locArr[0];
-   		 		
-   		 		if(locArr.length == 2) {
-   		 		member_addr2 = locArr[1];	
-   		 		}
-   		 	}
+			if (!(memberVO.getMember_loc().equals(("!")))) {
+	            String addr = memberVO.getMember_loc();
+	            String[] locArr = addr.split("!");
+	            member_addr1 = locArr[0];
+	            if (locArr.length == 2) {
+	               member_addr2 = locArr[1];
+	            }
+
+	         }
    		 	
    		 	String zipcode = " ";
    		 		if(memberVO.getMember_zipcode() != null) {
@@ -120,38 +127,38 @@ public class MemberController {
 
    		 	
    		 	return "profile";
+   		 	
 		
 		//일반 로그인시	
+   		 	
 		} else {
-			System.out.println("id="+str);
 			return "password";
 		}
 	}
 
 	// 비밀번호 확인
-	@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		@RequestMapping(value = "/chk_pw.do", produces = "application/json; charset=utf-8")
+		@ResponseBody
+		public Map<String, Object> chk_password(HttpServletRequest request, MemberVO mo) {
+			Map<String, Object> result = new HashMap<String, Object>();
 
-		int res = memberservice.member_password(mo);
+			int res = memberservice.member_password(mo);
 
-		if (res == 1) {
-			result.put("res", "OK");
-		} else {
-			result.put("res", "FAIL");
-			result.put("message", "Failure");
+			if (res == 1) {
+				result.put("res", "OK");
+			} else {
+				result.put("res", "FAIL");
+				result.put("message", "Failure");
 
+			}
+			return result;
 		}
-		return result;
-	}
 
 	// 일반로그인시 비밀번호 입력후 개인정보수정 페이지로 이동
 	@RequestMapping(value = "/profile2.do", produces = "application/json; charset=utf-8")
 	public String profile(HttpServletRequest request, Model model, HttpSession session) {
 
 		String ids = (String) session.getAttribute("member_id");
-		 System.out.println("session="+ids);
 
 		MemberVO memberVO = orderService.getMemberInfo(ids);
 	
@@ -186,10 +193,8 @@ public class MemberController {
 	@RequestMapping(value = "/updateMember.do", produces = "application/json; charset=utf-8")
 	@ResponseBody // 데이터를 전송(view가 아니다)
 	public Map<String, Object> updateMember(MemberVO mo) {
-		System.out.println("여긴 오니?");
 		Map<String, Object> result = new HashMap<String, Object>();
 		int res = memberservice.member_update(mo);
-		System.out.println("res="+res);	
 		if(res==1) {
 			result.put("res", "OK");
 		} else {
@@ -210,7 +215,6 @@ public class MemberController {
 	 @RequestMapping(value="/withdraw_pass.do", produces = "application/json; charset=utf-8")
 	 @ResponseBody 
 	 public Map<String, Object> withdraw(HttpServletRequest request,MemberVO mo) {
-	  //System.out.println("컨트롤러mo="+mo.getMember_password()); Map<String, Object>
 	  Map<String, Object> result = new HashMap<String, Object>();
 	  
 	  int res = memberservice.member_password(mo);
@@ -236,7 +240,6 @@ public class MemberController {
 	 @RequestMapping (value ="/show-id.do", produces = "application/json; charset=utf-8")
      @ResponseBody 
 	 public Map<String, Object> show_id (String member_name, String member_phone) {
-		 
 		 HashMap<String, Object> map = new HashMap<String, Object>();
 		 map.put("member_name", member_name);
 		 map.put("member_phone", member_phone);
@@ -249,6 +252,68 @@ public class MemberController {
 		 
 	 }
 	 
+	//비밀번호 찾기- 변경하기 버튼 
+		 @RequestMapping (value ="/find-pw.do", produces = "application/json; charset=utf-8")
+	     @ResponseBody 
+		 public Map<String, Object> find_pw (String member_name, String member_id, String member_phone) {
+			 HashMap<String, Object> map = new HashMap<String, Object>();
+			 map.put("member_name", member_name);
+			 map.put("member_id", member_id);
+			 map.put("member_phone", member_phone);
+			 
+			 Map<String, Object> result = new HashMap<String, Object>();
+			 int res = memberservice.chk_you(map);
+			  if(res == 1) { 
+				  result.put("res", "OK");
+				  result.put("member_id", map.get("member_id"));
+			  } else { 
+				  result.put("res", "FAIL");
+				  result.put("message", "Failure");
+			  
+			  	} 
+			  return result; 
+			  }
+			 
+		 
+		 
+		//비밀번호 변경하기 
+		 @RequestMapping (value ="/change-pw.do", produces = "application/json; charset=utf-8")
+	     @ResponseBody 
+		 public Map<String, Object> change_pw (String member_id, String member_password) {
+			 HashMap<String, Object> map = new HashMap<String, Object>();
+			 map.put("member_id", member_id);
+			 map.put("member_password", member_password);
+			 
+			Map<String, Object> result = new HashMap<String, Object>();
+			int res = memberservice.change_pw(map);
+				if(res==1) {
+					result.put("res", "OK");
+				} else {
+					result.put("res", "FAIL");
+					result.put("message", "Failure");
+				}
+				return result;
+			}	
+			 
+		 	 
+	 
+		 /*탈퇴신청*/
+			@RequestMapping(value ="/request-withdraw.do", produces = "application/json; charset=utf-8")
+			@ResponseBody // 데이터를 전송(view가 아니다)
+			public Map<String, Object> update_memo (MemberVO mo) {
+				Map<String, Object> result = new HashMap<String, Object>();
+				
+					int res = admemberservice.update_memo(mo);
+					if (res == 1) {
+						result.put("res", "OK");
+						System.out.println("메모수정"+mo.getMember_id()+mo.getMember_memo());
+					} else {
+						result.put("res", "FAIL");
+						result.put("message", "Failure");
+
+					}
+				return result;
+			}	 
 	/*
 	 * //회원삭제
 	 * 

@@ -1,5 +1,6 @@
 package com.spring.mypage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.mapper.MypageMapper;
-import com.spring.mapper.OrderMapper;
 import com.spring.member.MemberVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
@@ -39,7 +39,6 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
 		
 		ordernumlist = mypageMapper.getOrdernumlist(member_id);
-		System.out.println("service" + ordernumlist);
 		return ordernumlist;
 	}
 	
@@ -49,7 +48,6 @@ public class MypageServiceImpl implements MypageService {
 		ArrayList<KeepVO> keeplist = new ArrayList<KeepVO>();
 		
 		keeplist = mypageMapper.selectMykeeplist(order_num);
-		System.out.println(keeplist + "킵");
 		return keeplist;
 	}
 	
@@ -100,11 +98,11 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public MendingVO selectMending(int repair_seq) {
+	public ArrayList<MendingVO> selectMending(long order_num) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
-		MendingVO mendingVO = new MendingVO();
+		ArrayList<MendingVO> mendingVO = new ArrayList<MendingVO>();
 		
-		mendingVO = mypageMapper.selectMending(repair_seq);
+		mendingVO = mypageMapper.selectMending(order_num);
 		
 		return mendingVO;
 	}
@@ -120,21 +118,21 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
-	public KeepVO selectKeep(int keep_seq) {
+	public ArrayList<KeepVO> selectKeep(long order_num) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
-		KeepVO keepVO = new KeepVO();
+		ArrayList<KeepVO> keepVO = new ArrayList<KeepVO>();
 			
-		keepVO = mypageMapper.selectKeep(keep_seq);
+		keepVO = mypageMapper.selectKeep(order_num);
 		
 		return keepVO;
 	}
 	
 	@Override
-	public WashingVO selectWashing(int wash_seq) {
+	public ArrayList<WashingVO> selectWashing(long order_num) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
-		WashingVO washVO = new WashingVO();
+		ArrayList<WashingVO> washVO = new ArrayList<WashingVO>();
 		
-		washVO = mypageMapper.selectWashing(wash_seq);
+		washVO = mypageMapper.selectWashing(order_num);
 		
 		return washVO;
 	}
@@ -195,5 +193,16 @@ public class MypageServiceImpl implements MypageService {
 		
 	}
 
+
+	public ArrayList<KeepPhotoVO> selectPhoto(long order_num){
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		ArrayList<KeepPhotoVO> kpvo = new ArrayList<KeepPhotoVO>();
+		
+		kpvo = mypageMapper.selectPhoto(order_num);
+		
+		return kpvo;
+	}
+
 }
+
 

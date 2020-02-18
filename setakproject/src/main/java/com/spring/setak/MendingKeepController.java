@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.order.KeepCartVO;
 import com.spring.order.MendingCartVO;
+import com.spring.order.OrderService;
 import com.spring.order.WashingCartVO;
 
 @Controller
@@ -20,6 +21,8 @@ public class MendingKeepController {
 	
 	@Autowired()//required = false
 	private MendingKeepService mendingKeepService;
+	@Autowired()
+	private OrderService orderService;
 	
 	@RequestMapping("/history.do")
 	public String history() {
@@ -74,6 +77,7 @@ public class MendingKeepController {
 
 				mendingcart.setMember_id((String)session.getAttribute("member_id"));
 				mendingcart.setRepair_seq(mending.getRepair_seq());
+				mendingcart.setRepair_code(repair_code[i]);
 				
 				mendingKeepService.insertMendingCart(mendingcart);
 			}
@@ -89,6 +93,8 @@ public class MendingKeepController {
 	
 	@RequestMapping("/keep.do")
 	public String insertkeep(HttpServletRequest request, HttpSession session) throws Exception{
+		
+		String member_id = (String)session.getAttribute("member_id");
 		String keep_cate[] = request.getParameterValues("keep_cate");
 		String keep_kind[] = request.getParameterValues("keep_kind");
 		String keep_count[] = request.getParameterValues("keep_count");
@@ -98,6 +104,15 @@ public class MendingKeepController {
 		
 		KeepVO keep = new KeepVO();
 		KeepCartVO keepcart = new KeepCartVO();
+		
+		// 민경 장바구니 추가코드 시작
+		int maxGroup = 0; 
+		
+		if(orderService.getKeepExist(member_id) != 0) {
+			maxGroup = orderService.getKeepMaxGroup(member_id);
+		}
+		// 민경 장바구니 추가코드 끝
+		
 		for(int i = 0; i<keep_cate.length; i++) {
 			keep.setKeep_cate(keep_cate[i]);
 			keep.setKeep_kind(keep_kind[i]);
@@ -107,11 +122,13 @@ public class MendingKeepController {
 			keep.setKeep_price(Integer.parseInt(keep_price));
 			keep.setKeep_wash(0);
 			keep.setKeep_now("입고전");
-			
+
 			mendingKeepService.insertKeep(keep);
 			
-			keepcart.setMember_id((String)session.getAttribute("member_id"));
+			keepcart.setMember_id(member_id);
 			keepcart.setKeep_seq(keep.getKeep_seq());
+			// 민경 장바구니 추가코드
+			keepcart.setKeep_group(maxGroup+1);
 			
 			mendingKeepService.insertKeepCart(keepcart);
 		}
@@ -119,7 +136,12 @@ public class MendingKeepController {
 	}
 	
 	@RequestMapping(value = "/washingKeepform.do")
-	public String washingKeepform(MultipartHttpServletRequest request, Model model) throws Exception{
+	public String washingKeepform(HttpServletRequest request, Model model, HttpSession session) throws Exception{
+		
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}
+		
 		ArrayList<WashingVO> wlist = new ArrayList<WashingVO>();
 		ArrayList<MendingVO> mlist = new ArrayList<MendingVO>();
 		
@@ -186,6 +208,9 @@ public class MendingKeepController {
 	
 	@RequestMapping("/washingKeep.do")
 	public String washingKeep(MultipartHttpServletRequest request, HttpSession session)throws Exception{
+		
+		String member_id = (String)session.getAttribute("member_id");
+		
 		String cate[] = request.getParameterValues("wash_cate");
 		String kind[] = request.getParameterValues("wash_kind");
 		String method[] = request.getParameterValues("wash_method");
@@ -204,7 +229,7 @@ public class MendingKeepController {
 			
 			mendingKeepService.insertWash(washing);
 			
-			washingcart.setMember_id((String)session.getAttribute("member_id"));
+			washingcart.setMember_id(member_id);
 			washingcart.setWash_seq(washing.getWash_seq());
 			
 			mendingKeepService.insertWashingCart(washingcart);
@@ -240,10 +265,18 @@ public class MendingKeepController {
 	
 				mendingcart.setMember_id((String)session.getAttribute("member_id"));
 				mendingcart.setRepair_seq(mending.getRepair_seq());
-				
+				mendingcart.setRepair_code(repair_code[i]);
 				mendingKeepService.insertMendingCart(mendingcart);
 			}
 		}
+		
+		// 민경 장바구니 추가코드 시작
+		int maxGroup = 0; 
+		
+		if(orderService.getKeepExist(member_id) != 0) {
+			maxGroup = orderService.getKeepMaxGroup(member_id);
+		}
+		// 민경 장바구니 추가코드 끝
 		
 		if(!(request.getParameter("keep_month").equals("0"))) {
 			String keep_cate[] = request.getParameterValues("keep_cate");
@@ -267,8 +300,9 @@ public class MendingKeepController {
 				
 				mendingKeepService.insertKeep(keep);
 				
-				keepcart.setMember_id((String)session.getAttribute("member_id"));
+				keepcart.setMember_id(member_id);
 				keepcart.setKeep_seq(keep.getKeep_seq());
+				keepcart.setKeep_group(maxGroup+1);
 				
 				mendingKeepService.insertKeepCart(keepcart);
 			}

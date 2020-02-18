@@ -4,17 +4,17 @@
 <mapper namespace="com.spring.mapper.QnaMapper">
 
 	<resultMap type="com.spring.community.QnaVO" id="qnaMap">
-		<result property="QNA_NUM" column="qna_num"/>
-		<result property="MEMBER_ID" column="member_id"/>
-		<result property="QNA_TYPE" column="qna_type"/>
-		<result property="ORDER_NUM" column="order_num"/>
-		<result property="QNA_TITLE" column="qna_title"/>
-		<result property="QNA_CONTENT" column="qna_content"/>
-		<result property="QNA_DATE" column="qna_date"/>
-		<result property="QNA_FILE" column="qna_file"/>
-		<result property="QNA_CHECK" column="qna_check"/>
-		<result property="QNA_SCR" column="qna_scr"/>
-		<result property="QNA_PASS" column="qna_pass"/>
+		<result property="qna_num" column="qna_num"/>
+		<result property="member_id" column="member_id"/>
+		<result property="qna_type" column="qna_type"/>
+		<result property="order_num" column="order_num"/>
+		<result property="qna_title" column="qna_title"/>
+		<result property="qna_content" column="qna_content"/>
+		<result property="qna_date" column="qna_date"/>
+		<result property="qna_file" column="qna_file"/>
+		<result property="qna_check" column="qna_check"/>
+		<result property="qna_scr" column="qna_scr"/>
+		<result property="qna_pass" column="qna_pass"/>
 	</resultMap>
 	
 	<select id="getListCount" resultType="int">
@@ -22,8 +22,8 @@
 	</select>
 	
 	<select id="getQnaList" parameterType="com.spring.community.QnaVO" resultMap="qnaMap">
-		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE,
-		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK, QNA_SCR, QNA_PASS FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc ))
+		<![CDATA[SELECT * FROM (SELECT rownum rnum, qna_num, member_id, qna_type,
+		 qna_title, qna_content, qna_date, qna_file, qna_check, qna_scr, qna_pass FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc ))
 		 WHERE rnum>=#{arg0} and rnum<=#{arg1}]]>
 	</select>
 	
@@ -32,71 +32,74 @@
 	</select>
 	
 	<select id="getDetail" parameterType="com.spring.community.QnaVO" resultType="com.spring.community.QnaVO">
-		select * from QNA where QNA_NUM = #{QNA_NUM}
+		select * from QNA where qna_num = #{qna_num}
 	</select>
 			
 	<insert id="qnaInsert" parameterType="com.spring.community.QnaVO">
 		insert into QNA values 
 		(
 		QNA_SEQ.NEXTVAL, 
-		#{MEMBER_ID, jdbcType=VARCHAR}, 
-		#{QNA_TYPE, jdbcType=VARCHAR},
-		#{ORDER_NUM},
-		#{QNA_TITLE, jdbcType=VARCHAR},
-		#{QNA_CONTENT, jdbcType=VARCHAR}, 
+		#{member_id, jdbcType=VARCHAR}, 
+		#{qna_type, jdbcType=VARCHAR},
+		#{order_num},
+		#{qna_title, jdbcType=VARCHAR},
+		#{qna_content, jdbcType=VARCHAR}, 
 		sysdate, 
-		#{QNA_FILE,jdbcType=VARCHAR}, 
-		#{QNA_CHECK,jdbcType=VARCHAR},			
-		#{QNA_SCR,jdbcType=VARCHAR},
-		#{QNA_PASS,jdbcType=VARCHAR}
+		#{qna_file,jdbcType=VARCHAR}, 
+		#{qna_check,jdbcType=VARCHAR},			
+		#{qna_scr,jdbcType=VARCHAR},
+		#{qna_pass,jdbcType=VARCHAR}
 		)		
 	</insert>
 	
-	<!-- <select id="getMaxNum" resultType="int">
-		select max(QNA_NUM) from QNA
-	</select> -->
-
-
 	<update id="qnaModify" parameterType="com.spring.community.QnaVO">
 		update QNA set
-		QNA_TYPE=#{QNA_TYPE,jdbcType=VARCHAR},
-		ORDER_NUM=#{ORDER_NUM},
-		QNA_TITLE=#{QNA_TITLE,jdbcType=VARCHAR}, 		
-		QNA_CONTENT=#{QNA_CONTENT,jdbcType=VARCHAR},
-		QNA_FILE=#{QNA_FILE,jdbcType=VARCHAR}, 
-		QNA_CHECK=#{QNA_CHECK,jdbcType=VARCHAR},	
-		QNA_SCR=#{QNA_SCR,jdbcType=VARCHAR},	
-		QNA_PASS=#{QNA_PASS,jdbcType=VARCHAR}	
-		where QNA_NUM=#{QNA_NUM}
+		qna_type=#{qna_type,jdbcType=VARCHAR},
+		order_num=#{order_num},
+		qna_title=#{qna_title,jdbcType=VARCHAR}, 		
+		qna_content=#{qna_content,jdbcType=VARCHAR},
+		qna_file=#{qna_file, jdbcType=VARCHAR}, 
+		qna_check=#{qna_check,jdbcType=VARCHAR},	
+		qna_scr=#{qna_scr,jdbcType=VARCHAR},	
+		qna_pass=#{qna_pass,jdbcType=VARCHAR}	
+		where qna_num=#{qna_num}
 	</update>
 	
 	<delete id="qnaDelete" parameterType="com.spring.community.QnaVO">
-		delete from QNA where QNA_NUM = #{QNA_NUM}
+		delete from QNA where qna_num = #{qna_num}
 	</delete>	
 	
 	<select id="qnaPassChk" parameterType="int" resultType="String">
 		select qna_pass from qna where qna_num=#{qna_num}
 	</select> 
 	
-	
-	
-	<!-- <update id="setReadCountUpdate" parameterType="com.spring.springqna.QnaVO">
-		update QNA set NOTICE_READCOUNT= NOTICE_READCOUNT+1 where NOTICE_NUM=#{NOTICE_NUM}		
-	</update> -->	
-	
-
-	
-	<!-- 
-	<select id="isNoticeWriter" parameterType="com.spring.springqna.QnaVO" resultMap="qnaMap">
-		select * from QNA where NOTICE_NUM=#{arg0}
+	<select id="ad_qnalist" parameterType="com.spring.community.QnaVO" resultMap="qnaMap">
+		select * from qna order by qna_num desc 		 
 	</select>
- -->
+	
+	<update id="ad_qnaModify" parameterType="com.spring.community.QnaVO">
+		update QNA set
+		qna_check=#{qna_check,jdbcType=VARCHAR}				
+		where qna_num=#{qna_num}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- 기응 -->
 	
 	<select id="selectQnalist" parameterType="HashMap" resultMap="qnaMap">
 		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, ORDER_NUM,
-		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM asc))
+		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc))
 		 WHERE rnum>=#{startrow} and rnum<=#{endrow} and member_id = #{member_id}]]>
 	</select>
 </mapper>

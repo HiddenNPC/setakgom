@@ -8,13 +8,16 @@
 	int havePoint = (int) request.getAttribute("havePoint");
 	int totPoint = (int) request.getAttribute("totPoint");
 	int usePoint = (int) request.getAttribute("usePoint");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
 	int listcount = ((Integer)request.getAttribute("listcount")).intValue();
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
 	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -34,11 +37,6 @@
          $("#footer").load("./footer.jsp")     
       });
     </script>
-    <script language='javascript'>
-    	function cancle() {
-			alert("주문을 취소하시겠습니까?");
-		}
-    </script>
 </head>
 <body>
 	<div id="header"></div>
@@ -46,7 +44,10 @@
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
 		<div class="content"> <!-- 변경하시면 안됩니다. -->
-			<div class="mypage_head" style="width: 12%; float: left;">
+		<div class="title-text">
+			<h2>적립금 조회</h2>
+		</div>
+			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
@@ -73,12 +74,14 @@
 					</li>
 				</ul>
 			</div>
-			<div style="width: 85%; float: right;">
+
 				<div class="mypage_content">
 				<h2>적립금 조회</h2>
+				<%if(mile_list.size() == 0) {%>
+				<h3>등록된 적립금이 없습니다.</h3>
+				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="savings_point">
-				<% %>
 					<table>
 						<tr>
 							<td class="point1">-&nbsp;총 적립금</td>
@@ -108,10 +111,13 @@
 							</thead>
 							<%for (int i=0; i<mile_list.size(); i++){ 
 								MileageVO mivo=(MileageVO)mile_list.get(i);
+								String date = mile_list.get(0).getMile_date();
+								String[] date2 = date.split(" ");
+								String date3 = date2[0];
 							%>
 							<tbody align="center">
 								<tr>
-									<td><%=mivo.getMile_date() %></td>
+									<td><%=date3 %></td>
 									<td><%=mivo.getMile_price() %></td>
 									<td><%=mivo.getMile_content() %></td>
 								</tr>
@@ -125,30 +131,30 @@
 							<tr align = center height = 20>
               				<td>
               				<%if(nowpage <= 1) {%>
-              				<div class="page_a"><a>&#60;</a></div>
+              				<div class="page_a"><a> &lt;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage-1 %>"> &lt;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
-              					if(a==nowpage) {
-           					%>
+              				<%for (int a=startpage; a<endpage; a++) {
+              					if(a==nowpage) { %>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
            						<div class="page_a"><a href="./mysavings.do?page=<%=a %>"><%=a %></a></div>
+           						<%} %>
            					<%} %>
-           					<%} %>
-           					<%if (nowpage >= maxpage) {%>	
-           						<div class="page_a"><a>&#62;</a></div>
+           					<%if (nowpage >= maxpage) {	%>	
+           						<div class="page_a"><a>&gt;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./mysavings.do?page=<%=nowpage+1 %>">&gt;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>
 					</table>
 					</div>	
 				</div>
+				<%} %>
 			</div>
-			</div>
+
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->

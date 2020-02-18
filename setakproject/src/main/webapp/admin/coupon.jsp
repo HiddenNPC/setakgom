@@ -1,14 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import = "com.spring.member.CouponVO" %>
+<%@ page import = "java.util.ArrayList" %>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+%>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>¼¼Å¹°õ °ü¸®ÀÚÆäÀÌÁö</title>
+	<title>ì„¸íƒê³° ê´€ë¦¬ìí˜ì´ì§€</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- ¿©±â º»ÀÎÀÌ ÁöÁ¤ÇÑ css·Î ¹Ù²ã¾ßÇÔ -->
+	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- ì—¬ê¸° ë³¸ì¸ì´ ì§€ì •í•œ cssë¡œ ë°”ê¿”ì•¼í•¨ -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -19,70 +24,15 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//Çì´õ, ÇªÅÍ¿¬°á
+			//í—¤ë”, í‘¸í„°ì—°ê²°
 			$("#admin").load("./admin.jsp")
 			
-		
-		//°Ë»ö
-		function searchOrder() {
 			
-			var checkbox = $("input[name=check]:checked");
-			
-			$.ajax({
-				url:'/setak/admin/memberSearch.do', 
-				type:'POST',
-				data:param,
-				traditional : true,
-				dataType:"json", //¸®ÅÏ µ¥ÀÌÅÍ Å¸ÀÔ
-				contentType:'application/x-www-form-urlencoded; charset=utf-8',
-				success:function(data) {	
-					$("#result-table tbody").empty();
-					
-					if($("#allcheck").prop("checked")){
-						 $("#allcheck").prop("checked",false);
-					}
-					
-					 var count = data.orderSearchCount;
-					 $("#result-num").text(count); 
-					 
-					 var list = data.orderSearchList;
-					 
-					 $.each(list, function(index, item) {
-						 
-						 var delicode = item.order_delicode;
-						 console.log(delicode); 
-						 if(delicode == null) {
-							 delicode = "-"; 
-						 }
-						 
-						 var output = '';
-						 
-						 output += '<tr>';
-							 output += '<td class = "check"> <input type = "checkbox"  name = "chk"/> </td>';
-						 output += '<td><input class="orderNum" type="button" onclick="layerOrderDetail('+'\'open\',\''+item.order_num+'\''+')" value="'+item.order_num+'"/></td>';
-						 output += '<td>'+item.member_id+'</td>';						 
-						 output += '<td>'+item.order_name+'</td>';						 
-						 output += '<td>20'+date+'</td>';
-						 output += '<td>'+item.order_price+'¿ø</td>';
-						 output += '<td><span id = "delivery_num">'+delicode+'</span></td>';	
-						 output += '<td>'+item.order_status+'</td>';
-						 output += '</tr>';
-						 
-						 $('#result-table tbody').append(output); 
-					 });
-
-				},
-				error: function() {
-					alert("ajaxÅë½Å ½ÇÆĞ!!!");
-			    }
-			});
-		}	
-			
-			//¸ñ·Ï ¶ç¿ì±â
+			//ëª©ë¡ ë„ìš°ê¸°
 			function selectData(){
 				
 				$.ajax({
-					url : '/setak/Admin_CouponList.do',
+					url : '/setak/admin/coupon.do',
 					type : 'POST',
 					dataType : 'json',
 					contentType : 'application/x-www-form-urlencoded; charset=utf-8',
@@ -91,188 +41,396 @@
 							var str = '';
 							
 							str += '<ul>'
-							str += '<li class="listtd"><input type="checkbox"></li>';
-							str += '<li class="listtd">' + item.member_id + '</li>';
-							str += '<li class="listtd">' + item.coupon_name + '</li>';
-							str += '<li class="listtd"><input type="date" class="coupon_day" name="coupon_start" value="' + item.coupon_start + '" disabled></li>';
-							str += '<li class="listtd"><input type="date" class="coupon_day" name="coupon_end" value="' + item.coupon_end + '" disabled></li>';
-							str += '<li class="listtd"><input type="date" class="coupon_day" name="coupon_useday" value="' + item.coupon_useday + '" disabled></li>';
+							str += '<li class="listtd"><input type="checkbox" name="chk"></li>';
+							str += '<li class="listtd"><input type="button" class="member_id" value="' + item.member_id +'"></li>';
+							str += '<li class="listtd"><input type="text" class="coupon_irum" name="coupon_name" value="' + item.coupon_name + '" disabled></li>';
+							str += '<li class="listtd">' + item.coupon_start + '</li>';
+							str += '<li class="listtd"><input type="date" class="coupon_end" name="coupon_end" value="' + item.coupon_end + '" disabled></li>';
+							if(item.coupon_useday == null){
+								str += '<li class="listtd">ë¯¸ì‚¬ìš©</li>';
+							} else {
+								str += '<li class="listtd">' + item.coupon_useday + '</li>';
+							}
 							str += '<li class="listtd"><select class="coupon_use" name="coupon_use" disabled>';
 							str += '<option value=' + item.coupon_use + '>'+ item.coupon_use +'</option>';
-							str += '<option value="º¸°üÁß">»ç¿ë°¡´É</option>';
-							str += '<option value="ºÎºĞ¹İÈ¯">»ç¿ëºÒ°¡</option>';
+							str += '<option value="0">ì‚¬ìš©ê°€ëŠ¥</option>';
+							str += '<option value="1">ì‚¬ìš©ë¶ˆê°€</option>';
 							str += '</select></li>';
-							str += '<li class="listtd"><a class="update">¼öÁ¤</a>';
-							str += '<a style="display: none;" value="/setak/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">¼öÁ¤</a></li>';
+							str += '<li class="listtd"><input type="hidden" value="'+item.coupon_seq+'"><a class="update">ìˆ˜ì •</a>';
+							str += '<a style="display: none;" value="/setak/admin/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">ìˆ˜ì •</a></li>';
 							str += '</ul>';
 							$(".coupon_list").append(str);
 						});
+						page();
 					},
 					error:function(){
-						alert("ajaxÅë½Å ½ÇÆĞ!!!");
+						alert("ajaxí†µì‹  ì‹¤íŒ¨!!!");
 					}
 				});
 			}
 			
 			selectData();	
 			
-			//¼öÁ¤¹öÆ° Å¬¸¯½Ã
+			//ì•„ì´ë”” ë„£ê¸°
+			$(document).on("click", ".member_id", function () {
+				var id = $(this).val();
+				$("#i-keyword").val(id);
+			});
+			
+			// ì „ì²´ì„ íƒ
+			$("#allcheck").click(function(){
+		        if($("#allcheck").prop("checked")){
+		            $("input[name=chk]").prop("checked",true);
+		        }else{
+		            $("input[name=chk]").prop("checked",false);
+		        }
+		    }) 
+			
+			//ìˆ˜ì •ë²„íŠ¼ í´ë¦­ì‹œ
 			$(document).on('click','.update',function(event) {
 				$(".after").css("display","none");
 				$(".update").css("display","block");
-				$(".coupon_start").attr("disabled","disabled");
+				$(".coupon_irum").attr("disabled","disabled");
 				$(".coupon_end").attr("disabled","disabled");
-				$(".coupon_useday").attr("disabled","disabled");
 				$(".coupon_use").attr("disabled","disabled");
-				$(".coupon_start").removeClass("upadte_select");
+				$(".coupon_irum").removeClass("upadte_select");
 				$(".coupon_end").removeClass("upadte_select");
-				$(".coupon_useday").removeClass("upadte_select");
 				$(".coupon_use").removeClass("upadte_select");
 				$('.listtd').removeClass("update_count");
 				
 				$($(this).parent().children(".after")).css("display","block");
 				$(this).css("display","none");
-				$($(this).parent().parent().children().children('.coupon_start')).removeAttr("disabled");
+				$($(this).parent().parent().children().children('.coupon_irum')).removeAttr("disabled");
 				$($(this).parent().parent().children().children('.coupon_end')).removeAttr("disabled");
-				$($(this).parent().parent().children().children('.coupon_useday')).removeAttr("disabled");
 				$($(this).parent().parent().children().children('.coupon_use')).removeAttr("disabled");
-				$($(this).parent().parent().children().children('.coupon_start')).addClass("upadte_select");
+				$($(this).parent().parent().children().children('.coupon_irum')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.coupon_end')).addClass("upadte_select");
-				$($(this).parent().parent().children().children('.coupon_useday')).addClass("upadte_select");
 				$($(this).parent().parent().children().children('.coupon_use')).addClass("upadte_select");
-				$($(this).parent().parent().children('.listtd:nth-child(5)')).addClass("update_count"); //ÆË¾÷Ã¢ ´©¸¦ ¼ö ÀÖ°Ô µÊ
 				
 								
-				//´Ù¸¥ ¼öÁ¤¹öÆ° ´­·¶À» ¶§ ±âº»°ªÀ¸·Î µ¹¸®±â À§ÇØ¼­
+				//ë‹¤ë¥¸ ìˆ˜ì •ë²„íŠ¼ ëˆŒë €ì„ ë•Œ ê¸°ë³¸ê°’ìœ¼ë¡œ ëŒë¦¬ê¸° ìœ„í•´ì„œ
 				$('#coupon_form')[0].reset();
 			});
-
-			//¼öÁ¤ È°¼ºÈ­ µÆÀ» ¶§ Á¾·ù °ª Å¬¸¯½Ã ÆË¾÷»ı¼º
-			$(document).on('click','.update_count',function(event) {
-				$(".popup_back").addClass("popup_on");
-			});
-			$(document).on('click','.close',function(event) {
-	            $(".popup_back").removeClass("popup_on");
-				$(".coupon-list").removeClass("tab_active");
-	        });
-
-			//ÆË¾÷¿¡¼­ ÅÇ ´­·¶À» ¶§
-			$(".tab").on("click", function() {
-				$(".tab").removeClass("tab_active");
-				$(".tab-content").removeClass("show");
-				$(this).addClass("tab_active");
-				$($(this).attr("href")).addClass("show");
-			});
-			$(".coupon-list").on("click", function() {
-				$(".coupon-list").removeClass("tab_active");
-				$(this).addClass("tab_active");
-			});
-			
-			//ÆË¾÷¿¡¼­ È®ÀÎ ´­·¶À» ¶§
-			var popup_keep_cate = "";	//Å«Ä«Å×
-			var popup_keep_kind = "";	//ÀÛÀºÄ«Å×
-			$(document).on('click','.commit',function(event) {
-				popup_keep_cate = document.getElementsByClassName('tab tab_active');
-	            popup_keep_kind = document.getElementsByClassName('keep-list tab_active');
-	            
-	            if(!$(".keep-list").hasClass("tab_active")){
-					alert("Á¾·ù¸¦ ¼±ÅÃÇÏÁö ¾Ê¾Ò½À´Ï´Ù.");
-					return false;
-				}
-	            
-	            //ÆË¾÷´İ±â
-	            $(".popup_back").removeClass("popup_on");
-
-	            //¿ÊÁ¾·ù ¹Ù²Û°Å Àû¿ë½ÃÅ°±â 
-	            $(update_keep_cate).val(popup_keep_cate[0].innerHTML);
-	            $(update_keep_kind).val(popup_keep_kind[0].innerHTML);
-
-	            $(".keep-list").removeClass("tab_active");
-			});
-			
-			//¼öÁ¤ ajax
+		
+			//ìˆ˜ì • ajax
 			$(document).on('click','.after', function(event){
-				var cate = $(this).parents().eq(1).children().eq(12).children().val();
-				var kind = $(this).parents().eq(1).children().eq(4).children().val();
-				var count = $(this).parents().eq(1).children().eq(5).children().val();
-				var box = $(this).parents().eq(1).children().eq(6).children().val();
-				var sd = $(this).parents().eq(1).children().eq(7).children().val();
-				var fd = $(this).parents().eq(1).children().eq(8).children().val();
-				var now = $(this).parents().eq(1).children().eq(9).children().val();
+				var name = $(this).parents().eq(1).children().eq(2).children().val();
+				var end = $(this).parents().eq(1).children().eq(4).children().val();
+				var use = $(this).parents().eq(1).children().eq(6).children().val();
 				
-				var params = {"keep_cate":cate,"keep_kind":kind,"keep_box":box,"keep_start":sd,"keep_end":fd,"keep_now":now,"keep_count":count}
+				var params = {"coupon_name":name,"coupon_end":end,"coupon_use":use}
 				
 				jQuery.ajax({
 					url : $(this).attr("value"), 
 					type : 'post',
 					data : params,
-					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-					dataType : "json", //¼­¹ö¿¡¼­ º¸³»ÁÙ µ¥ÀÌÅÍ Å¸ÀÔ
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					dataType : "json", //ì„œë²„ì—ì„œ ë³´ë‚´ì¤„ ë°ì´í„° íƒ€ì…
 					success:function(retVal){
 						if(retVal.res == "OK"){
-							$('.keep_list').empty()
-							selectData();
+							$('.coupon_list').empty()
+							selectData();	
 						} else {
-							alert("¼öÁ¤ ½ÇÆĞ");
+							alert("ìˆ˜ì • ì‹¤íŒ¨2");
 						}
 					},
 					error:function(){
-						alert("ajaxÅë½Å ½ÇÆĞ");
+						alert("ajaxí†µì‹  ì‹¤íŒ¨");
 					}
 				});
 				event.preventDefault();
 			}); 
 			
+			
+			//ì‚­ì œ
+			$("#delete-btn").click(function () {
+				var coupon_seq = [];
+				var checkbox = $("input[name=chk]:checked");
+				
+				checkbox.each(function() {
+					var chk = $(this);
+					var seq = chk.parent().parent().children().eq(7).children().val();
+					
+					coupon_seq.push(seq);
+				});
+				
+				
+				$.ajax({
+					url:'/setak/admin/deleteCoupon.do',
+					type:'POST',
+					data : {
+						coupon_seq : coupon_seq
+					},
+					traditional : true,
+					dataType:"json",
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success:function(retVal) {
+						if(retVal.res == "OK"){
+							$('.coupon_list').empty();
+							location.href = "/setak/admin/admin_coupon.do";
+						} else {
+							alert("ì‚­ì œ ì‹¤íŒ¨.");
+						}				
+					},
+					error: function() {
+						alert("ajaxí†µì‹  ì‹¤íŒ¨");
+				    }
+				});
+			});
+			
+			
 		});
+		
+		//í˜ì´ì§• ì‘ì—…
+		function page(){ 
+			$('div.paginated').each(function() {
+				var pagesu = 10;  //í˜ì´ì§€ ë²ˆí˜¸ ê°¯ìˆ˜
+				var currentPage = 0;
+				var numPerPage = 10;  //ëª©ë¡ì˜ ìˆ˜
+				var $table = $(this);    
+				  
+				//lengthë¡œ ì›ë˜ ë¦¬ìŠ¤íŠ¸ì˜ ì „ì²´ê¸¸ì´êµ¬í•¨
+				var numRows = $table.find('ul').length;
+				//Math.ceilë¥¼ ì´ìš©í•˜ì—¬ ë°˜ì˜¬ë¦¼
+				var numPages = Math.ceil(numRows / numPerPage);
+				//ë¦¬ìŠ¤íŠ¸ê°€ ì—†ìœ¼ë©´ ì¢…ë£Œ
+				if (numPages==0) return;
+				//pagerë¼ëŠ” í´ë˜ìŠ¤ì˜ divì—˜ë¦¬ë¨¼íŠ¸ ì‘ì„±
+				var $pager = $('<div id="remo"></div>');
+				 
+				var nowp = currentPage;
+				var endp = nowp+10;
+			  
+				//í˜ì´ì§€ë¥¼ í´ë¦­í•˜ë©´ ë‹¤ì‹œ ì…‹íŒ…
+				$table.bind('repaginate', function() {
+				//ê¸°ë³¸ì ìœ¼ë¡œ ëª¨ë‘ ê°ì¶˜ë‹¤, í˜„ì¬í˜ì´ì§€+1 ê³±í•˜ê¸° í˜„ì¬í˜ì´ì§€ê¹Œì§€ ë³´ì—¬ì¤€ë‹¤
+					$table.find('ul').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+					$("#remo").html("");
+					
+					if (numPages > 1) {     // í•œí˜ì´ì§€ ì´ìƒì´ë©´
+						if (currentPage < 5 && numPages-currentPage >= 5) {   // í˜„ì¬ 5p ì´í•˜ì´ë©´
+							nowp = 0;     // 1ë¶€í„° 
+							endp = pagesu;    // 10ê¹Œì§€
+						}else{
+							nowp = currentPage -5;  // 6ë„˜ì–´ê°€ë©´ 2ë¶€í„° ì°ê³ 
+							endp = nowp+pagesu;   // 10ê¹Œì§€
+							pi = 1;
+						}
+						if (numPages < endp) {   // 10í˜ì´ì§€ê°€ ì•ˆë˜ë©´
+							endp = numPages;   // ë§ˆì§€ë§‰í˜ì´ì§€ë¥¼ ê°¯ìˆ˜ ë§Œí¼
+							nowp = numPages-pagesu;  // ì‹œì‘í˜ì´ì§€ë¥¼   ê°¯ìˆ˜ -10
+						}
+						if (nowp < 1) {     // ì‹œì‘ì´ ìŒìˆ˜ or 0 ì´ë©´
+							nowp = 0;     // 1í˜ì´ì§€ë¶€í„° ì‹œì‘
+						}
+					}else{       // í•œí˜ì´ì§€ ì´í•˜ì´ë©´
+						nowp = 0;      // í•œë²ˆë§Œ í˜ì´ì§• ìƒì„±
+						endp = numPages;
+					}
+					
+					// [<<]
+					$('<span class="page-number" cursor: "pointer"><<</span>').bind('click', {newPage: page},function(event) {
+						currentPage = 0;
+						$table.trigger('repaginate');  
+						$($(".page-number")[2]).addClass('active').siblings().removeClass('active');
+					}).appendTo($pager).addClass('clickable');
+					// [<]
+					$('<span class="page-number" cursor: "pointer"><</span>').bind('click', {newPage: page},function(event) {
+						if(currentPage == 0) return;
+						currentPage = currentPage-1;
+						$table.trigger('repaginate');
+						$($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+					}).appendTo($pager).addClass('clickable');
+					// [1,2,3,4,5,6,7,8]
+					for (var page = nowp ; page < endp; page++) {
+						$('<span class="page-number" cursor: "pointer"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
+							currentPage = event.data['newPage'];
+							$table.trigger('repaginate');
+							$($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+						}).appendTo($pager).addClass('clickable');
+					}
+					// [>]
+					$('<span class="page-number" cursor: "pointer">></span>').bind('click', {newPage: page},function(event) {
+						if(currentPage == numPages-1) return;
+						currentPage = currentPage+1;
+						$table.trigger('repaginate'); 
+						$($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
+					}).appendTo($pager).addClass('clickable');
+					// [>>]
+					$('<span class="page-number" cursor: "pointer">>></span>').bind('click', {newPage: page},function(event) {
+						currentPage = numPages-1;
+						$table.trigger('repaginate');
+						$($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
+					}).appendTo($pager).addClass('clickable');
+					$($(".page-number")[2]).addClass('active');
+				});
+				$pager.insertAfter($table).find('span.page-number:first').next().next().addClass('active'); 
+				$pager.appendTo($table);
+				$table.trigger('repaginate');
+			});
+		}
+		
+		
+		//ê²€ìƒ‰
+		function searchCoupon() {
+			
+			var param = {
+					keyword : $('#keyword').val(),
+					//orderBy : orderBy
+				};
+			
+			
+			$.ajax({
+				url:'/setak/admin/couponSearch.do', 
+				type:'POST',
+				data:param,
+				dataType:"json", //ë¦¬í„´ ë°ì´í„° íƒ€ì…
+				contentType:'application/x-www-form-urlencoded; charset=utf-8',
+				success:function(data) {	
+					$(".coupon_list").empty();
+					
+					var list = data.couponlist;
+					
+					if (list.length == 0){
+						var str = '';
+						str += '<h3 >ê²°ê³¼ê°’ì´ ì—†ìŠµë‹ˆë‹¤.</h3>'
+						
+						$(".coupon_list").append(str);
+						
+					}
+					
+					 $.each(list, function(index, item) {
+						 
+						 var str = '';
+							
+							str += '<ul>'
+							str += '<li class="listtd"><input type="checkbox" name="chk"></li>';
+							str += '<li class="listtd"><input type="button" class="member_id" value="' + item.member_id +'"></li>';
+							str += '<li class="listtd"><input type="text" class="coupon_irum" name="coupon_name" value="' + item.coupon_name + '" disabled></li>';
+							str += '<li class="listtd">' + item.coupon_start + '</li>';
+							str += '<li class="listtd"><input type="date" class="coupon_day" name="coupon_end" value="' + item.coupon_end + '" disabled></li>';
+							if(item.coupon_useday == null){
+								str += '<li class="listtd">ë¯¸ì‚¬ìš©</li>';
+							} else {
+								str += '<li class="listtd">' + item.coupon_useday + '</li>';
+							}
+							str += '<li class="listtd"><select class="coupon_use" name="coupon_use" disabled>';
+							str += '<option value=' + item.coupon_use + '>'+ item.coupon_use +'</option>';
+							str += '<option value="0">ì‚¬ìš©ê°€ëŠ¥</option>';
+							str += '<option value="1">ì‚¬ìš©ë¶ˆê°€</option>';
+							str += '</select></li>';
+							str += '<li class="listtd"><a class="update">ìˆ˜ì •</a>';
+							str += '<a style="display: none;" value="/setak/admin/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">ìˆ˜ì •</a></li>';
+							str += '</ul>';
+							$(".coupon_list").append(str);
+					 });
+					page();
+				},
+				error: function() {
+					alert("í†µì‹ ì‹¤íŒ¨!");
+			    }
+			});
+		}	
+		
+		//ì¿ í° ì…ë ¥
+		function insertCoupon() {
+			var id = $('#i-keyword').val();
+			var name = $('#i-name').val();
+			
+			var cvo = {"member_id": id,"coupon_name":name}
+			$.ajax({
+				url : '/setak/admin/insertCoupon.do',
+				type : 'POST',
+				data : cvo,
+				dataType : 'json',
+				contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+				success:function(retVal){
+					if(retVal.res == "OK"){
+						$('.coupon_list').empty();
+						location.href = "/setak/admin/admin_coupon.do";
+					
+					} else {
+						alert("íšŒì› ì•„ì´ë””ê°€ ì—†ìŠµë‹ˆë‹¤.");
+					}
+				},
+				error:function(){
+					alert("ajaxí†µì‹  ì‹¤íŒ¨");
+				}
+			});
+		}
+		
+		
 	</script>
 </head>
 <body>
 		<div id="admin"></div>
 		
 		<div class="content">
-			<!-- ¿©±â¼­ºÎÅÍ ÀÛ¾÷ÇÏ¼¼¿ä. -->
-			<h1>ÀüÃ¼ÄíÆù°ü¸®</h1>
+			<!-- ì—¬ê¸°ì„œë¶€í„° ì‘ì—…í•˜ì„¸ìš”. -->
+			<h1>ì „ì²´ì¿ í°ê´€ë¦¬</h1>
 			
-			<!-- ÇÊÅÍ -->
+			<!-- í•„í„° -->
 			<div id = "search-div">
-				<h2>ÀüÃ¼ÄíÆù°Ë»ö</h2>
+				<h2>ì „ì²´ì¿ í°ê²€ìƒ‰</h2>
 				<form id = "search-form" action = "">
 					<table id = "search-table">
 						<tr>
-							<td>È¸¿ø °Ë»ö</td>
+							<td>íšŒì› ê²€ìƒ‰</td>
 							<td>
-								<input id = "keyword" type = "text" size = "40px" placeholder = "³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." /> 
+								<input id="keyword" type="text" size="40px" placeholder = "ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”." /> 
 							</td>
 						</tr>
 					</table>
 				</form>
 				
 				<div id="search-btn-div">
-					<input type="button" id = "search-btn" value = "°Ë»ö" onclick = "searchOrder();" />
+					<input type="button" id = "search-btn" value = "ê²€ìƒ‰" onclick = "searchCoupon();" />
 				</div>
 			</div>			
-			<!-- ÇÊÅÍ ³¡ -->
+			<!-- í•„í„° ë -->
+			<!-- ì¿ í° ë¶€ì—¬ -->
+			<div id = "insert-div">
+				<h2>ì¿ í° ì†Œë§¤ë„£ê¸°</h2>
+				<form id = "insert-form" action = "">
+					<table id = "insert-table">
+						<tr>
+							<td>ì¿ í°</td>
+							<td>
+								<input id="i-keyword" type="text" size="40px" placeholder = "ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”." /> 
+								<input id="i-name" type="text" size="40px" placeholder = "ì¿ í°ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”." /> 
+							</td>
+							<td>
+						</tr>
+					</table>
+				</form>
+				
+				<div id="insert-btn-div">
+					<input type="button" id = "insert-btn" value = "í™•ì¸" onclick = "insertCoupon();" />
+				</div>
+			</div>
+			<!-- ì¿ í° ë¶€ì—¬ ë-->		
 			
 			
 			<ul class="coupon_title">
 				<li><input type="checkbox" id="allcheck"></li>
-				<li>È¸¿ø¾ÆÀÌµğ</li>
-				<li>ÄíÆùÀÌ¸§</li>
-				<li>ÄíÆùºÎ¿©³¯Â¥</li>
-				<li>ÄíÆù¸¸·á³¯Â¥</li>
-				<li>ÄíÆù»ç¿ë³¯Â¥</li>
-				<li>ÄíÆù»ç¿ë¿©ºÎ</li>
-				<li>¼öÁ¤</li>
+				<li>íšŒì›ì•„ì´ë””</li>
+				<li>ì¿ í°ì´ë¦„</li>
+				<li>ì¿ í°ë¶€ì—¬ë‚ ì§œ</li>
+				<li>ì¿ í°ë§Œë£Œë‚ ì§œ</li>
+				<li>ì¿ í°ì‚¬ìš©ë‚ ì§œ</li>
+				<li>ì¿ í°ì‚¬ìš©ì—¬ë¶€</li>
+				<li>ìˆ˜ì •</li>
 			</ul>
+			
 			<form id="coupon_form">
 				<div class="coupon_list paginated">
-					<input type="button" value="¼±ÅÃ»èÁ¦" class="checkdelete">
+					<input type="button" value="ì„ íƒì‚­ì œ" class="checkdelete" id="delete-btn"/>
 				</div>
 			</form>
 
 
 		</div>
-		<!-- °á°ú  div ³¡-->
-	<!-- Áö¿ìÁö¸¶¼¼¿ä -->
+		<!-- ê²°ê³¼  div ë-->
+	<!-- ì§€ìš°ì§€ë§ˆì„¸ìš” -->
 </body>
 </html>

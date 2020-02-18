@@ -37,7 +37,9 @@ public class MileageServiceImpl implements MileageService {
 		
 		try {
 			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
+			System.out.println(map.get("endrow"));
 			mileagelist = mileageMapper.getMileagelist(map);
+			System.out.println(mileagelist+"하하");
 			
 		}catch(Exception e) {
 			System.out.println("적립금 리스트 실패" + e.getMessage());

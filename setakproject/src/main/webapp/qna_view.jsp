@@ -5,11 +5,13 @@
 
 <%
 	QnaVO vo = (QnaVO)request.getAttribute("qnadata");
-	int qna_num = vo.getQNA_NUM();
-	String member_id = vo.getMEMBER_ID();
+	int qna_num = vo.getQna_num();
+	String member_id = vo.getMember_id();
 	System.out.println("QNA_NUM=" +qna_num);
 	System.out.println("member_id="+member_id);
 	String b = null;
+	String session_id= (String)session.getAttribute("member_id");
+	String qna_scr = vo.getQna_scr();
 %>
 
 <!DOCTYPE html>
@@ -25,10 +27,25 @@
 $(document).ready(function() {
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp")   
-	//목록
+	<%-- 
+     if('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'){
+		output +='<%=vo.getMember_id()%></small></td></tr>';
+		
+	}else{
+		output +='관리자</small></td></tr>';
+	}					
+	var i = item.review_star;
+	var res =JSON.stringify(item.review_photo);			
+	var idx= res.indexOf("_");
+	var rphoto=res.substring(1,idx);
+	var re_d =JSON.stringify(item.review_date);					
+	var rdate= re_d.substr(1 ,16);
+     --%>
+    
+    //목록
 	function selectData() {
-		var para= {Qna_num:<%=vo.getQNA_NUM() %>};
-		console.log("para의 값은?="+para);
+		var para= {Qna_num:<%=vo.getQna_num() %>};
+		
 		$('#output').empty();
 		$.ajax({
 			/* url:'/setak_qna/commentList.re?qna_num='+para+'', 
@@ -39,16 +56,16 @@ $(document).ready(function() {
 			dataType:"json", //서버에서 보내줄 데이터 타입
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
-				$.each(data, function(index, item) {
+				$.each(data, function(index, item) {					
 					var output = '';
+					
+					
 					output += '<tr><td><input type="hidden" value="'+item.qna_seq+'"/></td></tr>';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></td></tr>';							
-					output += '<tr><td id="cl_td1" colspan="2">세탁곰</td></tr>';							
+					output += '<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;">'+item.member_id+'</small></td></tr>';						
 					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
-					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';				
-					
-					console.log("para="+para);
+					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';									
 					$('#output').append(output);
 				});
 			},
@@ -59,9 +76,40 @@ $(document).ready(function() {
 	}
 	
 	//댓글 추가
-	$('#cf_insertbtn').on('click', function(event){ 	
+	$('#cf_insertbtn').on('click', function(event){
+		var qna_scr='<%=vo.getQna_scr()%>'; 
+		//console.log(qna_scr);
+		var session_id ='<%=(String)session.getAttribute("member_id")%>';
+		//console.log(session_id);
+		var qna_num = '<%=vo.getQna_num()%>';
+		//console.log(qna_num);
+		if(qna_scr=="공개")
+		{
+			if(session_id=='null')
+			{
+				var qna_confirm=confirm("회원만 댓글을 달수 있습니다. 로그인 페이지로 이동하시겠습니까?");
+				if(qna_confirm==true){					
+					location.href='./login.do';	
+					return false;
+				}
+				else{
+					return false;	        		       		
+				}
+			}
+			else if(!('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'))
+			{
+				alert('작성자만 댓글을 달 수 있습니다 .')
+				return false;
+			}	
+														
+		}
+		if($('#q-c-tarea').val()=='')
+		{
+			alert("댓글을 입력해주세요 (최대 300자)");
+			return false;
+		}
 		var params=$("#comment_form").serialize();
-		console.log("comment_form="+params);
+		console.log(params);
 		jQuery.ajax({
 			url:'/setak/commentInsert.do',
 			type:'POST',
@@ -72,7 +120,7 @@ $(document).ready(function() {
 			{	
 				if (retVal.res == "OK"){
 					selectData();
-					$('#cf_content').val('');
+					$('#q-c-tarea').val("");
 				}
 				else {
 					alert("Insert Fail!!!!!");
@@ -89,9 +137,7 @@ $(document).ready(function() {
 	//삭제 실행
 	$(document).on('click','.cdbtn', function(event){
 		
-		var dpara ={Qna_seq:$(this).attr("id")};	
-		console.log("id(qna_seq)="+dpara);
-		
+		var dpara ={Qna_seq:$(this).attr("id")};					
 			$.ajax({
 			url:'/setak/commentDelete.do',
 			type:'POST',
@@ -131,49 +177,46 @@ selectData();
 
 <table class="qvt1">
 	<tr>					
-		<td align="center" width="10%" height="40px">&nbsp;<%=vo.getQNA_TYPE() %></td>			
-		<td align="left"  height="40px">&nbsp;제목 :&nbsp;<%=vo.getQNA_TITLE()%>
-			<small id="qvt1s">&nbsp;주문번호 :<%if(vo.getORDER_NUM()==0){%>없음 <%}else{%><%=vo.getORDER_NUM()%><%}%></small></td>		
-		<td align="right" height="40px"> 작성자 : <%=vo.getMEMBER_ID() %>&nbsp;&nbsp;</td>					
+		<td id="mqvt1d1" align="center" width="10%" height="50px"><p>문의유형 </p>:<small><%=vo.getQna_type() %></small></td>			
+		<td id="mqvt1d2" align="left"  height="40px" width="700px">&nbsp;제목 :&nbsp;<%=vo.getQna_title()%>
+			<small>&nbsp;주문번호 :<%if(vo.getOrder_num()==0){%>없음 <%}else{%><%=vo.getOrder_num()%><%}%></small></td>		
+		<td id="mqvt1d3"  height="40px"> 작성자 :&nbsp;<small><%=vo.getMember_id() %>&nbsp;&nbsp;</small></td>					
 	</tr>
 	<tr height=250 >			
-		<td id="td1" valign=top colspan="1" align="right">&nbsp;Q : &nbsp;</td>
-		<td id="td2" valign=top colspan="1"><%=vo.getQNA_CONTENT()%></td>		
-		<td id="td3" valign=top>
+		
+		<td id="td2" valign=top colspan="3">&nbsp;Q : &nbsp; <%=vo.getQna_content()%>	
+		
 			<div class="thumbnail-wrapper">
 			  <div class="thumbnail">
-			    <div class="thumbnail-centered">
-			    	<%if (!vo.getQNA_FILE().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
-			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQNA_FILE()%>"/>
+			    
+			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
+			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"/>
 			      	<%}else{ %>
 			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
 			      	<%} %>
-			    </div>
+			    
 			  </div>
 			</div>
 		</td>
+		
 				
 	</tr>
 	<tr>
 		<td colspan="3" width="10%" height="40px">
-		<div><small>첨부 파일 :</small> 
-		<%if(!(vo.getQNA_FILE()==null)) {%>
-		<a href="#"><%int i= vo.getQNA_FILE().indexOf("_");%>
-		<%=vo.getQNA_FILE().substring(i+1)%>
+		<div style="margin-left: 20px;"><small>첨부 파일 :</small> 
+		<%if(!(vo.getQna_file()==null)) {%>
+		<a href="#"><%int i= vo.getQna_file().indexOf("_");%>
+		<%=vo.getQna_file().substring(i+1)%>
 		</a><%}else{%>파일이 존재하지 않습니다.<%}%>		
 		</div></td>
 	</tr>
 </table>
 
-<form id="only_qna_num" method="post">
-<input type="hidden" value="<%=vo.getQNA_NUM()%>">
-</form>
-
 <table class="qvt3">
 	<tr><td>
-		<button type="button" id="btn1" onclick="location.href='./updateform.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">수정 </button>					
-		<button type="button" id="btn1" onclick="location.href='./qnaPass2.do?QNA_NUM=<%=vo.getQNA_NUM() %>'">삭제 </button>			
-		<button type="button" id="btn2" onclick="location.href='./qnaList.do'"> 글목록  </button>							
+		<button style="float: right;" onclick="location.href='./qnaPass2.do?qna_num=<%=vo.getQna_num() %>'">삭제 </button>		
+		<button style="float: right;" onclick="location.href='./updateform.do?qna_num=<%=vo.getQna_num() %>'">수정 </button>			
+		<button onclick="location.href='./qnaList.do'"> 글목록  </button>							
 		</td>
 	</tr>			
 </table>
@@ -184,8 +227,9 @@ selectData();
 <form id="comment_form" method="post" >
 <table class="cf_t1">
 <tr><th id="cf_label">&nbsp;댓 글</th></tr>
-<tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQNA_NUM()%>"></td></tr>
-<tr><td><textarea class="textarea" name="qna_content" maxlength="300px" cols="120" rows="6" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
+<tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQna_num()%>"></td>
+	<td><input type="hidden" name="member_id" id="member_id" value="<%=vo.getMember_id()%>"></td></tr>
+<tr><td><textarea  id="q-c-tarea" name="qna_content" maxlength="300px"  placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
 	<td valign="bottom" width="10%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
 </tr>	
 </table>
@@ -199,3 +243,7 @@ selectData();
 <div id="footer"></div> 
 </body>
 </html>
+
+
+
+

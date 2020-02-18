@@ -52,9 +52,9 @@ $(document).ready(function(){
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >
 		<td height="40px" width="10%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
 		<td width="50%"> 
-			<div align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./getDetail.do?NOTICE_NUM=<%=bl.getNOTICE_NUM() %>">
-			<%=bl.getNOTICE_TITLE() %></a></div></td>
-		<td width="16%"><div align="center"><%=bl.getNOTICE_DATE() %></div></td>
+			<div  id="no_title" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a  href="./getDetail.do?notice_num=<%=bl.getNotice_num() %>">
+			<%=bl.getNotice_title() %></a></div></td>
+		<td width="16%"><div id="no_date" align="center"><%=bl.getNotice_date().substring(0,11) %></div></td>
 	</tr>
 </table>
 <%}%>
@@ -62,9 +62,9 @@ $(document).ready(function(){
 <tr align=center height="40px">
 <td colspan=7 >
 <%if(nowpage<=1) {%>
-< &nbsp;&nbsp;&nbsp;
+[<] &nbsp;&nbsp;&nbsp;
 <%}else{%>
-<a href="./noticeList.do?page=<%=nowpage-1 %>" > < </a>&nbsp; 
+<a href="./noticeList.do?page=<%=nowpage-1 %>" > [<] </a>&nbsp;<!-- [<]  -->
 <%}%>			
 <%for (int a=startpage; a<=endpage; a++){ 
 	if(a==nowpage) { %>
@@ -74,8 +74,8 @@ $(document).ready(function(){
 	<%}%>
 <%}%>&nbsp;
 <%if(nowpage >= maxpage ) { %>
-&nbsp;&nbsp;&nbsp; >
-<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > > </a>
+&nbsp;&nbsp;&nbsp; [>]
+<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > [>] </a><!-- [>] -->
 <%}%>
 </td>
 </tr>

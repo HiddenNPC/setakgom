@@ -17,4 +17,6 @@ public class MemberSubVO {
    private String subsname;
    private int subsprice;
    private String subs_cancel;
+   private String subs_bye;
+   private String customer_uid; 
 }

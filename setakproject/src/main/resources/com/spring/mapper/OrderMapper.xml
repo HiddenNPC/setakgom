@@ -83,7 +83,7 @@
 		#{order_phone, jdbcType=VARCHAR}, #{order_price}, #{order_payment, jdbcType=VARCHAR}, 
 		#{order_delicode, jdbcType=VARCHAR}, #{order_cancel, jdbcType=VARCHAR}, #{order_status, jdbcType=VARCHAR}, 
 		#{order_pickup, jdbcType=VARCHAR}, #{order_name, jdbcType=VARCHAR}, #{order_address, jdbcType=VARCHAR}, 
-		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete}, #{order_muid, jdbcType=VARCHAR})
+		#{order_request, jdbcType=VARCHAR}, #{order_zipcode, jdbcType=VARCHAR}, #{order_delete}, #{order_muid, jdbcType=VARCHAR}, '0')
 	</insert>
 	
 	<!-- 세탁 장바구니 비우기  > 결제 이후-->
@@ -132,16 +132,16 @@
 	</update>
 	
 	<!-- 회원 정기구독  정보 등록 -->
-	<insert id = "insertMemberSubInfo" parameterType = "com.spring.member.MemberVO">
+	<insert id = "insertMemberSubInfo" parameterType = "java.util.HashMap">
 		insert into member_subs 
-		select #{member_id}, subs_water, subs_shirts, subs_dry, subs_blanket, subs_delivery, sysdate, sysdate+30, 
-		subs_name, subs_price, 0, 0 from subscribe where subs_num = #{subs_num}
-	</insert>
+		select #{member_id}, subs_water, subs_shirts, subs_dry, subs_blanket, subs_delivery, trunc(sysdate), trunc(sysdate)+30, 
+		subs_name, subs_price, 0, 0, #{customer_uid} from subscribe where subs_num = #{subs_num}
+	</insert>	
 	
 	<!-- 회원 정기구독 결제 정보 등록 -->
 	<insert id = "insertSubHistory" parameterType = "com.spring.member.MemberVO">
 		insert into subs_history
-		select #{member_id}, subs_name, subs_price, sysdate from subscribe where subs_num = #{subs_num}
+		select #{member_id}, subs_name, subs_price, trunc(sysdate), '0' from subscribe where subs_num = #{subs_num}
 	</insert>
 	
 	<!-- 쿠폰 제공 개수 구하기 -->
@@ -162,7 +162,17 @@
 	
 	<!-- 주문 취소 정보 등록  -->
 	<update id="orderCancle" parameterType = "com.spring.order.OrderVO">
-		update memberorder set order_cancel = 1, order_status = '주문취소' where order_muid = #{order_muid}
+		update memberorder set order_cancel = 1, order_delete = 1, order_status = '주문취소' where order_muid = #{order_muid}
 	</update>
-			
+	
+	<!-- 보관 장바구니 그룹 읽기 -->
+	<select id = "getKeepMaxGroup" parameterType = "String" resultType = "int">
+		select max(keep_group) from keep_cart where member_id = #{member_id} 
+	</select>	
+	
+	<!-- 보관 장바구니 유무 확인하기 -->
+	<select id = "getKeepExist" parameterType = "String" resultType = "int">
+		select count(*) from keep_cart where member_id = #{member_id} 
+	</select>	
+		
 </mapper>

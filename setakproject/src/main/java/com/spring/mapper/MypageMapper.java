@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.spring.member.MemberVO;
+import com.spring.mypage.KeepPhotoVO;
 import com.spring.mypage.KeepReturnVO;
 import com.spring.order.OrderListVO;
 import com.spring.order.OrderVO;
@@ -20,9 +21,9 @@ public interface MypageMapper {
 	OrderVO selectOrder(long order_num);
 	int getOrdercount();
 	String selectOrderId(String member_id);
-	MendingVO selectMending(int repair_seq);
-	KeepVO selectKeep(int keep_seq);
-	WashingVO selectWashing(int wash_seq);
+	ArrayList<MendingVO> selectMending(long order_num);
+	ArrayList<KeepVO> selectKeep(long order_num);
+	ArrayList<WashingVO> selectWashing(long order_num);
 	int getKeepcount();
 	
 	//보관연장
@@ -33,4 +34,7 @@ public interface MypageMapper {
 	int part_Return(KeepReturnVO krvo);
 	MemberVO getMember(String member_id);
 	
+	//사진
+	ArrayList<KeepPhotoVO> selectPhoto(long order_num);
+
 }

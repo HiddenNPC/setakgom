@@ -23,7 +23,7 @@ public class MemberSubServiceImpl implements MemberSubService{
 			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
 			msv = mapper.sub_list(member_id);
 		} catch (Exception e) {
-			System.out.println("나의 정기구독"+e.getMessage());
+			System.out.println("나의 정기구독 실패"+e.getMessage());
 		}
 		return msv;
 		
@@ -37,28 +37,12 @@ public class MemberSubServiceImpl implements MemberSubService{
 			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
 			sv = mapper.subscribe_list(member_id);
 		} catch (Exception e) {
-			System.out.println("정기구독 종류"+e.getMessage());
+			System.out.println("해당 정기구독 리스트 실패"+e.getMessage());
 		}
 		return sv;
 		
 	}
 	
-	/*
-	// 정기구독 내역 리스트
-		@Override
-		public ArrayList<HistorySubVO> subhistory_list(String member_id){
-			ArrayList<HistorySubVO> list = new ArrayList<HistorySubVO> ();
-			
-			try {
-				MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
-				list = mapper.subhistory_list(member_id);
-			} catch (Exception e) {
-				System.out.println("정기구독 리스트 실패ㅠ"+e.getMessage());
-			}
-			return list;
-				
-		}
-	*/
 	
 	 // 정기구독 내역 리스트
 	@Override
@@ -69,7 +53,7 @@ public class MemberSubServiceImpl implements MemberSubService{
 			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
 			list = mapper.subhistory_list(map);
 		} catch (Exception e) {
-			System.out.println("정기구독 리스트 실패ㅠ"+e.getMessage());
+			System.out.println("정기구독 리스트 실패"+e.getMessage());
 		}
 		return list;
 			
@@ -85,5 +69,50 @@ public class MemberSubServiceImpl implements MemberSubService{
 		return count;
 	}
 	
+	//구독해지함
+	@Override
+	public int subcancle(String member_id) {
+		int res = 0;
+		
+		try {
+			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
+			res = mapper.subcancle(member_id);
+			res = 1;
+		} catch (Exception e) {
+			System.out.println("구독해지 실패"+e.getMessage());
+			res = -1;
+		}
+		return res;
+	}
+			 
+	//재구독함
+	@Override
+	public int resub(String member_id) {
+		int res = 0;
+		
+		try {
+			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
+			res = mapper.resub(member_id);
+			res = 1;
+		} catch (Exception e) {
+			System.out.println("재구독 실패"+e.getMessage());
+			res = -1;
+		}
+		return res;
+	}
 	
+	//리뷰 작성
+    public int review_chk(HashMap<String, Object> map) {
+    	int res = 0;
+		
+		try {
+			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
+			res = mapper.review_chk(map);
+			res = 1;
+		} catch (Exception e) {
+			System.out.println("리뷰 작성 실패"+e.getMessage());
+			res = -1;
+		}
+		return res;
+    }
 }
