@@ -16,7 +16,7 @@
 	</select>	
 	
 	<insert id = "useMileage" parameterType = "com.spring.member.MileageVO">
-		insert into mileage values (#{member_id}, #{mile_date}, #{mile_price}, #{mile_content})
+		insert into mileage values (#{member_id}, #{mile_date}, #{mile_price}, #{mile_content}, mile_seq.nextval)
 	</insert>
 	
 	

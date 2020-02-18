@@ -37,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Iamport {
 	
 	public static final String import_cancel_url = "https://api.iamport.kr/payments/cancel";
-	public static final String import_subCancel_url = "https://api.iamport.kr/payments/unschedule";
 	public static final String import_schedule_url = "https://api.iamport.kr/subscribe/payments/schedule";
 	
 	public String getToken(HttpServletRequest request, HttpServletResponse response,JSONObject json ,String requestURL) throws Exception{
@@ -123,12 +122,10 @@ public class Iamport {
 		
 		if(asd.equals("null")) {
 			
-			System.out.println("환불 실패");
 			return -1;
 			
 		} else {
 			
-			System.out.println("환불 성공");
 			return 1;
 			
 		}
