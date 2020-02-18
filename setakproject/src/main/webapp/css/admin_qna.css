@@ -62,12 +62,13 @@
 	}
 	
 	
-	.ad-q-r-title ul li:nth-child(3)
+	.ad-q-r-title ul li:nth-child(4)
 	{
 		width:800px !important;		
 	}
 	.ad-q-r-title ul li:nth-child(1),.ad-q-r-title ul li:nth-child(2),
-	.ad-q-r-title ul li:nth-child(5),.ad-q-r-title ul li:nth-child(4)
+	.ad-q-r-title ul li:nth-child(5),.ad-q-r-title ul li:nth-child(3),
+	.ad-q-r-title ul li:nth-child(6)
 	{
 		width:120px !important;
 	}
@@ -242,6 +243,15 @@
 		
 	}
 	.r-qna_num{
+		width:inherit;
+		text-align:center;
+		background:none;/*  background: #e1e4e4; */
+		border:0px;
+		color:#444;
+		
+	}
+	
+	.r-member_id{
 		width:inherit;
 		text-align:center;
 		background:none;/*  background: #e1e4e4; */
