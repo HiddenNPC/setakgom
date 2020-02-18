@@ -39,124 +39,160 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		
-		var member_id = "<%=session.getAttribute("member_id")%>";
-		
-		$("#header").load("./header.jsp");
-		$("#footer").load("./footer.jsp");  
-		
-		//모달팝업 오픈
-	    $(".open").on('click', function(){
-	    	var login_id="<%=session.getAttribute("member_id")%>";   	
-	    	
-	    	if(!(login_id=="null"))
-	    	{
-	    		$("#re_layer").show();	
-	    		$(".dim").show();
-	    	}
-	    	else{
-	    		alert("비회원은 리뷰를 작성 할 수 없습니다.");
-	    		location.href="login.do";
-	    		return false;
-	    	}	
-		});
-	    $(".close").on('click', function(){
-	    	$(".re_layer").hide();	
-	    	$(".dim").hide();
-		});
-		
-	  	//별점 구동	
-		$('.r_content a').click(function () {
-		$(this).parent().children('a').removeClass('on');
-	    $(this).addClass('on').prevAll('a').addClass('on');      
-	    $('#Review_star').val($(this).attr("value")/2);
-	    return false;
-		});	
-	  	
-	  	//파일 인설트 부분
-		var filecontent;
-		var filename="";	
-		$("#Review_photo").change(function(){
-			filecontent = $(this)[0].files[0];
-			filename = Date.now() + "_" + $(this)[0].files[0].name;
-		});	
-		$("#reviewform").on("submit", function() {
-			if(rwchk()){			
-				if(filecontent != null){
-					var data = new FormData();
-					data.append("purpose", "review");
-					data.append("files", filecontent);
-					data.append("filename", filename);
-					
-					$("#Review_photo2").val(filename);
-					
-					$.ajax({
-		                type: "POST",
-		                enctype: 'multipart/form-data',
-		                url: "/setak/testImage.do",
-		                data: data,
-		                processData: false,
-		                contentType: false,
-		                cache: false,
-		                dataType: 'json',	
-		                success: function (data) {	                	
-		                },
-		                error: function (e) {	
-						}	                
-					});
-				}			
-			}else{
-				event.preventDefault();
-			}
-		});
-		
-		
-		
+   $(document).ready(function(){
+      
+      var member_id = "<%=session.getAttribute("member_id")%>";
+      
+      $("#header").load("./header.jsp");
+      $("#footer").load("./footer.jsp");  
+      
+      //모달팝업 오픈
+       $(".open").on('click', function(){
+          var login_id="<%=session.getAttribute("member_id")%>";      
+          
+          if(!(login_id=="null"))
+          {
+             $("#re_layer").show();   
+             $(".dim").show();
+          }
+          else{
+             alert("비회원은 리뷰를 작성 할 수 없습니다.");
+             location.href="login.do";
+             return false;
+          }   
+      });
+       $(".close").on('click', function(){
+          $(".re_layer").hide();   
+          $(".dim").hide();
+      });
+      
+        //별점 구동   
+      $('.r_content a').click(function () {
+      $(this).parent().children('a').removeClass('on');
+       $(this).addClass('on').prevAll('a').addClass('on');      
+       $('#Review_star').val($(this).attr("value")/2);
+       return false;
+      });   
+        
+        //파일 인설트 부분
+      var filecontent;
+      var filename="";   
+      $("#Review_photo").change(function(){
+         filecontent = $(this)[0].files[0];
+         filename = Date.now() + "_" + $(this)[0].files[0].name;
+      });   
+      $("#reviewform").on("submit", function() {
+         if(rwchk()){         
+            if(filecontent != null){
+               var data = new FormData();
+               data.append("purpose", "review");
+               data.append("files", filecontent);
+               data.append("filename", filename);
+               
+               $("#Review_photo2").val(filename);
+               
+               $.ajax({
+                      type: "POST",
+                      enctype: 'multipart/form-data',
+                      url: "/setak/testImage.do",
+                      data: data,
+                      processData: false,
+                      contentType: false,
+                      cache: false,
+                      dataType: 'json',   
+                      success: function (data) {                      
+                      },
+                      error: function (e) {   
+                  }                   
+               });
+            }         
+         }else{
+            event.preventDefault();
+         }
+      });
+      
+      
+      
+
+     
+      
+      jQuery(".accordion-content").hide();
+      //content 클래스를 가진 div를 표시/숨김(토글)
+      $(".accordion-header").click(function(){
+         $except = $(this).closest("div");
+         $except.toggleClass("active");
+         $(".accordion-content")
+            .not($(this).next(".accordion-content").slideToggle(500)).slideUp();
+         $('.mypage_content_cover').find('.accordion>.accordion-header').not($except).removeClass("active");
+         
+         
+      });
+      
+      // 결제 취소      
+      $(document).on('click', '#order_false', function(event) {
+         var btn = $(this); 
+         var order_muid = btn.attr('name');
+         
+         if(confirm("선택된 주문을 취소하시겠습니까?")) {
+             jQuery.ajax({
+                  "url": "/setak/cancelPay.do",
+                  "type": "POST",
+                  "contentType": "application/x-www-form-urlencoded; charset=UTF-8",
+                  "data": {
+                    "order_muid" : order_muid
+                  },
+                  "dataType": "json"
+                }).done(function(result) { // 환불 성공시 로직 
+                    alert("주문이 성공적으로 취소 되었습니다.");
+                    window.location.href = "./orderview.do";
+                }).fail(function(result) { // 환불 실패시 로직
+                     alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+                });   
+         }          
+      }); 
+       
+   });
 
    //입력받을곳 확인체크 + 값 컨트롤러로 전달
    function rwchk(){   
 
-	//입력받을곳 확인체크 + 값 컨트롤러로 전달
-	function rwchk(){	
-
-		if (document.getElementById('Review_content').value=="") 
-		{
-			alert("리뷰의 내용을 작성하세요.(최대 300자)");
-	        document.getElementById('Review_content').focus();
-	        return false;
-	        
-	    }
-		else if (document.getElementById('Review_star').value=="") 
-		{
-	    	alert("별점을 눌러주세요");
-	        document.getElementById('Review_star').focus();
-	        return false;
-	    }
-		
-		else if (document.getElementById('Review_kind').value=="") 
-		{
-	    	alert("이용하신 서비스를 선택해주세요");
-	        document.getElementById('Review_kind').focus();
-	        return false;
-	    }
-		
-		return true;
-		
-	}
-	
-	function rwcancel(){
-		  var check = confirm("작성을 취소하시겠습니까");
-		  /* if(check == true) else false */
-		  if(check)
-		  { 
-			  location.href='./orderview.do';
-		  }
-		  else
-		  { 
-			  return false;
-		  }
-	}	
+      if (document.getElementById('Review_content').value=="") 
+      {
+         alert("리뷰의 내용을 작성하세요.(최대 300자)");
+           document.getElementById('Review_content').focus();
+           return false;
+           
+       }
+      else if (document.getElementById('Review_star').value=="") 
+      {
+          alert("별점을 눌러주세요");
+           document.getElementById('Review_star').focus();
+           return false;
+       }
+      
+      else if (document.getElementById('Review_kind').value=="") 
+      {
+          alert("이용하신 서비스를 선택해주세요");
+           document.getElementById('Review_kind').focus();
+           return false;
+       }
+      
+      return true;
+      
+   }
+   
+   function rwcancel(){
+        var check = confirm("작성을 취소하시겠습니까");
+        /* if(check == true) else false */
+        if(check)
+        { 
+           location.href='./orderview.do';
+        }
+        else
+        { 
+           return false;
+        }
+   }   
 
 function cancle() {
    confirm("주문을 취소하시겠습니까?");
@@ -378,12 +414,12 @@ function cancle() {
 								<div class="dim"></div>	
 						<!-- 리뷰 추가 끝 -->
 
-			</div>
-			
-		</div>
-	</section>
-	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
-	
-	<div id="footer"></div>
+         </div>
+         
+      </div>
+   </section>
+   <!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
+   
+   <div id="footer"></div>
 </body>
 </html>

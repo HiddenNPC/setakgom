@@ -88,12 +88,16 @@
 							</thead>
 							<%for (int i=0; i<qnalist.size(); i++){ 
 								QnaVO qvo = (QnaVO)qnalist.get(i);
+							String date = qnalist.get(0).getQna_date();
+							String[] date2 = date.split(" ");
+							String date3 = date2[0];
+								
 							%>
 							<tbody align="center">
 								<tr>
 									<td><%=qvo.getQna_type() %></td>
-									<td><a href="./qnaDetail.do?QNA_NUM=<%=qvo.getQna_num() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQna_title() %></a></td>
-									<td><%=sdf.format(qvo.getQna_date()) %></td>
+									<td><a href="./qnaDetail.do?qna_num=<%=qvo.getQna_num() %>" style="color:#3498db; font-weiht:bold;"><%=qvo.getQna_title() %></a></td>
+									<td><%=date3 %></td>
 									<td><%=qvo.getQna_check() %></td>
 								</tr>
 							</tbody>					
@@ -108,20 +112,20 @@
               					<%if(nowpage <= 1) {%>
               				<div class="page_a"><a>&#60;</a></div>
               				<%} else {%>
-              					<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              					<div class="page_a"><a href ="./myqna.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<=endpage; a++) {
+              				<%for (int a=startpage; a<endpage; a++) {
               					if(a==nowpage) {
            					%>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>
-           						<div class="page_a"><a href="./mysaving.do?page=<%=a %>"><%=a %></a></div>
+           						<div class="page_a"><a href="./myqna.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
            					<%} %>
            					<%if (nowpage >= maxpage) {%>	
            						<div class="page_a"><a>&#62;</a></div>
            					<%} else { %>	
-                  				<div class="page_a"><a href ="./mysaving.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  				<div class="page_a"><a href ="./myqna.do?page=<%=nowpage+1 %>">&#62;</a></div>
                   			<%} %>	
                   			</td>
                			</tr>

@@ -47,8 +47,7 @@
 		<div class="title-text">
 			<h2>적립금 조회</h2>
 		</div>
-		
-			<div>
+			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
@@ -75,7 +74,7 @@
 					</li>
 				</ul>
 			</div>
-			<div>
+
 				<div class="mypage_content">
 				<h2>적립금 조회</h2>
 				<%if(mile_list.size() == 0) {%>
@@ -83,7 +82,6 @@
 				<%} else { %>
 				<div class="mypage_content_cover">
 				<div class="savings_point">
-				<% %>
 					<table>
 						<tr>
 							<td class="point1">-&nbsp;총 적립금</td>
@@ -156,7 +154,7 @@
 				</div>
 				<%} %>
 			</div>
-			</div>
+
 		</div>
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
