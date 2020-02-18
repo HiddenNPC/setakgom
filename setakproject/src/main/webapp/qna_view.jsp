@@ -30,6 +30,7 @@ $(document).ready(function() {
 	//목록
 	function selectData() {
 		var para= {Qna_num:<%=vo.getQna_num() %>};
+		
 		$('#output').empty();
 		$.ajax({
 			/* url:'/setak_qna/commentList.re?qna_num='+para+'', 
@@ -40,12 +41,17 @@ $(document).ready(function() {
 			dataType:"json", //서버에서 보내줄 데이터 타입
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
-				$.each(data, function(index, item) {
+				$.each(data, function(index, item) {					
 					var output = '';
 					output += '<tr><td><input type="hidden" value="'+item.qna_seq+'"/></td></tr>';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></td></tr>';							
-					output += '<tr><td id="cl_td1" colspan="2">작성자 : <small style="font-size:0.8rem;"><%=vo.getMember_id()%></small></td></tr>';
-					/* 답변 유뮤로 작성자를 관리자 또는 세션아이디로 구분  */
+					output += '<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;"></small></td></tr>';
+						<%-- if('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'){
+							output +='<%=vo.getMember_id()%></small></td></tr>';
+							
+						}else{
+							output +='관리자</small></td></tr>';
+						}	 --%>				
 					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
 					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';									
@@ -61,19 +67,31 @@ $(document).ready(function() {
 	//댓글 추가
 	$('#cf_insertbtn').on('click', function(event){
 		var qna_scr='<%=vo.getQna_scr()%>'; 
-		var session_id = '<%=(String)session.getAttribute("member_id")%>';
+		console.log(qna_scr);
+		var session_id ='<%=(String)session.getAttribute("member_id")%>';
+		console.log(session_id);
 		var qna_num = '<%=vo.getQna_num()%>';
-		if(qna_scr=="공개"){
-			if(session_id==null)
+		console.log(qna_num);
+		if(qna_scr=="공개")
+		{
+			if(session_id=='null')
 			{
 				var qna_confirm=confirm("회원만 댓글을 달수 있습니다. 로그인 페이지로 이동하시겠습니까?");
-				if(qna_confirm==true){
+				if(qna_confirm==true){					
+					location.href='./login.do';	
 					return false;
-					location.href='./login.do';					
 				}
 				else{
 					return false;	        		       		
 				}
+			}
+			else if(!(session_id=='<%=vo.getMember_id()%>'))
+			{
+				alert('작성자만 댓글을 달 수 있습니다 .')
+				return false;
+			}	
+	    	else{
+	    		return true;
 	    	}												
 		}
 		if($('#q-c-tarea').val()=='')
@@ -149,27 +167,28 @@ selectData();
 
 <table class="qvt1">
 	<tr>					
-		<td align="center" width="10%" height="50px"><p>문의유형 </p>:<small><%=vo.getQna_type() %></small></td>			
-		<td align="left"  height="40px" width="700px">&nbsp;제목 :&nbsp;<%=vo.getQna_title()%>
+		<td id="mqvt1d1" align="center" width="10%" height="50px"><p>문의유형 </p>:<small><%=vo.getQna_type() %></small></td>			
+		<td id="mqvt1d2" align="left"  height="40px" width="700px">&nbsp;제목 :&nbsp;<%=vo.getQna_title()%>
 			<small>&nbsp;주문번호 :<%if(vo.getOrder_num()==0){%>없음 <%}else{%><%=vo.getOrder_num()%><%}%></small></td>		
-		<td align="right" height="40px"> 작성자 : <%=vo.getMember_id() %>&nbsp;&nbsp;</td>					
+		<td id="mqvt1d3"  height="40px"> 작성자 :&nbsp;<small><%=vo.getMember_id() %>&nbsp;&nbsp;</small></td>					
 	</tr>
 	<tr height=250 >			
-		<td id="td1" valign=top colspan="1" align="right">&nbsp;Q : &nbsp;</td>
-		<td id="td2" valign=top colspan="1"><%=vo.getQna_content()%></td>		
-		<td id="td3" valign=top>
+		
+		<td id="td2" valign=top colspan="3">&nbsp;Q : &nbsp; <%=vo.getQna_content()%>	
+		
 			<div class="thumbnail-wrapper">
 			  <div class="thumbnail">
-			    <div class="thumbnail-centered">
+			    
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
 			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"/>
 			      	<%}else{ %>
 			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
 			      	<%} %>
-			    </div>
+			    
 			  </div>
 			</div>
 		</td>
+		
 				
 	</tr>
 	<tr>
@@ -198,8 +217,9 @@ selectData();
 <form id="comment_form" method="post" >
 <table class="cf_t1">
 <tr><th id="cf_label">&nbsp;댓 글</th></tr>
-<tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQna_num()%>"></td></tr>
-<tr><td><textarea  id="q-c-tarea" name="qna_content" maxlength="300px" cols="120" rows="6" placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
+<tr><td><input type="hidden" name="qna_num" id="qna_num" value="<%=vo.getQna_num()%>"></td>
+	<td><input type="hidden" name="member_id" id="member_id" value="<%=vo.getMember_id()%>"></td></tr>
+<tr><td><textarea  id="q-c-tarea" name="qna_content" maxlength="300px"  placeholder="&nbsp;따뜻한 댓글이 세탁곰에게 힘이 됩니다 "></textarea></td>
 	<td valign="bottom" width="10%" ><input id="cf_insertbtn" type="button" value="추가" ></td>
 </tr>	
 </table>
@@ -213,3 +233,7 @@ selectData();
 <div id="footer"></div> 
 </body>
 </html>
+
+
+
+

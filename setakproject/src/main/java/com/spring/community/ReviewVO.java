@@ -1,8 +1,5 @@
 package com.spring.community;
 
-
-
-
 public class ReviewVO 
 {
 	private int review_num;

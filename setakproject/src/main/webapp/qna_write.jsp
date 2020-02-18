@@ -165,10 +165,10 @@ function wcancel(){
 		<td height="30px"><div align="center">비밀번호</div></td>
 		<td><input id="QNA_PASS" name="QNA_PASS" type="password" maxlength="10"/></td>							
 		
-		<td><span id="msp">공개여부&nbsp;
+		<td><div id="msp">공개여부&nbsp;</div>
 			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="공개"/>공 개				
 			<input id="QNA_SCR" name="QNA_SCR" type="radio" value="비공개" checked="checked"/>비공개
-			</span></td>
+			</td>
 								
 	</tr>
 	<tr class="qwt1h">

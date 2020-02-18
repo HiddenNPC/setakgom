@@ -57,6 +57,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		int mile_price = 0;
 		String mile_content	="";		
 		
+		int order_num = Integer.parseInt(request.getParameter("order_num"));
+		System.out.println(order_num);
 		vo.setMember_id((String)session.getAttribute("member_id"));
 		System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
@@ -81,6 +83,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		}	
 		
 		int res = reviewService.reviewInsert(vo);		
+		
 		
 		
 		

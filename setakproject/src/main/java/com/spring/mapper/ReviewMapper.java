@@ -3,6 +3,7 @@ package com.spring.mapper;
 import java.util.ArrayList;
 
 import com.spring.community.ReviewVO;
+import com.spring.order.OrderVO;
 
 
 public interface ReviewMapper 
@@ -20,6 +21,7 @@ public interface ReviewMapper
 	public ArrayList<ReviewVO> reviewCondition3(String re_condition);
 	public int reviewDelete(int review_num); 
 	public int reviewUpdate(ReviewVO vo); 
+	public int reviewCheck(OrderVO vo); 
 	
 	
 	

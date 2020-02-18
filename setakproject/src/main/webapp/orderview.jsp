@@ -259,6 +259,7 @@ function cancle() {
 							<div class="snb">
 								<div class="ordernumber">
 									<p>주문 번호 :</p>
+									<input type="hidden" name="<%=orderVO.getOrder_num()%>">
 									<p><%=orderVO.getOrder_num() %></p>
 								</div>
 								<div class="addr">
