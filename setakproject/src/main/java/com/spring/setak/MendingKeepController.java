@@ -50,7 +50,6 @@ public class MendingKeepController {
 		String repair_count[] = request.getParameterValues("repair_count");
 		String repair_price[] = request.getParameterValues("repair_price");
 		String repair_file[] = request.getParameterValues("repair_file");
-		System.out.println(repair_file[0]);
 		
 		MendingVO mending = new MendingVO();
 		MendingCartVO mendingcart = new MendingCartVO();
@@ -67,7 +66,7 @@ public class MendingKeepController {
 				mending.setRepair_code(repair_code[i]);
 				mending.setRepair_count(Integer.parseInt(repair_count[i]));
 				mending.setRepair_price(Integer.parseInt(price[j]));
-				mending.setRepair_file(repair_file[j]);
+				mending.setRepair_file(repair_file[i]);
 				mending.setRepair_wash(0);
 				mending.setRepair_now("입고전");
 					

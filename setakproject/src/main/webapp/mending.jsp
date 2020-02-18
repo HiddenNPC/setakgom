@@ -113,8 +113,7 @@
  			filecontent = $(this)[0].files[0];
  			filename = Date.now() + "_" + $(this)[0].files[0].name;
  			data.append("files", filecontent);
- 			data.append("filename", filename);			
- 			$("#repair_file").val(filename);
+ 			data.append("filename", filename);
  		}); 
  		function photo(){
  			if(filecontent != null){
@@ -214,13 +213,14 @@
             str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
             str += '</td>';
             str += '<input class="repair_price" type="hidden" name="repair_price" value="'+price_str+'">';
-			str += '<input type="hidden" name="repair_file" id="repair_file" val="">';
+			str += '<td><input type="hidden" name="repair_file" id="repair_file" value="'+filename+'"></td>';
             str += '</tr>';
-            alert($('#repair_file').val());
-
+			alert(filename);
+			
     		photo();
             
             $(".mending_order_title").after(str);
+            alert($('#repair_file').val());
             $(".hash").empty();
             $(".size_input p input").val('');
             $(".details form")[0].reset();
