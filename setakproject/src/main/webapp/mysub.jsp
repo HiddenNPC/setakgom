@@ -210,11 +210,22 @@
 		var day = (d.getMonth()+1)+"월" + (d.getDate()+1)+"일";
 		document.getElementById("printday").innerHTML =day;
 		
-				
+		
+		/*리뷰작성여부*/
+		var payDate = "";
+		
+		/*리뷰비활성화*/
+		
+
 		 /*리뷰 관련 스크립트*/   
 	      //모달팝업 오픈
 	       $(".open").on('click', function(){
-	          var login_id="<%=session.getAttribute("member_id")%>";      
+	    	   
+	    	  /*리뷰작성여부*/ 
+	    	  var select_btn = $(this);
+		      payDate = select_btn.parent().parent().children().eq(3).text();
+	         
+		      var login_id="<%=session.getAttribute("member_id")%>";      
 	          
 	          if(!(login_id=="null"))
 	          {
@@ -249,7 +260,33 @@
 	         filecontent = $(this)[0].files[0];
 	         filename = Date.now() + "_" + $(this)[0].files[0].name;
 	      });   
+	      
 	      $("#reviewform").on("submit", function() {
+	    	 
+	    	 /*리뷰작성여부*/ 
+	    	 $.ajax({
+	    		url :'/setak/review_chk.do',
+				type:'post',
+				data : {
+					'member_id' : "<%=session.getAttribute("member_id") %>",
+	    			 'his_date' : payDate
+				},
+				dataType:'json',
+    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+				success:function(result) {
+					if(result.res=="OK") {            
+						console.log("review_chk 1");
+	     			}
+	     			else { // 실패했다면
+	     			}
+				},
+				// 문제가 발생한 경우 
+				error:function (request, status, error) {
+					alert("ajax 통신 실패");
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+	      
 	         if(rwchk()){         
 	            if(filecontent != null){
 	               var data = new FormData();
@@ -570,7 +607,8 @@
                                         <option value="정기구독">정기구독</option>
                                    </select></td>
                               <td align="right"  colspan="4">
-                                 <input class="cbtn" type="submit" name="submit" value="등록" >      
+                              	<input type="hidden" name="date" value="" >
+                                 <input class="cbtn" type="submit" name="submit" id="review-submit" value="등록" >      
                                  <input class="cbtn" type="button" value="취소" onclick="rwcancel()"/></td>    
                            </tr></table>
                         </form>
