@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.admin_member.Admin_memberService;
 import com.spring.order.OrderService;
 
 @Controller
@@ -24,7 +25,9 @@ public class MemberController {
 	@Autowired
 	private OrderService orderService; 
 
-	    
+	@Autowired
+	private Admin_memberService admemberservice;
+	
 	// 회원가입 클릭 (메인, 로그인페이지)
 	@RequestMapping(value = "/join.do", produces = "application/json; charset=utf-8")
 	public String join() {
@@ -294,6 +297,23 @@ public class MemberController {
 			 
 		 	 
 	 
+		 /*탈퇴신청*/
+			@RequestMapping(value ="/request-withdraw.do", produces = "application/json; charset=utf-8")
+			@ResponseBody // 데이터를 전송(view가 아니다)
+			public Map<String, Object> update_memo (MemberVO mo) {
+				Map<String, Object> result = new HashMap<String, Object>();
+				
+					int res = admemberservice.update_memo(mo);
+					if (res == 1) {
+						result.put("res", "OK");
+						System.out.println("메모수정"+mo.getMember_id()+mo.getMember_memo());
+					} else {
+						result.put("res", "FAIL");
+						result.put("message", "Failure");
+
+					}
+				return result;
+			}	 
 	/*
 	 * //회원삭제
 	 * 
