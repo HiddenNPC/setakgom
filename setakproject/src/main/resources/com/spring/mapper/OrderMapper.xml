@@ -141,7 +141,7 @@
 	<!-- 회원 정기구독 결제 정보 등록 -->
 	<insert id = "insertSubHistory" parameterType = "com.spring.member.MemberVO">
 		insert into subs_history
-		select #{member_id}, subs_name, subs_price, sysdate from subscribe where subs_num = #{subs_num}
+		select #{member_id}, subs_name, subs_price, trunc(sysdate), '0' from subscribe where subs_num = #{subs_num}
 	</insert>
 	
 	<!-- 쿠폰 제공 개수 구하기 -->

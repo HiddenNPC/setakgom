@@ -1,13 +1,9 @@
 package com.spring.order;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.member.CouponService;
 import com.spring.member.CouponVO;
+import com.spring.member.MemberSubService;
+import com.spring.member.MemberSubVO;
 import com.spring.member.MemberVO;
 import com.spring.member.MileageServiceImpl;
 import com.spring.member.MileageVO;
@@ -51,6 +49,8 @@ public class OrderController {
 	private OrderService orderService;
 	@Autowired
 	private CartService cartService;
+	@Autowired
+	private MemberSubService membersubservice;
 
 	// 장바구니
 	@RequestMapping(value = "/order.do")
@@ -128,12 +128,9 @@ public class OrderController {
 			MemberVO memberVO = orderService.getMemberInfo(member_id);
 			String member_name = memberVO.getMember_name();
 			String last = member_id.substring(member_id.length() - 1);
-			System.out.println("last : " + last);
 			if(last.equals("K")|| last.equals("N")||last.equals("G")) {
-				System.out.println("여기 들어옴?");
 				member_name = " "; 
 			}		
-			System.out.println("member_name : " + member_name );
 
 			String member_phone1 = " ", member_phone2 = " ", member_phone3 = " ";
 
@@ -539,80 +536,12 @@ public class OrderController {
 			orderService.insertCoupon(mvo);
 		}
 		merchant_uid += "s";
-		subsres(customer_uid, merchant_uid, amount, request, response);
+		
+		Iamport iamport = new Iamport();
+		iamport.subsres(customer_uid, merchant_uid, amount, request, response);
 
 		return "";
 	}
-
-	// 정기결제
-	public void subsres(String cid, String mid, String amount, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		Calendar c = Calendar.getInstance();
-		long time = c.getTimeInMillis() / 1000;
-		time += 2678400;
-
-		// 정기 결제 예약
-		Iamport iamport = new Iamport();
-
-		// 아임포트 억세스 토큰생성
-		String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
-		String imp_secret = URLEncoder
-				.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
-		JSONObject json = new JSONObject();
-		json.put("imp_key", imp_key);
-		json.put("imp_secret", imp_secret);
-		
-		String requestURL = "https://api.iamport.kr/users/getToken";
-
-		String token = iamport.getToken(request, response, json, requestURL);
-
-		String body = "{\"customer_uid\":\"" + cid + "\"," + "\"schedules\": [\r\n" + "{" + "\"merchant_uid\":" + "\""
-				+ mid + "\"" + ",\r\n" + "\"schedule_at\":\"" + time + "\",\r\n" + "\"amount\":\"" + amount + "\""
-				+ "}\r\n" + "]\r\n" + "}";
-
-		try {
-
-			URL url = new URL("https://api.iamport.kr/subscribe/payments/schedule");
-
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setUseCaches(false);
-			con.setDoOutput(true);
-			con.setDoInput(true);
-			con.setRequestMethod("POST");
-			con.setRequestProperty("content-type", "application/json");
-			con.setRequestProperty("Authorization", token);
-			con.setDoOutput(true);
-			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-
-			wr.write(body.getBytes());
-			wr.flush();
-			wr.close();
-
-			int responseCode = con.getResponseCode();
-			BufferedReader br;
-			System.out.println(responseCode);
-			if (responseCode == 200) { // 정상 호출
-				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			} else { // 에러 발생
-				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-			}
-
-			String inputLine;
-			StringBuffer responsebuffer = new StringBuffer();
-			while ((inputLine = br.readLine()) != null) {
-				responsebuffer.append(inputLine);
-			}
-			br.close();
-
-			System.out.println(responsebuffer.toString());
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-	}
-
 	// 정기구독 결제 성공
 	@RequestMapping(value = "/subSuccess.do")
 	public String subSuccess(Model model, HttpServletRequest request, HttpSession session) {
@@ -664,40 +593,7 @@ public class OrderController {
 		return result;
 	}
 	
-	// 정기 결제 취소
-	@RequestMapping(value = "/cancelSub.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public Map<String, Object> cancelSub(OrderVO ovo, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		
-		Iamport iamport = new Iamport();
-
-		// 아임포트 억세스 토큰생성
-		String imp_key = URLEncoder.encode("1270405352722195", "UTF-8");
-		String imp_secret = URLEncoder
-				.encode("IjB6jSFvaqvDw123fNlvZk3jqw2AwGHf0jljb0Pmrk0Xm20BQm7PHb87IaIeRptRJObVP0hglidIlejb", "UTF-8");
-		JSONObject json = new JSONObject();
-		json.put("imp_key", imp_key);
-		json.put("imp_secret", imp_secret);
-
-		String requestURL = "https://api.iamport.kr/users/getToken";
-
-		String token = iamport.getToken(request, response, json, requestURL);
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-
-		if (res == 1) {
-			result.put("result", "성공");
-		} else {
-			result.put("result", "실패");
-		}
-
-		return result;
-		
-		
-	}
-
-	
+	// 재결제 되고 다시 예약하는 부분 > 아임포트 콜백
 	@RequestMapping(value = "/iamport-callback", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public void callback(@RequestBody HashMap<String, Object> map,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//String imp_uid =(String)map.get("imp_uid");
@@ -724,13 +620,53 @@ public class OrderController {
 			long time = c.getTimeInMillis() / 1000;
 			String muid = "merchant_" + time +"s";
 			
-			subsres(customer_uid, muid, amount, request, response);
+			iamport.subsres(customer_uid, muid, amount, request, response);
 		}
 		
 	}
 	
-	
-	
+	// 정기구독 재구독
+	@RequestMapping (value ="/subs_bye0.do", produces = "application/json; charset=utf-8")
+	@ResponseBody 
+	public Map<String, Object> resub (String member_id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 아임포트
+		MemberSubVO msv = membersubservice.sub_list(member_id);
+		String stringSubEnd = msv.getSubs_end();
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = df.parse(stringSubEnd);
+		long time = date.getTime() / 1000 + 86400;
+		
+		String muid = "merchant_" + new Date().getTime();
+		String customer_uid = msv.getCustomer_uid();
+		String amount =  Integer.toString(msv.getSubsprice());
+		
+		Iamport iamport = new Iamport();
+		String requestURL = "https://api.iamport.kr/users/getToken";
+		String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
+		String imp_secret = URLEncoder
+				.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+		
+		String token = iamport.getToken(request, response, json, requestURL);
+		iamport.resub(customer_uid, muid, amount, time, request, response);
+		
+		// DB : member_subs 테이블 subs_bye 
+		 HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("member_id", member_id);
+		 
+		 Map<String, Object> result = new HashMap<String, Object>();
+			int res = membersubservice.resub(member_id);
+				if(res==1) {
+					result.put("res", "OK");
+				} else {
+					result.put("res", "FAIL");
+					result.put("message", "Failure");
+				}
+		return result;
+	 }
 	
 	
 }
