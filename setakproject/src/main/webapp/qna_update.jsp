@@ -177,7 +177,7 @@ $(document).ready(function() {
 	</tr>
 	<tr><td><div align="center">내 용</div></td>
 		<td colspan="1"><textarea name="QNA_CONTENT" id="QNA_CONTENT"cols="80" rows="15" maxlength="500"><%=vo.getQna_content() %></textarea></td>
-		<td ><div class="thumbnail-wrapper">
+		<td id="qutd1"><div class="thumbnail-wrapper">
 			  <div class="thumbnail">
 			    <div class="thumbnail-centered">
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>

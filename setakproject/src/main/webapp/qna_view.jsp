@@ -27,21 +27,7 @@
 $(document).ready(function() {
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp")   
-	<%-- 
-     if('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'){
-		output +='<%=vo.getMember_id()%></small></td></tr>';
-		
-	}else{
-		output +='관리자</small></td></tr>';
-	}					
-	var i = item.review_star;
-	var res =JSON.stringify(item.review_photo);			
-	var idx= res.indexOf("_");
-	var rphoto=res.substring(1,idx);
-	var re_d =JSON.stringify(item.review_date);					
-	var rdate= re_d.substr(1 ,16);
-     --%>
-    
+	
     //목록
 	function selectData() {
 		var para= {Qna_num:<%=vo.getQna_num() %>};
@@ -187,19 +173,15 @@ selectData();
 		<td id="td2" valign=top colspan="3">&nbsp;Q : &nbsp; <%=vo.getQna_content()%>	
 		
 			<div class="thumbnail-wrapper">
-			  <div class="thumbnail">
-			    
+			  <div class="thumbnail">			    
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
 			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"/>
 			      	<%}else{ %>
 			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
-			      	<%} %>
-			    
+			      	<%} %>			    
 			  </div>
 			</div>
-		</td>
-		
-				
+		</td>						
 	</tr>
 	<tr>
 		<td colspan="3" width="10%" height="40px">
