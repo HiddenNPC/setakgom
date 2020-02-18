@@ -339,6 +339,7 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 								<select id = "searchType" name = "cate-select">
 									<option value = "member_name">회원이름</option>
 									<option value = "member_id">회원 아이디</option>
+									<option value = "member_memo">내용</option>
 								</select>
 								<input id = "keyword" type = "text" size = "40px" placeholder = "내용을 입력해주세요." /> 
 							</td>

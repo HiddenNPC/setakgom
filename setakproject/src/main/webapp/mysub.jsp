@@ -210,11 +210,19 @@
 		var day = (d.getMonth()+1)+"월" + (d.getDate()+1)+"일";
 		document.getElementById("printday").innerHTML =day;
 		
-				
+		
+		/*리뷰작성여부*/
+		var payDate = "";
+		
 		 /*리뷰 관련 스크립트*/   
 	      //모달팝업 오픈
 	       $(".open").on('click', function(){
-	          var login_id="<%=session.getAttribute("member_id")%>";      
+	    	   
+	    	  /*리뷰작성여부*/ 
+	    	  var select_btn = $(this);
+		      payDate = select_btn.parent().parent().children().eq(3).text();
+	         
+		      var login_id="<%=session.getAttribute("member_id")%>";      
 	          
 	          if(!(login_id=="null"))
 	          {
@@ -249,7 +257,33 @@
 	         filecontent = $(this)[0].files[0];
 	         filename = Date.now() + "_" + $(this)[0].files[0].name;
 	      });   
+	      
 	      $("#reviewform").on("submit", function() {
+	    	 
+	    	 /*리뷰작성여부*/ 
+	    	 $.ajax({
+	    		url :'/setak/review_chk.do',
+				type:'post',
+				data : {
+					'member_id' : "<%=session.getAttribute("member_id") %>",
+	    			 'his_date' : payDate
+				},
+				dataType:'json',
+    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+				success:function(result) {
+					if(result.res=="OK") {            
+						console.log("review_chk 1");
+	     			}
+	     			else { // 실패했다면
+	     			}
+				},
+				// 문제가 발생한 경우 
+				error:function (request, status, error) {
+					alert("ajax 통신 실패");
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+	      
 	         if(rwchk()){         
 	            if(filecontent != null){
 	               var data = new FormData();
@@ -421,7 +455,7 @@
 								</thead>
 						
 						
-								 <%for (int i=0; i<list.size(); i++) {
+								 <% for (int i=0; i<list.size(); i++) {
 									HistorySubVO hlist = (HistorySubVO)list.get(i);
 								%>
 								<tbody>
@@ -431,7 +465,11 @@
 										<td><%=hlist.getHis_price() %>원</td>
 										<td><%=hlist.getHis_date() %></td>
 										<td>
+										<% if(!(hlist.getReview_chk().equals("1"))) {  %>
 											<a id="review" href="#" class="open">리뷰작성</a>
+										<% } else { %>	
+										     -
+										<% } %>
 										</td>
 									</tr>
 								</tbody>
@@ -507,8 +545,8 @@
 							<h4>최대<span>60%</span>저렴한 정기구독권</h4>
 							<h4>보관 1BOX<span>1개월 쿠폰</span></h4>
 							<h4>구독회원 전용<span>상시이벤트</span></h4>
-							<h5>이 모든 세탁곰의 <span>정기구독 전용 혜택</span>이 사라져요<br>그래도 해지하시겠어요?</h5>
-							<h5>구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</h5>
+							<h6>이 모든 세탁곰의 <span>정기구독 전용 혜택</span>이 사라져요<br>그래도 해지하시겠어요?<br><br>
+							구독해지는 당일이 아닌 다음 달부터 구독 해지가 이루어집니다.</h6>
 						</div>
 						<input type="button" class="keep" value="구독하고 혜택 유지">
 						<input type="button" class="bye" value="해지하고 혜택 포기">
@@ -520,9 +558,9 @@
 			<div class="subback" id="sub-back">
 				<h2>정기구독 재구독</h2>
 				<hr>
-				<h4>재구독 해주셔서 감사합니다</h4>
-				<h5>정기구독 재결제는 구독 만료일 다음날에 시행됩니다.</h5>
-				<h6>더욱더 나은 서비스를 제공하겠습니다.</h6>
+				<h4>재구독 해주셔서 감사합니다<br>
+					정기구독 재결제는 구독 만료일 다음날에 시행됩니다.<br><br><br>
+					더욱더 나은 서비스를 제공하겠습니다.</h4>
 				<input type="button" class="btn5" id="close5" value="닫기" />
 			</div>
 				
@@ -570,7 +608,8 @@
                                         <option value="정기구독">정기구독</option>
                                    </select></td>
                               <td align="right"  colspan="4">
-                                 <input class="cbtn" type="submit" name="submit" value="등록" >      
+                              	<input type="hidden" name="date" value="" >
+                                 <input class="cbtn" type="submit" name="submit" id="review-submit" value="등록" >      
                                  <input class="cbtn" type="button" value="취소" onclick="rwcancel()"/></td>    
                            </tr></table>
                         </form>

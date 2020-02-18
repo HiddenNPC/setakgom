@@ -100,4 +100,19 @@ public class MemberSubServiceImpl implements MemberSubService{
 		}
 		return res;
 	}
+	
+	//리뷰 작성
+    public int review_chk(HashMap<String, Object> map) {
+    	int res = 0;
+		
+		try {
+			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
+			res = mapper.review_chk(map);
+			res = 1;
+		} catch (Exception e) {
+			System.out.println("리뷰 작성 실패"+e.getMessage());
+			res = -1;
+		}
+		return res;
+    }
 }

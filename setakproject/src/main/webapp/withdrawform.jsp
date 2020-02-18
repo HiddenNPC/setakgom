@@ -14,7 +14,7 @@
       $(document).ready(function(){
          $("#header").load("header.jsp")
          $("#footer").load("footer.jsp")   
-         var sessionID = "<%=session.getAttribute("id") %>"
+         var sessionID = "<%=session.getAttribute("member_id") %>";
          
          /*탈퇴신청 버튼 클릭*/
          $(".btn").click(function(event){
@@ -25,31 +25,28 @@
          $(".close").click(function(event){
         	  $(".alert_withdraw").css('display', 'none');
         	  $(".back").css('display', 'none');
+        	  
+        	  $.ajax({
+      		 	url : '/setak/request-withdraw.do', 
+      		 	type:'post',
+      		 	data : {	'member_id': "<%=session.getAttribute("member_id") %>",
+      		 				'member_memo':'탈퇴 신청' },
+      		 	dataType:'json', 
+     			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+      		 	
+     			success: function(result) {
+          			if(result.res=="OK") {
+          			} else { 
+          				// 실패했다면
+          			}
+       			},
+       			error:function() {
+          			alert("insert ajax 통신 실패");
+       			}			
+  			});
+        	  
           });
          
-         /*탈퇴 ???????
-          $(".btn").click(function(event){
-         var params = {	'member_id': sessionID };
-			$.ajax({
-    		 url : '/setak/deleteMember.do', 
-    		 type:'post',
-    		 data : params,
-    		 dataType:'json', 
-   			 contentType : 'application/x-www-form-urlencoded;charset=utf-8',
-    		 success: function(result) {
-        		if(result.res=="OK") {
-     	  			alert("탈퇴완료");
-        		} else { 
-        			// 실패했다면
-           			alert("탈퇴실패.");
-        				}
-     			},
-     			error:function() {
-        			alert("insert ajax 통신 실패");
-     			}			
-			});
-		});*/
-          
      });
     </script>
 </head>

@@ -58,15 +58,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		String mile_content	="";		
 		
 		vo.setMember_id((String)session.getAttribute("member_id"));
-		System.out.println("작성자 = " + vo.getMember_id());
+		//System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
-		System.out.println("분류 = " + vo.getReview_kind());
+		//System.out.println("분류 = " + vo.getReview_kind());
 		vo.setReview_star(Double.parseDouble( request.getParameter("Review_star"))*2);
-		System.out.println("별점 떳냐? =" +vo.getReview_star());
+		//System.out.println("별점 떳냐? =" +vo.getReview_star());
 		vo.setReview_content(request.getParameter("Review_content"));
-		System.out.println("내용 = " + vo.getReview_content());
+		//System.out.println("내용 = " + vo.getReview_content());
 		vo.setReview_like(request.getParameter("Review_like"));
-		System.out.println("좋아요 = " + vo.getReview_like());	
+		//System.out.println("좋아요 = " + vo.getReview_like());	
 		
 		if(request.getParameter("Review_photo").equals("")) {
 			vo.setReview_photo("등록한 파일이 없습니다._등록한 파일이 없습니다.");

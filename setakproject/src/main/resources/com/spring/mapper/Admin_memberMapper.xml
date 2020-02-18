@@ -31,7 +31,7 @@
 
 	<!-- 오늘 가입한 회원 수 -->
 	<select id="todaycount" resultType="int">
-<![CDATA[ SELECT count(*) FROM member WHERE member_join >= TO_CHAR(SYSDATE) ]]> 		
+		 SELECT count(*) FROM member WHERE trunc(member_join) = trunc(sysdate) 		
 	</select>
 	
 	<!-- 메모 수정 버튼 클릭-->
