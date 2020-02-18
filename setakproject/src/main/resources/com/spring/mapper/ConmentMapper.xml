@@ -36,7 +36,7 @@
 	</update>
 
  	<select id="ad_commentList" parameterType="com.spring.community.CommentVO" resultMap="commentMap">
-		SELECT * FROM QNA_REQUEST ORDER BY qna_seq ASC
+		SELECT * FROM QNA_REQUEST where qna_num=#{qna_num} and member_id=#{member_id} ORDER BY qna_seq ASC
 	</select>
  
  

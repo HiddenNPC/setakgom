@@ -1,15 +1,14 @@
 @charset "UTF-8";
 	.content ul{
-		width:100%;
+		width:1200px;
 		display:flex;
 		justify-content: space-between;
 		border-bottom:1px solid #e1e4e4;
 	}
 	.content li{
-		widht:100%;
+		
 		text-align:center;
-		margin:0 1px;		
-		width:100%;
+		margin: 2px -3px;
 		font-size:0.9rem;
 		height:40px;
 		line-height:40px;
@@ -17,17 +16,17 @@
 	}
 	
 	#a-q-rinsertform ul{
-		width:100%;
-		display:flex;
+		width:1200px;
+		/*display:flex;*/
 		justify-content: space-between;
 		border-bottom:1px solid #e1e4e4;
 	
 	}
 	#a-q-rinsertform li{
-		widht:100%;
+		
 		text-align:left;
 		margin:0 1px;		
-		width:100%;
+		width:1200px;
 		font-size:0.9rem;
 		height:40px;		
 		color:#444;	
@@ -43,39 +42,23 @@
 	
 	.content ul li:nth-child(1)
 	{
-		width:50px;
+		width: 20px;
 	}
 	
 	.content ul li:nth-child(2),.content ul li:nth-child(3),.content ul li:nth-child(12),.content ul li:nth-child(13),
 	.content ul li:nth-child(10),.content ul li:nth-child(11),.content ul li:nth-child(9)
 	{
-		width:80px;
+		width: 63px;
 	}
     .content ul li:nth-child(5),.content ul li:nth-child(8){
-		width:150px;
+		width: 137px;
 	}
 	.content ul li:nth-child(6){
-		width:350px;
+		width: 200px;
 	}
 	.content ul li:nth-child(4), .content ul li:nth-child(7){
-		width:120px;
+		width: 100px;
 	}
-	
-	
-	.ad-q-r-title ul li:nth-child(4)
-	{
-		width:800px !important;		
-	}
-	.ad-q-r-title ul li:nth-child(1),.ad-q-r-title ul li:nth-child(2),
-	.ad-q-r-title ul li:nth-child(5),.ad-q-r-title ul li:nth-child(3),
-	.ad-q-r-title ul li:nth-child(6)
-	{
-		width:120px !important;
-	}
-	
-	
-	
-	
 	
 	.qna_list{
     	position:relative;
@@ -94,7 +77,7 @@
 	#remo{    	
     	color:#444;
     	font-size:0.93rem;   	
-    	width:100%;
+    	width:1200px;
     	text-align:center;
     	border-top:1px solid #3498db;
     	padding-top: 70px;
@@ -103,7 +86,7 @@
 	#remo2{    	
     	color:#444;
     	font-size:0.93rem;   	
-    	width:100%;
+    	width:1200px;
     	text-align:center;
     	border-top:1px solid #3498db;
     	padding-top:70px;
@@ -114,13 +97,14 @@
     }
 		
 	
-	input[type=button]{ background-color: #fff;
+	input[type=button]{
+    background-color: #fff;
     border: 1px solid #3498bd;
     color: #3498db;
     cursor: pointer;
     font-size: 0.9rem;
     width: 60px;
-	   }
+    }
 	input[type=submit]{ background-color: #fff;
     border: 1px solid #3498bd;
     color: #3498db;
@@ -139,94 +123,95 @@
 	.qna_num{
 		width:inherit;
 		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		
 	}
 	.member_id{
 		width:inherit;
 		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		
 	}
 	.qna_type{
 		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		/* text-align:center; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		
+		/* margin: 10px; */
 	}
 	.order_num{
 		width:inherit;
 		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		background:none;
+		/* background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		
 	}
 	.qna_title{
 		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		/* text-align:center; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
 		text-overflow: ellipsis;
-	    white-space: nowrap;
-	    word-wrap: normal;  
-	    overflow: hidden;
-		
+		white-space: nowrap;
+		word-wrap: normal;
+		overflow: hidden;
 	}
 	.qna_content{
-		padding-left:10px;
+		/* padding-left:10px; */
 		width:inherit;
-		text-align:left;
-		background:none;/*  background: #e1e4e4; */
+		/* text-align:left; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
 		text-overflow: ellipsis;
-	    white-space: nowrap;
-	    word-wrap: normal;  
-	    overflow: hidden;
-		
+		white-space: nowrap;
+		word-wrap: normal;
+		overflow: hidden;
 	}
 	.qna_date{
 		width:inherit;
 		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		
 	}
 	.qna_file{
 		width:inherit;
 		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
 		text-overflow: ellipsis;
-	    white-space: nowrap;
-	    word-wrap: normal;  
-	    overflow: hidden;
-		
+		white-space: nowrap;
+		word-wrap: normal;
+		overflow: hidden;
 	}
 	.qna_check{
 		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
+		/* text-align:center; */
+		background:none;
+		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		
 	}
     .qna_scr{
     	width:inherit;
     	text-align:center;
     	background:none;
-	    border:0px;
-	    color:#444;
+    	border:0px;
+    	color:#444;
     }
     .qna_pass{
     	width:inherit;
@@ -236,49 +221,46 @@
     	/* padding:5px 0 5px 10px; */
     	color:#444;
     }
-    
-    
-    .r-qna_seq{
-		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
-		border:0px;
-		color:#444;
-		
-	}
-	.r-qna_num{
-		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
-		border:0px;
-		color:#444;
-		
-	}
-	
-	.r-member_id{
-		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
-		border:0px;
-		color:#444;
-		
-	}
-	.r-qna_content{
-		width:inherit;
-		text-align:center;
-		background:none;/*  background: #e1e4e4; */
-		border:0px;
-		color:#444;
-		
-	}
-
+  
+	   
+	   /*
+		$(this).parent().parent().after('<ul id="a-q-rinsertform">'+
+		'<li>글번호:<input id="a-q-rnum" type="text" disabled="disabled" value="">'+
+		'내용:<textarea id="a-q-rcontent" value=""></textarea><input id="a-q-rinsert" qna_check="답변 완료" type="button" value="등록"></li></ul>');								
+		//$(this).parent().parent().siblings('#a-q-rinsertform').detach();
+		//$(this).parent().parent().parent().prevUntil('#a-q-rinsertform').detach();
+		//$(this).parent().parent().nextAll('#a-q-rinsertform').detach();
+		//$(this).parent().parent().prevUntil('#a-q-rinsertform').detach(); */ 
+	   
+	   #a-q-r-t{
+	   width:1200px;
 	   
 	   
+	   }
 	   
+	   .r-member_id{ vertical-align:top;
 	   
+	   }
+	   .r-member_id input {
+	   margin: 2px;
+	   }
 	   
+	   .r-qna_content textarea{
+	    margin: 2px;
+    	width: 798px;
+   		height: 50px;
 	   
+	   }
 	   
+	   .a-q-rinsert input {   
+	   margin: 2px;
+	   }
+	   .a-q-rupdate input {   
+	   margin: 2px;
+	   }
+	   .a-q-rdelete input {   
+	   margin: 2px;
+	   }
 	   
 	   
 	   

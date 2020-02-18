@@ -167,39 +167,64 @@ $(document).ready(function() {
 				event.preventDefault();
 			}); 
 			
-			//$('#ad_qna_form').attr('action', './admin/commentInsert.do');
-			//$('#ad_qna_form').attr('action', '');
-			//답글 버튼 누르면 
-			$(document).on('click', '.a-q-reply', function () { 			
-				var rnum = $(this).parent().parent().children().children().val();
+			
+			//답글 버튼 누르면 리스트
+			$(document).on('click', '.a-q-reply', function () { 
+				var a = $(this).parent().parent().children().find('.qna_num').val();	
+				var b = $(this).parent().parent().children().find('.member_id').val();					
+				function replylist(){
+					var params={'qna_num' : a , 'member_id': b}
+					console.log(a);				
+					console.log(b);				
+					$.ajax({
+						url :'/setak/admin/ad_commentList.do',
+						type :'POST',
+						data : params,
+						dataType :'json',
+						contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+						success:function(data){
+							$.each(data, function(index, item){
+								var str = '';																					
+								str += '<tr><td><input type="hidden" class="r-qna_seq" value="'+item.qna_seq+'" disabled="disabled"></td>';
+								str += '<td><input type="hidden" class="r-qna_num" value="'+item.qna_num+'" disabled="disabled"></td>';
+								str += '<td class="r-member_id" ><input type="text" value="'+item.member_id+'" disabled="disabled"></td>';
+								str += '<td class="r-qna_content"><textarea value="" disabled="disabled">'+item.qna_content +'</textarea></td>';
+								str += '<td class="a-q-rinsert" ><input type="button"  value="추가"></td>';
+								str += '<td class="a-q-rupdate" ><input type="button" value="수정"></td>';
+								str += '<td class="a-q-rdelete"><input type="button" value="삭제"></td></tr>';								
+								$("#a-q-r-list").append(str);
+							});
+							//page2();
+							
+						},
+						error:function(){
+							alert("ajax통신 실패!!!");
+						}
+					});
+									
+				} 
+				replylist();
+							
 				if(!$(this).hasClass("active")){						
 					$(this).attr('value', '작성중');
 					$(this).addClass("active");	
 					$(this).parent().parent().siblings().children().children('.a-q-reply').removeClass("active");
-					$(this).parent().parent().siblings().children().children('.a-q-reply').attr('value', '답글 ');																														
-					$(this).parent().parent().after('<ul id="a-q-rinsertform">'+
-					'<li>글번호:<input id="a-q-rnum" type="text" disabled="disabled" value="">'+
-					'내용:<textarea id="a-q-rcontent" value=""></textarea><input id="a-q-rinsert" qna_check="답변 완료" type="button" value="등록"></li></ul>');								
-					//$(this).parent().parent().siblings('#a-q-rinsertform').detach();
-					//$(this).parent().parent().parent().prevUntil('#a-q-rinsertform').detach();
-					//$(this).parent().parent().nextAll('#a-q-rinsertform').detach();
-					//$(this).parent().parent().prevUntil('#a-q-rinsertform').detach();
+					$(this).parent().parent().siblings().children().children('.a-q-reply').attr('value', '답글 ');	
+					$(this).parent().parent().after('<div id="a-q-r"><table id="a-q-r-t"><tbody id="a-q-r-list"></tbody></table></div>');	
 					
-					
-						
+				
 				}else{
 					$(this).removeClass("active");
 					$(this).attr('value','답글');				
-					$(this).parent().parent().siblings('#a-q-rinsertform').detach();													
+					$(this).parent().parent().nextAll().remove('#a-q-r');
+					$(this).parent().parent().prevAll().remove('#a-q-r');
+					
+					
 				}
 				
+			});
 				
 				
-				
-				
-				
-				
-					
 				//qna에 대한 답변 달기 
 				$(document).on('click', '#a-q-rinsert', function () { 
 					var rcontent = $(this).parent().find('#a-q-rcontent').val();
@@ -227,14 +252,16 @@ $(document).ready(function() {
 					event.preventDefault(); 
 				});
 			
-			});
 			
 			
+
 			
-			
+			//답변 목록 $(document).on('click', '#a-q-rinsert', function
 			/*
-			//답변 목록
-			function replylist(){				
+					function replylist(){	
+				
+				var a =$(this).parent().parent().children().('.qna_num').val();
+				console.log(a);				
 				$.ajax({
 					url :'/setak/admin/ad_commentList.do',
 					type :'POST',
@@ -263,7 +290,7 @@ $(document).ready(function() {
 								
 			} 
 			replylist();
-			*/
+			
 			
 			
 			
@@ -387,7 +414,14 @@ $(document).ready(function() {
 			<form id="ad_qna_form" action="">
 				<div class="ad_qnalist paginated"></div>				
 			</form><br><br><br><br><br><br><br><br><br>
+		
+		
+		
+		
 		</div>
+		
+		
+		
 	
 
 </div><!--지우지마세요 -->
