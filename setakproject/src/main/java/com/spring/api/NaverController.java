@@ -46,7 +46,7 @@ public class NaverController {
 		}
 		
 		int ipcount = ipcs.countIP(member_ip);
-		if(ipcount >= 5) {
+		if(ipcount >= 10) {
 			result.put("res", "FAIL");
 		}else {
 			ipcs.plusIPCount(member_ip);
