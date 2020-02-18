@@ -22,5 +22,6 @@ public class OrderVO {
 	private String order_zipcode;
 	private String order_delete; 
 	private String order_muid;
+	private String review_chk;
 	
 }

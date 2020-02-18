@@ -41,9 +41,15 @@
       $("#header").load("./header.jsp");
       $("#footer").load("./footer.jsp");  
       
+      var order_num;
+      
       //모달팝업 오픈
        $(".open").on('click', function(){
           var login_id="<%=session.getAttribute("member_id")%>";      
+          
+          //작성여부
+          var select_btn = $(this);
+          order_num = select_btn.parent().parent().children().eq(0).children().eq(2).val();          
           
           if(!(login_id=="null"))
           {
@@ -77,6 +83,27 @@
          filename = Date.now() + "_" + $(this)[0].files[0].name;
       });   
       $("#reviewform").on("submit", function() {
+    	   $.ajax({
+    		 url :'updatereview.do',
+    		 type : 'POST',
+    		 data : {
+    			 "order_num" : order_num
+    		 },
+    		 dataType : 'json',
+    		 contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+    		 success:function(retVal){
+    			 if(retVal.res=="OK"){
+    				 console.log("수정성공");
+    			 }
+    			 else{
+    				 console.log("수정 실패");
+    			 }
+    		 },
+    		 error: function() {
+				alert("통신실패");
+			}
+    	  });
+    	   
          if(rwchk()){         
             if(filecontent != null){
                var data = new FormData();
@@ -106,11 +133,7 @@
          }
       });
       
-      
-      
 
-     
-      
       jQuery(".accordion-content").hide();
       //content 클래스를 가진 div를 표시/숨김(토글)
       $(".accordion-header").click(function(){
@@ -259,9 +282,10 @@ function cancle() {
                   <div class="accordion-content">
                      <!--snb -->
                      <div class="snb">
-                        <div class="ordernumber">
+                        <div class="ordernumber" >
                            <p>주문 번호 :</p>
                            <p><%=orderVO.getOrder_num() %></p>
+                           <input type="hidden" value="<%=orderVO.getOrder_num() %>">
                         </div>
                         <div class="addr">
                            <p>주소 :</p>
@@ -273,10 +297,11 @@ function cancle() {
                            
                            <%if (orderVO.getOrder_cancel().equals("1")) {%>
                            <input type="button" value="리뷰작성" class="open" disabled />
+                           <%} else if (orderVO.getReview_chk().equals("1")){ %>
+                           	<input type="button" value="리뷰작성" class="open" disabled />
                            <%} else { %>
-                           <input type="button" value="리뷰작성" class="open" />
+                            <input type="button" value="리뷰작성" class="open" />
                            <%} %>
-                           
                            <%if (orderVO.getOrder_delete().equals("1")) {%>
                            <input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
                            <%} else { %>
