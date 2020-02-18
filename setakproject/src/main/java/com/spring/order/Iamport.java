@@ -1,11 +1,14 @@
 package com.spring.order;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Iamport {
 	
 	public static final String import_cancel_url = "https://api.iamport.kr/payments/cancel";
+	public static final String import_subCancel_url = "https://api.iamport.kr/payments/unschedule";
 	public static final String import_schedule_url = "https://api.iamport.kr/subscribe/payments/schedule";
 	
 	public String getToken(HttpServletRequest request, HttpServletResponse response,JSONObject json ,String requestURL) throws Exception{
@@ -130,57 +134,54 @@ public class Iamport {
 		}
 	}
 	
-	
-	public int subscribeSchedule(String token, String cid, String mid, int amount) {
-		
-		HttpClient client = HttpClientBuilder.create().build();
-		HttpPost post = new HttpPost(import_schedule_url);
-		
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		JSONArray schedules = new JSONArray();
-		
-		JSONObject schedule = new JSONObject();
-		schedule.put("merchant_uid", mid);
-		schedule.put("schedule_at", new Date().getTime() + 100);
-		schedule.put("amount", amount);
-		
-		schedules.add(schedule);
- 
-        System.out.println("schedules : " + schedules);
-        
-		post.setHeader("Authorization", token);
-		map.put("customer_uid", cid);
-		map.put("schedules", schedules);
-		String asd = ""; 
+	// 정기결제 예약 취소 
+	public int cancelSub(String token, String customer_uid) {
+		String body = "{\"customer_uid\":\"" + customer_uid + "\"}";
 		
 		try {
-			
-			post.setEntity(new UrlEncodedFormEntity(convertParameter2(map)));
-			HttpResponse res = client.execute(post);
-			ObjectMapper mapper = new ObjectMapper();
-			String enty = EntityUtils.toString(res.getEntity());
-			JsonNode rootNode = mapper.readTree(enty);
-			asd = rootNode.get("response").asText();
-			
-		} catch(Exception e) {
-			
-			e.printStackTrace();
-			
-		}	
-		
-		System.out.println("asd : " + asd);
-		
-		if(asd.equals("null")) {
-			System.out.println("결제 예약 실패");
-			return -1;
-		} else {
-			System.out.println("결제 예약 성공");
-			return 1;
+
+			URL url = new URL("https://api.iamport.kr/subscribe/payments/unschedule");
+
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setUseCaches(false);
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestMethod("POST");
+			con.setRequestProperty("content-type", "application/json");
+			con.setRequestProperty("Authorization", token);
+			con.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+
+			wr.write(body.getBytes());
+			wr.flush();
+			wr.close();
+
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			System.out.println(responseCode);
+			if (responseCode == 200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else { // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+
+			String inputLine;
+			StringBuffer responsebuffer = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+				responsebuffer.append(inputLine);
+			}
+			br.close();
+
+			System.out.println(responsebuffer.toString());
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return -1; 
 		}
 		
+		return 1;
 	}
+
 
 	public List<NameValuePair> convertParameter(Map<String, String> paramMap) {
 		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
@@ -192,18 +193,7 @@ public class Iamport {
 		
 		return paramList;
 	}
-	
-	public List<NameValuePair> convertParameter2(Map<String, Object> paramMap) {
-		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-		Set<Entry<String, Object>> entries = paramMap.entrySet();
 		
-		for(Entry<String, Object> entry : entries) {
-			paramList.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
-		}
-		
-		return paramList;
-	}
-	
 	public HashMap<String, Object> getSchedule(String muid,String token) throws Exception{
 		HashMap<String, Object> map = new HashMap<String, Object>(); 
 		try{
@@ -258,6 +248,140 @@ public class Iamport {
 		}
 
 		return map;
+	}
+	
+	// 정기결제
+	public void subsres(String cid, String mid, String amount, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		Calendar c = Calendar.getInstance();
+		long time = c.getTimeInMillis() / 1000;
+		time += 2678400;
+
+		// 정기 결제 예약
+		Iamport iamport = new Iamport();
+
+		// 아임포트 억세스 토큰생성
+		String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
+		String imp_secret = URLEncoder
+				.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+		
+		String requestURL = "https://api.iamport.kr/users/getToken";
+
+		String token = iamport.getToken(request, response, json, requestURL);
+
+		String body = "{\"customer_uid\":\"" + cid + "\"," + "\"schedules\": [\r\n" + "{" + "\"merchant_uid\":" + "\""
+				+ mid + "\"" + ",\r\n" + "\"schedule_at\":\"" + time + "\",\r\n" + "\"amount\":\"" + amount + "\""
+				+ "}\r\n" + "]\r\n" + "}";
+
+		try {
+
+			URL url = new URL("https://api.iamport.kr/subscribe/payments/schedule");
+
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setUseCaches(false);
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestMethod("POST");
+			con.setRequestProperty("content-type", "application/json");
+			con.setRequestProperty("Authorization", token);
+			con.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+
+			wr.write(body.getBytes());
+			wr.flush();
+			wr.close();
+
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			System.out.println(responseCode);
+			if (responseCode == 200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else { // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+
+			String inputLine;
+			StringBuffer responsebuffer = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+				responsebuffer.append(inputLine);
+			}
+			br.close();
+
+			System.out.println(responsebuffer.toString());
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+	}
+	
+	// 정기결제 재구독
+	public void resub(String cid, String mid, String amount, long time, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		// 정기 결제 예약
+		Iamport iamport = new Iamport();
+		
+		// 아임포트 억세스 토큰생성
+		String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
+		String imp_secret = URLEncoder
+				.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
+		JSONObject json = new JSONObject();
+		json.put("imp_key", imp_key);
+		json.put("imp_secret", imp_secret);
+		
+		String requestURL = "https://api.iamport.kr/users/getToken";
+		
+		String token = iamport.getToken(request, response, json, requestURL);
+		
+		String body = "{\"customer_uid\":\"" + cid + "\"," + "\"schedules\": [\r\n" + "{" + "\"merchant_uid\":" + "\""
+				+ mid + "\"" + ",\r\n" + "\"schedule_at\":\"" + time + "\",\r\n" + "\"amount\":\"" + amount + "\""
+				+ "}\r\n" + "]\r\n" + "}";
+		
+		try {
+			
+			URL url = new URL("https://api.iamport.kr/subscribe/payments/schedule");
+			
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setUseCaches(false);
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestMethod("POST");
+			con.setRequestProperty("content-type", "application/json");
+			con.setRequestProperty("Authorization", token);
+			con.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			
+			wr.write(body.getBytes());
+			wr.flush();
+			wr.close();
+			
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			System.out.println(responseCode);
+			if (responseCode == 200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else { // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			
+			String inputLine;
+			StringBuffer responsebuffer = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+				responsebuffer.append(inputLine);
+			}
+			br.close();
+			
+			System.out.println(responsebuffer.toString());
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 	}
 	
 }

@@ -264,6 +264,10 @@ input.btn{
     float: left;
  }
 
+ input#update {
+    width : 100%;
+ }
+
  .btns {
     width:100%;
     background-color:#fff;
@@ -334,6 +338,7 @@ input.btn{
    	display:none;
       width:150px;
       box-sizing:border-box;
+      clear : both;
       float:left;
    }
    .mypage_head > ul > li:nth-child(2){
