@@ -378,4 +378,10 @@ public class AdminOrderController {
 		return "/admin/subscribe_chart";
 	}
 	
+	//관리자 페이지 메인 > 대시보드
+	@RequestMapping(value ="/admin/")
+	public String home(){
+		return "/admin/admin_main";
+	}
+	
 }
