@@ -35,4 +35,6 @@ public interface MypageService {
 	
 	public ArrayList<KeepPhotoVO> selectPhoto(long order_num);
 	
+	public int updateReview(HashMap<String, Object> map);
+	
 }
