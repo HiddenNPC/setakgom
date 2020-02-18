@@ -27,7 +27,22 @@
 $(document).ready(function() {
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp")   
-	//목록
+	<%-- 
+     if('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'){
+		output +='<%=vo.getMember_id()%></small></td></tr>';
+		
+	}else{
+		output +='관리자</small></td></tr>';
+	}					
+	var i = item.review_star;
+	var res =JSON.stringify(item.review_photo);			
+	var idx= res.indexOf("_");
+	var rphoto=res.substring(1,idx);
+	var re_d =JSON.stringify(item.review_date);					
+	var rdate= re_d.substr(1 ,16);
+     --%>
+    
+    //목록
 	function selectData() {
 		var para= {Qna_num:<%=vo.getQna_num() %>};
 		
@@ -43,15 +58,11 @@ $(document).ready(function() {
 			success:function(data) {				
 				$.each(data, function(index, item) {					
 					var output = '';
+					
+					
 					output += '<tr><td><input type="hidden" value="'+item.qna_seq+'"/></td></tr>';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></td></tr>';							
-					output += '<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;"></small></td></tr>';
-						<%-- if('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'){
-							output +='<%=vo.getMember_id()%></small></td></tr>';
-							
-						}else{
-							output +='관리자</small></td></tr>';
-						}	 --%>				
+					output += '<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;">'+item.member_id+'</small></td></tr>';						
 					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
 					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';									
@@ -67,11 +78,11 @@ $(document).ready(function() {
 	//댓글 추가
 	$('#cf_insertbtn').on('click', function(event){
 		var qna_scr='<%=vo.getQna_scr()%>'; 
-		console.log(qna_scr);
+		//console.log(qna_scr);
 		var session_id ='<%=(String)session.getAttribute("member_id")%>';
-		console.log(session_id);
+		//console.log(session_id);
 		var qna_num = '<%=vo.getQna_num()%>';
-		console.log(qna_num);
+		//console.log(qna_num);
 		if(qna_scr=="공개")
 		{
 			if(session_id=='null')
@@ -85,14 +96,12 @@ $(document).ready(function() {
 					return false;	        		       		
 				}
 			}
-			else if(!(session_id=='<%=vo.getMember_id()%>'))
+			else if(!('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'))
 			{
 				alert('작성자만 댓글을 달 수 있습니다 .')
 				return false;
 			}	
-	    	else{
-	    		return true;
-	    	}												
+														
 		}
 		if($('#q-c-tarea').val()=='')
 		{
@@ -100,6 +109,7 @@ $(document).ready(function() {
 			return false;
 		}
 		var params=$("#comment_form").serialize();
+		console.log(params);
 		jQuery.ajax({
 			url:'/setak/commentInsert.do',
 			type:'POST',
