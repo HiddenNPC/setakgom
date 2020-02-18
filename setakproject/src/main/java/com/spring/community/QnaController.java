@@ -346,12 +346,12 @@ import org.springframework.web.servlet.ModelAndView;
 
    }
    
-   @RequestMapping(value = "admin/admin_qna.do")public String adminQna(Model model) throws Exception 
+   @RequestMapping(value = "/admin/admin_qna.do")public String adminQna(Model model) throws Exception 
 	{							
 		return "admin/admin_qna";		
 	}
   
-   @RequestMapping(value = "admin/ad_qnalist.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
+   @RequestMapping(value = "/admin/ad_qnalist.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
    @ResponseBody public List<Object> adminQnalist() 
    {			
 	   List<Object> list = qnaService.ad_qnalist();
@@ -360,7 +360,7 @@ import org.springframework.web.servlet.ModelAndView;
    }
    
    
-   @RequestMapping(value="admin/ad_qnaDelete.do", produces="application/json; charset=UTF-8")
+   @RequestMapping(value="/admin/ad_qnaDelete.do", produces= "application/json; charset=UTF-8")
    @ResponseBody public Map<String, Object> ad_qnaDelete(QnaVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		System.out.println(1);

@@ -340,80 +340,80 @@ function cancle() {
                
                   }
 %>
-				</div>
-				
-				<div class="page1">
-				<table class="page">
-					<tr align = center height = 20>
-              			<td>
-              				<%if(nowpage <= 1) {%>
-              				<div class="page_a"><a>&#60;</a></div>
-              				<%} else {%>
-              					<div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
-              				<%} %>
-              				<%for (int a=startpage; a<endpage; a++) {
-	              					if(a==nowpage) {
-	           					%>
-	           					<div class="page_a"><a><%=a %></a></div>
-	           					<%} else {%>
-	           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
-	           					<%} %>
-           					<%} %>
-           					<%if (nowpage >= maxpage) {%>	
-           						<div class="page_a"><a>></a></div>
-           					<%} else { %>	
-                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
-                  			<%} %>	
-                  			</td>
-               		</tr>
-				</table>
-				</div>
-				<%} %>
-				<!-- 리뷰 추가 -->
-				<div id="re_layer" class="re_layer">
-								<h2>리뷰 작성</h2>
-								<form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
-								<div class="r_content">
-									<p style="margin-bottom:5px;">사용자 평점</p> 
-									<a class="starR1 on" value="1" >별1_왼쪽</a>
-								    <a class="starR2" value="2">별1_오른쪽</a>
-								    <a class="starR1" value="3">별2_왼쪽</a>
-								    <a class="starR2" value="4">별2_오른쪽</a>
-								    <a class="starR1" value="5">별3_왼쪽</a>
-								    <a class="starR2" value="6">별3_오른쪽</a>
-								    <a class="starR1" value="7">별4_왼쪽</a>
-								    <a class="starR2" value="8">별4_오른쪽</a>
-								    <a class="starR1" value="9">별5_왼쪽</a>
-								    <a class="starR2" value="10">별5_오른쪽</a>    
-								    <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly">점</small>   
-								   	<input type="hidden" id="Review_like" name="Review_like" value="0">  	
-								</div>      
-								<table class="r_content">
-									<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
-								    <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-								    <tr><td width="40px">
-								     	<input type="file" id="Review_photo"/>                        
-								     	<input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
-								        <td width="40px">
-								        	<select name="Review_kind" id="Review_kind">
-								           		<option value="">분류</option>
-								                <option value="세탁">세탁</option>
-								                <option value="세탁-수선">세탁-수선</option>
-								                <option value="세탁-보관">세탁-보관</option>
-								                <option value="수선">수선</option>
-								                <option value="보관">보관</option>
-								                <option value="정기구독">정기구독</option>
-								           </select></td>
-										<td align="right"  colspan="4">
-											<input class="cbtn" type="submit" name="submit" value="등록" >		
-											<input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td> 	
-									</tr></table>
-								</form>
-								<a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
-								</div>
-								<div class="dim"></div>	
-						<!-- 리뷰 추가 끝 -->
-
+            </div>
+            
+            <div class="page1">
+            <table class="page">
+               <tr align = center height = 20>
+                       <td>
+                          <%if(nowpage <= 1) {%>
+                          <div class="page_a"><a>&#60;</a></div>
+                          <%} else {%>
+                             <div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
+                          <%} %>
+                          <%for (int a=startpage; a< endpage; a++) {
+                                if(a==nowpage) {
+                             %>
+                             <div class="page_a"><a><%=a %></a></div>
+                             <%} else {%>
+                                <div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
+                             <%} %>
+                          <%} %>
+                          <%if (nowpage >= maxpage) {%>   
+                             <div class="page_a"><a>></a></div>
+                          <%} else { %>   
+                              <div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
+                           <%} %>   
+                           </td>
+                     </tr>
+            </table>
+            </div>
+           <%} %>
+            <!-- 리뷰 추가 -->
+            <div id="re_layer" class="re_layer">
+                        <h2>리뷰 작성</h2>
+                        <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
+                        <div class="r_content">
+                           <p style="margin-bottom:5px;">사용자 평점</p> 
+                           <a class="starR1 on" value="1" >별1_왼쪽</a>
+                            <a class="starR2" value="2">별1_오른쪽</a>
+                            <a class="starR1" value="3">별2_왼쪽</a>
+                            <a class="starR2" value="4">별2_오른쪽</a>
+                            <a class="starR1" value="5">별3_왼쪽</a>
+                            <a class="starR2" value="6">별3_오른쪽</a>
+                            <a class="starR1" value="7">별4_왼쪽</a>
+                            <a class="starR2" value="8">별4_오른쪽</a>
+                            <a class="starR1" value="9">별5_왼쪽</a>
+                            <a class="starR2" value="10">별5_오른쪽</a>    
+                            <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly">점</small>   
+                              <input type="hidden" id="Review_like" name="Review_like" value="0">     
+                        </div>      
+                        <table class="r_content">
+                           <tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
+                            <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
+                            <tr><td width="40px">
+                                <input type="file" id="Review_photo"/>                        
+                                <input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
+                                <td width="40px">
+                                   <select name="Review_kind" id="Review_kind">
+                                         <option value="">분류</option>
+                                        <option value="세탁">세탁</option>
+                                        <option value="세탁-수선">세탁-수선</option>
+                                        <option value="세탁-보관">세탁-보관</option>
+                                        <option value="수선">수선</option>
+                                        <option value="보관">보관</option>
+                                        <option value="정기구독">정기구독</option>
+                                   </select></td>
+                              <td align="right"  colspan="4">
+                                 <input class="cbtn" type="submit" name="submit" value="등록" >      
+                                 <input class="cbtn" type="button" value="취소" onclick="rwcancel();"/></td>    
+                           </tr></table>
+                        </form>
+                        <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
+                        </div>
+                        <div class="dim"></div>   
+                  <!-- 리뷰 추가 끝 -->
+				 
          </div>
          
       </div>

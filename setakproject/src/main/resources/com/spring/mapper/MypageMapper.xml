@@ -97,10 +97,10 @@
 	
 	
 	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
-			select * 
-			from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
-						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete, order_muid 
-				   from memberorder where member_id = #{member_id} order by order_num desc) 
+			select *
+				from (select rownum rnum, a.*
+					from (select *
+				 	  from memberorder where member_id = #{member_id} order by order_num desc) a)
   <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> 
 	</select>
 
