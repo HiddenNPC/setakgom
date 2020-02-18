@@ -100,16 +100,15 @@ public class MemberController {
 			
 			String member_addr1 = " ";
 			String member_addr2 = " ";
-   		 	if(memberVO.getMember_loc() != null) {
-   		 		String addr = memberVO.getMember_loc();
-   		 		
-   		 		String[] locArr = addr.split("!");
-   		 		member_addr1 = locArr[0];
-   		 		
-   		 		if(locArr.length == 2) {
-   		 		member_addr2 = locArr[1];	
-   		 		}
-   		 	}
+			if (!(memberVO.getMember_loc().equals(("!")))) {
+	            String addr = memberVO.getMember_loc();
+	            String[] locArr = addr.split("!");
+	            member_addr1 = locArr[0];
+	            if (locArr.length == 2) {
+	               member_addr2 = locArr[1];
+	            }
+
+	         }
    		 	
    		 	String zipcode = " ";
    		 		if(memberVO.getMember_zipcode() != null) {
@@ -128,6 +127,7 @@ public class MemberController {
    		 	
 		
 		//일반 로그인시	
+   		 	
 		} else {
 			return "password";
 		}
