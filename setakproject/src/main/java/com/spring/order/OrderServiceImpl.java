@@ -1,6 +1,7 @@
 package com.spring.order;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,11 +148,11 @@ public class OrderServiceImpl implements OrderService  {
 	}
 
 	@Override
-	public int insertMemberSubInfo(MemberVO mvo) {
+	public int insertMemberSubInfo(Map<String, Object> map) {
 		int res = 0;
 		try {
 			OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
-			res = orderMapper.insertMemberSubInfo(mvo);
+			res = orderMapper.insertMemberSubInfo(map);
 		} catch(Exception e) {
 			System.out.println("회원 정기구독 정보 등록 실패 " + e.getMessage());
 		}

@@ -17,6 +17,10 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/mycoupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -27,7 +31,7 @@
     </script>
     <script language='javascript'>
     	function cancle() {
-			alert("주문을 취소하시겠습니까?");
+    		Swal.fire("","주문을 취소하시겠습니까?","info");
 		}
     </script>
 </head>
@@ -36,7 +40,10 @@
 	
 	<!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
-		<div class="content"> <!-- 변경하시면 안됩니다. -->
+		<div class="content"> <!-- 변경하시면 안됩니다. -->'
+		<div class="title-text">
+			<h2>쿠폰 조회</h2>
+		</div>
 			<div class="mypage_head" style="width: 12%; float: left;">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -86,20 +93,36 @@
 							</thead>
 							<tbody align="center">
 								
-								<%for(int i=0; i<couponlist.size(); i++){ 
+								<%
+								System.out.println("size : " + couponlist.size());
+								for(int i=0; i<couponlist.size(); i++){ 
 									CouponVO cvo = (CouponVO)couponlist.get(i);
-									%>
+								
+									String start = couponlist.get(i).getCoupon_start();
+									String[] date = start.split(" ");
+									String start_date = date[0];
+									
+									String end = couponlist.get(i).getCoupon_end();
+									String[] date2 = end.split(" ");
+									String start_end = date2[0];
+									
+									String useday = couponlist.get(i).getCoupon_useday();
+									String useday_date = "";
+									if (useday != null){
+									String[] date3 = useday.split(" ");
+										useday_date = date3[0];
+									} else {
+										useday_date = "미사용";
+									}
+									
+								%>
 									<tr>
 									<td><%=cvo.getCoupon_name() %></td>
 									<td><p style="color:#3498db; font-weiht:bold;">보관1개월 무료</p></td>
-									<td><%=sdf.format(cvo.getCoupon_start()) %></td>
-									<td><%=sdf.format(cvo.getCoupon_start()) %>&nbsp;~&nbsp;<%=sdf.format(cvo.getCoupon_end()) %></td>
+									<td><%=start_date %></td>
+									<td><%=start_date %>&nbsp;~&nbsp;<%=start_end %></td>
 									<td>
-										<%if (cvo.getCoupon_useday()== null){ %>
-											미사용
-										<%} else {%>
-											<%=sdf.format(cvo.getCoupon_useday()) %>
-										<% }%>
+											<%=useday_date %>
 									</td>
 									<td>
 										<%if (cvo.getCoupon_use().equals("1")){ %>

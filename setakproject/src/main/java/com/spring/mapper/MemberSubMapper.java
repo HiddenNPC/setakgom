@@ -20,11 +20,14 @@ public interface MemberSubMapper {
 
 	 // 정기구독 리스트 갯수
 	 int listcount(String member_id);
-	  
+	 
 	 //구독해지함
 	 int subcancle(String member_id);
 	 
 	 //재구독함
      int resub(String member_id);
+     
+     //리뷰 작성
+     int review_chk(HashMap<String, Object> map);
 	 
 }

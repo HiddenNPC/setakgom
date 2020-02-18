@@ -18,8 +18,10 @@
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/loginform.css" />
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <!-- 구글로그인 -->
 <script src="https://apis.google.com/js/api:client.js"></script>
@@ -109,6 +111,7 @@
 		
 		/*비밀번호찾기*/
 		$(".find_pw").click(function(event) {
+			
 			$(".back").css("display", "block");
 			$(".popup2").css("display", "block");
 
@@ -161,13 +164,13 @@
 							var pwReg = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
 							
 							if( $("#member_password2").val() == '' || $("#pw2").val() == '' ) {
-								alert("빠짐없이 기입해 주세요");
+								Swal.fire("","빠짐없이 기입해 주세요","info");
 									
 							} else if(!pwReg.test($("#member_password2").val())) {
-								alert("8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
+								Swal.fire("","8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.","info");
 
 							} else if($('#member_password2').val() != $('#pw2').val()) {
-							   	alert("비밀번호가 일치하지 않습니다.");
+								Swal.fire("","비밀번호가 일치하지 않습니다.","info");
 							   	
 							} else { 
 								
@@ -183,9 +186,12 @@
 									
 									success : function(result) {
 										if(result.res == "OK") {
-											alert("비밀번호가 수정 되었습니다.");
-											$(location.href = "/setak/login.do");
-											
+											Swal.fire({
+												text: "비밀번호가 수정 되었습니다.",
+												icon: "success",
+											}).then(function(){
+												location.href='/setak/login.do';
+											});
 											
 											$("#member_name2").val('');
 											$("#member_id").val('');
@@ -201,9 +207,12 @@
 											$(".changepass").css("display", "none");
 											
 										} else {
-											
-											alert('비밀번호 수정 실패');
-											$(location.href = "redirect:login.do");
+											Swal.fire({
+												text: "비밀번호 수정 실패",
+												icon: "error",
+											}).then(function(){
+												location.href='redirect:login.do';
+											});
 											
 											$("#member_name2").val('');
 											$("#member_id").val('');
@@ -228,8 +237,12 @@
 						});
 												
 					} else {
-						alert("입력하신 정보가 일치하지 않습니다.");
-						$(location.href = "/setak/login.do");
+						Swal.fire({
+							text: "입력하신 정보가 일치하지 않습니다.",
+							icon: "warning",
+						}).then(function(){
+							location.href='/setak/login.do';
+						});
 					}
 					
      			},
@@ -258,9 +271,6 @@
 	function attachSignin(element) {
 		auth2.attachClickHandler(element, {}, function(googleUser) {
 			var profile = googleUser.getBasicProfile();
-			console.log("ID: " + profile.getId()); 
-			console.log('Full Name: ' + profile.getName());
-			console.log("Email: " + profile.getEmail());
 			
 			var g_id = profile.getId();
 			var g_nickname = profile.getName();
@@ -268,7 +278,8 @@
 			var params = { 
 					'member_id' : g_id+"_G",
 					'member_name' : g_nickname,
-					'member_email' : g_email
+					'member_email' : g_email,
+					'member_loc' : "!"
  			}
 			
 			$.ajax({
@@ -495,7 +506,7 @@
                    
                    success: function (data) {
                     AuthTimer.comSecond = 179;
-                    AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+                    AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
                     AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
                     AuthTimer.domId = document.getElementById("timer");
                     $("#authbtn").attr('disabled', true);
@@ -551,7 +562,7 @@
                    
                    success: function (data) {
                     AuthTimer.comSecond = 179;
-                    AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")};
+                    AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
                     AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
                     AuthTimer.domId = document.getElementById("timer2");
                     $("#authbtn2").attr('disabled', true);
@@ -628,7 +639,7 @@
                   if (this.comSecond < 0) {         // 시간이 종료 되었으면..
                       clearInterval(this.timer);      // 타이머 해제
                       random = randomnum();
-                      alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+                      Swal.fire("","인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.","warning");
                   }
               }
               ,fnStop : function(){

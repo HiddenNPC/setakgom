@@ -8,9 +8,11 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.*, com.spring.setak.*"%>
 <%@ page import="java.util.*, com.spring.member.*"%>
+<%@ page import="java.util.*, com.spring.mypage.*"%>
 <%
 	List<OrderListVO> ordernumlist = (ArrayList<OrderListVO>) request.getAttribute("ordernumlist");
 	ArrayList<ArrayList<KeepVO>> keeplist2 = (ArrayList<ArrayList<KeepVO>>) request.getAttribute("keeplist2");
+	ArrayList<ArrayList<KeepPhotoVO>> kpvolist2 = (ArrayList<ArrayList<KeepPhotoVO>>) request.getAttribute("kpvolist2");
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	List<Integer> seq_count = (ArrayList<Integer>) request.getAttribute("seq_count");
 	MemberVO memberVO = (MemberVO) request.getAttribute("memberVO");
@@ -20,13 +22,6 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
-	System.out.println("memberVO는?" + memberVO);
-	if ((session.getAttribute("member_id") == null)) {
-		out.println("<script>");
-		out.println("location.href='./setak/'");
-		out.println("</script>");
-		out.close();
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -43,6 +38,9 @@
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script type="text/javascript">
@@ -52,6 +50,7 @@
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
 	});
+	
 </script>
 </head>
 <body>
@@ -62,7 +61,9 @@
 		<!-- id 변경해서 사용하세요. -->
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
-
+         <div class="title-text">
+            <h2>보관현황</h2>
+         </div>
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -100,6 +101,7 @@
 						for (int i = 0; i < ordernumlist.size(); i++) {
 							OrderListVO olvo = (OrderListVO) ordernumlist.get(i);
 							ArrayList<KeepVO> keeplist = keeplist2.get(i);
+							ArrayList<KeepPhotoVO> kpvo = kpvolist2.get(i);
 
 							String start = keeplist.get(0).getKeep_start();
 							String[] date = start.split(" ");
@@ -131,10 +133,10 @@
 						<div class="accordion-header2" id="<%=olvo.getOrder_num()%>">
 							<table class="header">
 								<tr>
-									<th style="width: 30%;">주문번호</th>
-									<th style="width: 20%;">박스 수량</th>
-									<th style="width: 40%;">보관 기관</th>
-									<th style="width: 10%;">상세보기</th>
+									<th style="width: 30%;" class="num">주문번호</th>
+									<th style="width: 20%;" class="box">박스 수량</th>
+									<th style="width: 40%;" class="day">보관 기관</th>
+									<th style="width: 10%;" class="detail">상세보기</th>
 								</tr>
 								<tr>
 									<td><%=olvo.getOrder_num()%></td>
@@ -147,11 +149,28 @@
 							</table>
 						</div>
 						<div class="accordion-content2">
-							<table>
-							</table>
-							<div class="keepbox"
-								style="border-right: 1px solid rgb(255, 255, 255);">보관 기간
-								연장</div>
+						<table>
+						</table>
+							<div class="photo">
+								<tr>
+								<%for(int p = 0; p<kpvo.size(); p++) {
+									KeepPhotoVO kpvo2 = (KeepPhotoVO) kpvo.get(p);
+									if (kpvo2.getKeep_path()== null){								
+								%>
+								<td>
+									<img src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">
+								</td>
+								<%} else {%>	
+								<td>
+									<img src="https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>" onclick="window.open('https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');" class="keep_photo">
+								</td>
+								<%
+									} 
+								}
+								%>
+								</tr>
+							</div>
+							<div class="keepbox" style="border-right: 1px solid rgb(255, 255, 255);">보관 기간 연장</div>
 							<div class="keepbox2">반환 신청</div>
 							<br>
 							<br>
@@ -406,8 +425,8 @@ $(document).ready(function() {
 	        var msg;
 	 	    
 	        if (select_price == 0){
-	        	msg = '금액을 선택해주세요.';
-	       		alert(msg);
+	        	Swal.fire("","연장 기간을 선택해 주시기 바랍니다.","info");
+	        	return false;
 	        }
 	        
 	        IMP.request_pay({
@@ -435,18 +454,23 @@ $(document).ready(function() {
 		 	    	dataType : "json",
 					content : 'application/x-www-form-urlencoded; charset = utf-8',
 					success:function(data){
-						msg = '신청을 완료하였습니다.';
 		            	var num = data.order_num;
-		                location.href="/setak/mykeep.do";
-		                alert(msg);
+		            	Swal.fire({
+							text: "신청을 완료하였습니다.",
+							icon: "info",
+						}) .then(function(){
+							location.href='/setak/mykeep.do';
+						});
 					}
 	 	    	});
 	 	 		} else {
-					msg = '결제에 실패하였습니다.';
-	           		msg += '에러내용 : ' + rsp.error_msg;
 	            	//실패시 이동할 페이지
-	            	location.href="/setak/mykeep.do";
-	            	alert(msg);
+	            	Swal.fire({
+						text: "결제에 실패하였습니다.",
+						icon: "error",
+					}) .then(function(){
+						location.href='/setak/mykeep.do';
+					});
 	 	 		}
 	 		});
  	});
@@ -458,7 +482,7 @@ $(document).ready(function() {
  	// 결제 : 아임포트 스크립트
  	 $(".part_return").on("click", function(){
  		   
- 		var select_price = 100;
+ 		var select_price = 2000;
  			
  		// 테이블 값을 받아오기 (for문)
  		// 나눠서 kindArr, contentArr 넣어줌
@@ -470,10 +494,10 @@ $(document).ready(function() {
  	        IMP.init('imp30471961'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
  	        var msg;
  	        var massage;
- 	        if (select_price == 0){
- 	        	msg = '금액을 선택해주세요.';
- 	       		alert(msg);
- 	        }
+ 	       if (select_price == 0){
+	        	Swal.fire("","금액을 선택해주십시오.","info");
+	        	return false;
+	        }
  	        
  	        IMP.request_pay({
  	            pg : 'kakaopay',
@@ -501,12 +525,14 @@ $(document).ready(function() {
 						}
 					});
 					} else {
-						msg = '결제에 실패하였습니다.';
-						msg += '에러내용 : '+ rsp.error_msg;
 						//실패시 이동할 페이지
-						location.href = "/setak/mykeep.do";
-						alert(msg);
-						}
+						Swal.fire({
+							text: "결제에 실패하였습니다.",
+							icon: "error",
+						}) .then(function(){
+							location.href='/setak/mykeep.do';
+						});
+					  }
 					});
  	 				});
 				});
@@ -523,9 +549,12 @@ $(document).ready(function() {
 			dataType : "json",
 			content : 'application/x-www-form-urlencoded; charset = utf-8',
 			success:function(data){
-				msg += '전체반환신청완료';
-				alert(msg);
-				location.href = "/setak/mykeep.do";
+				Swal.fire({
+					text: "전체반환신청완료",
+					icon: "success",
+				}) .then(function(){
+					location.href='/setak/mykeep.do';
+				});
 			},
 			error:function(){
 				alert("ajax통신안됌");

@@ -9,6 +9,10 @@
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/password.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+   
+   <!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -32,7 +36,7 @@
  	            	   $(location.href="/setak/profile2.do");
  	               }
  	               else { // 실패했다면
- 	                  alert("비밀번호가 다릅니다.");
+ 	            	  Swal.fire("","비밀번호가 다릅니다.","info");
  	               }
  	            },
  	            error:function() {
@@ -52,7 +56,7 @@
 		<div class="content">
 			<!-- 변경하시면 안됩니다. -->
 			<div class="title-text">
-				<!-- 변경하시면 안됩니다. -->
+				<h2>개인정보수정</h2>
 			</div>
 		</div>
 	</section>
@@ -86,8 +90,9 @@
 					</li>
 				</ul>
 			</div>
-			<div class="test"> <!-- class 변경해서 사용하세요. -->
-				<div class="content">
+			
+			<div class="pw_text"> <!-- class 변경해서 사용하세요. -->
+					<h1>개인정보수정</h1>
 					<%
 						String str=(String)session.getAttribute("member_id");
 						String last = str.substring(str.length() - 1);
@@ -98,17 +103,16 @@
 					<%} else if(last.equals("N")) {%>
 					<h3>네이버 계정으로 로그인 하셨습니다</h3>
 					<%} else if(last.equals("G")) {%>
-					<h3>구글 계정으로 로그인 하셨습니다</h3>
+					<h3>구글 계정으로 로그인 하셨습니다</h3>     
 					<% } else { %>
 					<h3>Login ID : <%=session.getAttribute("member_id") %></h3>
 					<%} %>
-					<h2>회원님의 개인정보를 안전하게 보호하기 위해</h2>
-					<h2>비밀번호를 작성해 주세요</h2>
-					<input class="pw" type="password" name="member_password" id="member_password" placeholder="비밀번호를 입력해주세요" />
+					<h2>회원님의 개인정보를 안전하게 보호하기 위해<br>
+						비밀번호를 작성해 주세요</h2>
+					<input class="pw" type="password" name="member_password" id="member_password" placeholder="비밀번호를 입력해주세요" /><br>
 					<input class="btn" type="button" name="submit" value="확인"/>
-					<h3>세탁곰은 회원님의 개인정보를 신중히 취급하며, 회원님의 동의 없이는 기재하신 회원정보가 공개되지 않습니다.</h3>
-					<h3>보다 다양한 서비스를 받으시려면 정확한 정보를 항상 유지해 주셔야 합니다.</h3>
-				</div>
+					<h4>세탁곰은 회원님의 개인정보를 신중히 취급하며, 회원님의 동의 없이는 기재하신 회원정보가 공개되지 않습니다.<br>
+					보다 다양한 서비스를 받으시려면 정확한 정보를 항상 유지해 주셔야 합니다.</h4>
 			</div>
 		</div>
 	</section>
