@@ -75,7 +75,11 @@
 				$('.tab-list a').click(function() {
 					event.preventDefault();
 				});
-				$('.step img').attr("src","images/ms2.png")
+				$('.step img').attr("src","images/ms2.png");
+	            //모바일에서는 여기서 치수 입력
+	            $('.left_length').removeAttr("disabled");
+	            $('.right_length').removeAttr("disabled");
+	            $('.total_length').removeAttr("disabled");
 			}
 			
 			//치수 입력 시 폼에도 값 넘기기
@@ -323,10 +327,6 @@
 			boolean sol_bot = Arrays.asList(sol).contains("하의");
 			boolean sol_out = Arrays.asList(sol).contains("아우터");
 			
-			System.out.println("상의가 있다?" + sol_top);
-			System.out.println("하의가 있다?" + sol_bot);
-			System.out.println("아우터가 있다?" + sol_out);
-			
 			if(sol_top == false){//상의가 없다.
 			%>
 				$(".tab").removeClass("active");
@@ -445,7 +445,7 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length"value="" disabled>cm</p>
 								<p>※ 총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input id="filetest" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input id="filetest" class="fileupload" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
@@ -483,7 +483,7 @@
 								<p>※ 왼쪽 기장 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 기장 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※ 허리 줄임 : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input  class="fileupload" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>
@@ -521,7 +521,7 @@
 								<p>※ 왼쪽 소매 줄임 : - <input type="text" class="left_length" value="" disabled>cm</p>
 								<p>※ 오른쪽 소매 줄임 : - <input type="text" class="right_length" value="" disabled>cm</p>
 								<p>※총기장(기장 줄임) : - <input type="text" class="total_length" value="" disabled>cm</p>
-								<p>※ <input type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
+								<p>※ <input  class="fileupload" type="file" name="file" value="file" style="width:92%; display:inline;" multiple></p>
 								<textarea class="details_text" placeholder="추가 요청사항이 있다면 알려주세요."></textarea>
 								<a class="add_button" href="javascript:">추가</a>
 							</form>

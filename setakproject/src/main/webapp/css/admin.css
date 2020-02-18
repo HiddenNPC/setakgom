@@ -32,10 +32,13 @@
         background:#ffac15;
         height:100%;
 	}
+	.admin-nav a{
+		color:#fff;
+	}
 	.admin-nav li{
 	    display:block;
 	    color:#fff;
-	    margin-left:63px;
+	    margin-left:46px;
 	}
 	.admin-nav li:first-child{
 		width:100%;

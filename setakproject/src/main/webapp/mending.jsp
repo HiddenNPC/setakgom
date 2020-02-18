@@ -27,9 +27,6 @@
          $("#header").load("./header.jsp")
          $("#footer").load("./footer.jsp")
          
-         var data = new FormData();
-         
-         console.log(Date.now());
          //세탁, 수선, 보관 탭 눌렀을 때
          $(".tab").on("click", function() {
             $(".tab").removeClass("active");
@@ -61,6 +58,10 @@
             $('.tab-list a').click(function() {
                event.preventDefault();
             });
+            //모바일에서는 여기서 치수 입력
+            $('.left_length').removeAttr("disabled");
+            $('.right_length').removeAttr("disabled");
+            $('.total_length').removeAttr("disabled");
          }
          
          //치수 입력 시 폼에도 값 넘기기
@@ -68,8 +69,6 @@
          var rlength ="";
          var tlength ="";
          var details_text = "";
-         var filecontent;
-         var filename="";
          
          $("#left input").keyup(function(){
               $('.left_length').val($(this).val());
@@ -87,11 +86,6 @@
          $(".details_text").keyup(function(){
             details_text = $(this).val();
           });
-         
-         $(".fileupload").change(function(){
-            filecontent = $(this)[0].files[0];
-            filename = Date.now() + "_" + $(this)[0].files[0].name ;
-         });
          
          //태그 기능, 계산기능
          var maxAppend = 0;
@@ -115,25 +109,55 @@
             maxAppend--;
          });
          
+		//사진 업로드 ajax - 클라우드로 저장됨.
+ 		var filecontent;
+ 		var filename;
+ 		var data = new FormData();
+ 		
+ 		$(document).on("change",".fileupload",function(){
+ 			filecontent = $(this)[0].files[0];
+ 			filename = Date.now() + "_" + $(this)[0].files[0].name;
+ 			data.append("files", filecontent);
+ 			data.append("filename", filename);			
+ 			$("#repair_file").val(filename);
+ 		}); 
+ 		function photo(){
+ 			if(filecontent != null){
+ 				data.append("purpose", "mending");
+ 				
+ 				$.ajax({
+ 					type: "POST",
+ 		            enctype: 'multipart/form-data',
+ 		            url: "/setak/testImage.do",
+ 		            data: data,
+ 		            processData: false,
+ 		            contentType: false,
+ 		            cache: false,
+ 		            dataType: 'text',
+ 		            success: function (data) {
+ 					},
+ 	                error: function (e) {
+ 	                	alert("실패실패실패!!")
+ 	                	console.log(e);
+ 					}
+ 				});
+ 			}
+ 			else{
+ 				event.preventDefault();
+ 			}
+ 			filecontent = null;
+ 			data = new FormData();
+ 			$(".fileupload").val("");
+		};
+			
          //추가 버튼 눌렀을 때
          $(".add_button").on("click", function() {
-            var form = $('#fileUploadForm')[0];
-            var data = new FormData(form);
-            console.log(form);
-            console.log(data);
-            
-            var filetest = $("#filetest").val();
             var sortation = document.getElementsByClassName('active');
             var str = "";
 
             if(maxAppend==0){
             	Swal.fire("",'선택 된 수선내용이 없습니다.');
                return;
-            }
-            
-            if(filecontent != null){
-               data.append("files", filecontent);
-               data.append("filename", filename);
             }
             
             var hashvl = ($(".hash").html()).split('&nbsp;');
@@ -158,7 +182,6 @@
             str += '<input type="hidden" name="repair_var1" value="'+llength*(-1)+'">';
             str += '<input type="hidden" name="repair_var2" value="'+rlength*(-1)+'">';
             str += '<input type="hidden" name="repair_var3" value="'+tlength*(-1)+'">';
-            str += '<input type="hidden" name="repair_file" value="'+filetest+'" class="details_file">';
             str += '<textarea name="repair_content">'+details_text+'</textarea></td>';
             str += '<td>';
             str += '<select name="repair_code">';
@@ -196,7 +219,11 @@
             str += '<td name="'+tprice+'" class="tprice">'+tprice+'원';
             str += '</td>';
             str += '<input class="repair_price" type="hidden" name="repair_price" value="'+price_str+'">';
-            str += '</tr>';      
+			str += '<input type="hidden" name="repair_file" id="repair_file" val="">';
+            str += '</tr>';
+            alert($('#repair_file').val());
+
+    		photo();
             
             $(".mending_order_title").after(str);
             $(".hash").empty();

@@ -477,46 +477,55 @@
 		position:absolute;
 		left:168px;
 		top:507px;
+		display:none;
 	}
 	.details .top_size_input .size_input #left{
 		position:absolute;
 		left:156px;
 		top:474px;
+		display:none;		
 	}
 	.details .top_size_input .size_input #length{
 		position:absolute;
 		left:173px;
 		top:540px;
+		display:none;		
 	}
 	.details .bottom_size_input .size_input #right{
 		position:absolute;
 		left:168px;
 		top:507px;
+		display:none;		
 	}
 	.details .bottom_size_input .size_input #left{
 		position:absolute;
 		left:156px;
 		top:474px;
+		display:none;		
 	}
 	.details .bottom_size_input .size_input #length{
 		position:absolute;
 		left:128px;
 		top:540px;
+		display:none;		
 	}
 	.details .outer_size_input .size_input #right{
 		position:absolute;
 		left:168px;
 		top:507px;
+		display:none;		
 	}
 	.details .outer_size_input .size_input #left{
 		position:absolute;
 		left:156px;
 		top:474px;
+		display:none;		
 	}
 	.details .outer_size_input .size_input #length{
 		position:absolute;
 		left:170px;
 		top:540px;
+		display:none;		
 	}
 	.details form{
 		margin:0px 0px 0px 0px;
@@ -537,6 +546,11 @@
 		border:0px;
 		width:38px;
 		background-color:#fff;
+		border:1px solid #3498db;
+		margin-right:3px;
+	}
+	.details .fileupload{
+		border:none;
 	}
 	.details form textarea{
 		margin:15px 5%;
