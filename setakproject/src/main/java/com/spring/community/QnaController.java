@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -15,7 +18,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,26 +85,26 @@ import org.springframework.web.servlet.ModelAndView;
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer  = response.getWriter();	
 		
-		qnaVO.setMEMBER_ID(request.getParameter("MEMBER_ID"));
-		String a = qnaVO.getMEMBER_ID();
+		qnaVO.setMember_id(request.getParameter("MEMBER_ID"));
+		String a = qnaVO.getMember_id();
 		System.out.println("MEMBER_ID=" +a );		
-		qnaVO.setQNA_TYPE(request.getParameter("QNA_TYPE"));
+		qnaVO.setQna_type(request.getParameter("QNA_TYPE"));
 		
 		String chkOn =request.getParameter("ORDER_NUM");		
-		if(!chkOn.equals("선택안함")){qnaVO.setORDER_NUM(Long.parseLong(request.getParameter("ORDER_NUM")));}
-		else{ qnaVO.setORDER_NUM(0);}		
-		qnaVO.setQNA_TITLE(request.getParameter("QNA_TITLE"));
-		qnaVO.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
-		qnaVO.setQNA_PASS(request.getParameter("QNA_PASS"));
-		qnaVO.setQNA_SCR(request.getParameter("QNA_SCR"));
+		if(!chkOn.equals("선택안함")){qnaVO.setOrder_num(Long.parseLong(request.getParameter("ORDER_NUM")));}
+		else{ qnaVO.setOrder_num(0);}		
+		qnaVO.setQna_title(request.getParameter("QNA_TITLE"));
+		qnaVO.setQna_content(request.getParameter("QNA_CONTENT"));
+		qnaVO.setQna_pass(request.getParameter("QNA_PASS"));
+		qnaVO.setQna_scr(request.getParameter("QNA_SCR"));
 		
 		if(request.getParameter("QNA_FILE").equals("")) {
-			qnaVO.setQNA_FILE("등록한 파일이 없습니다._등록한 파일이 없습니다.");
+			qnaVO.setQna_file("등록한 파일이 없습니다._등록한 파일이 없습니다.");
 		}else {
-			qnaVO.setQNA_FILE(request.getParameter("QNA_FILE"));
+			qnaVO.setQna_file(request.getParameter("QNA_FILE"));
 		}
 		
-		qnaVO.setQNA_CHECK(request.getParameter("QNA_CHECK"));
+		qnaVO.setQna_check(request.getParameter("QNA_CHECK"));
 		
 		
 		int res = qnaService.qnaInsert(qnaVO);
@@ -108,7 +114,7 @@ import org.springframework.web.servlet.ModelAndView;
 			writer.write("<script> alert('글 작성을 실패하습니다.');location.href='./qnaWrite.do'; </script>");
 			return null;
 		}
-		writer.write("<script> alert('글 작성이 완료되었습니다.');location.href='./qnaList.do'; </script>");
+		writer.write("<script>location.href='./qnaList.do'; </script>");
 			//return "redirect:/sungjuklist.su";					
 		return null;
 			
@@ -133,6 +139,7 @@ import org.springframework.web.servlet.ModelAndView;
 		model.addAttribute("qnadata", vo);		
 		return "qna_pass2";
 	}
+	
 	
 	@RequestMapping(value = "/qnaPassChk.do") public String qnaPassChk(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{	
@@ -160,17 +167,16 @@ import org.springframework.web.servlet.ModelAndView;
 			if(loginId.equals(writerId)) 
 			//if(loginId.equals(writerId)&&loginId.equals(어드민)) 
 			{
-				writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?QNA_NUM="+num+"'; </script>");				
+				writer.write("<script> alert('비번일치');location.href='./qnaDetail.do?qna_num="+num+"'; </script>");				
 			}
 			writer.write("<script> alert('작성자만 열람가능합니다.');location.href='qnaList.do'</script>");	
 		 }else { 
-			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?QNA_NUM="+num+"'; </script>"); 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?qna_num="+num+"'; </script>"); 
 		 }
 		
-		return null; 	
-		
+		return null; 			
 	}
-
+	
 	@RequestMapping(value = "/updateform.do") public String updateForm(HttpServletRequest request ,HttpServletResponse response ,HttpSession session, QnaVO qnavo, Model model) throws Exception {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
@@ -179,19 +185,19 @@ import org.springframework.web.servlet.ModelAndView;
 		String loginId = (String) session.getAttribute("member_id");
 		System.out.println("loginId="+loginId);		
 		QnaVO vo = qnaService.getDetail(qnavo);
-		String memberId=vo.getMEMBER_ID();
+		String memberId=vo.getMember_id();
 		System.out.println("memberId="+memberId);
-		int qna_num= vo.getQNA_NUM();	
+		int qna_num= vo.getQna_num();	
 		System.out.println("qna_num="+qna_num);
 		
 		if(loginId==null) {
-			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?QNA_NUM="+qna_num+"';</script>");
+			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?qna_num="+qna_num+"';</script>");
 		}
 		ArrayList<QnaVO> onlist = qnaService.onList(loginId);
 		
 		if(!loginId.equals(memberId))
 		{
-			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?QNA_NUM="+qna_num+"';</script>");
+			writer.write("<script>alert('작성자만 게시글 수정이 가능합니다 .');location.href='./qnaDetail.do?qna_num="+qna_num+"';</script>");
 			/* ./qnaDetail.do?QNA_NUM=<%=bl.getQNA_NUM() %> */
 			return null;				
 		}
@@ -210,27 +216,27 @@ import org.springframework.web.servlet.ModelAndView;
 		QnaVO vo = new QnaVO();
 		int result= 0;		
 		int num=Integer.parseInt(request.getParameter("QNA_NUM"));		
-		vo.setQNA_NUM(num);
-		vo.setQNA_TYPE(request.getParameter("QNA_TYPE"));
+		vo.setQna_num(num);
+		vo.setQna_type(request.getParameter("QNA_TYPE"));
 		String chkOn =request.getParameter("ORDER_NUM");
 		System.out.println("주문번호 잘 들어오냐?="+chkOn);
-		if(!chkOn.equals("선택안함")) {vo.setORDER_NUM(Long.parseLong(request.getParameter("ORDER_NUM")));	}
-		else { vo.setORDER_NUM(0); }
-		vo.setQNA_TITLE(request.getParameter("QNA_TITLE"));
+		if(!chkOn.equals("선택안함")) {vo.setOrder_num(Long.parseLong(request.getParameter("ORDER_NUM")));	}
+		else { vo.setOrder_num(0); }
+		vo.setQna_title(request.getParameter("QNA_TITLE"));
 		System.out.println("QNA_TITLE="+request.getParameter("QNA_TITLE"));
-		vo.setQNA_CONTENT(request.getParameter("QNA_CONTENT"));
-		vo.setQNA_PASS(request.getParameter("QNA_PASS"));
-		vo.setQNA_SCR(request.getParameter("QNA_SCR"));
+		vo.setQna_content(request.getParameter("QNA_CONTENT"));
+		vo.setQna_pass(request.getParameter("QNA_PASS"));
+		vo.setQna_scr(request.getParameter("QNA_SCR"));
 		System.out.println("기존에 DB에 저장되어있던 파일의 이름  ="+request.getParameter("exist_file"));
 		System.out.println("수정할 파일의 이름1  ="+request.getParameter("QNA_FILE"));
 		
 		if(request.getParameter("QNA_FILE").equals("")) {
-			vo.setQNA_FILE(request.getParameter("exist_file"));
+			vo.setQna_file(request.getParameter("exist_file"));
 		}else {
-		vo.setQNA_FILE(request.getParameter("QNA_FILE"));
+		vo.setQna_file(request.getParameter("QNA_FILE"));
 		}
 		
-		vo.setQNA_CHECK(request.getParameter("QNA_CHECK"));
+		vo.setQna_check(request.getParameter("QNA_CHECK"));
 		
 		System.out.println("수정할 파일의 이름  ="+request.getParameter("QNA_FILE"));
 		
@@ -261,6 +267,9 @@ import org.springframework.web.servlet.ModelAndView;
 		String loginId= request.getParameter("loginId");
 		String pass= request.getParameter("QNA_PASS");
 		int num = Integer.parseInt(request.getParameter("QNA_NUM"));
+		vo.setQna_num(num);
+		
+		
 		
 		System.out.println("writerId 잘 넘어왔나? = " + writerId);
 		System.out.println("pass 잘 넘어왔나? = " + pass);
@@ -279,7 +288,7 @@ import org.springframework.web.servlet.ModelAndView;
 			}
 			writer.write("<script> alert('작성자만 삭제 가능합니다.');location.href='qnaList.do'</script>");	
 		 }else { 
-			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?QNA_NUM="+num+"'; </script>"); 
+			writer.write("<script> alert('비밀번호가 일치하지 않습니다.');location.href='./qnaPass.do?qna_num="+num+"'; </script>"); 
 		 }
 		
 		return null; 	
@@ -336,6 +345,42 @@ import org.springframework.web.servlet.ModelAndView;
       sout.close();
 
    }
+   
+   @RequestMapping(value = "/admin/admin_qna.do")public String adminQna(Model model) throws Exception 
+	{							
+		return "admin/admin_qna";		
+	}
+  
+   @RequestMapping(value = "/admin/ad_qnalist.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
+   @ResponseBody public List<Object> adminQnalist() 
+   {			
+	   List<Object> list = qnaService.ad_qnalist();
+	   	
+	   return list;		
+   }
+   
+   
+   @RequestMapping(value="/admin/ad_qnaDelete.do", produces= "application/json; charset=UTF-8")
+   @ResponseBody public Map<String, Object> ad_qnaDelete(QnaVO vo) {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		System.out.println(1);
+		try {
+			int res = qnaService.qnaDelete(vo);	
+			if (res==1)
+				retVal.put("res", "OK");
+			else
+				retVal.put("res", "Err");
+		}
+		catch (Exception e) {
+			retVal.put("res", "FAIL");
+		}
+		
+		return retVal;
+	}
+   
+   
+   
+   
    
    
    

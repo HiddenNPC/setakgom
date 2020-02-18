@@ -4,17 +4,17 @@
 <mapper namespace="com.spring.mapper.QnaMapper">
 
 	<resultMap type="com.spring.community.QnaVO" id="qnaMap">
-		<result property="QNA_NUM" column="qna_num"/>
-		<result property="MEMBER_ID" column="member_id"/>
-		<result property="QNA_TYPE" column="qna_type"/>
-		<result property="ORDER_NUM" column="order_num"/>
-		<result property="QNA_TITLE" column="qna_title"/>
-		<result property="QNA_CONTENT" column="qna_content"/>
-		<result property="QNA_DATE" column="qna_date"/>
-		<result property="QNA_FILE" column="qna_file"/>
-		<result property="QNA_CHECK" column="qna_check"/>
-		<result property="QNA_SCR" column="qna_scr"/>
-		<result property="QNA_PASS" column="qna_pass"/>
+		<result property="qna_num" column="qna_num"/>
+		<result property="member_id" column="member_id"/>
+		<result property="qna_type" column="qna_type"/>
+		<result property="order_num" column="order_num"/>
+		<result property="qna_title" column="qna_title"/>
+		<result property="qna_content" column="qna_content"/>
+		<result property="qna_date" column="qna_date"/>
+		<result property="qna_file" column="qna_file"/>
+		<result property="qna_check" column="qna_check"/>
+		<result property="qna_scr" column="qna_scr"/>
+		<result property="qna_pass" column="qna_pass"/>
 	</resultMap>
 	
 	<select id="getListCount" resultType="int">

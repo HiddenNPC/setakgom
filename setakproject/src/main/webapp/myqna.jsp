@@ -114,8 +114,9 @@
               				<%} else {%>
               					<div class="page_a"><a href ="./myqna.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a<endpage; a++) {
+              				<%for (int a=startpage; a< endpage; a++) {
               					if(a==nowpage) {
+              						
            					%>
            					<div class="page_a"><a><%=a %></a></div>
            					<%} else {%>

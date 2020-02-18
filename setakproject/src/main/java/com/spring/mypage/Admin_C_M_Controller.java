@@ -21,7 +21,7 @@ public class Admin_C_M_Controller {
 	@Autowired()
 	private Admin_C_M_ServiceImpl admin_C_M_Service;
 	
-	@RequestMapping(value="/	admin/admin_coupon.do")
+	@RequestMapping(value="/admin/admin_coupon.do")
 	public ModelAndView coupon() {
 		
 		ModelAndView mv = new ModelAndView();

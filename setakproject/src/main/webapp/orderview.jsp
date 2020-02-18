@@ -346,7 +346,7 @@ function cancle() {
                           <%} else {%>
                              <div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
                           <%} %>
-                          <%for (int a=startpage; a<endpage; a++) {
+                          <%for (int a=startpage; a< endpage; a++) {
                                 if(a==nowpage) {
                              %>
                              <div class="page_a"><a><%=a %></a></div>
@@ -363,7 +363,7 @@ function cancle() {
                      </tr>
             </table>
             </div>
-            <%} %>
+           <%} %>
             <!-- 리뷰 추가 -->
             <div id="re_layer" class="re_layer">
                         <h2>리뷰 작성</h2>
@@ -408,7 +408,7 @@ function cancle() {
                         </div>
                         <div class="dim"></div>   
                   <!-- 리뷰 추가 끝 -->
-
+				 
          </div>
          
       </div>
