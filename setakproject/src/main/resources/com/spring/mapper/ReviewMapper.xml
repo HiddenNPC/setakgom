@@ -19,16 +19,10 @@
 	<resultMap type="com.spring.member.MileageVO" id="mileageMap">
 		<result property="member_id" column="member_id"	/>
 		<result property="mile_date" column="mile_date"	/>
-		<result property="mile_price" column="mile_price"	/>
-		<result property="mile_content" column="mile_content"	/>	
+		<result property="mile_price" column="mile_price"/>
+		<result property="mile_content" column="mile_content"/>	
 	</resultMap>
 	
-		
-	<!-- 	
-	<select id="getMaxNum" resultType="int">
-		SELECT MAX(review_num) FROM review
-	</select>
-	 -->
 	<select id="getListCount" resultType="int"> 
 		SELECT COUNT(*) FROM review
 	</select>
@@ -45,11 +39,7 @@
 	<insert id="insertMileage" parameterType="com.spring.member.MileageVO">
 		INSERT INTO mileage VALUES (#{arg0}, sysdate, #{arg1}, #{arg2}, mile_SEQ.NEXTVAL) 
 	</insert>
-	
-	
-	
-	
-	
+		
 	<select id="reviewSearch" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
 	 <bind name="arg1" value="'%'+ arg1 +'%'" />
 		SELECT * FROM REVIEW WHERE ${arg0} like #{arg1} ORDER BY review_date DESC    		
@@ -79,44 +69,11 @@
 		WHERE review_num=#{review_num}
 	</update>
 	
-	
-	
-	
-
-	<!--  
-	관리자용 
-	<delete id="reviewDelete" parameterType="int">
-		DELETE FROM review WHERE review_num=#{review_num}
-	</delete>
-	
-	<update id="reviewUpdate" parameterType="com.spring.community.ReviewVO">
-		UPDATE review SET 
-		review_kind=#{review_kind}, 
-		review_star=#{review_star}, 
-		review_content=#{review_content}, 		
-		review_photo=#{review_photo} 	
-		WHERE review_num=#{review_num}
+	<update id="reviewCheck" parameterType="com.spring.community.ReviewVO">
+		update MEMBERORDER set order_review=1 where order_num= #{order_num}
 	</update>
- -->
-
+	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

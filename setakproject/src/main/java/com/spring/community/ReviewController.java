@@ -85,6 +85,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		
 		
 		
+		
 		if(res == 0 ) 
 		{
 			writer.write("<script>alert('수정 실패');location.href='./review.do';</script>");			
@@ -248,5 +249,63 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		System.out.println("수정 성공하고 리스트로 왓다 .");
 		return null;
 	}
+
+	@RequestMapping(value = "/admin/admin_review.do")public String adminReview(Model model) throws Exception 
+	{							
+		return "admin/admin_review";		
+	}
+	
+	@RequestMapping (value="/admin/ad_reviewlist.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public ArrayList<ReviewVO> ad_reviewList() throws Exception
+	{
+		ArrayList<ReviewVO> list = reviewService.reviewList();
+		return list;		
+	}
+	
+	@RequestMapping (value="/admin/ad_reviewDelete.do", produces="application/json; charset=UTF-8", method = {RequestMethod.GET, RequestMethod.POST} )
+	@ResponseBody public Map<String, Object> ad_reviewDelete(ReviewVO vo) throws Exception
+	{
+		Map<String, Object> retVal = new HashMap<String, Object>();		
+		try {
+			int res = reviewService.reivewDelete(vo);
+			
+			if (res==1)
+				retVal.put("res", "OK");
+		}
+		catch (Exception e) {
+			retVal.put("res", "FAIL");
+			
+		}
+		System.out.println("넘기기 직전 이안에는 뭐가 들어있을까 ?->" + retVal);
+		return retVal;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

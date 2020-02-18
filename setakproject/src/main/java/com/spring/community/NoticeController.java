@@ -61,7 +61,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 	}
 		
-	@RequestMapping(value = "admin/noticeInsert.do") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping(value = "/admin/noticeInsert.do") public String insertNotice(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception 
 	{				
 		NoticeVO noticevo = new NoticeVO();
 		noticevo.setNotice_title(request.getParameter("notice_title"));
@@ -88,7 +88,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		return "notice_view";
 	}
 	
-	@RequestMapping (value = "admin/noticeUpdate.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@RequestMapping (value = "/admin/noticeUpdate.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
 	@ResponseBody public  Map<String, Object> noticeModify (NoticeVO vo)
 	{
 		Map<String, Object> retVal = new HashMap<String, Object>();
@@ -107,7 +107,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 			return retVal;		
 	}
 	
-	@RequestMapping(value = "admin/noticeDelete.do", produces="application/json;charset=UTF-8", method = { RequestMethod.GET, RequestMethod.POST } ) 
+	@RequestMapping(value = "/admin/noticeDelete.do", produces="application/json;charset=UTF-8", method = { RequestMethod.GET, RequestMethod.POST } ) 
 	@ResponseBody public Map<String, Object> noticeDelete(NoticeVO vo) throws Exception 
 	{	
 		
@@ -128,7 +128,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 			return retVal;		
 	}
 	
-	@RequestMapping(value = "admin/admin_notice.do")public String adminNotice(Model model) throws Exception 
+	@RequestMapping(value = "/admin/admin_notice.do")public String adminNotice(Model model) throws Exception 
 	{			
 		List<Object> list = noticeService.ad_noticeList();
 		model.addAttribute("noticeList", list);				
@@ -136,7 +136,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	}
 
 	
-	@RequestMapping(value = "admin/ad_noticeList.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
+	@RequestMapping(value = "/admin/ad_noticeList.do", produces="application/json;charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST} ) 
 	@ResponseBody public List<Object> ad_noticeList()
 	{
 		List<Object> list = noticeService.ad_noticeList();

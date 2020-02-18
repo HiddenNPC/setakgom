@@ -89,13 +89,18 @@
 		<result property="member_zipcode" column="member_zipcode" />
 	</resultMap>
 	
+	<resultMap type="com.spring.mypage.KeepPhotoVO" id="KeepPhoto">
+		<result property="order_num" column="order_num"/>
+		<result property="keep_photo" column="keep_photo"/>
+	</resultMap>
+	
 	
 	
 	<select id="getOrderlist" resultMap="OrderResultMap" parameterType="HashMap">
-			select * 
-			from (select rownum rnum, order_num, member_id, order_date, order_phone, order_price, order_payment, order_delicode,
-						 order_cancel, order_status, order_pickup, order_name, order_address, order_request, order_zipcode, order_delete, order_muid 
-				   from memberorder where member_id = #{member_id} order by order_num desc) 
+			select *
+				from (select rownum rnum, a.*
+					from (select *
+				 	  from memberorder where member_id = #{member_id} order by order_num desc) a)
   <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> 
 	</select>
 
@@ -167,6 +172,10 @@
 	<insert id="part_Return" parameterType="com.spring.mypage.KeepReturnVO">
 		insert into keep_return values (#{order_num}, #{return_kind}, #{return_content}, #{return_confirm})
 	</insert>
+	
+	<select id="selectPhoto" parameterType="long" resultMap="KeepPhoto">
+		select * from keep_photo where order_num = #{order_num}
+	</select>
 	
 	
 	
