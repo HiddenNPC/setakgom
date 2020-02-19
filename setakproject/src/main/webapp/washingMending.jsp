@@ -39,7 +39,7 @@
 			$(".tab").on("click", function(event) {
 				if($(this).hasClass("nonono")){
 					event.preventDefault();
-					alert("해당되는 세탁물이 없습니다.");
+					Swal.fire("","해당되는 세탁물이 없습니다.","info");
 				}else{
 					$(".tab").removeClass("active");
 					$(".hash").empty();

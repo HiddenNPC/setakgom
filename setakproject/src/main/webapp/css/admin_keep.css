@@ -41,11 +41,14 @@
 	.content ul li:nth-child(1),.content ul li:nth-child(2){
 		width:3%;
 	}
-	.content ul li:nth-child(3),.content ul li:nth-child(5){
+	.content ul li:nth-child(5){
 		width:15%;
 	}
-	.content ul li:nth-child(4),.content ul li:nth-child(6),.content ul li:nth-child(7),.content ul li:nth-child(8),.content ul li:nth-child(9),.content ul li:nth-child(10),.content ul li:nth-child(11),.content ul li:nth-child(12){
-		width:9.875%;
+	.content ul li:nth-child(3),.content ul li:nth-child(8),.content ul li:nth-child(9){
+		width:11%;
+	}
+	.content ul li:nth-child(4),.content ul li:nth-child(6),.content ul li:nth-child(7),.content ul li:nth-child(10),.content ul li:nth-child(11),.content ul li:nth-child(12){
+		width:9%;
 	}
 	.keep_title{
 		border-bottom:0px !important;
@@ -141,7 +144,7 @@
 	    color:#444;
     }
     .keep_day{
-    	width:123px;
+    	width:127px;
     	background:none;
     	text-align:center;
     	border:0px;

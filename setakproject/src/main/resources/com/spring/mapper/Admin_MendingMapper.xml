@@ -55,20 +55,22 @@
 				order by c.repair_seq desc)
 	</select>
 	
-<!-- 	<insert id="keepImg" parameterType="java.util.HashMap">
-		 insert into keep_photo(order_num, keep_path) values(#{order_num}, #{keep_path})
-	</insert>
-		
-	<delete id="deleteImg" parameterType="string">
-		delete from keep_photo where keep_path = #{keep_path}
-	</delete>
-	
-	<select id="loadImg" parameterType="java.util.HashMap" resultMap="hashmapVO">
-		select keep_path from keep_photo where order_num = #{order_num}	
+	<select id="mendingLoadImg" parameterType="java.util.HashMap" resultMap="hashmapVO">
+		select repair_file from repair where repair_seq = #{repair_seq}	
 	</select>
 	
-
+	<update id="deleteMendingImg" parameterType="string">
+		update repair set repair_file = '' where repair_file = #{repair_file}
+	</update>
 	
-	 -->
+	<update id="MendingImg" parameterType="java.util.HashMap">
+		update repair b
+		set b.repair_file = #{repair_file}
+		where b.repair_code = #{repair_code}
+		and exists (select 1
+					from orderlist a
+					where a.repair_seq = b.repair_seq
+					and a.order_num = #{order_num})
+	</update>
 	
 </mapper>

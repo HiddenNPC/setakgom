@@ -8,6 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/admin_mending.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -35,6 +37,9 @@
 							str += '<li class="listtd"><input type="number" class="repair_var" value="' + item.repair_var1 + '" disabled></li>';
 							str += '<li class="listtd"><input type="number" class="repair_var" value="' + item.repair_var2 + '" disabled></li>';
 							str += '<li class="listtd"><input type="number" class="repair_var" value="' + item.repair_var3 + '" disabled></li>';
+							if(item.repair_content == undefined){
+								item.repair_content = "";
+							}
 							str += '<li class="listtd" title="' + item.repair_content + '"><input type="text" class="repair_content" value="' + item.repair_content + '" disabled></li>';
 							str += '<li class="listtd"><input type="text" class="repair_code" value="' + item.repair_code + '" disabled></li>';
 							str += '<li class="listtd"><input type="number" class="repair_count" value="' + item.repair_count + '" disabled></li>';
@@ -131,7 +136,7 @@
 	            popup_repair_kind = document.getElementsByClassName('mending-list tab_active');
 	            
 	            if(!$(".mending-list").hasClass("tab_active")){
-					alert("종류를 선택하지 않았습니다.");
+	            	Swal.fire("","종류를 선택하지 않았습니다.","info");
 					return false;
 				}
 	            
@@ -289,7 +294,7 @@
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(retVal) {
 						if(retVal.res == "OK"){
-							alert("삭제되었습니다.");
+							Swal.fire("","삭제되었습니다.","success");
 							$('.mending_list').empty();
 							selectData();
 						} else {
@@ -368,39 +373,44 @@
 		});
 		
 		//사진 클릭시 팝업생성
-		var order_num ="";
+		var mending_seq ="";
 		$(document).on('click','.mending_img_popup',function(event) {
 			$(".popup_img_back").addClass("popup_on");
 			$(".imgs_wrap").empty();
+			mending_seq = $(this).parents().eq(1).children().eq(15).children().val();
 			order_num = $(this).parents().eq(1).children().eq(2).text();
+			repair_code = $(this).parents().eq(1).children().eq(10).children().val();
 			$('#input_order_num').val(order_num);
+			$('#input_repair_code').val(repair_code);
 			before_img();
 		});
 		$(document).on('click','.mending_img_close',function(event) {
             $(".popup_img_back").removeClass("popup_on");
             img_index = 0;
+            $("#input_imgs").val("");
         });
 		
 		//저장된 이미지 불러오기
 		function before_img(){
 		 	$.ajax({
-				url:'/setak/admin/loadImg.do',
+				url:'/setak/admin/mendingLoadImg.do',
 				type:'POST',
-				data : {"order_num" : order_num},
+				data : {"repair_seq" : mending_seq},
 				dataType:"json",
 				contentType:'application/x-www-form-urlencoded; charset=utf-8',
 				success:function(data) {
 					$('.before_img').empty();
 					var list = data.imglist;
-					if (list.length == 0){
+					if(list == ""){
 						var str = '';
 						str += '<h3>등록된 이미지가 없습니다.</h3>'
 						$(".before_img").append(str);
+						return;
 					}
 					$.each(list, function(index, item) {
 						var str = '';
-						str += "<a href='javascript:void(0);'><img src='https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/" + item.keep_path + "'>";
-						str += "<input type='hidden' class='deleteBefore' value='" + item.keep_path + "'><h3 class='deleteBeforeImg'>삭제</h3></a>";
+						str += "<a href='javascript:void(0);'><img src='https://kr.object.ncloudstorage.com/airbubble/setakgom/mending/" + item.repair_file + "'>";
+						str += "<input type='hidden' class='deleteBefore' value='" + item.repair_file + "'><h3 class='deleteBeforeImg'>삭제</h3></a>";
 						$(".before_img").append(str);
 					});
 				},
@@ -412,20 +422,34 @@
 		
 		//저장된 이미지 삭제하기
 		$(document).on('click', '.deleteBeforeImg', function(){
-			var del_keep_path = $($(this).parent().children(".deleteBefore")).val();
-			
+			var del_mending_file = $($(this).parent().children(".deleteBefore")).val();
 			$.ajax({
-				url:'/setak/admin/deleteImg.do',
+				url:'/setak/admin/deleteMendingImg.do',
 				type:'POST',
-				data : {"keep_path" : del_keep_path},
+				data : {"repair_file" : del_mending_file},
 				dataType:"text",
 				contentType:'application/x-www-form-urlencoded; charset=utf-8',
 				success:function(data) {
 					$('.before_img').empty();
 					before_img();
+					
+					$.ajax({
+						url:'/setak/deleteImage.do',
+						type:'POST',
+						data : {"filename":del_mending_file, "purpose":"mending"},
+						dataType:"text",
+						contentType:'application/x-www-form-urlencoded; charset=utf-8',
+						success:function(data) {
+							
+						},
+						error: function (e) {
+		                	alert("이미지 클라우드 삭제 실패!!")
+		                	console.log(e);
+						}
+					});
 				},
                 error: function (e) {
-                	alert("이미지삭제 실패!!")
+                	alert("이미지삭제 실패!!");
                 	console.log(e);
 				}
 			}); 
@@ -440,13 +464,15 @@
 		function handleImgFileSelect(e){
 			//이미지 정보 초기화
 			sel_files = [];
+			$(".imgs_wrap").empty();
 			
 			var files = e.target.files;
 			var filesArr = Array.prototype.slice.call(files);
 			
 			filesArr.forEach(function(f){
 				if(!f.type.match("image.*")){
-					alert("확장자는 이미지 확장자만 가능합니다.");
+					Swal.fire("","이미지 확장자만 가능합니다.","info");
+					$("#input_imgs").val("");
 					return;
 				}
 				sel_files.push(f);
@@ -467,30 +493,32 @@
 			
 			var img_id = "#img_id_" + img_index;
 			$(img_id).remove();
+			$("#input_imgs").val("");
 		}
 		
 		//사진 업로드 ajax
 		var filecontent;
 		var filename;
 		var data = new FormData();// key/value로 채워지는것임 참고.
-		var dbfilename = "";
 		
 		$(document).on("change","#input_imgs",function(){
-			for(i =0; i<$(this)[0].files.length; i++){
-				filecontent = $(this)[0].files[i];
-				filename = Date.now() + "_" + $(this)[0].files[i].name;
+				filecontent = $(this)[0].files[0];
+				filename = Date.now() + "_" + $(this)[0].files[0].name;
 				data.append("files", filecontent);
 				data.append("filename", filename);			
-				dbfilename += filename +",";
-			}
 		}); 
 		$(document).on("submit", "#imgform", function(){
+			var zizi = $(this).children().children().children('.before_img').text();
+			if(zizi=='삭제'){
+				Swal.fire("","저장된 사진이 존재합니다","info");
+				return false;
+			}
 			img_index = 0;
 
 			if(filecontent != null){
-				data.append("purpose", "keep");
+				data.append("purpose", "mending");
 				
-				$("#input_imgs2").val(dbfilename);
+				$("#input_imgs2").val(filename);
 				$.ajax({
 					type: "POST",
 		            enctype: 'multipart/form-data',
@@ -509,7 +537,7 @@
 				});
 			}
 			else{
-				alert("선택된 파일이 없습니다.")
+				Swal.fire("","선택된 파일이 없습니다.","info");
 				event.preventDefault();
 			}
 			filecontent = null;
@@ -620,7 +648,7 @@
 			</div>
 		</div>
 
-		<form id="imgform" action=".././keepImg.do" method="post" enctype="multipart/form-data">
+		<form id="imgform" action=".././MendingImg.do" method="post" enctype="multipart/form-data">
 			<div class="popup_img_back">
 				<div class="popup_img">
 					<h2>등록된 사진</h2>
@@ -630,9 +658,10 @@
 					<hr />
 					<h2>업로드할 사진</h2>
 					<div class="input_wrap">
-						<input type="file" id="input_imgs" accept="image/*" multiple />
-						<input type="hidden" name="keep_path" id="input_imgs2">
+						<input type="file" id="input_imgs" accept="image/*" />
+						<input type="hidden" name="repair_file" id="input_imgs2">
 						<input type="hidden" name="order_num" value="" id="input_order_num">
+						<input type="hidden" name="repair_code" value="" id="input_repair_code">
 					</div>
 					<div class="imgs_wrap">
 						

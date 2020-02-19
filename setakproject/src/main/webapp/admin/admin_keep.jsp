@@ -8,6 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/admin_keep.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -126,7 +128,7 @@
 	            popup_keep_kind = document.getElementsByClassName('keep-list tab_active');
 	            
 	            if(!$(".keep-list").hasClass("tab_active")){
-					alert("종류를 선택하지 않았습니다.");
+	            	Swal.fire("","종류를 선택하지 않았습니다.","info");
 					return false;
 				}
 	            
@@ -282,7 +284,7 @@
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(retVal) {
 						if(retVal.res == "OK"){
-							alert("삭제되었습니다.");
+							Swal.fire("","삭제되었습니다.","success");
 							$('.keep_list').empty();
 							selectData();
 						} else {
@@ -422,7 +424,7 @@
 						dataType:"text",
 						contentType:'application/x-www-form-urlencoded; charset=utf-8',
 						success:function(data) {
-							console.log("이미지 삭제 성공")
+							
 						},
 						error: function (e) {
 		                	alert("이미지 클라우드 삭제 실패!!")
@@ -431,7 +433,7 @@
 					});
 				},
                 error: function (e) {
-                	alert("이미지 디비삭제 실패!!")
+                	alert("이미지삭제 실패!!");
                 	console.log(e);
 				}
 			});
@@ -452,7 +454,7 @@
 			
 			filesArr.forEach(function(f){
 				if(!f.type.match("image.*")){
-					alert("확장자는 이미지 확장자만 가능합니다.");
+					Swal.fire("","이미지 확장자만 가능합니다.","info");
 					return;
 				}
 				sel_files.push(f);
@@ -515,7 +517,7 @@
 				});
 			}
 			else{
-				alert("선택된 파일이 없습니다.")
+				Swal.fire("","선택된 파일이 없습니다.","info");
 				event.preventDefault();
 			}
 			filecontent = null;

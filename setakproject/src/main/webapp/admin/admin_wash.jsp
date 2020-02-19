@@ -8,6 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/admin_wash.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<!--sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결
@@ -119,7 +121,7 @@
 	            popup_wash_kind = document.getElementsByClassName('wash-list tab_active');
 	            
 	            if(!$(".wash-list").hasClass("tab_active")){
-					alert("종류를 선택하지 않았습니다.");
+	            	Swal.fire("","종류를 선택하지 않았습니다.","info");
 					return false;
 				}
 	            
@@ -272,7 +274,7 @@
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(retVal) {
 						if(retVal.res == "OK"){
-							alert("삭제되었습니다.");
+							Swal.fire("","삭제되었습니다.","success");
 							$('.wash_list').empty();
 							selectData();
 						} else {
