@@ -128,6 +128,11 @@
 			select * from member where member_id = #{member_id}
 	</select>
 	
+	
+	<update id="updateReview" parameterType="java.util.HashMap">
+		update memberorder set review_chk = #{review_chk} where order_num=#{order_num}
+	</update>
+	
 	<update id="updateKeepMonth" parameterType="java.util.HashMap" >
 		update keep set keep_end=TO_DATE(#{keep_end}, 'YY/MM/DD'), keep_now=#{keep_now} 
 		where keep_seq in (select keep_seq from orderlist where order_num = #{order_num})and not keep_seq = 0

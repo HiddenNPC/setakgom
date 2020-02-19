@@ -222,6 +222,7 @@
 	    	  var select_btn = $(this);
 		      payDate = select_btn.parent().parent().children().eq(3).text();
 	         
+		      /*리뷰버튼 클릭*/
 		      var login_id="<%=session.getAttribute("member_id")%>";      
 	          
 	          if(!(login_id=="null"))
@@ -266,7 +267,7 @@
 				type:'post',
 				data : {
 					'member_id' : "<%=session.getAttribute("member_id") %>",
-	    			 'his_date' : payDate
+	    			'his_date' : payDate
 				},
 				dataType:'json',
     			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
@@ -608,8 +609,7 @@
                                         <option value="정기구독">정기구독</option>
                                    </select></td>
                               <td align="right"  colspan="4">
-                              	<input type="hidden" name="date" value="" >
-                                 <input class="cbtn" type="submit" name="submit" id="review-submit" value="등록" >      
+                                 <input class="cbtn" type="submit" name="submit" value="등록" >      
                                  <input class="cbtn" type="button" value="취소" onclick="rwcancel()"/></td>    
                            </tr></table>
                         </form>

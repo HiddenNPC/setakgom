@@ -156,6 +156,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				
 				
 				$.ajax({
+					
 					url:'/setak/admin/deleteCoupon.do',
 					type:'POST',
 					data : {
