@@ -10,7 +10,16 @@
    /*아래의 width로 파란 줄 길이 조절 가능*/
     .title-text h2:before { content:''; display: block; width:50%; height: 6px;
       background-color: #3498db; margin-bottom: 6px; vertical-align: middle; }
-	
+	 
+	 small{ font-size: 0.9rem;
+	    color: #aa9fa7;
+	    line-height: 22px;
+	    font-family: inherit;
+	    position: absolute;
+	    top: 55%;
+	    right: 43.9%;
+	    font-weight: bold;}	
+	    
 	a { text-decoration:none; }
 	a:link { color: #444; text-decoration: none;}
 	a:visited { color: #444; text-decoration: none;}		
@@ -40,16 +49,26 @@
 		font-family: inherit; cursor: pointer;}
 	/* 모바일 */
 	@media screen and (max-width:768px) {
+	 small{ font-size: 0.9rem;
+	    color: #aa9fa7;
+	    line-height: 22px;
+	    font-family: inherit;
+	    position: absolute;
+	    top: 98%;
+	    right: 42.9%;
+	    font-weight: bold;}	
+	
 	.content{
 		width:95%;
 		margin:0 2.5%;			
 	}
 	
-	#no_title{ text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: normal;
-    width: 250px;
-    overflow: hidden;
+	#no_title{ 
+		text-overflow: ellipsis;
+	    white-space: nowrap;
+	    word-wrap: normal;
+	    width: 98%;
+	    overflow: hidden;
     }
 	
 	#no_date {width: 70px;}
@@ -69,21 +88,46 @@
 	a { text-decoration:none;  }
 	a:link { color: #444; text-decoration: none;}
 	a:visited { color: #444; text-decoration: none;}		
-	.notice { font-size:0.4rem; font-weight:bold; padding-top:150px;}
+	.notice {font-size: 0.6rem;
+    font-weight: bold;
+    padding-top: 150px;}
 		
-	.nlt1 { background-color:#3498db; color:#fff; width:100%; margin:auto;}	
+	.nlt1 { 
+		height: 98%;
+	    width: 98%;
+	    margin: auto;
+	    border-top: 3px solid #3498db;
+	    border-collapse: collapse;
+	    color: #fff;
+	}	
+	
 	.nlt1 tr{ margin: auto; height: 45px; /* valign="middle" */
 	}
 	
-	.nlt2 { margin:auto; 
-		color:#444; width:100%; border-bottom :1px solid #e1e4e4; 
+	.nlt2 { margin: auto;
+	    color: #444;
+	    width: 98%;
+	    border-bottom: 1px solid #e1e4e4;
 	}			
 	.nlt2 td a { padding:5px; text-overflow:ellipsis; }
 	.nlt3 { margin: auto; color:#444; width:100%; }
    
-   	.nvt1 { color:#444; height:450px; width:100%; margin:auto; border-top: 3px solid #3498db;  border-collapse: collapse; }   
-	.nvt1 tr td { padding:10px;  border-bottom:1px solid #e1e4e4;    }	
-	.nvt2 { border-top: 3px solid #3498db; width:100%; margin:auto; padding-top:20px; color:#444;}
+   	.nvt1 {
+	   	color: #444;
+	    height: 95%;
+	    width: 95%;
+	    margin: auto;
+	    border-top: 2px solid #3498db;
+	    border-collapse: collapse;   	  
+   	   }   
+	.nvt1 tr td {  border-bottom:1px solid #e1e4e4; width: 95%; }	
+	.nvt2 { 
+		border-top: 2px solid #3498db;
+	    width: 95%;
+	    margin: auto;
+	    padding-top: 20px;
+	    color: #444;	
+	}
 	.nvc {     line-height: 25px;
     text-align: -webkit-match-parent;
     vertical-align: baseline; }
@@ -93,210 +137,7 @@
 		border-top-right-radius: 5px; border-bottom-right-radius: 5px;
 		border: none; outline: none; margin: 3px;
 		font-family: inherit; cursor: pointer;}
-	
-	
 
-	/*header*/
-	header{
-		width:100%;
-		position:fixed;
-		z-index:999;
-	}
-	.logo_a:hover:after{
-		display: none;
-	}
-	.nav_open{
-		display:block;
-		width:100%;
-		background-color:#fff;
-		height:50px;
-		position:fixed;
-		bottom:0;
-		border-top:1px solid #3498db;
-		z-index:999;
-	}
-	.nav_open div{
-		display:flex;
-		justify-content:space-between;
-	}
-	.nav_open div a{
-		text-align:center;
-		width:100%;
-	}
-	.nav_open i{
-		font-size:1.6rem;
-		color:#777;
-		line-height:50px;
-	}
-	.nav_close i{
-		color:#fff;
-		right:18px;
-		font-size:2.3rem;
-		top:11px;
-		position:fixed;
-		z-index:1000;
-	}
-	nav{
-		background-color:#3498dbde;
-		height:100vh;
-		width:100%;
-		box-shadow: none;
-		transition: all .2s;
-		display:none;
-	}
-	nav .content{
-		padding:0 30px;
-		box-sizing:border-box;
-	}
-	nav a{
-		color:#fff;
-	}
-	nav a:after {
-		content: '';
-		display: block;
-		width: 0%;
-		height: 3px;
-		background-color: #3498db;
-		margin-top: -8px;
-	}
-	nav a:hover:after {
-		width: 0%;
-		transition: all .5s;
-	}
-	.sub-nav>li:last-child>a:hover:after {
-		width: 0%;
-	}
-	.shrink{
-		height:110px;
-	}
-	.logo{
-		padding-top:10px;
-		display:none;
-	}
-	.logo li img{
-		width :105px;
-	}
-	.logo2{
-		padding-top:15px;
-	}
-	.logo2 li img{
-		width :105px;
-		display:none;
-	}
-	.main-nav{
-		display:none;
-        float:right;
-		margin-right:20px;
-		margin-top:15px;
-		height:50px;
-		line-height:50px;
-	}
-	.main-nav li{
-		padding-left:20px;
-		font-size:1rem;
-		font-weight:bold;
-	}
-	.sub-nav{
-		float:none;
-		margin-top:65px;
-		margin-right:0px;
-		height:60px;
-		line-height:60px;
-		width:100%;
-	}
-	.sub-nav li{
-		box-sizing:border-box;
-		padding-left:10px;
-		font-weight:bold;   
-		font-size:1.3rem;
-		position:relative;
-		display:block;
-		width:100%;
-	}
-	.sub-nav li div{
-		display:block;
-	}
-	.sub-nav-sub{
-		display:none;
-		position:absolute;
-		border-top:1px solid #fff;
-		background-color: transparent;
-		border-radius:5px;
-		border-top-left-radius:0px;
-		border-top-right-radius:0px;
-		width:100%;
-		margin-left:-10px;
-        padding:0px 0px;
-	}
-	.sub-nav-sub li{
-		display:block;
-		padding-left:0px;
-	}
-	.sub-nav-sub li a {
-		display:block;
-		font-size:1.1rem;
-		text-align:left;
-		color:#fff;
-		line-height:50px;
-		padding-left:25px;
-   }
-   .sub-nav-sub li a:after{
-      content:'';
-      display:block;
-      width:0%;
-      height:3px;
-      background-color: #fff;
-      margin-bottom:-3px;
-   }
-	.sub-nav-sub li a:hover {
-		font-size:1.05rem;
-		color:#fff;
-		transition: all .5s;
-	}
-    .sub-nav-sub li a:hover:after{
- 		width:100%;
-        transition: all .8s;
-    }
-    .header_space{
-		height:50px;
-	}
-    
-/* footer */
-	footer{
-		margin-top:80px;
-		height:300px;
-		background-color:#444;
-		color:#ddd;
-	}
-	footer ul{
-		display:flex;
-		justify-content: space-between;
-		padding:65px 0 10px;
-	}
-	footer ul li{
-		font-size:0.9rem;
-		padding:0 10px;		
-	}
-	footer ul li a{
-		color:#ddd;
-	}
-	footer ul li:nth-child(1){
-		font-weight:bold;
-	}
-	footer ul li i{
-		font-size:1.9rem;
-		padding:0 5px;
-		margin-top:-8px;
-		cursor:pointer;
-	}
-	footer hr{
-		border-color:#aaa;
-		margin-top:0px;
-	}
-	footer p{
-		font-size:0.7rem;
-		padding:3px 10px;
-	}
 }
 		
 		
