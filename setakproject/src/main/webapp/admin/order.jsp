@@ -526,16 +526,16 @@
 				    endp = numPages;
 				}
 				
-				// [처음]
-				$('<br /><span class="page-number" style = "cursor: pointer"><img src="https://img.icons8.com/ultraviolet/20/000000/double-left.png"></span>').bind('click', {newPage: page},function(event) {
+				// [<<]
+				$('<br /><span class = "page-number" cursor: "pointer"><<</span>').bind('click', {newPage: page},function(event) {
 					currentPage = 0;   
 				    $table.trigger('repaginate');  
 				    $($(".page-number")[2]).addClass('pageClick').siblings().removeClass('pageClick');
 				    $("html, body").animate({ scrollTop : 0 }, 500);
 				}).appendTo($pager).addClass('clickable');
 				
-				// [이전]
-				$('<span class="page-number" style = "cursor: pointer">&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/back.png">&nbsp;</span>').bind('click', {newPage: page},function(event) {
+				// [<]
+				$('<span class="page-number" cursor: "pointer"><</span>').bind('click', {newPage: page},function(event) {
 				    if(currentPage == 0) return; 
 				    currentPage = currentPage-1;
 				    $table.trigger('repaginate'); 
@@ -545,7 +545,7 @@
 				
 				// [1,2,3,4,5,6,7,8]
 				for (var page = nowp ; page < endp; page++) {
-					$('<span class="page-number" style="margin-left: 8px; cursor: pointer;"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
+					$('<span class="page-number" cursor: "pointer"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
 				    currentPage = event.data['newPage'];
 				    $table.trigger('repaginate');
 				    $($(".page-number")[(currentPage-nowp)+2]).addClass('pageClick').siblings().removeClass('pageClick');
@@ -554,7 +554,7 @@
 				} 
 				
 				// [다음]
-				$('<span class="page-number" style = "cursor: pointer">&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/forward.png">&nbsp;</span>').bind('click', {newPage: page},function(event) {
+				$('<span class="page-number" cursor: "pointer">></span>').bind('click', {newPage: page},function(event) {
 				    if(currentPage == numPages-1) return;
 				    currentPage = currentPage+1;
 				    $table.trigger('repaginate'); 
@@ -563,7 +563,7 @@
 				}).appendTo($pager).addClass('clickable');
 				
 				// [끝]
-				$('<span class="page-number" style = "cursor: pointer">&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/double-right.png"></span>').bind('click', {newPage: page},function(event) {
+				$('<span class="page-number" cursor: "pointer">>></span>').bind('click', {newPage: page},function(event) {
 				    currentPage = numPages-1;
 				    $table.trigger('repaginate');
 				    $($(".page-number")[endp-nowp+1]).addClass('pageClick').siblings().removeClass('pageClick');

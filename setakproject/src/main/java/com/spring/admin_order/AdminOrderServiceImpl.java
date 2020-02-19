@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.community.QnaVO;
 import com.spring.mapper.AddressMapper;
 import com.spring.mapper.Admin_order;
 import com.spring.order.AddressVO;
@@ -146,6 +147,19 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		}
 		
 		return cnt; 
+	}
+
+	@Override
+	public ArrayList<QnaVO> getQnAList() {
+		ArrayList<QnaVO> qnaList = null;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			qnaList = adminOrderMapper.getQnAList();
+		} catch(Exception e) {
+			System.out.println("전체 주문 검색 실패" + e.getMessage());
+		}
+		
+		return qnaList;
 	}
 
 

@@ -22,6 +22,13 @@
 		<result property="order_muid" column="order_muid" />
 	</resultMap>
 	
+	<resultMap type="com.spring.community.QnaVO" id="QnaResultMap">	
+		<result property="qna_num" column="qna_num" />
+		<result property="qna_type" column="qna_type" />
+		<result property="qna_title" column="qna_title" />
+		<result property="qna_date" column="qna_date" />
+	</resultMap>
+	
 	<!-- 전체 주문 테이블  : 시간 역순 -->
 	<select id = "getOrderList" resultMap = "OrderResultMap">
 		select order_num, member_id, order_name, order_price, order_date, order_delicode, order_status from memberorder order by order_date desc
@@ -109,5 +116,12 @@
 		from memberorder
 		where <![CDATA[(order_date > #{startDate} and order_date < #{endDate} or order_date like #{endDate}||'%')]]>
 	</select>
+	
+	<!-- 미답변 Q&A 목록-->
+	<select id = "getQnAList" resultMap="QnaResultMap">
+		<![CDATA[select * from (select rownum rnum, qna_type, qna_title, qna_date from qna 
+		where qna_check = '답변대기' order by qna_date desc) 
+		where rnum >= 1 and rnum <= 5]]>	
+	</select>	
 
 </mapper>
