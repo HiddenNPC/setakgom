@@ -100,8 +100,7 @@ public class CommentController
 	@RequestMapping(value="admin/ad_commentList.do", produces="application/json; charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody public List<CommentVO> ad_commentList(CommentVO vo) 
 	{	
-		List<CommentVO> list = commentService.ad_commentList(vo);
-		
+		List<CommentVO> list = commentService.ad_commentList(vo);	
 		return list;
 
 	}

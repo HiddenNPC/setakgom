@@ -124,7 +124,6 @@
 		width:inherit;
 		text-align:center;
 		background:none;
-		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
 	}
@@ -132,33 +131,27 @@
 		width:inherit;
 		text-align:center;
 		background:none;
-		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
 	}
 	.qna_type{
 		width:inherit;
-		/* text-align:center; */
 		background:none;
-		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
-		/* margin: 10px; */
+		
 	}
 	.order_num{
 		width:inherit;
 		text-align:center;
 		background:none;
-		/* background: #e1e4e4; */
 		border:0px;
 		color:#444;
 	}
 	.qna_title{
 		width:inherit;
 		cursor:pointer;
-		/* text-align:center; */
 		background:none;
-		/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
 		text-overflow: ellipsis;
@@ -166,13 +159,9 @@
 		word-wrap: normal;
 		overflow: hidden;
 	}
-	.qna_content{
-		cursor:pointer;
-		/* padding-left:10px; */
-		width:inherit;
-		/* text-align:left; */
-		background:none;
-		/*  background: #e1e4e4; */
+	.qna_content{		
+		width:inherit;		
+		background:none;		
 		border:0px;
 		color:#444;
 		text-overflow: ellipsis;
@@ -223,39 +212,72 @@
     	/* padding:5px 0 5px 10px; */
     	color:#444;
     }
-  
-	   
-	   /*
-		$(this).parent().parent().after('<ul id="a-q-rinsertform">'+
-		'<li>글번호:<input id="a-q-rnum" type="text" disabled="disabled" value="">'+
-		'내용:<textarea id="a-q-rcontent" value=""></textarea><input id="a-q-rinsert" qna_check="답변 완료" type="button" value="등록"></li></ul>');								
-		//$(this).parent().parent().siblings('#a-q-rinsertform').detach();
-		//$(this).parent().parent().parent().prevUntil('#a-q-rinsertform').detach();
-		//$(this).parent().parent().nextAll('#a-q-rinsertform').detach();
-		//$(this).parent().parent().prevUntil('#a-q-rinsertform').detach(); */ 
+   
 	   
 	   #a-q-r-t{
-	   width:1200px;
-	   
-	   
+		width: 1200px;
+	    height: 350px;
+	    margin-top: 12px;
+	    margin-bottom: 12px;
+	    border: 1px solid #3498bd; 
+	    padding: 15px;
 	   }
 	   
-	   .r-member_id{ vertical-align:top;
 	   
-	   }
 	   .r-member_id {
-	   margin: 2px;
+	    margin: 2px;
+	    background:none;
+   		border : none;
+   		width:100px;
+   		border:1px solid #e1e4e4;
+   		padding: 3px;
 	   }
 	   
 	   .r-qna_content {
 	    margin: 2px;
-    	width: 798px;
+    	width: 700px;
    		height: 50px;
+   		background:none;
+   		border : 1px solid #e1e4e4;
+	   	padding: 3px;
+	   }
+	   #a-q-view tr td{
+	   vertical-align: top;
 	   
 	   }
+	   .comment_con{
+	    width: 400px;
+	    height: 160px;
+	    border: 1px solid #e1e4e4;
+	    padding: 3px;
+	    margin-left: 55px;
 	   
+	   }
+	   .qna_title2{
+	   width:350px;
+	   border:1px solid #e1e4e4;
+	   padding: 3px;
+	   }
+	   
+	   .qna_content2{
+	   width:400px; height:160px;
+	   border:1px solid #e1e4e4;
+	   padding: 3px;
+	   }
+	   
+	   #t1{ position: absolute; margin-left: 9px;}
+	   
+	   #a-q-r-list {
+	   
+	   }
+	   #a-q-r-list tr td span{
+	   vertical-align: top;
+	   padding-right: 10px;
+	   }
+	  
 	   .a-q-rinsert {   
 	   margin: 2px;
+	   margin-right: 80px;
 	   }
 	   .a-q-rupdate {   
 	   margin: 2px;
@@ -265,9 +287,19 @@
 	   }
 	   
 	   
-	   
-	   
-	   
+	  /*  //$(this).parent().parent().siblings().children().children('.r-qna_seq').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().parent().siblings().children().children('.r-qna_num').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().parent().siblings().children().children('.r-qna_content').attr('disabled',true).css({'background':'none', 'border' : 'none'});		
+		//$(this).parent().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+	//$(this).parent().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().prev().prev().prev().children().attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().parent().siblings().children().children('.r-qna_seq').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().parent().siblings().children().children('.r-qna_num').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().parent().siblings().children().children('.r-qna_content').attr('disabled',true).css({'background':'none', 'border' : 'none'});
+		//$(this).parent().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
+		//$(this).parent().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});
+		//$(this).parent().prev().prev().prev().children().attr('disabled',false).css({'background':'#e1e4e4', 'border' : '1px solid #444'});															
+						 */
 	   
 	   
 	   
