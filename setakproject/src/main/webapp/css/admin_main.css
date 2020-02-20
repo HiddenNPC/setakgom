@@ -128,6 +128,32 @@ span:hover + p.arrow_box {
   display: block;
 }
 
+/*오늘 날씨*/
+.today-div {
+    padding : 30px 0px;
+}
+
+.today-weather {
+	width : 100px;
+	margin : 0 auto;
+}
+
+.today-content {
+	text-align : center;
+}
+
+.today-content p.temp{
+	font-size : 2.5rem;
+	font-weight : bold;
+	margin-top : 15px;
+	margin-bottom : 5px;
+}
+
+.today-content p.tempText {
+	color : #909090;
+	margin-top : 10px;
+}
+
 
 /*정기구독*/
 #content-div ul.body-ul li:nth-child(2) div.body-content{

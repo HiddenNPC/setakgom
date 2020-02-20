@@ -5,6 +5,9 @@
 	int orderSum= (int)request.getAttribute("orderSum"); 
 	int subPercent= (int)request.getAttribute("subPercent"); 
 
+	String temp = (String)request.getAttribute("temp");
+	String tempText = (String)request.getAttribute("tempText");
+	
 	int[] subArr = (int[])request.getAttribute("subArr");
 	int[] sub2Arr = (int[])request.getAttribute("sub2Arr"); 
 	
@@ -376,6 +379,25 @@
 					<h3>오늘의 날씨</h3>
 				</div>
 				<div class = "body-content">
+					<div class = "today-div">
+						<div class = "today-weather">
+							<% 
+								String[] weatherArr = tempText.split(",");
+								String weather = weatherArr[0];
+								System.out.println("weather : " + weather);
+								
+								if(weather.equals("맑음")) {
+							%>
+							<img src="https://img.icons8.com/dusk/100/000000/sun.png">
+							<%} else { %>
+							<img src="https://img.icons8.com/dusk/100/000000/rain.png">
+							<% } %>
+						</div>
+						<div class = "today-content">
+							<p class = "temp"><%=temp %>℃</p>
+							<p class = "tempText"><%=tempText %></p>
+						</div>
+					</div>
 				</div>
 			</li>
 			<li>
@@ -476,8 +498,7 @@
 					</div>
 				</div>
 				<div class = "body-content">
-					1주일 내에 정기구독 해지되는 회원이 5명 있습니다. <br/>
-					탈퇴 신청한 회원이 6명있습니다.
+					
 				</div>
 			</li>
 		</ul>
