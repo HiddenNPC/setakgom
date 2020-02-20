@@ -95,7 +95,6 @@
 							<tbody align="center">
 								
 								<%
-								System.out.println("size : " + couponlist.size());
 								for(int i=0; i<couponlist.size(); i++){ 
 									CouponVO cvo = (CouponVO)couponlist.get(i);
 								
