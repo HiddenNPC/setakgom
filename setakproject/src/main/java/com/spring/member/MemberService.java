@@ -12,6 +12,7 @@ public interface MemberService {
 	
 	//비밀번호 확인
 	public int member_password(MemberVO mo);
+	public int member_password2(HashMap<String, Object> map);
 	
 	// 회원정보 출력
 	public MemberVO member_list(MemberVO mo);

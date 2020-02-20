@@ -65,23 +65,31 @@ public class LoginController {
 		
 /* 일반로그인 */
 		@RequestMapping(value="/loginpro.do",produces = "application/json; charset=utf-8")
-		public String loginpro(HttpSession session, MemberVO mo, HttpServletResponse response, String backurl) throws Exception  {
+		@ResponseBody 
+		 public Map<String, Object> loginpro(String member_id, String member_password, String backurl2, HttpSession session) throws Exception  {
 			
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter writer = response.getWriter();
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("member_id", member_id);
+			map.put("member_password", member_password);
 			
-			 int res = memberservice.member_password(mo);
+			MemberVO vo  = new MemberVO ();
+			vo = memberservice.name(member_id);
 			
-			 if(res == 1) {
-				 session.setAttribute("member_id", mo.getMember_id());
-				 writer.write("<script>  location.href='"+backurl+"'; </script>");
-			 } else {
-				 writer.write("<script>alert('로그인 실패!! 아이디와 비밀번호를 확인해주세요'); location.href='javascript:history.back()';</script>");
-			 }
-			 
-			 return null;
-			}
+			Map<String, Object> result = new HashMap<String, Object>();
+			int res = memberservice.member_password2(map);
+			
+				if(res==1) {
+					result.put("res", "OK");
+					result.put("backurl", backurl2);
+					session.setAttribute("member_name", vo.getMember_name());
+					session.setAttribute("member_id", member_id);
+				} else {
+					result.put("res", "FAIL");
+					result.put("message", "Failure");
+				}
+			return result;
+	    	
+	    }
 
 	/*네이버 로그인 연동 */
 	@RequestMapping(value = "/naver",produces="application/json", method= {RequestMethod.GET, RequestMethod.POST})
@@ -128,7 +136,7 @@ public class LoginController {
 
 		int res = memberservice.member_id(mo);
 		if (res == 1) { // DB에 id가 있는경우
-			session.setAttribute("name", name);
+			session.setAttribute("member_name", name);
 			session.setAttribute("member_id", id);
 			System.out.println("네이버아이디로 로그인" + id);
 			return "redirect:/";
@@ -141,7 +149,7 @@ public class LoginController {
 
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { // 이미 네이버로 로그인 한 경우
-				session.setAttribute("name", name);
+				session.setAttribute("member_name", name);
 				session.setAttribute("member_id", id);
 				System.out.println("네이버아이디로 로그인" + id);
 				
@@ -195,7 +203,7 @@ public class LoginController {
 
 		int res = memberservice.member_id(mo);
 		if (res == 1) { // DB에 id확인
-			session.setAttribute("name", nickname);
+			session.setAttribute("member_name", nickname);
 			session.setAttribute("member_id", id);
 			System.out.println("카카오아이디로 로그인 "+id);
 
@@ -207,7 +215,7 @@ public class LoginController {
 			
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { // 이미 카카오로 회원가입 경우
-				session.setAttribute("name", nickname);
+				session.setAttribute("member_name", nickname);
 				session.setAttribute("member_id", id);
 				System.out.println("카카오아이디로 로그인 "+id);
 			} else {
@@ -233,7 +241,7 @@ public class LoginController {
 		int res = memberservice.member_id(mo); 
 		if (res == 1 ) { // DB에 id가 있어요
 			result.put("res", "OK");
-			session.setAttribute("name", g_name);
+			session.setAttribute("member_name", g_name);
 			session.setAttribute("member_id", g_id);
 			System.out.println("구글아이디로 로그인"+g_id);
 
@@ -246,7 +254,7 @@ public class LoginController {
 			int res2 = memberservice.linkage(mo);
 			if (res2 == 1) { 
 				result.put("res", "OK");
-				session.setAttribute("name",  g_name);
+				session.setAttribute("member_name",  g_name);
 				session.setAttribute("member_id", g_id);
 				System.out.println("구글아이디로 로그인"+g_id);
 				
@@ -264,7 +272,7 @@ public class LoginController {
 	public String logout(HttpSession session, MemberVO mo) throws Exception {
 
 		session.removeAttribute("member_id");
-		session.removeAttribute("name");
+		session.removeAttribute("member_name");
 		return "redirect:login.do";
 		
 	}

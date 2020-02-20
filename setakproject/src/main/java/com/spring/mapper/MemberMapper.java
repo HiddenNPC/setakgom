@@ -14,6 +14,7 @@ public interface MemberMapper {
 	
 	//비밀번호 확인
 	String member_password(MemberVO mo);
+	String member_password2(HashMap<String, Object> map);
 	
 	// 회원정보 출력
 	MemberVO member_list(MemberVO mo);
