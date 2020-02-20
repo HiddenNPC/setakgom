@@ -274,7 +274,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			});
 		}
 		
-		
 		//검색
 		function searchCoupon() {
 			
