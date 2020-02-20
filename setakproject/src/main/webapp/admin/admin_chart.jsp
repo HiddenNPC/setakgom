@@ -38,13 +38,16 @@
 	<script src='./chart/tui-chart.js'></script>
 	
 	<style>
+	.content h3 {
+		margin: 50px 0 20px 0;
+	}
 	#jschart{
-		margin-top:40px;
+		margin-top:10px;
 		width:75%;
 	}
 	
 	#chart-area{
-		margin:90px auto;
+		margin:10px auto;
 	}
 	</style>	
 </head>
@@ -52,9 +55,11 @@
 <body>
 	<div id="admin"></div>
 	<div class="content">
+		<h3>하루 단위 세수보 그래프</h3>
 		<div id="jschart">
 			<canvas id="canvas"></canvas>
 		</div>
+		<h3> 월 단위 세수보 그래프</h3>
 		 <div id="chart-area"></div>
 	</div><!-- 지우지마세요 -->
 	
@@ -100,7 +105,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: '일별 주문 상태 변화'
+						text: ' '
 					},
 					tooltips: {
 						mode: 'index',
@@ -159,7 +164,7 @@
 		    chart: {
 		        width: 1100,
 		        height: 300,
-		        title: '한달 별 주문 상태 변화 그래프',
+		        title: ' ',
 		        'format': '1'
 		    },
 		    yAxis: {

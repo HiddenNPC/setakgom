@@ -29,6 +29,9 @@
 
 	
 	<style>
+	.content h3 {
+		padding: 50px 0 30px 0;
+	}
 	#chartdiv {
  	 width: 80%;
  	 height: 500px;
@@ -39,6 +42,7 @@
 <body>
 	<div id="admin"></div>
 	<div class="content">
+		<h3>수익 그래프</h3>
 		<div id="chartdiv"></div>
 	</div><!-- 지우지마세요 -->
 	
