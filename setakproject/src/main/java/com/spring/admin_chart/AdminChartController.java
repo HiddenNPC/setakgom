@@ -2,8 +2,8 @@ package com.spring.admin_chart;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,8 +20,9 @@ public class AdminChartController {
 	@Autowired
 	private AdminChartService adminchartService; 
 	
+	/*세탁, 수선, 보관 그래프*/
 	@RequestMapping(value = "/admin/adminChart.do")
-	public String adminOrder(Model model) {
+	public String adminChart(Model model) {
 	
 		/*하루당 세탁, 수선, 보관 그래프*/
 	      Calendar cal = Calendar.getInstance();
@@ -142,5 +143,65 @@ public class AdminChartController {
 			return "/admin/admin_chart";
 		}
 		
+	// 수익 그래프
+	@RequestMapping(value = "/admin/adminChart2.do")
+	public String adminChart2 (Model model) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		LocalDate basic = LocalDate.of(2020, 1, 28);
+		LocalDate now = LocalDate.now();
+		
+		int a = (int)ChronoUnit.DAYS.between(basic, now);
+		
+		String[] profit_dateArr = new String[a];
+		String[] dateArr2 = new String[a];
+		
+		//세수보 수익금액
+		int[] ssbResultArr = new int[a];
+		int ssbResult = 0;
+		
+		//정기결제 수익금액
+		int[] subResultArr = new int[a];
+		int subResult = 0;
+		
+		//총 수익금액
+		int[] totalArr = new int[a];
+		int total = 0;
+		
+		for(int i = 0; i < a ; i++) {
+			
+			basic.plusDays(i);
+			String c = basic.plusDays(i).toString().substring(2).replace("-","/");
+			
+			profit_dateArr[i] = c;
+			map.put("order_date", profit_dateArr[i]);
+			map.put("his_date", profit_dateArr[i]);
+
+			String d = basic.plusDays(i).toString();
+			dateArr2[i] = d;
+			
+			//세수보 수익금액
+			ssbResult = adminchartService.profit_ssb(map);
+			ssbResultArr[i] += ssbResult; 
+			
+			//정기결제 수익금액
+			subResult = adminchartService.profit_sub(map);
+			subResultArr[i] += subResult; 
+			
+			total = ssbResult + subResult;
+			totalArr[i] += total; 
+			//System.out.println(i+":날짜 " +d+ ": 세수보"+ssbResult+" + 정기결제"+subResult+"="+total);
+		}
+		model.addAttribute("num", a);
+		model.addAttribute("dateArr2", dateArr2);
+		
+		model.addAttribute("ssbResultArr", ssbResultArr);
+		model.addAttribute("subResultArr", subResultArr);
+		
+		model.addAttribute("totalArr", totalArr);
+		
+		return "/admin/admin_chart2";
+	}
 
 }

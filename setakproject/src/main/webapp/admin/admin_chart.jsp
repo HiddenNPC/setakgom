@@ -15,7 +15,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>세탁곰 기타주문관리</title>
+	<title>세탁곰 관리자페이지</title>
+	<link rel="shortcut icon" href="../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -57,7 +58,7 @@
 		 <div id="chart-area"></div>
 	</div><!-- 지우지마세요 -->
 	
-<script type="text/javascript" class='code-js' id='code-js'>
+	<script type="text/javascript" class='code-js' id='code-js'>
 	
 		//헤더, 푸터연결
 		$("#admin").load("./admin.jsp")
@@ -166,7 +167,7 @@
 		    },
 		    xAxis: {
 		        title: '양',
-		        max: 110
+		        max: 180
 		    },
 		    series: {
 		        stackType: 'normal'

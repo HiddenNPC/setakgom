@@ -15,7 +15,8 @@
 		<result property="repair_seq" column="repair_seq" />
 		<result property="keep_seq" column="keep_seq" />		
 	</resultMap>
-	
+
+<!-- 세탁, 수선, 보관 그래프 -->	
 	<!-- 세탁건수-하루단위 -->
 	<select id="wash_count" parameterType = "java.util.HashMap" resultType="int" >
 		SELECT count (wash_seq) 
@@ -76,4 +77,18 @@
               and keep_seq not like '0'
 	</select>				
 	
+<!-- 수익 그래프-->
+	<!-- 세탁, 수선, 보관 수익금액 -->
+	<select id="profit_ssb" parameterType = "java.util.HashMap" resultType="Integer" >
+		SELECT sum(order_price)
+		FROM memberorder
+		WHERE order_date like #{order_date, jdbcType=VARCHAR}||'%'
+	</select>
+	
+	<!-- 정기결제 수익금액 -->
+	<select id="profit_sub" parameterType = "java.util.HashMap" resultType="Integer" >
+		SELECT sum(his_price)
+		FROM subs_history
+		WHERE trunc(his_date) = #{his_date, jdbcType=VARCHAR} 
+	</select>
 </mapper>
