@@ -421,7 +421,7 @@
 			}
 		});
 	</script>
-	<!-- <div id="frogue-container" class="position-right-bottom"
+	<div id="frogue-container" class="position-right-bottom"
       data-chatbot="f5f4d84c-cc74-490c-96b2-6b2994010204"
       data-user="setakgom"
       data-init-key="value"
@@ -434,6 +434,6 @@
 	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
 	    fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'frogue-embed')); 
-	</script> -->
+	</script>
 </body>
 </html>
