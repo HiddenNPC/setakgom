@@ -19,7 +19,7 @@ public interface MypageMapper {
 	int selectMykeep(long order_num);
 	KeepVO getKeepSeq(int keep_seq);
 	OrderVO selectOrder(long order_num);
-	int getOrdercount();
+	int getOrdercount(String member_id);
 	String selectOrderId(String member_id);
 	ArrayList<MendingVO> selectMending(long order_num);
 	ArrayList<KeepVO> selectKeep(long order_num);
@@ -38,5 +38,8 @@ public interface MypageMapper {
 	ArrayList<KeepPhotoVO> selectPhoto(long order_num);
 	
 	int updateReview(HashMap<String, Object> map);
+	
+	//qna
+	int getQnaCount(String member_id);
 
 }
