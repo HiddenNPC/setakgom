@@ -17,7 +17,8 @@
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<title>세탁곰 공지사항</title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/notice.css"/>
@@ -34,14 +35,14 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="notice">
 <div class="content">
-<div class="title-text"><h2><a href="./noticeList.do" >공지사항</a></h2></div>
+<div class="title-text"><h2><a href="./noticeList.do">Notice</a></h2><small>공지사항</small></div>
 <div class="notice">
 
 <table class="nlt1">	
 	<tr>
 		<td width="10%"><div align="center">번 호</div></td>
-		<td width="50%"><div align="center">제 목</div></td>
-		<td width="16%"><div align="center">날 짜</div></td>
+		<td width="80%"><div align="center">제 목</div></td>
+		<td width="10%"><div align="center">날 짜</div></td>
 	</tr>
 </table>
 		
@@ -51,10 +52,10 @@ $(document).ready(function(){
 <table class="nlt2">		
 	<tr align="center" valign="middle" onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >
 		<td height="40px" width="10%"><%=((listcount - ((nowpage-1) * 10))- i) %></td>
-		<td width="50%"> 
+		<td width="80%"> 
 			<div  id="no_title" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a  href="./getDetail.do?notice_num=<%=bl.getNotice_num() %>">
 			<%=bl.getNotice_title() %></a></div></td>
-		<td width="16%"><div id="no_date" align="center"><%=bl.getNotice_date().substring(0,11) %></div></td>
+		<td width="10%"><div id="no_date" align="center"><%=bl.getNotice_date().substring(0,11) %></div></td>
 	</tr>
 </table>
 <%}%>
@@ -62,9 +63,9 @@ $(document).ready(function(){
 <tr align=center height="40px">
 <td colspan=7 >
 <%if(nowpage<=1) {%>
-[<] &nbsp;&nbsp;&nbsp;
+< &nbsp;&nbsp;&nbsp;
 <%}else{%>
-<a href="./noticeList.do?page=<%=nowpage-1 %>" > [<] </a>&nbsp;<!-- [<]  -->
+<a href="./noticeList.do?page=<%=nowpage-1 %>" > < </a>&nbsp;
 <%}%>			
 <%for (int a=startpage; a<=endpage; a++){ 
 	if(a==nowpage) { %>
@@ -74,8 +75,8 @@ $(document).ready(function(){
 	<%}%>
 <%}%>&nbsp;
 <%if(nowpage >= maxpage ) { %>
-&nbsp;&nbsp;&nbsp; [>]
-<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > [>] </a><!-- [>] -->
+&nbsp;&nbsp;&nbsp; >
+<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > > </a>
 <%}%>
 </td>
 </tr>

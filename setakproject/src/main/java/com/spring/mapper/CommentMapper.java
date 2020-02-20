@@ -15,6 +15,6 @@ public interface CommentMapper
 	
 	
 	//관리자
-	List<CommentVO> ad_commentList();
+	List<CommentVO> ad_commentList(CommentVO vo);
 
 }

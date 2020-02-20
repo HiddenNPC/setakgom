@@ -11,7 +11,7 @@ public interface CommentService
 	int commentDelete(CommentVO vo);
 	int commentUpdate(CommentVO vo);
 	
-	List<CommentVO> ad_commentList();
+	List<CommentVO> ad_commentList(CommentVO vo);
 	
 	
 	
