@@ -445,6 +445,7 @@
   z-index: 1010;
 }
 .tui-chart .tui-chart-chartExportMenu-area .tui-chart-chartExportMenu-button {
+  display : none;
   position: absolute;
   width: 24px;
   height: 24px;

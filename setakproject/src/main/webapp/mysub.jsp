@@ -592,13 +592,14 @@
                             <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly">점</small>   
                               <input type="hidden" id="Review_like" name="Review_like" value="0">     
                         </div>      
+                        <div id = "r_content2">
                         <table class="r_content">
                            <tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
                             <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-                            <tr><td width="40px">
+                            <tr><td>
                                 <input type="file" id="Review_photo"/>                        
                                 <input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
-                                <td width="40px">
+                                <td>
                                    <select name="Review_kind" id="Review_kind">
                                          <option value="">분류</option>
                                         <option value="세탁">세탁</option>
@@ -612,6 +613,7 @@
                                  <input class="cbtn" type="submit" name="submit" value="등록" >      
                                  <input class="cbtn" type="button" value="취소" onclick="rwcancel()"/></td>    
                            </tr></table>
+                          </div>
                         </form>
                         <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
                         </div>
