@@ -15,7 +15,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>세탁곰 기타주문관리</title>
+	<title>세탁곰 관리자페이지</title>
+	<link rel="shortcut icon" href="../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -37,13 +38,16 @@
 	<script src='./chart/tui-chart.js'></script>
 	
 	<style>
+	.content h3 {
+		margin: 50px 0 20px 0;
+	}
 	#jschart{
-		margin-top:40px;
+		margin-top:10px;
 		width:75%;
 	}
 	
 	#chart-area{
-		margin:90px auto;
+		margin:10px auto;
 	}
 	</style>	
 </head>
@@ -51,13 +55,15 @@
 <body>
 	<div id="admin"></div>
 	<div class="content">
+		<h3>하루 단위 세수보 그래프</h3>
 		<div id="jschart">
 			<canvas id="canvas"></canvas>
 		</div>
+		<h3> 월 단위 세수보 그래프</h3>
 		 <div id="chart-area"></div>
 	</div><!-- 지우지마세요 -->
 	
-<script type="text/javascript" class='code-js' id='code-js'>
+	<script type="text/javascript" class='code-js' id='code-js'>
 	
 		//헤더, 푸터연결
 		$("#admin").load("./admin.jsp")
@@ -99,7 +105,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: '일별 주문 상태 변화'
+						text: ' '
 					},
 					tooltips: {
 						mode: 'index',
@@ -158,7 +164,7 @@
 		    chart: {
 		        width: 1100,
 		        height: 300,
-		        title: '한달 별 주문 상태 변화 그래프',
+		        title: ' ',
 		        'format': '1'
 		    },
 		    yAxis: {
@@ -166,7 +172,7 @@
 		    },
 		    xAxis: {
 		        title: '양',
-		        max: 110
+		        max: 180
 		    },
 		    series: {
 		        stackType: 'normal'
