@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.util.*, com.spring.community.QnaVO" %>   
+<%@ page import="java.util.*, com.spring.community.QnaVO, com.spring.order.OrderVO" %>   
 <%
 	int memberCnt= (int)request.getAttribute("memberCnt"); 
 	int orderSum= (int)request.getAttribute("orderSum"); 
 	int subPercent= (int)request.getAttribute("subPercent"); 
+	int orderAllPrice = (int)request.getAttribute("orderAllPrice"); 
 
 	String temp = (String)request.getAttribute("temp");
 	String tempText = (String)request.getAttribute("tempText");
@@ -17,6 +18,9 @@
 	
 	ArrayList<QnaVO> qnaList = (ArrayList<QnaVO>)request.getAttribute("qnaList");
 	ArrayList<HashMap<String, Object>> subList = (ArrayList<HashMap<String, Object>>)request.getAttribute("subList");
+	
+	ArrayList<OrderVO> orderList = (ArrayList<OrderVO>)request.getAttribute("orderList");
+	int orderCnt = (int)request.getAttribute("orderCnt");
 %>
 <!DOCTYPE html>
 <html>
@@ -42,12 +46,23 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
 	<script src="./utils.js"></script>
 	
+	<!-- fullCallender -->
+	<link href='./chart/core/main.css' rel='stylesheet' />
+	<link href='./chart/list/main.css' rel='stylesheet' />
+	<script src='./chart/core/main.js'></script>
+	<script src='./chart/list/main.js'></script>
+	<script src='./chart/locales/ko.js'></script>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript" class='code-js' id='code-js'>
 		$(document).ready(function() {
 			
 			//헤더, 푸터연결
 			$("#admin").load("./admin.jsp")
+			
+			var allPrice = <%=orderAllPrice%>;
+			$('#price-span').text(numberFormat(allPrice));
+			
 
 			// 정기구독 차트 연결 부분
 			var container = document.getElementById('chart-area');
@@ -296,6 +311,13 @@
 			window.myLine = new Chart(ctx, config);
 		};
 		
+		   
+		// 콤마      
+		function numberFormat(inputNumber) {
+			return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		      
+		
 		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
 		function timeSt(dt) {
 		    var d = new Date(dt);
@@ -308,7 +330,93 @@
 		//10보다 작으면 앞에 0을 붙임
 		function addzero(n) {
 		    return n < 10 ? "0" + n : n;
-		}		
+		}
+		
+		// fullCalender 
+		  document.addEventListener('DOMContentLoaded', function() {
+		    var calendarEl = document.getElementById('calendar');
+		
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		      plugins: [ 'list' ],
+		
+		      header: {
+		        left: 'prev,next today',
+		        center: 'title',
+		        right: 'listDay,listWeek,dayGridMonth'
+		      },
+		
+		      // customize the button names,
+		      // otherwise they'd all just say "list"
+		      views: {
+		        listDay: { buttonText: '일' },
+		        listWeek: { buttonText: '주' }
+		      },
+		      locale: 'ko',		
+		      defaultView: 'listWeek',
+		      defaultDate: '2019-08-12',
+		      navLinks: true, // can click day/week names to navigate views
+		      editable: true,
+		      eventLimit: true, // allow "more" link when too many events
+		      events: [
+		        {
+		          title: 'All Day Event',
+		          start: '2019-08-01'
+		        },
+		        {
+		          title: 'Long Event',
+		          start: '2019-08-07',
+		          end: '2019-08-10'
+		        },
+		        {
+		          groupId: 999,
+		          title: 'Repeating Event',
+		          start: '2019-08-09T16:00:00'
+		        },
+		        {
+		          groupId: 999,
+		          title: 'Repeating Event',
+		          start: '2019-08-16T16:00:00'
+		        },
+		        {
+		          title: 'Conference',
+		          start: '2019-08-11',
+		          end: '2019-08-13'
+		        },
+		        {
+		          title: 'Meeting',
+		          start: '2019-08-12T10:30:00',
+		          end: '2019-08-12T12:30:00'
+		        },
+		        {
+		          title: 'Lunch',
+		          start: '2019-08-12T12:00:00'
+		        },
+		        {
+		          title: 'Meeting',
+		          start: '2019-08-12T14:30:00'
+		        },
+		        {
+		          title: 'Happy Hour',
+		          start: '2019-08-12T17:30:00'
+		        },
+		        {
+		          title: 'Dinner',
+		          start: '2019-08-12T20:00:00'
+		        },
+		        {
+		          title: 'Birthday Party',
+		          start: '2019-08-13T07:00:00'
+		        },
+		        {
+		          title: 'Click for Google',
+		          url: 'http://google.com/',
+		          start: '2019-08-28'
+		        }
+		      ]
+		    });
+		
+		    calendar.render();
+		  });
 		
 	</script>
 </head>
@@ -358,13 +466,16 @@
 			</div>
 		</div>
 		<div class = "title-num">
-			<div class = "title-icon"></div>
-			<div class = "title-content">
+			<div class = "title-icon">
+				<img src="https://img.icons8.com/dusk/50/000000/receive-cash.png">
 			</div>
-		</div>
-		<div class = "title-num">
-			<div class = "title-icon"></div>
 			<div class = "title-content">
+				<strong>오늘 매출액</strong>
+				<span>단일 서비스 합산</span>
+				<div class = "count-number-div">
+					<span id = "price-span" class = "count-number" style = "font-size : 2.5rem;"></span>
+					<span class = "count-txt">원</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -384,7 +495,6 @@
 							<% 
 								String[] weatherArr = tempText.split(",");
 								String weather = weatherArr[0];
-								System.out.println("weather : " + weather);
 								
 								if(weather.equals("맑음")) {
 							%>
@@ -398,6 +508,7 @@
 							<p class = "tempText"><%=tempText %></p>
 						</div>
 					</div>
+					<p class = "tempExp">서울특별시 강남구 역삼동 기준 </p>
 				</div>
 			</li>
 			<li>
@@ -405,7 +516,9 @@
 					<h3>정기구독</h3>
 					<div class = "body-tool">
 					<span><img src="https://img.icons8.com/small/16/000000/questions.png"></span>
-					<p class="arrow_box">설명을 해볼까요</p>
+					<p class="arrow_box">
+						회원들에게 인기 있는 정기구독 유형을 확인 할 수 있습니다. 정기구독관리 - 차트 메뉴에서 더 자세한 내용을 확인 할 수 있습니다. 
+					</p>
 					<a href = "./subscribeChart.do"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
 					</div>
 				</div>
@@ -416,7 +529,7 @@
 					</li>
 					<li style="float: right;margin-right: 0px;width: 50%;">
 					<div id = "top-sub">
-						<p>TOP3</p>
+						<p>TOP5</p>
 						<table id = "top-table">
 							<tbody>
 								<%for(int i = 0; i < subList.size(); i++) { %>
@@ -437,7 +550,10 @@
 				<div class = "body-header">
 					<h3>세수보</h3>
 					<div class = "body-tool">
-					<a href = "#"><img src="https://img.icons8.com/small/16/000000/questions.png"></a>
+					<span><img src="https://img.icons8.com/small/16/000000/questions.png"></span>
+					<p class="arrow_box">
+						최근 5일간의 세탁, 수선, 보관양을 확인 하실 수 있습니다. 주문관리 - 차트 메뉴에서 더 자세한 내용을 확인 할 수 있습니다. 
+					</p>
 					<a href = "./adminChart.do"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
 					</div>
 				</div>
@@ -456,7 +572,6 @@
 				<div class = "body-header">
 					<h3>미답변 Q&A</h3>
 					<div class = "body-tool">
-					<a href = "#"><img src="https://img.icons8.com/small/16/000000/questions.png"></a>
 					</div>
 				</div>
 				<div class = "body-content">
@@ -470,7 +585,7 @@
 								%>
 							<tr>
 								<td><span class = "qnaKind"><%=qvo.getQna_type() %></span></td>
-								<td><span class = "qnaTitle"><a href = "#"><%=qvo.getQna_title() %></a></span></td>
+								<td><span class = "qnaTitle"><a href = "./admin_qna.do"><%=qvo.getQna_title() %></a></span></td>
 								<td><span class = "qnaDate"><%=date %></span></td>
 							</tr>
 								<%} %>
@@ -480,25 +595,54 @@
 			</li>
 			<li>
 				<div class = "body-header">
-					<h3>수입</h3>
+					<h3>매출</h3>
 					<div class = "body-tool">
-					<a href = "#"><img src="https://img.icons8.com/small/16/000000/questions.png"></a>
+					<span><img src="https://img.icons8.com/small/16/000000/questions.png"></span>
 					<a href = "./adminChart.do"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
 					</div>
 				</div>
 				<div class = "body-content">
+					<div id="calendar"></div>
 				</div>
 			</li>
 			<li>
 				<div class = "body-header">
 					<h3>주문관리</h3>
 					<div class = "body-tool">
-					<a href = "#"><img src="https://img.icons8.com/small/16/000000/questions.png"></a>
-					<a href = "#"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
+					<span><img src="https://img.icons8.com/small/16/000000/questions.png"></span>
+					<p class="arrow_box">
+						결제완료 상태의 주문을 확인 할 수 있습니다. 주문관리 - 전체 메뉴에서 더 자세한 내용 확인 및 수정이 가능합니다. 
+					</p>
+					<a href = "./order.do"><img src="https://img.icons8.com/windows/16/000000/web.png"></a>
 					</div>
 				</div>
 				<div class = "body-content">
-					
+					<div id = "order-text-div">
+						<p class = "order-text">현재 처리해야 할 주문이 <span><%=orderCnt %></span>건 있습니다.</p>
+					</div>
+					<div id = "order-table-div">
+						<table id = "order-table">
+							<thead>
+								<tr>
+									<th>주문번호</th>
+									<th>결제금액</th>
+									<th>주문날짜</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%for(int i = 0; i < orderList.size(); i ++) {
+									OrderVO ovo = orderList.get(i); 
+									String[] dateArr = ovo.getOrder_date().split(" ");
+									String date = dateArr[0]; %>
+								<tr class = "orderTable" onClick = "location.href='./order.do'">
+									<td><%=ovo.getOrder_num() %></td>
+									<td><%=ovo.getOrder_price() %>원</td>
+									<td><%=date %></td>
+								</tr>
+								<%} %>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</li>
 		</ul>

@@ -37,4 +37,10 @@ public interface Admin_order {
 	ArrayList<QnaVO> getQnAList();
 	// 최근 일주일 가입 회원 수
 	int getNewMemberCnt(); 
+	// 처리해야 할 주문 리스트
+	ArrayList<OrderVO> getProcessOrderList();
+	// 처리해야 할 주문 갯수
+	int getProcessOrderCnt();
+	// 하루 매출액
+	int getOrderAllPrice(String order_date); 
 }

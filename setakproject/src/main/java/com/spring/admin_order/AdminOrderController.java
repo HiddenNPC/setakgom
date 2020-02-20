@@ -80,6 +80,8 @@ public class AdminOrderController {
 		// 총 회원 수 
 		int memberAllcnt = adminMemberService.adminlistcount();
 		
+		int orderAllPrice = adminOrderService.getOrderAllPrice(today);
+		
 		// 최근 5일 총 주문량 코드
 		int orderSum = 0; 
 		HashMap<String, Object> dateMap = new HashMap<String, Object>();
@@ -151,6 +153,10 @@ public class AdminOrderController {
 		// qna 미답변 게시판 부분
 		ArrayList<QnaVO> qnaList = adminOrderService.getQnAList();
 		
+		// 처리해야 하는 주문 테이블 부분
+		ArrayList<OrderVO> orderList = adminOrderService.getProcessOrderList(); 
+		int orderCnt = adminOrderService.getProcessOrderCnt();
+		
 		// 날씨 크롤링
 		model.addAttribute("temp", temp);
 		model.addAttribute("tempText", tempText);		
@@ -159,6 +165,7 @@ public class AdminOrderController {
 		model.addAttribute("memberCnt", memberCnt);
 		model.addAttribute("orderSum", orderSum); 
 		model.addAttribute("subPercent", subPercent); 
+		model.addAttribute("orderAllPrice", orderAllPrice); 
 
 		// 정기구독 차트 부분
 		model.addAttribute("subArr", subArr); 
@@ -174,6 +181,10 @@ public class AdminOrderController {
 		
 		// qna 미답변 게시판 부분
 		model.addAttribute("qnaList", qnaList);
+		
+		// 처리해야 하는 테이블 부분
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("orderCnt", orderCnt); 
 		
 		return "/admin/admin_main";
 		

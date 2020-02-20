@@ -175,6 +175,45 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		return cnt; 
 	}
 
+	@Override
+	public ArrayList<OrderVO> getProcessOrderList() {
+		ArrayList<OrderVO> orderList = null;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			orderList = adminOrderMapper.getProcessOrderList();
+		} catch(Exception e) {
+			System.out.println("전체 처리 해야 하는 주문 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return orderList;
+	}
+
+	@Override
+	public int getProcessOrderCnt() {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.getProcessOrderCnt();
+		}catch(Exception e) {
+			System.out.println("전체 처리 해야 하는 주문 리스트  갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public int getOrderAllPrice(String order_date) {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.getOrderAllPrice(order_date);
+		}catch(Exception e) {
+			System.out.println("오늘 매출액 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
 
 
 }
