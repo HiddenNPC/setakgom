@@ -3,6 +3,7 @@ package com.spring.mapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.spring.community.QnaVO;
 import com.spring.order.OrderVO;
 
 
@@ -31,4 +32,9 @@ public interface Admin_order {
 	int recentOrderCnt(HashMap<String, Object> map); 
 	// 최근 5주간 주문 카운트
 	int recentOrderWeeklyCnt(HashMap<String, Object> map);
+	
+	// 답변 대기 최근 게시물 리스트
+	ArrayList<QnaVO> getQnAList();
+	// 최근 일주일 가입 회원 수
+	int getNewMemberCnt(); 
 }

@@ -567,9 +567,9 @@ public class OrderController {
 		Iamport iamport = new Iamport();
 
 		// 아임포트 억세스 토큰생성
-		String imp_key = URLEncoder.encode("1270405352722195", "UTF-8");
+		String imp_key = URLEncoder.encode("9458449343571602", "UTF-8");
 		String imp_secret = URLEncoder
-				.encode("IjB6jSFvaqvDw123fNlvZk3jqw2AwGHf0jljb0Pmrk0Xm20BQm7PHb87IaIeRptRJObVP0hglidIlejb", "UTF-8");
+				.encode("c78aAvqvXVnomnIQHgAPXG42aFDaIZGU7P4IludiqBGNYoDGFevCVzF5fjgYiWSqMX87slpSX6FWvjCa", "UTF-8");
 		JSONObject json = new JSONObject();
 		json.put("imp_key", imp_key);
 		json.put("imp_secret", imp_secret);

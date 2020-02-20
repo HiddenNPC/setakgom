@@ -3,6 +3,7 @@ package com.spring.admin_order;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.spring.community.QnaVO;
 import com.spring.order.OrderVO;
 
 public interface AdminOrderService {
@@ -20,4 +21,7 @@ public interface AdminOrderService {
 	public int recentOrderStatusCnt(HashMap<String, Object> map);
 	public int recentOrderCnt(HashMap<String, Object> map);
 	public int recentOrderWeeklyCnt(HashMap<String, Object> map);
+	
+	public ArrayList<QnaVO> getQnAList();
+	public int getNewMemberCnt(); 
 }

@@ -17,7 +17,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>세탁곰 정기구독</title>
+	<title>세탁곰</title>
+	<link rel = "shortcut icon" href = "favicon.ico">
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/subscribe.css"/>
@@ -193,7 +194,7 @@
 	         </div>
 	                
 	       	<div class="sub-div">
-		         <p class = "p_subtitle">정기구독을 하시면 최대 60% 저렴합니다.</p> 	
+		         <p class = "p_subtitle">정기구독을 신청하시면 할인 된 가격에 세탁곰을 이용하실 수 있습니다.</p> 	
 		        
 		        <p class = "sub_title">올인원</p>
 				<table class = "sub_table" border = "solid 1px" data-role="table">
@@ -745,9 +746,9 @@
 						<tr id = "22" class = "89000">
 							<td>물드89</td>
 							<td>
-								<span class = "origin_price">99,900원</span>
+								<span class = "origin_price">109,900원</span>
 								<br/>
-								<span class = "sale_price">149,000원</span>
+								<span class = "sale_price">89,000원</span>
 							</td>
 							<td>7개</td>
 							<td>-</td>
