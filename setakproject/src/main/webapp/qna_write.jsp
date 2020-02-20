@@ -118,17 +118,17 @@ function wcancel(){
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A<small id="h_small">문의사항</small></a></h2></div>
 <div class="qna">
 
 <form action="./qnaInsert.do" method="post" enctype="multipart/form-data" id="qnaform"  name="qnaform">
 <table class="qwt1">				
 	<tr>
-		<td height="30px"><div align="center">작성자</div></td>
+		<td id="m_qwtd1"><div align="center">작성자</div></td>
 		<td colspan="2"><input value="<%=session.getAttribute("member_id")%>" type="hidden" name="MEMBER_ID" >&nbsp;<%=session.getAttribute("member_id")%></td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">문의유형</div></td>
+		<td id="m_qwtd1"><div align="center">문의유형</div></td>
 		<td colspan="2" class="qwr">
 		<div>			
 			<input type="radio" id="type1" name="QNA_TYPE" value="주문 취소" checked="checked"><label for="type1">주문 취소</label>
@@ -141,7 +141,7 @@ function wcancel(){
 		</td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">주문번호</div></td>
+		<td id="m_qwtd1"><div align="center">주문번호</div></td>
 		<td colspan="2"><div>
 		<select class="qwon" name="ORDER_NUM">		
 			<option value="선택안함">선택안함</option>
@@ -152,22 +152,22 @@ function wcancel(){
 		</td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">제 목</div></td>
+		<td id="m_qwtd1"><div align="center">제 목</div></td>
 		<td colspan="2"><input id="QNA_TITLE" name="QNA_TITLE" type="text" size="35" maxlength="50"/></td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">내 용</div></td>
+		<td id="m_qwtd1"><div align="center">내 용</div></td>
 		<td colspan="2"><textarea id="QNA_CONTENT" name="QNA_CONTENT" maxlength="500"></textarea></td>
 	</tr>
 	<tr>
-		<td height="30px"><div align="center">파일첨부</div></td>
+		<td id="m_qwtd1"><div align="center">파일첨부</div></td>
 		<td colspan="2">
 			<input type="file" id="QNA_FILE" />
 			<input type="hidden" id="QNA_FILE2" name="QNA_FILE" >
 		</td>				
 	</tr>
 	<tr > 
-		<td height="30px"><div align="center">비밀번호</div></td>
+		<td id="m_qwtd1"><div align="center">비밀번호</div></td>
 		<td><input id="QNA_PASS" name="QNA_PASS" type="password" maxlength="10"/></td>							
 		
 		<td><div id="msp">공개여부&nbsp;</div>
@@ -184,7 +184,7 @@ function wcancel(){
 		</td>
 	</tr>
 	<tr align="center" valign="middle">
-		<td colspan="5" height="30px">
+		<td colspan="5" id="m_qwtd1">
 			<input class="input-button" type="submit" name="submit" value="등록" >			
 			<input class="input-button" type="button" name="cancel" value="취소" onclick="wcancel();">			
 		</td>

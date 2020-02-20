@@ -26,10 +26,15 @@
 	.review { font-size:0.9rem; font-weight:bold; padding-top:150px; }	
  	
   	textarea{ 
-  	resize:none; height:150px; width:500px; 
-  	border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
-   	border-top-right-radius: 5px; border-bottom-right-radius: 5px;
-   	box-sizing: border-box; padding: 8px; 
+	  	resize: none;
+	    height: 150px;
+	    width: 500px;
+	    border-top-left-radius: 5px;
+	    border-bottom-left-radius: 5px;
+	    border-top-right-radius: 5px;
+	    border-bottom-right-radius: 5px;
+	    /* box-sizing: border-box; */
+	    padding: 8px; 
    		}
   	.starR1 {
   	background: url('../images/r_star.png') no-repeat -34px 0;
@@ -58,13 +63,15 @@
     
     
     #h_small{ font-size: 0.9rem;
-	    color: #aa9fa7;
-	    line-height: 22px;
-	    font-family: inherit;
-	    position: absolute;
-	    top: 55%;
-	    right: 43.9%;
-	    font-weight: bold;}	
+    color: #aa9fa7;
+    /* line-height: 22px; */
+    font-family: inherit;
+    padding-left: 4px;
+    /* position: relative; */
+    /* top: 55%; */
+    /* right: 45.5%; */
+
+    }	
     
     small{ font-size: 0.8rem; color:#aa9fa7; line-height: 22px;}	
 	
@@ -85,31 +92,35 @@
   	/* 리뷰 리스트 */
   	.paginated{ margin:auto; width:1200px; margin-top:5px; } 	 	
   	.paginated td {  
-		border: 1px solid #e1e4e4;  
-		line-height: 25px;  
-		width:1200px;  
-		letter-spacing: 1px; 
-		font-family: inherit;
-		  
+		    border: 1px solid #e1e4e4;
+		    line-height: 20px;
+		    width: 1200px;
+		    font-family: inherit;		  
 		} 
-    #re_list form{width:1200px;}
+		
+    #re_list form{ width:1200px; }
     
     .re_list_td1{   
 		line-height: 0px !important;
+    	}
+    
+    #remo{     
+	    width: 1200px;
+	    padding: 25px;
+	    border: none;     
     }
-    
-    
-    
-    
-    
-    
-    
-    #remo{ width:1200px; border-top: 2px solid #3498db; }
     .clickable {cursor: pointer;}
 	 	    
-  	.ret{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
-    line-height: 25px; width: 800px;  height:200px; border: none; margin: auto;
-  	}  
+  	.ret{
+  	    font-size: 0.9rem;
+    	color: #444;
+    	font-family: "Nanum Gothic", "Noto Sans";
+    	line-height: 20px;
+   		width: 1000px;
+   		height: 150px; 
+   		border-color: #3498db;  
+  	}
+  	  
   	.ret2{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
     line-height: 25px; width: 800px;  height:200px; border: 1px solid #e1e4e4; margin: auto;
   	}  
@@ -256,8 +267,7 @@
 	
 	/* 이미지 미리보기 */
 	.thumbnail-wrapper { width:auto; height:auto; }	
-	.thumbnail {}
-    
+	
 	.thumbnail-img 
 	{
 	    max-width: 100%;
@@ -265,9 +275,7 @@
 	    text-align: center;
 	    overflow: hidden;
 	    width: inherit;
-	    text-align: center;
-	    /* padding-top: 20px; */
-	    /* padding-bottom: 20px; */
+	   
 	 }
 	/* 이미지 미리보기 끝 */
 	
