@@ -3,6 +3,12 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
 @import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
 
+	#frogue-container > #frogue-chat{
+		display :none;
+	}
+	#frogue-container {
+		z-index: 1 !important;
+	}
 
 	#frogue-container{
 		bottom : 135px !important;

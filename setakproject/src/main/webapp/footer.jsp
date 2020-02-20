@@ -5,6 +5,9 @@
 		#frogue-container{
 			bottom : 120px !important;
 		}
+		#frogue-container .frogue-chat{
+			display :none !important;
+		}
 	</style>
 	<body>
 	<div id="frogue-container" class="position-right-bottom"
