@@ -27,12 +27,17 @@
 </head>
 
     <script type="text/javascript">
+    //솔민입니다. 코드좀 추가하겠습니다. - 모바일 카트아이콘 색 입히기
+	  $(window).load(function(){
+	     $('.fa-shopping-cart').addClass('ick_color');
+	  });
+   	//
       $(document).ready(function(){
-    	  
-         $("#header").load("./header.jsp")
-         $("#footer").load("./footer.jsp")   
-         
-         getTotal();
+    	 $("#header").load("./header.jsp")
+    	 $("#footer").load("./footer.jsp")
+    	 
+		
+		getTotal();
          deliveryFee();
          
      	// 모바일 이미지 
@@ -147,7 +152,8 @@
 
      		
      	});
-                      
+         
+         $('.fa-shopping-cart').addClass('ick_color');         
       });
       
       // 합계 구하는 함수
@@ -178,7 +184,7 @@
 		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
       
-    </script>
+	</script>
 <body>
 	<div id="header"></div>
 	
