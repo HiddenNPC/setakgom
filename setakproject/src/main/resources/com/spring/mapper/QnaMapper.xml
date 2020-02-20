@@ -98,9 +98,10 @@
 	<!-- 기응 -->
 	
 	<select id="selectQnalist" parameterType="HashMap" resultMap="qnaMap">
-		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, ORDER_NUM,
-		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc))
-		 WHERE rnum>=#{startrow} and rnum<=#{endrow} and member_id = #{member_id}]]>
+		<![CDATA[select * 
+ 				from (select rownum rnum, a.* from
+   					(select * from qna where member_id=#{member_id} order by qna_date desc) a)
+    					where rnum >=#{startrow} and rnum <=#{endrow} ]]>
 	</select>
 </mapper>
 

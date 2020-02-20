@@ -74,9 +74,9 @@ public class MypageServiceImpl implements MypageService {
 	
 	
 	@Override
-	public int getOrdercount() {
+	public int getOrdercount(String member_id) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
-		int orderVO = mypageMapper.getOrdercount();
+		int orderVO = mypageMapper.getOrdercount(member_id);
 		
 		return orderVO;
 	}
@@ -216,7 +216,14 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
-	
+	@Override
+	public int getQnaCount(String member_id) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int res = 0;
+		res = mypageMapper.getQnaCount(member_id);
+		
+		return res;
+	}
 }
 
 

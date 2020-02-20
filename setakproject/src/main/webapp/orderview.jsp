@@ -31,7 +31,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<link rel="stylesheet" type="text/css" href="./css/review.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<link rel="shortcut icon" href="favicon.ico">
+   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!--sweetalert2 -->
@@ -375,25 +376,27 @@ function cancle() {
             <table class="page">
                <tr align = center height = 20>
                        <td>
-                          <%if(nowpage <= 1) {%>
-                          <div class="page_a"><a>&#60;</a></div>
-                          <%} else {%>
-                             <div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
-                          <%} %>
-                          <%for (int a=startpage; a< endpage; a++) {
-                                if(a==nowpage) {
-                             %>
-                             <div class="page_a"><a><%=a %></a></div>
-                             <%} else {%>
-                                <div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
-                             <%} %>
-                          <%} %>
-                          <%if (nowpage >= maxpage) {%>   
-                             <div class="page_a"><a>></a></div>
-                          <%} else { %>   
-                              <div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
-                           <%} %>   
-                           </td>
+              				<%if(nowpage <= 1) {
+              				%>
+              				<div class="page_a"><a>&#60;</a></div>
+              				<%} else {%>
+              					<div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              				<%} %>
+              				<%for (int a=startpage; a<= endpage; a++) {
+              					if(a==nowpage) {
+           					%>
+           					<div class="page_a"><a><%=a %></a></div>
+           					<%} else {%>
+           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
+           					<%} %>
+           					<%} %>
+           					<%if (nowpage >= maxpage) {
+           					%>	
+           						<div class="page_a"><a>&#62;</a></div>
+           					<%} else { %>	
+                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  			<%} %>	
+                  			</td>
                      </tr>
             </table>
             </div>

@@ -74,8 +74,7 @@ public class MypageController {
 		
 		int startrow = (page-1)*10 +1;
 		int endrow = startrow + limit-1;
-		int listcount = mypageService.getOrdercount();
-		
+		int listcount = mypageService.getOrdercount(member_id);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
@@ -195,8 +194,7 @@ public class MypageController {
 		
 		int startrow = (page-1)*10 +1;
 		int endrow = startrow + limit-1;
-		int listcount = qnaService.getListCount();
-		
+		int listcount = mypageService.getQnaCount(member_id);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);
@@ -206,6 +204,7 @@ public class MypageController {
 		int maxpage = (int)((double)listcount/limit+0.95);
 		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
 		int endpage = startpage + 10-1;
+		
 		
 		if(endpage > maxpage)
 		{
@@ -287,12 +286,7 @@ public class MypageController {
 			ArrayList<CouponVO> couponlist = null;
 			String member_id = (String) session.getAttribute("member_id");
 			couponlist = couponService.getCouponList(member_id);
-			for (int i = 0; i < couponlist.size(); i++) {
-				System.out.println(couponlist.get(i).getCoupon_start());
-				System.out.println(couponlist.get(i).getCoupon_end());
-				System.out.println(couponlist.get(i).getCoupon_useday());
-			}
-
+	
 			
 			model.addAttribute("couponlist", couponlist);
 		return "mycoupon";
