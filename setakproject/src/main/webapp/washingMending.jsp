@@ -40,7 +40,7 @@
 			$(".tab").on("click", function(event) {
 				if($(this).hasClass("nonono")){
 					event.preventDefault();
-					Swal.fire("","해당되는 세탁물이 없습니다.","info");
+					Swal.fire("","해당되는 세탁물이 없습니다.","warning");
 				}else{
 					$(".tab").removeClass("active");
 					$(".hash").empty();

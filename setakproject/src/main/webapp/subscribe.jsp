@@ -79,7 +79,7 @@
                    buyer_postcode : '<%=memberVO.getMember_zipcode()%>',
                  }, function (rsp) { // callback
                    if (rsp.success) {
-                	   alert("결제가 성공적으로 완료되었습니다."); 
+                	   Swal.fire("","결제가 성공적으로 완료되었습니다.","success"); 
                 	      // 빌링키 발급 성공
                 	      // jQuery로 HTTP 요청
                 	      jQuery.ajax({
@@ -99,7 +99,7 @@
                             } 
                 	      });
                    } else {
-                     alert("결제가 취소 되었습니다."); 
+                     Swal.fire("","결제가 취소 되었습니다.","error"); 
                    }
                  });
                  

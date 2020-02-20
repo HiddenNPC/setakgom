@@ -183,14 +183,12 @@ $(document).ready(function() {
 	<tr><td><div align="center">내 용</div></td>
 		<td colspan="1"><textarea name="QNA_CONTENT" id="QNA_CONTENT"cols="80" rows="15" maxlength="500"><%=vo.getQna_content() %></textarea></td>
 		<td id="qutd1"><div class="thumbnail-wrapper">
-			  <div class="thumbnail">
-			    <div class="thumbnail-centered">
+			  <div class="thumbnail">			   
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
 			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"/>
 			      	<%}else{ %>
 			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
-			      	<%} %>
-			    </div>
+			      	<%} %>			   
 			  </div>
 			</div>
 		</td>
@@ -199,8 +197,7 @@ $(document).ready(function() {
 		<td height="30px"><div align="center">파일첨부</div></td>		
 		<td colspan="2">
 			<input type="hidden" name="exist_file" value="<%=vo.getQna_file()%>">
-			<input value="<%if(!(vo.getQna_file()==null)){ %><%int i= vo.getQna_file().indexOf("_");%>
-			<%=vo.getQna_file().substring(i+1)%><%}else{ %>파일이 존재하지 않습니다 .<%}%>" disabled="disabled">
+			<input id="QNA_FILE3" value="<%if(!(vo.getQna_file()==null)){ %><%int i= vo.getQna_file().indexOf("_");%><%=vo.getQna_file().substring(i+1).trim()%><%}else{ %>파일이 존재하지 않습니다 .<%}%>" disabled="disabled">
 			<input type="file" id="QNA_FILE" />
 			<input type="hidden" id="QNA_FILE2" name="QNA_FILE" >		
 		</td>
