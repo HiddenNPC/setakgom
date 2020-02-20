@@ -11,6 +11,8 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -26,7 +28,6 @@ public class AdminChartController {
 		/*하루당 세탁, 수선, 보관 그래프*/
 	      Calendar cal = Calendar.getInstance();
 	      SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
-	     
 	      String today = sdf.format(cal.getTime());
 	      
 	      String[] dateArr = new String[5];
