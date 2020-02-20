@@ -1,5 +1,6 @@
 package com.spring.admin_order;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface AdminSubscribeService {
 	int getMemberSubCnt(String subsname);
 	int getMemberSubCnt2(String subsname);
 	int getMemberDailySubCnt(HashMap<String, Object> map);
+	
+	ArrayList<HashMap<String, Object>> getSubPopular(); 
 	
 }

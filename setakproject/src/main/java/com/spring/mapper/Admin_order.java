@@ -35,4 +35,6 @@ public interface Admin_order {
 	
 	// 답변 대기 최근 게시물 리스트
 	ArrayList<QnaVO> getQnAList();
+	// 최근 일주일 가입 회원 수
+	int getNewMemberCnt(); 
 }

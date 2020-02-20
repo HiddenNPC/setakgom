@@ -122,6 +122,10 @@
 		<![CDATA[select * from (select rownum rnum, qna_type, qna_title, qna_date from qna 
 		where qna_check = '답변대기' order by qna_date desc) 
 		where rnum >= 1 and rnum <= 5]]>	
-	</select>	
-
+	</select>
+	
+	<!-- 신규 가입자 > 최근 일주일  -->
+	<select id = "getNewMemberCnt" resultType = "int">
+		<![CDATA[select count(*) from member where trunc(member_join) >= sysdate -7 and trunc(member_join) <= sysdate]]>
+	</select>
 </mapper>

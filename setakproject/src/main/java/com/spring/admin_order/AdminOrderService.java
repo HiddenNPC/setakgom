@@ -23,4 +23,5 @@ public interface AdminOrderService {
 	public int recentOrderWeeklyCnt(HashMap<String, Object> map);
 	
 	public ArrayList<QnaVO> getQnAList();
+	public int getNewMemberCnt(); 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.admin_chart.AdminChartService;
+import com.spring.admin_member.Admin_memberService;
 import com.spring.community.QnaVO;
 import com.spring.member.MemberSubVO;
 import com.spring.order.OrderVO;
@@ -28,18 +29,19 @@ public class AdminOrderController {
 	@Autowired
 	private AdminOrderService adminOrderService; 
 	@Autowired
+	private AdminSubscribeService adminSubService; 
+	@Autowired
 	private AdminSubscribeService adminMemberSubService; 
 	@Autowired
 	private AdminChartService adminchartService; 
+	@Autowired
+	private Admin_memberService adminMemberService; 
 	
 	//관리자 페이지 메인 > 대시보드
 	@RequestMapping(value ="/admin/")
 	public String home(Model model){
 		
-		String[] planArr = {"올인원", "와이", "드라이", "물빨래", "물드"};
-		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", "와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
-				"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"}; 
-			
+		// 최근 5일 날짜 배열 구하기 : dateArr
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
 		
@@ -50,54 +52,46 @@ public class AdminOrderController {
 			cal.add(Calendar.DATE, -1);
 			dateArr[i] = sdf.format(cal.getTime());
 		}
+
+		// 최근 일주일 가입 회원 수 부분
+		int memberCnt = adminOrderService.getNewMemberCnt();
+		// 총 회원 수 
+		int memberAllcnt = adminMemberService.adminlistcount();
+		
+		// 최근 5일 총 주문량 코드
+		int orderSum = 0; 
+		HashMap<String, Object> dateMap = new HashMap<String, Object>();
+		for(int i = 0; i < dateArr.length; i++) {
+			dateMap.put("order_date", dateArr[i]);
+			orderSum += adminOrderService.recentOrderCnt(dateMap);
+		}
+		
+		// 정기구독 차트 코드 시작 + 정기구독 신청 회원 수 
+		int subSum = 0; 
+		String[] planArr = {"올인원", "와이", "드라이", "물빨래", "물드"};
+		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", "와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
+				"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"}; 
 				
 		int[] subArr = new int[5]; 
 		int[] sub2Arr = new int[22];
-	
-		int[] allArr = new int[5];
-		int[] shirtsArr = new int[5];
-		int[] dryArr = new int[5];
-		int[] washArr = new int[5];
-		int[] washDryArr = new int[5];
-		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		
+				
 		for(int i = 0; i < planArr.length; i++) {
 			int cnt = adminMemberSubService.getMemberSubCnt(planArr[i]);
 			subArr[i] = cnt;
-			
-			map.put("subsname", planArr[i]); 
-			for(int j = 0; j < dateArr.length; j++) {
-				map.put("subs_start", dateArr[j]);
-				
-				int result = adminMemberSubService.getMemberDailySubCnt(map);
-
-				switch(i) {
-				case 0 :
-					allArr[j] = result; 
-					break;
-				case 1 :
-					shirtsArr[j] = result; 
-					break;
-				case 2 :
-					dryArr[j] = result; 
-					break;
-				case 3 :
-					washArr[j] = result; 
-					break;
-				case 4 :
-					washDryArr[j] = result; 
-					break;
-				}
-			}
+			subSum += cnt;
 		}
-		
+
+		// 총 회원수 대비 구독자수
+		int subPercent = (int)((double) subSum / (double) memberAllcnt * 100);
+	
 		for(int i = 0; i < plan2Arr.length; i++) {
 			int cnt = adminMemberSubService.getMemberSubCnt2(plan2Arr[i]);
 			sub2Arr[i] = cnt;
 		}
+		// 정기구독 차트 코드 끝		
 		
-		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		// 세수보 차트 코드 시작
+		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		// 하루당 기간별 배열 : 세탁
 		int[] wash2Arr = new int[5];
@@ -112,30 +106,42 @@ public class AdminOrderController {
 		int keep_dailyResult = 0; 
 		
 		for(int j = 0;  j < dateArr.length; j++) {
-			map2.put("order_date", dateArr[j]);
+			map.put("order_date", dateArr[j]);
 									
 			// 하루당 주문량 계산 : 세탁
-			wash_dailyResult = adminchartService.wash_count(map2);
+			wash_dailyResult = adminchartService.wash_count(map);
 			wash2Arr[j] += wash_dailyResult; 
 			
 			// 하루당 주문량 계산 : 수선
-			repair_dailyResult = adminchartService.repair_count(map2);
+			repair_dailyResult = adminchartService.repair_count(map);
 			repairArr[j] += repair_dailyResult; 
 			
 			// 하루당 주문량 계산 : 보관
-			keep_dailyResult = adminchartService.keep_count(map2);
+			keep_dailyResult = adminchartService.keep_count(map);
 			keepArr[j] += keep_dailyResult; 
 				
 		}
+		// 세수보 차트 코드 끝
 		
+		// 정기구독 인기 순위 구하기 부분
+		ArrayList<HashMap<String, Object>> subList = adminSubService.getSubPopular();
+
 		// qna 미답변 게시판 부분
 		ArrayList<QnaVO> qnaList = adminOrderService.getQnAList();
 		
+		// 타이틀 숫자 부분 
+		model.addAttribute("memberCnt", memberCnt);
+		model.addAttribute("orderSum", orderSum); 
+		model.addAttribute("subPercent", subPercent); 
+
 		// 정기구독 차트 부분
 		model.addAttribute("subArr", subArr); 
 		model.addAttribute("sub2Arr", sub2Arr); 
 		
-		// 주희언니 차트 부분
+		// 정기구독 인기 순위 구하기 부분
+		model.addAttribute("subList", subList); 
+		
+		// 세수보 차트 부분
 		model.addAttribute("washArr", wash2Arr);
 		model.addAttribute("repairArr", repairArr);
 		model.addAttribute("keepArr", keepArr);

@@ -162,6 +162,19 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		return qnaList;
 	}
 
+	@Override
+	public int getNewMemberCnt() {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.getNewMemberCnt();
+		}catch(Exception e) {
+			System.out.println("최근 일주일 회원 수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
 
 
 }

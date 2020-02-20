@@ -1,5 +1,6 @@
 package com.spring.mapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,5 +25,8 @@ public interface Admin_subscribe {
 	int getMemberSubCnt2(String subsname); 
 	// 정기구독 차트 > 일별 정기구독 신청 수 + 유형 비율 
 	int getMemberDailySubCnt(HashMap<String, Object> map);
+	
+	// 정기구독 > 인기 차트 
+	ArrayList<HashMap<String, Object>> getSubPopular(); 
 	
 }

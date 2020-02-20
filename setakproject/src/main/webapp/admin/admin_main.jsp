@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.util.*, com.spring.community.QnaVO" %>   
 <%
+	int memberCnt= (int)request.getAttribute("memberCnt"); 
+	int orderSum= (int)request.getAttribute("orderSum"); 
+	int subPercent= (int)request.getAttribute("subPercent"); 
+
 	int[] subArr = (int[])request.getAttribute("subArr");
 	int[] sub2Arr = (int[])request.getAttribute("sub2Arr"); 
 	
@@ -9,6 +13,7 @@
 	int[] keepArr = (int[])request.getAttribute("keepArr");
 	
 	ArrayList<QnaVO> qnaList = (ArrayList<QnaVO>)request.getAttribute("qnaList");
+	ArrayList<HashMap<String, Object>> subList = (ArrayList<HashMap<String, Object>>)request.getAttribute("subList");
 %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +21,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>세탁곰 관리자페이지</title>
+	<link rel = "shortcut icon" href = "../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/admin_main.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 
@@ -171,7 +177,7 @@
 			        pie1: {
 			            radiusRange: ['57%'],
 			            labelAlign: 'center',
-			            showLegend: true
+			            showLegend: false
 			        },
 			        pie2: {
 			            radiusRange: ['70%', '100%'],
@@ -310,19 +316,53 @@
 	<!-- 대시보드 타이틀 Div 시작 -->
 	<div id = "title-div">
 		<div class = "title-num">
-			1
+			<div class = "title-icon">
+				<img src="https://img.icons8.com/dusk/50/000000/groups.png">
+			</div>
+			<div class = "title-content">
+				<strong>신규 가입자</strong>
+				<span>최근 1주일</span>
+				<div class = "count-number-div">
+					<span class = "count-number"><%=memberCnt %></span>
+					<span class = "count-txt">명</span>
+				</div>
+			</div>
 		</div>
 		<div class = "title-num">
-			2
+			<div class = "title-icon">
+				<img src="https://img.icons8.com/dusk/50/000000/purchase-order.png">
+			</div>
+			<div class = "title-content">
+				<strong>신규 주문</strong>
+				<span>최근 5일</span>
+				<div class = "ccount-number-div">
+					<span class = "count-number"><%=orderSum %></span>
+					<span class = "count-txt">건</span>
+				</div>
+			</div>
 		</div>
 		<div class = "title-num">
-			3
+			<div class = "title-icon">
+				<img src="https://img.icons8.com/dusk/50/000000/discount-ticket.png">
+			</div>
+			<div class = "title-content">
+				<strong>정기구독 회원</strong>
+				<span>전체 회원 수 대비</span>
+				<div class = "count-number-div">
+					<span class = "count-number"><%=subPercent %></span>
+					<span class = "count-txt">%</span>
+				</div>
+			</div>
 		</div>
 		<div class = "title-num">
-			4
+			<div class = "title-icon"></div>
+			<div class = "title-content">
+			</div>
 		</div>
 		<div class = "title-num">
-			5
+			<div class = "title-icon"></div>
+			<div class = "title-content">
+			</div>
 		</div>
 	</div>
 	<!-- 대시보드 타이틀 Div 끝 -->
@@ -333,28 +373,39 @@
 		<ul class = "body-ul">
 			<li>
 				<div class = "body-header">
-					<h3>오늘의 어짜구</h3>
+					<h3>오늘의 날씨</h3>
 				</div>
 				<div class = "body-content">
-					<p>세탁곰은 여러분의 하루가 편하고 깨끗해져 삶이 풍요로워 지길 바랍니다. 항상 새 옷을 입는 듯한 상쾌함과 디테일한 세탁 서비스를 제공해 드리고 있으며, 고객님의 더 나은 삶과 만족을 위해 오늘도 연구하고 있습니다.</p>
 				</div>
 			</li>
 			<li>
 				<div class = "body-header">
 					<h3>정기구독</h3>
 					<div class = "body-tool">
-					<a href = "#"><img src="https://img.icons8.com/small/16/000000/questions.png"></a>
+					<span><img src="https://img.icons8.com/small/16/000000/questions.png"></span>
+					<p class="arrow_box">설명을 해볼까요</p>
 					<a href = "./subscribeChart.do"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
 					</div>
 				</div>
 				<div class = "body-content">
 				<ul style = "width : 100%;">
-					<li>
-					<div id = "chart-area" style = "display: inline-block;"></div>
+					<li style = "width : 50%">
+					<div id = "chart-area"></div>
 					</li>
-					<li style = "margin-right: 0px; width: 50%;">
+					<li style="float: right;margin-right: 0px;width: 50%;">
 					<div id = "top-sub">
-						<p>Top 5</p>
+						<p>TOP3</p>
+						<table id = "top-table">
+							<tbody>
+								<%for(int i = 0; i < subList.size(); i++) { %>
+									<tr>
+										<td><%=subList.get(i).get("SUBRANK") %></td>
+										<td><%=subList.get(i).get("SUBSNAME") %></td>
+										<td><%=subList.get(i).get("SUBSCNT") %>명</td>
+									</tr>
+								<%} %>
+							</tbody>
+						</table>
 					</div>
 					</li>
 				</ul>
@@ -391,11 +442,14 @@
 						<tbody>
 								<%for(int i = 0; i < qnaList.size(); i ++) { 
 									QnaVO qvo = qnaList.get(i);
+									String qnaDate = qvo.getQna_date(); 
+									String[] dateArr = qnaDate.split(" ");
+									String date = dateArr[0].replace("-","/").substring(2, dateArr[0].length());
 								%>
 							<tr>
 								<td><span class = "qnaKind"><%=qvo.getQna_type() %></span></td>
-								<td><span class = "qnaTitle"><%=qvo.getQna_title() %></span></td>
-								<td><span class = "qnaDate"><%=qvo.getQna_date() %></span></td>
+								<td><span class = "qnaTitle"><a href = "#"><%=qvo.getQna_title() %></a></span></td>
+								<td><span class = "qnaDate"><%=date %></span></td>
 							</tr>
 								<%} %>
 						</tbody>
@@ -415,14 +469,15 @@
 			</li>
 			<li>
 				<div class = "body-header">
-					<h3>회원관리</h3>
+					<h3>주문관리</h3>
 					<div class = "body-tool">
 					<a href = "#"><img src="https://img.icons8.com/small/16/000000/questions.png"></a>
 					<a href = "#"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
 					</div>
 				</div>
 				<div class = "body-content">
-				<p>세탁곰은 여러분의 하루가 편하고 깨끗해져 삶이 풍요로워 지길 바랍니다. 항상 새 옷을 입는 듯한 상쾌함과 디테일한 세탁 서비스를 제공해 드리고 있으며, 고객님의 더 나은 삶과 만족을 위해 오늘도 연구하고 있습니다.</p>
+					1주일 내에 정기구독 해지되는 회원이 5명 있습니다. <br/>
+					탈퇴 신청한 회원이 6명있습니다.
 				</div>
 			</li>
 		</ul>
