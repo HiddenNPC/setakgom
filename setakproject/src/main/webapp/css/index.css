@@ -3,6 +3,10 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
 @import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
 
+
+	#frogue-container{
+		bottom : 135px !important;
+	}
 	html, body, header, footer, section, nav, div, h1, h2, h3, h4, a, i, ul, li, p, span, img{
 		margin:0;
 		padding:0;

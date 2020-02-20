@@ -21,7 +21,8 @@
 <!--sweetalert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
-<title>세탁곰 Q&A</title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
@@ -50,7 +51,7 @@ function q4ba_click(){
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A 문의사항</a></h2></div>
 <div class="qna">
 
 <table class="qlt1">	

@@ -89,7 +89,8 @@
     	width:100%;
     	text-align:center;
     	border-top:1px solid #3498db;
-    	padding-top:70px;
+    	padding-top: 70px;
+    	margin-bottom: 50px;
     }
     .page-number{
     	padding:5px 8px;
@@ -144,7 +145,7 @@
 	}
 	.notice_title{
 		width:60%;
-		text-align:center;
+		
 		background:none;/*  background: #e1e4e4; */
 		border:0px;
 		color:#444;
@@ -152,7 +153,6 @@
 	}
     .notice_content{
     	width:90%;
-    	text-align:center;
     	background:none;
 	    border:0px;
 	    padding:5px 0 5px 10px ;

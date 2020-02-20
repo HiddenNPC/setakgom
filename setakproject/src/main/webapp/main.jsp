@@ -4,7 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>wash</title>
+	<title>세탁곰</title>
+	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/index.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -379,20 +380,19 @@
 			}
 		});
 	</script>
-	
 	<div id="frogue-container" class="position-right-bottom"
       data-chatbot="f5f4d84c-cc74-490c-96b2-6b2994010204"
       data-user="setakgom"
       data-init-key="value"
       ></div>
-<script>
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed')); 
-</script>
+	<script>
+	(function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed')); 
+	</script>
 </body>
 </html>

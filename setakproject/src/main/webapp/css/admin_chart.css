@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+	#jschart{
+		margin-top:40px;
+		width:75%;
+	}
+	
+	#chart-area{
+		margin:90px auto;
+	}

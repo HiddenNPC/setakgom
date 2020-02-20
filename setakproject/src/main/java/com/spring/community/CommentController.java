@@ -98,10 +98,9 @@ public class CommentController
 	}
 	
 	@RequestMapping(value="admin/ad_commentList.do", produces="application/json; charset=UTF-8",  method = {RequestMethod.GET, RequestMethod.POST})
-	@ResponseBody public List<CommentVO> ad_commentList() 
+	@ResponseBody public List<CommentVO> ad_commentList(CommentVO vo) 
 	{	
-		List<CommentVO> list = commentService.ad_commentList();
-		
+		List<CommentVO> list = commentService.ad_commentList(vo);	
 		return list;
 
 	}
@@ -113,8 +112,7 @@ public class CommentController
 		System.out.println(vo.getQna_num());
 		vo.setQna_content(request.getParameter("qna_content"));
 		vo.setMember_id("관리자");
-		System.out.println(vo.getQna_content());
-		
+		System.out.println(vo.getQna_content());		
 		qvo.setQna_check(request.getParameter("qna_check"));
 		qvo.setQna_num(Integer.parseInt(request.getParameter("qna_num")));
 		

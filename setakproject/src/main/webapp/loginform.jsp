@@ -493,28 +493,54 @@
             AuthTimer.fnStop();
             random = randomnum();
             
-            var phonenum = $("#member_phone").val();
-            
-            var allData = { "pn": phonenum , "randomnum": random };
-            
-            $.ajax({
-                   type: "POST",
-                   url: "/setak/sendSMS.do", 
-                   data: allData,
-                   contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                   dataType: 'text',
-                   
-                   success: function (data) {
-                    AuthTimer.comSecond = 179;
-                    AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
-                    AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
-                    AuthTimer.domId = document.getElementById("timer");
-                    $("#authbtn").attr('disabled', true);
-                   },
-                   error: function (e) {
-                  console.error(e);
-               }
-            });
+			var daycount = 0; 
+ 			
+ 			$.ajax({
+                 type: "POST",
+                 url: "/setak/ipcount.do",
+                 async:false,
+                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                 dataType: 'json',
+                 
+                 success: function (data) {
+                 	if(data.res=="OK") {
+                 		daycount = 1;
+ 		        	 } else {
+ 		        		 Swal.fire("","오늘 사용횟수를 초과하였습니다.","warning");
+ 		        	 }
+                 },
+                 error: function (e) {
+ 					console.error(e);
+ 				}
+ 			});
+ 			
+ 			if(daycount == 1){
+ 				var phonenum = $("#member_phone").val();
+ 				
+ 				var allData = { "pn": phonenum , "randomnum": random };
+ 				
+ 				
+ 				
+ 				
+ 				$.ajax({
+ 	                type: "POST",
+ 	                url: "/setak/sendSMS.do", 
+ 	                data: allData,
+ 	                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+ 	                dataType: 'text',
+ 	                
+ 	                success: function (data) {
+ 	        			AuthTimer.comSecond =  179;
+ 	        			AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
+ 	        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+ 	        			AuthTimer.domId = document.getElementById("timer");
+ 	        			$("#authbtn").attr('disabled', true);
+ 	                },
+ 	                error: function (e) {
+ 						console.error(e);
+ 					}
+ 				});
+ 			}
             
          });   
          
@@ -549,28 +575,54 @@
             AuthTimer.fnStop();
             random = randomnum();
             
-            var phonenum = $("#member_phone").val();
-            
-            var allData = { "pn": phonenum , "randomnum": random };
-            
-            $.ajax({
-                   type: "POST",
-                   url: "/setak/sendSMS.do", 
-                   data: allData,
-                   contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                   dataType: 'text',
-                   
-                   success: function (data) {
-                    AuthTimer.comSecond = 179;
-                    AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
-                    AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
-                    AuthTimer.domId = document.getElementById("timer2");
-                    $("#authbtn2").attr('disabled', true);
-                   },
-                   error: function (e) {
-                  console.error(e);
-               }
-            });
+			var daycount = 0; 
+ 			
+ 			$.ajax({
+                 type: "POST",
+                 url: "/setak/ipcount.do",
+                 async:false,
+                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                 dataType: 'json',
+                 
+                 success: function (data) {
+                 	if(data.res=="OK") {
+                 		daycount = 1;
+ 		        	 } else {
+ 		        		 Swal.fire("","오늘 사용횟수를 초과하였습니다.","warning");
+ 		        	 }
+                 },
+                 error: function (e) {
+ 					console.error(e);
+ 				}
+ 			});
+ 			
+ 			if(daycount == 1){
+ 				var phonenum = $("#member_phone").val();
+ 				
+ 				var allData = { "pn": phonenum , "randomnum": random };
+ 				
+ 				
+ 				
+ 				
+ 				$.ajax({
+ 	                type: "POST",
+ 	                url: "/setak/sendSMS.do", 
+ 	                data: allData,
+ 	                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+ 	                dataType: 'text',
+ 	                
+ 	                success: function (data) {
+ 	        			AuthTimer.comSecond =  179;
+ 	        			AuthTimer.fnCallback = function(){Swal.fire("","다시인증을 시도해주세요.","warning");};
+ 	        			AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000);
+ 	        			AuthTimer.domId = document.getElementById("timer");
+ 	        			$("#authbtn").attr('disabled', true);
+ 	                },
+ 	                error: function (e) {
+ 						console.error(e);
+ 					}
+ 				});
+ 			}
             
          });   
          

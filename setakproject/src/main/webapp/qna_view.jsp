@@ -18,7 +18,10 @@
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
-<title> 세탁곰 Q&A </title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
@@ -27,21 +30,7 @@
 $(document).ready(function() {
 	$("#header").load("header.jsp")
     $("#footer").load("footer.jsp")   
-	<%-- 
-     if('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'){
-		output +='<%=vo.getMember_id()%></small></td></tr>';
-		
-	}else{
-		output +='관리자</small></td></tr>';
-	}					
-	var i = item.review_star;
-	var res =JSON.stringify(item.review_photo);			
-	var idx= res.indexOf("_");
-	var rphoto=res.substring(1,idx);
-	var re_d =JSON.stringify(item.review_date);					
-	var rdate= re_d.substr(1 ,16);
-     --%>
-    
+	
     //목록
 	function selectData() {
 		var para= {Qna_num:<%=vo.getQna_num() %>};
@@ -98,14 +87,14 @@ $(document).ready(function() {
 			}
 			else if(!('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'))
 			{
-				alert('작성자만 댓글을 달 수 있습니다 .')
+				Swal.fire("",'작성자만 댓글을 달 수 있습니다 .',"info")
 				return false;
 			}	
 														
 		}
 		if($('#q-c-tarea').val()=='')
 		{
-			alert("댓글을 입력해주세요 (최대 300자)");
+			Swal.fire("","댓글을 입력해주세요 (최대 300자)","info");
 			return false;
 		}
 		var params=$("#comment_form").serialize();
@@ -187,19 +176,15 @@ selectData();
 		<td id="td2" valign=top colspan="3">&nbsp;Q : &nbsp; <%=vo.getQna_content()%>	
 		
 			<div class="thumbnail-wrapper">
-			  <div class="thumbnail">
-			    
+			  <div class="thumbnail">			    
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
 			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"/>
 			      	<%}else{ %>
 			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
-			      	<%} %>
-			    
+			      	<%} %>			    
 			  </div>
 			</div>
-		</td>
-		
-				
+		</td>						
 	</tr>
 	<tr>
 		<td colspan="3" width="10%" height="40px">

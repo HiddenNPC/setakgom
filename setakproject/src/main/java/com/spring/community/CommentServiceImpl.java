@@ -73,9 +73,9 @@ public class CommentServiceImpl implements CommentService
 	}
 
 	@Override
-	public List<CommentVO> ad_commentList() {
+	public List<CommentVO> ad_commentList(CommentVO vo) {
 		CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);				
-		List<CommentVO> list = commentMapper.ad_commentList(); 
+		List<CommentVO> list = commentMapper.ad_commentList(vo); 
 		return list; 
 	}
 
