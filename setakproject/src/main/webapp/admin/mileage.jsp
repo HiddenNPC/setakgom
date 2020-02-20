@@ -47,6 +47,7 @@
 							str += '</ul>';
 							$(".mile_list").append(str);
 						});
+						$(".mile_list").append('<input type="button" value="선택삭제" class="checkdelete" id="delete-btn" >');
 						page();
 					},
 					error:function(){
@@ -294,6 +295,7 @@
 								str += '</ul>';
 								$(".mile_list").append(str);
 					 });
+					 $(".mile_list").append('<input type="button" value="선택삭제" class="checkdelete" id="delete-btn" >');
 					page();
 				},
 				error: function() {
@@ -393,7 +395,6 @@
 			
 			<form id="mile_form">
 				<div class="mile_list paginated">
-					<input type="button" value="선택삭제" class="checkdelete" id="delete-btn"/>
 				</div>
 			</form>
 
