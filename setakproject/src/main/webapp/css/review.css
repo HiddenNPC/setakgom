@@ -21,6 +21,25 @@
       }
     
     a{ text-decoration:none; }
+/* <<<<<<< HEAD
+	a:link { color: #444; text-decoration: none;}
+	a:visited { color: #444; text-decoration: none;}  	
+	.review { font-size:0.9rem; font-weight:bold; padding-top:150px; }	
+ 	
+  	textarea{ 
+	  	resize: none;
+	    height: 150px;
+	    width: 500px;
+	    border-top-left-radius: 5px;
+	    border-bottom-left-radius: 5px;
+	    border-top-right-radius: 5px;
+	    border-bottom-right-radius: 5px;
+	    box-sizing: border-box;
+	    padding: 8px; 
+   		}
+  	.starR1 {
+  	background: url('../images/r_star.png') no-repeat -34px 0;
+======= */
    a:link { color: #444; text-decoration: none;}
    a:visited { color: #444; text-decoration: none;}     
    .review { font-size:0.9rem; font-weight:bold; padding-top:150px; }   
@@ -33,6 +52,7 @@
          }
      .starR1 {
      background: url('../images/r_star.png') no-repeat -34px 0;
+>>>>>>> refs/remotes/origin/master
     background-size: auto 100%; width: 10px; height: 20px; float: left; text-indent: -9999px; cursor: pointer;
         }
 
@@ -58,13 +78,15 @@
     
     
     #h_small{ font-size: 0.9rem;
-	    color: #aa9fa7;
-	    line-height: 22px;
-	    font-family: inherit;
-	    position: absolute;
-	    top: 55%;
-	    right: 43.9%;
-	    font-weight: bold;}	
+    color: #aa9fa7;
+    /* line-height: 22px; */
+    font-family: inherit;
+    padding-left: 4px;
+    /* position: relative; */
+    /* top: 55%; */
+    /* right: 45.5%; */
+
+    }	
     
     small{ font-size: 0.8rem; color:#aa9fa7; line-height: 22px;}	
 	
@@ -81,36 +103,50 @@
   	/* 검색영역 */
   	.re2{margin:auto; width:1200px; }
   	.re2_search{width:1200px;}
+  	.re2_search2 { float: right; }
  
   	/* 리뷰 리스트 */
   	.paginated{ margin:auto; width:1200px; margin-top:5px; } 	 	
   	.paginated td {  
-		border: 1px solid #e1e4e4;  
-		line-height: 25px;  
-		width:1200px;  
-		letter-spacing: 1px; 
-		font-family: inherit;
-		  
+		    border: 1px solid #e1e4e4;
+		    line-height: 20px;
+		    width: 1200px;
+		    font-family: inherit;		  
 		} 
-    #re_list form{width:1200px;}
+		
+	#re_list{}	
+    #re_list form{ width:1200px; }
     
     .re_list_td1{   
 		line-height: 0px !important;
+    	}
+    
+    #remo{     
+	    width: 1200px;
+	    padding: 25px;
+	    border: none;     
     }
-    
-    
-    
-    
-    
-    
-    
-    #remo{ width:1200px; border-top: 2px solid #3498db; }
     .clickable {cursor: pointer;}
+<<<<<<< HEAD
+	 	    
+  	.ret{
+  	    font-size: 0.9rem;
+    	color: #444;
+    	font-family: "Nanum Gothic", "Noto Sans";
+    	line-height: 20px;
+   		width: 1000px;
+   		height: 150px; 
+   		border-color: #3498db;  
+  	}
+  	  
+  	.ret2{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
+=======
            
      .ret{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
     line-height: 25px; width: 800px;  height:200px; border: none; margin: auto;
      }  
      .ret2{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
+>>>>>>> refs/remotes/origin/master
     line-height: 25px; width: 800px;  height:200px; border: 1px solid #e1e4e4; margin: auto;
      }  
      
@@ -256,8 +292,7 @@
 	
 	/* 이미지 미리보기 */
 	.thumbnail-wrapper { width:auto; height:auto; }	
-	.thumbnail {}
-    
+	
 	.thumbnail-img 
 	{
 	    max-width: 100%;
@@ -265,9 +300,7 @@
 	    text-align: center;
 	    overflow: hidden;
 	    width: inherit;
-	    text-align: center;
-	    /* padding-top: 20px; */
-	    /* padding-bottom: 20px; */
+	   
 	 }
 	/* 이미지 미리보기 끝 */
 	
@@ -322,7 +355,7 @@
     a{ text-decoration:none; }
    a:link { color: #444; text-decoration: none;}
    a:visited { color: #444; text-decoration: none;}     
-   .review { font-size:0.9rem; font-weight:bold; padding-top:150px; }   
+   .review {font-size: 0.7rem;font-weight:bold;padding-top:150px;}   
     
      textarea{
      resize:none;
@@ -374,43 +407,90 @@
          font-size : 0.8rem;
       }          
      /* 검색영역 */
-     .re2{margin:auto; width:1200px; }
-     .re2_search{width:1200px;}
+     .re2{margin:auto;width: 95%;}
+     .re2_search{width: 90%;}
+     .re2_search2 {float: right;width: 85%;}
  
      /* 리뷰 리스트 */
-     .paginated{ margin:auto; width:1200px; margin-top:5px; }        
-     .paginated td { border: 1px solid #e1e4e4; padding:8px;
+     .paginated{margin:auto;width: 95%;margin-top:5px;}        
+     .paginated td {
   
-    line-height: 25px; width:1200px; letter-spacing: 1px;font-family: inherit;
-      } 
-    #re_list form{width:1200px;}
+border: 1px solid #e1e4e4;
+  
+padding: 2px;
+  
+/* line-height: 19px; */
+  
+width: 96%;
+  
+/* letter-spacing: 1px; */
+  
+font-family: inherit;
+  } 
+    #re_list form{ width: 95%; margin: auto; }
+    #re_list form table{ 
+    width: 95%; margin: auto; 
+    border-top:1px solid #3498db; 
+    height:400px;
+    }
+    #re_list form table tbody{
+    width: 95%;
+    margin: auto;
+    border-top:1px solid #3498db;
+    height: 200px;
+    }
     
     
     
     #remo{ width:1200px; border-top: 2px solid #3498db; }
     .clickable {cursor: pointer;}
            
-     .ret{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
-    line-height: 25px; width: 800px;  height:200px; border: none; margin: auto;
-     }  
+     .ret{
+    font-size: 0.7rem;
+    color: #444;
+    font-family: inherit;
+    line-height: 20px;
+    width: 93%;
+    /* height: 58px; */
+    border: none;
+    margin: auto;
+    }  
      .ret2{font-size: 0.9rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
     line-height: 25px; width: 800px;  height:200px; border: 1px solid #e1e4e4; margin: auto;
      }  
      
-     .paginated input[type=button]{
-       color: #fff; background-color: #3498db; WIDTH:40pt; HEIGHT:20pt;
-         border-top-left-radius: 5px;  border-bottom-left-radius: 5px;
-         border-top-right-radius: 5px; border-bottom-right-radius: 5px;
-         border: none; outline: none; margin: 5px; cursor: pointer;
-    }    
+     #re_list{
+    width: 95%;
+    margin: auto;
+}
      
+     .paginated input[type=button]{
+       color: #fff;
+       background-color: #3498db;
+       WIDTH: 30pt;
+       HEIGHT: 17pt;
+       border-top-left-radius: 5px;
+       border-bottom-left-radius: 5px;
+       border-top-right-radius: 5px;
+       border-bottom-right-radius: 5px;
+       border: none;
+       outline: none;
+       margin: 5px;
+       cursor: pointer;
+       font-size: 0.65rem;
+    }  
+   
      /* 검색버튼 */ 
    input[type=radio]{display:none;}   
    input[type=radio]+label{
-   display: inline-block; padding:5px;
-   background-color: #fff; border: 1px solid #e1e4e4;
-   width:60px; text-align: center; cursor: pointer;
-   transition: all .3s; 
+   display: inline-block;
+   padding: 3px;
+   background-color: #fff;
+   border: 1px solid #e1e4e4;
+   width: 45px;
+   text-align: center;
+   cursor: pointer;
+   transition: all .3s;
    } 
    input[type=radio]+label:hover{   
    background-color:#3498db; 
@@ -426,14 +506,22 @@
    
    }
    
-   select {width: 90px; padding: 5px; padding-left: 9px; height: 30px;
+   select {
+    width: 70px;
+    padding: 2px;
+    padding-left: 3px;
+    height: 22px;
     background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 100% 40%;
-    background-size:35%;
-    -webkit-appearance: none; border: 1px solid #e1e4e4;
-    font-size: 0.8rem; color: #444; font-family: "Nanum Gothic", "Noto Sans";
-    font-weight: bold; }
-   #keyword{ height:25px; border: 1px solid #e1e4e4; }
-   #kwbtn{ height:30px; border: 1px solid #e1e4e4; }
+    background-size: 35%;
+    -webkit-appearance: none;
+    border: 1px solid #e1e4e4;
+    font-size: 0.7rem;
+    color: #444;
+    font-family: "Nanum Gothic", "Noto Sans";
+    font-weight: bold;
+    }
+   #keyword{height: 18px;border: 1px solid #e1e4e4;}
+   #kwbtn{height: 23px;border: 1px solid #e1e4e4;}
    
    /* 검색끝 */ 
    
@@ -564,8 +652,8 @@
    
    /* 이미지 미리보기 */
    .thumbnail-wrapper { width:auto; height:auto; }   
-   .thumbnail { position: relative; overflow: hidden; }         
-   .thumbnail-img { max-width:100%; height:300px; }
+   .thumbnail {/* position: relative; *//* overflow: hidden; */}         
+   .thumbnail-img {max-width: 50%;/* height:300px; */text-align: center;overflow: hidden;width: inherit;}
    /* 이미지 미리보기 끝 */
    
 
