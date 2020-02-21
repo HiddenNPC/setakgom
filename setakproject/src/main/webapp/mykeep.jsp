@@ -138,7 +138,7 @@
 								<tr>
 									<th style="width: 30%;" class="num">주문번호</th>
 									<th style="width: 20%;" class="box">박스 수량</th>
-									<th style="width: 40%;" class="day">보관 기관</th>
+									<th style="width: 40%;" class="day">보관 기간</th>
 									<th style="width: 10%;" class="detail">상세보기</th>
 								</tr>
 								<tr>
@@ -294,7 +294,7 @@ $(document).ready(function () {
 					output += '</tr>';
 				});
 				$.each(data, function(index, item) {
-					input += '<option value='+item.keep_cate+'>' + item.keep_cate + '</option>';
+					input += '<option value='+item.keep_kind+'>' + item.keep_kind + '</option>';
 				})
 				console.log("output : " + output);
 				$('.accordion-content2 > table').append(output);
@@ -360,7 +360,7 @@ $.pricefun = function(n){
 					str += '<td>';
 					str += '<select class="rt-list" name="return_kind">';
 				$.each(data, function(index, item) {
-					str += '<option value='+item.keep_cate+'>' + item.keep_cate + '</option>';
+					str += '<option value='+ item.keep_kind +'>' + item.keep_kind + '</option>';
 				})
 					str += '</select>';
 					str += '</td>';
