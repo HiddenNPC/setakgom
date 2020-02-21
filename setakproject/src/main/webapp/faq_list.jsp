@@ -7,9 +7,7 @@
     
 <%
 	ArrayList<FaqVO> faqlist = (ArrayList<FaqVO>) request.getAttribute("faqdata");
-	System.out.println("faqlist.get(0).getFaq_cate()=" +faqlist.get(0).getFaq_cate());
-	
-	
+
 %>    
     
     
@@ -82,12 +80,12 @@ $(document).ready(function(){
 
 <div class="tab" >
 <ul id="tab">
-    <li><%=faqlist.get(0).getFaq_cate()%></li>
-    <li><%=faqlist.get(6).getFaq_cate()%></li>
-    <li><%=faqlist.get(10).getFaq_cate()%></li>
-    <li><%=faqlist.get(16).getFaq_cate()%></li>	
-    <li><%=faqlist.get(24).getFaq_cate()%></li>	
-    <li><%=faqlist.get(26).getFaq_cate()%></li>	    
+    <li>기본정보</li>
+    <li>이용정보</li>
+    <li>수거/배송</li>
+    <li>세탁</li>	
+    <li>요금/결제</li>	
+    <li>보관</li>	    
 </ul>
 </div>
 
