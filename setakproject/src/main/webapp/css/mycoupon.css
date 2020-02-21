@@ -21,6 +21,7 @@
 		-ms-box-align: center;
 	}
 	.title-text h2 {
+		display:none;
 		font-size: 2rem;
 		color: #444;
 	}
@@ -42,7 +43,7 @@
 	}
 	.mypage_content{
 		width:1035px;
-		margin-left:15px;
+		/* margin-left:15px; */
 	}
 	.mypage_content h2{
 		height:130px;
@@ -119,6 +120,9 @@
 			border:1px solid;
 			height: 60px;
 		}
+		table.qna thead th:last-child{
+			display:none;
+		}
 
 		table.qna tbody{
 			font-size: 0.9rem;
@@ -127,6 +131,10 @@
 		table.qna tbody tr td{
 			border:1px solid #e1e4e4;
 			height: 50px;
+		}
+
+		table.qna tbody tr td:last-child{
+			display:none;
 		}
 
 		.page_a{
@@ -187,6 +195,7 @@
 		-ms-box-align: center;
 	}
 	.title-text h2 {
+		display:block;
 		font-size: 2rem;
 		color: #444;
 	}
@@ -208,9 +217,10 @@
 	}
 	.mypage_content{
 		width:100%;
-		margin-left:15px;
+		/* margin-left:15px; */
 	}
 	.mypage_content h2{
+		display:none;
 		height:130px;
 		line-height:130px;
 		text-align:center;
@@ -220,9 +230,9 @@
 	}
 	.mypage_head{
 		display:none;
-		width:150px;
-		box-sizing:border-box;
-		display:inline-block;
+		/* width:150px; */
+		/* box-sizing:border-box; */
+		/* display:inline-block; */
 	}
 	.mypage_head > ul > li:nth-child(2){
 		display:none;
@@ -277,7 +287,7 @@
 			border-collapse: collapse;
 			border: 2px solid #e1e4e4;
 			border-spacing: 0px;
-			margin-top:10px;
+			margin-top:70px;
 			width:100%;
 			color: #444;
 
@@ -291,10 +301,11 @@
 		table.qna thead th{
 			border:1px solid;
 			height: 60px;
+			font-size: 0.9rem;
 		}
 
 		table.qna tbody{
-			font-size: 0.9rem;
+			font-size: 0.75rem;
 		}
 
 		table.qna tbody tr td{

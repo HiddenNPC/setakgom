@@ -62,6 +62,7 @@ public class MypageServiceImpl implements MypageService {
 		return keepVO;
 	}
 	
+	
 	@Override
 	public KeepVO getKeepSeq(int keep_seq) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -73,9 +74,9 @@ public class MypageServiceImpl implements MypageService {
 	
 	
 	@Override
-	public int getOrdercount() {
+	public int getOrdercount(String member_id) {
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
-		int orderVO = mypageMapper.getOrdercount();
+		int orderVO = mypageMapper.getOrdercount(member_id);
 		
 		return orderVO;
 	}
@@ -138,6 +139,7 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	//보관연장
+	@Override
 	public int updateKeepMonth(HashMap<String, Object> map) {
 		int res = 0;
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -147,6 +149,7 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
+	@Override
 	public int all_Return(HashMap<String, Object> map) {
 		int res = 0;
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -156,6 +159,7 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
+	@Override
 	public int part_Return_now(HashMap<String, Object> map) {
 		int res = 0;
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
@@ -167,6 +171,7 @@ public class MypageServiceImpl implements MypageService {
 	
 
 	//리턴
+	@Override
 	public int part_Return(KeepReturnVO krvo) {
 		int res = 0;
 		try {
@@ -179,7 +184,7 @@ public class MypageServiceImpl implements MypageService {
 		return res;
 	}
 	
-	
+	@Override
 	public MemberVO getMember(String member_id) {
 		MemberVO mvo = null; 
 		try {
@@ -193,7 +198,7 @@ public class MypageServiceImpl implements MypageService {
 		
 	}
 
-
+	@Override
 	public ArrayList<KeepPhotoVO> selectPhoto(long order_num){
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		ArrayList<KeepPhotoVO> kpvo = new ArrayList<KeepPhotoVO>();
@@ -203,6 +208,22 @@ public class MypageServiceImpl implements MypageService {
 		return kpvo;
 	}
 
+	public int updateReview(HashMap<String, Object> map) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int res = 0;
+		res = mypageMapper.updateReview(map);
+		
+		return res;
+	}
+	
+	@Override
+	public int getQnaCount(String member_id) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int res = 0;
+		res = mypageMapper.getQnaCount(member_id);
+		
+		return res;
+	}
 }
 
 

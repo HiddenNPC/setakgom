@@ -1,5 +1,6 @@
 package com.spring.admin_order;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -119,5 +120,20 @@ public class AdminSubscribeServiceImpl implements AdminSubscribeService {
 		
 		return res;
 	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> getSubPopular() {
+		ArrayList<HashMap<String, Object>> subList = null;
+		try {
+			Admin_subscribe adminSubscribeMapper = sqlSession.getMapper(Admin_subscribe.class);
+			subList = adminSubscribeMapper.getSubPopular();
+		} catch(Exception e) {
+			System.out.println("정기구독 > 인기 순위 검색 실패 " + e.getMessage());
+		}
+		
+		return subList;
+	}
+
+
 
 }

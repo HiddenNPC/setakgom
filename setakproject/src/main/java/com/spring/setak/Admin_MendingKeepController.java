@@ -151,6 +151,48 @@ public class Admin_MendingKeepController {
 		return res;
 	}
 	
+	@RequestMapping(value="/admin/mendingLoadImg.do", produces = "application/json;charset=UTF-8")
+	public Map<String, Object> mendingLoadImg(@RequestParam(value="repair_seq") String repair_seq){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("repair_seq", repair_seq);
+		List<Object> imglist = mendingKeepService.mendingLoadImg(map);
+		Map<String, Object> res = new HashMap<String, Object>();
+		res.put("imglist", imglist);
+	
+		return res;
+	}
+	
+	@RequestMapping(value="/admin/deleteMendingImg.do", produces = "application/json;charset=UTF-8")
+	public void deleteMendingImg(@RequestParam(value="repair_file") String repair_file){
+		mendingKeepService.deleteMendingImg(repair_file);	
+	}
+	
+	@RequestMapping(value="/MendingImg.do")
+	public String MendingImg(HttpSession session , HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		
+		String repair_file = request.getParameter("repair_file");
+		String order_num = request.getParameter("order_num");
+		String repair_code = request.getParameter("repair_code");
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("repair_file",repair_file);	
+		map.put("order_num",order_num);
+		map.put("repair_code",repair_code);
+
+		int res = mendingKeepService.MendingImg(map);
+	
+		if(res == 0 ) {
+			writer.write("<script>alert('사진 업로드 실패!'); location.href='javascript:history.back()';</script>");
+		}
+		if(res > 0) {
+			writer.write("<script>alert('사진 업로드가 정상적으로 이루어 졌습니다.'); location.href='javascript:history.back()'; </script>");
+		}
+		return null;
+	}
+	
 	//보관
 	@RequestMapping(value="/getKeepList.do", produces="application/json;charset=UTF-8")
 	public List<Object> getKeepList() {

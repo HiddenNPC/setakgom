@@ -5,15 +5,19 @@
 	int[] washArr = (int[])request.getAttribute("washArr");
 	int[] repairArr = (int[])request.getAttribute("repairArr");
 	int[] keepArr = (int[])request.getAttribute("keepArr");
+
+	int[] washMonthArr = (int[])request.getAttribute("washMonthArr");
+	int[] repairMonthArr = (int[])request.getAttribute("repairMonthArr");
+	int[] keepMonthArr = (int[])request.getAttribute("keepMonthArr");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>세탁곰 기타주문관리</title>
+	<title>세탁곰 관리자페이지</title>
+	<link rel="shortcut icon" href="../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
@@ -22,31 +26,57 @@
 	<script src="./utils.js"></script>
 	
 	<!-- toast chart -->
-	<link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
-	<script src="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.js"></script>	
-
+	<link rel="stylesheet" type="text/css" href="./chart/tui-chart.css" />
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css'/>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/addon/lint/lint.css'/>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/theme/neo.css'/>
+    <link rel='stylesheet' type='text/css' href='./chart/example.css'/>
+    
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/core.js'></script>
+	<script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
+	<script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
+	<script src='./chart/tui-chart.js'></script>
+	
+	<style>
+	.content h3 {
+		margin: 50px 0 20px 0;
+	}
+	#jschart{
+		margin-top:10px;
+		width:75%;
+	}
+	
+	#chart-area{
+		margin:10px auto;
+	}
+	</style>	
 </head>
 
 <body>
 	<div id="admin"></div>
 	<div class="content">
-		<div style="width:70%;">
+		<h3>하루 단위 세수보 그래프</h3>
+		<div id="jschart">
 			<canvas id="canvas"></canvas>
 		</div>
+		<h3> 월 단위 세수보 그래프</h3>
+		 <div id="chart-area"></div>
 	</div><!-- 지우지마세요 -->
 	
-<script type="text/javascript">
+	<script type="text/javascript" class='code-js' id='code-js'>
+	
 		//헤더, 푸터연결
 		$("#admin").load("./admin.jsp")
 		
-			/*x축 날짜*/
+		/*일별 주문 상태 변화 그래프*/
+			//x축 날짜
 			var today = new Date();
 			var yesterday = new Date(Date.parse(today) - 1 * 1000 * 60 * 60 * 24);
  			var dayago2 = new Date(Date.parse(today) - 2 * 1000 * 60 * 60 * 24);
 			var dayago3 = new Date(Date.parse(today) - 3 * 1000 * 60 * 60 * 24);
 			var dayago4 = new Date(Date.parse(today) - 4 * 1000 * 60 * 60 * 24); 
 			
-			/*데이터*/
+			//데이터
 			var config = {
 				type: 'bar',
 				data: {
@@ -54,20 +84,20 @@
 					datasets: [{
 						label: '세탁량',
 						fill: false,
-						backgroundColor: window.chartColors.red,
-						borderColor: window.chartColors.red,
+						backgroundColor: window.chartColors.blue,
+						borderColor: window.chartColors.blue,
 						data: [<%=washArr[4]%>,<%=washArr[3]%>,<%=washArr[2]%>,<%=washArr[1]%>,<%=washArr[0]%>],
 					}, {
 						label: '수선량',
 						fill: false,
-						backgroundColor: window.chartColors.blue,
-						borderColor: window.chartColors.blue,
+						backgroundColor: window.chartColors.yellow,
+						borderColor: window.chartColors.yellow,
 						data: [<%=repairArr[4]%>,<%=repairArr[3]%>,<%=repairArr[2]%>,<%=repairArr[1]%>,<%=repairArr[0]%>],
 					}, {
 						label: '보관량',
 						fill: false,
-						backgroundColor: window.chartColors.yellow,
-						borderColor: window.chartColors.yellow,
+						backgroundColor: window.chartColors.red,
+						borderColor: window.chartColors.red,
 						data: [<%=keepArr[4]%>,<%=keepArr[3]%>,<%=keepArr[2]%>,<%=keepArr[1]%>,<%=keepArr[0]%>],
 					}]
 				},
@@ -75,7 +105,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: '일별 주문 상태 변화'
+						text: ' '
 					},
 					tooltips: {
 						mode: 'index',
@@ -104,12 +134,67 @@
 				}
 			};
 			
-			
 		
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
 			window.myLine = new Chart(ctx, config);
 		};
+		
+		
+		/*한달별 주문 상태 변화 그래프*/
+		var container = document.getElementById('chart-area');
+		var data = {
+		   categories: ['1월', '2월'],
+		    series: [
+		        {
+		            name: '세탁량',
+					data: [<%=washMonthArr[0]%>,<%=washMonthArr[1]%>]
+		        },
+		        {
+		            name: '수선량',
+					data: [<%=repairMonthArr[0]%>,<%=repairMonthArr[1]%>]
+		        },
+		        {
+		            name: '보관량',
+					data: [<%=keepMonthArr[0]%>,<%=keepMonthArr[1]%>]
+		        }
+		    ]
+		};
+		var options = {
+		    chart: {
+		        width: 1100,
+		        height: 300,
+		        title: ' ',
+		        'format': '1'
+		    },
+		    yAxis: {
+		        title: '달'
+		    },
+		    xAxis: {
+		        title: '양',
+		        max: 180
+		    },
+		    series: {
+		        stackType: 'normal'
+		    }
+		};
+		var theme = {
+		    series: {
+		        colors: [
+		            '#2a4175', '#289399', '#289399', '#617178'
+		        ]
+		    }
+		};
+
+		// For apply theme
+
+		// tui.chart.registerTheme('myTheme', theme);
+		// options.theme = 'myTheme';
+
+		tui.chart.barChart(container, data, options);
+			
+			
+			
 	
 		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
 		function timeSt(dt) {

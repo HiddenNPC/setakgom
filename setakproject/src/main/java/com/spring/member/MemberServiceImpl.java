@@ -73,6 +73,27 @@ public class MemberServiceImpl implements MemberService{
 		 return res;
 	}
 	
+	@Override
+	public int member_password2(HashMap<String, Object> map) {
+		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+		int res = 0;
+		String passwd = mapper.member_password2(map);
+		String writepw = (String) map.get("member_password");
+		try {
+			if(passwd != null) {
+				String dbpasswd = passwd;
+				if(dbpasswd.equals(writepw)) {
+					res = 1; //비밀번호 일치
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("비밀번호 일치 실패" + e.getMessage());
+			 res = -1;
+		}
+		 return res;
+	}
+	
+	
 	// 회원정보 출력
 		@Override
 		public MemberVO member_list(MemberVO mo) {

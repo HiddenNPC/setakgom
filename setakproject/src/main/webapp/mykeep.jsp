@@ -34,6 +34,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mykeep.css" />
+<link rel="shortcut icon" href="favicon.ico">
+   
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -49,6 +51,7 @@
 		
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
+	
 	});
 	
 </script>
@@ -152,23 +155,23 @@
 						<table>
 						</table>
 							<div class="photo">
-								<tr>
+								<ul class="img-list">
 								<%for(int p = 0; p<kpvo.size(); p++) {
 									KeepPhotoVO kpvo2 = (KeepPhotoVO) kpvo.get(p);
 									if (kpvo2.getKeep_path()== null){								
 								%>
-								<td>
+								<li>
 									<img src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">
-								</td>
+								</li>
 								<%} else {%>	
-								<td>
+								<li>
 									<img src="https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>" onclick="window.open('https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');" class="keep_photo">
-								</td>
+								</li>
 								<%
 									} 
 								}
 								%>
-								</tr>
+								</ul>
 							</div>
 							<div class="keepbox" style="border-right: 1px solid rgb(255, 255, 255);">보관 기간 연장</div>
 							<div class="keepbox2">반환 신청</div>
@@ -305,8 +308,6 @@ $(document).ready(function () {
 	}
 	 selectData();
 });
-
-
 
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;

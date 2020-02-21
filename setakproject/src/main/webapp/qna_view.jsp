@@ -20,6 +20,8 @@
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
 <title>세탁곰</title>
 <link rel="shortcut icon" href="favicon.ico">
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
@@ -79,14 +81,14 @@ $(document).ready(function() {
 			}
 			else if(!('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'))
 			{
-				alert('작성자만 댓글을 달 수 있습니다 .')
+				Swal.fire("",'작성자만 댓글을 달 수 있습니다 .',"info")
 				return false;
 			}	
 														
 		}
 		if($('#q-c-tarea').val()=='')
 		{
-			alert("댓글을 입력해주세요 (최대 300자)");
+			Swal.fire("","댓글을 입력해주세요 (최대 300자)","info");
 			return false;
 		}
 		var params=$("#comment_form").serialize();

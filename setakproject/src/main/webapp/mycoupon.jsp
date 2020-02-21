@@ -17,7 +17,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/mycoupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
-	
+	<link rel="shortcut icon" href="favicon.ico">
+   
 	<!--sweetalert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
@@ -71,7 +72,7 @@
 					</li>
 				</ul>
 			</div>
-			<div style="width: 85%; float: right;">
+			<div>
 				<div class="mypage_content">
 				<h2>쿠폰 조회</h2>
 				<%if (couponlist.size() == 0) {%>
@@ -94,7 +95,6 @@
 							<tbody align="center">
 								
 								<%
-								System.out.println("size : " + couponlist.size());
 								for(int i=0; i<couponlist.size(); i++){ 
 									CouponVO cvo = (CouponVO)couponlist.get(i);
 								
