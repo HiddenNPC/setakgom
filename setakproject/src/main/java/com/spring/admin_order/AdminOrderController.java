@@ -2,6 +2,8 @@
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -146,6 +148,63 @@ public class AdminOrderController {
 				
 		}
 		// 세수보 차트 코드 끝
+		
+		// 수입 차트 코드 시작
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		
+		LocalDate basic = LocalDate.of(2020, 1, 28);
+		LocalDate now = LocalDate.now();
+		
+		int a = (int)ChronoUnit.DAYS.between(basic, now);
+		
+		String[] profit_dateArr = new String[a];
+		String[] dateArr2 = new String[a];
+		
+		//세수보 수익금액
+		int[] ssbResultArr = new int[a];
+		int ssbResult = 0;
+		
+		//정기결제 수익금액
+		int[] subResultArr = new int[a];
+		int subResult = 0;
+		
+		//총 수익금액
+		int[] totalArr = new int[a];
+		int total = 0;
+		
+		for(int i = 0; i < a ; i++) {
+			
+			basic.plusDays(i);
+			String c = basic.plusDays(i).toString().substring(2).replace("-","/");
+			
+			profit_dateArr[i] = c;
+			map2.put("order_date", profit_dateArr[i]);
+			map2.put("his_date", profit_dateArr[i]);
+
+			String d = basic.plusDays(i).toString();
+			dateArr2[i] = d;
+			
+			//세수보 수익금액
+			ssbResult = adminchartService.profit_ssb(map2);
+			ssbResultArr[i] += ssbResult; 
+			
+			//정기결제 수익금액
+			subResult = adminchartService.profit_sub(map2);
+			subResultArr[i] += subResult; 
+			
+			total = ssbResult + subResult;
+			totalArr[i] += total; 
+
+		}
+		
+		model.addAttribute("num", a);
+		model.addAttribute("dateArr2", dateArr2);
+		
+		model.addAttribute("ssbResultArr", ssbResultArr);
+		model.addAttribute("subResultArr", subResultArr);
+		
+		model.addAttribute("totalArr", totalArr);
+		// 수입 차트 코드 끝
 		
 		// 정기구독 인기 순위 구하기 부분
 		ArrayList<HashMap<String, Object>> subList = adminSubService.getSubPopular();
