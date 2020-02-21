@@ -19,7 +19,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>세탁곰 FAQ</title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/faq.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
@@ -76,7 +77,7 @@ $(document).ready(function(){
 <div id="header"></div>     
 <section id="faq"> <!-- id 변경해서 사용하세요. -->
 <div class="content"> <!-- 변경하시면 안됩니다. -->
-<div class="title-text"><h2>FAQ</h2></div>         
+<div class="title-text"><h2><a href="./faqList.do">FaQ</a></h2><small>자주묻는 질문</small></div>         
 <div class="faq">
 
 <div class="tab" >
@@ -94,48 +95,48 @@ $(document).ready(function(){
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("기본정보")){%>
-<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
+<h4 id="m_faq_title"><span>Q.</span>&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol style="display:none;"><li><span>A.</span><%=vo.getFaq_content()%></li></ol>
 <%}%><%}%>
 </div>	
 
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("이용정보")){%>
-<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
+<h4 id="m_faq_title"><span>Q.</span>&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol style="display:none;"><li><span>A.</span><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("수거/배송")){%>
-<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
+<h4 id="m_faq_title"><span>Q.</span>&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol style="display:none;"><li><span>A.</span><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("세탁")){%>
-<h4 id="m_faq_title">Q.<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
+<h4 id="m_faq_title"><span>Q.</span><%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol style="display:none;"><li><span>A.</span><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("요금/결제")){%>
-<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
+<h4 id="m_faq_title"><span>Q.</span>&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol style="display:none;"><li><span>A.</span><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	
 <div>
 <%for(int i=0; i<faqlist.size(); i++) { FaqVO vo =(FaqVO)faqlist.get(i); %>
 <%if(vo.getFaq_cate().equals("보관")){%>
-<h4 id="m_faq_title">Q.&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
-<ol style="display:none;"><li><%=vo.getFaq_content()%></li></ol>
+<h4 id="m_faq_title"><span>Q.</span>&nbsp;&nbsp;<%=vo.getFaq_title() %><input class="ico_ar" type="button"value="▼"></h4>   
+<ol style="display:none;"><li><span>A.</span><%=vo.getFaq_content()%></li></ol>
 <%}%>
 <%}%>
 </div>	

@@ -28,12 +28,17 @@
 </head>
 
     <script type="text/javascript">
+    //솔민입니다. 코드좀 추가하겠습니다. - 모바일 카트아이콘 색 입히기
+	  $(window).load(function(){
+	     $('.fa-shopping-cart').addClass('ick_color');
+	  });
+   	//
       $(document).ready(function(){
-    	  
-         $("#header").load("./header.jsp")
-         $("#footer").load("./footer.jsp")   
-         
-         getTotal();
+    	 $("#header").load("./header.jsp")
+    	 $("#footer").load("./footer.jsp")
+    	 
+		
+		getTotal();
          deliveryFee();
          
      	// 모바일 이미지 
@@ -80,7 +85,16 @@
      			rd = true; 
      		}
      		
-     		if(confirm("선택한 상품을 삭제하시겠습니까?")) {
+     		Swal.fire({
+				text: "선택한 상품을 삭제하시겠습니까?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: '네, 삭제합니다.',
+				cancelButtonColor: '#d33',
+				cancelButtonText: '아니요'
+     		}).then((result) => {
+     			if(result.value){
+     			
                 var washSeqArr = []; 
                 var repairSeqArr = []; 
                 var keepSeqArr = []; 
@@ -132,11 +146,15 @@
          				alert("삭제 과정 실패 ajax"); 
          			}
          		}); 
-     		} 
+     		}else{
+     			console.log("삭제안해!");
+ 			}
+ 		})
 
      		
      	});
-                      
+         
+         $('.fa-shopping-cart').addClass('ick_color');         
       });
       
       // 합계 구하는 함수
@@ -167,7 +185,7 @@
 		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
       
-    </script>
+	</script>
 <body>
 	<div id="header"></div>
 	

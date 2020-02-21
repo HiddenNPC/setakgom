@@ -83,6 +83,28 @@ public class Admin_MendingKeepServiceImpl implements Admin_MendingKeepService{
 		return mendinglist;
 	}
 	
+	@Override
+	public List<Object> mendingLoadImg(HashMap<String, Object> map){
+		List<Object> imglist = null;
+		Admin_MendingMapper mendingMapper = sqlSession.getMapper(Admin_MendingMapper.class);
+		imglist = mendingMapper.mendingLoadImg(map);
+		
+		return imglist;
+	}
+	
+	@Override
+	public void deleteMendingImg(String repair_file){
+		Admin_MendingMapper mendingMapper = sqlSession.getMapper(Admin_MendingMapper.class);
+		mendingMapper.deleteMendingImg(repair_file);
+	}
+	
+	@Override
+	public int MendingImg(HashMap<String, Object> map) {
+		Admin_MendingMapper mendingMapper = sqlSession.getMapper(Admin_MendingMapper.class);
+		int res = mendingMapper.MendingImg(map);
+		return res;
+	}
+	
 	//보관
 	@Override
 	public List<Object> getKeepList(){

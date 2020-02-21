@@ -30,6 +30,10 @@
 		SELECT member_password FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR}
    </select>
    
+   <select id="member_password2" parameterType="HashMap" resultType="String">
+		SELECT member_password FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR}
+   </select>
+   
    <!-- 회원정보 출력 -->
    <select id="member_list" parameterType="com.spring.member.MemberVO" resultMap="membervo">
       SELECT * FROM member WHERE member_id=#{member_id, jdbcType=VARCHAR} 

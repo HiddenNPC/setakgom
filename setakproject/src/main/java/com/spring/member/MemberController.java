@@ -166,15 +166,17 @@ public class MemberController {
 			String member_phone = memberVO.getMember_phone();
 			String member_email = memberVO.getMember_email();
 
-   		 	String addr = memberVO.getMember_loc();
-   		 	
-   		 	String[] locArr = addr.split("!");
-   		 	
-   		 	String member_addr1 = locArr[0];
-   		 	String member_addr2 = " ";
-   		 	if(locArr.length == 2) {
-   		 		member_addr2 = locArr[1];	
-   		 	}
+			String member_addr1 = " ";
+			String member_addr2 = " ";
+   		 	if (!(memberVO.getMember_loc().equals(("!")))) {
+	            String addr = memberVO.getMember_loc();
+	            String[] locArr = addr.split("!");
+	            member_addr1 = locArr[0];
+	            if (locArr.length == 2) {
+	               member_addr2 = locArr[1];
+	            }
+
+	         }
    		 	
    		 	String zipcode = memberVO.getMember_zipcode();
 
@@ -207,8 +209,23 @@ public class MemberController {
 
 	// 회원탈퇴 클릭시
 	@RequestMapping(value = "/withdraw.do", produces = "application/json; charset=utf-8")
-	public String withdraw() {
-		return "withdraw";
+	public String withdraw(HttpSession session) {
+		
+		if(session.getAttribute("member_id")==null) {
+			return "redirect:/";
+		}	
+		
+		String str=(String)session.getAttribute("member_id");
+		String last = str.substring(str.length() - 1);
+		
+		//다른 서비스 계정으로 로그인 할때
+		if(last.equals( "K")|| last.equals("N")||last.equals("G")) {
+			return "withdrawform";
+		
+		//일반 로그인시		
+		} else {
+			return "withdraw";
+		}
 	}
 
 	// 탈퇴시 비밀번호 입력

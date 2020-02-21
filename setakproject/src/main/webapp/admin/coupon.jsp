@@ -14,6 +14,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	<title>세탁곰 관리자페이지</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/admin_coupon.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="shortcut icon" href="favicon.ico">
+   
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -61,6 +63,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							str += '</ul>';
 							$(".coupon_list").append(str);
 						});
+						$(".coupon_list").append('<input type="button" value="선택삭제" class="checkdelete" id="delete-btn" >');
 						page();
 					},
 					error:function(){
@@ -271,7 +274,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			});
 		}
 		
-		
 		//검색
 		function searchCoupon() {
 			
@@ -303,7 +305,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					 $.each(list, function(index, item) {
 						 
 						 var str = '';
-							
 							str += '<ul>'
 							str += '<li class="listtd"><input type="checkbox" name="chk"></li>';
 							str += '<li class="listtd"><input type="button" class="member_id" value="' + item.member_id +'"></li>';
@@ -324,7 +325,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							str += '<a style="display: none;" value="/setak/admin/updateCoupon.do?coupon_seq=' + item.coupon_seq + '" class="after">수정</a></li>';
 							str += '</ul>';
 							$(".coupon_list").append(str);
+
 					 });
+					 $(".coupon_list").append('<input type="button" value="선택삭제" class="checkdelete" id="delete-btn" >');
 					page();
 				},
 				error: function() {
@@ -425,7 +428,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
 			<form id="coupon_form">
 				<div class="coupon_list paginated">
-					<input type="button" value="선택삭제" class="checkdelete" id="delete-btn"/>
+					
 				</div>
 			</form>
 

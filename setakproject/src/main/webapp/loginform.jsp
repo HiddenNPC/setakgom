@@ -11,13 +11,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>세탁곰</title>
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
+<link rel="stylesheet"	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/loginform.css" />
-<!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<link rel="shortcut icon" href="favicon.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!--sweetalert2 -->
@@ -35,7 +32,41 @@
 		$(".btn_join").click(function(event) {
 			$(location.href = "/setak/join.do");
 		});
-
+		
+		/*로그인 */
+		$("#btn-login").on('click',function(event) {
+			
+			$.ajax({
+				url:'/setak/loginpro.do',
+				type:'post',
+				data: {
+					'member_id':$('input[name=member_id]').val(),
+					'member_password':  $('input[name=member_password]').val(),
+					'backurl2': $('input[name=backurl]').val()
+				},
+				dataType:'json',
+				contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+     			success: function(result) {
+     				if(result.res=="OK") {
+     					location.href=result.backurl;
+	     			}
+	     			else { 
+	     				Swal.fire({
+							text: "아이디와 비밀번호를 다시 확인해 주세요",
+							icon: "error",
+						}).then(function(){
+							location.href='redirect:login.do';
+						});
+	     			}
+				},
+   			  	error:function() {
+		               alert("insert ajax 통신 실패");
+		        }			
+			});
+			event.preventDefault();
+			
+		});
+		
 		/*다른 서비스 계정으로 로그인*/
 		$(".kakao").click(function(event) {
 			$(location.href = "${kakao_url}");
@@ -302,7 +333,7 @@
 			});
 
 		}, function(error) {
-			alert(JSON.stringify(error, undefined, 2));
+					location.href='/setak/login.do';
 		});
 		
 
@@ -328,17 +359,17 @@
 
 	<section id="test"> <!-- id 변경해서 사용하세요. -->
 		<div class="content"> 	<!-- class 변경해서 사용하세요. -->
-			<form name="loginform" action="loginpro.do" method="post">
+			<form name="loginform">
 				<div class="loginform"> <!-- class 변경해서 사용하세요. -->
 						<input type="hidden" name="backurl" value = "<%=backurl%>" />
 					<div>
-						<input class="txtln" type="text" name="member_id" placeholder="아이디" />
+						<input class="txtln" type="text" name="member_id"  placeholder="아이디" />
 					</div>
 					<div>
 						<input class="txtln" type="password" name="member_password" placeholder="비밀번호" />
 					</div>
 					<div class="login">
-						<input class="btn" type="submit" value="로그인" />
+						<input class="btn" type="submit" id="btn-login" value="로그인" />
 					</div>
 					<hr>
 					<div class="find">

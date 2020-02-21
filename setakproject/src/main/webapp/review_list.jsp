@@ -12,7 +12,8 @@ String login_id=(String)session.getAttribute("member_id");
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<title> 세탁곰 리뷰  0207 </title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/review.css"/>
@@ -190,12 +191,16 @@ $(document).ready(function () {
 					
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-					re_list += '<td rowspan="2">';
+					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
-									re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
-								}else{
-									re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+								  //re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
+							   		re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
+								}
+								else
+								{ //re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+									re_list += '<img class="thumbnail-img" src="http://placehold.it/255x280"  onclick="window.open('+"'http://placehold.it/800x600'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">';
+																
 								}
 					re_list += '</td></div></div>';	
 					re_list += '</td></tr>';	
@@ -262,12 +267,15 @@ $(document).ready(function () {
 					
 					re_list += '</td></tr>';		   																		
 					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_id+'">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-					re_list += '<td rowspan="2">';
-					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail"><div class="thumbnail-centered">';				 
+					re_list += '<td rowspan="2" class="re_list_td1">';
+					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
-									re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
-								}else{
-									re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+								  //re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
+							   		re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
+								}else
+								{ //re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+									re_list += '<img class="thumbnail-img" src="http://placehold.it/255x280"  onclick="window.open('+"'http://placehold.it/800x600'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">';
+														
 								}
 					re_list += '</td></div></div></div>';	
 					re_list += '</td></tr>';	
@@ -481,12 +489,15 @@ function searchCheck() {
 				
 				re_list += '</td></tr>';		   																		
 				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-				re_list += '<td rowspan="2">';
-				re_list += '<div class="thumbnail-wrapper"><div class="thumbnail"><div class="thumbnail-centered">';				 
+				re_list += '<td rowspan="2" class="re_list_td1">';
+				re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 							if (!(rphoto=="등록한 파일이 없습니다.")){ 
-								re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
-							}else{
-								re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+							  //re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
+						   		re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
+							}
+							else
+							{ //re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
+								re_list += '<img class="thumbnail-img" src="http://placehold.it/255x280"  onclick="window.open('+"'http://placehold.it/800x600'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">';															
 							}
 				re_list += '</td></div></div></div>';	
 				re_list += '</td></tr>';	
@@ -674,7 +685,7 @@ function rwcancel(){
 <div id="header"></div>
 <section id="review">
 <div class="content">
-<div class="title-text"><h2><a href="javascript:history.go(0)">리뷰 </a></h2></div>
+<div class="title-text"><h2><a href="javascript:history.go(0)">Review<small id="h_small">리뷰</small></a></h2></div>
 <div class="review">
 
 <!-- 리뷰작성 모달 팝업  -->

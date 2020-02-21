@@ -42,7 +42,7 @@
 		display:none;
 	}
 	.logo_a:hover:after{
-		display: none;
+		width:0;
 	}
 	nav{
 		background-color:#fff;
@@ -156,6 +156,9 @@
     .header_space{
 		height:280px;
 	}
+	.m_mypage{
+		display:none;
+	}
     
 /* footer */
 	footer{
@@ -253,7 +256,7 @@
 		box-sizing:border-box;
 	}
 	nav a{
-		color:#fff;
+		color:#fff !important;
 	}
 	nav a:after {
 		content: '';
@@ -364,7 +367,63 @@
     .header_space{
 		height:50px;
 	}
-    
+	.m_mypage{
+		background-color:#e1e4e4;
+		height:100vh;
+		width:100%;
+	}
+	.m_mypage .m_mypage_title{
+		height:60px;
+		text-align:center;
+		background-color:#fff;
+	}
+	.m_mypage .m_mypage_title img{
+		position : absolute;
+        height:70px;
+        top:0;
+        left:3%;
+	}
+	.m_mypage .m_mypage_title h3{
+		display:inline-block;
+		line-height:60px;
+		letter-spacing:2px;
+	}
+    .m_mypage .m_mypage_nav ul{
+    	display:flex;
+    	justify-content:space-between;
+    	background-color:#3498db;
+    	line-height:90px;
+    }
+    .m_mypage .m_mypage_nav ul li{
+    	color:#fff;
+    	padding:0 20px;
+    }
+    .m_mypage .m_mypage_nav ul li a{
+        color:#fff;
+    }
+    .m_mypage .m_mypage_nav2 ul{
+    	margin-top:5px;
+    	background-color:#fff;
+    	display:block;
+    }
+    .m_mypage .m_mypage_nav2 ul li{
+    	display:block;
+    	line-height:43px;
+    	padding-left:20px;
+    	border-top:1px solid #e1e4e4;
+    	font-size:0.95rem;
+    }
+    .m_mypage .m_mypage_nav2 ul li a{
+    	color:#444
+    }
+    .m_mypage .m_mypage_nav2 ul li span{
+    	float:right;
+    	margin-right:20px;
+    	font-size:0.7rem;
+    }
+    .ick_color{
+    	color:#3498db !important;
+    }
 /* footer */
 	footer{
 		margin-top:80px;

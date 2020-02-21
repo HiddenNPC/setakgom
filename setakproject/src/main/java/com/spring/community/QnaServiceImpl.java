@@ -174,7 +174,6 @@ public class QnaServiceImpl implements QnaService
 		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
 		
 		qnalist = qnaMapper.selectQnalist(map);
-		
 		return qnalist;
 	}
 

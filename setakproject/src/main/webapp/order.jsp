@@ -409,7 +409,7 @@
        var finalPrice = orderPrice + deliPrice + couponSalePrice + pointPrice;
        
        if(finalPrice < 0) {
-           alert("결제 금액보다 할인 금액이 더 큰 경우");
+           Swal.fire("","결제 금액보다 할인 금액이 더 큽니다.","warning");
            select_btn.attr('checked', false);
            return;    
           }

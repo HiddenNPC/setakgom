@@ -20,6 +20,7 @@
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/profile.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+   <link rel="shortcut icon" href="favicon.ico">
    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
    
@@ -143,8 +144,8 @@
           var poReg = /^[0-9]{5}$/;
              
            if(authchk == 0){
-                alert("인증번호 확인이 되지 않았습니다.");
-                return;
+                Swal.fire("","인증번호 확인이 되지 않았습니다.","info");
+                return false;
              }
           
            if( $("#member_name").val()  == '' || $("#member_id").val()  == ''|| 
@@ -154,28 +155,28 @@
                    
                    
                  ) {
-                 alert("빠짐없이 기입해 주세요");
-                 return; 
+                 Swal.fire("","빠짐없이 기입해 주세요","info");
+                 return false; 
               };
           
            if(!pwReg.test($("#member_password").val())) {
-              alert("비밀번호를 8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.");
-              return; 
+              Swal.fire("","비밀번호를 8~16자 영문, 숫자, 특수문자의 조합으로 입력해주세요.","info");
+              return false; 
            }
           
            if($('#member_password').val() != $('#pw2').val()) {
-              alert("비밀번호가 일치하지 않습니다.");
-              return; 
+              Swal.fire("","비밀번호가 일치하지 않습니다.","info");
+              return false; 
            }
            
            if(!phReg.test($("#member_phone").val())){
-              alert("핸드폰 번호를 입력해주세요");
-              return; 
+              Swal.fire("","핸드폰 번호를 입력해주세요","info");
+              return false; 
            }
            
            if($("#member_sns").val()==random){
-              alert("핸드폰 번호를 입력해주세요");
-              return; 
+        	  Swal.fire("","핸드폰 번호를 입력해주세요","info");
+              return false; 
            }
            
            
@@ -206,11 +207,15 @@
                contentType : 'application/x-www-form-urlencoded;charset=utf-8',
                success: function(result) {
                   if(result.res=="OK") {
-                     alert("수정 성공");
-                     window.location.href = "./profile2.do";
+                     Swal.fire({
+ 						text: "수정 성공",
+ 						icon: "success",
+ 					}) .then(function(){
+ 						window.location.href = "./profile2.do";
+ 					});
                   }
                   else { // 실패했다면
-                     alert("개인정보수정 실패");
+                     Swal.fire("","개인정보수정 실패","error");
                   }
                },
                error:function() {
@@ -238,7 +243,7 @@
                if (this.comSecond < 0) {         // 시간이 종료 되었으면..
                    clearInterval(this.timer);      // 타이머 해제
                    random = randomnum();
-                   alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+                   Swarl.fire("","인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.","warning")
                }
            }
            ,fnStop : function(){

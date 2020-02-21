@@ -12,6 +12,7 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>세탁곰 관리자페이지</title>
+   <link rel="shortcut icon" href="favicon.ico">
    <link rel="stylesheet" type="text/css" href="../css/admin.css"/>
    <link rel="stylesheet" type="text/css" href="../css/admin_faq.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>

@@ -31,7 +31,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<link rel="stylesheet" type="text/css" href="./css/review.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<link rel="shortcut icon" href="favicon.ico">
+   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!--sweetalert2 -->
@@ -166,10 +167,14 @@
                   },
                   "dataType": "json"
                 }).done(function(result) { // 환불 성공시 로직 
-                    alert("주문이 성공적으로 취소 되었습니다.");
-                    window.location.href = "./orderview.do";
+                    Swal.fire({
+						text: "주문이 성공적으로 취소 되었습니다.",
+						icon: "success",
+					}) .then(function(){
+						window.location.href = "./orderview.do";
+					});
                 }).fail(function(result) { // 환불 실패시 로직
-                     alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+                     Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","error");
                 });   
          }          
       }); 
@@ -181,21 +186,21 @@
 
       if (document.getElementById('Review_content').value=="") 
       {
-         alert("리뷰의 내용을 작성하세요.(최대 300자)");
+         Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
            document.getElementById('Review_content').focus();
            return false;
            
        }
       else if (document.getElementById('Review_star').value=="") 
       {
-          alert("별점을 눌러주세요");
+          Swal.fire("","별점을 눌러주세요","info");
            document.getElementById('Review_star').focus();
            return false;
        }
       
       else if (document.getElementById('Review_kind').value=="") 
       {
-          alert("이용하신 서비스를 선택해주세요");
+          Swal.fire("","이용하신 서비스를 선택해주세요","info");
            document.getElementById('Review_kind').focus();
            return false;
        }
@@ -371,25 +376,27 @@ function cancle() {
             <table class="page">
                <tr align = center height = 20>
                        <td>
-                          <%if(nowpage <= 1) {%>
-                          <div class="page_a"><a>&#60;</a></div>
-                          <%} else {%>
-                             <div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
-                          <%} %>
-                          <%for (int a=startpage; a< endpage; a++) {
-                                if(a==nowpage) {
-                             %>
-                             <div class="page_a"><a><%=a %></a></div>
-                             <%} else {%>
-                                <div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
-                             <%} %>
-                          <%} %>
-                          <%if (nowpage >= maxpage) {%>   
-                             <div class="page_a"><a>></a></div>
-                          <%} else { %>   
-                              <div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
-                           <%} %>   
-                           </td>
+              				<%if(nowpage <= 1) {
+              				%>
+              				<div class="page_a"><a>&#60;</a></div>
+              				<%} else {%>
+              					<div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              				<%} %>
+              				<%for (int a=startpage; a<= endpage; a++) {
+              					if(a==nowpage) {
+           					%>
+           					<div class="page_a"><a><%=a %></a></div>
+           					<%} else {%>
+           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
+           					<%} %>
+           					<%} %>
+           					<%if (nowpage >= maxpage) {
+           					%>	
+           						<div class="page_a"><a>&#62;</a></div>
+           					<%} else { %>	
+                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  			<%} %>	
+                  			</td>
                      </tr>
             </table>
             </div>

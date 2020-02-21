@@ -18,7 +18,10 @@
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
-<title> 세탁곰 Q&A </title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
+<!--sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/qna.css"/>
@@ -30,22 +33,19 @@ $(document).ready(function() {
 	
     //목록
 	function selectData() {
-		var para= {Qna_num:<%=vo.getQna_num() %>};
-		
+		var para= {Qna_num:<%=vo.getQna_num() %>};		
 		$('#output').empty();
 		$.ajax({
-			/* url:'/setak_qna/commentList.re?qna_num='+para+'', 
+		  	/*url:'/setak_qna/commentList.re?qna_num='+para+'', 
 			type:'GET',*/
 			url:'/setak/commentList.do', 
 			type:'POST', 
 			data:para,
-			dataType:"json", //서버에서 보내줄 데이터 타입
+			dataType:"json",
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
 				$.each(data, function(index, item) {					
-					var output = '';
-					
-					
+					var output = '';					
 					output += '<tr><td><input type="hidden" value="'+item.qna_seq+'"/></td></tr>';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></td></tr>';							
 					output += '<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;">'+item.member_id+'</small></td></tr>';						
@@ -64,11 +64,8 @@ $(document).ready(function() {
 	//댓글 추가
 	$('#cf_insertbtn').on('click', function(event){
 		var qna_scr='<%=vo.getQna_scr()%>'; 
-		//console.log(qna_scr);
 		var session_id ='<%=(String)session.getAttribute("member_id")%>';
-		//console.log(session_id);
-		var qna_num = '<%=vo.getQna_num()%>';
-		//console.log(qna_num);
+		var qna_num = '<%=vo.getQna_num()%>';		
 		if(qna_scr=="공개")
 		{
 			if(session_id=='null')
@@ -84,14 +81,14 @@ $(document).ready(function() {
 			}
 			else if(!('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'))
 			{
-				alert('작성자만 댓글을 달 수 있습니다 .')
+				Swal.fire("",'작성자만 댓글을 달 수 있습니다 .',"info")
 				return false;
 			}	
 														
 		}
 		if($('#q-c-tarea').val()=='')
 		{
-			alert("댓글을 입력해주세요 (최대 300자)");
+			Swal.fire("","댓글을 입력해주세요 (최대 300자)","info");
 			return false;
 		}
 		var params=$("#comment_form").serialize();
@@ -146,7 +143,6 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 
-
 	
 selectData();	
 });
@@ -175,9 +171,9 @@ selectData();
 			<div class="thumbnail-wrapper">
 			  <div class="thumbnail">			    
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
-			      	<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"/>
+			      		<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"  onclick="window.open('https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">								
 			      	<%}else{ %>
-			      	<img class="thumbnail-img" src="./images/No_image_available.png"/>
+			      		<img class="thumbnail-img" src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">			      	
 			      	<%} %>			    
 			  </div>
 			</div>
@@ -202,7 +198,6 @@ selectData();
 		</td>
 	</tr>			
 </table>
-
 
 
 <!-- 게시판 내용 끝 ,  댓글 작성 폼  시작-->	

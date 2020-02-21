@@ -19,7 +19,7 @@ public interface MypageService {
 	public KeepVO getKeepSeq(int keep_seq);
 	public OrderVO selectOrder(long order_num);
 	public String selectOrderId(String member_id);
-	public int getOrdercount();
+	public int getOrdercount(String member_id);
 	public int getKeepcount();
 	public ArrayList<MendingVO> selectMending(long order_num);
 	public ArrayList<KeepVO> selectKeep(long order_num);
@@ -37,4 +37,6 @@ public interface MypageService {
 	
 	public int updateReview(HashMap<String, Object> map);
 	
+	
+	public int getQnaCount(String member_id);
 }
