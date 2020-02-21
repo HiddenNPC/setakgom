@@ -1,5 +1,6 @@
  package com.spring.admin_order;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +10,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +43,25 @@ public class AdminOrderController {
 	private Admin_memberService adminMemberService; 
 	
 	//관리자 페이지 메인 > 대시보드
-	@RequestMapping(value ="/admin/")
+	@RequestMapping(value ="/admin/", method = RequestMethod.GET)
 	public String home(Model model){
+		
+		// 오늘의 날씨 크롤링
+		String url = "https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EC%84%9C%EC%9A%B8+%EA%B0%95%EB%82%A8%EA%B5%AC+%EB%82%A0%EC%94%A8&oquery=%EC%98%A4%EB%8A%98%EC%9D%98+%EB%82%A0%EC%94%A8&tqi=UC3pKsprvxssssy%2F7Yhssssstws-470599";
+		Document doc = null;
+		
+		try {
+			doc = Jsoup.connect(url).get();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		Elements element = doc.select(".today_area div.info_data");
+		
+		// temp : 오늘 날씨, text : 어제 기온이랑 비교해서
+		String temp = element.select("p.info_temperature span.todaytemp").text();
+		String tempText = element.select("ul.info_list li p.cast_txt").text();
+		
 		
 		// 최근 5일 날짜 배열 구하기 : dateArr
 		Calendar cal = Calendar.getInstance();
@@ -57,6 +79,8 @@ public class AdminOrderController {
 		int memberCnt = adminOrderService.getNewMemberCnt();
 		// 총 회원 수 
 		int memberAllcnt = adminMemberService.adminlistcount();
+		
+		int orderAllPrice = adminOrderService.getOrderAllPrice(today);
 		
 		// 최근 5일 총 주문량 코드
 		int orderSum = 0; 
@@ -129,10 +153,19 @@ public class AdminOrderController {
 		// qna 미답변 게시판 부분
 		ArrayList<QnaVO> qnaList = adminOrderService.getQnAList();
 		
+		// 처리해야 하는 주문 테이블 부분
+		ArrayList<OrderVO> orderList = adminOrderService.getProcessOrderList(); 
+		int orderCnt = adminOrderService.getProcessOrderCnt();
+		
+		// 날씨 크롤링
+		model.addAttribute("temp", temp);
+		model.addAttribute("tempText", tempText);		
+		
 		// 타이틀 숫자 부분 
 		model.addAttribute("memberCnt", memberCnt);
 		model.addAttribute("orderSum", orderSum); 
 		model.addAttribute("subPercent", subPercent); 
+		model.addAttribute("orderAllPrice", orderAllPrice); 
 
 		// 정기구독 차트 부분
 		model.addAttribute("subArr", subArr); 
@@ -148,6 +181,10 @@ public class AdminOrderController {
 		
 		// qna 미답변 게시판 부분
 		model.addAttribute("qnaList", qnaList);
+		
+		// 처리해야 하는 테이블 부분
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("orderCnt", orderCnt); 
 		
 		return "/admin/admin_main";
 		
