@@ -57,7 +57,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		int mile_price = 0;
 		String mile_content	="";		
 		
-		vo.setMember_id((String)session.getAttribute("member_name"));
+		vo.setMember_id((String)session.getAttribute("member_id"));
 		//System.out.println("작성자 = " + vo.getMember_id());
 		vo.setReview_kind(request.getParameter("Review_kind"));	
 		//System.out.println("분류 = " + vo.getReview_kind());
