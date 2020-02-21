@@ -4,7 +4,8 @@
 <%@ page import = "java.text.SimpleDateFormat"%>
 <%@ page import = "com.spring.setak.*"%>
 <%
-String login_id=(String)session.getAttribute("member_id");	
+String login_id=(String)session.getAttribute("member_name");
+System.out.println(login_id);
 
 %>
 
@@ -239,7 +240,7 @@ $(document).ready(function () {
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
 									
-					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db height:400px;" class="re_table'+item.review_num+'">';
+					re_list += '<form class="xx'+item.review_num+'"><table class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
 					if(i%2 == 1){
@@ -796,7 +797,7 @@ function rwcancel(){
 <input type="radio" id="radio3" name="radio_val" value="review_star"><label for="radio3">별점순</label>
  
 <!-- 검색 -->
-<div style="float: right;">
+<div class="re2_search2" >
 <select name="keyfield" id="keyfield" size="1">
 	<option value="member_id"> 이름 </option>
 	<option value="review_content"> 내용 </option>
