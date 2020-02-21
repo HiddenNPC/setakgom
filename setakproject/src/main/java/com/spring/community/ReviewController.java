@@ -152,7 +152,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	@ResponseBody public ArrayList<ReviewVO> reviewSearch(HttpServletRequest request, Model model,String keyfield, String keyword ) throws Exception
 	{
 		keyfield=request.getParameter("keyfield");
-		System.out.println("키필드 넘어오긴 하냐?="+keyfield);
+		//System.out.println("키필드 넘어오긴 하냐?="+keyfield);
 		keyword=request.getParameter("keyword");
 		System.out.println("키워드 넘어오긴 하냐?="+keyword);
 		ArrayList<ReviewVO> list = reviewService.reviewSearch(keyfield, keyword);
