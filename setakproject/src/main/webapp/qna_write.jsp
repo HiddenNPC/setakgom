@@ -6,6 +6,10 @@
 
 <%	
 	ArrayList<QnaVO> onlist = (ArrayList<QnaVO>)request.getAttribute("onList");
+	String member_name = (String)session.getAttribute("member_name");
+
+	System.out.println("member_name : "+ member_name);
+
 %>
 <!DOCTYPE html>
 <html>
@@ -125,7 +129,7 @@ function wcancel(){
 <table class="qwt1">				
 	<tr>
 		<td height="30px"><div align="center">작성자</div></td>
-		<td colspan="2"><input value="<%=session.getAttribute("member_id")%>" type="hidden" name="MEMBER_ID" >&nbsp;<%=session.getAttribute("member_id")%></td>
+		<td colspan="2"><input value="<%=session.getAttribute("member_name")%>" type="hidden" name="MEMBER_ID" >&nbsp;<%=session.getAttribute("member_name")%></td>
 	</tr>
 	<tr>
 		<td height="30px"><div align="center">문의유형</div></td>
