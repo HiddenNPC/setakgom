@@ -7,11 +7,12 @@
 	QnaVO vo = (QnaVO)request.getAttribute("qnadata");
 	int qna_num = vo.getQna_num();
 	String member_id = vo.getMember_id();
-	System.out.println("QNA_NUM=" +qna_num);
-	System.out.println("member_id="+member_id);
 	String b = null;
 	String session_id= (String)session.getAttribute("member_id");
+	System.out.println("이색기="+session_id);
 	String qna_scr = vo.getQna_scr();
+	String m_name = (String)request.getAttribute("m_name");
+	System.out.println(m_name);
 %>
 
 <!DOCTYPE html>
@@ -33,7 +34,11 @@ $(document).ready(function() {
 	
     //목록
 	function selectData() {
-		var para= {Qna_num:<%=vo.getQna_num() %>};		
+		var para= {Qna_num:<%=vo.getQna_num() %>};	
+		var m_name= '<%=m_name%>'; 
+		var session_id= '<%=session_id%>';
+		//console.log(m_name);
+		//console.log(session_id);		
 		$('#output').empty();
 		$.ajax({
 		  	/*url:'/setak_qna/commentList.re?qna_num='+para+'', 
@@ -44,11 +49,25 @@ $(document).ready(function() {
 			dataType:"json",
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			success:function(data) {				
-				$.each(data, function(index, item) {					
-					var output = '';					
+				$.each(data, function(index, item) {
+					console.log("item.member_id="+item.member_id);
+					//var res =JSON.stringify(item.member_id);
+					//var a =res.indexOf('"');					
+					var m_name= '<%=m_name%>';
+					//console.log("a="+a);
+					console.log("m_name="+m_name);
+					//console.log("res="+res);
+					var output = '';	  
 					output += '<tr><td><input type="hidden" value="'+item.qna_seq+'"/></td></tr>';							
 					output += '<tr style="display:none;"><td>< input type="hidden" value="'+item.qna_num+'"></td></tr>';							
-					output += '<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;">'+item.member_id+'</small></td></tr>';						
+					if(item.member_id=="관리자")
+					{
+						output +='<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;">'+item.member_id+'</small></td></tr>';	
+					}
+					else
+					{
+						output +='<tr><td id="cl_td1" colspan="2">작성자:<small style="font-size:0.8rem;">'+m_name+'</small></td></tr>';
+					} 											
 					output += '<tr><td id="td3" width="20px" valign="top">A :</td>';														
 					output += '<td>'+item.qna_content+'</td></tr>';														
 					output += '<tr><td id="cl_td2" colspan="2"><button class="cdbtn" id="'+item.qna_seq+'">삭제</button></td></tr>';									
@@ -119,8 +138,25 @@ $(document).ready(function() {
 
 	//삭제 실행
 	$(document).on('click','.cdbtn', function(event){
-		
-		var dpara ={Qna_seq:$(this).attr("id")};					
+		var session_id ='<%=(String)session.getAttribute("member_id")%>';
+		if(session_id=='null')
+		{
+			var qna_confirm=confirm("비회원은 삭제할 수 있습니다. 로그인 페이지로 이동하시겠습니까?");
+			if(qna_confirm==true){					
+				location.href='./login.do';	
+				return false;
+			}
+			else{
+				return false;	        		       		
+			}
+		}
+		else if(!('<%=(String)session.getAttribute("member_id")%>'=='<%=vo.getMember_id()%>'))
+		{
+			Swal.fire("",'작성자만 삭제할 수 있습니다 .',"info")
+			return false;
+		}																					
+		var dpara ={Qna_seq:$(this).attr("id")};
+		console.log(dpara);
 			$.ajax({
 			url:'/setak/commentDelete.do',
 			type:'POST',
@@ -162,7 +198,7 @@ selectData();
 		<td id="mqvt1d1" align="center" width="10%" height="50px"><p>문의유형 </p>:<small><%=vo.getQna_type() %></small></td>			
 		<td id="mqvt1d2" align="left"  height="40px" width="700px">&nbsp;제목 :&nbsp;<%=vo.getQna_title()%>
 			<small>&nbsp;주문번호 :<%if(vo.getOrder_num()==0){%>없음 <%}else{%><%=vo.getOrder_num()%><%}%></small></td>		
-		<td id="mqvt1d3"  height="40px"> 작성자 :&nbsp;<small><%=vo.getMember_id() %>&nbsp;&nbsp;</small></td>					
+		<td id="mqvt1d3"  height="40px"> 작성자 :&nbsp;<small><%=m_name%>&nbsp;&nbsp;</small></td>					
 	</tr>
 	<tr height=250 >			
 		

@@ -55,7 +55,16 @@ import org.springframework.web.servlet.ModelAndView;
          endpage = maxpage;
          
       }
-      
+      String a = null;
+      String b = null;
+      ArrayList<String> m_namelist = new ArrayList<String>();     
+      for(int i =0; i<qnalist.size(); i++) {
+    	  a= qnalist.get(i).getMember_id();    
+    	  b= qnaService.getMemberName(a); 
+    	  m_namelist.add(b);
+      }
+      //System.out.println(m_namelist);
+                
       model.addAttribute("limit", limit);
       model.addAttribute("page", page);
       model.addAttribute("maxpage", maxpage);
@@ -63,6 +72,7 @@ import org.springframework.web.servlet.ModelAndView;
       model.addAttribute("endpage", endpage);
       model.addAttribute("listcount", listcount);
       model.addAttribute("qnalist", qnalist);
+      model.addAttribute("m_namelist", m_namelist);
       
       return "qna_list";
       
@@ -123,7 +133,13 @@ import org.springframework.web.servlet.ModelAndView;
 	@RequestMapping(value = "/qnaDetail.do") public String getDetail(QnaVO qnavo, Model model) throws Exception 
 	{
 		QnaVO vo = qnaService.getDetail(qnavo);
-		model.addAttribute("qnadata", vo);		
+		String m_name = vo.getMember_id();
+		System.out.println(m_name);
+		String a =qnaService.getMemberName(m_name); 
+	    System.out.println(a);		
+	    model.addAttribute("qnadata", vo);
+		model.addAttribute("m_name", a);
+		
 		return "qna_view";
 	}
 	

@@ -17,6 +17,7 @@
 		<result property="qna_pass" column="qna_pass"/>
 	</resultMap>
 	
+	
 	<select id="getListCount" resultType="int">
 		SELECT COUNT(*) FROM QNA
 	</select>
@@ -27,6 +28,11 @@
 		 WHERE rnum>=#{arg0} and rnum<=#{arg1}]]>
 	</select>
 	
+	<select id="getMemberName" parameterType="com.spring.community.QnaVO" resultType="String">
+		select member_name from MEMBER where member_id = #{member_id}
+		
+	</select>
+
 	<select id="onList" parameterType="String" resultType="com.spring.community.QnaVO">
 		select order_num from memberorder where member_id=#{member_id}
 	</select>

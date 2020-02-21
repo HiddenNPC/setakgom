@@ -6,6 +6,10 @@
 <%
 String login_id=(String)session.getAttribute("member_id");	
 
+HashMap<String, Object> m_namelist = (HashMap<String, Object>)request.getAttribute("m_namelist");
+
+System.out.println("왔냐?"+m_namelist);
+System.out.println("왔냐?2"+m_namelist.get("nanana"));
 %>
 
 <!DOCTYPE html>
@@ -222,8 +226,8 @@ $(document).ready(function () {
 	});			
 		
 	//리뷰 리스트 뿌리기 		
-	function selectData() {		
-		$('#re_list').empty();
+	function selectData() {					
+		$('#re_list').empty();		
 		$.ajax({
 			url:'/setak/reviewList.do', 
 			type:'POST', 
@@ -238,7 +242,11 @@ $(document).ready(function () {
 					var rphoto=res.substring(1,idx);
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
-									
+					var m_id=JSON.stringify(item.member_id);
+					console.log(m_id[0]);
+					
+					
+					
 					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db height:400px;" class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
@@ -266,7 +274,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_id+'">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_id+'">작성자 :&nbsp;'+item.member_id+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 

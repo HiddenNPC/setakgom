@@ -26,6 +26,11 @@
 	<select id="getListCount" resultType="int"> 
 		SELECT COUNT(*) FROM review
 	</select>
+	
+	<select id="getMemberName" parameterType="com.spring.community.ReviewVO" resultType="String">
+		select member_name from MEMBER where member_id = #{member_id}
+		
+	</select>
 
 	<select id="reviewList" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
 		SELECT * FROM review  ORDER BY review_num desc       		

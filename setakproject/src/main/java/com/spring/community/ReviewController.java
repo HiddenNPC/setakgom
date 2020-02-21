@@ -31,11 +31,23 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	
 	@RequestMapping (value = "/review.do") public String review(Model model) throws Exception
 	{	
-		//int maxnum = reviewService.getMaxNum();	
+		
 		ArrayList<ReviewVO> list = reviewService.reviewList();
-		//addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
+		String a = null;
+	    String b = null;
+	    
+		//ArrayList<String> m_namelist = new ArrayList<String>();  
+		HashMap<String, Object> m_namelist = new HashMap<String, Object>();
+		
+	      for(int i =0; i<list.size(); i++) {
+	    	  a= list.get(i).getMember_id();    
+	    	  b= reviewService.getMemberName(a); 
+	    	  m_namelist.put(a,b);
+	      }
+		System.out.println(m_namelist);	 
 		model.addAttribute("reviewlist", list); 
-		//System.out.println("reviewlist="+list);
+		model.addAttribute("m_namelist", m_namelist);
+		
 		return "review_list";			
 	}
 	
