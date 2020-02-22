@@ -116,182 +116,65 @@
 						}
 					}
 				});
+				
+				var ctx = document.getElementById('chart-area').getContext('2d');
+				window.myPie = new Chart(ctx, config);
+				
 			};
 			
-			var container = document.getElementById('chart-area');
-			var data = {
-			    categories: ['정기구독유형'],
-			    seriesAlias: {
-			        pie1: 'pie',
-			        pie2: 'pie'
-			    },
-			    series: {
-			        pie1: [
-			            {
-			                name: '올인원',
-			                data: <%=subArr[0]%>
-			            },
-			            {
-			                name: '와이셔츠',
-			                data: <%=subArr[1]%>
-			            },
-			            {
-			                name: '드라이',
-			                data: <%=subArr[2]%>
-			            },
-			            {
-			                name: '물빨래',
-			                data: <%=subArr[3]%>
-			            },
-			            {
-			                name: '물빨래&드라이',
-			                data: <%=subArr[4]%>
-			            }
-			        ],
-			        pie2: [
-			            {
-			                name: '올인원59',
-			                data: <%=sub2Arr[0]%>
-			            },
-			            {
-			                name: '올인원74',
-			                data: <%=sub2Arr[1]%>
-			            },
-			            {
-			                name: '올인원89',
-			                data: <%=sub2Arr[2]%>
-			            },
-			            {
-			                name: '올인원104',
-			                data: <%=sub2Arr[3]%>
-			            }, {
-			                name: '올인원119',
-			                data: <%=sub2Arr[4]%>
-			            },
-			            {
-			                name: '올인원134',
-			                data: <%=sub2Arr[5]%>
-			            },
-			            {
-			                name: '와이29',
-			                data: <%=sub2Arr[6]%>
-			            },
-			            {
-			                name: '와이44',
-			                data: <%=sub2Arr[7]%>
-			            },
-			            {
-			                name: '와이55',
-			                data: <%=sub2Arr[8]%>
-			            },
-			            {
-			                name: '드라이44',
-			                data: <%=sub2Arr[9]%>
-			            },
-			            {
-			                name: '드라이59',
-			                data: <%=sub2Arr[10]%>
-			            },
-			            {
-			                name: '드라이74',
-			                data: <%=sub2Arr[11]%>
-			            },
-			            {
-			                name: '물빨래34',
-			                data: <%=sub2Arr[12]%>
-			            },
-			            {
-			                name: '물빨래49',
-			                data: <%=sub2Arr[13]%>
-			            },
-			            {
-			                name: '물빨래64',
-			                data: <%=sub2Arr[14]%>
-			            },
-			            {
-			                name: '물빨래79',
-			                data: <%=sub2Arr[15]%>
-			            },
-			            {
-			                name: '물빨래84',
-			                data: <%=sub2Arr[16]%>
-			            },
-			            {
-			                name: '물빨래99',
-			                data: <%=sub2Arr[17]%>
-			            },
-			            {
-			                name: '물드44',
-			                data: <%=sub2Arr[18]%>
-			            },
-			            {
-			                name: '물드59',
-			                data: <%=sub2Arr[19]%>
-			            },
-			            {
-			                name: '물드74',
-			                data: <%=sub2Arr[20]%>
-			            },
-			            {
-			                name: '물드89',
-			                data: <%=sub2Arr[21]%>
-			            }
-			        ]
-			    }
-			};
-			var options = {
-			    chart: {
-			        title: '정기구독 유형별 회원'
-			    },
-			    series: {
-			        pie1: {
-			            radiusRange: ['57%'],
-			            labelAlign: 'center',
-			            showLegend: true
-			        },
-			        pie2: {
-			            radiusRange: ['70%', '100%'],
-			            labelAlign: 'outer',
-			            showLegend: true
-			        }
-			    },
-			    legend: {
-			        visible: false
-			    },
-			    tooltip: {
-			        suffix: '%'
-			    },
-			    theme: 'newTheme'
-			};
-
-			tui.chart.registerTheme('newTheme', {
-			    series: {
-			        pie1: {
-			            colors: ['#00a9ff', '#ffb840', '#ff5a46', '#00bd9f', '#785fff', '#f28b8c', '#989486', '#516f7d', '#29dbe3', '#dddddd'],
-			            label: {
-			                color: '#fff',
-			                fontFamily: 'sans-serif'
-			            }
-			        },
-			        pie2: {
-			            colors: [
-			                '#33baff', '#66ccff','#81BEF7', '#2E9AFE','#0080FF', '#81DAF5',
-			                '#ffc666', '#ffd48c', '#FFDB9F',
-			                '#ff7b6b', '#ff9c90','#F5A9A9',
-			                '#33cab2', '#72CD8F', '#66BE8B', '#419B66', '#198D49', '#75B791',
-			                '#937fff', '#B669DF', '#CEB2DE','#BC8ED5'
-			                ],
-			            label: {
-			                color: '#fff',
-			                fontFamily: 'sans-serif'
-			            }
-			        }
-			    }
-			});
-
-			tui.chart.comboChart(container, data, options);			
+			var config = {
+					type: 'pie',
+					data: {
+						datasets: [{
+							data: [
+								<%=sub2Arr[0]%>, <%=sub2Arr[1]%>, <%=sub2Arr[2]%>, <%=sub2Arr[3]%>, <%=sub2Arr[4]%>,
+								<%=sub2Arr[5]%>, <%=sub2Arr[6]%>, <%=sub2Arr[7]%>, <%=sub2Arr[8]%>, <%=sub2Arr[9]%>,
+								<%=sub2Arr[10]%>, <%=sub2Arr[11]%>, <%=sub2Arr[12]%>, <%=sub2Arr[13]%>, <%=sub2Arr[14]%>,
+								<%=sub2Arr[15]%>, <%=sub2Arr[16]%>, <%=sub2Arr[17]%>, <%=sub2Arr[18]%>, <%=sub2Arr[19]%>,
+								<%=sub2Arr[20]%>, <%=sub2Arr[21]%>
+							],
+							backgroundColor: [
+								window.chartColors.red,
+								window.chartColors.red2,
+								window.chartColors.red3,
+								window.chartColors.red4,
+								window.chartColors.red5,
+								window.chartColors.red6,
+								window.chartColors.orange,
+								window.chartColors.orange2,
+								window.chartColors.orange3,
+								window.chartColors.yellow,
+								window.chartColors.yellow2,
+								window.chartColors.yellow3,
+								window.chartColors.green,
+								window.chartColors.green2,
+								window.chartColors.green3,
+								window.chartColors.green4,
+								window.chartColors.green5,
+								window.chartColors.green6,
+								window.chartColors.blue,
+								window.chartColors.blue2,
+								window.chartColors.blue3,
+								window.chartColors.blue4
+							],
+							label: 'Dataset 1'
+							
+						}],
+						labels: [
+							"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", 
+							"와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
+							"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"
+						]
+					},
+					options: {
+						responsive: true,
+				        legend: {
+				            display: false,
+				        }
+					}
+				};		
 		});
-		
+		 
 		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
 		function timeSt(dt) {
 		    var d = new Date(dt);
@@ -327,7 +210,10 @@
 				
 			<!-- 전체 차트 div 시작 -->
 			<div id = "all-sub-chart-div" style = "display: inline-block;" >
-	  			<div id='chart-area' style = 'display: inline-block;'></div>
+				<p>올인원 와이셔츠 드라이 물빨래 물빨래&드라이</p>	  
+	  			<div style = "display: inline-block; padding-bottom : 30px;">					
+	  				<canvas id="chart-area" style = "width: 450px;height: 400px;"></canvas>
+	  			</div>
 				<div style = "display: inline-block">
 					<canvas id="canvas" style = "width: 600px;height: 500px;"></canvas>
 				</div>

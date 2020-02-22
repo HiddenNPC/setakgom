@@ -262,11 +262,6 @@
 		var dayago3 = new Date(Date.parse(today) - 3 * 1000 * 60 * 60 * 24);
 		var dayago4 = new Date(Date.parse(today) - 4 * 1000 * 60 * 60 * 24); 
 		
-		var tomorrow = new Date(Date.parse(today) + 1 * 1000 * 60 * 60 * 24);
-		var dayafter2 = new Date(Date.parse(today) + 2 * 1000 * 60 * 60 * 24);
-		var dayafter3 = new Date(Date.parse(today) + 3 * 1000 * 60 * 60 * 24);
-		var dayafter4 = new Date(Date.parse(today) + 4 * 1000 * 60 * 60 * 24); 
-		
 		/*데이터*/
 		var config = {
 			type: 'bar',
@@ -325,6 +320,13 @@
 			}
 		};
 		
+		var tomorrow = new Date(Date.parse(today) + 1 * 1000 * 60 * 60 * 24);
+		var dayafter5 = new Date(Date.parse(today) + 3 * 1000 * 60 * 60 * 24);
+		var dayafter7 = new Date(Date.parse(today) + 7 * 1000 * 60 * 60 * 24); 
+		var dayafter9 = new Date(Date.parse(today) + 9 * 1000 * 60 * 60 * 24); 
+		var dayago7 = new Date(Date.parse(today) - 7 * 1000 * 60 * 60 * 24); 
+		var dayago9 = new Date(Date.parse(today) - 9 * 1000 * 60 * 60 * 24); 
+		
 		// fullCalender 
 		  document.addEventListener('DOMContentLoaded', function() {
 		    var calendarEl = document.getElementById('calendar');
@@ -352,53 +354,49 @@
 		      eventLimit: true, // allow "more" link when too many events
 		      events: [
 		        {
-		          title: '아침회의',
+		          title: '회의',
 		          start: timeSt2(today)+'T10:30:00'
 		        },
 		        {
-		          title: '미팅',
-		          start: timeSt2(tomorrow)+'T13:00:00',
+				  title: '세탁소 미팅',
+				  start: timeSt2(today)+'T15:30:00'
+			    },
+		        {
+		          title: '최종 PT 준비',
+		          start: timeSt2(yesterday)+'T13:00:00',
 		        },
 		        {
-		          title: '미팅',
-		          start: timeSt2(dayago2)+'T13:00:00'
+		          title: '수선집 미팅',
+		          start: timeSt2(dayago2)+'T11:00:00'
 		        },
 		        {
-		          title: '김직원 생일',
-		          start: timeSt2(dayago2)
-		        },
-		        {
-			      title: '세탁소 미팅',
-			      start: timeSt2(today)+'T15:30:00'
+		          title: '최직원 생일',
+		          start: timeSt2(dayago7)
 		        },
 		        {
 		          title: '점심 회식',
-		          start: timeSt2(dayafter2)+'T11:30:00'
+		          start: timeSt2(dayafter5)+'T11:30:00'
+		        },
+		        {
+		          title: '수리 기사님',
+		          start: timeSt2(dayago4)+'T11:00:00'
+		        },
+		        {
+		          title: '최종 회의',
+		          start: timeSt2(tomorrow)+'T15:00:00'
+		        },
+		        {
+		          title: '휴가',
+		          start: timeSt2(dayafter7),
+		          end: timeSt2(dayafter9)
 		        },
 		        {
 		          title: '미팅',
-		          start: timeSt2(dayago3)+'T11:00:00'
+		          start: timeSt2(dayago4)+'T10:30:00'
 		        },
 		        {
-		          title: 'Meeting',
-		          start: '2019-08-12T14:30:00'
-		        },
-		        {
-		          title: 'Happy Hour',
-		          start: '2019-08-12T17:30:00'
-		        },
-		        {
-		          title: 'Dinner',
-		          start: '2019-08-12T20:00:00'
-		        },
-		        {
-		          title: 'Birthday Party',
-		          start: '2019-08-13T07:00:00'
-		        },
-		        {
-		          title: 'Click for Google',
-		          url: 'http://google.com/',
-		          start: '2019-08-28'
+		          title: '김직원 휴가',
+		          start: timeSt2(dayago4)
 		        }
 		      ]
 		    });
