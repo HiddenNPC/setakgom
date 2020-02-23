@@ -526,7 +526,8 @@ public class AdminOrderController {
 	public String subscribeChart(Model model) {
 		
 		String[] planArr = {"올인원", "와이", "드라이", "물빨래", "물드"};
-		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", "와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
+		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", 
+				"와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
 				"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"}; 
 			
 		Calendar cal = Calendar.getInstance();
@@ -539,8 +540,9 @@ public class AdminOrderController {
 			cal.add(Calendar.DATE, -1);
 			dateArr[i] = sdf.format(cal.getTime());
 		}
-				
-		int[] subArr = new int[5]; 
+			
+		// 구독별
+		int[] subArr = new int[5];
 		int[] sub2Arr = new int[22];
 	
 		int[] allArr = new int[5];

@@ -22,7 +22,7 @@
 	<title>세탁곰 관리자페이지</title>
 	<link rel = "shortcut icon" href = "../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/subchart.css"/>
 	
 	<!-- toast ui -->
     <link rel="stylesheet" type="text/css" href="./chart/tui-chart.css" />
@@ -118,7 +118,45 @@
 				});
 				
 				var ctx = document.getElementById('chart-area').getContext('2d');
-				window.myPie = new Chart(ctx, config);
+				var chart = new Chart(ctx, config);
+				
+
+				var myLegendContainer = document.getElementById("legend");
+				// generate HTML legend
+				myLegendContainer.innerHTML = chart.generateLegend();
+				// bind onClick event to all LI-tags of the legend
+				var legendItems = myLegendContainer.getElementsByTagName('li');
+				console.log(legendItems.length);
+				for (var i = 0; i < legendItems.length; i += 1) {
+				  legendItems[i].addEventListener("click", legendClickCallback, false);
+				}
+				
+
+				function legendClickCallback(event) {
+				  event = event || window.event;
+
+				  var target = event.target || event.srcElement;
+				  while (target.nodeName !== 'LI') {
+				    target = target.parentElement;
+				  }
+				  var parent = target.parentElement;
+				  var chartId = parseInt(parent.classList[0].split("-")[0], 10);
+				  var chart = Chart.instances[chartId];
+				  var index = Array.prototype.slice.call(parent.children).indexOf(target);
+				  var meta = chart.getDatasetMeta(0);
+				  console.log(index); // index 찍히고.. 
+				  var item = meta.data[index];
+
+				  if (item.hidden === null || item.hidden === false) {
+				    item.hidden = true;
+				    target.classList.add('hidden');
+				  } else {
+				    target.classList.remove('hidden');
+				    item.hidden = null;
+				  }
+				  chart.update();
+				}
+
 				
 			};
 			
@@ -172,9 +210,11 @@
 				            display: false,
 				        }
 					}
-				};		
+				};				 
+			
 		});
-		 
+		
+
 		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
 		function timeSt(dt) {
 		    var d = new Date(dt);
@@ -209,13 +249,17 @@
 				<h1>기타정기구독관리</h1>
 				
 			<!-- 전체 차트 div 시작 -->
-			<div id = "all-sub-chart-div" style = "display: inline-block;" >
-				<p>올인원 와이셔츠 드라이 물빨래 물빨래&드라이</p>	  
-	  			<div style = "display: inline-block; padding-bottom : 30px;">					
-	  				<canvas id="chart-area" style = "width: 450px;height: 400px;"></canvas>
-	  			</div>
-				<div style = "display: inline-block">
-					<canvas id="canvas" style = "width: 600px;height: 500px;"></canvas>
+			<div id = "content-div">
+				<div id = "all-sub-chart-div">
+					<div style = "display: inline-block; padding-bottom : 30px;">
+					<div id="legend" style="margin-bottom: 20px; width: 566px; font-size: 0.9rem;"></div> 
+		  			<div style = "display: inline-block;">					
+		  				<canvas id="chart-area" style = "width: 450px;height: 400px;"></canvas>
+		  			</div>
+		  			</div>
+					<div style = "display: inline-block">
+						<canvas id="canvas" style = "width: 600px;height: 500px;"></canvas>
+					</div>
 				</div>
 			</div>
 			<!-- 전체 차트 div 끝-->

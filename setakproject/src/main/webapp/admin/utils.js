@@ -22,7 +22,8 @@ window.chartColors = {
    blue: 'rgb(54, 162, 235)',
    blue2: 'rgb(84, 174, 234)',
    blue3: 'rgb(116, 185, 232)',
-   blue4: 'rgb(142, 194, 229)'
+   blue4: 'rgb(142, 194, 229)',
+   grey: 'rgb(201, 203, 207)'
 };
 
 (function(global) {
