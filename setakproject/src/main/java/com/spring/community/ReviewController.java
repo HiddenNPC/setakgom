@@ -55,6 +55,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
+		System.out.println(list.get(1));
 		model.addAttribute("reviewList", list);	
 		return list;		
 	}

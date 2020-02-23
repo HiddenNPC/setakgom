@@ -41,6 +41,9 @@
 	.nvc {     line-height: 25px;
     text-align: -webkit-match-parent;
     vertical-align: baseline; }
+    #nvc_pre{
+    	font-family: inherit; 
+    }
 	
 	button { color:#fff; background-color:#3498db; WIDTH: 43pt; HEIGHT: 22pt;
 		border-top-left-radius: 5px;  border-bottom-left-radius: 5px; 		
