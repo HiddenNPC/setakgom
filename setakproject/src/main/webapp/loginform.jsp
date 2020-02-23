@@ -16,10 +16,6 @@
 <link rel="stylesheet" type="text/css" href="./css/loginform.css" />
 <link rel="shortcut icon" href="favicon.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
 <!-- 구글로그인 -->
 <script src="https://apis.google.com/js/api:client.js"></script>
 
@@ -79,13 +75,13 @@
 		/*팝업창*/
 		/*아이디찾기*/
 		$(".find_id").click(function(event) {
-			$(".back").css("display", "block");
+			$(".id_back").css("display", "block");
 			$(".popup").css("display", "block");
 
 		});
 		
 		$(".close").click(function(event) {
-			$(".back").css("display", "none");
+			$(".id_back").css("display", "none");
 			$(".popup").css("display", "none");
 		});
 		
@@ -106,7 +102,7 @@
      			success: function(data) {
 					
      				$(".popup").css("display", "none");
-					$(".back").css("display", "block");
+					$(".id_back").css("display", "block");
 					$(".yourid").css("display", "block");
 					
 					
@@ -130,12 +126,12 @@
 		});
 		
 		$("#id-close1").click(function(event) {
-			$(".back").css("display", "none");
+			$(".id_back").css("display", "none");
 			$(".yourid").css("display", "none");
 		});
 	
 		$("#id-close2").click(function(event) {
-			$(".back").css("display", "none");
+			$(".id_back").css("display", "none");
 			$(".yourid").css("display", "none");
 		});
 	
@@ -143,12 +139,12 @@
 		/*비밀번호찾기*/
 		$(".find_pw").click(function(event) {
 			
-			$(".back").css("display", "block");
+			$(".pw_back").css("display", "block");
 			$(".popup2").css("display", "block");
 
 		});
 		$(".close").click(function(event) {
-			$(".back").css("display", "none");
+			$(".pw_back").css("display", "none");
 			$(".popup2").css("display", "none");
 		});
 		
@@ -175,7 +171,7 @@
 						
 						//비밀번호 변경 팝업창
 						$(".popup2").css("display", "none");
-						$(".back").css("display", "block");
+						$(".pw_back").css("display", "block");
 						$(".changepass").css("display", "block");
 						
 						$("#member_name2").val('');
@@ -234,7 +230,7 @@
 											$(".text #authsucess2").css("display","none");
 											$(".text #change-pw").css("display","none");
 											
-											$(".back").css("display", "none");
+											$(".pw_back").css("display", "none");
 											$(".changepass").css("display", "none");
 											
 										} else {
@@ -255,7 +251,7 @@
 											$(".text #authsucess2").css("display","none");
 											$(".text #change-pw").css("display","none");
 											
-											$(".back").css("display", "none");
+											$(".pw_back").css("display", "none");
 											$(".changepass").css("display", "none");
 										}
 									},
@@ -417,7 +413,7 @@
 	<!-- 팝업창 -->
 	<!-- 아이디찾기 -->
 	<div class="check_id">
-		<div class="back"></div>
+		<div class="id_back"></div>
 		<div class="popup">
 			<div class="head">
 				<button type="button" class="close">X</button>
@@ -452,7 +448,7 @@
 
 	<!-- 비밀번호찾기 -->
 	<div class="check_pw">
-		<div class="back"></div>
+		<div class="pw_back"></div>
 		<div class="popup2">
 			<div class="head">
 				<button type="button" class="close">X</button>
@@ -464,9 +460,9 @@
 				<input type="text" id="member_name2"  placeholder="이름" /> 
 				<input type="text" id="member_id" placeholder="아이디" /> 
 				<input type="text" id="member_phone2" placeholder="휴대폰번호 (예시 01012345678)" /> 
-				<input type="button"  id="authbtn2" class="phone" value="인증번호받기" /> 
-				 <h5>핸드폰 번호를 입력해주세요</h5>
 				<input type="text" id="member_sns2" placeholder="인증번호" /> 
+				<h5>핸드폰 번호를 입력해주세요</h5>
+				<input type="button"  id="authbtn2" class="phone" value="인증번호받기" /> 
                 <input type="button"  id="smsbtn2" class="ok" value="확인" />
                 <span id = "timer2"></span>
                 <h6 id = "authsucess2">인증번호가 일치합니다.</h6>

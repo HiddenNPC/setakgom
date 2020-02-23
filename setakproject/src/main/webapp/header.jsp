@@ -102,7 +102,7 @@
 	</header>
 	<div class="header_space">
 	</div>
-	
+	<script type="text/javascript" src="js/sweet.js"></script>
 	<script>
 		$(function(){
 			var windowWidth = $(window).width();

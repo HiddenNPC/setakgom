@@ -26,9 +26,6 @@
    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
    
-   <!--sweetalert2 -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-   
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -194,9 +191,9 @@
 	         </div>
 	                
 	       	<div class="sub-div">
-		         <p class = "p_subtitle">정기구독을 신청하시면 할인 된 가격에 세탁곰을 이용하실 수 있습니다.</p> 	
+		         <p class = "p_subtitle">※ 정기구독을 신청하시면 할인 된 가격에 세탁곰을 이용하실 수 있습니다.</p> 	
 		        
-		        <p class = "sub_title">올인원</p>
+		        <p class = "sub_title">※ 올인원</p>
 				<table class = "sub_table" border = "solid 1px" data-role="table">
 					<thead>
 						<tr>
@@ -351,7 +348,7 @@
 				</table>
 				
 				<p/>
-				<p class = "sub_title">와이셔츠</p>
+				<p class = "sub_title">※ 와이셔츠</p>
 				<table class = "sub_table" border = "solid 1px">
 					<thead>
 						<tr>
@@ -439,7 +436,7 @@
 				</table>
 				
 				<p/>
-				<p class = "sub_title">드라이</p>
+				<p class = "sub_title">※ 드라이</p>
 				<table class = "sub_table" border = "solid 1px">
 					<thead>
 						<tr>
@@ -527,7 +524,7 @@
 				</table>
 				
 				<p/>
-				<p class = "sub_title">물빨래</p>
+				<p class = "sub_title">※ 물빨래</p>
 				<table class = "sub_table" border = "solid 1px">
 					<thead>
 						<tr>
@@ -679,7 +676,7 @@
 				</table>
 				
 				<p/>
-				<p class = "sub_title">물빨래&드라이</p>
+				<p class = "sub_title">※ 물빨래&드라이</p>
 				<table class = "sub_table" border = "solid 1px" style = "margin-bottom : 150px; ">
 					<thead>
 						<tr>
