@@ -132,7 +132,8 @@ $(document).ready(function () {
 			event.preventDefault();
 		}
 	});
-		
+	
+	
     //별점 구동	
 	$('.r_content a').click(function () {
 	$(this).parent().children('a').removeClass('on');
