@@ -24,4 +24,7 @@ public interface AdminOrderService {
 	
 	public ArrayList<QnaVO> getQnAList();
 	public int getNewMemberCnt(); 
+	public ArrayList<OrderVO> getProcessOrderList();
+	public int getProcessOrderCnt();
+	public int getOrderAllPrice(String order_date);
 }

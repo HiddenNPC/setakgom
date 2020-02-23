@@ -33,8 +33,8 @@
 		padding: 50px 0 30px 0;
 	}
 	#chartdiv {
- 	 width: 80%;
- 	 height: 500px;
+ 	 width: 70%;
+ 	 height: 350px;
 	}	
 	</style>	
 </head>

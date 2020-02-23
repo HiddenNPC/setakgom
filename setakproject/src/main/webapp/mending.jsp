@@ -18,10 +18,6 @@
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/mending.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	
-	<!--sweetalert2 -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//헤더, 푸터연결

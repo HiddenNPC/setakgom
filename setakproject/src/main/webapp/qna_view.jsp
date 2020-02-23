@@ -190,7 +190,7 @@ selectData();
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A<small id="h_small">문의사항</small></a></h2></div>
 <div class="qna">
 
 <table class="qvt1">
@@ -208,8 +208,8 @@ selectData();
 			  <div class="thumbnail">			    
 			    	<%if (!vo.getQna_file().split("_")[0].equals("등록한 파일이 없습니다.")){ %>
 			      		<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>"  onclick="window.open('https://kr.object.ncloudstorage.com/airbubble/setakgom/qna/<%=vo.getQna_file()%>', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">								
-			      	<%}else{ %>
-			      		<img class="thumbnail-img" src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">			      	
+			      	<%-- <%}else{ %>
+			      		<img class="thumbnail-img" src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">	 --%>		      	
 			      	<%} %>			    
 			  </div>
 			</div>

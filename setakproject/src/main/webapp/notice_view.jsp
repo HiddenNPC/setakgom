@@ -38,7 +38,7 @@ $(document).ready(function(){
 		<td width="20%" align="right" ><%=vo.getNotice_date().substring(0,11) %>&nbsp;&nbsp;</td>
 	</tr>	
 	<tr>
-		<td colspan="2" class="nvc"><div><pre id="nvc_pre"><%=vo.getNotice_content()%></pre></div></td>
+      <td colspan="2" class="nvc"><div><pre id="nvc_pre"><%=vo.getNotice_content()%></pre></div></td>
 	</tr>
 </table>
 <table class="nvt2">						

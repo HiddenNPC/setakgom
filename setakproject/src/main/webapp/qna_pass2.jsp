@@ -54,7 +54,7 @@ function passchk(){
 <div id="header"></div>
 <section id="qna">
 <div class="content">
-<div class="title-text"><h2><a href="./qnaList.do">Q&A</a></h2></div>
+<div class="title-text"><h2><a href="./qnaList.do">Q&A<small id="h_small">문의사항</small></a></h2></div>
 <div class="qna">
 
 <form  action="./qnaDelete.do" method="post" enctype="multipart/form-data" name="passform">

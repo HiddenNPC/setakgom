@@ -17,6 +17,10 @@
 	display : inline-block;
 }
 
+.title-num:last-child {
+	width : 30%;
+}
+
 .title-icon {
 	display : inline-block;
 	width : 50px;
@@ -47,6 +51,17 @@ span.count-txt {
 	font-size : 0.7rem;
 }
 
+/*오늘 매출액*/
+
+.title-num:last-child .count-number-div {
+    margin-top : 10px;
+}
+
+#price-span.count-number {
+	font-size : 2.4rem;
+
+}
+
 /*content-div*/
 #content-div{
 	padding-bottom:  100px;
@@ -60,6 +75,7 @@ span.count-txt {
 }
 
 #content-div ul.body-ul > li{
+	overflow: hidden;
 	width: 31%;
 	height:330px;
 	background-color:#fff;
@@ -100,21 +116,23 @@ span.count-txt {
 .arrow_box {
   display: none;
   position: absolute;
-  width: 200px;
+  width: 300px;
   padding: 8px;
-  left: 0;
+  right: 0;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;  
   border-radius: 8px;
   background: #b9b8b8;
   color: #fff;
   font-size: 0.8rem;
+  z-index : 10;
+  opacity : 0.9;
 }
 
 .arrow_box:before {
   position: absolute;
   bottom: 100%;
-  left: 5px;
+  right: 15px;
   width: 0;
   height: 0;
   border: solid transparent;
@@ -128,10 +146,45 @@ span:hover + p.arrow_box {
   display: block;
 }
 
+/*오늘 날씨*/
+.today-div {
+    padding : 30px 0px;
+}
+
+.today-weather {
+	width : 100px;
+	margin : 0 auto;
+}
+
+.today-content {
+	text-align : center;
+}
+
+.today-content p.temp{
+	font-size : 2.5rem;
+	font-weight : bold;
+	margin-top : 15px;
+	margin-bottom : 5px;
+}
+
+.today-content p.tempText {
+	color : #909090;
+	margin-top : 10px;
+}
+
+p.tempExp {
+	color : #b1b1b1;
+	font-size : 0.8rem;
+	text-align : right;
+	border-top : 0.5px solid #e1dfdf; 
+	padding-top : 5px;
+}
+
 
 /*정기구독*/
 #content-div ul.body-ul li:nth-child(2) div.body-content{
    padding : 0px;
+   width: 100%
 }
 
 #chart-area {
@@ -206,4 +259,42 @@ span:hover + p.arrow_box {
 #qnaTable td:last-child {
 	width : 15%;
 	color : #afafaf;
+}
+
+/*주문 관리*/
+.order-text {
+	margin : 30px 0px 20px;
+	font-size : 1rem;
+	text-align : center;
+}
+
+.order-text span {
+	color : #3498db;
+	font-weight : bold;
+
+}
+
+#order-table {
+	width : 100%;
+	border-spacing: 0;
+	text-align : center;
+}
+
+#order-table thead th {
+	padding-bottom : 7px;
+	border-bottom : 1px solid #D8D8D8; 
+    font-size : 0.9rem;
+}
+
+#order-table thead th:first-child {
+	width : 40%;
+}
+
+#order-table tbody td {
+	height : 30px;
+}
+
+#order-table tbody tr:hover {
+	background-color : #e5e5e575;
+	cursor : pointer;
 }

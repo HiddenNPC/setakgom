@@ -46,9 +46,6 @@
    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
    
-   <!--sweetalert2 -->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-   
    <!-- 우편번호 api -->
    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>   
    

@@ -242,10 +242,7 @@ $(document).ready(function () {
 					var rphoto=res.substring(1,idx);
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
-					var m_id=JSON.stringify(item.member_id);
-					console.log(m_id[0]);
-					
-					
+					var m_id=JSON.stringify(item.member_id);															
 					
 					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db height:400px;" id="re_table" class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
