@@ -234,7 +234,8 @@
 					dataType:"json", //리턴 데이터 타입
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(data) {
-						alert("성공"); 				
+						alert("성공"); 		
+						searchOrder();
 					},
 					error: function() {
 						alert("ajax통신 실패");

@@ -21,6 +21,15 @@
 	
 	ArrayList<OrderVO> orderList = (ArrayList<OrderVO>)request.getAttribute("orderList");
 	int orderCnt = (int)request.getAttribute("orderCnt");
+	
+	// 주희 언니 차트
+	int num = (int)request.getAttribute("num");
+	String[] dateArr2 = (String[])request.getAttribute("dateArr2");
+
+	int[] ssbResultArr = (int[])request.getAttribute("ssbResultArr");
+	int[] subResultArr = (int[])request.getAttribute("subResultArr");
+	
+	int[] totalArr = (int[])request.getAttribute("totalArr");
 %>
 <!DOCTYPE html>
 <html>
@@ -52,6 +61,11 @@
 	<script src='./chart/core/main.js'></script>
 	<script src='./chart/list/main.js'></script>
 	<script src='./chart/locales/ko.js'></script>
+	
+	<!-- Resources -->
+	<script src="https://www.amcharts.com/lib/4/core.js"></script>
+	<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+	<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript" class='code-js' id='code-js'>
@@ -306,31 +320,12 @@
 			}
 		};
 		
-		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
-		};
-		
-		   
-		// 콤마      
-		function numberFormat(inputNumber) {
-			return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
-		      
-		
-		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
-		function timeSt(dt) {
-		    var d = new Date(dt);
-		    var MM = d.getMonth()+1;
-		    var dd = d.getDate();
-
-		    return (addzero(MM) + '/' + addzero(dd));
-		}
-		
-		//10보다 작으면 앞에 0을 붙임
-		function addzero(n) {
-		    return n < 10 ? "0" + n : n;
-		}
+		var tomorrow = new Date(Date.parse(today) + 1 * 1000 * 60 * 60 * 24);
+		var dayafter5 = new Date(Date.parse(today) + 3 * 1000 * 60 * 60 * 24);
+		var dayafter7 = new Date(Date.parse(today) + 7 * 1000 * 60 * 60 * 24); 
+		var dayafter9 = new Date(Date.parse(today) + 9 * 1000 * 60 * 60 * 24); 
+		var dayago7 = new Date(Date.parse(today) - 7 * 1000 * 60 * 60 * 24); 
+		var dayago9 = new Date(Date.parse(today) - 9 * 1000 * 60 * 60 * 24); 
 		
 		// fullCalender 
 		  document.addEventListener('DOMContentLoaded', function() {
@@ -348,75 +343,204 @@
 		      // customize the button names,
 		      // otherwise they'd all just say "list"
 		      views: {
-		        listDay: { buttonText: '일' },
-		        listWeek: { buttonText: '주' }
+		        listDay: { buttonText: '일별'},
+		        listWeek: { buttonText: '주별'}
 		      },
 		      locale: 'ko',		
-		      defaultView: 'listWeek',
-		      defaultDate: '2019-08-12',
+		      defaultView: 'listDay',
+		      defaultDate: timeSt2(today),
 		      navLinks: true, // can click day/week names to navigate views
 		      editable: true,
 		      eventLimit: true, // allow "more" link when too many events
 		      events: [
 		        {
-		          title: 'All Day Event',
-		          start: '2019-08-01'
+		          title: '회의',
+		          start: timeSt2(today)+'T10:30:00'
 		        },
 		        {
-		          title: 'Long Event',
-		          start: '2019-08-07',
-		          end: '2019-08-10'
+				  title: '세탁소 미팅',
+				  start: timeSt2(today)+'T15:30:00'
+			    },
+		        {
+		          title: '최종 PT 준비',
+		          start: timeSt2(yesterday)+'T13:00:00',
 		        },
 		        {
-		          groupId: 999,
-		          title: 'Repeating Event',
-		          start: '2019-08-09T16:00:00'
+		          title: '수선집 미팅',
+		          start: timeSt2(dayago2)+'T11:00:00'
 		        },
 		        {
-		          groupId: 999,
-		          title: 'Repeating Event',
-		          start: '2019-08-16T16:00:00'
+		          title: '최직원 생일',
+		          start: timeSt2(dayago7)
 		        },
 		        {
-		          title: 'Conference',
-		          start: '2019-08-11',
-		          end: '2019-08-13'
+		          title: '점심 회식',
+		          start: timeSt2(dayafter5)+'T11:30:00'
 		        },
 		        {
-		          title: 'Meeting',
-		          start: '2019-08-12T10:30:00',
-		          end: '2019-08-12T12:30:00'
+		          title: '수리 기사님',
+		          start: timeSt2(dayago4)+'T11:00:00'
 		        },
 		        {
-		          title: 'Lunch',
-		          start: '2019-08-12T12:00:00'
+		          title: '최종 회의',
+		          start: timeSt2(tomorrow)+'T15:00:00'
 		        },
 		        {
-		          title: 'Meeting',
-		          start: '2019-08-12T14:30:00'
+		          title: '휴가',
+		          start: timeSt2(dayafter7),
+		          end: timeSt2(dayafter9)
 		        },
 		        {
-		          title: 'Happy Hour',
-		          start: '2019-08-12T17:30:00'
+		          title: '미팅',
+		          start: timeSt2(dayago4)+'T10:30:00'
 		        },
 		        {
-		          title: 'Dinner',
-		          start: '2019-08-12T20:00:00'
-		        },
-		        {
-		          title: 'Birthday Party',
-		          start: '2019-08-13T07:00:00'
-		        },
-		        {
-		          title: 'Click for Google',
-		          url: 'http://google.com/',
-		          start: '2019-08-28'
+		          title: '김직원 휴가',
+		          start: timeSt2(dayago4)
 		        }
 		      ]
 		    });
 		
 		    calendar.render();
 		  });
+		
+		/* 매출 그래프 */
+		am4core.ready(function() {
+		// Themes begin
+		am4core.useTheme(am4themes_animated);
+		// Themes end
+		
+		// Create chart instance
+		var chart = am4core.create("chartdiv", am4charts.XYChart);
+		
+		chart.colors.step = 4; 
+		chart.maskBullets = false;
+		
+		chart.data = [
+	            <% for (int i = 0; i< num; i++) { %>
+	            {
+			    "date" : "<%=dateArr2[i] %>",
+			    "distance": <%=subResultArr[i] %>,
+			    "distance2": <%=ssbResultArr[i] %>,
+			    "latitude": <%=totalArr[i] %>,
+			},
+	        <% } %>
+	        {
+			}];
+		
+		// Create axes
+		var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+		dateAxis.renderer.minGridDistance = 50;
+		dateAxis.renderer.grid.template.disabled = true; //칸
+		dateAxis.renderer.fullWidthTooltip = true;
+		
+		var distanceAxis = chart.yAxes.push(new am4charts.ValueAxis());
+		distanceAxis.title.text = " "; // y축 글자
+				
+		var latitudeAxis = chart.yAxes.push(new am4charts.ValueAxis());
+		latitudeAxis.renderer.grid.template.disabled = true;
+		latitudeAxis.renderer.labels.template.disabled = true;
+		latitudeAxis.syncWithAxis = latitudeAxis;
+		
+		// 정기결제
+		var distanceSeries = chart.series.push(new am4charts.ColumnSeries());
+		distanceSeries.dataFields.valueY = "distance";
+		distanceSeries.dataFields.dateX = "date";
+		distanceSeries.yAxis = distanceAxis;
+		distanceSeries.tooltipText = "{valueY}원";
+		distanceSeries.name = "정기결제";
+		distanceSeries.columns.template.fillOpacity = 0.7;
+		distanceSeries.columns.template.propertyFields.strokeDasharray = "dashLength";
+		distanceSeries.columns.template.propertyFields.fillOpacity = "alpha";
+		distanceSeries.showOnInit = true;
+		
+		var distanceState = distanceSeries.columns.template.states.create("hover");
+		distanceState.properties.fillOpacity = 0.9;
+		
+		// 세수보
+		var distanceSeries2 = chart.series.push(new am4charts.ColumnSeries());
+		distanceSeries2.dataFields.valueY = "distance2";
+		distanceSeries2.dataFields.dateX = "date";
+		distanceSeries2.yAxis = distanceAxis;
+		distanceSeries2.tooltipText = "{valueY}원";
+		distanceSeries2.name = "세수보";
+		distanceSeries2.columns.template.fillOpacity = 0.7;
+		distanceSeries2.columns.template.propertyFields.strokeDasharray = "dashLength";
+		distanceSeries2.columns.template.propertyFields.fillOpacity = "alpha";
+		distanceSeries2.showOnInit = true;
+		
+		var distanceState2 = distanceSeries.columns.template.states.create("hover");
+		distanceState2.properties.fillOpacity = 0.9;
+		
+		
+		//  총 수익금액
+		var latitudeSeries = chart.series.push(new am4charts.LineSeries());
+		latitudeSeries.dataFields.valueY = "latitude";
+		latitudeSeries.dataFields.dateX = "date";
+		latitudeSeries.yAxis = distanceAxis;
+		latitudeSeries.name = "총 수익금액";
+		latitudeSeries.strokeWidth = 2;
+		latitudeSeries.propertyFields.strokeDasharray = "dashLength";
+		latitudeSeries.tooltipText = "총 {valueY}원";
+		latitudeSeries.showOnInit = true;
+		
+		var latitudeBullet = latitudeSeries.bullets.push(new am4charts.CircleBullet());
+		latitudeBullet.circle.strokeWidth = 2;
+		
+		var latitudeState = latitudeBullet.states.create("hover");
+		latitudeState.properties.scale = 1.2;
+		
+		
+		var latitudeLabel = latitudeSeries.bullets.push(new am4charts.LabelBullet());
+		latitudeLabel.label.horizontalCenter = "left";
+		latitudeLabel.label.dx = 4;
+		
+		// Add legend
+		chart.legend = new am4charts.Legend();
+		
+		// Add cursor
+		chart.cursor = new am4charts.XYCursor();
+		chart.cursor.fullWidthLineX = true;
+		chart.cursor.lineX.strokeOpacity = 0;
+		chart.cursor.lineX.fillOpacity = 0.1;
+		
+		}); // end am4core.ready()
+		/*매출 그래프 소스 끝*/
+		   
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+		
+		// 콤마      
+		function numberFormat(inputNumber) {
+			return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		      
+		
+		//Date 개체를 입력받아 yyyy-MM-dd 형식으로 반환
+		function timeSt(dt) {
+		    var d = new Date(dt);
+		    var MM = d.getMonth()+1;
+		    var dd = d.getDate();
+
+		    return (addzero(MM) + '/' + addzero(dd));
+		}
+		
+		function timeSt2(dt) {
+		    var d = new Date(dt);
+		    var yy = d.getFullYear();
+		    var MM = d.getMonth()+1;
+		    var dd = d.getDate();
+
+		    return (addzero(yy) + '-' + addzero(MM) + '-' + addzero(dd));
+		}
+		
+		//10보다 작으면 앞에 0을 붙임
+		function addzero(n) {
+		    return n < 10 ? "0" + n : n;
+		}
+		
 		
 	</script>
 </head>
@@ -467,10 +591,42 @@
 		</div>
 		<div class = "title-num">
 			<div class = "title-icon">
+				<% 
+					String[] weatherArr = tempText.split(",");
+					String weather = weatherArr[0];
+								
+					if(weather.equals("맑음")) {
+				%>
+						<img src="https://img.icons8.com/dusk/50/000000/summer.png">
+				<%} else if(weather.equals("흐림")){ %>
+						<img src="https://img.icons8.com/dusk/50/000000/partly-cloudy-day.png">
+				<% } else if(weather.contains("비")) {%>
+						<img src="https://img.icons8.com/dusk/50/000000/rain.png">
+				<% } else if(weather.contains("눈")) {%>
+						<img src="https://img.icons8.com/dusk/50/000000/snow-storm.png">
+				<%} else if(weather.contains("안개")) {%>
+						<img src="https://img.icons8.com/dusk/50/000000/foggy-night-1.png">
+				<%} else if(weather.contains("구름")) {%>
+						<img src="https://img.icons8.com/dusk/50/000000/cloud.png">
+				<%} else {%>
+						<img src="https://img.icons8.com/dusk/50/000000/temperature-sensitive.png">
+				<%} %>
+			</div>
+			<div class = "title-content">
+				<strong>오늘의 날씨</strong>
+				<span>서울 강남구 기준</span>
+				<div class = "count-number-div">
+					<span class = "count-number"><%=temp %></span>
+					<span class = "count-txt">℃</span>
+				</div>
+			</div>
+		</div>
+		<div class = "title-num">
+			<div class = "title-icon">
 				<img src="https://img.icons8.com/dusk/50/000000/receive-cash.png">
 			</div>
 			<div class = "title-content">
-				<strong>오늘 매출액</strong>
+				<strong>오늘의 매출액</strong>
 				<span>단일 서비스 합산</span>
 				<div class = "count-number-div">
 					<span id = "price-span" class = "count-number" style = "font-size : 2.5rem;"></span>
@@ -487,28 +643,10 @@
 		<ul class = "body-ul">
 			<li>
 				<div class = "body-header">
-					<h3>오늘의 날씨</h3>
+					<h3>오늘의 일정</h3>
 				</div>
 				<div class = "body-content">
-					<div class = "today-div">
-						<div class = "today-weather">
-							<% 
-								String[] weatherArr = tempText.split(",");
-								String weather = weatherArr[0];
-								
-								if(weather.equals("맑음")) {
-							%>
-							<img src="https://img.icons8.com/dusk/100/000000/sun.png">
-							<%} else { %>
-							<img src="https://img.icons8.com/dusk/100/000000/rain.png">
-							<% } %>
-						</div>
-						<div class = "today-content">
-							<p class = "temp"><%=temp %>℃</p>
-							<p class = "tempText"><%=tempText %></p>
-						</div>
-					</div>
-					<p class = "tempExp">서울특별시 강남구 역삼동 기준 </p>
+					<div id="calendar"></div>
 				</div>
 			</li>
 			<li>
@@ -598,11 +736,14 @@
 					<h3>매출</h3>
 					<div class = "body-tool">
 					<span><img src="https://img.icons8.com/small/16/000000/questions.png"></span>
-					<a href = "./adminChart.do"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
+					<p class="arrow_box">
+						정기구독 결제 금액과 세탁, 수선, 보관 각각의 주문 금액의 합을 확인 하실 수 있습니다. 차트를 드래그하면 더 자세한 숫자를 확인 하실 수 있습니다. 
+					</p>
+					<a href = "./adminChart2.do"><img src="https://img.icons8.com/small/16/000000/poll-topic.png"></a>
 					</div>
 				</div>
 				<div class = "body-content">
-					<div id="calendar"></div>
+					<div id="chartdiv" style = "height: 100%;"></div>
 				</div>
 			</li>
 			<li>

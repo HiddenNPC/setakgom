@@ -565,6 +565,7 @@ TODO: more distinction between this file and common.css
 .fc-unthemed .fc-list-view,
 .fc-unthemed .fc-list-heading td {
   border-color: #ddd;
+  font-size : 0.85rem;
 }
 
 .fc-unthemed .fc-popover {
@@ -574,7 +575,7 @@ TODO: more distinction between this file and common.css
 .fc-unthemed .fc-divider,
 .fc-unthemed .fc-popover .fc-header,
 .fc-unthemed .fc-list-heading td {
-  background: #c5c5c5;
+  background: #3498db;
 }
 
 .fc-unthemed td.fc-today {
