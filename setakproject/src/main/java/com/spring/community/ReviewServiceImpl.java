@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.spring.mapper.QnaMapper;
 import com.spring.mapper.ReviewMapper;
 
 @Service("reviewService")
@@ -106,10 +108,13 @@ public class ReviewServiceImpl implements ReviewService
 		
 	}
 
-	
-
-	
-	
+	@Override
+	public String getMemberName(String name) {
+		ReviewMapper reviewMapper = sqlSession.getMapper(ReviewMapper.class);
+		String member_name = reviewMapper.getMemberName(name);
+		return member_name;
+	}
 	
 
 }
+

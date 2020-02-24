@@ -70,6 +70,14 @@ public class QnaServiceImpl implements QnaService
 	
 	}
 	
+	@Override
+	public String getMemberName(String name) 
+	{
+		QnaMapper qnaMapper = sqlSession.getMapper(QnaMapper.class);
+		String member_name = qnaMapper.getMemberName(name);
+		return member_name;
+	}
+
 	
 	@Override public int qnaInsert(QnaVO qnavo) throws Exception 
 	{

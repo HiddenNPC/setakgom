@@ -22,7 +22,7 @@ public interface ReviewMapper
 	public int reviewDelete(int review_num); 
 	public int reviewUpdate(ReviewVO vo); 
 	public int reviewCheck(OrderVO vo); 
-	
+	public String getMemberName (String name);
 	
 	
 	

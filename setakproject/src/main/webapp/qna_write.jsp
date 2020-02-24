@@ -128,8 +128,11 @@ function wcancel(){
 <form action="./qnaInsert.do" method="post" enctype="multipart/form-data" id="qnaform"  name="qnaform">
 <table class="qwt1">				
 	<tr>
-		<td height="30px"><div align="center">작성자</div></td>
-		<td colspan="2"><input value="<%=session.getAttribute("member_name")%>" type="hidden" name="MEMBER_ID" >&nbsp;<%=session.getAttribute("member_name")%></td>
+		<td height="30px"><div align="center">작성자</div></td>		
+		<td colspan="2">
+			<input value="<%=session.getAttribute("member_name")%>" type="hidden" name="member_name" >&nbsp;<%=session.getAttribute("member_name")%>
+			<input value="<%=session.getAttribute("member_id")%>" type="hidden" name="MEMBER_ID">
+		</td>
 	</tr>
 	<tr>
 		<td id="m_qwtd1"><div align="center">문의유형</div></td>

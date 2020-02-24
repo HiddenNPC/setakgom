@@ -187,48 +187,42 @@
 						<div id="example1" class="slider-pro">
 							<div class="sp-thumbnails">
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">1. 서비스신청</div>
+									<div class="sp-thumbnail-title">1. 로그인</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">2. 웰컴키트 받기</div>
+									<div class="sp-thumbnail-title">2. 세탁물 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">3. 스마트키 연결</div>
+									<div class="sp-thumbnail-title">3. 방법, 수량 입력</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">4. 수거 요청</div>
+									<div class="sp-thumbnail-title">4. 수선신청</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">5. 세탁 진행</div>
+									<div class="sp-thumbnail-title">5. 보관신청</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">6. 빨래 끝</div>
+									<div class="sp-thumbnail-title">6. 끝</div>
 								</div>
 							</div>
 							<div class="sp-slides">
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image1_large.jpg" />
+									<img class="sp-image" src="images/login.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image2_large.jpg" />
+									<img class="sp-image" src="images/wash1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image3_large.jpg" />
+									<img class="sp-image" src="images/wash2.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image5_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image6_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 							</div>
 						</div>
@@ -237,19 +231,25 @@
 						<div id="example2" class="slider-pro">
 							<div class="sp-thumbnails">
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">1. 카테고리 선택</div>
+									<div class="sp-thumbnail-title">1. 로그인</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">2. 치수 밑 데이터 입력</div>
+									<div class="sp-thumbnail-title">2. 카테고리 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">3. 수량, 택 선택</div>
+									<div class="sp-thumbnail-title">3. 치수 밑 데이터 입력</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">4. 장바구니</div>
+									<div class="sp-thumbnail-title">4. 수량, 택 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">5. 장바구니</div>
 								</div>
 							</div>
 							<div class="sp-slides">
+								<div class="sp-slide">
+									<img class="sp-image" src="images/login.jpg" />
+								</div>
 								<div class="sp-slide">
 									<img class="sp-image" src="images/mending1.jpg" />
 								</div>

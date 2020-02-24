@@ -214,7 +214,7 @@ $(document).ready(function() {
 					$(this).parent().parent().siblings().remove('#a-q-r');
 					$(this).parent().parent().after('<div id="a-q-r"><table id="a-q-r-t"><tbody id="a-q-view">'+
 							'<tr><td>제목 :</td><td colspan="5"><input type="text" class="qna_title2" value="'+c+'"></td></tr>'+
-							'<tr><td>내용 :</td><td colspan="4"><textarea class="qna_content2">'+d+'</textarea><span id="t1">답글 :</span><textarea class="comment_con"></textarea></td>'+	
+							'<tr><td>내용 :</td><td colspan="4"><textarea class="qna_content2">'+d+'</textarea><span id="t1">답글 :</span><textarea class="comment_con">안녕하세요 세탁곰입니다.</textarea></td>'+	
 							'<td><input class="a-q-rinsert" type="button" value="추가"></td>'+	
 							'</tr></tbody><tbody id="a-q-r-list"></tbody></table></div>');										
 					replylist();

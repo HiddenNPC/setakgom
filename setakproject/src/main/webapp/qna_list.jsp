@@ -12,6 +12,9 @@
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
+	ArrayList<String>m_name = (ArrayList<String>)request.getAttribute("m_namelist");
+	
+	
 	
 	
 %>
@@ -66,7 +69,8 @@ function q4ba_click(){
 
 <table class="qlt2">
 <%if (listcount > 0) { %>
-	<%for(int i=0; i<qnalist.size(); i++) { QnaVO bl = (QnaVO)qnalist.get(i);%>
+	<%for(int i=0; i<qnalist.size(); i++) { QnaVO bl = (QnaVO)qnalist.get(i); %>
+		
 		<%if (session.getAttribute("member_id")==null) {%> <!-- 비회원이라면  -->
 			<tr onmouseover="this.style.backgroundColor='#e6f8fc'" onmouseout="this.style.backgroundColor=''" >	
 			<td width="7%" id="mhtd1"><div><%=((listcount - ((nowpage-1) * 10))- i) %></div></td>
@@ -76,7 +80,11 @@ function q4ba_click(){
 			<%}else{%> <!-- 오직 공개글만 볼 수 있다. -->
 				<td id="mqltd2"> <div> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?qna_num=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
 			<%}%>
+
+			<td width="15%"> <div ><%=m_name.get(i)%></div></td>
+<%-- =======
 			<td id="mqltd3"> <div><%=bl.getMember_id() %></div></td>
+>>>>>>> refs/remotes/origin/솔민 --%>
 			<td width="15%" id="mhtd1"> <div ><%=bl.getQna_date().substring(0,11).trim() %></div> </td>		
 		</tr>
 
@@ -94,7 +102,11 @@ function q4ba_click(){
 			<%}else{%>
 				<td id="mqltd2"> <div> &nbsp;&nbsp;&nbsp;<a href="./qnaDetail.do?qna_num=<%=bl.getQna_num() %>"><%=bl.getQna_title() %></a></div></td>
 			<%} %>
+
+			<td width="15%"> <div >&nbsp;<%=m_name.get(i)%></div></td>
+<%-- =======
 			<td id="mqltd3"> <div>&nbsp;<%=bl.getMember_id() %></div></td>
+>>>>>>> refs/remotes/origin/솔민 --%>
 			<td width="15%" id="mhtd1"> <div ><%=bl.getQna_date().substring(0,11).trim() %></div> </td>		
 		</tr>
 		<%}%>
