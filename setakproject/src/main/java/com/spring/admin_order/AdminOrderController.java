@@ -87,7 +87,7 @@ public class AdminOrderController {
 		// 최근 5일 총 주문량 코드
 		int orderSum = 0; 
 		HashMap<String, Object> dateMap = new HashMap<String, Object>();
-		for(int i = 0; i < dateArr.length; i++) {
+		for(int i = 0; i < 5; i++) {
 			dateMap.put("order_date", dateArr[i]);
 			orderSum += adminOrderService.recentOrderCnt(dateMap);
 		}
@@ -101,7 +101,8 @@ public class AdminOrderController {
 		int[] subArr = new int[5]; 
 		int[] sub2Arr = new int[22];
 				
-		for(int i = 0; i < planArr.length; i++) {
+		int planArrlength = planArr.length;
+		for(int i = 0; i < planArrlength; i++) {
 			int cnt = adminMemberSubService.getMemberSubCnt(planArr[i]);
 			subArr[i] = cnt;
 			subSum += cnt;
@@ -110,7 +111,8 @@ public class AdminOrderController {
 		// 총 회원수 대비 구독자수
 		int subPercent = (int)((double) subSum / (double) memberAllcnt * 100);
 	
-		for(int i = 0; i < plan2Arr.length; i++) {
+		int plan2Arrlength = plan2Arr.length;
+		for(int i = 0; i < plan2Arrlength; i++) {
 			int cnt = adminMemberSubService.getMemberSubCnt2(plan2Arr[i]);
 			sub2Arr[i] = cnt;
 		}
@@ -131,7 +133,7 @@ public class AdminOrderController {
 		int[] keepArr = new int[5];
 		int keep_dailyResult = 0; 
 		
-		for(int j = 0;  j < dateArr.length; j++) {
+		for(int j = 0;  j <5; j++) {
 			map.put("order_date", dateArr[j]);
 									
 			// 하루당 주문량 계산 : 세탁

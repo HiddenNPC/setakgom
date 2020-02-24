@@ -140,6 +140,9 @@ li.check {
 	padding : 7px; 
 }
 
+#result-table tbody tr:hover {
+	background-color : #efeaea;
+}
 #result-table tbody td {
 	padding : 10px;
 	font-size : 0.9rem;
@@ -254,7 +257,7 @@ li.check {
     border: 0px;
     background-color: white;
     cursor: pointer;
-    color : #444; 
+    color : #444;
 }
 
 .orderNum:hover {
@@ -289,6 +292,7 @@ li.check {
     .page-number{
     	padding:5px 8px;
     	margin:0 4px;
+    	cursor : pointer; 
     }
 
 
