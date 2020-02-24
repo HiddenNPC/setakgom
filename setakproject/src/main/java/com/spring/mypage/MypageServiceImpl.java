@@ -34,12 +34,20 @@ public class MypageServiceImpl implements MypageService {
 	
 	
 	@Override
-	public ArrayList<OrderListVO> getOrdernumlist(String member_id){
+	public ArrayList<OrderListVO> getOrdernumlist(HashMap<String, Object> map){
 		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
 		ArrayList<OrderListVO> ordernumlist = new ArrayList<OrderListVO>();
 		
-		ordernumlist = mypageMapper.getOrdernumlist(member_id);
+		ordernumlist = mypageMapper.getOrdernumlist(map);
 		return ordernumlist;
+	}
+	
+	@Override
+	public int getOrdernumcount(String member_id) {
+		MypageMapper mypageMapper = sqlSession.getMapper(MypageMapper.class);
+		int res = mypageMapper.getOrdercount(member_id);
+		
+		return res;
 	}
 	
 	@Override

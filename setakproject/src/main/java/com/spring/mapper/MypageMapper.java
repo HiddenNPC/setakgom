@@ -14,8 +14,9 @@ import com.spring.setak.WashingVO;
 
 public interface MypageMapper {
 	ArrayList<OrderVO> getOrderlist(HashMap<String, Object> map);
-	ArrayList<OrderListVO> getOrdernumlist(String member_id);
+	ArrayList<OrderListVO> getOrdernumlist(HashMap<String, Object> map);
 	ArrayList<KeepVO> selectMykeeplist(long order_num);
+	int getOrdernumcount(String member_id);
 	int selectMykeep(long order_num);
 	KeepVO getKeepSeq(int keep_seq);
 	OrderVO selectOrder(long order_num);

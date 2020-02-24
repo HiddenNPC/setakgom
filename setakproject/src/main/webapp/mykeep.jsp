@@ -22,6 +22,14 @@
 	String member_addr1 = (String) request.getAttribute("member_addr1");
 	String member_addr2 = (String) request.getAttribute("member_addr2");
 	String zipcode = (String) request.getAttribute("zipcode");
+	
+	  int listcount = ((Integer)request.getAttribute("listcount")).intValue();
+	   int nowpage = ((Integer)request.getAttribute("page")).intValue();
+	   int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
+	   int startpage = ((Integer)request.getAttribute("startpage")).intValue();
+	   int endpage = ((Integer)request.getAttribute("endpage")).intValue();
+	   int limit = ((Integer)request.getAttribute("limit")).intValue();
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -245,6 +253,36 @@
 						}
 					%>
 				</div>
+				 <div class="page1">
+            <table class="page">
+               <tr align = center height = 20>
+                       <td>
+              				<%if(nowpage <= 1) {
+              				%>
+              				<div class="page_a"><a>&#60;</a></div>
+              				<%} else {%>
+              					<div class="page_a"><a href ="./mykeep.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              				<%} %>
+              				<%for (int a=startpage; a<= endpage; a++) {
+              					if(a==nowpage) {
+           					%>
+           					<div class="page_a active"><a><%=a %></a></div>
+           					<%} else {%>
+           						<div class="page_a"><a href="./mykeep.do?page=<%=a %>"><%=a %></a></div>
+           					<%} %>
+           					<%} %>
+           					<%if (nowpage >= maxpage) {
+           					%>	
+           						<div class="page_a"><a>&#62;</a></div>
+           					<%} else { %>	
+                  				<div class="page_a"><a href ="./mykeep.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  			<%} %>	
+                  			</td>
+                     </tr>
+            </table>
+            </div>
+				
+				
 				<%} %>
 			</div>
 		</div>

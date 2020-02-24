@@ -105,12 +105,17 @@
 	</select>
 
 	
-	<select id="getOrdernumlist" resultMap="OrderlistResultMap" parameterType="String">
-		select DISTINCT order_num from orderlist 
-   							where order_num in  (select order_num from memberorder
-													where member_id = #{member_id}) and not keep_seq = 0 
+	<select id="getOrdernumlist" resultMap="OrderlistResultMap" parameterType="HashMap">
+		 select *
+from (select rownum rnum, a.*
+			from (select *
+				   from memberorder where member_id = #{member_id} order by order_num desc) a) <![CDATA[ where rnum>=#{startrow} and rnum<=#{endrow} ]]> 
 	</select>
 	
+	<select id="getOrdernumcount" resultType="int">
+		select count(distinct order_num) from orderlist where order_num in (select order_num from memberorder where member_id = #{member_id});
+	</select>
+		
 	<select id="selectMykeep" resultType="int" parameterType="long">
 		select count(*) from keep where keep_seq in (select keep_seq from orderlist where order_num = #{order_num}) and not keep_seq = 0
 	</select>
