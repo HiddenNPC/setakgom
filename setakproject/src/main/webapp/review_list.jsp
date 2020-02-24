@@ -23,10 +23,6 @@ System.out.println("왔냐?2"+m_namelist.get("nanana"));
 <link rel="stylesheet" type="text/css" href="./css/review.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
-
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript"></script>
 <script>

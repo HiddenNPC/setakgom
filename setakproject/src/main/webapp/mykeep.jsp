@@ -40,9 +40,6 @@
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script type="text/javascript">
@@ -175,9 +172,6 @@
 							</div>
 							<div class="keepbox" style="border-right: 1px solid rgb(255, 255, 255);">보관 기간 연장</div>
 							<div class="keepbox2">반환 신청</div>
-							<br>
-							<br>
-							<br>
 							<div class="keep_month">
 								<ul>
 									<li class="month" value="<%=m1%>"><h3>1개월</h3>

@@ -27,21 +27,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>세탁곰</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <link rel="shortcut icon" href="favicon.ico">
-   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<!--sweetalert2 -->
-
-
 <script type="text/javascript">
-
    $(document).ready(function(){
-      
       var member_id = "<%=session.getAttribute("member_id")%>";
       
       $("#header").load("./header.jsp");
@@ -63,7 +56,7 @@
              $(".dim").show();
           }
           else{
-             alert("비회원은 리뷰를 작성 할 수 없습니다.");
+			Swal.fire("","비회원은 리뷰를 작성 할 수 없습니다.","info");
              location.href="login.do";
              return false;
           }   
@@ -293,12 +286,12 @@ function cancle() {
                      <!--snb -->
                      <div class="snb">
                         <div class="ordernumber" >
-                           <p>주문 번호 :</p>
+                           <p>※ 주문 번호</p>
                            <p><%=orderVO.getOrder_num() %></p>
                            <input type="hidden" value="<%=orderVO.getOrder_num() %>">
                         </div>
                         <div class="addr">
-                           <p>주소 :</p>
+                           <p>※ 주소</p>
                            <p><%=orderVO.getOrder_address().replace("!", " ") %></p>
                         </div>
                         <br><br><br><br><br>
@@ -406,7 +399,6 @@ function cancle() {
                         <h2>리뷰 작성</h2>
                         <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
                         <div class="r_content">
-                           <p style="margin-bottom:5px;">사용자 평점</p> 
                            <a class="starR1 on" value="1" >별1_왼쪽</a>
                             <a class="starR2" value="2">별1_오른쪽</a>
                             <a class="starR1" value="3">별2_왼쪽</a>

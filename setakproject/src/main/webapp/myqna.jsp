@@ -43,7 +43,7 @@
 		<div class="title-text">
 			<h2>Q&A 문의내역</h2>
 		</div>
-			<div class="mypage_head" style="width: 12%; float: left;">
+			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
@@ -70,7 +70,7 @@
 					</li>
 				</ul>
 			</div>
-			<div>
+		
 				<div class="mypage_content">
 				<h2>Q&A 문의내역</h2>
 				<%if (qnalist.size() == 0) {%>
@@ -83,10 +83,10 @@
 						<table class="qna">
 							<thead align="center">
 								<tr>
-									<th width="15">문의유형</th>
-									<th width="35">제목</th>
-									<th width="20">문의날짜</th>
-									<th width="20">답변상태</th>
+									<th>문의유형</th>
+									<th>제목</th>
+									<th>문의날짜</th>
+									<th>답변상태</th>
 								</tr>
 							</thead>
 							<%for (int i=0; i<qnalist.size(); i++){ 
@@ -139,7 +139,7 @@
 			</div>
 			<%} %>
 			</div>
-		</div>
+		
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 	
