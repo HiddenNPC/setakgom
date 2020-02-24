@@ -121,7 +121,7 @@
               					if(a==nowpage) {
               						
            					%>
-           					<div class="page_a"><a><%=a %></a></div>
+           					<div class="page_a active"><a><%=a %></a></div>
            					<%} else {%>
            						<div class="page_a"><a href="./myqna.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
