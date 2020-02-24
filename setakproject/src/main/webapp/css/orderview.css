@@ -334,13 +334,21 @@ content를 미리 해놨기때문에 자동으로 1200px안에 중앙정렬돼�
 	color: #444;
 }
 
+.active{
+	background-color:#3498db !important;
+	
+}
+.active a{
+	color:#fff !important;
+    
+}
+
 .page1 table tr td div {
 	display: inline-block;
-	background-color: #3498db;
 }
 
 table.page td a {
-	color: #fff;
+	color: #444;
 }
 
 /* <리뷰 작성> */
@@ -795,26 +803,34 @@ textarea {
 	}
 
 	.page1 table {
-		margin-top: 100px;
-		text-align: center;
-		width: 100%;
+	margin-top: 100px;
+	text-align: center;
+	width: 100%;
 	}
-
+	
 	.page_a {
 		text-align: center;
-		font-size: 0.83rem;
+		font-size: 0.93rem;
 		padding: 5px 8px;
 		margin: 0 4px;
 		color: #444;
 	}
-
+	
+	.active{
+		background-color:#3498db !important;
+		
+	}
+	.active a{
+		color:#fff !important;
+	    
+	}
+	
 	.page1 table tr td div {
 		display: inline-block;
-		background-color: #3498db;
 	}
-
+	
 	table.page td a {
-		color: #fff;
+		color: #444;
 	}
 
 	/* <리뷰 작성> */
