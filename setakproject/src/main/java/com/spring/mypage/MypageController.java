@@ -134,12 +134,40 @@ public class MypageController {
 		ArrayList<KeepPhotoVO> kpvolist = new ArrayList<KeepPhotoVO>();
 		
 		ArrayList<ArrayList<KeepPhotoVO>> kpvolist2 = new ArrayList<ArrayList<KeepPhotoVO>>();
-		
 		String member_id = (String) session.getAttribute("member_id");
+		
 		MemberVO memberVO = new MemberVO();
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		int page = 1;
+		int limit = 10;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		int startrow = (page-1)*10 + 1;
+		int endrow = startrow + limit-1;
+	
+		int listcount = mypageService.getOrdercount(member_id);
+		
+		map.put("member_id", member_id);
+		map.put("startrow", startrow);
+		map.put("endrow", endrow);
+		
+		ordernumlist = mypageService.getOrdernumlist(map);
+		
+		int maxpage = (int)((double)listcount/limit+0.95);
+		int startpage=(((int) ((double)page/10+0.9))-1)*10+1;
+		int endpage = startpage + 10-1;
+		
+		if(endpage > maxpage)
+		{
+			endpage = maxpage;
 			
-			
-		ordernumlist = mypageService.getOrdernumlist(member_id);
+		}
+		
+		
+		
 		
 		long order_num = 0;
 		int keep_seq = 0;
@@ -167,7 +195,12 @@ public class MypageController {
 		model.addAttribute("kpvolist2", kpvolist2);
 		model.addAttribute("ordernumlist", ordernumlist);
 		model.addAttribute("memberVO", memberVO);
-		
+		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
+		model.addAttribute("maxpage", maxpage);
+		model.addAttribute("startpage", startpage);
+		model.addAttribute("endpage", endpage);
+		model.addAttribute("listcount", listcount);
 			
 		return "mykeep";
 	}

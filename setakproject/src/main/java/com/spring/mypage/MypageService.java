@@ -13,7 +13,8 @@ import com.spring.setak.WashingVO;
 
 public interface MypageService {
 	public ArrayList<OrderVO> getOrderlist(HashMap<String, Object> map);
-	public ArrayList<OrderListVO> getOrdernumlist(String member_id);
+	public ArrayList<OrderListVO> getOrdernumlist(HashMap<String, Object> map);
+	public int getOrdernumcount(String member_id);
 	public ArrayList<KeepVO> selectMykeeplist(long order_num);
 	public int selectMykeep(long order_num);
 	public KeepVO getKeepSeq(int keep_seq);
