@@ -119,22 +119,18 @@ function q4ba_click(){
 <table class="qlt3">		
 	<tr align=center height="30px">
 		<td colspan=7 >
-		<% if(nowpage<=1) { %>
-			&lt;&nbsp;&nbsp;&nbsp;
-		<% } else { %>
-		<a href="./qnaList.do?page=<%=nowpage-1 %>" > &lt; </a>&nbsp;
+		<% if(nowpage<=1) { %><a>&lt;</a><% } else { %>
+		<a href="./qnaList.do?page=<%=nowpage-1 %>" >&lt;</a>
 		<% } %>
 		<% for (int a=startpage; a<=endpage; a++) { 
 			if(a==nowpage) { %>
-			<%=a %>
+			<a class="page active"><%=a %></a>
 			<% } else { %>
-				<a href="./qnaList.do?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
+				<a href="./qnaList.do?page=<%=a %>" ><%=a %></a>
 			<% } %>
 		<% } %>
-		<% if (nowpage >= maxpage ) { %>
-		&nbsp;&nbsp;&nbsp;&gt;
-		<% } else { %>
-			<a href="./qnaList.do?page=<%=nowpage+1 %>"> &gt;</a>
+		<% if (nowpage >= maxpage ) { %><a>&gt;</a><% } else { %>
+			<a href="./qnaList.do?page=<%=nowpage+1 %>">&gt;</a>
 		<% } %>
 		</td>
 	</tr>
