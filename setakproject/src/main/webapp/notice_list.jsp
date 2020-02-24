@@ -32,17 +32,19 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div id="header"></div>
-<section id="notice">
-<div class="content">
-<div class="title-text"><h2><a href="./noticeList.do">Notice</a></h2><small>공지사항</small></div>
+	<div id="header"></div>
+	<section id="notice">
+	<div class="content">
+		<div class = title-text>
+			<h2>Notice</h2><small>공지사항</small>
+		</div>
 <div class="notice">
 
 <table class="nlt1">	
 	<tr>
-		<td width="10%"><div align="center">번 호</div></td>
-		<td width="80%"><div align="center">제 목</div></td>
-		<td width="10%"><div align="center">날 짜</div></td>
+		<td width="10%">번 호</td>
+		<td width="80%">제 목</td>
+		<td width="10%">날 짜</td>
 	</tr>
 </table>
 		
@@ -63,20 +65,20 @@ $(document).ready(function(){
 <tr align=center height="40px">
 <td colspan=7 >
 <%if(nowpage<=1) {%>
-< &nbsp;&nbsp;&nbsp;
+<a>&lt;</a>
 <%}else{%>
-<a href="./noticeList.do?page=<%=nowpage-1 %>" > < </a>&nbsp;
-<%}%>			
-<%for (int a=startpage; a<=endpage; a++){ 
-	if(a==nowpage) { %>
-	<%=a %>
-	<%}else{%>
-	<a href="./noticeList.do?page=<%=a %>" >&nbsp;&nbsp;<%=a %>&nbsp;&nbsp;</a>
-	<%}%>
-<%}%>&nbsp;
+<a href="./noticeList.do?page=<%=nowpage-1 %>" > &lt; </a>
+<%}
+	for (int a=startpage; a<=endpage; a++){ 
+		if(a==nowpage) { %>
+		<a><%=a %> </a>
+		<%}else{%>
+		<a href="./noticeList.do?page=<%=a %>"><%=a %></a>
+		<%}%>
+<%}%>
 <%if(nowpage >= maxpage ) { %>
-&nbsp;&nbsp;&nbsp; >
-<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" > > </a>
+<a>&gt;</a>
+<%}else{%><a href="./noticeList.do?page=<%=nowpage+1 %>" >&gt;</a>
 <%}%>
 </td>
 </tr>

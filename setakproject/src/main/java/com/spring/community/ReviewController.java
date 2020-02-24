@@ -31,11 +31,22 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	
 	@RequestMapping (value = "/review.do") public String review(Model model) throws Exception
 	{	
-		//int maxnum = reviewService.getMaxNum();	
+		
 		ArrayList<ReviewVO> list = reviewService.reviewList();
-		//addAttribute("maxnum", maxnum); //System.out.println("maxnum="+maxnum);		 
+		String a = null;
+	    String b = null;
+	    
+		//ArrayList<String> m_namelist = new ArrayList<String>();  
+		HashMap<String, Object> m_namelist = new HashMap<String, Object>();
+		
+	      for(int i =0; i<list.size(); i++) {
+	    	  a= list.get(i).getMember_id();    
+	    	  b= reviewService.getMemberName(a); 
+	    	  m_namelist.put(a,b);
+	      }
 		model.addAttribute("reviewlist", list); 
-		//System.out.println("reviewlist="+list);
+		model.addAttribute("m_namelist", m_namelist);
+		
 		return "review_list";			
 	}
 	
@@ -43,6 +54,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	@ResponseBody public ArrayList<ReviewVO> reviewList(Model model) throws Exception
 	{
 		ArrayList<ReviewVO> list = reviewService.reviewList();
+		System.out.println(list.get(1));
 		model.addAttribute("reviewList", list);	
 		return list;		
 	}
@@ -167,7 +179,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		System.out.println("re_condition 넘어오긴 하냐?="+re_condition);
 		if(re_condition.equals("review_date")) {
 			ArrayList<ReviewVO> list = reviewService.reviewCondition1(re_condition);
-			model.addAttribute("reviewCondition1", list);	
+			model.addAttribute("reviewCondition1", list);
 			return list;
 		}else if(re_condition.equals("review_like")) {
 			ArrayList<ReviewVO> list = reviewService.reviewCondition2(re_condition);

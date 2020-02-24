@@ -3,7 +3,7 @@
 	<div class="admin">
 		<nav>
 			<ul class="admin-nav">
-				<li><a href=""></a>관리자 페이지</li>
+				<li><a href="./">관리자 페이지</a></li>
 				<li><a href="./member.do">회원관리</a></li>
 				<li><a href="./adminChart.do">세/수/보-차트</a></li>
 				<li><a href="./admin_wash.do">세탁관리</a></li>

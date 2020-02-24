@@ -6,6 +6,8 @@
 <%
 String login_id=(String)session.getAttribute("member_id");	
 
+HashMap<String, Object> m_namelist = (HashMap<String, Object>)request.getAttribute("m_namelist");
+
 %>
 
 <!DOCTYPE html>
@@ -19,10 +21,6 @@ String login_id=(String)session.getAttribute("member_id");
 <link rel="stylesheet" type="text/css" href="./css/review.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/4b95560b7c.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
-
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript"></script>
 <script>
@@ -60,6 +58,7 @@ $(document).ready(function () {
 		filecontent = $(this)[0].files[0];
 		filename = Date.now() + "_" + $(this)[0].files[0].name;
 	});	
+	
 	$("#reviewform").on("submit", function() {
 		if(rwchk()){			
 			if(filecontent != null){
@@ -129,7 +128,6 @@ $(document).ready(function () {
 	});
 	
 	
-
     //별점 구동	
 	$('.r_content a').click(function () {
 	$(this).parent().children('a').removeClass('on');
@@ -163,7 +161,7 @@ $(document).ready(function () {
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
 									
-					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db " class="re_table'+item.review_num+'">';
+					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db" id="re_table" class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
 					if(i%2 == 1){
@@ -190,7 +188,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -222,8 +220,8 @@ $(document).ready(function () {
 	});			
 		
 	//리뷰 리스트 뿌리기 		
-	function selectData() {		
-		$('#re_list').empty();
+	function selectData() {					
+		$('#re_list').empty();		
 		$.ajax({
 			url:'/setak/reviewList.do', 
 			type:'POST', 
@@ -238,8 +236,9 @@ $(document).ready(function () {
 					var rphoto=res.substring(1,idx);
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
-									
-					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db height:400px;" class="re_table'+item.review_num+'">';
+					var m_id=JSON.stringify(item.member_id);															
+					
+					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db height:400px;" id="re_table" class="re_table'+item.review_num+'">';
 					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
 					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
 					if(i%2 == 1){
@@ -266,7 +265,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_id+'">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_name+'">작성자 :&nbsp;'+item.member_name+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -488,7 +487,7 @@ function searchCheck() {
 				}
 				
 				re_list += '</td></tr>';		   																		
-				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 				re_list += '<td rowspan="2" class="re_list_td1">';
 				re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 							if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -688,7 +687,7 @@ function rwcancel(){
 <div class="title-text"><h2><a href="javascript:history.go(0)">Review<small id="h_small">리뷰</small></a></h2></div>
 <div class="review">
 
-<!-- 리뷰작성 모달 팝업  -->
+<!-- 리뷰작성 모달 팝업 
 <a href="#" class="open">리뷰작성</a>
 <div id="re_layer">
 <h2>리뷰 작성</h2>
@@ -732,10 +731,9 @@ function rwcancel(){
 <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
 </div>
 <div class="dim"></div>
-
+ -->
 
 <!-- 리뷰수정 모달 팝업  -->
-
 <div id="re_layer2">
 <form action="./reviewUpdate.do" method="post" enctype="multipart/form-data" name="re_updateform" id="re_updateform" onsubmit="return ruchk();">
 <h2>리뷰 수정</h2>
@@ -759,7 +757,7 @@ function rwcancel(){
 <table class="r_content">
 	<tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
     <tr><td colspan="7"><textarea id="Review_content2" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-    <tr><td width="40px">
+    <tr><td class="r_content_photo">
     		<input type="hidden" id="exist_file" name="exist_file" value="">
     		<input id="upload-name" value="" disabled="disabled">
     		<input type="file" id="update-Review_photo"/>                        
@@ -796,9 +794,9 @@ function rwcancel(){
 <input type="radio" id="radio3" name="radio_val" value="review_star"><label for="radio3">별점순</label>
  
 <!-- 검색 -->
-<div style="float: right;">
+<div class="re2_search2" style="float: right;">
 <select name="keyfield" id="keyfield" size="1">
-	<option value="member_id"> 이름 </option>
+	<option value="member_name"> 이름 </option>
 	<option value="review_content"> 내용 </option>
 </select>
 <input id="keyword" type="text" size="15" name="keyword" value="${keyword}">

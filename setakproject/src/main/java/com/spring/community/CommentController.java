@@ -59,10 +59,8 @@ public class CommentController
 	@PostMapping(value="/commentDelete.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentDelete(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
-		System.out.println(1);
 		try {
 			int res = commentService.commentDelete(vo);		
-			System.out.println("cd1");
 			if (res==1)
 				retVal.put("res", "OK");
 			else
@@ -79,7 +77,6 @@ public class CommentController
 	@PostMapping(value="/commentUpdate.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> commentUpdate(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
-		System.out.println(2);
 		
 		
 		try {
@@ -109,10 +106,8 @@ public class CommentController
 	public Map<String, Object> ad_commentInsert(CommentVO vo, QnaVO qvo, HttpServletRequest request) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		vo.setQna_num(Integer.parseInt(request.getParameter("qna_num")));
-		System.out.println(vo.getQna_num());
 		vo.setQna_content(request.getParameter("qna_content"));
 		vo.setMember_id("관리자");
-		System.out.println(vo.getQna_content());		
 		qvo.setQna_check(request.getParameter("qna_check"));
 		qvo.setQna_num(Integer.parseInt(request.getParameter("qna_num")));
 		
@@ -155,10 +150,8 @@ public class CommentController
 	@PostMapping(value="admin/commentDelete.do", produces="application/json; charset=UTF-8")
 	public Map<String, Object> ad_commentDelete(CommentVO vo) {
 		Map<String, Object> retVal = new HashMap<String, Object>();
-		System.out.println(1);
 		try {
 			int res = commentService.commentDelete(vo);		
-			System.out.println("cd1");
 			if (res==1)
 				retVal.put("res", "OK");
 			else

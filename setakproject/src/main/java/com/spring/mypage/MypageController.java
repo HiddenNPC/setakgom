@@ -241,7 +241,7 @@ public class MypageController {
 		
 		int startrow = (page-1)*10 +1;
 		int endrow = startrow + limit-1;
-		int listcount = mileageService.getListCount();
+		int listcount = mileageService.getListCount(member_id);
 		map.put("startrow", startrow);
 		map.put("endrow", endrow);
 		map.put("member_id", member_id);

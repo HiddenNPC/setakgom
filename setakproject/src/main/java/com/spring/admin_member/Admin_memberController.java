@@ -79,7 +79,6 @@ public class Admin_memberController {
 			int res = admemberservice.update_memo(mo);
 			if (res == 1) {
 				result.put("res", "OK");
-				System.out.println("메모수정 id="+mo.getMember_id());
 			} else {
 				result.put("res", "FAIL");
 				result.put("message", "Failure");

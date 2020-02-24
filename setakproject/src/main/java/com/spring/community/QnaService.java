@@ -15,6 +15,7 @@ public interface QnaService
 	public QnaVO getDetail(QnaVO vo) throws Exception;
 	
 	public String qnaPassChk(int num) throws Exception;
+	public String getMemberName (String name);
 	
 	
 	
