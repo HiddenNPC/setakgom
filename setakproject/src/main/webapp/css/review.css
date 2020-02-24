@@ -98,7 +98,27 @@
 		line-height: 0px !important;
     }
     
-    #remo{ width:1200px; border-top: 2px solid #3498db; }
+    #remo{ 
+    	color:#444;
+    	font-size:0.93rem;
+    	top:440px;
+    	width:100%;
+    	text-align:center;
+    	border-top:1px solid #3498db;
+    	padding-top:70px;
+    }
+    
+    .active{
+    	width:30px;
+    	height:30px;
+    	background:#3498db;
+    	color:white;
+    }
+    
+    .page-number{
+    	padding:5px 8px;
+    	margin:0 4px;
+    }
     .clickable {cursor: pointer;}
            
      .ret{

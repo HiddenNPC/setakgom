@@ -266,7 +266,7 @@
               				<%for (int a=startpage; a<= endpage; a++) {
               					if(a==nowpage) {
            					%>
-           					<div class="page_a active"><a><%=a %></a></div>
+           					<div class="page_a active2"><a><%=a %></a></div>
            					<%} else {%>
            						<div class="page_a"><a href="./mykeep.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
