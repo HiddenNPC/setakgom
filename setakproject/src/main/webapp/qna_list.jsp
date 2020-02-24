@@ -13,16 +13,12 @@
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 	int limit = ((Integer)request.getAttribute("limit")).intValue();
 	ArrayList<String>m_name = (ArrayList<String>)request.getAttribute("m_namelist");
-	
-	
-	
-	
+		
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" >
 <title>세탁곰</title>
 <link rel="shortcut icon" href="favicon.ico">
@@ -82,9 +78,8 @@ function q4ba_click(){
 			<%}%>
 
 			<td width="15%"> <div ><%=m_name.get(i)%></div></td>
-<%-- =======
-			<td id="mqltd3"> <div><%=bl.getMember_id() %></div></td>
->>>>>>> refs/remotes/origin/솔민 --%>
+
+
 			<td width="15%" id="mhtd1"> <div ><%=bl.getQna_date().substring(0,11).trim() %></div> </td>		
 		</tr>
 
@@ -104,9 +99,7 @@ function q4ba_click(){
 			<%} %>
 
 			<td width="15%"> <div >&nbsp;<%=m_name.get(i)%></div></td>
-<%-- =======
-			<td id="mqltd3"> <div>&nbsp;<%=bl.getMember_id() %></div></td>
->>>>>>> refs/remotes/origin/솔민 --%>
+
 			<td width="15%" id="mhtd1"> <div ><%=bl.getQna_date().substring(0,11).trim() %></div> </td>		
 		</tr>
 		<%}%>
