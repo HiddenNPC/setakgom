@@ -67,7 +67,6 @@ public class AdminChartController {
 				keep_dailyResult = adminchartService.keep_count(map);
 				keepArr[j] += keep_dailyResult; 
 				
-				//System.out.println(j+"번째  "+dateArr[j]+"----"+washArr[j]);
 			}
 			
 			model.addAttribute("washArr", washArr);
@@ -90,7 +89,6 @@ public class AdminChartController {
 			LocalDate endDay = startDay1.with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1); // 2020-02-29
 			LocalDate endDay2 = nowDate.with(TemporalAdjusters.firstDayOfYear()).with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1); //2020-02-29
 			
-			System.out.println(lastDay3.toString().substring(2).replace("-","/"));
 			*/
 			
 			/*한달 별 주문 상태 변화 그래프*/
@@ -192,7 +190,6 @@ public class AdminChartController {
 			
 			total = ssbResult + subResult;
 			totalArr[i] += total; 
-			//System.out.println(i+":날짜 " +d+ ": 세수보"+ssbResult+" + 정기결제"+subResult+"="+total);
 		}
 		model.addAttribute("num", a);
 		model.addAttribute("dateArr2", dateArr2);

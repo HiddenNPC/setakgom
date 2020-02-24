@@ -8,8 +8,6 @@ String login_id=(String)session.getAttribute("member_id");
 
 HashMap<String, Object> m_namelist = (HashMap<String, Object>)request.getAttribute("m_namelist");
 
-System.out.println("왔냐?"+m_namelist);
-System.out.println("왔냐?2"+m_namelist.get("nanana"));
 %>
 
 <!DOCTYPE html>
