@@ -188,7 +188,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -265,7 +265,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_id+'">작성자 :&nbsp;'+item.member_id+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_name+'">작성자 :&nbsp;'+item.member_name+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -487,7 +487,7 @@ function searchCheck() {
 				}
 				
 				re_list += '</td></tr>';		   																		
-				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 				re_list += '<td rowspan="2" class="re_list_td1">';
 				re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 							if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -796,7 +796,7 @@ function rwcancel(){
 <!-- 검색 -->
 <div class="re2_search2" style="float: right;">
 <select name="keyfield" id="keyfield" size="1">
-	<option value="member_id"> 이름 </option>
+	<option value="member_name"> 이름 </option>
 	<option value="review_content"> 내용 </option>
 </select>
 <input id="keyword" type="text" size="15" name="keyword" value="${keyword}">
