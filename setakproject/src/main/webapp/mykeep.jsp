@@ -287,8 +287,12 @@ $(document).ready(function () {
 					output += '<td>' + item.keep_cate + '&nbsp;&nbsp;' + '(' + item.keep_kind + ')' + '&nbsp;&nbsp;' +item.keep_count + '</td>';
 					output += '</tr>';
 				});
+				var kind_arr = new Array();
 				$.each(data, function(index, item) {
+					if(!(kind_arr.includes(item.keep_kind))){
 					input += '<option value='+item.keep_kind+'>' + item.keep_kind + '</option>';
+					kind_arr.push(item.keep_kind);
+					}
 				})
 				console.log("output : " + output);
 				$('.accordion-content2 > table').append(output);
@@ -353,8 +357,12 @@ $.pricefun = function(n){
 					str += '<tr>';
 					str += '<td>';
 					str += '<select class="rt-list" name="return_kind">';
+					var kind_arr = new Array();
 				$.each(data, function(index, item) {
+					if(!(kind_arr.includes(item.keep_kind))){
 					str += '<option value='+ item.keep_kind +'>' + item.keep_kind + '</option>';
+					kind_arr.push(item.keep_kind);
+					}
 				})
 					str += '</select>';
 					str += '</td>';

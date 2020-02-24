@@ -7,7 +7,7 @@
 		display :none;
 	}
 	#frogue-container {
-		z-index: 1 !important;
+		z-index: 10 !important;
 		bottom : 135px !important;
 	}
 
