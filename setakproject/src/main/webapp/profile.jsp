@@ -23,10 +23,7 @@
    <link rel="shortcut icon" href="favicon.ico">
    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-   
-   <!--sweetalert2 -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-   
+
    <!-- 우편번호 api -->
    <script   src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
