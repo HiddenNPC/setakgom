@@ -9,10 +9,8 @@
 	String member_id = vo.getMember_id();
 	String b = null;
 	String session_id= (String)session.getAttribute("member_id");
-	System.out.println("이색기="+session_id);
 	String qna_scr = vo.getQna_scr();
 	String m_name = (String)request.getAttribute("m_name");
-	System.out.println(m_name);
 %>
 
 <!DOCTYPE html>

@@ -36,12 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 	
 	@RequestMapping(value="/admin/admin_faqInsert.do")public String adminFaqInsert(FaqVO vo, HttpServletResponse response) throws Exception 
 	{	
-		String cate = vo.getFaq_cate();
-		System.out.println(cate);
-		String title = vo.getFaq_content();
-		System.out.println(title);
-		String content = vo.getFaq_content();		
-		System.out.println(content);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
