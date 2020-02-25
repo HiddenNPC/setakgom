@@ -196,14 +196,23 @@
 									<div class="sp-thumbnail-title">3. 방법, 수량 입력</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">4. 수선신청</div>
+									<div class="sp-thumbnail-title">4. 수선 카테고리선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">5. 보관신청</div>
+									<div class="sp-thumbnail-title">5. 수선 치수 입력</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">6. 끝</div>
+									<div class="sp-thumbnail-title">6. 수선 수량, 택 선택</div>
 								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">7. 보관 기간 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">8. 보관 박스 수량 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">9. 장바구니</div>
+								</div>							
 							</div>
 							<div class="sp-slides">
 								<div class="sp-slide">
@@ -216,14 +225,24 @@
 									<img class="sp-image" src="images/wash2.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image" src="images/keep1.jpg" />
+									<img class="sp-image" src="images/wash3.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image" src="images/keep1.jpg" />
+									<img class="sp-image" src="images/wash4.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image" src="images/keep1.jpg" />
+									<img class="sp-image" src="images/wash5.jpg" />
 								</div>
+								<div class="sp-slide">
+									<img class="sp-image" src="images/wash6.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image" src="images/wash7.jpg" />
+								</div>
+								<div class="sp-slide">
+									<img class="sp-image" src="images/cart.jpg" />
+								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -260,8 +279,7 @@
 									<img class="sp-image" src="images/mending3.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
+									<img class="sp-image" src="images/m_cart.jpg" />
 								</div>
 							</div>
 						</div>
@@ -270,19 +288,25 @@
 						<div id="example3" class="slider-pro">
 							<div class="sp-thumbnails">
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">1. 카테고리 선택</div>
+									<div class="sp-thumbnail-title">1. 로그인</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">2. 옷 수량, 기간 선택</div>
+									<div class="sp-thumbnail-title">2. 카테고리 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">3. 박스 수량 선택</div>
+									<div class="sp-thumbnail-title">3. 옷 수량, 기간 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">4. 장바구니</div>
+									<div class="sp-thumbnail-title">4. 박스 수량 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">5. 장바구니</div>
 								</div>
 							</div>
 							<div class="sp-slides">
+								<div class="sp-slide">
+									<img class="sp-image" src="images/login.jpg" />
+								</div>
 								<div class="sp-slide">
 									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
@@ -293,9 +317,8 @@
 									<img class="sp-image" src="images/keep3.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
-								</div>
+									<img class="sp-image" src="images/k_cart.jpg" />
+								</div>								
 							</div>
 						</div>
 					</div>
