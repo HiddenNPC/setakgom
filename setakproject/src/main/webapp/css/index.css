@@ -7,7 +7,7 @@
 		display :none;
 	}
 	#frogue-container {
-		z-index: 1 !important;
+		z-index: 10 !important;
 		bottom : 135px !important;
 	}
 
@@ -52,7 +52,7 @@
 	}
 	nav .content{
 		position:fixed;
-   		z-index:999;
+   		z-index:9;
 	}
 	nav a:after {
 		content: '';

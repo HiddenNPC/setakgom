@@ -135,6 +135,13 @@ button {
 	font-family: inherit;
 	cursor: pointer;
 }
+
+.active{
+	background-color:#3498db !important;
+	color:#fff;
+}
+
+
 /* 모바일 */
 @media screen and (max-width:768px) {
 	.title-text h2 {

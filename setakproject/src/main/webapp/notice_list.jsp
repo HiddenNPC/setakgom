@@ -67,11 +67,11 @@ $(document).ready(function(){
 <%if(nowpage<=1) {%>
 <a>&lt;</a>
 <%}else{%>
-<a href="./noticeList.do?page=<%=nowpage-1 %>" > &lt; </a>
+<a href="./noticeList.do?page=<%=nowpage-1 %>" >&lt;</a>
 <%}
 	for (int a=startpage; a<=endpage; a++){ 
 		if(a==nowpage) { %>
-		<a><%=a %> </a>
+		<a class="page active"><%=a %></a>
 		<%}else{%>
 		<a href="./noticeList.do?page=<%=a %>"><%=a %></a>
 		<%}%>

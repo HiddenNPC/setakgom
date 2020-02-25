@@ -387,6 +387,39 @@
 	color:#fff;
 }
 
+.page1 table {
+	margin-top: 100px;
+	text-align: center;
+	width: 100%;
+}
+
+.page_a {
+	text-align: center;
+	font-size: 0.93rem;
+	padding: 5px 8px;
+	margin: 0 4px;
+	color: #444;
+}
+
+.active2{
+	background-color:#3498db !important;
+	
+}
+.active2 a{
+	color:#fff !important;
+    
+}
+
+.page1 table tr td div {
+	display: inline-block;
+}
+
+table.page td a {
+	color: #444;
+}
+
+
+
 @media screen and (max-width:768px) {
 
   .title-text {
@@ -786,4 +819,35 @@
 		background-color:#3498db;
 		color:#fff;
 	}	
+	.page1 table {
+	margin-top: 100px;
+	text-align: center;
+	width: 100%;
+}
+
+.page_a {
+	text-align: center;
+	font-size: 0.93rem;
+	padding: 5px 8px;
+	margin: 0 4px;
+	color: #444;
+}
+
+.active2{
+	background-color:#3498db !important;
+	
+}
+.active2 a{
+	color:#fff !important;
+    
+}
+
+.page1 table tr td div {
+	display: inline-block;
+}
+
+table.page td a {
+	color: #444;
+}
+	
 }

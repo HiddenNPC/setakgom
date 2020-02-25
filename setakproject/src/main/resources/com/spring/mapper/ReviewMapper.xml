@@ -5,7 +5,7 @@
 	<resultMap type="com.spring.community.ReviewVO" id="reviewMap">
 		<result property="review_num" column="review_num"/>
 		<result property="member_id" column="member_id"/>
-		<!-- <result property="member_name" column="member_name"/> -->
+		<result property="member_name" column="member_name"/>
 		<result property="review_kind" column="review_kind"/>
 		<result property="review_star" column="review_star"/>
 		<result property="review_content" column="review_content"/>
@@ -34,7 +34,7 @@
 	</select>
 	
 	<select id="reviewList" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
-		SELECT * FROM review  ORDER BY review_num desc       		
+		SELECT * FROM review_view  ORDER BY review_num desc       		
 	</select>
 	
 	<!-- <select id="reviewList" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
@@ -52,17 +52,17 @@ select r.review_num, r.member_id, r.review_kind, r.review_star, r.review_content
 		
 	<select id="reviewSearch" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap">
 	 <bind name="arg1" value="'%'+ arg1 +'%'" />
-		SELECT * FROM REVIEW WHERE ${arg0} like #{arg1} ORDER BY review_date DESC    		
+		SELECT * FROM REVIEW_view WHERE ${arg0} like #{arg1} ORDER BY review_date DESC    		
 	</select>
 			
 	<select id="reviewCondition1" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
-		SELECT * FROM REVIEW ORDER BY review_date DESC
+		SELECT * FROM REVIEW_VIEW ORDER BY review_date DESC
 	</select>	
 	<select id="reviewCondition2" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
-		SELECT * FROM REVIEW ORDER BY review_like DESC
+		SELECT * FROM REVIEW_VIEW ORDER BY review_like DESC
 	</select>
 	<select id="reviewCondition3" parameterType="com.spring.community.ReviewVO" resultMap="reviewMap" >
-		SELECT * FROM REVIEW ORDER BY review_star DESC
+		SELECT * FROM REVIEW_VIEW ORDER BY review_star DESC
 	</select>
 	
 	<delete id="reviewDelete" parameterType="int" >

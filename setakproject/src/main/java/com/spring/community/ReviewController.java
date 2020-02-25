@@ -44,7 +44,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 	    	  b= reviewService.getMemberName(a); 
 	    	  m_namelist.put(a,b);
 	      }
-		System.out.println(m_namelist);	 
 		model.addAttribute("reviewlist", list); 
 		model.addAttribute("m_namelist", m_namelist);
 		
@@ -180,7 +179,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 		System.out.println("re_condition 넘어오긴 하냐?="+re_condition);
 		if(re_condition.equals("review_date")) {
 			ArrayList<ReviewVO> list = reviewService.reviewCondition1(re_condition);
-			model.addAttribute("reviewCondition1", list);	
+			model.addAttribute("reviewCondition1", list);
 			return list;
 		}else if(re_condition.equals("review_like")) {
 			ArrayList<ReviewVO> list = reviewService.reviewCondition2(re_condition);

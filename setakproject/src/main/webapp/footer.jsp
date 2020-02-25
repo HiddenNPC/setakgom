@@ -4,7 +4,7 @@
 	<style>
 		#frogue-container{
 			bottom : 120px !important;
-			z-index: 1 !important;
+			z-index: 10 !important;
 		}
 		#frogue-container .frogue-chat{
 			display :none;

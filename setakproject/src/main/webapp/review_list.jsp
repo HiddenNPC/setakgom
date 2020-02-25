@@ -188,7 +188,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -265,7 +265,7 @@ $(document).ready(function () {
 					}
 					
 					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_id+'">작성자 :&nbsp;'+item.member_id+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_name+'">작성자 :&nbsp;'+item.member_name+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 					re_list += '<td rowspan="2" class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -487,7 +487,7 @@ function searchCheck() {
 				}
 				
 				re_list += '</td></tr>';		   																		
-				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_id +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
+				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
 				re_list += '<td rowspan="2" class="re_list_td1">';
 				re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 							if (!(rphoto=="등록한 파일이 없습니다.")){ 
@@ -532,7 +532,7 @@ function page(){
 		//리스트가 없으면 종료
 		if (numPages==0) return;
 		//pager라는 클래스의 div엘리먼트 작성
-		var $pager = $('<td align="center" id="remo" colspan="10"><div class="pager"></div></td>');
+		var $pager = $('<div id="remo"></div>');
 		var nowp = currentPage;
 		var endp = nowp+10;
 		//페이지를 클릭하면 다시 셋팅
@@ -561,14 +561,14 @@ function page(){
 		    endp = numPages;
 		}
 		// [처음]
-		$('<br /><span class="page-number" cursor: "pointer">[처음]</span>').bind('click', {newPage: page},function(event) {
+		$('<br /><span class="page-number" cursor: "pointer"> << </span>').bind('click', {newPage: page},function(event) {
 			currentPage = 0;   
 		    $table.trigger('repaginate');  
 		    $($(".page-number")[2]).addClass('active').siblings().removeClass('active');
 		    $("html, body").animate({ scrollTop : 0 }, 500);
 		}).appendTo($pager).addClass('clickable');
 		// [이전]
-		$('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[이전]&nbsp;</span>').bind('click', {newPage: page},function(event) {
+		$('<span class="page-number" cursor: "pointer"> < </span>').bind('click', {newPage: page},function(event) {
 		    if(currentPage == 0) return; 
 		    currentPage = currentPage-1;
 		    $table.trigger('repaginate'); 
@@ -585,7 +585,7 @@ function page(){
 		    }).appendTo($pager).addClass('clickable');
 		} 
 		// [다음]
-		$('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[다음]&nbsp;</span>').bind('click', {newPage: page},function(event) {
+		$('<span class="page-number" cursor: "pointer"> > </span>').bind('click', {newPage: page},function(event) {
 		    if(currentPage == numPages-1) return;
 		    currentPage = currentPage+1;
 		    $table.trigger('repaginate'); 
@@ -593,7 +593,7 @@ function page(){
 		    $("html, body").animate({ scrollTop : 0 }, 500);
 		}).appendTo($pager).addClass('clickable');
 		// [끝]
-		$('<span class="page-number" cursor: "pointer">&nbsp;[끝]</span>').bind('click', {newPage: page},function(event) {
+		$('<span class="page-number" cursor: "pointer"> >> </span>').bind('click', {newPage: page},function(event) {
 		    currentPage = numPages-1;
 		    $table.trigger('repaginate');
 		    $($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
@@ -796,7 +796,7 @@ function rwcancel(){
 <!-- 검색 -->
 <div class="re2_search2" style="float: right;">
 <select name="keyfield" id="keyfield" size="1">
-	<option value="member_id"> 이름 </option>
+	<option value="member_name"> 이름 </option>
 	<option value="review_content"> 내용 </option>
 </select>
 <input id="keyword" type="text" size="15" name="keyword" value="${keyword}">

@@ -297,6 +297,11 @@
 		//문자보내기
 		$("#authbtn").click(function(event){
 			$(".joinform div:nth-child(6) h4").css("display","none");
+			var phonechk = $(this).prev().val();
+			if(phonechk == "" || !phReg.test(phonechk)){
+				Swal.fire("","핸드폰 번호를 올바르게 입력하시기 바랍니다.","warning");
+				return false;
+			}
 			AuthTimer.fnStop();
 			random = randomnum();
 			var daycount = 0; 
