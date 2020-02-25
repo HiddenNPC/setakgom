@@ -27,11 +27,7 @@
          $("#footer").load("./footer.jsp")     
       });
     </script>
-    <script language='javascript'>
-    	function cancle() {
-    		Swal.fire("","주문을 취소하시겠습니까?","info");
-		}
-    </script>
+   	
 </head>
 <body>
 	<div id="header"></div>
