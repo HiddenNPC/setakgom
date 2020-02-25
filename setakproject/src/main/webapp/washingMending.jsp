@@ -235,6 +235,7 @@
 				str += '</td>';
 				str += '<input class="repair_price" type="hidden" name="repair_price" value="'+price_str+'">';
 				str += '<td><input type="hidden" name="repair_file" id="repair_file" value="'+filename+'"></td>';
+				str += '<input class="price_str" type="hidden" name="'+price_str+'">';
 				str += '</tr>';		
 				
 	    		photo();
@@ -293,16 +294,25 @@
 			//수량에 따른 값변경
 			$.pricefun = function(n){
 				var num = parseInt($(".count:eq(" + n + ")").val());
-				var price = parseInt($(".tprice:eq(" + n + ")").attr('name'));
-				$(".tprice:eq(" + n + ")").html((num*price) + "원");
-				$(".repair_price").val(num*price);
-				sumprice();
+				var price =$(".price_str:eq(" + n + ")").attr('name');	//수량 몇개를 올려도 name은 안변하니까 해둔것.
+				var countprice = parseInt($(".tprice:eq(" + n + ")").attr('name')); //같은이유. 초기값 그대로
+				$(".tprice:eq(" + n + ")").html((num*countprice) + "원");	
+
+				var price_split = price.split(",");
+				var re_price ="";
+				for(var i=0; i<price_split.length-1; i++){
+					re_price += num*price_split[i] + ",";
+				}
+				re_price +=num*price_split[i];
+				
+				$(".repair_price:eq("+n+")").val(re_price);
+				sumprice(); 
 			};
 			$(document).on("propertychange change keyup paste",".count", function(){
 				var n = $('.count').index(this);
 				$.pricefun(n);
 			});
-
+			
 			//전체선택, 전체선택해제
 			$("#allcheck").click(function(){
 		        if($("#allcheck").prop("checked")){
