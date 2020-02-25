@@ -501,7 +501,7 @@
             pay_method : 'card',
             merchant_uid : muid,
             name : '세탁곰 결제',
-            amount : 100,
+            amount : final_price,
             buyer_email : '<%=memberVO.getMember_email()%>',
             buyer_name : '<%=memberVO.getMember_name()%>', 
             buyer_tel : '<%=memberVO.getMember_phone()%>',
