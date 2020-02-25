@@ -79,4 +79,11 @@
  		select count(*) from member_subs where subsname like #{subsname}||'%' and subs_start = #{subs_start}
 	</select>
 	
+	<!-- 정기구독 인기 TOP 3 -->
+	<select id = "getSubPopular" resultType = "java.util.HashMap">
+		<![CDATA[select subsname, subscnt, subrank from (select rownum rnum, subsname, subscnt, subrank from 
+		(select subsname, subscnt, DENSE_rank() OVER (ORDER BY subscnt DESC) as subrank from (select subsname, count(*) as subscnt from 
+		(select subsname from member_subs) group by subsname))) where rnum <= 5]]>	
+	</select>
+	
 </mapper>

@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%
+	String name = (String)session.getAttribute("member_name");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>wash</title>
+	<title>세탁곰</title>
+	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/index.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -79,15 +83,16 @@
 				<%
 					if(session.getAttribute("member_id")==null){
 				%>
-				<a href="./login.do"><i class="fas fa-shopping-cart"></i></a>
+				<a href="./login.do"><i class="fas fa-shopping-cart"></i></a><!-- 로그인 안했으면 장바구니눌러도 로그인 -->
+				<a href="./login.do"><i class="fas fa-user"></i></a>
 				<%
 					} else {
 				%>
-				<a href="./cart.do"><i class="fas fa-shopping-cart"></i></a>
+				<a href="./order.do"><i class="fas fa-shopping-cart"></i></a><!-- 로그인 했으면 장바구니로-->
+				<a><i class="fas fa-user ick"></i></a><!-- 로그인 했으면 마이페이지 보임 -->
 				<%
 					}
 				%>
-				<a href="./login.do"><i class="fas fa-user"></i></a>
 			</div>
 		</div>
 		<div class="nav_close"><i class="fas fa-times"></i></div>
@@ -140,6 +145,32 @@
 				</div>
 			</div>
 		</nav>
+		<div class="m_mypage">
+			<div class="m_mypage_title">
+				<img src="images/logo2.png" alt="로고">
+				<h3>마이페이지</h3>
+			</div>
+			<div class="m_mypage_nav">
+				<ul>
+					<li><%=name %>님 환영합니다.</li>
+					<li><i class="far fa-edit"></i><a href="profile1.do">정보수정</a></li>
+				</ul>
+			</div>
+			<div class="m_mypage_nav2">
+				<ul>
+					<li><a href="orderview.do">주문/배송현황</a><span>&gt;</span></li>
+					<li><a href="mykeep.do">보관현황</a><span>&gt;</span></li>
+					<li><a href="mysub.do">나의 정기구독</a><span>&gt;</span></li>
+					<li><a href="myqna.do">Q&amp;A 문의내역</a><span>&gt;</span></li>
+					<li><a href="mycoupon.do">쿠폰조회</a><span>&gt;</span></li>
+					<li><a href="mysavings.do">적립금 조회</a><span>&gt;</span></li>
+					<li><a href="withdraw.do">회원탈퇴</a><span>&gt;</span></li>
+				</ul>
+				<ul>
+					<li><a href="./logout.do">로그아웃</a><span>&gt;</span></li>
+				</ul>
+			</div>
+		</div>
 		<header>
 		</header>
 		<section id="use-area">
@@ -156,48 +187,42 @@
 						<div id="example1" class="slider-pro">
 							<div class="sp-thumbnails">
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">1. 서비스신청</div>
+									<div class="sp-thumbnail-title">1. 로그인</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">2. 웰컴키트 받기</div>
+									<div class="sp-thumbnail-title">2. 세탁물 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">3. 스마트키 연결</div>
+									<div class="sp-thumbnail-title">3. 방법, 수량 입력</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">4. 수거 요청</div>
+									<div class="sp-thumbnail-title">4. 수선신청</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">5. 세탁 진행</div>
+									<div class="sp-thumbnail-title">5. 보관신청</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">6. 빨래 끝</div>
+									<div class="sp-thumbnail-title">6. 끝</div>
 								</div>
 							</div>
 							<div class="sp-slides">
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image1_large.jpg" />
+									<img class="sp-image" src="images/login.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image2_large.jpg" />
+									<img class="sp-image" src="images/wash1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image3_large.jpg" />
+									<img class="sp-image" src="images/wash2.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image4_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image5_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 								<div class="sp-slide">
-									<img class="sp-image"
-										src="http://bqworks.com/slider-pro/images/image6_large.jpg" />
+									<img class="sp-image" src="images/keep1.jpg" />
 								</div>
 							</div>
 						</div>
@@ -206,19 +231,25 @@
 						<div id="example2" class="slider-pro">
 							<div class="sp-thumbnails">
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">1. 카테고리 선택</div>
+									<div class="sp-thumbnail-title">1. 로그인</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">2. 치수 밑 데이터 입력</div>
+									<div class="sp-thumbnail-title">2. 카테고리 선택</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">3. 수량, 택 선택</div>
+									<div class="sp-thumbnail-title">3. 치수 밑 데이터 입력</div>
 								</div>
 								<div class="sp-thumbnail">
-									<div class="sp-thumbnail-title">4. 장바구니</div>
+									<div class="sp-thumbnail-title">4. 수량, 택 선택</div>
+								</div>
+								<div class="sp-thumbnail">
+									<div class="sp-thumbnail-title">5. 장바구니</div>
 								</div>
 							</div>
 							<div class="sp-slides">
+								<div class="sp-slide">
+									<img class="sp-image" src="images/login.jpg" />
+								</div>
 								<div class="sp-slide">
 									<img class="sp-image" src="images/mending1.jpg" />
 								</div>
@@ -355,7 +386,7 @@
 			} else{
 				
 				//nav 보이게, 안보이게. 
-				$('.nav_open div a:nth-child(2)').click(function(){
+				$('.nav_open div a:nth-child(2)').click(function(){//햄버거 버튼 눌렀을 때
 					$("nav").fadeIn(300);
 					$(".nav_close").fadeIn(300);
 					$(".nav_open").fadeOut(300);
@@ -366,8 +397,19 @@
 					$(".nav_open").fadeIn(300);
 				});
 				
+				$('.nav_open div a:last-child').click(function(){//사람 버튼 눌렀을 때
+					$(".m_mypage").fadeIn(300);
+					$(".mobile_text").css("display","none");
+				});
+				
+				//마이페이지아이콘 컬러 입히기 홈 컬러 없애기
+				$(".ick").on("click", function() {
+					$(this).addClass("ick_color");
+					$('.click').removeClass("click");
+				});
+				
 				//커뮤니티 눌렀을 때
-				$(".sub-nav > li:last-child").click(function () {
+				$(".sub-nav > li:last-child > a").click(function () {
 					event.preventDefault();
 					$(".sub-nav-sub").toggle(300);
 				});
@@ -379,20 +421,19 @@
 			}
 		});
 	</script>
-	
 	<div id="frogue-container" class="position-right-bottom"
       data-chatbot="f5f4d84c-cc74-490c-96b2-6b2994010204"
       data-user="setakgom"
       data-init-key="value"
       ></div>
-<script>
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'frogue-embed')); 
-</script>
+	<script>
+	(function(d, s, id){
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) {return;}
+	    js = d.createElement(s); js.id = id;
+	    js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'frogue-embed')); 
+	</script>
 </body>
 </html>

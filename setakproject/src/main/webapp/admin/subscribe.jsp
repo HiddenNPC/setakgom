@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>세탁곰 관리자페이지</title>
+	<link rel = "shortcut icon" href = "../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
 	<link rel="stylesheet" type="text/css" href="../css/example.css"/>
@@ -151,7 +152,7 @@
 					dataType:"json", //리턴 데이터 타입
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					success:function(data) {	
-						alert(""); 
+						alert("성공적으로 수정되었습니다."); 
 					},
 					error: function() {
 						alert("ajax통신 실패");
@@ -170,8 +171,7 @@
 					data: { member_id : member_id },
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					success:function() {	
-						// 성공했다고 alert창이 안떠요..?
-						alert("delete 성공"); 
+						alert("성공적으로 삭제되었습니다."); 
 						subMemberSearch(); 
 					},
 					error: function() {
@@ -197,9 +197,7 @@
 		
 		// 검색
 		function subMemberSearch() {
-			
-			console.log($('#keyword').val());
-			
+						
 			$('#result-second-pager').empty(); 
 			
 			var checkbox = $("input[name=check]:checked");
@@ -361,7 +359,7 @@
 				}
 				
 				// [처음]
-				$('<br /><span class="page-number" style = "cursor: pointer"><img src="https://img.icons8.com/ultraviolet/20/000000/double-left.png"></span>').bind('click', {newPage: page},function(event) {
+				$('<span class="page-number" cursor: "pointer"><<</span>').bind('click', {newPage: page},function(event) {
 					currentPage = 0;   
 				    $table.trigger('repaginate');  
 				    $($(".page-number")[2]).addClass('pageClick').siblings().removeClass('pageClick');
@@ -369,7 +367,7 @@
 				}).appendTo($pager).addClass('clickable');
 				
 				// [이전]
-				$('<span class="page-number" style = "cursor: pointer">&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/back.png">&nbsp;</span>').bind('click', {newPage: page},function(event) {
+				$('<span class="page-number" cursor: "pointer"><</span>').bind('click', {newPage: page},function(event) {
 				    if(currentPage == 0) return; 
 				    currentPage = currentPage-1;
 				    $table.trigger('repaginate'); 
@@ -379,7 +377,7 @@
 				
 				// [1,2,3,4,5,6,7,8]
 				for (var page = nowp ; page < endp; page++) {
-					$('<span class="page-number" style="margin-left: 8px; cursor: pointer;"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
+					$('<span class="page-number" cursor: "pointer"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
 				    currentPage = event.data['newPage'];
 				    $table.trigger('repaginate');
 				    $($(".page-number")[(currentPage-nowp)+2]).addClass('pageClick').siblings().removeClass('pageClick');
@@ -388,7 +386,7 @@
 				} 
 				
 				// [다음]
-				$('<span class="page-number" style = "cursor: pointer">&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/forward.png">&nbsp;</span>').bind('click', {newPage: page},function(event) {
+				$('<span class="page-number" cursor: "pointer">></span>').bind('click', {newPage: page},function(event) {
 				    if(currentPage == numPages-1) return;
 				    currentPage = currentPage+1;
 				    $table.trigger('repaginate'); 
@@ -397,7 +395,7 @@
 				}).appendTo($pager).addClass('clickable');
 				
 				// [끝]
-				$('<span class="page-number" style = "cursor: pointer">&nbsp;<img src="https://img.icons8.com/ultraviolet/20/000000/double-right.png"></span>').bind('click', {newPage: page},function(event) {
+				$('<span class="page-number" cursor: "pointer">>></span>').bind('click', {newPage: page},function(event) {
 				    currentPage = numPages-1;
 				    $table.trigger('repaginate');
 				    $($(".page-number")[endp-nowp+1]).addClass('pageClick').siblings().removeClass('pageClick');

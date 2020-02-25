@@ -10,9 +10,6 @@
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/password.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
    <link rel="shortcut icon" href="favicon.ico">
-   
-   <!--sweetalert2 -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">

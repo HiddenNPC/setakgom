@@ -15,5 +15,5 @@ public interface MileageMapper {
 	int totSum(String member_id);
 	int useSum(String member_id);
 	ArrayList<MileageVO> getMileagelist(HashMap<String, Object> map);
-	int getListCount();
+	int getListCount(String member_id);
 }

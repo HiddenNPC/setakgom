@@ -21,6 +21,12 @@ public interface MemberSubMapper {
 	 // 정기구독 리스트 갯수
 	 int listcount(String member_id);
 	 
+	//수거고
+	 int sugo2(String member_id);
+		 
+	 //수거고취소
+	 int sugo0(String member_id);
+	 
 	 //구독해지함
 	 int subcancle(String member_id);
 	 

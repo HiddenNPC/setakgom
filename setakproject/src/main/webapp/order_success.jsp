@@ -20,7 +20,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>세탁곰 주문완료</title>
+	<title>세탁곰</title>
+	<link rel = "shortcut icon" href = "favicon.ico">
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/success.css"/>
@@ -77,7 +78,7 @@
 			
 			<h1>주문해 주셔서 감사합니다.</h1>
 			<br/>
-			주문하신 주문번호는 아래와 같습니다!
+			주문번호
 			<br/>
 			<p class = "p_orderNum"><%=order_num %></p>
 			

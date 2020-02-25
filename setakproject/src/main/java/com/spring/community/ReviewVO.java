@@ -4,6 +4,7 @@ public class ReviewVO
 {
 	private int review_num;
 	private String member_id;
+	//private String member_name;	
 	private String review_kind;
 	private Double review_star;
 	private String review_content;
@@ -13,6 +14,11 @@ public class ReviewVO
 	private String keyfield;
 	private String keyword;
 	private String re_condition;
+	/*
+	 * public String getMember_name() { return member_name; } public void
+	 * setMember_name(String member_name) { this.member_name = member_name; }
+	 */
+	
 	
 	public int getReview_num() {
 		return review_num;

@@ -8,6 +8,8 @@
 	<title>세탁곰 관리자페이지</title>
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/admin_mileage.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="shortcut icon" href="favicon.ico">
+   
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -45,6 +47,7 @@
 							str += '</ul>';
 							$(".mile_list").append(str);
 						});
+						$(".mile_list").append('<input type="button" value="선택삭제" class="checkdelete" id="delete-btn" >');
 						page();
 					},
 					error:function(){
@@ -292,6 +295,7 @@
 								str += '</ul>';
 								$(".mile_list").append(str);
 					 });
+					 $(".mile_list").append('<input type="button" value="선택삭제" class="checkdelete" id="delete-btn" >');
 					page();
 				},
 				error: function() {
@@ -391,7 +395,6 @@
 			
 			<form id="mile_form">
 				<div class="mile_list paginated">
-					<input type="button" value="선택삭제" class="checkdelete" id="delete-btn"/>
 				</div>
 			</form>
 

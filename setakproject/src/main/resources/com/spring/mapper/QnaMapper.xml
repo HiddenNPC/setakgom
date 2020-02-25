@@ -17,6 +17,7 @@
 		<result property="qna_pass" column="qna_pass"/>
 	</resultMap>
 	
+	
 	<select id="getListCount" resultType="int">
 		SELECT COUNT(*) FROM QNA
 	</select>
@@ -27,6 +28,11 @@
 		 WHERE rnum>=#{arg0} and rnum<=#{arg1}]]>
 	</select>
 	
+	<select id="getMemberName" parameterType="com.spring.community.QnaVO" resultType="String">
+		select member_name from MEMBER where member_id = #{member_id}
+		
+	</select>
+
 	<select id="onList" parameterType="String" resultType="com.spring.community.QnaVO">
 		select order_num from memberorder where member_id=#{member_id}
 	</select>
@@ -98,9 +104,10 @@
 	<!-- 기응 -->
 	
 	<select id="selectQnalist" parameterType="HashMap" resultMap="qnaMap">
-		<![CDATA[SELECT * FROM (SELECT rownum rnum, QNA_NUM, MEMBER_ID, QNA_TYPE, ORDER_NUM,
-		 QNA_TITLE, QNA_CONTENT, QNA_DATE, QNA_FILE, QNA_CHECK FROM (SELECT * FROM QNA ORDER BY QNA_NUM desc))
-		 WHERE rnum>=#{startrow} and rnum<=#{endrow} and member_id = #{member_id}]]>
+		<![CDATA[select * 
+ 				from (select rownum rnum, a.* from
+   					(select * from qna where member_id=#{member_id} order by qna_date desc) a)
+    					where rnum >=#{startrow} and rnum <=#{endrow} ]]>
 	</select>
 </mapper>
 

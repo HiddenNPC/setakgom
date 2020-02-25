@@ -37,9 +37,7 @@ public class MileageServiceImpl implements MileageService {
 		
 		try {
 			MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
-			System.out.println(map.get("endrow"));
 			mileagelist = mileageMapper.getMileagelist(map);
-			System.out.println(mileagelist+"하하");
 			
 		}catch(Exception e) {
 			System.out.println("적립금 리스트 실패" + e.getMessage());
@@ -49,11 +47,11 @@ public class MileageServiceImpl implements MileageService {
 	}
 	
 	@Override
-	public int getListCount() {
+	public int getListCount(String member_id) {
 		int count=0;
 		MileageMapper mileageMapper = sqlSession.getMapper(MileageMapper.class);
 		try {
-			count = mileageMapper.getListCount();
+			count = mileageMapper.getListCount(member_id);
 		}catch(Exception e) {
 			System.out.println("카운트 실패" + e.getMessage());
 		}
@@ -61,7 +59,7 @@ public class MileageServiceImpl implements MileageService {
 		return count;
 	}
 	
-	
+	@Override
 	public int totSum(String member_id) {
 		int sum = 0;
 		try {
@@ -73,6 +71,7 @@ public class MileageServiceImpl implements MileageService {
 		return sum; 
 	}
 	
+	@Override
 	public int useSum(String member_id) {
 		int sum = 0;
 		try {

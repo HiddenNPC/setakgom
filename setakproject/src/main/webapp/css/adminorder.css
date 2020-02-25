@@ -266,14 +266,30 @@ li.check {
 	padding-left : 5px;
 }
 
+/*페이징*/
 #result-second-pager {
 	text-align : -webkit-center;
 }
 
 .pageClick {
-	font-weight : bold;
-	color : #3498db;
+    	width:30px;
+    	height:30px;
+    	background:#3498db;
+    	color:white;
 }
+
+    #remo{
+    	color:#444;
+    	font-size:0.93rem;
+    	top:440px;
+    	width:100%;
+    	text-align:center;
+    	padding-top:70px;
+    }
+    .page-number{
+    	padding:5px 8px;
+    	margin:0 4px;
+    }
 
 
 /*기타주문관리 페이지 css*/

@@ -31,58 +31,30 @@
 <link rel="shortcut icon" href="favicon.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		//수거취소 클릭
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
-	
-		
-		
-		 //수거고 클릭
-		 $("#go").on("click", function() {  
-				$("#cancletxt").css('display', 'none');	 
-		        $("#gotxt").css({
-		            "top": (($(window).height()-$("#gotxt").outerHeight())/2+$(window).scrollTop())+"px",
-		            "left": (($(window).width()-$("#gotxt").outerWidth())/2+$(window).scrollLeft())+"px"
-		            //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
-		           
-		            }); 
-		        $(".popup_back").css("display","block"); //팝업 뒷배경 display block
-		        $("#gotxt").css("display","block"); //팝업창 display block
-		        
-		        $("#go").css('display', 'none');
-				$("#cancle").css('display', 'block');
-			  });
-			//수거고 - 확인
-			$(".pop_btn").click(function(event){
-		        $(".popup_back").css("display","none"); //팝업창 뒷배경 display none
-		        $(".popup").css("display","none"); //팝업창 display none
-		    });
 		
 		      <% if(sub_list != null) {%>
 		         
 		         //수거취소
 		         var subs_cancel = <%=sub_list.getSubs_cancel() %>;
-		         if(subs_cancel=="0") { // 수거취소 가능
-		          $("#cancle").on("click", function() {  
-		              $("#cancletxt").css({
-		                  "top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
-		                  "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
-		                 
-		                  }); 
-		              
-		              $(".popup_back").css("display","block");
-		              $("#cancletxt").css("display","block");
-		          });      
-		         } else  { // 수거취소 불가능
+		         if(subs_cancel=="0") { //수거고 
+		        	 $("#go").css('display', 'block');
+					 $("#cancle").css('display', 'none');
+		         
+		         } else if(subs_cancel=="2") { // 수거취소 가능
+		        	 $("#go").css('display', 'none');
+					 $("#cancle").css('display', 'block');
+		       
+		         } else  { // 수거취소 불가능 sub_cancel =="1"
+		        	$("#go").css('display', 'none');
+					$("#cancle").css('display', 'block');
 		            $('#cancle').css('background-color','#e1e4e4');
 		            $('#cancle').css('color','#444');
-		            $("#cancletxt").css({ 'pointer-events': 'none' });// 버튼 비활성화
+		            $("#cancle").css({ 'pointer-events': 'none' });// 버튼 비활성화
 		         };
 		         
 		         //구독해지
@@ -97,7 +69,61 @@
 		         
 		       <% }%>
 		       
-		
+		     //수거고 클릭
+				 $("#go").on("click", function() {  
+						$("#cancletxt").css('display', 'none');	 
+				        $("#gotxt").css({
+				            "top": (($(window).height()-$("#gotxt").outerHeight())/2+$(window).scrollTop())+"px",
+				            "left": (($(window).width()-$("#gotxt").outerWidth())/2+$(window).scrollLeft())+"px"
+				            //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+				           
+				            }); 
+				        $(".popup_back").css("display","block"); //팝업 뒷배경 display block
+				        $("#gotxt").css("display","block"); //팝업창 display block
+				        
+				        $("#go").css('display', 'none');
+						$("#cancle").css('display', 'block');
+						
+						$.ajax({
+							url :'/setak/sugo2.do',
+							type:'post',
+							data : {
+								'member_id': "<%=session.getAttribute("member_id") %>"
+							},
+							dataType:'json',
+			    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+							success:function(result) {
+								if(result.res=="OK") {         
+									console.log("됩니까?");
+				     			}
+				     			else { // 실패했다면
+				     			}
+							},
+							// 문제가 발생한 경우 
+							error:function (request, status, error) {
+								alert("ajax 통신 실패");
+								alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							}
+						});
+						
+					  });
+		     
+					//수거고 - 확인
+					$(".pop_btn").click(function(event){
+				        $(".popup_back").css("display","none"); //팝업창 뒷배경 display none
+				        $(".popup").css("display","none"); //팝업창 display none
+				    });
+				       
+			//수거고 취소 클릭 
+			 $("#cancle").on("click", function() {  
+				 $("#cancletxt").css({
+				 	"top": (($(window).height()-$(".popup").outerHeight())/2+$(window).scrollTop())+"px",
+			  	    "left": (($(window).width()-$(".popup").outerWidth())/2+$(window).scrollLeft())+"px"
+			 	 }); 
+			          
+				$(".popup_back").css("display","block");
+				$("#cancletxt").css("display","block");
+	    	});
 		
 		//수거취소 - 수거취소
 		 $(".pop_btn2").click(function(event){
@@ -106,6 +132,28 @@
 		        
 		        $("#go").css('display', 'block');
 				$("#cancle").css('display', 'none');
+				
+				
+				$.ajax({
+					url :'/setak/sugo0.do',
+					type:'post',
+					data : {
+						'member_id': "<%=session.getAttribute("member_id") %>"
+					},
+					dataType:'json',
+	    			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
+					success:function(result) {
+						if(result.res=="OK") {            
+		     			}
+		     			else { // 실패했다면
+		     			}
+					},
+					// 문제가 발생한 경우 
+					error:function (request, status, error) {
+						alert("ajax 통신 실패");
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
 		    });
 		 
 		//수거취소 - 수거접수
@@ -340,8 +388,8 @@
 	      }
 	});
 	function rwcancel(){
-        location.href='./mysub.do';       
-   }
+	   location.href='./mysub.do';  
+	}
 	
 	
 </script>
@@ -478,30 +526,30 @@
 					</div>
 					<%} %>  
 						
-					<div class="page_a">
+					<div class="page_a1">
 							<table class="page_a">
                      		<tr align = center height = 20>
                           		<td>
                           		<% if(nowpage <= 1) {%>
-                          			<span class="page_a"><a></a></span>
+                          			<span class="page_a"><a>&#60;</a></span>
                          		 <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
-                             		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>"></a></span>
+                             		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage-1 %>">&#60;</a></span>
                          		 <%} %>
                          	
                          		<%
                          			for (int af=startpage; af<=endpage; af++) {
                              			if(af==nowpage) {
                           		%>
-                          			<span class="page_a"><a><%=af %></a></span>
+                          			<span class="page_a active"><a><%=af %></a></span>
                           		<%} else {%>
                              		<span class="page_a"><a href="./mysub.do?page=<%=af %>"><%=af %></a></span>
                           			<%} %>
                           		<%} %>
                           
                           		<% if (nowpage >= maxpage) { %>   <!-- 링크 걸지 않겠다.. -->
-                             		<span class="page_a"><a></a></span>
+                             		<span class="page_a"><a>&#62;</a></span>
                           		<%} else { %>   
-                              		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>"></a></span>
+                              		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
                            		<%} %> 
                            		</td>
                         	</tr>
@@ -589,13 +637,14 @@
                             <small>&nbsp;별점 :<input type="text" id="Review_star" name="Review_star" value="" readonly="readonly">점</small>   
                               <input type="hidden" id="Review_like" name="Review_like" value="0">     
                         </div>      
+                        <div id = "r_content2">
                         <table class="r_content">
                            <tr><td colspan="7" class = "r_notice">&nbsp;REVIEW|&nbsp;<p style="display:inline-block; font-size: 0.8rem; color:#e1e4e4 ;"> 문의글은 무통보 삭제 됩니다</p></td></tr>
                             <tr><td colspan="7"><textarea id="Review_content" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
-                            <tr><td width="40px">
+                            <tr><td>
                                 <input type="file" id="Review_photo"/>                        
                                 <input type="hidden" id="Review_photo2" name="Review_photo" /></td>                          
-                                <td width="40px">
+                                <td>
                                    <select name="Review_kind" id="Review_kind">
                                          <option value="">분류</option>
                                         <option value="세탁">세탁</option>
@@ -609,6 +658,7 @@
                                  <input class="cbtn" type="submit" name="submit" value="등록" >      
                                  <input class="cbtn" type="button" value="취소" onclick="rwcancel()"/></td>    
                            </tr></table>
+                          </div>
                         </form>
                         <a class="close"><i class="fas fa-times" aria-hidden="true" style="color:#444; font-size:30px;"></i></a>
                         </div>

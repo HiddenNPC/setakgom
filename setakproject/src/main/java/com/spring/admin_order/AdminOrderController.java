@@ -1,15 +1,21 @@
  package com.spring.admin_order;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.admin_chart.AdminChartService;
+import com.spring.admin_member.Admin_memberService;
+import com.spring.community.QnaVO;
 import com.spring.member.MemberSubVO;
 import com.spring.order.OrderVO;
 
@@ -27,7 +36,218 @@ public class AdminOrderController {
 	@Autowired
 	private AdminOrderService adminOrderService; 
 	@Autowired
+	private AdminSubscribeService adminSubService; 
+	@Autowired
 	private AdminSubscribeService adminMemberSubService; 
+	@Autowired
+	private AdminChartService adminchartService; 
+	@Autowired
+	private Admin_memberService adminMemberService; 
+	
+	//관리자 페이지 메인 > 대시보드
+	@RequestMapping(value ="/admin/", method = RequestMethod.GET)
+	public String home(Model model){
+		
+		// 오늘의 날씨 크롤링
+		String url = "https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EC%84%9C%EC%9A%B8+%EA%B0%95%EB%82%A8%EA%B5%AC+%EB%82%A0%EC%94%A8&oquery=%EC%98%A4%EB%8A%98%EC%9D%98+%EB%82%A0%EC%94%A8&tqi=UC3pKsprvxssssy%2F7Yhssssstws-470599";
+		Document doc = null;
+		
+		try {
+			doc = Jsoup.connect(url).get();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		Elements element = doc.select(".today_area div.info_data");
+		
+		// temp : 오늘 날씨, text : 어제 기온이랑 비교해서
+		String temp = element.select("p.info_temperature span.todaytemp").text();
+		String tempText = element.select("ul.info_list li p.cast_txt").text();
+		
+		
+		// 최근 5일 날짜 배열 구하기 : dateArr
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+		
+		String today = sdf.format(cal.getTime());
+		String[] dateArr = new String[5];
+		dateArr[0] = today; 
+		for(int i = 1; i < 5; i++) {
+			cal.add(Calendar.DATE, -1);
+			dateArr[i] = sdf.format(cal.getTime());
+		}
+
+		// 최근 일주일 가입 회원 수 부분
+		int memberCnt = adminOrderService.getNewMemberCnt();
+		// 총 회원 수 
+		int memberAllcnt = adminMemberService.adminlistcount();
+		
+		int orderAllPrice = adminOrderService.getOrderAllPrice(today);
+		
+		// 최근 5일 총 주문량 코드
+		int orderSum = 0; 
+		HashMap<String, Object> dateMap = new HashMap<String, Object>();
+		for(int i = 0; i < dateArr.length; i++) {
+			dateMap.put("order_date", dateArr[i]);
+			orderSum += adminOrderService.recentOrderCnt(dateMap);
+		}
+		
+		// 정기구독 차트 코드 시작 + 정기구독 신청 회원 수 
+		int subSum = 0; 
+		String[] planArr = {"올인원", "와이", "드라이", "물빨래", "물드"};
+		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", "와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
+				"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"}; 
+				
+		int[] subArr = new int[5]; 
+		int[] sub2Arr = new int[22];
+				
+		for(int i = 0; i < planArr.length; i++) {
+			int cnt = adminMemberSubService.getMemberSubCnt(planArr[i]);
+			subArr[i] = cnt;
+			subSum += cnt;
+		}
+
+		// 총 회원수 대비 구독자수
+		int subPercent = (int)((double) subSum / (double) memberAllcnt * 100);
+	
+		for(int i = 0; i < plan2Arr.length; i++) {
+			int cnt = adminMemberSubService.getMemberSubCnt2(plan2Arr[i]);
+			sub2Arr[i] = cnt;
+		}
+		// 정기구독 차트 코드 끝		
+		
+		// 세수보 차트 코드 시작
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		// 하루당 기간별 배열 : 세탁
+		int[] wash2Arr = new int[5];
+		int wash_dailyResult = 0; 
+		
+		// 하루당 기간별 배열 : 수선
+		int[]repairArr = new int[5];
+		int repair_dailyResult = 0;
+		
+		// 하루당 기간별 배열 : 보관
+		int[] keepArr = new int[5];
+		int keep_dailyResult = 0; 
+		
+		for(int j = 0;  j < dateArr.length; j++) {
+			map.put("order_date", dateArr[j]);
+									
+			// 하루당 주문량 계산 : 세탁
+			wash_dailyResult = adminchartService.wash_count(map);
+			wash2Arr[j] += wash_dailyResult; 
+			
+			// 하루당 주문량 계산 : 수선
+			repair_dailyResult = adminchartService.repair_count(map);
+			repairArr[j] += repair_dailyResult; 
+			
+			// 하루당 주문량 계산 : 보관
+			keep_dailyResult = adminchartService.keep_count(map);
+			keepArr[j] += keep_dailyResult; 
+				
+		}
+		// 세수보 차트 코드 끝
+		
+		// 수입 차트 코드 시작
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		
+		LocalDate basic = LocalDate.of(2020, 1, 28);
+		LocalDate now = LocalDate.now();
+		
+		int a = (int)ChronoUnit.DAYS.between(basic, now);
+		
+		String[] profit_dateArr = new String[a];
+		String[] dateArr2 = new String[a];
+		
+		//세수보 수익금액
+		int[] ssbResultArr = new int[a];
+		int ssbResult = 0;
+		
+		//정기결제 수익금액
+		int[] subResultArr = new int[a];
+		int subResult = 0;
+		
+		//총 수익금액
+		int[] totalArr = new int[a];
+		int total = 0;
+		
+		for(int i = 0; i < a ; i++) {
+			
+			basic.plusDays(i);
+			String c = basic.plusDays(i).toString().substring(2).replace("-","/");
+			
+			profit_dateArr[i] = c;
+			map2.put("order_date", profit_dateArr[i]);
+			map2.put("his_date", profit_dateArr[i]);
+
+			String d = basic.plusDays(i).toString();
+			dateArr2[i] = d;
+			
+			//세수보 수익금액
+			ssbResult = adminchartService.profit_ssb(map2);
+			ssbResultArr[i] += ssbResult; 
+			
+			//정기결제 수익금액
+			subResult = adminchartService.profit_sub(map2);
+			subResultArr[i] += subResult; 
+			
+			total = ssbResult + subResult;
+			totalArr[i] += total; 
+
+		}
+		
+		model.addAttribute("num", a);
+		model.addAttribute("dateArr2", dateArr2);
+		
+		model.addAttribute("ssbResultArr", ssbResultArr);
+		model.addAttribute("subResultArr", subResultArr);
+		
+		model.addAttribute("totalArr", totalArr);
+		// 수입 차트 코드 끝
+		
+		// 정기구독 인기 순위 구하기 부분
+		ArrayList<HashMap<String, Object>> subList = adminSubService.getSubPopular();
+
+		// qna 미답변 게시판 부분
+		ArrayList<QnaVO> qnaList = adminOrderService.getQnAList();
+		
+		// 처리해야 하는 주문 테이블 부분
+		ArrayList<OrderVO> orderList = adminOrderService.getProcessOrderList(); 
+		int orderCnt = adminOrderService.getProcessOrderCnt();
+		
+		// 날씨 크롤링
+		model.addAttribute("temp", temp);
+		model.addAttribute("tempText", tempText);		
+		
+		// 타이틀 숫자 부분 
+		model.addAttribute("memberCnt", memberCnt);
+		model.addAttribute("orderSum", orderSum); 
+		model.addAttribute("subPercent", subPercent); 
+		model.addAttribute("orderAllPrice", orderAllPrice); 
+
+		// 정기구독 차트 부분
+		model.addAttribute("subArr", subArr); 
+		model.addAttribute("sub2Arr", sub2Arr); 
+		
+		// 정기구독 인기 순위 구하기 부분
+		model.addAttribute("subList", subList); 
+		
+		// 세수보 차트 부분
+		model.addAttribute("washArr", wash2Arr);
+		model.addAttribute("repairArr", repairArr);
+		model.addAttribute("keepArr", keepArr);
+		
+		// qna 미답변 게시판 부분
+		model.addAttribute("qnaList", qnaList);
+		
+		// 처리해야 하는 테이블 부분
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("orderCnt", orderCnt); 
+		
+		return "/admin/admin_main";
+		
+	}
 	
 	//전체 주문 관리자 페이지
 	@RequestMapping(value = "/admin/order.do")
@@ -306,7 +526,8 @@ public class AdminOrderController {
 	public String subscribeChart(Model model) {
 		
 		String[] planArr = {"올인원", "와이", "드라이", "물빨래", "물드"};
-		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", "와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
+		String[] plan2Arr = {"올인원59", "올인원74", "올인원89", "올인원104", "올인원119", "올인원134", 
+				"와이29", "와이44", "와이55", "드라이44", "드라이59", "드라이74",
 				"물빨래34", "물빨래49", "물빨래64", "물빨래79", "물빨래84", "물빨래99", "물드44", "물드59", "물드74", "물드89"}; 
 			
 		Calendar cal = Calendar.getInstance();
@@ -319,8 +540,9 @@ public class AdminOrderController {
 			cal.add(Calendar.DATE, -1);
 			dateArr[i] = sdf.format(cal.getTime());
 		}
-				
-		int[] subArr = new int[5]; 
+			
+		// 구독별
+		int[] subArr = new int[5];
 		int[] sub2Arr = new int[22];
 	
 		int[] allArr = new int[5];
@@ -377,5 +599,5 @@ public class AdminOrderController {
 		
 		return "/admin/subscribe_chart";
 	}
-	
+		
 }

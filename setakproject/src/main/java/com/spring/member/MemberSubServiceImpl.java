@@ -84,7 +84,37 @@ public class MemberSubServiceImpl implements MemberSubService{
 		}
 		return res;
 	}
-			 
+	
+	//수거고
+	public int sugo2(String member_id) {
+		int res = 0;
+		
+		try {
+			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
+			res = mapper.sugo2(member_id);
+			res = 1;
+		} catch (Exception e) {
+			System.out.println("수거고 실패"+e.getMessage());
+			res = -1;
+		}
+		return res;
+	}
+				 
+	//수거고취소
+	public int sugo0(String member_id) {
+		int res = 0;
+		
+		try {
+			MemberSubMapper mapper = sqlsession.getMapper(MemberSubMapper.class);
+			res = mapper.sugo0(member_id);
+			res = 1;
+		} catch (Exception e) {
+			System.out.println("수거고취소 실패"+e.getMessage());
+			res = -1;
+		}
+		return res;
+	}
+		
 	//재구독함
 	@Override
 	public int resub(String member_id) {

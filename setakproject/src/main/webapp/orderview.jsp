@@ -27,28 +27,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>세탁곰</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/orderview.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
-<link rel="stylesheet" type="text/css" href="./css/review.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+<link rel="shortcut icon" href="favicon.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<!--sweetalert2 -->
-
-
 <script type="text/javascript">
-
    $(document).ready(function(){
-      
       var member_id = "<%=session.getAttribute("member_id")%>";
       
       $("#header").load("./header.jsp");
       $("#footer").load("./footer.jsp");  
       
+      var order_num;
+      
       //모달팝업 오픈
        $(".open").on('click', function(){
           var login_id="<%=session.getAttribute("member_id")%>";      
+          
+          //작성여부
+          var select_btn = $(this);
+          order_num = select_btn.parent().parent().children().eq(0).children().eq(2).val();          
           
           if(!(login_id=="null"))
           {
@@ -56,7 +56,7 @@
              $(".dim").show();
           }
           else{
-             alert("비회원은 리뷰를 작성 할 수 없습니다.");
+			Swal.fire("","비회원은 리뷰를 작성 할 수 없습니다.","info");
              location.href="login.do";
              return false;
           }   
@@ -82,6 +82,27 @@
          filename = Date.now() + "_" + $(this)[0].files[0].name;
       });   
       $("#reviewform").on("submit", function() {
+    	   $.ajax({
+    		 url :'updatereview.do',
+    		 type : 'POST',
+    		 data : {
+    			 "order_num" : order_num
+    		 },
+    		 dataType : 'json',
+    		 contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+    		 success:function(retVal){
+    			 if(retVal.res=="OK"){
+    				 console.log("수정성공");
+    			 }
+    			 else{
+    				 console.log("수정 실패");
+    			 }
+    		 },
+    		 error: function() {
+				alert("통신실패");
+			}
+    	  });
+    	   
          if(rwchk()){         
             if(filecontent != null){
                var data = new FormData();
@@ -111,11 +132,7 @@
          }
       });
       
-      
-      
 
-     
-      
       jQuery(".accordion-content").hide();
       //content 클래스를 가진 div를 표시/숨김(토글)
       $(".accordion-header").click(function(){
@@ -143,10 +160,14 @@
                   },
                   "dataType": "json"
                 }).done(function(result) { // 환불 성공시 로직 
-                    alert("주문이 성공적으로 취소 되었습니다.");
-                    window.location.href = "./orderview.do";
+                    Swal.fire({
+						text: "주문이 성공적으로 취소 되었습니다.",
+						icon: "success",
+					}) .then(function(){
+						window.location.href = "./orderview.do";
+					});
                 }).fail(function(result) { // 환불 실패시 로직
-                     alert("주문 취소가 실패했습니다. 고객센터로 연락주세요.");
+                     Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","error");
                 });   
          }          
       }); 
@@ -158,21 +179,21 @@
 
       if (document.getElementById('Review_content').value=="") 
       {
-         alert("리뷰의 내용을 작성하세요.(최대 300자)");
+         Swal.fire("","리뷰의 내용을 작성하세요.(최대 300자)","info");
            document.getElementById('Review_content').focus();
            return false;
            
        }
       else if (document.getElementById('Review_star').value=="") 
       {
-          alert("별점을 눌러주세요");
+          Swal.fire("","별점을 눌러주세요","info");
            document.getElementById('Review_star').focus();
            return false;
        }
       
       else if (document.getElementById('Review_kind').value=="") 
       {
-          alert("이용하신 서비스를 선택해주세요");
+          Swal.fire("","이용하신 서비스를 선택해주세요","info");
            document.getElementById('Review_kind').focus();
            return false;
        }
@@ -264,12 +285,13 @@ function cancle() {
                   <div class="accordion-content">
                      <!--snb -->
                      <div class="snb">
-                        <div class="ordernumber">
-                           <p>주문 번호 :</p>
+                        <div class="ordernumber" >
+                           <p>※ 주문 번호</p>
                            <p><%=orderVO.getOrder_num() %></p>
+                           <input type="hidden" value="<%=orderVO.getOrder_num() %>">
                         </div>
                         <div class="addr">
-                           <p>주소 :</p>
+                           <p>※ 주소</p>
                            <p><%=orderVO.getOrder_address().replace("!", " ") %></p>
                         </div>
                         <br><br><br><br><br>
@@ -278,10 +300,11 @@ function cancle() {
                            
                            <%if (orderVO.getOrder_cancel().equals("1")) {%>
                            <input type="button" value="리뷰작성" class="open" disabled />
+                           <%} else if (orderVO.getReview_chk().equals("1")){ %>
+                           	<input type="button" value="리뷰작성" class="open" disabled />
                            <%} else { %>
-                           <input type="button" value="리뷰작성" class="open" />
+                            <input type="button" value="리뷰작성" class="open" />
                            <%} %>
-                           
                            <%if (orderVO.getOrder_delete().equals("1")) {%>
                            <input type="button" class="button" id="order_false" name="<%=orderVO.getOrder_muid()%>"  value="주문취소" disabled/>
                            <%} else { %>
@@ -346,25 +369,27 @@ function cancle() {
             <table class="page">
                <tr align = center height = 20>
                        <td>
-                          <%if(nowpage <= 1) {%>
-                          <div class="page_a"><a>&#60;</a></div>
-                          <%} else {%>
-                             <div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
-                          <%} %>
-                          <%for (int a=startpage; a< endpage; a++) {
-                                if(a==nowpage) {
-                             %>
-                             <div class="page_a"><a><%=a %></a></div>
-                             <%} else {%>
-                                <div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
-                             <%} %>
-                          <%} %>
-                          <%if (nowpage >= maxpage) {%>   
-                             <div class="page_a"><a>></a></div>
-                          <%} else { %>   
-                              <div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">></a></div>
-                           <%} %>   
-                           </td>
+              				<%if(nowpage <= 1) {
+              				%>
+              				<div class="page_a"><a>&#60;</a></div>
+              				<%} else {%>
+              					<div class="page_a"><a href ="./orderview.do?page=<%=nowpage-1 %>">&#60;</a></div>
+              				<%} %>
+              				<%for (int a=startpage; a<= endpage; a++) {
+              					if(a==nowpage) {
+           					%>
+           					<div class="page_a active"><a><%=a %></a></div>
+           					<%} else {%>
+           						<div class="page_a"><a href="./orderview.do?page=<%=a %>"><%=a %></a></div>
+           					<%} %>
+           					<%} %>
+           					<%if (nowpage >= maxpage) {
+           					%>	
+           						<div class="page_a"><a>&#62;</a></div>
+           					<%} else { %>	
+                  				<div class="page_a"><a href ="./orderview.do?page=<%=nowpage+1 %>">&#62;</a></div>
+                  			<%} %>	
+                  			</td>
                      </tr>
             </table>
             </div>
@@ -374,7 +399,6 @@ function cancle() {
                         <h2>리뷰 작성</h2>
                         <form action="./reviewInsert.do" method="post" enctype="multipart/form-data" name="reviewform" id="reviewform">
                         <div class="r_content">
-                           <p style="margin-bottom:5px;">사용자 평점</p> 
                            <a class="starR1 on" value="1" >별1_왼쪽</a>
                             <a class="starR2" value="2">별1_오른쪽</a>
                             <a class="starR1" value="3">별2_왼쪽</a>

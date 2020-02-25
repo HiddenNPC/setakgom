@@ -1,12 +1,28 @@
 'use strict';
 
 window.chartColors = {
-   red: 'rgb(255, 99, 132)',
+   red: 'rgb(255, 84, 118)',
+   red2: 'rgb(255, 99, 127)',
+   red3: 'rgb(255, 117, 140)',
+   red4: 'rgb(255, 135, 155)',
+   red5: 'rgb(255, 158, 172)',
+   red6: 'rgb(255, 191, 199)',
    orange: 'rgb(255, 159, 64)',
+   orange2: 'rgb(255, 165, 81)',
+   orange3: 'rgb(255, 187, 127)',
    yellow: 'rgb(255, 205, 86)',
-   green: 'rgb(75, 192, 192)',
+   yellow2: 'rgb(255, 212, 114)',
+   yellow3: 'rgb(255, 221, 150)',
+   green: 'rgb(32, 191, 191)',
+   green2: 'rgb(60, 188, 188)',
+   green3: 'rgb(83, 186, 186)',
+   green4: 'rgb(106, 183, 183)',
+   green5: 'rgb(154, 209, 209)',
+   green6: 'rgb(169, 229, 229)',
    blue: 'rgb(54, 162, 235)',
-   purple: 'rgb(153, 102, 255)',
+   blue2: 'rgb(84, 174, 234)',
+   blue3: 'rgb(116, 185, 232)',
+   blue4: 'rgb(142, 194, 229)',
    grey: 'rgb(201, 203, 207)'
 };
 

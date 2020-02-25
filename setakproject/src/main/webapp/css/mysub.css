@@ -96,7 +96,7 @@
 
 /*나의 정기구독*/
 .mypage_content {
-	width: 1000px;
+	width: 1035px;
 	float: right;
 }
 
@@ -105,10 +105,9 @@
 	line-height: 130px;
 	text-align: center;
 	font-size: 1.7rem;
-	border: 2px solid #e1e4e4;
+	border: 3px solid #e1e4e4;
 	box-sizing: border-box;
 }
-
 
 .mypage_content h3 {
 	margin:40px 0 20px 0;
@@ -140,39 +139,35 @@
 
 .mysub_top li {
 	width: 100%;
-	height: 60px;
-	padding: 20px 0 0 0;
-	border: 1px solid #e1e4e4;
+	line-height: 50px;
+	border-right: 1px solid;
 	background-color: #3498db;
 	box-sizing: border-box;
-	font-size: 1.05rem;
+	font-size: 1rem;
 	text-align: center;
 	color: #fff;
 }
-
-
 .mysub_bottom {
 	display: flex;
 	justify-content: space-between;
 }
-
 .mysub_bottom>li {
 	width: 100%;
-	height: 65px;
-	padding: 20px 0 0 0;
-	border: 1px solid #e1e4e4;
-	background-color: #fff;
+	line-height: 60px;
+	border-right: 1px solid #e1e4e4;
+	border-bottom:1px solid #e1e4e4;
 	box-sizing: border-box;
-	font-size: 0.95rem;
+	font-size: 0.9rem;
 	text-align: center;
 	color: #444;
 }
-
-.btn {
-	padding: 40px 0;
-	cursor: pointer;
+.mysub_bottom>li:first-child{
+	border-left:1px solid #e1e4e4;
 }
-
+.btn {
+	cursor: pointer;
+	padding-top:19px;
+}
 .btn a {
 	font-size: 0.95rem;
 	display: block;
@@ -185,14 +180,10 @@
 	text-align: center;
 	margin: -8.5px 0 0 19px;
 }
-
- 
 a#cancle {
 	display: none;
 	color: #fff;
 }
-
-
 .two ul li:last-child a {
 	background-color: #e1e4e4;
 	color: #444;
@@ -207,15 +198,15 @@ a#cancle {
 }
 
 .mypage_content p {
-	padding-left: 20px;
+	padding-left: 5px;
+	padding-top:5px;
 	font-weight: bold;
-	font-size: 0.95rem;
+	font-size: 0.9rem;
 	color: #3498db;
 }
 
 #re-sub{
 	display:none;
-
 }
 /*정기구독내역*/
 .myrecord .text h2 {
@@ -237,32 +228,51 @@ a#cancle {
 }
 .record_list thead th{
 	width:1000px;
-	height:60px;
 	background-color: #3498db;
 	color:#fff;
 	font-weight:initial;
-	border:2px solid #e1e4e4;
-
+	line-height: 50px;
+	border-right: 1px solid;
+	box-sizing: border-box;
+	font-size: 1rem;
+	text-align: center;
 }
 
 .record_list thead th:first-child{
 	width:300px;
-	}
+}
 
 .record_list tbody td {
 	 height:50px;
      text-align:center;
-	 border:2px solid #e1e4e4;
+	 border:1px solid #e1e4e4;
+	 font-size:0.9rem;
 }
 
 .record_list thead th:last-child{
 	width:400px;
 	}
-
+.swal2-container{
+   z-index: 1101 !important;
+}
 /*이전이후*/
+.page_a1 {
+	margin-top: 35px;
+	margin-left:41%;
+}
 .page_a {
-	margin:50px auto;
-	
+	text-align: center !important; 
+	font-size: 0.93rem;
+	padding: 5px 8px;
+	margin: 0 4px;
+	color: #444;	
+}
+.active {
+	background-color:#349ddb;
+	color:#fff;
+	padding:5px 8px;
+	margin:0 5px;
+
 }
 
 
@@ -284,7 +294,8 @@ a#cancle {
 .popup { 
 	display:none;
 	z-index:99999;
-    top : 0px;
+    top : 20%;
+    left : 50%;
     position: absolute;
     background: #eeece6b;
     width: 500px;
@@ -588,7 +599,6 @@ a#cancle {
 
 	.mysub_top li {
 		height: 60px;
-		padding: 20px 0 0 0;
 		border: 1px solid #e1e4e4;
 		background-color: #3498db;
 		box-sizing: border-box;
@@ -602,13 +612,12 @@ a#cancle {
 		width:50%;
 		justify-content: space-between;
 		margin-top:-600px;
-		margin-left:179px;
+		margin-left:170px;
 	}
 
 	.mysub_bottom li {
 		width: 100%;
 		height: 60px;
-		padding: 20px 0 0 0;
 		border: 1px solid #e1e4e4;
 		background-color: #fff;
 		box-sizing: border-box;
@@ -728,8 +737,11 @@ a#cancle {
 	}
 
 	/*이전이후*/
+	.page_a1 {
+		margin: 0  auto;
+	}
 	.page_a {
-		margin:50px auto;
+		margin:30px auto;
 
 	}
 

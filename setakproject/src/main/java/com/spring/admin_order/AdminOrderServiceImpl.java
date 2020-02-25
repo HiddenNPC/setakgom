@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.community.QnaVO;
 import com.spring.mapper.AddressMapper;
 import com.spring.mapper.Admin_order;
 import com.spring.order.AddressVO;
@@ -143,6 +144,71 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 			cnt = adminOrderMapper.recentOrderWeeklyCnt(map);
 		}catch(Exception e) {
 			System.out.println("최근 5주 주문 갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public ArrayList<QnaVO> getQnAList() {
+		ArrayList<QnaVO> qnaList = null;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			qnaList = adminOrderMapper.getQnAList();
+		} catch(Exception e) {
+			System.out.println("전체 주문 검색 실패" + e.getMessage());
+		}
+		
+		return qnaList;
+	}
+
+	@Override
+	public int getNewMemberCnt() {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.getNewMemberCnt();
+		}catch(Exception e) {
+			System.out.println("최근 일주일 회원 수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public ArrayList<OrderVO> getProcessOrderList() {
+		ArrayList<OrderVO> orderList = null;
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			orderList = adminOrderMapper.getProcessOrderList();
+		} catch(Exception e) {
+			System.out.println("전체 처리 해야 하는 주문 리스트 검색 실패" + e.getMessage());
+		}
+		
+		return orderList;
+	}
+
+	@Override
+	public int getProcessOrderCnt() {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.getProcessOrderCnt();
+		}catch(Exception e) {
+			System.out.println("전체 처리 해야 하는 주문 리스트  갯수 검색 실패 " + e.getMessage());
+		}
+		
+		return cnt; 
+	}
+
+	@Override
+	public int getOrderAllPrice(String order_date) {
+		int cnt = 0;  
+		try {
+			Admin_order adminOrderMapper = sqlSession.getMapper(Admin_order.class);
+			cnt = adminOrderMapper.getOrderAllPrice(order_date);
+		}catch(Exception e) {
+			System.out.println("오늘 매출액 검색 실패 " + e.getMessage());
 		}
 		
 		return cnt; 

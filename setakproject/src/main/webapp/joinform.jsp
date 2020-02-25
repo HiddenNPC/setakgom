@@ -12,9 +12,6 @@
 <link rel="shortcut icon" href="favicon.ico">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
 <!-- 우편번호 api -->
 <script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -102,7 +99,12 @@
     			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
      			success: function(result) {
      			if(result.res=="OK") {            
-     				$(location.href="/setak/login.do");
+     				Swal.fire({
+						text: "세탁곰의 회원이 되신 것을 환영합니다",
+						icon: "success",
+					}).then(function(){
+						location.href='/setak/';
+					});
      			}
      			else { // 실패했다면
      				Swal.fire("","회원가입 실패","warning");

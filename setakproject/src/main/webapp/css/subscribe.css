@@ -30,7 +30,7 @@
 .title-text h2:before {
    content: '';
    display: block;
-   width: 40%;
+   width: 51%;
    height: 6px;
    background-color: #3498db;
    margin-bottom: 6px;
@@ -43,35 +43,36 @@
 }
 
 .sub-div {
-   padding-top: 100px;
+   padding-top: 150px;
 }
 
 /*정기구독*/
 .p_subtitle {
-   color: #444;
-   margin-bottom: 30px;
+   color: #3498db;
+   font-weight:bold;
+   margin-bottom:30px;
 }
 
 /* 정기구독 테이블 : sub_table */
 table.sub_table {
    border-collapse: collapse;
-   border: 1px solid #eeefef;
    border-spacing: 0px;
+   border:1px solid #fff;
+   border-bottom:1px solid #e1e4e4;
    margin: 0 auto;
    width: 1200px;
    color: #444;
 }
 
 table.sub_table thead {
+   border: 1px solid #e1e4e4;
    background-color: #3498db;
-   opacity: 0.95;
    color: #eeefef;
 }
 
-table.sub_table thead tr td {
+table.sub_table thead tr{
    height: 50px;
 }
-
 
 table.sub_table tbody tr td {
    height: 60px;
@@ -83,14 +84,14 @@ p.sub_title {
    margin-top: 50px;
    margin-bottom: 10px;
    font-size: 1.2rem;
-   padding-left: 15px;
+   padding-left: 5px;
 }
 
 .pay_button {
     font-size: 0.9rem;
     display: block;
     width: 70px;
-    background-color: #eeefef;
+    background-color: #e1e4e4;
     color: #444;
     height: 40px;
     line-height: 40px;
@@ -100,19 +101,22 @@ p.sub_title {
 }
 
 .pay_button:hover {
-   background-color : #e0e2e2; 
+   background-color : #3498db;
+   color:#fff;
+   transition:all .3s;
 }
 
 .origin_price {
     float: left;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-decoration: line-through;
-    margin-left: 40px;
+    margin-left: 30px;
     color : #6E6E6E;
 }
 
 .sale_price {
    font-size : 1.2rem;
+   margin-left:35px;
    font-weight: bold;
 }
 
@@ -154,7 +158,7 @@ p.sub_title {
     .title-text h2:before {
        content: '';
        display: block;
-       width: 40%;
+       width: 51%;
        height: 6px;
        background-color: #3498db;
        margin-bottom: 6px;
@@ -167,15 +171,16 @@ p.sub_title {
     }
 
     .sub-div {
-       padding-top: 100px;
+       padding-top: 80px;
     }
 
     /*정기구독*/
-    .p_subtitle {
-       color: #444;
-       margin-bottom: 30px;
-    }
-
+	.p_subtitle {
+	   color: #3498db;
+	   font-weight:bold;
+	   margin-bottom: 0px;
+	   font-size:0.9rem;
+	}
     /* 정기구독 테이블 : sub_table */
     table.sub_table {
        display : none; 
@@ -206,10 +211,10 @@ p.sub_title {
     p.sub_title {
        font-weight: bold;
        color: #444;
-       margin-top: 50px;
+       margin-top: 30px;
        margin-bottom: 10px;
        font-size: 1.2rem;
-       padding-left: 15px;
+       padding-left: 1px;
     }
 
     .pay_button {

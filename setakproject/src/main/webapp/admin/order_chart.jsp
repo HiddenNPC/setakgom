@@ -20,7 +20,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>세탁곰 기타주문관리</title>
+	<title>세탁곰 관리자페이지</title>
+	<link rel = "shortcut icon" href = "../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/admin.css"/>
 	<link rel="stylesheet" type="text/css" href="../css/adminorder.css"/>
 	
@@ -103,19 +104,21 @@
 			
 			/*일주일 차트*/ 			
 			var weekDataset = {
-					label: '최근 5주간 어짜구저짜구',
+					label: '최근 5주 주문량',
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
 					data: [<%=weeklyArr[4]%>, <%=weeklyArr[3]%>, <%=weeklyArr[2]%>, <%=weeklyArr[1]%>, <%=weeklyArr[0]%>],
-					fill: false
+					fill: false,
+					lineTension:0.1
 				};
 			
 			var dayDataset = {
-					label: '최근 5일간 어짜구저짜구',
+					label: '최근 5일 주문량',
 					backgroundColor: window.chartColors.blue,
 					borderColor: window.chartColors.blue,
 					data: [<%=dailyArr[4]%>, <%=dailyArr[3]%>, <%=dailyArr[2]%>, <%=dailyArr[1]%>, <%=dailyArr[0]%>],
-					fill: false
+					fill: false,
+					lineTension:0.1
 				};		
 		
 			//  x1 : 첫날, x2 : 마지막날
@@ -199,7 +202,8 @@
 						},
 						title: {
 							display: true,
-							text: '최근 5일 주문 상태'
+							text: '최근 5일 주문 상태',
+							fontSize : 15
 						},
 						scales: {
 							xAxes: [{
@@ -292,13 +296,13 @@
 						<div id = "recentAll5days-num">
 							총 &nbsp;<span id = "dailySum" class = "sum"><%=dailySum %></span>&nbsp;건
 							<br/>
-							<span>5일간 주문</span>							
+							<span>5일 주문</span>							
 						</div>
 						
 						<div id = "recentAll5weeks-num">
 							총 &nbsp;<span  id = "dailySum" class = "sum"><%=weeklySum %></span>&nbsp;건
 							<br/>
-							<span>5주간 주문</span>							
+							<span>5주 주문</span>							
 						</div>						
 					</div>
 					<div id = "recentAll-btn">

@@ -39,16 +39,17 @@
 	
 	<style>
 	.content h3 {
-		margin: 50px 0 20px 0;
+		margin: 30px 0 -20px 0;
 	}
 	#jschart{
-		margin-top:10px;
 		width:75%;
 	}
 	
-	#chart-area{
-		margin:10px auto;
+	.content h4 {
+		font-size:1.21rem;
+		margin: 10px auto;
 	}
+	
 	</style>	
 </head>
 
@@ -59,7 +60,7 @@
 		<div id="jschart">
 			<canvas id="canvas"></canvas>
 		</div>
-		<h3> 월 단위 세수보 그래프</h3>
+		<h4> 월 단위 세수보 그래프</h4>
 		 <div id="chart-area"></div>
 	</div><!-- 지우지마세요 -->
 	
@@ -162,7 +163,7 @@
 		};
 		var options = {
 		    chart: {
-		        width: 1100,
+		        width: 1500,
 		        height: 300,
 		        title: ' ',
 		        'format': '1'
@@ -172,7 +173,7 @@
 		    },
 		    xAxis: {
 		        title: '양',
-		        max: 180
+		        max: 500
 		    },
 		    series: {
 		        stackType: 'normal'

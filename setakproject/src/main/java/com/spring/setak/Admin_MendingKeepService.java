@@ -14,6 +14,9 @@ public interface Admin_MendingKeepService {
 	int updateMending(MendingVO params);
 	int deleteMending(int mending);
 	List<Object> mendingSearch(HashMap<String, Object> map);
+	List<Object> mendingLoadImg(HashMap<String, Object> map);
+	void deleteMendingImg(String repair_file);
+	int MendingImg(HashMap<String, Object> map);
 	
 	List<Object> getKeepList();
 	int updateKeep(KeepVO params);

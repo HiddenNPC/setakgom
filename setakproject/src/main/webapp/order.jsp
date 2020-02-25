@@ -35,7 +35,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>세탁곰 주문결제</title>
+	<title>세탁곰</title>
+	<link rel = "shortcut icon" href = "favicon.ico">
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
    <link rel="stylesheet" type="text/css" href="./css/default.css"/>
    <link rel="stylesheet" type="text/css" href="./css/order.css"/>
@@ -44,9 +45,6 @@
    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-   
-   <!--sweetalert2 -->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
    
    <!-- 우편번호 api -->
    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>   
@@ -408,7 +406,7 @@
        var finalPrice = orderPrice + deliPrice + couponSalePrice + pointPrice;
        
        if(finalPrice < 0) {
-           alert("결제 금액보다 할인 금액이 더 큰 경우");
+           Swal.fire("","결제 금액보다 할인 금액이 더 큽니다.","warning");
            select_btn.attr('checked', false);
            return;    
           }

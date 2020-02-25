@@ -11,7 +11,8 @@
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<title>세탁곰 공지사항</title>
+<title>세탁곰</title>
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
 <link rel="stylesheet" type="text/css" href="./css/notice.css"/>
@@ -27,7 +28,7 @@ $(document).ready(function(){
 <div id="header"></div>
 <section id="notice">
 <div class="content">
-<div class="title-text"><h2><a href="./noticeList.do">공지사항</a></h2></div>
+<div class="title-text"><h2><a href="./noticeList.do">Notice</a></h2><small>공지사항</small></div>
 <div class="notice">
 
 
@@ -37,7 +38,7 @@ $(document).ready(function(){
 		<td width="20%" align="right" ><%=vo.getNotice_date().substring(0,11) %>&nbsp;&nbsp;</td>
 	</tr>	
 	<tr>
-		<td colspan="2" class="nvc"><div ><%=vo.getNotice_content()%></div></td>
+      <td colspan="2" class="nvc"><div><pre id="nvc_pre"><%=vo.getNotice_content()%></pre></div></td>
 	</tr>
 </table>
 <table class="nvt2">						

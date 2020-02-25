@@ -23,6 +23,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./css/default.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/myqna.css"/><!-- 여기 본인이 지정한 css로 바꿔야함 -->
+	<link rel="shortcut icon" href="favicon.ico">
+   
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
@@ -41,7 +43,7 @@
 		<div class="title-text">
 			<h2>Q&A 문의내역</h2>
 		</div>
-			<div class="mypage_head" style="width: 12%; float: left;">
+			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
 					<li>
@@ -68,11 +70,12 @@
 					</li>
 				</ul>
 			</div>
-			<div>
+		
 				<div class="mypage_content">
 				<h2>Q&A 문의내역</h2>
 				<%if (qnalist.size() == 0) {%>
 					<h3>Q&A 문의내역이 없습니다.</h3>
+					
 				<%}else{ %>
 				<div class="mypage_content_cover">
 				<div class="qna-title">
@@ -80,15 +83,15 @@
 						<table class="qna">
 							<thead align="center">
 								<tr>
-									<th width="15">문의유형</th>
-									<th width="40">제목</th>
-									<th width="20">문의날짜</th>
-									<th width="15">답변상태</th>
+									<th>문의유형</th>
+									<th>제목</th>
+									<th>문의날짜</th>
+									<th>답변상태</th>
 								</tr>
 							</thead>
 							<%for (int i=0; i<qnalist.size(); i++){ 
 								QnaVO qvo = (QnaVO)qnalist.get(i);
-							String date = qnalist.get(0).getQna_date();
+							String date = qnalist.get(i).getQna_date();
 							String[] date2 = date.split(" ");
 							String date3 = date2[0];
 								
@@ -114,11 +117,11 @@
               				<%} else {%>
               					<div class="page_a"><a href ="./myqna.do?page=<%=nowpage-1 %>">&#60;</a></div>
               				<%} %>
-              				<%for (int a=startpage; a< endpage; a++) {
+              				<%for (int a=startpage; a<= endpage; a++) {
               					if(a==nowpage) {
               						
            					%>
-           					<div class="page_a"><a><%=a %></a></div>
+           					<div class="page_a active"><a><%=a %></a></div>
            					<%} else {%>
            						<div class="page_a"><a href="./myqna.do?page=<%=a %>"><%=a %></a></div>
            					<%} %>
@@ -136,7 +139,7 @@
 			</div>
 			<%} %>
 			</div>
-		</div>
+		
 	</section>
 	<!-- 여기까지 작성하세요. 스크립트는 아래에 더 작성해도 무관함. -->
 	

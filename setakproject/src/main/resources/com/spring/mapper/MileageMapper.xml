@@ -16,7 +16,7 @@
 	</select>	
 	
 	<insert id = "useMileage" parameterType = "com.spring.member.MileageVO">
-		insert into mileage values (#{member_id}, #{mile_date}, #{mile_price}, #{mile_content})
+		insert into mileage values (#{member_id}, #{mile_date}, #{mile_price}, #{mile_content}, mile_seq.nextval)
 	</insert>
 	
 	
@@ -34,8 +34,8 @@
 					(select * from mileage where member_id = #{member_id} order by mile_date desc))	where rnum>= #{startrow} and rnum<= #{endrow} ]]>
 	</select>
 	
-	<select id="getListCount" resultType="int">
-		select count(*) from mileage
+	<select id="getListCount" resultType="int" parameterType="String">
+		select count(*) from mileage where member_id = #{member_id}
 	</select>
 	<!-- 
 	<select id="getMileagelist" resultMap="MileageResultMap" parameterType="String">

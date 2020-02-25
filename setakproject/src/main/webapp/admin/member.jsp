@@ -444,15 +444,15 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
 					</tr>
 				<%} %>   
 			</table>
-			<div class="page">
+			<div class="page1">
 				<table class="page">
                 	<tr>
                     	<td>
                     	<% if(nowpage <= 1) {%>
-                    		<span class="page"><a></a></span>
-                    	 <%} else {%>  <!-- nowpage가 1페이지 아닐 때, 2 페이지거나 3페이지 등등 -->
+                    		<span class="page"><a>&#60;</a></span>
+                    	 <%} else {%> 
                        		<span class="page">
-                       			<a href ="./member.do?page=<%=nowpage-1 %>"></a>
+                       			<a href ="./member.do?page=<%=nowpage-1 %>">&#60;</a>
                        		</span>
                     	 <%} %>
                          	
@@ -461,7 +461,7 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
                     			
                       			if(af==nowpage) {
                     	%>
-                       				<span class="page"><a><%=af %></a></span>
+                       				<span class="page active"><a><%=af %></a></span>
                     			<%} else {%>
                           			<span class="page">
 	                       				<a href="./member.do?page=<%=af %>"><%=af %></a>
@@ -469,10 +469,10 @@ int todaycount = ((Integer)request.getAttribute("todaycount")).intValue();
                     			<%} %>
                     		<%} %>
                           
-                    	<% if (nowpage >= maxpage) { %>   <!-- 링크 걸지 않겠다.. -->
-                       		<span class="page"><a></a></span>
-                    	<%} else { %>   
-                       		<span class="page"><a href ="./member.do?page=<%=nowpage+1 %>"></a></span>
+                    	<% if (nowpage >= maxpage) { %> 
+                       		<span class="page"><a>&#62;</a></span>
+                    	<%} else { %>  
+                       		<span class="page"><a href ="./member.do?page=<%=nowpage+1 %>">&#62;</a></span>
                     	<%} %> 
                     	</td>
                     </tr>

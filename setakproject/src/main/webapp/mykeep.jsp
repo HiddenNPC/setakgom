@@ -34,12 +34,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="./css/default.css" />
 <link rel="stylesheet" type="text/css" href="./css/mykeep.css" />
+<link rel="shortcut icon" href="favicon.ico">
+   
 <!-- 여기 본인이 지정한 css로 바꿔야함 -->
 <script type="text/javascript" src="./js/controller.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<!--sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
@@ -49,6 +48,7 @@
 		
 		$("#header").load("./header.jsp")
 		$("#footer").load("./footer.jsp")
+	
 	});
 	
 </script>
@@ -135,7 +135,7 @@
 								<tr>
 									<th style="width: 30%;" class="num">주문번호</th>
 									<th style="width: 20%;" class="box">박스 수량</th>
-									<th style="width: 40%;" class="day">보관 기관</th>
+									<th style="width: 40%;" class="day">보관 기간</th>
 									<th style="width: 10%;" class="detail">상세보기</th>
 								</tr>
 								<tr>
@@ -152,29 +152,26 @@
 						<table>
 						</table>
 							<div class="photo">
-								<tr>
+								<ul class="img-list">
 								<%for(int p = 0; p<kpvo.size(); p++) {
 									KeepPhotoVO kpvo2 = (KeepPhotoVO) kpvo.get(p);
 									if (kpvo2.getKeep_path()== null){								
 								%>
-								<td>
+								<li>
 									<img src="http://placehold.it/255x280" onclick="window.open('http://placehold.it/800x600', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');">
-								</td>
+								</li>
 								<%} else {%>	
-								<td>
+								<li>
 									<img src="https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>" onclick="window.open('https://kr.object.ncloudstorage.com/airbubble/setakgom/keep/<%=kpvo2.getKeep_path() %>', 'new', 'width=800, height=600, left=500, top= 100, scrollbars=no');" class="keep_photo">
-								</td>
+								</li>
 								<%
 									} 
 								}
 								%>
-								</tr>
+								</ul>
 							</div>
 							<div class="keepbox" style="border-right: 1px solid rgb(255, 255, 255);">보관 기간 연장</div>
 							<div class="keepbox2">반환 신청</div>
-							<br>
-							<br>
-							<br>
 							<div class="keep_month">
 								<ul>
 									<li class="month" value="<%=m1%>"><h3>1개월</h3>
@@ -291,7 +288,7 @@ $(document).ready(function () {
 					output += '</tr>';
 				});
 				$.each(data, function(index, item) {
-					input += '<option value='+item.keep_cate+'>' + item.keep_cate + '</option>';
+					input += '<option value='+item.keep_kind+'>' + item.keep_kind + '</option>';
 				})
 				console.log("output : " + output);
 				$('.accordion-content2 > table').append(output);
@@ -305,8 +302,6 @@ $(document).ready(function () {
 	}
 	 selectData();
 });
-
-
 
 //보관기간 선택 시 css효과, 보관기간의 돈 값 가져와서 합계에 보여주기.
 var monthclick = 0;
@@ -359,7 +354,7 @@ $.pricefun = function(n){
 					str += '<td>';
 					str += '<select class="rt-list" name="return_kind">';
 				$.each(data, function(index, item) {
-					str += '<option value='+item.keep_cate+'>' + item.keep_cate + '</option>';
+					str += '<option value='+ item.keep_kind +'>' + item.keep_kind + '</option>';
 				})
 					str += '</select>';
 					str += '</td>';
