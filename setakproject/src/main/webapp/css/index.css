@@ -52,7 +52,7 @@
 	}
 	nav .content{
 		position:fixed;
-   		z-index:999;
+   		z-index:9;
 	}
 	nav a:after {
 		content: '';
