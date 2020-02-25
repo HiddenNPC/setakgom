@@ -203,21 +203,8 @@
    }
    
    function rwcancel(){
-	  
-	   Swal.fire({
-			text: "리뷰작성을 취소하시겠습니까?",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonText: '네, 취소합니다.',
-			cancelButtonColor: '#d33',
-			cancelButtonText: '아니요'
-		}).then((result) => {
-			if(result.value) {
-				window.location.href = "./orderview.do";
-			} else{
-				return true;
-			}	
-		});
+	  location.href = "./orderview.do";
+			
    }   
 
 function cancle() {
