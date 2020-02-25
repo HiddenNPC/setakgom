@@ -482,6 +482,9 @@ textarea {
 	height: 0;
 	border: none;
 }
+.swal2-container{
+	z-index: 1101 !important;
+}
 .close {
 	display:none;
 }
