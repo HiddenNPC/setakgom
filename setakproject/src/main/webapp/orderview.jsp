@@ -150,7 +150,15 @@
          var btn = $(this); 
          var order_muid = btn.attr('name');
          
-         if(confirm("선택된 주문을 취소하시겠습니까?")) {
+         Swal.fire({
+        	text: "선택한 주문을 취소하시겠습니까?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: '네, 취소합니다.',
+			cancelButtonColor: '#d33',
+			cancelButtonText: '아니요'
+         }).then((result) => {
+         if(result.value) {
              jQuery.ajax({
                   "url": "/setak/cancelPay.do",
                   "type": "POST",
@@ -169,7 +177,8 @@
                 }).fail(function(result) { // 환불 실패시 로직
                      Swal.fire("","주문 취소가 실패했습니다. 고객센터로 연락주세요.","error");
                 });   
-         }          
+         } 
+         })
       }); 
        
    });
