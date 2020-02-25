@@ -63,7 +63,7 @@
 	    font-family: inherit;
 	    position: absolute;
 	    top: 55%;
-	    right: 43.9%;
+	    margin-left: 5px;
 	    font-weight: bold;}	
     
     small{ font-size: 0.8rem; color:#aa9fa7; line-height: 22px;}	
@@ -407,26 +407,20 @@
   	.paginated{margin:auto;width: 100%;margin-top:5px;} 	 	
   	.paginated td {
   
-border: 1px solid #e1e4e4;
-  
-padding: 2px;
-  
-line-height: 20px;
-  
-width: 67%;
-  
-height: auto;
-  
-letter-spacing: 0px;
-  
-font-family: inherit;
-} 
+		border: 1px solid #e1e4e4;		  
+		padding: 2px;		  
+		line-height: 20px;		  
+		width: 67%;		  
+		height: auto;		  
+		letter-spacing: 0px;		  
+		font-family: inherit;
+		} 
     #re_list {width:95%;margin: auto;}
     #re_list form{width: 95%;margin: auto;}
     
     #re_table{width: 100%;margin: auto;}
     
-    #remo{width: 50%;border: none;margin: auto;}
+    #remo{ width:98%; border: none; margin: auto;}
     .clickable {cursor: pointer;}
 	 	    
   	.ret{
