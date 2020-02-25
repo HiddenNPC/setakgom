@@ -99,7 +99,12 @@
     			contentType : 'application/x-www-form-urlencoded;charset=utf-8',
      			success: function(result) {
      			if(result.res=="OK") {            
-     				$(location.href="/setak/login.do");
+     				Swal.fire({
+						text: "세탁곰의 회원이 되신 것을 환영합니다",
+						icon: "success",
+					}).then(function(){
+						location.href='/setak/';
+					});
      			}
      			else { // 실패했다면
      				Swal.fire("","회원가입 실패","warning");

@@ -30,11 +30,11 @@
 	
 	<style>
 	.content h3 {
-		padding: 50px 0 30px 0;
+		padding: 30px 0 30px 0;
 	}
 	#chartdiv {
- 	 width: 70%;
- 	 height: 350px;
+ 	 width: 80%;
+ 	 height: 400px;
 	}	
 	</style>	
 </head>

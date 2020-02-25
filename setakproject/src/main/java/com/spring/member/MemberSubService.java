@@ -17,6 +17,12 @@ public interface MemberSubService {
 	// 정기구독 리스트 갯수
 	public int listcount(String member_id); 	
 	
+	//수거고
+	public int sugo2(String member_id);
+			 
+	//수거고취소
+	public int sugo0(String member_id);
+	
 	//구독해지함
 	public int subcancle(String member_id);
 		 

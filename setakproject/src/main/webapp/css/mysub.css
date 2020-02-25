@@ -252,10 +252,27 @@ a#cancle {
 .record_list thead th:last-child{
 	width:400px;
 	}
-
+.swal2-container{
+   z-index: 1101 !important;
+}
 /*이전이후*/
+.page_a1 {
+	margin-top: 35px;
+	margin-left:41%;
+}
 .page_a {
-	margin:50px auto;	
+	text-align: center !important; 
+	font-size: 0.93rem;
+	padding: 5px 8px;
+	margin: 0 4px;
+	color: #444;	
+}
+.active {
+	background-color:#349ddb;
+	color:#fff;
+	padding:5px 8px;
+	margin:0 5px;
+
 }
 
 
@@ -277,7 +294,8 @@ a#cancle {
 .popup { 
 	display:none;
 	z-index:99999;
-    top : 0px;
+    top : 20%;
+    left : 50%;
     position: absolute;
     background: #eeece6b;
     width: 500px;
@@ -581,7 +599,6 @@ a#cancle {
 
 	.mysub_top li {
 		height: 60px;
-		padding: 20px 0 0 0;
 		border: 1px solid #e1e4e4;
 		background-color: #3498db;
 		box-sizing: border-box;
@@ -595,13 +612,12 @@ a#cancle {
 		width:50%;
 		justify-content: space-between;
 		margin-top:-600px;
-		margin-left:179px;
+		margin-left:170px;
 	}
 
 	.mysub_bottom li {
 		width: 100%;
 		height: 60px;
-		padding: 20px 0 0 0;
 		border: 1px solid #e1e4e4;
 		background-color: #fff;
 		box-sizing: border-box;
@@ -721,8 +737,11 @@ a#cancle {
 	}
 
 	/*이전이후*/
+	.page_a1 {
+		margin: 0  auto;
+	}
 	.page_a {
-		margin:50px auto;
+		margin:30px auto;
 
 	}
 

@@ -144,6 +144,43 @@ public class MemberSubController {
 		return result;
 	 }
 	 
+	 /*수거고 클릭*/
+	 @RequestMapping (value ="/sugo2.do", produces = "application/json; charset=utf-8") 
+     @ResponseBody  
+	 public Map<String, Object> sugo2 (String member_id) { 
+		 HashMap<String, Object> map = new HashMap<String, Object>(); 
+		 map.put("member_id", member_id); 
+		  
+		 Map<String, Object> result = new HashMap<String, Object>(); 
+			int res = membersubservice.sugo2(member_id); 
+				if(res==1) { 
+					result.put("res", "OK"); 
+				} else { 
+					result.put("res", "FAIL"); 
+					result.put("message", "Failure"); 
+				} 
+		return result; 
+	 } 
+	 
+	 /*수거고 취소 클릭*/
+	 @RequestMapping (value ="/sugo0.do", produces = "application/json; charset=utf-8") 
+     @ResponseBody  
+	 public Map<String, Object> sugo0 (String member_id) { 
+		 HashMap<String, Object> map = new HashMap<String, Object>(); 
+		 map.put("member_id", member_id); 
+		 
+		 Map<String, Object> result = new HashMap<String, Object>(); 
+			int res = membersubservice.sugo0(member_id); 
+				if(res==1) { 
+					result.put("res", "OK"); 
+				} else { 
+					result.put("res", "FAIL"); 
+					result.put("message", "Failure"); 
+				} 
+		return result; 
+	 } 
+	 
+	 
 	/*리뷰 작성*/
 	@RequestMapping (value ="/review_chk.do", produces = "application/json; charset=utf-8")
 	@ResponseBody 

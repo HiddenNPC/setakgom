@@ -69,7 +69,21 @@
    <select id="listcount" parameterType="String" resultType="int">
    		SELECT count(*) FROM subs_history WHERE member_id=#{member_id, jdbcType=VARCHAR}
    </select>
- 
+   
+   <!-- 수거고 -->
+    <update id="sugo2" parameterType="String">
+   	UPDATE member_subs
+   	SET subs_cancel = '2'
+   	WHERE member_id =#{member_id, jdbcType=VARCHAR}
+   </update>
+   
+   <!-- 수거고취소 -->
+ 	<update id="sugo0" parameterType="String">
+   	UPDATE member_subs
+   	SET subs_cancel = '0'
+   	WHERE member_id =#{member_id, jdbcType=VARCHAR}
+   </update>
+   
    <!-- 구독해지함 -->
    <update id="subcancle" parameterType="String">
    	UPDATE member_subs
