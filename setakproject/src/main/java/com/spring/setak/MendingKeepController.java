@@ -178,10 +178,10 @@ public class MendingKeepController {
 		
 		if(request.getParameter("repair_cate")!=null) {
 			for(int i =0; i<repair_cate.length; i++) {
-				MendingVO mending = new MendingVO();
 				String kind1[] = repair_kind[i].split(",");
 				String price1[] = repair_price[i].split(",");
 				for(int j=0; j<kind1.length; j++) {
+					MendingVO mending = new MendingVO();
 					mending.setRepair_kind(kind1[j]);
 					mending.setRepair_cate(repair_cate[i]);
 					mending.setRepair_var1(Integer.parseInt(repair_var1[i]));
