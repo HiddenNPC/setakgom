@@ -82,7 +82,8 @@ a:link, a:visited {
 }
 .nlt3 a{
 	cursor:pointer;
-	padding:0 5px;
+	padding:5px 8px;
+	margin: 0 4px;
 }
 .nlt3 a:hover{
 	color:#3498db;
@@ -235,7 +236,8 @@ button {
 	}
 	.nlt3 a{
 		cursor:pointer;
-		padding:0 5px;
+	    padding:5px 8px;
+	    margin: 0 4px;
 	}
 	.nlt3 a:hover{
 		color:#3498db;
