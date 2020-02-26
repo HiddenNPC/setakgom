@@ -161,9 +161,9 @@ $(document).ready(function () {
 					var re_d =JSON.stringify(item.review_date);					
 					var rdate= re_d.substr(1 ,16);
 									
-					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db" id="re_table" class="re_table'+item.review_num+'">';
-					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
+					re_list += '<form class="xx"><table id="re_table" class="re_table'+item.review_num+'">';
+					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></td></tr>';							
+					re_list += '<tr><td>' 
 					if(i%2 == 1){
 						for(var abc = 0; abc<(i-1)/2; abc++){
 							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -187,24 +187,24 @@ $(document).ready(function () {
 						}
 					}
 					
-					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-					re_list += '<td rowspan="2" class="re_list_td1">';
+					re_list += '</td><td><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
+					
+					re_list += '<tr><td>'+ item.review_kind +'</td><td>작성자 :&nbsp;'+ item.member_name +'<span>|</span>'+rdate+'</td></tr>';		
+					re_list += '<tr><td class="ret">'+item.review_content+'</td>';																																						
+					re_list += '<td class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
 								  //re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
-							   		re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
+							   		re_list += '<img class="thumbnail-img" style="cursor:pointer;" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
 								}
 								else
 								{ //re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
-									re_list += '<img class="thumbnail-img" src="http://placehold.it/255x280"  onclick="window.open('+"'http://placehold.it/800x600'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">';
-																
+									re_list += '<img class="thumbnail-img" src="images/review.jpg">';
 								}
-					re_list += '</td></div></div>';	
-					re_list += '</td></tr>';	
-					re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
-					re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
-					re_list += '<td style="text-align:center;">';				
+					re_list += '</div></div>';	
+					re_list += '</td></tr>';
+					
+					re_list += '<tr><td colspan="2">';																	
 					re_list += '<input ur_num ="'+item.review_num+'" ur_id="'+item.member_id+'" ur_star="'+item.review_star+'" ur_content="'+item.review_content+'" ur_kind="'+item.review_kind+'" ur_photo="'+item.review_photo+'" class="updateForm" type="button" value="수정">';										
 					re_list += '<input delete_id = "'+item.review_num+'" class="re_delete" type="button" value="삭제">';
 					re_list += '</td></tr></table></form>';					
@@ -238,9 +238,9 @@ $(document).ready(function () {
 					var rdate= re_d.substr(1 ,16);
 					var m_id=JSON.stringify(item.member_id);															
 					
-					re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db height:400px;" id="re_table" class="re_table'+item.review_num+'">';
-					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-					re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
+					re_list += '<form class="xx"><table id="re_table" class="re_table'+item.review_num+'">';
+					re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></td></tr>';							
+					re_list += '<tr><td>' 
 					if(i%2 == 1){
 						for(var abc = 0; abc<(i-1)/2; abc++){
 							re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -264,27 +264,28 @@ $(document).ready(function () {
 						}
 					}
 					
-					re_list += '</td></tr>';		   																		
-					re_list += '<tr><td style="width:150px;" id="re_writer" name="'+item.member_name+'">작성자 :&nbsp;'+item.member_name+'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-					re_list += '<td rowspan="2" class="re_list_td1">';
+					re_list += '</td><td><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
+					
+					re_list += '<tr><td>'+ item.review_kind +'</td><td>작성자 :&nbsp;'+ item.member_name +'<span>|</span>'+rdate+'</td></tr>';		
+					re_list += '<tr><td class="ret">'+item.review_content+'</td>';																																						
+					re_list += '<td class="re_list_td1">';
 					re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 								if (!(rphoto=="등록한 파일이 없습니다.")){ 
 								  //re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
-							   		re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
+							   		re_list += '<img class="thumbnail-img" style="cursor:pointer;" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
 								}else
 								{ //re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
-									re_list += '<img class="thumbnail-img" src="http://placehold.it/255x280"  onclick="window.open('+"'http://placehold.it/800x600'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">';
+									re_list += '<img class="thumbnail-img" src="images/review.jpg">';
 														
 								}
-					re_list += '</td></div></div></div>';	
-					re_list += '</td></tr>';	
-					re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
-					re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
-					re_list += '<td style="text-align:center;">';				
+					re_list += '</div></div>';	
+					re_list += '</td></tr>';
+					
+					re_list += '<tr><td colspan="2">';																	
 					re_list += '<input ur_num ="'+item.review_num+'" ur_id="'+item.member_id+'" ur_star="'+item.review_star+'" ur_content="'+item.review_content+'" ur_kind="'+item.review_kind+'" ur_photo="'+item.review_photo+'" class="updateForm" type="button" value="수정">';										
 					re_list += '<input delete_id = "'+item.review_num+'" class="re_delete" type="button" value="삭제">';
 					re_list += '</td></tr></table></form>';					
-					$('#re_list').append(re_list);										
+					$('#re_list').append(re_list);
 						
 				});
 				page();									
@@ -460,9 +461,9 @@ function searchCheck() {
 				var re_d =JSON.stringify(item.review_date);					
 				var rdate= re_d.substr(1 ,16);
 								
-				re_list += '<form class="xx'+item.review_num+'"><table style="border-top:1px solid #3498db " class="re_table'+item.review_num+'">';
-				re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></tr>';							
-				re_list += '<tr><td height="20px" colspan="4"><span style="float:left">별점 :&nbsp;</span>' 
+				re_list += '<form class="xx"><table id="re_table" class="re_table'+item.review_num+'">';
+				re_list += '<tr style="display:none;"><td><input type="hidden" name="review_num" value="'+item.review_num+'"></td></tr>';							
+				re_list += '<tr><td>' 
 				if(i%2 == 1){
 					for(var abc = 0; abc<(i-1)/2; abc++){
 						re_list += '<a id="rstar" class="starR3 on" value="'+item.review_star+'">';
@@ -486,23 +487,24 @@ function searchCheck() {
 					}
 				}
 				
-				re_list += '</td></tr>';		   																		
-				re_list += '<tr><td style="width:150px;">작성자 :&nbsp;'+ item.member_name +'</td><td style="width:100px;">'+ item.review_kind +'</td><td style="width:120px;">'+rdate+'</td>';																														
-				re_list += '<td rowspan="2" class="re_list_td1">';
+				re_list += '</td><td><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
+				
+				re_list += '<tr><td>'+ item.review_kind +'</td><td>작성자 :&nbsp;'+ item.member_name +'<span>|</span>'+rdate+'</td></tr>';		
+				re_list += '<tr><td class="ret">'+item.review_content+'</td>';																																						
+				re_list += '<td class="re_list_td1">';
 				re_list += '<div class="thumbnail-wrapper"><div class="thumbnail">';				 
 							if (!(rphoto=="등록한 파일이 없습니다.")){ 
 							  //re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'"/>';
-						   		re_list += '<img class="thumbnail-img" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
+						   		re_list += '<img class="thumbnail-img" style="cursor:pointer;" src="https://kr.object.ncloudstorage.com/airbubble/setakgom/review/'+item.review_photo+'" onclick="window.open('+"'https://kr.object.ncloudstorage.com/airbubble/setakgom/review/"+item.review_photo+"'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">'; 
 							}
 							else
 							{ //re_list += '<img class="thumbnail-img" src="./images/No_image_available.png"/>';
-								re_list += '<img class="thumbnail-img" src="http://placehold.it/255x280"  onclick="window.open('+"'http://placehold.it/800x600'"+','+"'new'"+','+"'width=800 , height=600, left=500, top=100 , scrollbars= no'"+');">';															
+								re_list += '<img class="thumbnail-img" src="images/review.jpg">';
 							}
-				re_list += '</td></div></div></div>';	
-				re_list += '</td></tr>';	
-				re_list += '<tr><td colspan="3"><textarea class="ret" readonly="readonly" >'+item.review_content+'</textarea></td>';																																						
-				re_list += '<tr><td colspan="3" style="text-align:center; margin: auto;"><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td>';																	
-				re_list += '<td style="text-align:center;">';				
+				re_list += '</div></div>';	
+				re_list += '</td></tr>';
+				
+				re_list += '<tr><td colspan="2">';																	
 				re_list += '<input ur_num ="'+item.review_num+'" ur_id="'+item.member_id+'" ur_star="'+item.review_star+'" ur_content="'+item.review_content+'" ur_kind="'+item.review_kind+'" ur_photo="'+item.review_photo+'" class="updateForm" type="button" value="수정">';										
 				re_list += '<input delete_id = "'+item.review_num+'" class="re_delete" type="button" value="삭제">';
 				re_list += '</td></tr></table></form>';					
@@ -684,7 +686,7 @@ function rwcancel(){
 <div id="header"></div>
 <section id="review">
 <div class="content">
-<div class="title-text"><h2><a href="javascript:history.go(0)">Review<small id="h_small">리뷰</small></a></h2></div>
+<div class="title-text"><h2>Review<small id="h_small">리뷰</small></h2></div>
 <div class="review">
 
 <!-- 리뷰작성 모달 팝업 
