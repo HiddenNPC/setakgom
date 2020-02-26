@@ -187,7 +187,7 @@ $(document).ready(function () {
 						}
 					}
 					
-					re_list += '</td><td><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
+					re_list += '</td><td><input class="heart" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
 					
 					re_list += '<tr><td>'+ item.review_kind +'</td><td>작성자 :&nbsp;'+ item.member_name +'<span>|</span>'+rdate+'</td></tr>';		
 					re_list += '<tr><td class="ret">'+item.review_content+'</td>';																																						
@@ -264,7 +264,7 @@ $(document).ready(function () {
 						}
 					}
 					
-					re_list += '</td><td><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
+					re_list += '</td><td><input class="heart" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
 					
 					re_list += '<tr><td>'+ item.review_kind +'</td><td>작성자 :&nbsp;'+ item.member_name +'<span>|</span>'+rdate+'</td></tr>';		
 					re_list += '<tr><td class="ret">'+item.review_content+'</td>';																																						
@@ -397,14 +397,13 @@ $(document).ready(function () {
 	
 	//추천
 	$(document).on('click', '.heart', function () { 
-		
 		var login_id="<%=session.getAttribute("member_id")%>";   	
 		if(login_id=="null"){
 			Swal.fire("","비회원은 리뷰를 추천 할 수 없습니다.","warning");
 			return false;
 		}
 		
-		var re_num=$(this).parent().next().children().attr("ur_num");
+		var re_num=$(this).parent().parent().parent().children().eq(4).children().children().attr("ur_num");
 		var re_like =$(this).val().replace("추천","").trim();
 		console.log(re_num);
 		console.log(re_like);
@@ -487,7 +486,7 @@ function searchCheck() {
 					}
 				}
 				
-				re_list += '</td><td><input class="heart'+index+'" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
+				re_list += '</td><td><input class="heart" type="button" name="Review_like'+index+'" value="추천 '+item.review_like+'"></td></tr>';
 				
 				re_list += '<tr><td>'+ item.review_kind +'</td><td>작성자 :&nbsp;'+ item.member_name +'<span>|</span>'+rdate+'</td></tr>';		
 				re_list += '<tr><td class="ret">'+item.review_content+'</td>';																																						
