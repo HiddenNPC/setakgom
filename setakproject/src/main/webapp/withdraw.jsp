@@ -53,17 +53,11 @@
    <div id="header"></div>
    
     <!-- 여기서 부터 작성하세요. 아래는 예시입니다. -->
-	<section id="title"> <!-- 변경하시면 안됩니다. -->
-		<div class="content">
-			<!-- 변경하시면 안됩니다. -->
+	<section id="title">
+		<div class="content"><!-- 변경하시면 안됩니다. -->
 			<div class="title-text">
-				<!-- 변경하시면 안됩니다. -->
 				<h2>회원탈퇴</h2>
 			</div>
-		</div>
-	</section>
-	
-	<section id="test">	<!-- id 변경해서 사용하세요. -->
 			<div class="mypage_head">
 				<ul>
 					<li class="mypage-title">마이페이지</li>
@@ -92,7 +86,7 @@
 				</ul>
 			</div>
 			
-		<div class="withdraw">	<!-- class 변경해서 사용하세요. -->	
+		<div class="mypage_content">	<!-- class 변경해서 사용하세요. -->	
            	 <h2>회원탈퇴</h2>
                <h4>Login ID : <%=session.getAttribute("member_id") %></h4>
                <h5>본인 확인을 위해 비밀번호를 입력해 주세요</h5>
