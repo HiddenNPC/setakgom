@@ -75,7 +75,9 @@ $(document).ready(function(){
 <div id="header"></div>     
 <section id="faq"> <!-- id 변경해서 사용하세요. -->
 <div class="content"> <!-- 변경하시면 안됩니다. -->
-<div class="title-text"><h2><a href="./faqList.do">FaQ</a></h2><small>자주묻는 질문</small></div>         
+		<div class = title-text>
+			<h2>FaQ</h2><small>자주묻는 질문</small>
+		</div>
 <div class="faq">
 
 <div class="tab" >

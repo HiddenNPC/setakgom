@@ -761,7 +761,7 @@ function rwcancel(){
     <tr><td colspan="7"><textarea id="Review_content2" name="Review_content" maxlength="300" placeholder="리뷰를 작성해 주세요"></textarea></td></tr>
     <tr><td class="r_content_photo">
     		<input type="hidden" id="exist_file" name="exist_file" value="">
-    		<input id="upload-name" value="" disabled="disabled">
+    		현재 이미지 : <input id="upload-name" value="" disabled="disabled">
     		<input type="file" id="update-Review_photo"/>                        
      		<input type="hidden" id="update-Review_photo2" name="Review_photo" /></td>   
 		<td width="40px">
