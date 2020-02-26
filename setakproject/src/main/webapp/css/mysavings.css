@@ -110,94 +110,80 @@
     }
 
 	/*Q&A???? ????*/
-		.savings_point{
-			border-top:4px solid #3498db;
-			border-left:2px solid #e1e4e4;
-			border-right:2px solid #e1e4e4;
-			border-bottom:2px solid #e1e4e4;
-		    margin-bottom:10px;
-		    margin-top:10px;
-		    height:100px;
-		    padding: 30px 100px 10px 100px;
-		       
-		}
+	.savings_point{
+		border:1px solid #3498db;
+		border-top:4px solid #3498db;
+		margin:10px 0;
+		height:100px;
+		padding: 30px 100px 10px 100px;
+	}
+	.savings_point table{
+    	margin: auto;
+	    width:100%;
+	}
 
-		.savings_point table{
-			margin: auto;
-			width:100%;
-		}
+	.point1{
+		color:#3498db;
+		height: 22px;
+		font-weight:bold;
+    }
+	.point2{
+		color:#444;
+		font-weight:bold;
+		text-align:right;
+	}
+	table.savings{
+		border-collapse: collapse;
+		width:100%;
+		color: #444;
+	}
 
-		.point1{
-            color:#3498db;
-            height: 22px;
-            font-weight:bold;
-  }
-        
-        .point2{
-        	color:#444;
-        	font-weight:bold;
-            text-align:right;
-		}
+	table.savings thead{
+		background-color: #3498db;
+		color:#fff;
+	}
+	table.savings thead th{
+		border:1px solid;
+		line-height:50px;
+		font-weight:initial;
+		font-size:1rem;
+	}
 
-		table.savings{
-			border-collapse: collapse;
-			border: 2px solid #e1e4e4;
-			border-spacing: 0px;
-			margin: 0 auto;
-			width:1035px;
-			color: #444;
-		}
-		
-		table.savings thead{
-			background-color: #3498db;
-			color:#eeefef;
-		}
+	table.savings tbody{
+		font-size: 0.9rem;
+	}
 
-		table.savings thead th{
-			border:1px solid;
-			height: 60px;
-		}
+	table.savings tbody tr td{
+		border:1px solid #e1e4e4;
+		height: 45px;
+	}
+	.page1 table {
+	margin-top: 100px;
+	text-align: center;
+	width: 100%;
+	}
 
-		table.savings tbody{
-			font-size: 0.9rem;
-		}
-
-		table.savings tbody tr td{
-			border:1px solid #e1e4e4;
-			height: 50px;
-		}
-		.page1 table {
-		margin-top: 100px;
+	.page_a {
 		text-align: center;
-		width: 100%;
-		}
-		
-		.page_a {
-			text-align: center;
-			font-size: 0.93rem;
-			padding: 5px 8px;
-			margin: 0 4px;
-			color: #444;
-		}
-		
-		.active{
-			background-color:#3498db !important;
-			
-		}
-		.active a{
-			color:#fff !important;
-		    
-		}
-		
-		.page1 table tr td div {
-			display: inline-block;
-		}
-		
-		table.page td a {
-			color: #444;
-		}
+		font-size: 0.93rem;
+		padding: 5px 8px;
+		margin: 0 4px;
+		color: #444;
+	}
+	.active{
+		background-color:#3498db !important;
 
+	}
+	.active a{
+		color:#fff !important;
+	}
+	.page1 table tr td div {
+		display: inline-block;
+	}
 
+	table.page td a {
+		color: #444;
+	}
 
 @media screen and (max-width:768px) {
 
@@ -250,7 +236,7 @@
 	}
 	.mypage_content{
 		width:100%;
-		
+		margin-left:0px;
 		box-sizing:border-box;
 	}
 	.mypage_content h2{
@@ -320,91 +306,78 @@
     }
 
 	/*Q&A???? ????*/
-		.savings_point{
-			border-top:4px solid #3498db;
-			border-left:2px solid #e1e4e4;
-			border-right:2px solid #e1e4e4;
-			border-bottom:2px solid #e1e4e4;
-			margin-top:70px;
-			height:80px;
-			width: 100%;
-			padding: 5px 0px;
-			font-size : 0.8rem;
-		}
+	.savings_point{
+		border:1px solid #3498db;
+		border-top:4px solid #3498db;
+		margin:80px 0 10px;
+		height:100px;
+		padding: 30px 25px 10px;
+	}
+	.savings_point table{
+    	margin: auto;
+	    width:100%;
+	}
 
-		.savings_point table{
-			
-			width:90%;
-		}
+	.point1{
+		color:#3498db;
+		height: 22px;
+		font-weight:bold;
+    }
+	.point2{
+		color:#444;
+		font-weight:bold;
+		text-align:right;
+	}
+	table.savings{
+		border-collapse: collapse;
+		width:100%;
+		color: #444;
+	}
 
-		.point1{
-            color:#3498db;
-            height: 22px;
-            font-weight:bold;
-  }
-        
-        .point2{
-        	color:#444;
-        	font-weight:bold;
-            text-align:right;
-		}
+	table.savings thead{
+		background-color: #3498db;
+		color:#fff;
+	}
+	table.savings thead th{
+		border:1px solid;
+		line-height:50px;
+		font-weight:initial;
+		font-size:1rem;
+	}
 
-		table.savings{
-			border-collapse: collapse;
-			border: 2px solid #e1e4e4;
-			border-spacing: 0px;
-			margin: 0 auto;
-			width:100%;
-			color: #444;
-		}
-		
-		table.savings thead{
-			background-color: #3498db;
-			color:#eeefef;
-		}
+	table.savings tbody{
+		font-size: 0.9rem;
+	}
 
-		table.savings thead th{
-			border:1px solid;
-			height: 60px;
-		}
+	table.savings tbody tr td{
+		border:1px solid #e1e4e4;
+		height: 45px;
+	}
+	.page1 table {
+	margin-top: 100px;
+	text-align: center;
+	width: 100%;
+	}
 
-		table.savings tbody{
-			font-size: 0.85rem;
-		}
-
-		table.savings tbody tr td{
-			border:1px solid #e1e4e4;
-			height: 50px;
-		}
-		.page1 table {
-		margin-top: 100px;
+	.page_a {
 		text-align: center;
-		width: 100%;
-		}
-		
-		.page_a {
-			text-align: center;
-			font-size: 0.93rem;
-			padding: 5px 8px;
-			margin: 0 4px;
-			color: #444;
-		}
-		
-		.active{
-			background-color:#3498db !important;
-			
-		}
-		.active a{
-			color:#fff !important;
-		    
-		}
-		
-		.page1 table tr td div {
-			display: inline-block;
-		}
-		
-		table.page td a {
-			color: #444;
-		}
+		font-size: 0.93rem;
+		padding: 5px 8px;
+		margin: 0 4px;
+		color: #444;
+	}
+	.active{
+		background-color:#3498db !important;
 
+	}
+	.active a{
+		color:#fff !important;
+	}
+	.page1 table tr td div {
+		display: inline-block;
+	}
+
+	table.page td a {
+		color: #444;
+	}
 }		

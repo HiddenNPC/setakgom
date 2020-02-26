@@ -123,16 +123,13 @@
 			font-weight:initial;
 		}
 		table.qna thead th:nth-child(1){
-			width:30%;
-		}
-		table.qna thead th:nth-child(2), table.qna thead th:nth-child(3),table.qna thead th:nth-child(5){
 			width:15%;
 		}
-		table.qna thead th:nth-child(4){
-			width:25%;
+		table.qna thead th:nth-child(2){
+			width:55%;
 		}
-		table.qna thead th:last-child{
-			display:none;
+		table.qna thead th:nth-child(3), table.qna thead th:nth-child(4){
+			width:15%;
 		}
 		table.qna tbody{
 			font-size: 0.9rem;
@@ -140,9 +137,6 @@
 		table.qna tbody tr td{
 			border:1px solid #e1e4e4;
 			height: 40px;
-		}
-		table.qna tbody tr td:last-child{
-			display:none;
 		}
 		.page1 table {
 		margin-top: 100px;
@@ -293,16 +287,13 @@
 		font-weight:initial;
 	}
 	table.qna thead th:nth-child(1){
-		width:30%;
-	}
-	table.qna thead th:nth-child(2), table.qna thead th:nth-child(3),table.qna thead th:nth-child(5){
 		width:15%;
 	}
-	table.qna thead th:nth-child(4){
-		width:25%;
+	table.qna thead th:nth-child(2){
+		width:55%;
 	}
-	table.qna thead th:last-child{
-		display:none;
+	table.qna thead th:nth-child(3), table.qna thead th:nth-child(4){
+		width:15%;
 	}
 	table.qna tbody{
 		font-size: 0.8rem;
@@ -310,9 +301,6 @@
 	table.qna tbody tr td{
 		border:1px solid #e1e4e4;
 		height: 40px;
-	}
-	table.qna tbody tr td:last-child{
-		display:none;
 	}
 	.page1 table {
 		margin-top: 100px;
