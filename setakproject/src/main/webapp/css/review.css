@@ -256,90 +256,59 @@ select {
 .r_notice {
 	background-color: #3498db;
 	color: #fff;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border: none;
-	outline: none;
+	border-radius: 5px;
 	padding: 5px;
 }
-
-#Review_star {
-	width: 20px;
-	text-align: center;
-	border: none;
-	color: #aa9fa7;
-}
-
-#re_layer {
-	display: none;
-	position: fixed;
-	left: 50px;
-	top: 50px;
-	width: 700px;
-	height: 550px;
-	border: 3px solid #444;
-	box-sizing: border-box;
-	left: 50%;
-	top: 50%;
-	padding: 50px 60px 50px;
-	transform: translate(-50%, -50%);
-	z-index: 1100;
-	background: #fff;
-}
-
-#re_layer h2 {
-	font-size: 2rem;
-	color: #444;
-	text-align: center;
-	line-height: 100%;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	height: 0;
-	border: none;
-}
-
-.close {
-	cursor: pointer;
-	position: absolute;
-	right: 40px;
-	top: 40px;
-	background-size: auto 100%;
-	width: 40px;
-	height: 40px;
-}
-
-.dim {
-	z-index: 1000;
-	display: none;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.7);
+#re_updateform > div{
+	margin-top:50px;
+	margin-bottom:5px;
 }
 .r_content {
-	margin: auto;
+	margin: 0 auto;
 	width: 500px;
-	font-family: inherit;
+}
+.r_content_photo{
+	font-size:0.9rem;
 }
 
+#upload-name{
+	width:100px;
+	background:none;
+	border:0;
+}
 .r_content_photo {
-	width: 40px;
+	width: 140px;
 }
-
+.r_content select {
+	width: 90px;
+	padding-left:9px;
+	height:30px;
+	background:
+		url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg)
+		no-repeat 100% 40%;
+	background-size: 30%;
+	-webkit-appearance: none;
+	border: 1px solid #3498db;
+	font-size: 0.8rem;
+	color: #444;
+	cursor:pointer;
+}
+.cbtn {
+	color: #fff;
+	background-color: #3498db;
+	WIDTH: 60px;
+	HEIGHT: 30px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
 .r_notice2 {
 	background-color: #3498db;
 	color: #fff;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border: none;
+	border-radius: 5px;
 	outline: none;
-	padding: 5px;
+	line-height:30px;
+	padding-left:5px;
 }
 
 #Review_star1 {
@@ -358,26 +327,31 @@ select {
 	outline-style: none;
 }
 
+textarea {
+	resize: none;
+	border-radius: 5px;
+	height: 150px;
+	width: 500px;
+	box-sizing: border-box;
+	padding:10px;
+}
+
 #Review_star2 {
-	width: 19px;
+	width: 20px;
 	text-align: center;
 	border: none;
-	color: #aa9fa7;
-	outline-style: none;
+	color: #3498db;
 }
 
 #re_layer2 {
 	display: none;
 	position: fixed;
-	left: 50px;
-	top: 50px;
-	width: 700px;
-	height: 550px;
-	border: 3px solid #444;
+	width: 650px;
+	height: 500px;
 	box-sizing: border-box;
 	left: 50%;
 	top: 50%;
-	padding: 50px 60px 50px;
+	padding-top:35px;
 	transform: translate(-50%, -50%);
 	z-index: 1100;
 	background: #fff;
@@ -387,19 +361,14 @@ select {
 	font-size: 2rem;
 	color: #444;
 	text-align: center;
-	line-height: 100%;
 	padding-top: 30px;
 	padding-bottom: 30px;
+	height: 0;
+	border: none;
 }
 
 .close2 {
-	cursor: pointer;
-	position: absolute;
-	right: 40px;
-	top: 40px;
-	background-size: auto 100%;
-	width: 40px;
-	height: 40px;
+    display:none;
 }
 
 .dim2 {
