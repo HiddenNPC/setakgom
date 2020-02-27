@@ -431,10 +431,10 @@
 			</div>
 			<div class="mypage_content"> 
 				<h5>정기구독</h5>
-				<h3>나의 정기구독</h3>
 				<% if(sub_list == null) {%>
 				<h4>정기구독을 이용해 주세요</h4>
 				<% } else { %> 
+				<h3>나의 정기구독</h3>
 				<div class="mysub">
 					<!-- class 변경해서 사용하세요. -->
 					<div class="one">
@@ -525,7 +525,9 @@
 						</div>
 					</div>
 					<%} %>  
-						
+					
+					<% if(sub_list == null) {%>
+					<% } else { %> 		
 					<div class="page_a1">
 							<table class="page_a">
                      		<tr align = center height = 20>
@@ -550,7 +552,8 @@
                              		<span class="page_a"><a>&#62;</a></span>
                           		<%} else { %>   
                               		<span class="page_a"><a href ="./mysub.do?page=<%=nowpage+1 %>">&#62;</a></span>
-                           		<%} %> 
+                           		<% } 
+					} %> 
                            		</td>
                         	</tr>
               			 </table>
